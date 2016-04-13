@@ -55,8 +55,8 @@ A primary role of the SS control file is to define the parameters to be used by 
 		3 & INIT & Initial value for the parameter.  If the SS3 PAR file is read, it overwrites these INIT values.\\
 		4 & Prior Value & Expected value for the parameter.  This value is ignored if the prior type is -1 or 1.\\
 		5 & Prior Type  & -1 = none, 0 = normal, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, 5 = gamma\\
-		5 & Prior StDev & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
-		6 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
+		6 & Prior StDev & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
+		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
 		%\hline
 		 & & \\
 		\multicolumn{3}{l}{\parbox{16cm}{Short parameter lines have only the above 7 elements.  The full parameter line syntax for the Mortality-Growth and Selectivity sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section Time Varying Parameter Options found at the end of the control file syntax section.}}\\
@@ -74,7 +74,7 @@ A primary role of the SS control file is to define the parameters to be used by 
 \end{center}
 
 \subsection{Control File Syntax}
-The control file is described here using a rather complex set-up with 2 seasons, 2 areas, 2 growth morphs, 2 genders, and 3 sub-morphs in order to demonstrate the order and interdependence of various factors.
+The control file described here using a rather complex set-up with 2 seasons, 2 areas, 2 growth morphs, 2 genders, and 3 sub-morphs in order to demonstrate the order and interdependence of various factors.
 \\
 \\
 Terminology:
@@ -361,6 +361,15 @@ Next, SS reads the MG parameters in generally the following order (may vary base
 		\hline
 		\multicolumn{2}{l}{COND: GP > 1} & Repeat female parameters in the above order for GP2\\
 		\hline
+		& WtLen scale & Coefficient to convert length in cm to weight in kg for females\\
+		& WtLen exp & Exponent in to convert length to weight for females\\
+		& Mat-50 & Maturity logistic inflection (in cm or years).  Where female maturity-at-length (or age) is a logistic function: $maturity = 1/(1+exp(slope*(size-at-age - inflection)))$\\
+		& Mat-slope & Logistic slope (must have negative value) \\
+		& Eggs-alpha & Two fecundity parameters; usage depends on the selected fecundity option.  Must be included here eve if vector is read in the control section above.\\
+		& Eggs-beta & \\
+		\hline
+		\multicolumn{2}{l}{COND: GP > 1} & Repeat female parameters in the above order for GP2\\
+		\hline
 		\multicolumn{2}{l}{Males} & Male natural mortality and growth parameters in the following order by GP\\
 		& natM & Natural mortality for male GP1, where the number of natural mortality parameters depends on the option selected.\\
 		& Lmin & Length at Amin (units in cm) for male, GP1\\
@@ -379,17 +388,8 @@ Next, SS reads the MG parameters in generally the following order (may vary base
 		& CV old &  Variability for size at age >= AFIX (units are fraction) for males, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset.\\
 		\multicolumn{2}{l}{COND: GP > 1} & Repeat male parameters in the above order for GP2\\
 		\hline
-		\multicolumn{2}{l}{Females} & Weight length relationship parameters, maturity and fecundity\\
-		& WtLen scale & Coefficient to convert length in cm to weight in kg for females\\
-		& WtLen exp & Exponent in to convert length to weight for females\\
-		& Mat-50 & Maturity logistic inflection (in cm or years).  Where female maturity-at-length (or age) is a logistic function: $maturity = 1/(1+exp(slope*(size-at-age - inflection)))$\\
-		& Mat-slope & Logistic slope (must have negative value) \\
-		& Eggs-alpha & Two fecundity parameters; usage depends on the selected fecundity option.  Must be included here eve if vector is read in the control section above.\\
-		& Eggs-beta & \\
-		\hline
-		\multicolumn{2}{l}{COND: GP > 1} & Repeat female parameters in the above order for GP2\\
-		\hline
-		\multicolumn{2}{l}{Males} & Weight length relationship parameters\\
+		%\multicolumn{2}{l}{Females} & Weight length relationship parameters, maturity and fecundity\\
+		%\multicolumn{2}{l}{Males} & Weight length relationship parameters\\
 		& WtLen scale & Coefficient to convert length in cm to weight in kg for males\\
 	    & WtLen exp & Exponent in to convert length to weight for males\\
 		\hline
@@ -462,6 +462,10 @@ Example format for MG parameter section:
 		0.10 & 0.25 & 0.15 & 0.20 & ... & 0 & \#CV\_old\_Mal\_GP\_1 \\
 		-3   & 3    & 2e-6 & 0    & ... & 0 & \#Wtlen\_1\_Mal \\
 		-3   & 4    & 3    & 3    & ... & 0 & \#Wtlen\_2\_Mal \\
+		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_GP\_1 \\
+		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_Area\_1 \\
+		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_Bseas\_1 \\
+		 0   & 0    & 0    & 0    & ... & 0 & \#CohortGrowDev \\
 		0.001 & 0.999 & 0.5 & 0.5 & ... & 0 & \#FracFemale\_GP\_1 \\
 		\hline
 	\end{longtable}
