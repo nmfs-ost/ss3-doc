@@ -38,14 +38,14 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
    
  \hline		
  0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Don't use this if there have been any changes to the control file that would alter the number or order of parameters stored in the SS3.par file.  Values in SS3.par can be edited, carefully.}}\\
- & 0=use values in control file; &  \\
- & 1=use ss3.par after reading setup in the control file & \\
+ & 0 = use values in control file; &  \\
+ & 1 = use ss3.par after reading setup in the control file & \\
 		
  \hline
  1 & Run display detail: &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{With option 2, the display shows value of each logL component for each iteration and it displays where crash penalties are created}} \\
-   & 0=none other than ADMB outputs; & \\
-   & 1=one brief line of display for each iteration; & \\
-   & 2=fuller display per iteration & \\
+   & 0 = none other than ADMB outputs; & \\
+   & 1 = one brief line of display for each iteration; & \\
+   & 2 = fuller display per iteration & \\
 		  
  \hline
  1 & Detailed age-structure report & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Detailed age-structured report in REPORT.SSO.}} \\
@@ -162,16 +162,16 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
    & 3 = X*B\textsubscript{styr} & \\
   
  \hline
- 0.40 & Fraction (X) for depletion denominator & So would calculate the ratio of SSBy/(0.40*SSB0)\\
+ 0.40 & Fraction (X) for depletion denominator & So would calculate the ratio of SSB\textsubscript{y}/(0.40*SSB0)\\
 
  %\hline
  \pagebreak
  1 & SPR report basis & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SPR is the equilibrium SSB per recruit that would result from the current year’s pattern and intensity of F’s.  The SPR approach to measuring fishing intensity was implemented because the concept of a single annual F does not exist in SS.
-		The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section.  Then the one specified here is used as the selected denominator in a ratio with the annual value of (1.0 – SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}}\\
+		The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section.  Then the one specified here is used as the selected denominator in a ratio with the annual value of (1 – SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}}\\
    & 0 = skip & \\
-   & 1 = use 1-SPR\textsubscript{TARGET} & \\
+   & 1 = use 1-SPR\textsubscript{target} & \\
    & 2 = use 1-SPR at MSY & \\
-   & 3 = use 1-SPR at B\textsubscript{TARGET} & \\
+   & 3 = use 1-SPR at B\textsubscript{target} & \\
    & 4 = no denominator, so report actual 1-SPR values & \\
    & & \\
    & & \\
@@ -179,7 +179,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
   
  %\pagebreak
  \hline 
- 4 & F std report value &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{In addition to SPR, an additional proxy for annual F can be specified here.  As with SPR, the selected quantity will be calculated annually and in the benchmarks section.  The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector.  Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas.  But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring.  Option 3 is a simple sum of the full F’s by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age.  Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below).  The F is calculated as Z-M where Z and M are each calculated an ln(N(t+1)/N(t)) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}}\\
+ 4 & F std report value &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{In addition to SPR, an additional proxy for annual F can be specified here.  As with SPR, the selected quantity will be calculated annually and in the benchmarks section.  The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector.  Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas.  But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring.  Option 3 is a simple sum of the full F’s by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age.  Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below).  The F is calculated as Z-M where Z and M are each calculated an ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}}\\
    & 0 = skip & \\
    & 1 = exploitation rate in biomass & \\
    & 2 = exploitation rate in numbers & \\
@@ -208,9 +208,9 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  \hline
  1 & F report basis &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Selects the denominator to use when reporting the F std report values.  Note that order of these options differs from the biomass report basis options.}}\\
    & 0 = not relative, report raw values & \\
-   & 1 = use F std value corresponding to SPR\textsubscript{TARGET} & \\
+   & 1 = use F std value corresponding to SPR\textsubscript{target} & \\
    & 2 = use F std value corresponding to F\textsubscript{MSY} & \\
-   & 3 = use F std value corresponding to F\textsubscript{BTARGET} & \\
+   & 3 = use F std value corresponding to F\textsubscript{Btarget} & \\
   
  %\pagebreak
  \hline

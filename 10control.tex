@@ -198,7 +198,7 @@ This section controls the biology parameters.  These include:  natural mortality
 
 		\endlastfoot
 
-		1 & & Natural Mortality Option:\\
+		1 & & Natural Mortality Options:\\
 		  & & 0 = A single parameter\\
 		  & & 1 = N breakpoints\\
 		  & & 2 = Lorenzen \\
@@ -307,8 +307,8 @@ This section controls the biology parameters.  These include:  natural mortality
 
 	  2 & & Parameter Offset Method \\
 	    & & 1 = direct assignment \\
-	    & & 2 = for each GP x gender, parameter defines offset from gender 1, offsets are in exponential terms, so for example, old\textunderscore male M = old\textunderscore female M * exp(old\textunderscore male parameter)\\
-	    & & 3 = for each GP x gender, parameter defines offset from GP 1 gender 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., old\textunderscore female\textunderscore M = young\textunderscore female\textunderscore M * exp(old\textunderscore female\textunderscore M\textunderscore parameter). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., old\textunderscore male\textunderscore M = young\textunderscore female\textunderscore M * exp(young\textunderscore male\textunderscore M\textunderscore parameter) * exp(old\textunderscore male\textunderscore M\textunderscore parameter)).\\
+	    & & 2 = for each GP x gender, parameter defines offset from gender 1, offsets are in exponential terms, so for example: $M_{oldmale} = M_{oldfemale}*exp(M_{oldmale})$. \\
+	    & & 3 = for each GP x gender, parameter defines offset from GP 1 gender 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{oldfemale} = M_{youngfemale}*exp(M_{oldfemale}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{oldmale} = M_{youngfemale}*exp(M_{youngmale})*exp(M_{oldmale})$)\\
 	 \hline
 
 	 1 & & Time-varying adjustment constraint:\\
@@ -363,7 +363,7 @@ Next, SS reads the MG parameters in generally the following order (may vary base
 		\hline
 		& WtLen scale & Coefficient to convert length in cm to weight in kg for females\\
 		& WtLen exp & Exponent in to convert length to weight for females\\
-		& Mat-50 & Maturity logistic inflection (in cm or years).  Where female maturity-at-length (or age) is a logistic function: $maturity = 1/(1+exp(slope*(size-at-age - inflection)))$\\
+		& Mat-50 & Maturity logistic inflection (in cm or years).  Where female maturity-at-length (or age) is a logistic function: $M_{l} = 1/(1+exp(\alpha*(l_{a} - \beta)))$ where $\alpha$ is the slope, $l_{a}$ is the size-at-age, and $\beta$ is the inflection of the maturity curve. \\ 
 		& Mat-slope & Logistic slope (must have negative value) \\
 		& Eggs-alpha & Two fecundity parameters; usage depends on the selected fecundity option.  Must be included here eve if vector is read in the control section above.\\
 		& Eggs-beta & \\
@@ -484,11 +484,11 @@ The options for natural mortality have been expanded.  In addition, M is now, in
 \hypertarget{A1}{}
 When fish recruit at the real age of 0.0 at the beginning of their birth season, they have body size equal to the lower edge of the first population size bin.  Previously, they recruited at a size equal to the lower edge of the smallest data size bin.  The fish then grow linearly until they reach a real age equal to the input value “growth\textunderscore age\textunderscore for\textunderscore L1” and have a size equal to the parameter value for L1.  As they age further, they grow according the Bertalanffy growth equation.  The growth curve is calibrated to go through the size L2 when they reach the age “Growth\textunderscore age\textunderscore for\textunderscore L2”.
 
-If “Growth\textunderscore age\textunderscore for\textunderscore L2” is set equal to 999, then the size L2 is used as Linf.  If MGparm\textunderscore def option ==1 (direct estimate, not offsets), then setting a male growth or natural mortality parameter value to 0.0 and not estimating it will cause SS to use the corresponding female parameter value for the males. This check is done on a parameter, by parameter basis and is probably most useful for setting male L1 equal to female L1, then letting males and females have separate K and Linf parameters.
+If “Growth\textunderscore age\textunderscore for\textunderscore L2” is set equal to 999, then the size L2 is used as Linf.  If MGparm\textunderscore def option = 1 (direct estimate, not offsets), then setting a male growth or natural mortality parameter value to 0.0 and not estimating it will cause SS to use the corresponding female parameter value for the males. This check is done on a parameter, by parameter basis and is probably most useful for setting male L1 equal to female L1, then letting males and females have separate K and Linf parameters.
 
 \begin{description}
 	\item[Schnute growth function]\hfil\\
-	The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow\textunderscore type field.  Then a fourth parameter is read after reading the von Bertalanffy K parameter.  When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
+	The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow type field.  Then a fourth parameter is read after reading the von Bertalanffy K parameter.  When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
 	\item[Age-specific K]\hfil\\
 	A new growth option, \#3, has been introduced in V3.23.  This option creates age-specific K deviations for each age of a user-specified age range, with independent additive deviations for each age in the range and for each growth pattern / gender.  Each of these deviations is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
 \end{description}
@@ -716,8 +716,8 @@ The spawner-recruitment section starts by specification of the functional relati
 	      &                     & 8:  Sheperd (3 parameters)\\
 		\hline
 		\\
-		\multicolumn{3}{l}{Read the required number of short parameter set-up lines (ex. LO HI INIT PRIOR }\\
-		\multicolumn{3}{l}{PR\_Type SD PHASE).  These parameters are:}\\
+		\multicolumn{3}{l}{Read the required number of short parameter set-up lines (ex. LO, HI, INIT, PRIOR, }\\
+		\multicolumn{3}{l}{Prior Type, SD, and PHASE).  These parameters are:}\\
 		\hline
 		8.5 & log(R0) & Log of virgin recruitment level \\
 		\hline
@@ -729,7 +729,7 @@ The spawner-recruitment section starts by specification of the functional relati
 		0.60 & sigma-R &  std.dev. of log recruitment;
 		This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\\
 		\hline
-		0 & env-link & environmental linkage coefficient. The recruitment parameters are short parameters, so cannot have the generic block or environmental link options.  Instead, this dedicated env-link is provided.  It is used to create a multiplicative adjustment to the target parameter, so $P_{y’} = P *exp(env/_link * env/_data_y)$.  An alternative that provides an additive link is under development.\\
+		0 & env-link & environmental linkage coefficient. The recruitment parameters are short parameters, so cannot have the generic block or environmental link options.  Instead, this dedicated env-link is provided.  It is used to create a multiplicative adjustment to the target parameter, so $P_{y’} = P *exp(EnviroLink * EnviroData_{y})$.  An alternative that provides an additive link is under development.\\
 		\hline
 		8.5 & log(R1) & Offset for initial equilibrium recruitment to virgin recruitment.\\
 		\hline

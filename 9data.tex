@@ -142,8 +142,8 @@ The catch data input has been modified to improve the user flexibility to add/su
   \item[Catch Multiplier] \hfill\\
   Invokes use of a catch multiplier, which is then entered as a parameter in the MG parameter section.  The estimated value or fixed value of the catch multiplier is multiplied by the estimated catch before being compared to the observed catch. 
 	  \begin{itemize}
-	  	\item 0 = no catch multiplier used
-	  	\item 1 = Apply a catch multiplier which is defined as an estimatable parameter in the control file after the cohort growth deviation in the biology parameter section. The model’s estimated retained catch will be multiplied by this factor before being compared to the observed retained catch.
+	  	\item 0 = No catch multiplier used.
+	  	\item 1 = Apply a catch multiplier which is defined as an estimable parameter in the control file after the cohort growth deviation in the biology parameter section. The model’s estimated retained catch will be multiplied by this factor before being compared to the observed retained catch.
 	  \end{itemize}  
 \end{description}
 
@@ -160,7 +160,7 @@ The new format for version 3.30 for a 2 season model with 2 fisheries looks like
 	\begin{tabular}{p{3cm} p{3cm} p{3cm} p{3cm} p{2cm}}
 		\multicolumn{5}{l}{\#Catches by year, season for every fleet:}\\
 		\hline
-		\# Year & Season & Fleet & Catches & Catch SE \\
+		\# Year & Season & Fleet & Catch & Catch SE \\
 		\hline
 		-999 & 1 & 1 & 56  & 0.05 \\
 		-999 & 2 & 1 & 62  & 0.05 \\
@@ -215,13 +215,15 @@ If the fishery or survey has time-varying selectivity, then this changing select
 \end{center}
 
 \begin{description}
-	\item[Units]\hfill\\
-	NOTE:  the “effort” option can only be used for a fishing fleet and not for a survey, even if the survey is mirrored to a fishing fleet.  The values of these effort data are interpreted as proportional to the level of the fishery F values.  No adjustment is made for differentiating between continuous F values versus exploitation rate values coming from Pope’s approximation.  A normal error structure is recommended so that the input effort data are compared directly to the model’s calculated F, rather than to loge(F).  The resultant proportionality constant has units of 1/Q. The options for units are:
+	\item[Units]\hfill\\	
 		\begin{itemize}
-				\item 0  = numbers
-				\item 1  = biomass
-				\item 2  = F
-				\item >=30 special survey types.  Four special kinds of surveys are defined in SS.  Here in the survey data section, there is no change in the way in which these survey data are entered.  These four survey “selectivity” pattern options bypass the calculation of survey selectivity from explicit selectivity  parameters.
+			\item 0  = numbers
+			\item 1  = biomass
+			\item 2  = F
+			\begin{itemize}
+				\item 	Note the “effort” option can only be used for a fishing fleet and not for a survey, even if the survey is mirrored to a fishing fleet.  The values of these effort data are interpreted as proportional to the level of the fishery F values.  No adjustment is made for differentiating between continuous F values versus exploitation rate values coming from Pope’s approximation.  A normal error structure is recommended so that the input effort data are compared directly to the model’s calculated F, rather than to loge(F).  The resultant proportionality constant has units of 1/Q. The options for units are:	
+			\end{itemize}
+			\item >=30 special survey types.  Four special kinds of surveys are defined in SS.  Here in the survey data section, there is no change in the way in which these survey data are entered.  These four survey “selectivity” pattern options bypass the calculation of survey selectivity from explicit selectivity  parameters.
 				\begin{itemize}
 					\item 30 = spawning biomass (e.g. for an egg and larvae survey)
 					\item 31 = exp(recruitment deviation), useful for environmental index affecting recruitment
@@ -230,7 +232,7 @@ If the fishery or survey has time-varying selectivity, then this changing select
 					\item 34 = spawning biomass depletion
 					\item 35 = survey of a deviation vector
 				\end{itemize}
-		\end{itemize}		
+		\end{itemize}
 	
 	\item[Error Distribution]\
 		\begin{itemize}
@@ -260,14 +262,15 @@ If the data exist as a set of normalized Z-scores, you can either:  assert a log
 \subsubsection{Discard}
 If discard is not a feature of the model specification, then just a single input is needed:
 
-	\begin{center}
-		\begin{tabular}{p{2cm} p{8cm}}
-			\#Input & Description\\
-			\hline
-			0 & \#Number of fleets with discard observations\\
-			\hline
-		\end{tabular}
-	\end{center}
+\begin{center}
+\begin{tabular}{p{2cm} p{10cm}}
+	\#Input & Description\\
+	\hline
+	0 & \#Number of fleets with discard observations\\
+	\hline
+\end{tabular}
+\end{center}
+
 	
 \noindent	
 If discard is being used, the input syntax is:
@@ -871,7 +874,7 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 \end{tabular}
 
 \subsubsection{Excluding Data}
-Data that are <styr or > retroyr are not moved into the internal working arrays at all.  So if you have any alternative observations that are used in some model runs and not in others, you can simply give them a negative year value rather than having to comment them out and revise the observation read counter. The first output to data.ss\textunderscore new has the unaltered and complete input data.  Subsequent reports to data.ss\textunderscore new produce expected values or bootstraps only for the data that are being used.  Note that the Nobs values are adjusted accordingly.
+Data that are before the model start year or greater than the retrospective year are not moved into the internal working arrays at all.  So if you have any alternative observations that are used in some model runs and not in others, you can simply give them a negative year value rather than having to comment them out and revise the observation read counter. The first output to data.ss\textunderscore new has the unaltered and complete input data.  Subsequent reports to data.ss\textunderscore new produce expected values or bootstraps only for the data that are being used.  Note that the number of observed values are adjusted accordingly.
 
 Data that are to be included in the calculations of expected values, but excluded from the calculation of negative log likelihood, are flagged by use of a negative value for fleet ID.
 

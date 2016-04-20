@@ -27,36 +27,41 @@ The format of this input file is:
 where:
 
 \begin{itemize}
-	\item Fleet = -2 is age-specific fecundity*maturity, so time-varying fecundity is possible to implement
-	\item Fleet = -1 is population wt-at-age at middle of the season
-	\item Fleet = 0 is population wt-at-age at the beginning of the season
+	\item Fleet = -2 is age-specific fecundity*maturity, so time-varying fecundity is possible to implement.
+	\item Fleet = -1 is population wt-at-age at middle of the season.
+	\item Fleet = 0 is population wt-at-age at the beginning of the season.
 	\item There must be an entry for each fleet for fecundity*maturity, wt-at-age at the middle of the season, and wt-at-age at the beginning of the season.
-	\item GP and birthseas probably will never be used, but are included for completeness
+	\item GP and birthseas probably will never be used, but are included for completeness.
 	\item A negative value for year will fill the table from that year through the ending year of the forecast, overwriting anything that has already been read for those years.
 	\item Judicious use of negative years in the right order will allow user to enter blocks without having to enter a row of info for each year
 	\item N ages here equal to maxage specified with the data file, , and N ages +1 columns are required because of age 0 fish.
-	\item If N ages in this table is greater than Maxage in the model, the extra wt-at-age values are ignored.
-	\item If N ages in this table is less than Maxage in the model, the wt-at-age for N ages is filled in for all unread ages out to Maxage.
+	\item If N ages in this table is greater than maxage in the model, the extra wt-at-age values are ignored.
+	\item If N ages in this table is less than maxage in the model, the wt-at-age for N ages is filled in for all unread ages out to maxage.
 	\item There is no internal error checking to  verify that weight-at-age has been read for every fleet and every year. 
-	\item Fleets that do not use biomass do not need to have wt-at-age assigned	
-	\item The values entered for endyr+1 will be used for the benchmark calculations and for the forecast; this aspect needs a bit more checking
+	\item Fleets that do not use biomass do not need to have wt-at-age assigned	.
+	\item The values entered for endyr+1 will be used for the benchmark calculations and for the forecast; this aspect needs a bit more checking.
 \end{itemize}
 
-CAVEATS:
-\begin{itemize}
-	\item SS will still calculate growth curves from the input parameters and can still calculate size-selectivity and can still examine size composition data.
-	\item However, there is no calculation of wt-at-age from the growth input, so no way to compare the input wt-at-age from the wt-at-age derived from the growth parameters.
-	\item If wt-at-age is read and size-selectivity is used, a warning is generated
-	\item If wt-at-age is read and discard/retention is invoked, then a BEWARE warning is generated because of untested consequences for the body wt of discarded fish.
-	\item Warning:  age 0 fish seem to need to have weight=0 for spawning biomass calculation (code -2).
-\end{itemize}
+\begin{description}
+	\item[Caveats:]\hfill\\
+		 \begin{itemize}
+			\item SS will still calculate growth curves from the input parameters and can still calculate size-selectivity and can still examine size composition data.
+			\item However, there is no calculation of wt-at-age from the growth input, so no way to compare the input wt-at-age from the wt-at-age derived from the growth parameters.
+			\item If wt-at-age is read and size-selectivity is used, a warning is generated.
+			\item If wt-at-age is read and discard/retention is invoked, then a BEWARE warning is generated because of untested consequences for the body wt of discarded fish.
+			\item Warning:  age 0 fish seem to need to have weight=0 for spawning biomass calculation (code -2).
+		\end{itemize}
+\end{description}
 
-TESTING:
-\begin{itemize}
-	\item A model was setup with age-maturity (option 2) and only age selectivity.
-	\item The output calculation of wt-at-age and fecundity-at-age was taken from report.sso and put into wtatage.ss (as shown above).
-	\item Re-running SS with this input wt-at-age (Maturity\textunderscore Option 5) produced identical results to the run that had generated the weight-at-age from the growth parameters.
-\end{itemize}
+\begin{description}
+	\item[Testing:]\hfill\\
+		\begin{itemize}
+			\item A model was setup with age-maturity (option 2) and only age selectivity.
+			\item The output calculation of wt-at-age and fecundity-at-age was taken from report.sso and put into wtatage.ss (as shown above).
+			\item Re-running SS with this input wt-at-age (Maturity\textunderscore Option 5) produced identical results to the run that had generated the weight-at-age from the growth parameters.
+		\end{itemize}
+\end{description}
+
 
 \subsection{runnumbers.ss}
 This file contains a single integer value.  It is read when the program starts, incremented by 1, used when processing the profile value inputs (see below), used as an identifier in the batch output, then saved with the incremented value.  Note that this incrementation may not occur if a run crashes.
@@ -66,7 +71,6 @@ This file contains information for changing the value of selected parameters for
 
 The first value in profilevalues.ss is the number of parameters to be batched.  This value MUST match the number of parameters with phase set equal to -9999 in the ctl file.  The program performs no checks for this equality.  If the value is zero in the first field, then nothing else will be read.  Otherwise, the model will read runnumber * Nparameters values and use the last Nparameters of these to replace the initial values of parameters designated with phase = --9999 in the ctl file.
 
-USAGE Note:  
-If one of the batch runs crashes before saving the updated value of runnumber.ss, then the processing of the profilevalue.ss will not proceed as expected.  Check the output carefully until a more robust procedure is developed.
+Usage Note:  If one of the batch runs crashes before saving the updated value of runnumber.ss, then the processing of the profilevalue.ss will not proceed as expected.  Check the output carefully until a more robust procedure is developed.
 
 
