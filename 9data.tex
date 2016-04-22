@@ -72,7 +72,7 @@ Seasons
 			& \\
 			& \\
 			\hline
-			2 & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{The number of subseasons.  Entry must be even and the minimum value is 2. This is for the purpose of finer temporal granularity in calculating and using the length-at-age.}}\\
+			\hypertarget{SubSeas}{2} & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{The number of subseasons.  Entry must be even and the minimum value is 2. This is for the purpose of finer temporal granularity in calculating and using the length-at-age.}}\\
 			& \\
 			& \\
 			& \\
@@ -94,7 +94,7 @@ Seasons
 
 
 \subsubsection{Fleet Definitions }
-The catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version 3.30 all fleets now have the same status within the model structure and each has a specified fleet type.  Available types are: catch fleet, bycatch only, or survey.  
+\hypertarget{FleetOrder}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version 3.30 all fleets now have the same status within the model structure and each has a specified fleet type.  Available types are: catch fleet, bycatch only, or survey.  
 
 \begin{center}
 	\begin{tabular}{p{1.6cm} p{1.6cm} p{1.6cm} p{1.6cm} p{1.9cm} p{1.6cm} p{1.6cm} p{1.7cm}}
@@ -139,7 +139,7 @@ The catch data input has been modified to improve the user flexibility to add/su
   Standard error of the initial equilibrium catch.
   \item[Catch SE] \hfill\\
   Standard error of retained catch; ignored for survey fleets and bycatch fleets and with Pope's F method.
-  \item[Catch Multiplier] \hfill\\
+  \item[\hypertarget{CatchMult}{Catch Multiplier}] \hfill\\
   Invokes use of a catch multiplier, which is then entered as a parameter in the MG parameter section.  The estimated value or fixed value of the catch multiplier is multiplied by the estimated catch before being compared to the observed catch. 
 	  \begin{itemize}
 	  	\item 0 = No catch multiplier used.
@@ -147,14 +147,14 @@ The catch data input has been modified to improve the user flexibility to add/su
 	  \end{itemize}  
 \end{description}
 
-After reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year, season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   To include an equilibrium catch value the year should be noted as -999 and be included as the first entry for the associated fleet.  There is no longer a need to specify the number of catch records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field.  Additionally, initial equilibrium catch is now season specific and can be specified using -999 in the year column.
+After reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year, season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   To include an equilibrium catch value the year should be noted as -999 and be included as the first entry for the associated fleet.  \hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g. catch, length- and age-composition data), the control file (e.g. lambdas), and the forecast file (e.g. total catch by fleet, total catch by area, allocation groups, forecasted catch).  Additionally, initial equilibrium catch is now season specific and can be specified using -999 in the year column.
 
 In addition, it is possible to collapse the number of seasons.  So if a season value is greater than the N seasons for a particular model, that catch is added to the catch for N seasons.  This is generally to collapse a seasonal model into an annual model.  In a seasonal model, use of season=0 will cause SS to distribute the input value of catch equally among the N seasons.
 
 If a bycatch fleet is included the continuous F method must be selected (F\textunderscore method = 2) and are excluded from the catch log-likelihood.  Bycatch fleets have selectivity and retention functions, so even though they are considered to have unknown catch levels, this does not mena that their calculated retained catch is zero.  MSY and yield per recruit are calculated in terms of dead catch, and they currently include catch from bycatch fleets.  The F for bycatch only fleets is kept constant in benchmark and forecast calculations, so it is not included in any forecast cap and allocation calculations.  It is not part of the acceptable biological catch, but it is still calculated and reported.  
 
 \subsubsection{Catch}
-The new format for version 3.30 for a 2 season model with 2 fisheries looks like the table below.  The example is sorted by fleet, but the sort order does not matter.  In data.ss\textunderscore new, the sort order is fleet, year, season.
+\hypertarget{CatchFormat}{The} new format for version 3.30 for a 2 season model with 2 fisheries looks like the table below.  The example is sorted by fleet, but the sort order does not matter.  In data.ss\textunderscore new, the sort order is fleet, year, season.
 
 \begin{center}
 	\begin{tabular}{p{3cm} p{3cm} p{3cm} p{3cm} p{2cm}}
@@ -463,7 +463,7 @@ The beginning of the length composition section sets up the bin structure for bo
 		\item Gender = 0 means combined male and female (must already be combined and information placed in the female portion of the data vector) (entries in male portion of vector must exist and will be ignored).
 		\item Gender = 1 means female only (male entries must exist for correct data reading, then will be ignored).
 		\item Gender = 2 means male only (female entries must exist and will be ignored after being read).
-		\item Gender = 3 means both data from both genders will be used and they are scaled so that they together sum to 1.0
+		\item Gender = 3 means data from both genders will be used and they are scaled so that they together sum to 1.0.
 	\end{itemize}
 	\item[Partition]\hfill\\
 	Partition indicates samples from either discards,retained, or combined.
@@ -500,20 +500,20 @@ The age composition section begins by reading a definition of the age bin struct
 Above is the vector with lower age of age' bins.  The first and last bins work as accumulators.  So in this example any age 0 fish that are caught would be accumulated into the age’1 bin.
 
 \subsubsection{Ageing Error}
-Here, the capability to create a distribution of age’ (e.g. age with possible bias and imprecision) from true age is created.  One or many age error definitions can be created.  For each, there is input of a vector of mean age’ and stddev of age’.  For one definition, the input vectors can be replaced by vectors created from estimable parameters.  In the future, capability to read a full age’ – age matrix could be created.
+Here, the capability to create a distribution of age’ (e.g. age with possible bias and imprecision) from true age is created.  One or many age error definitions can be created.  For each, there is input of a vector of mean age’ and stddev of age’.  For one definition, the input vectors can be replaced by vectors created from estimable parameters.  In the future, capability to read a full age’ – age matrix could be created.  The dimension of the ageing error matrix requires the column length match the population maximum age specified at the top of the data file.  However, the maximum age for binning of age data may be lower that the population maximum age.  
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{3cm} }
+	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{3cm} p{3cm} }
 		\hline
-		\multicolumn{1}{l}{2} & \multicolumn{4}{l}{\# Number of ageing error matrices to generate}\\
+		\multicolumn{1}{l}{2} & \multicolumn{5}{l}{\# Number of ageing error matrices to generate}\\
 		\hline
-		\# Age-0 & Age-1 & Age-2  &  ... & Max Age\\
+		\#Age-0 & Age-1 & Age-2  &  ... & Max Age & \\
 		\hline
-		-1 & -1 & -1  & ... & -1 \\
-		0.001 & 0.001 & 0.001 & ... & 0.001 \\
+		-1 & -1 & -1  & ... & -1  & \#Mean Age\\
+		0.001 & 0.001 & 0.001 & ... & 0.001 & \#SD\\
 		\hline
-		0.5 & 1.5 & 2.3 & ... & Max Age + 0.5 \\
-		0.5 & 0.65 & 0.67 & ... & 4.3 \\
+		0.5 & 1.5 & 2.3 & ... & Max Age + 0.5 & \#Mean Age\\
+		0.5 & 0.65 & 0.67 & ... & 4.3 & \#SD Age \\
 		\hline
 	\end{tabular}
 \end{center}
