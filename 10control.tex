@@ -53,22 +53,22 @@ A primary role of the SS control file is to define the parameters to be used by 
 		1 & LO & Minimum value for the parameter\\
 		2 & HI & Maximum value for the parameter\\
 		3 & INIT & Initial value for the parameter.  If the SS3 PAR file is read, it overwrites these INIT values.\\
-		4 & Prior Value & Expected value for the parameter.  This value is ignored if the prior type is -1 or 1.\\
-		5 & Prior Type  & -1 = none, 0 = normal, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, 5 = gamma\\
-		6 & Prior StDev & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
+		4 & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is -1 or 1.\\
+		5 & PRIOR TYPE  & -1 = none, 0 = normal, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, 5 = gamma\\
+		6 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
 		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
 		%\hline
 		 & & \\
 		\multicolumn{3}{l}{\parbox{16cm}{Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found at the end of the control file syntax section.}}\\
 		 & & \\
 		%\hline
-		8 & ENV & Create a linkage to an input environmental time-series\\
+		8 & Env & Create a linkage to an input environmental time-series\\
 		9 & Use Dev & Invokes use of the deviation vector \\
 		10 & Dev min yr & Beginning year for the deviation vector \\
 		11 & Dev max yr & Ending year for the deviation vector\\
 		12 & Dev StDev & Standard deviation for elements in the deviation vector \\
-		13 & USE-BLOCK & Set up blocks or parameter trends\\
-		14 & BLOCK-TYPE & Function form for the block offset\\
+		13 & Use-Block & Set up blocks or parameter trends\\
+		14 & Block-Type & Function form for the block offset\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -726,10 +726,10 @@ The spawner-recruitment section starts by specification of the functional relati
 		\multicolumn{2}{l}{COND:} & If SRR = 5, 7, or 8\\
 		& 3rd Parameter & Optional depending on which SRR function is used \\
 		\hline
-		0.60 & sigma-R &  std.dev. of log recruitment;
+		0.60 & sigma-R &  Standard deviation of log recruitment.
 		This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\\
 		\hline
-		0 & env-link & environmental linkage coefficient. The recruitment parameters are short parameters, so cannot have the generic block or environmental link options.  Instead, this dedicated env-link is provided.  It is used to create a multiplicative adjustment to the target parameter, so $P_{y’} = P *exp(EnviroLink * EnviroData_{y})$.  An alternative that provides an additive link is under development.\\
+		0 & env-link & Environmental linkage coefficient. The recruitment parameters are short parameters, so cannot have the generic block or environmental link options.  Instead, this dedicated env-link is provided.  It is used to create a multiplicative adjustment to the target parameter, so $P_{y’} = P *exp(EnviroLink * EnviroData_{y})$.  An alternative that provides an additive link is under development.\\
 		\hline
 		8.5 & log(R1) & Offset for initial equilibrium recruitment to virgin recruitment.\\
 		\hline
@@ -823,28 +823,28 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 	Survival-based recruitment (Taylor et al. 2012) is constrained so that the recruitment rate cannot exceed fecundity:
 	\begin{equation}{ R_y = e^{\Big(-z_0 + (z_0-z_{min})\big(1-(SB_y/SB_0)^\rho \big)\Big)}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
 	\end{equation}
-	where $z_0$ (P) is the negative log of the pre-recruit mortality rate at unfished equilibrium, $z_{min}$ is the limit of the pre-recruit mortality as relative spawning biomass approaches 0, parameterized as a function of $z_{frac}$ (P) (which represents the reduction in mortality as a fraction of $z_0$), and $\rho$ (P) is a parameter controlling the shape of density-dependent relationship between relative spawning biomass and pre-recruit survival. The steepness (h) of the spawner-recruit curve (defined as recruitment relative to R0 at a spawning depletion level of 0.2) is:\\
+	where $z_0$ is the negative log of the pre-recruit mortality rate at unfished equilibrium, $z_{min}$ is the limit of the pre-recruit mortality as relative spawning biomass approaches 0, parameterized as a function of $z_{frac}$ (which represents the reduction in mortality as a fraction of $z_0$), and $\rho$ is a parameter controlling the shape of density-dependent relationship between relative spawning biomass and pre-recruit survival. The steepness (h) of the spawner-recruit curve (defined as recruitment relative to R0 at a spawning depletion level of 0.2) is:\\
 	\begin{equation}
 		h = 0.2e^{z_0z_{frac}(1-0.2^\beta)}
 	\end{equation}
 	This 3-parameter function was created for use with low fecundity species, but its use of 3-parameters provides a flexibility comparable to the 3-parameter Shepherd function.  This survival based spawner-recruitment function defines survival from the egg (e.g. hatched pups) to the recruits stage to be a declining function of the initial number of pups produced (Taylor et al. 2012).
 	\begin{itemize}
-		\item Start with the parameter, ln(R\_0), which is the ln(mean number of recruits) that enter the population in unfished conditions.
-		\item These recruits over their lifetime will produce some total number of eggs (pups), termed Pups\_0, which can be calculated from natural mortality, which defines the numbers at age in the adult population, and fecundity at age.
-		\item Because the unfished condition is considered to be a stable equilibrium, we can calculate PPR\_0 = Pups\_0/R\_0 and its inverse which is survivorship, which we will define in logarithmic space.  So, Z\_0 = ln(R\_0/Pups\_0).  Note that there is no explicit time over which this Z acts.  Such an explicit time (e.g. the age ar recruitment) may be implemented in the future.  For now, this means that the Z is really a Z*delta t.
-		\item So, Z\_0 is the survival when the population is at carrying capacity.  On the other extreme, the maximum survival is 1.0, so the maximum Z is 0.0.
-		\item The parameter, S\_frac, defines the level of Z when the population approaches an abundance of 0.0.  This has values bounded by 0.0 and 1.0 and creates a Z\_max which is between Z\_0 and 0.0. Z\_max = Z\_0 + S\_frac*(0.0-Z\_0)
+		\item Start with the parameter, ln($R_0$), which is the ln(mean number of recruits) that enter the population in unfished conditions.
+		\item These recruits over their lifetime will produce some total number of eggs (pups), termed $Pups_0$, which can be calculated from natural mortality, which defines the numbers at age in the adult population, and fecundity at age.
+		\item Because the unfished condition is considered to be a stable equilibrium, we can calculate $PPR_0 = \frac{Pups_0}{R_0}$ and its inverse which is survivorship, which we will define in logarithmic space.  So, $Z_0 = ln(\frac{R_0}{Pups_0})$.  Note that there is no explicit time over which this Z acts.  Such an explicit time (e.g. the age ar recruitment) may be implemented in the future.  For now, this means that the Z is really a Z*delta t.
+		\item So, $Z_0$ is the survival when the population is at carrying capacity.  On the other extreme, the maximum survival is 1.0, so the maximum Z is 0.0.
+		\item The parameter, $S_{frac}$, defines the level of Z when the population approaches an abundance of 0.0.  This has values bounded by 0.0 and 1.0 and creates a $Z_{max}$ which is between $Z_0$ and 0.0. $Z_{max} = Z_0 + S_{frac}*(0.0-Z_0)$
 		\item Then for the current level of pup production (e.g. total population fecundity, aka “spawning biomass”):
 		\begin{itemize}
-			\item $Z_y=(1 - (Pup_y/Pups\_0)Beta)*(Z\_max-Z\_0)+Z\_0$
-			\item So $R_y = Pupy * exp(-Z_y)$
+			\item $Z_y=(1 - \frac{Pups_y}{Pups_0}*Beta)*(Z_{max}-Z_0)+Z_0$
+			\item So $R_y = Pups_y * exp(-Z_y)$
 			\item Where beta is the third parameter and which logically has values between about 0.4 for a left-shifted spawner-recruitment curve, and 3.0 for a right-shifted curve.
 		\end{itemize}
-		\item With the other spawner-recruitment relationships, the mean level of recruits, $R_y$ , serves as the base against which environmental effects and annual lognormal deviations are applied.  However, in a survival context, it is possible that a large positive deviation on recruitments could imply survival greater than 1.0, so an alternative approach is needed for this survival approach.  Here, the lognormal deviations are applied to Z and the resultant S is constrained to not exceed 1.0.
+		\item With the other spawner-recruitment relationships, the mean level of recruits, $R_y$, serves as the base against which environmental effects and annual lognormal deviations are applied.  However, in a survival context, it is possible that a large positive deviation on recruitments could imply survival greater than 1.0, so an alternative approach is needed for this survival approach.  Here, the lognormal deviations are applied to Z and the resultant S is constrained to not exceed 1.0.
 		\item In SS, it is also necessary to be able to calculate the equilibrium level of spawning biomass (pup production) and recruitment for a given level of spawning biomass per recruit (pups per recruit), PPR.
 		\begin{itemize}
-			\item $Pups\_equil = Pups\_0 * (1 - (LN(1/PPR) - Z\_0)/(Z\_max - Z\_0))^{(1/Beta)} $
-			\item Then, $R\_equil = Pups\_equil * exp(-(1 - (Pups\_equil/Pups\_0)^Beta)*(Z\_max-Z\_0)+Z\_0)$
+			\item $Pups_{equil} = Pups_0 * (1 - (LN(1/PPR) - Z_0)/(Z_{max} - Z_0))^{(1/Beta)} $
+			\item Then, $R_{equil} = Pups_{equil} * exp(-(1 - (Pups_{equil}/Pups_0)^{Beta})*(Z_{max}-Z_0)+Z_0)$
 		\end{itemize}
 		\item Code for the survival based recruitment is shown below:
 	\end{itemize}
@@ -869,7 +869,7 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 Conceptually, SS treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum.  The user has control of the break year between eras.  Each era has its own vector.  The early era is defined as a vector (prior to V3.10 this was a dev\_vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations.  The main era can be a vector of simple deviations, or a dev\_vector but it is normally implemented as a dev\_vector so that the spawner-recruitment function is its central tendency.  The last era does not force a zero-centered deviation vector so it can have zeros during the actual forecast and non-zero values in last few years of the time series.  The early and last eras are optional, but their use can help prevent SS from balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years.  When the 3 eras are used, it would be typically to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.
 
 \subsubsection{Recruitment Likelihood}
-In SS2, recruitment log(L) contained a term, + N\_forecast\_rec\_devs*log(sigmaR).  This meant that the total log(L) changed according to how many forecast years were included in the model scenario.  Worse, if sigmaR was allowed to be estimated by SS2, then this term would cause all the zero deviations during the forecast period to drag the overall estimated value of sigmaR down.  This problem is rectified in SS V3.  Now, for each year in the total time series (early, mid, late/forecast) the contribution of that year to the logL is equal to:  dev\^2/(2.0*sigmaR*sigmaR)+offset*log(sigmaR); where offset is the magnitude of the adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component.  With this approach, sigmaR may be estimable when there is good data to establish the time series of recruitment deviations.  In the likegfish example, turning on estimate of sigmaR results in an estimated value that is very close to the root mean squared error (rmse) of the estimated recruitment deviations.
+In SS2, recruitment log(L) contained a term, + N\_forecast\_rec\_devs*log(sigmaR).  This meant that the total log(L) changed according to how many forecast years were included in the model scenario.  Worse, if sigmaR was allowed to be estimated by SS2, then this term would cause all the zero deviations during the forecast period to drag the overall estimated value of sigmaR down.  This problem is rectified in SS V3.  Now, for each year in the total time series (early, mid, late/forecast) the contribution of that year to the logL is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the magnitude of the adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component.  With this approach, sigmaR may be estimable when there is good data to establish the time series of recruitment deviations.  In the likegfish example, turning on estimate of sigmaR results in an estimated value that is very close to the root mean squared error (rmse) of the estimated recruitment deviations.
 
 \subsubsection{Recruitment Bias Adjustment}
 The recruitment bias adjustment implemented in SS is based upon the work being documented in Methot and Taylor (2011) and following the work of Maunder and Deriso (2003).  The concept is based upon the following logic.  SigmaR represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, sigmaR, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see eq. below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches sigmaR.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach sigmaR and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
@@ -977,17 +977,17 @@ It is possible to use the initial F method to achieve an estimate of the initial
 For each fishery and survey, enter a row with these 4 entries as described below:
 
 \begin{enumerate}
-	\item Do\_Power
+	\item Do Power
 	\begin{enumerate}
 		\item 0 = skip, so the survey is directly proportional to abundance (typical)
 		\item 1 = establish a parameter for non-linearity in survey-abundance linkage
 	\end{enumerate}
-	\item Do\_Env\_Link
+	\item Do Env Link
 	\begin{enumerate}
 		\item 0 = skip, no environmental on Q (typical)
 		\item 1 = establish a parameter to create environmental effect on Q, where the integer is the index of the environmental variable to be linked.  The relationship is:  $ ln(q_y) = ln(q_{base}) + Q_{env\_link\_para}*Env\_Value_y$.
 	\end{enumerate}
-	\item Do\_extra SD
+	\item Do extra SD
 	\begin{enumerate}
 		\item 0 = skip (typical)
 		\item 1 = estimate a parameter that will contain an additive constant to be added to the input stddev of the survey variability.  This extra SD approach is highly redundant with the older code that provided for iterative input of variance adjustment factors.  The newer code for extra SD estimation is recommended.
@@ -1016,7 +1016,7 @@ So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:
 
 		\endfoot
 		\endlastfoot
-	    \#Do\_power   & Env-Var & Extra SD & Q type & Q offset  & Fleet \\
+	    \#Do power   & Env Var & Extra SD & Q type & Q offset  & Fleet \\
 	    (Den\_depend) &         &          &        &           & \\
 	    \hline
 	    1 & 0 & 1 & 2 & 0 & \#Fishery 1 \\
@@ -1079,11 +1079,11 @@ So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:
 \noindent For each positive element in columns for the catchability (Q) setup above, read a long parameter setup line.  The order is: fishery 1 through survey N within power transformation, then within environment link, then within extra standard deviation, then within Q.  If no elements are selected, then there must be no parameter setup lines.
 
 \begin{center}
-	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.1cm} p{4.8cm}}
+	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.5cm} p{4.3cm}}
 		\endfirsthead
 
 		\hline
-		\#Lo & Hi & Init & Prior & PR\_type & SD & Phase & Label \\
+		\#LO & HI & INIT & PRIOR & PR TYPE & SD & PHASE & LABEL \\
 		\hline
 		\endhead
 
@@ -1093,7 +1093,7 @@ So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:
 
 		\multicolumn{8}{l}{The list of parameters to be read from the above setup would be:}\\
 		\hline
-		\#Lo & Hi & Init & Prior & PR\_type & ... & Block Fxn & Label \\
+		\#LO & HI & INIT & PRIOR & PR TYPE & ... & BLOCK FXN & LABEL \\
 		\hline
 		0  & 3   & 1    & 1    & 0  & ...  & 0   & \#Fishery1 power\\
 		0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Fishery1 extra SD\\
@@ -1102,9 +1102,9 @@ So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:
 		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery1 base Q\\
 		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery2 base Q\\
 		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey1 base Q\\
-		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Qrandwalk obs2\\
-		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Qrandwalk obs3\\
-		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Qrandwalk obs4\\
+		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs2\\
+		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs3\\
+		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs4\\
 		... & ... & ... & ...  & ...& ...  & ... & ... \\
 		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey3 base Q\\
 		\hline
@@ -1166,6 +1166,7 @@ The currently defined selectivity patterns, and corresponding required number of
 
 		\hline
 		\multicolumn{3}{c}{SIZE SELECTIVITY}\\
+		  &   &  \\
 		Pattern & N Parameters & Description \\
 		\hline
 		0 & 0 & Selectivity equals 1.0 for all sizes \\
@@ -1222,6 +1223,7 @@ The currently defined selectivity patterns, and corresponding required number of
 
 		\hline
 		\multicolumn{3}{c}{AGE SELECTIVITY}\\
+		   &   &  \\
 		Pattern & N Parameters & Description \\
 		\hline
 		10 & 0 & Age selectivity = 1.0 for all ages beginning at age 1.  If it is desired that age-0 fish be selected, then use pattern \#11 and set minimum age to 1.0. \\
@@ -1283,10 +1285,10 @@ The currently defined selectivity patterns, and corresponding required number of
 
 \begin{description}
 	\item[Pattern \#14 (age) - Revise Age]\hfil\\
-	Age-selectivity pattern \#14 to allow selectivity-at-age to be the same as selectivity at the next younger age.  When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. SS calculates the age-based selectivity as:
+	Age-selectivity pattern \#14 to allow selectivity-at-age to be the same as selectivity at the next younger age.  When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. SS calculates the age-based selectivity as where $a = 1$ to $a = Amax + 1$:
 	\begin{equation}
 		 \begin{split}
-		 temp = 9 - max(p(1:(nages+1)))\\
+		 temp = 9 - max(p(a))\\
 		S_a = \frac{1}{1+exp(-(p(a+1) + temp))}
 		\end{split}
 	\end{equation}	
@@ -1492,7 +1494,7 @@ Retention is defined as a logistic function of size and can be dome-shaped.  It 
 	\item p7 – male offset to descending inflection (arithmetic, not multiplicative)
 \end{itemize}
 \begin{equation}
-	Retention = \left(\frac{P3}{1 + e^{\frac{-(L-(P1+P4*male))}{P2}}}\right)*\left(1 - \frac{1}{1 + e^{\frac{-(L-(P5+P7*male))}{P6}}}\right)
+	\text{Retention} = \left(\frac{P3}{1 + e^{\frac{-(L-(P1+P4*male))}{P2}}}\right)*\left(1 - \frac{1}{1 + e^{\frac{-(L-(P5+P7*male))}{P6}}}\right)
 \end{equation}
 
 \subsubsection{Discard Mortality}
@@ -1515,7 +1517,7 @@ Seven parameters are used:
 
 Discard mortality is calculated as:
 \begin{equation}
-	Mortality = \left(1 - \frac{1-P3}{1+e^{\frac{-(L-(P1+P4*male))}{P2}}}\right)*\left(\frac{1}{1 + e^{\frac{-(L-(P5+P7*male))}{P6}}}\right)
+	\text{Mortality} = \left(1 - \frac{1-P3}{1+e^{\frac{-(L-(P1+P4*male))}{P2}}}\right)*\left(\frac{1}{1 + e^{\frac{-(L-(P5+P7*male))}{P6}}}\right)
 \end{equation}
 
 \subsubsection{Male Selectivity}
@@ -1589,14 +1591,14 @@ The time-varying options for selectivity parameters are identical to the time-va
 			If custom>0, then read a setup line for each SEL-parm with Env-var>0. Note that control.ss\_new will write out with custom=1 so it can write all the parameter values.\\
 			\hline
 			\multicolumn{4}{l}{Enter proper number of short set-up lines (0, 1, several) for the SEL-parm environmental}\\
-			\multicolumn{4}{l}{linkages.  Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_type, SD, PHASE.}\\
+			\multicolumn{4}{l}{linkages.  Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_TYPE, SD, PHASE.}\\
 			\hline
 			COND & & & If any selectivity parameters use time blocks, then read next line and associated parameter line(s). \\
 			     & 0 & Custom block setup & If custom=0, then read one setup and apply to all Block fxns;
 			     If custom>0, then read a setup line for each SEL-parm with Block>0.  \\
 			\hline
 			\multicolumn{4}{l}{Enter proper number of short set-up lines (0, 1, several) for the SEL-parm block linkages.}\\
-			\multicolumn{4}{l}{Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_type, SD, PHASE.} \\
+			\multicolumn{4}{l}{Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_TYPE, SD, PHASE.} \\
 			\hline
 			COND &  & & If any selectivity parameters use annual devs, then read  value\\
 			     & -4 & Selparm dev phase & Phase in which selparm devs, if any, are estimated. \\
@@ -1640,7 +1642,7 @@ Specify if tagging data are being used:
 
 The tagging reporting rate parameter is transformed within SS during estimation to maintain a positive value and is reported according to the transformation:
 \begin{equation}
-	Tagging\_Reporting\_Rate = \frac{e^{input\_parameter}}{1+e^{input\_parameter}}
+	\text{Tagging Reporting Rate} = \frac{e^{\text{input parameter}}}{1+e^{\text{input parameter}}}
 \end{equation}
 
 \subsubsection{Variance Adjustment Factors}
@@ -1702,8 +1704,8 @@ These values are multiplied by the corresponding likelihood component to calcula
 	\begin{tabular}{p{2cm} p{14cm}}
 		Value & Description \\
 		\hline
-		4 & Max\_lambda\_phase: read this number of lambda values for each element below.  The last lambda value is used for all higher numbered phases.\\
-		1 & sd\_offset; value=0 causes log(like) to omit the +log(s) term; value=1 causes log(like) to include the log(s) term for CPUE, discard, meanbodywt, recruitment deviations. \\
+		4 & Max lambda phase: read this number of lambda values for each element below.  The last lambda value is used for all higher numbered phases.\\
+		1 & sd offset; value=0 causes log(like) to omit the +log(s) term; value=1 causes log(like) to include the log(s) term for CPUE, discard, meanbodywt, recruitment deviations. \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -1713,7 +1715,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 	If the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the +log(stddev) term in the likelihood must be included.  Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
 \end{description}
 
-The reading of the lambda values has been substantially altered with SS\_v3.  Instead of reading a matrix containing all the needed lambda values, SS now just reads those elements that will be given a value other than 1.0.  After reading the datafile, SS sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist.  So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS.  First read an integer for the number of changes.
+The reading of the lambda values has been substantially altered with SS v3.  Instead of reading a matrix containing all the needed lambda values, SS now just reads those elements that will be given a value other than 1.0.  After reading the datafile, SS sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist.  So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS.  First read an integer for the number of changes.
 
 \begin{center}
 	\begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
@@ -1965,13 +1967,13 @@ Priors on parameters fulfill two roles in SS.  First, for parameters provided wi
 	\item -1 = No prior applied.
 	\item  0 = Normal prior. Note that this function is independent of the parameter.
 	\begin{equation}
-		Pr\_Like = 0.50*(\frac{Pval - Prior}{Prior\_SD})^2
+		\text{Prior Likelihood} = 0.50*(\frac{Pval - Prior}{Prior\_SD})^2
 	\end{equation}
 	\item  1 = Symmetric bet prior is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior.
 	\begin{equation}  \mu = -P\_SD*(log((Pmax+Pmin)*0.5-Pmin)-P\_SD*(log(0.5)) \end{equation}
 	\begin{equation}
 		\begin{split}
-			Prior\_Like = -(\mu + (P\_SD*(log(Pval-Pmin+Pconst))) + \\
+			\text{Prior Likelihood} = -(\mu + (P\_SD*(log(Pval-Pmin+Pconst))) + \\
 			(P\_SD*(log(1-(\frac{(Pval-Pmin-Pconst)}{(Pmax-Pmin)})))))
 		\end{split}
 	\end{equation}
@@ -1991,7 +1993,7 @@ Priors on parameters fulfill two roles in SS.  First, for parameters provided wi
 	\end{equation}
 		\begin{equation}
 		\begin{split}
-		Prior\_Like = (1.0-Bprior)*log(Pconst+Pval-Pmin) + \\
+		\text{Prior Likelihood} = (1.0-Bprior)*log(Pconst+Pval-Pmin) + \\
 		(1.0-Aprior)*log(Pconst+Pmax-Pval) - \\
 		(1.0-Bprior)*log(Pconst + Prior - Pmin) - \\
 		(1.0-Aprior)*log(Pconst + Pmax - Prior)
@@ -2005,7 +2007,7 @@ Priors on parameters fulfill two roles in SS.  First, for parameters provided wi
 
 	\item 3 = Lognormal prior.  Note that lower bound on the parameter must be >0.0. The prior value is input into the parameter line in log space while the initial parameter value is defined in normal space (e.g. INIT = 0.20, PRIOR = -1.609438).
 	\begin{equation}
-		Prior\_Like = 0.50*\Big(\frac{(log(Pval)-Prior)}{Pr\_SD}\Big)^2
+	\text{Prior Likelihood} = 0.50*\Big(\frac{(log(Pval)-Prior)}{Pr\_SD}\Big)^2
 	\end{equation}
 	\item Pval is the value of the parameter for which a prior is being calculated, Pmin and Pmax are the bounds on the parameter, Prior is the value of the parameter prior, or the first of the 2 factors controlling the calculation of the prior, Pr\_SD is the value of the prior's standard deviation, or the second of the 2 factors controlling the calculation of the prior, Pconst is a small constant (0.0001), and Prior\_Like is the calculated value of the prior's contribution to the log likelihood.
 \end{itemize}
