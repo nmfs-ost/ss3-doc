@@ -1,22 +1,57 @@
 
  \section{Introduction}\label{sec:intro}
-	This manual provides a guide for using the stock assessment program, Stock Synthesis (SS).  The guide contains a description of the input and output files and usage instructions. A technical description of the model itself is in Methot and Wetzel (2013).  SS is programmed using Auto Differentiation Model Builder (ADMB; Fournier 2001.  ADMB is now available at admb-project.org).  SS currently is compiled using ADMB version 11.1 using the Microsoft C++ Optimizing Compiler Version 16.0.  The model and a graphical user interface are available from the NOAA Fisheries Stock Assessment Toolbox website:  http://nft.nefsc.noaa.gov/.  An output processor package, r4ss, in R is available for download from CRAN or GitHub.   Additional information about the package can be located at https://github.com/r4ss/r4ss .
+	This manual provides a guide for using the stock assessment program, Stock Synthesis (SS).  The guide contains a description of the input and output files and usage instructions. A technical description of the model itself is in Methot and Wetzel (2013).  SS is programmed using Auto Differentiation Model Builder (ADMB; Fournier 2001.  ADMB is now available at admb-project.org).  SS currently is compiled using ADMB version 11.1 using the Microsoft C++ Optimizing Compiler Version 16.0.  The model and a graphical user interface are available from the NOAA Fisheries Stock Assessment Toolbox website: nft.nefsc.noaa.gov.  An output processor package, r4ss, in R is available for download from CRAN or GitHub.   Additional information about the package can be located at github.com/r4ss/r4ss .
 	
 \section{New Features 3.30}
-		Stock Synthesis version 3.30 has a number of new features:
-		\begin{enumerate}
-			\item Ability to convert version 3.24 files to 3.30 format- \hyperlink{Convert}{\textit{Click here for more information.}}
-			\item Forecast allocation group by year-
-			\item Subseasons- \hyperlink{SubSeas}{\textit{Click here for more information.}}
-			\item Flexible fleet ordering- \hyperlink{FleetOrder}{\textit{Click here for more information.}}
-			\item Revised catch input format- \hyperlink{CatchFormat}{\textit{Click here for more information.}}
-			\item Catch multiplier- \hyperlink{CatchMult}{\textit{Click here for more information.}}
-			\item List based input- \hyperlink{ListBased}{\textit{Click here for more information.}}
-			\item Catch - bycatch fleets
-		\end{enumerate}
-		%\pageref{sec:intro}.
+		Stock Synthesis version 3.30 has a number of new features. Additional information on each new feature available by clicking on the "Item".
 		
-\section{File Organization}		
+		\begin{center}
+			\begin{longtable}{p{2cm} p{3cm} p{10cm}}
+				Category & Item & Description\\
+				\hline
+				\endfirsthead
+		
+				Category & Item & Description\\
+				\hline
+				\endhead
+		
+				\hline
+				\endfoot
+		
+				\endlastfoot
+				
+				General & \hyperlink{GenericFleet}{Generic Fleets} & Fleet specification section of data file is much changed and now includes fleet type, so fishery fleets, bycatch fleets, surveys, and someday predators are specified in any order\\
+				        & \hyperlink{ListBased}{List-oriented inputs} & Rather than specify the number of items to be read, now SS can figure it out on its own with lists terminated by -9999 in first field of the read vector \\
+				        & \hyperlink{SubSeas}{Internal sub-seasons} & SS3.24 inherently has 2 subseasons each season (begin and middle) at which the ALK is calculated; now user specifies an even number of sub-seasons to use (2 to ~10) \\
+				        & Observation Timing & Timing of observations now is input as year, month where month is real; e.g. April 15 is 4.5; ALK used for each observation is calculated to the nearest sub-season.  Old "survey\_timing" replaced by the month specific inputs.  Season is calculated at runtime from the input month and the input season durations. \\
+				        & Speed & Smarter at when to re-calc the ALK; trims tails of size-at-age so calculations avoid many inconsequential cells of the age-length matrix. \\
+				        & \hyperlink{Convert} {Converter} & Special version of SS, SS\_trans, will read files in 3.24 format and write .ss\_new files in 3.30 format.  Please use this.\\
+				Fishery and Catch & \hyperlink{CatchMult}{Catch multiplier} & Each fishing fleet's catch can now have a "q" that is a parameter in the Mgparm section.\\
+						& \hyperlink{CatchFormat}{Catch input} & Catch input now as list:  yr, seas, fleet, amount, se. \\
+						& Observations & Fishery composition observations can be related to season long catch-at-age, or to a month-specific timing.\\
+						& Retention & Option for dome-shaped retention function. \\
+				Survey  & Link functions & Q\_power is now one of several, and growing, set of link functions. \\
+						& Q-setup reorganization & Major reorganization of Q setup, including the link specification. \\
+						& Q is a parameter & Each survey now must have a Q parameter and its value still can float (as old option 5).\\
+				Recruitment & \hyperlink{Shepard}{Shepard SRR} & A 3-parameter Shepard stock-recruitment curve is now an option.\\
+						& Recruitment timing & Replace "birthseason" with "settlement event" that has explicit timing offset from spawning.  Month of spawning and each settlement event must be specified and need not be at beginning of a season.\\
+				Benchmark & Global MSY &  Global MSY based on knife edge age selection; also do calculation with single age selection. \\
+					    & Mean recruitment dist. & In multi-area model, can now specify range of years to use for the average recruitment distribution.\\
+				Forecast & Process error & Propagate random walk in mgparms, catchability, and selectivity into forecast.\\
+				Biology & \hyperlink{MGorder}{Parameter order} & Mgparms now have maturity, fecundity, sexratio, and wt-len by growth pattern.\\
+				        & \hyperlink{SexRatio}{Sex ratio} & Change sexratio at birth from a constant to a morph-specific MGparameter. \\
+				Statistical & Input variance adjuster & Add variance adjustment factor for generalized size comp. \\
+						& Dev vectors & Variance of deviation vectors is now specified with 2 parameters for se and rho (autocorrelation).\\
+						& \hyperlink{Dirichlet}{Dirichlet multinomial} & Dirichlet multinomial now a fleet-specific option; takes one parameter per. \\
+				Parameters & Density dependence & Beginning of year summary biomass and the rec\_dev parameter are mapped to the    "environmental" matrix so that parameters can be density-dependent.\\
+						& Re-order & Pay attention to the new order of the time-varying adjustments to parameters. \\
+						& Time-varying & Long parameter lines for SRR, Q, and Tag parameters and complete re-vamp of the way that time-varying parameters are implemented for SRR and Q.  Now shares same internal code as MG and selex parameters for time-varying capabilities.\\
+				\hline	
+			\end{longtable}
+		\end{center}
+
+		
+\section{File Organization}\label{FileOrganization}		
 	\subsection{Input Files}
 	\begin{enumerate}
 		\item starter.ss:   required file containing filenames of the data file and the control file plus other run controls (required).
@@ -96,7 +131,10 @@
 	\end{enumerate}
 		
 \section{Starting SS}
-SS runs as a DOS program with text-based input.  The executable is named ss3.exe.  It can be run at the command prompt in a DOS window, or called from another program, such as R or the SS-GUI or a DOS batch file.  See the section in this manual on use of batch file which can allow ss3.exe to reside in a separate directory.  Sometimes you may receive a version of SS with array checking turned on (SS-safe.exe) or without array checking SS\_opt.exe.  In this case, it is recommended to rename the one you are planning to use to SS3.exe before running it.  Communication with the program is through text files.  When the program first starts, it reads the file STARTER.SS, which must be located in the same directory from which SS is being run.  The file STARTER.SS contains required input information plus references to other required input files, as described in the File Organization section.  The names of the control and data files must match the names specified in the STARTER.SS file.  Window systems will recognize the file names regardless if lower or upper case is used.  However, Linux and Apple systems require lower case naming for files. Output from SS is as text files containing specific keywords.  Output processing programs, such as the SS GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.
+SS is typically run through the command line interface although it can also be called from another program such as R or the SS-GUI or a script file (such as a DOS batch file). SS is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS will run much slower on computers with inadequate memory. See the section \ref{RunningSS} for additional notes on methods of running SS.
+
+Communication with the program is through text files.  When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS is being run.  The file starter.ss contains required input information plus references to other required input files, as described in section \ref{FileOrganization}.  The names of the control and data files must match the names specified in the starter.ss file.  File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. Output from SS is as text files containing specific keywords.  Output processing programs, such as the SS GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.
+
 
 
 \section{Computer Requirements and Recommendations}

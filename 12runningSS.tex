@@ -1,69 +1,85 @@
-\section{Running SS}
-SS can be run from a DOS window in a directory containing the file SS3.EXE (or a path to SS3.EXE) and the necessary input files.  Simply type SS3 at the DOS prompt.  This will start the executable and the first step will be to open and read the file named starter.ss which contains necessary run information.
+\section{Running SS}\label{RunningSS}
 
-As with all ADMB-based programs, switches are typed immediately after a space.  For example, SS3 –nohess, would run SS3 without calculating the Hessian matrix.
+\subsection{Command Line Interface}
+The name of the SS executable files often contains the phrase “safe” or “opt” (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version hasn’t been run first. A file named “ss3.exe” is typically the safe version unless the result of renaming by the user. In some situations, users may wish to rename the file they are using to ss3.exe, but the longer file name can be used.
 
-\subsection{Example of DOS batch input file}
+On Mac and Linux computers, the executable does not include an extension (like .exe on Windows).
+Running the executable on from the DOS command line in Windows simply require typing the executable name (without the .exe extension):
+
+\begin{verbatim}
+	> ss3
+\end{verbatim}
+
+
+On Mac and Linux computers, the executable name must be preceded by a period and slash (unless it’s location has been added to the user’s PATH):
+
+\begin{verbatim}
+	> ./ss3
+\end{verbatim}
+
+Additional ADMB commands can follow the executable name, such as “ –nohess” to avoid calculating the Hessian matrix. To see a full list of options, add “ -?” after the executable name (with a space in between).
+
+On all operating systems, a copy of the SS executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below. Editing the PATH is not covered here.
+
+
+\subsubsection{Example of DOS batch input file}
 One file management approach is to put SS3.EXE in its own folder (example:  C:\textbackslash SS\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS\_runs).  Then a DOS batch file in the SS\_runs folder can be run at the command line to start SS3.EXE.  All output will appear in SS\_runs folder.
 
 A DOS batch file (e.g. SS.bat) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
 
-\begin{center}
-	\begin{longtable}{ p{13cm} }
-		c: \textbackslash SS\_model \textbackslash ss3.exe -cbs 5000000000 -gbs 50000000000 \%1 \%2 \%3 \%4 \\
-		del ss3.r0*\\
-		del ss3.p0*\\
-		del ss3.b0*\\
-	\end{longtable}
-\end{center}
+\begin{verbatim}
+	> c:\SS_model\ss3.exe -cbs 5000000000 -gbs 50000000000 \%1 \%2 \%3 \%4 
+	> del ss3.r0*
+	> del ss3.p0*
+	> del ss3.b0*
+\end{verbatim}
 
 In this batch file, the –cbs and –gbs arguments allocate a large amount of memory for SS to use (you may need to edit these for your computer and SS configuration), and the \%1, \%2 etc. allows passing of command line arguments such as –nox or –nohess.  You add more items to the list of \% arguments as needed.
 
 An easy way to start a command line in your current directory (SS\_runs) is to create a shortcut to the DOS command line prompt.  The shortcut’s target would be:
 
-\begin{center}
-	\begin{longtable}{p{13cm}}
-		\%SystemRoot\%\textbackslash system32 \textbackslash cmd.exe\\
-		And it would start in \%CURRDIR\%\\
-	\end{longtable}
-\end{center}
+\begin{verbatim}
+	> %SystemRoot%\system32\cmd.exe
+\end{verbatim}
+
+\noindent And it would start in: 
+\begin{verbatim}
+	> %CURRDIR%
+\end{verbatim}
 
 \subsubsection{Simple Batch}
 This first example relies upon having a set of prototype files that can be renamed to starter.ss and then used to direct the running of SS.  The example also copies one of the output files to save it from being overwritten.  This sequence is repeated 3 times here and can be repeated an unlimited number of times.  The batch file can have any name with the .bat extension, and there is no particular limit to the DOS commands invoked.  Note that brief output from each run will be appended to cumreport.sso (see below).
 
-\begin{center}
-	\begin{longtable}{p{13cm}}
-		del ss3.cor\\
-		del ss3.std\\
-		copy starter.r01 starter.ss\\
-		c:\textbackslash admodel\textbackslash ss\textbackslash ss3.exe -sdonly\\
-		copy ss3.std ss-std01.txt\\
-		copy starter.r01 starter.ss\\
-		c:\textbackslash admodel\textbackslash ss\textbackslash ss3.exe -sdonly\\
-		copy ss3.std ss-std02.txt\\
-	\end{longtable}
-\end{center}
+\begin{verbatim}
+		> del ss3.cor
+		> del ss3.std
+		> copy starter.r01 starter.ss
+		> c:\admodel\ss\ss3.exe -sdonly
+		> copy ss3.std ss-std01.txt
+		> copy starter.r01 starter.ss
+		> c:\admodel\ss\ss3.exe -sdonly
+		> copy ss3.std ss-std02.txt
+\end{verbatim}
 
 \subsubsection{Complicated Batch}
 This second example processes 25 dat files from a different directory, each time using the same ctl and nam file.  The loop index is used in the file names, and the output is searched for particular keywords to accumulate a few key results into the file SUMMARY.TXT.  Comparable batch processing can be accomplished by using R or other script processing programs.
 
-\begin{center}
-	\begin{longtable}{p{13cm}}
-		del summary.txt\\
-		del ss3-report.txt\\
-		copy /Y runnumber.zero runnumber.ss3\\
-		FOR /L \%\%i IN (1,1,25) DO (\\
-		copy /Y ..\textbackslash MakeData\textbackslash A1-D1-\%\%i.dat  Asel.dat\\
-		del ss3.std\\
-		del ss3.cor\\
-		del ss3.par\\
-		c:\textbackslash admodel\textbackslash ss\textbackslash ss3.exe\\
-		copy /Y ss3.par A1-D1-A1-\%\%i.par\\
-		copy /Y ss3.std A1-D1-A1-\%\%i.std\\
-		find "Number" A1-D1-A1-\%\%i.par >> Summary.txt\\
-		find "hessian" ss3.cor >> Summary.txt)\\	
-	\end{longtable}
-\end{center}
+\begin{verbatim}
+		> del summary.txt
+		> del ss3-report.txt
+		> copy /Y runnumber.zero runnumber.ss3
+		> FOR /L \%\%i IN (1,1,25) DO (
+		> copy /Y ..\MakeData\A1-D1-%%i.dat  Asel.dat
+		> del ss3.std
+		> del ss3.cor
+		> del ss3.par
+		> c:\admodel\ss\ss3.exe
+		> copy /Y ss3.par A1-D1-A1-%%i.par
+		> copy /Y ss3.std A1-D1-A1-%%i.std
+		> find "Number" A1-D1-A1-%%i.par >> Summary.txt
+		> find "hessian" ss3.cor >> Summary.txt)
+\end{verbatim}
+
 
 \subsubsection{Batch Using PROFILEVALUES.SS}
 This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to –9999.  Edit STARTER.SS to refer to this control file and the appropriate data file.
@@ -84,15 +100,13 @@ This example will run a profile on natural mortality and spawner-recruitment ste
 
 Create a batch file that looks something like this.  Or make it more complicated as in the example above.
 
-\begin{center}
-	\begin{longtable}{p{15cm}}		
-		del cumreport.sso\\
-		copy /Y runnumber.zero runnumber.ss  \% so you will start with runnumber=0 \\
-		C:\textbackslash SS3\textbackslash ss3.exe \\
-		C:\textbackslash SS3\textbackslash ss3.exe \\
-		C:\textbackslash SS3\textbackslash ss3.exe \\
-	\end{longtable}
-\end{center}
+\begin{verbatim}
+		> del cumreport.sso
+		> copy /Y runnumber.zero runnumber.ss  % so you will start with runnumber=0 
+		> C:\SS3\ss3.exe 
+		> C:\SS3\ss3.exe 
+		> C:\SS3\ss3.exe 
+\end{verbatim}
 
 Repeat as many times as you have set up conditions in the PROFILEVALUES.SS file.
 The summary results will all be collected in the cumreport.sso file.  Each step of the profile will have an unique Runnumber and its output will include the values of the natmort and steepness parameters for that run.
@@ -100,7 +114,7 @@ The summary results will all be collected in the cumreport.sso file.  Each step 
 \subsubsection{Re-Starting a Run}
 SS model runs can be restarted from a previously estimated set of parameter values.  In the starter.ss file, enter a value of 1 on the first numeric input line.  This will cause SS to read the file ss3.par and use these parameter values in place of the initial values in the control file.  This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss3.par.  The file ss3.par can be edited with a text editor, so values can be changed and rows can be added or deleted.  However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur.  Because ss3.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed.  To achieve greater numerical accuracy, SS can also restart from ss3.bar which is the binary version of ss3.par.  In order to do this, the user must make the change described above to the starter.ss file and must also enter –binp ss3.bar as one of the command line options.
 
-\subsubsection{Debugging Tips}
+\subsection{Debugging Tips}
 When SS input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem.  Before trying the steps below, examine the ECHOINPUT.SSO file.  It is highly annotated, so you should be able to see if SS is interpreting your input files as you intended.
 
 \begin{enumerate}
@@ -111,12 +125,12 @@ When SS input files are causing the program to crash or fail to produce sensible
 	\item If SS fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the –nohess option so you can view the report.sso to attempt to diagnose the problem.
 \end{enumerate}
 
-\subsubsection{Keyboard Tips}
+\subsection{Keyboard Tips}
 Typing “N” during a run will cause ADMB to immediately advance to the next phase of estimation.
 
 Typing “Q”  during a run will cause ADMB to immediately go to the final phase.  This bypasses estimation of the Hessian and will produce all of the SS outputs, which are coded in the FINAL\_SECTION.
 
-\subsubsection{Running MCMC}
+\subsection{Running MCMC}
  Run SS3
  \begin{itemize}
  	\item This gives MPD estimates, report file, Hessian matrix and the .cor file
@@ -151,7 +165,7 @@ Typing “Q”  during a run will cause ADMB to immediately go to the final phas
 \noindent NOTES:\\
 When SS switches to MCMC or MCEVAL mode, it sets all the bias adjustment factors to 1.0 for any years with recruitment deviations defined.  SS does not create a report file after completing MCMC because it would show values based on the last MCMC step.
 
-\subsubsection{Using R To View Model Output}
+\subsection{Using R To View Model Output}
 A collection of functions developed as a package, r4ss, for the statistical software R has been created to explore SS model output.  The functions include tools for summarizing and plotting results, manipulating files, visualizing model parameterizations, and various other tasks.  Currently, information on the code, including installation instructions, can be found at https://github.com/r4ss/r4ss.  The software package is under constant development to maintain compatibility with new versions of SS and to improve functionality. 
 
 Two of the most commonly used functions for model diagnostics are SS\_output and SS\_plots.  After running a model using SS, the report can be read into R by the SS\_output function which stores quantities in a list with named objects.  This list can then be passed to the SS\_plots function which creates a series of over 100 plots that are useful to visualize output such as model fit to the data and time series of quantities of interest. 
