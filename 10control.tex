@@ -59,10 +59,10 @@ A primary role of the SS control file is to define the parameters to be used by 
 		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
 		%\hline
 		 & & \\
-		\multicolumn{3}{l}{\parbox{16cm}{Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found at the end of the control file syntax section.}}\\
+		\multicolumn{3}{l}{\parbox{16cm}{Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.}}\\
 		 & & \\
 		%\hline
-		8 & Env & Create a linkage to an input environmental time-series\\
+		8 & Env Var & Create a linkage to an input environmental time-series\\
 		9 & Use Dev & Invokes use of the deviation vector \\
 		10 & Dev min yr & Beginning year for the deviation vector \\
 		11 & Dev max yr & Ending year for the deviation vector\\
@@ -967,34 +967,47 @@ It is possible to use the initial F method to achieve an estimate of the initial
 	\item Allow the initial F parameter to be estimated.  It will be influenced by the early age and size comps which should have some information about the early levels of Z.
 \end{itemize}
 
+\hypertarget{Qsetup}{}
 \subsubsection{Catchability}
 For each fishery and survey, enter a row with these 4 entries as described below:
 
 \begin{enumerate}
-	\item Do Power
+	\item Link type
 	\begin{enumerate}
-		\item 0 = skip, so the survey is directly proportional to abundance (typical)
-		\item 1 = establish a parameter for non-linearity in survey-abundance linkage
+		\item 1 = simple Q
+		%, establish a parameter to create environmental effect on Q, where the integer is the index of the environmental variable to be linked.  The relationship is:  $ ln(q_y) = ln(q_{base}) + Q_{env\_link\_para}*Env\_Value_y$.
+		\item 2 = mirror simple Q, 1 mirrored parameter.
+		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage.
 	\end{enumerate}
-	\item Do Env Link
+	\item Extra input for link (i.e. mirror fleet)
 	\begin{enumerate}
-		\item 0 = skip, no environmental on Q (typical)
-		\item 1 = establish a parameter to create environmental effect on Q, where the integer is the index of the environmental variable to be linked.  The relationship is:  $ ln(q_y) = ln(q_{base}) + Q_{env\_link\_para}*Env\_Value_y$.
+		\item >0 = mirror the Q from another (lower numbered survey designated by abs(value))
 	\end{enumerate}
 	\item Do extra SD
 	\begin{enumerate}
 		\item 0 = skip (typical)
 		\item 1 = estimate a parameter that will contain an additive constant to be added to the input stddev of the survey variability.  This extra SD approach is highly redundant with the older code that provided for iterative input of variance adjustment factors.  The newer code for extra SD estimation is recommended.
 	\end{enumerate}
-	\item Q Type
+	\item Bias adjustment
 	\begin{enumerate}
-		\item <0 = mirror the Q from another (lower numbered survey designated by abs(value))
-		\item 0 = set Q as a scaling factor such that the estimate is median unbiased.  This is comparable to the old “float” option.  This option is not available if a normal error structure is used.
-		\item 2 = establish one parameter that will be the ln(Q).  Note that Q is in log units even if the error structure is normal.
-		\item 3 = establish one parameter that will be the base ln(Q) and a set of additional parameters for each year of the survey that will be deviations in ln(Q).  These deviation parameters are full parameters, so each has a prior and variance, so surveys with high uncertainty in their calibration can be given a more diffuse prior to allow a larger deviation.  Because each of these Q deviations is coded as a separate parameter, rather than a member of a deviation vector, the contribution of these deviations to the model’s objective function is captured in the parameter prior section.  However, because there is no inherent constraint that these deviations have a zero sum, a separate log(L) contribution is calculated from the sum of the deviations ($(1+(\sum(devs))^2)^2-1$) and added to the “parm\_dev\_like” component.
-		\item 4 = establish one parameter that will be the base ln(Q) and used as the Q for the first survey observation.  Subsequent N-1 parameters for remaining survey observations will be deviations in random walk of ln(Q).  These deviation parameters are otherwise treated identically to those generated by option (3) above, except that the extra contribution for the mean deviation is not calculated.
-		\item 5 = This option will calculate the survey Q according to mean unbiased scaling, then assigns this value to the parameter (which must be set up in the control file and be given a negative phase).  Advantage is that the calculated Q can now have a prior.
+		\item 0 = no bias adjustment applied
+		\item 1 = apply bias adjustment
 	\end{enumerate}
+	\item Q float
+	\begin{enumerate}
+		\item 0 = 
+		\item 1 = 
+	\end{enumerate}
+	
+	%\item Q Type
+	%\begin{enumerate}
+	%	\item <0 = mirror the Q from another (lower numbered survey designated by abs(value))
+	%	\item 0 = set Q as a scaling factor such that the estimate is median unbiased.  This is comparable to the old “float” option.  This option is not available if a normal error structure is used.
+	%	\item 2 = establish one parameter that will be the ln(Q).  Note that Q is in log units even if the error structure is normal.
+	%	\item 3 = establish one parameter that will be the base ln(Q) and a set of additional parameters for each year of the survey that will be deviations in ln(Q).  These deviation parameters are full parameters, so each has a prior and variance, so surveys with high uncertainty in their calibration can be given a more diffuse prior to allow a larger deviation.  Because each of these Q deviations is coded as a separate parameter, rather than a member of a deviation vector, the contribution of these deviations to the model’s objective function is captured in the parameter prior section.  However, because there is no inherent constraint that these deviations have a zero sum, a separate log(L) contribution is calculated from the sum of the deviations ($(1+(\sum(devs))^2)^2-1$) and added to the “parm\_dev\_like” component.
+	%	\item 4 = establish one parameter that will be the base ln(Q) and used as the Q for the first survey observation.  Subsequent N-1 parameters for remaining survey observations will be deviations in random walk of ln(Q).  These deviation parameters are otherwise treated identically to those generated by option (3) above, except that the extra contribution for the mean deviation is not calculated.
+	%	\item 5 = This option will calculate the survey Q according to mean unbiased scaling, then assigns this value to the parameter (which must be set up in the control file and be given a negative phase).  Advantage is that the calculated Q can now have a prior.
+	%\end{enumerate}
 \end{enumerate}
 
 So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:
@@ -1010,13 +1023,12 @@ So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:
 
 		\endfoot
 		\endlastfoot
-	    \#Do power   & Env Var & Extra SD & Q type & Q offset  & Fleet \\
-	    (Den\_depend) &         &          &        &           & \\
+	    \#Link Type & Extra Input & Extra SD & Bias Adjust & Q Float  & Fleet \\
 	    \hline
-	    1 & 0 & 1 & 2 & 0 & \#Fishery 1 \\
-	    0 & 0 & 1 & 2 & 0 & \#Fishery 2 \\
-	    0 & 0 & 0 & 4 & 0 & \#Survey 1 \\
-	    0 & 0 & 1 & 2 & 0 & \#Survey 2 \\
+	    1 & 0 & 1 & 0 & 0 & \#Fishery 1 \\
+	    1 & 0 & 1 & 0 & 0 & \#Fishery 2 \\
+	    1 & 0 & 0 & 0 & 0 & \#Survey 1 \\
+	    1 & 0 & 1 & 0 & 0 & \#Survey 2 \\
 	    \hline
 	\end{longtable}
 \end{center}
@@ -1112,6 +1124,7 @@ For each fleet and survey, read a definition line for size selectivity and reten
 	\item[Pattern]\hfill\\
 	Valid length selectivity pattern code.
 
+	\hypertarget{DomeRetention}{}
 	\item[Discard]\hfill\\
 	(0/1/2/3/4 or -index)  If value is 1, then program will read 4 retention parameters after reading the specified number of selectivity parameters and all discarded fish are assumed dead.  If the value is 2, then the program will read 4 retention parameters and 4 discard mortality parameters.  If the value is 3, then no additional parameters are read and all fish are assumed discarded and dead. If the value is 4, then the program will read 7 retention parameters (for dome-shaped retention) and 4 discard mortality parameters.  If the value is a negative number, then it will mirror the retention and discard mortality pattern of the lower numbered fleet.
 
@@ -1593,6 +1606,8 @@ The time-varying options for selectivity parameters are identical to the time-va
 			COND &  & & If any selectivity parameters use environmental links, blocks or annual devs, then read value.\\
 			     & 2 & Selparm Adjust Method & 1 = parameter adjustments for env, block and dev are applied directly and resulting value is not compared to base parameter bounds\\
 			     &   & & 2 = parameter adjustments use a logistic transformation to assure that adjusted parameter value stays within bounds of base parameter.\\
+			     %&  & & 3 = parameter adjustments use an additive random walk.\\
+			     %&  & & 4 = parameter adjustments use a mean reverting random walk.\\
 			\hline
 	\end{longtable}
 \end{center}
@@ -1850,7 +1865,7 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
 \end{center}
 
 \subsubsection{Time-Varying Parameter Options}
-Biology parameters and selectivity parameters can vary over time.  There are four options for time-varying parameters:  blocks, trends, environmental linkage, and annual deviations.
+\hypertarget{TVpara}{Biology} parameters and selectivity parameters can vary over time.  There are four options for time-varying parameters:  blocks, trends, environmental linkage, and annual deviations.
 
 Elements 8 through 14 of the full parameter lines are used to setup the time-varying properties.  If any parameter of the biology section is made to be time-varying, then one or more conditional inputs at the end of the biology section (or end of the selectivity section) will need to be turned on, and one or more parameter lines will need to be inserted to contain the parameter linkages and offsets that have been selected.  This is done separately for the block of biology parameters and then for the selectivity parameters.
 
@@ -1865,9 +1880,13 @@ The available options for time-varying parameters are described below:
 \begin{itemize}
 	\item Env Var - Element 8 in parameter setup
 		\begin{itemize}
-			\item >0: multiplicative
-			\item <0: additive
-			\item abs(value): environmental index
+			\item 0: No MG parameters with environmental linkages.
+			\item 100-199: One parameter multiplicative link, with the environmental variable found by subtracting 100.  For example, a value of 102 would create a multiplicative linkage to environmental variable "2".
+			\item 200-299: One parameter additive linkage.
+			\item 400-499: Two parameter logistic linkage.
+			%\item >0: multiplicative
+			%\item <0: additive
+			%\item abs(value): environmental index
 		\end{itemize}
 	\item Use Dev - Element 9 in parameter setup
 	\begin{itemize}
@@ -1906,7 +1925,7 @@ The available options for time-varying parameters are described below:
 		\hline
 		Env Var & Use Dev & Dev Minyr & Dev Maxyr & Dev StDev & Blocks & Block Fxn\\
 		\hline
-		>0: mult & 1:mult & 1973 & 1985 & 0.40 & block index & 0:mult\\
+		100-199: mult & 1:mult & 1973 & 1985 & 0.40 & block index & 0:mult\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1916,11 +1935,11 @@ The available options for time-varying parameters are described below:
 \begin{center}
 	\begin{longtable}{p{2.5cm} p{13cm}}
 		\hline
-		ENV & A positive value, g, causes SS to set the annual working value of this parameter equal to a multiplicative function of Environmental Variable\\
+		Env var & Values between 100-199, g, causes SS to set the annual working value of this parameter equal to a multiplicative function of Environmental Variable\\
 		    & \multicolumn{1}{c}{g:parm’(y) = parm * exp(link * env(y,g))} \\
-			& A negative value, g, causes SS to set the annual working value of this parameter equal to a additive function of Environmental Variable g:\\
-		    & \multicolumn{1}{c}{parm’(y) = parm + link * env(y,-g)}\\
-			& Where, link is the environmental link parameter, parm is the base parameter being adjusted, parm’ is the value after adjustment, and env(y,-g) is the value of the environmental input g in year y. SS counts the number of parameters that invoke use of an Environmental Variable.  After SS finishes reading the section’s parameter lines, it then creates/reads additional short parameter line(s) to set up the link parameters.  If custom=0, then one short parameter line is used to define the min, max, init, etc, for each of the link parameters.  If custom=1, then a separate line is read for each.\\
+			& Values between 200-299, g, causes SS to set the annual working value of this parameter equal to a additive function of Environmental Variable g:\\
+		    & \multicolumn{1}{c}{parm’(y) = parm + link * env(y,g)}\\
+			& Where, link is the environmental link parameter, parm is the base parameter being adjusted, parm’ is the value after adjustment, and env(y-g) is the value of the environmental input g in year y. SS counts the number of parameters that invoke use of an Environmental Variable.  After SS finishes reading the section’s parameter lines, it then creates/reads additional short parameter line(s) to set up the link parameters.  If custom=0, then one short parameter line is used to define the min, max, init, etc, for each of the link parameters.  If custom=1, then a separate line is read for each.\\
 		\hline
 		Use\_Dev & A value of 1 invokes multiplicative:  parm’(y) = parm * exp(dev(y))\\
 			& A value of 2 invokes additive:  parm’(y) = parm + dev(y)\\
