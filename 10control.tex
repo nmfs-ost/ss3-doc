@@ -3,7 +3,7 @@
 These listed model features are denoted in the control file in the following order:
 	\begin{enumerate}
 		\itemsep0em
-		\item Number of growth patterns and sub-morphs
+		\item Number of growth patterns and platoons
 		\item Design matrix for assignment of recruitment to area/season/growth pattern
 		\item Design matrix for movement between areas
 		\item Definition of time blocks that can be used for time-varying parameters
@@ -74,9 +74,7 @@ A primary role of the SS control file is to define the parameters to be used by 
 \end{center}
 
 \subsection{Control File Syntax}
-The control file described here using a rather complex set-up with 2 seasons, 2 areas, 2 growth morphs, 2 genders, and 3 sub-morphs in order to demonstrate the order and interdependence of various factors.
-\\
-\\
+
 Terminology:
 \begin{itemize}
 	\item Where the term “COND” appears in the value column of this documentation (it does not actually appear in the control file), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions.
@@ -105,54 +103,59 @@ Terminology:
 		\hline
 
 		2 & & N growth patterns (GP)  \\
+		%\hline
+
+		3 & & Number of platoons within a growth pattern. Permissible values are 1, 3, 5 only.  Typical value is 1.  Values of 3 or 5 allow exploration of size-dependent survivorship. \\
 		\hline
 
-		3 & & Number of sub-morphs within a growth pattern. Permissible values are 1, 3, 5 only.  Typical value is 1.  Values of 3 or 5 allow exploration of size-dependent survivorship. \\
+		\multicolumn{2}{l}{COND > 1}& \multicolumn{1}{l}{\parbox{12cm}{Following 2 lines are conditional on N platoons > 1}} \\
+
+		& 0.7 & Morph between/within stdev ratio. Ratio of the amount of growth variability between platoons to within platoons.\\
+		%\hline
+
+		& 0.2 0.6 0.2 & Distribution among platoons. Enter custom vector or enter -1 to first value of vector to get a normal approximation: (0.15, 0.70, 0.15) for 3 platoons, (0.031, 0.237, 0.464, 0.237, 0.031) for 5 platoons.\\
 		\hline
 
-		\multicolumn{2}{l}{COND > 1}& \multicolumn{1}{l}{\parbox{12cm}{Following 2 lines are conditional on N sub-morphs > 1}} \\
+		1 & & Recruitment distribution method.  Options: 1 = use the 3.24 or earlier setup, 2 = main effects for GP, settle timing, and area, 3 = each settle entity, and 4 = none when N GP*Nsettle*Pop=1\\
+		%\hline
 
-		& 0.7 & Morph between/within stdev ratio. Ratio of the amount of growth variability between sub-morphs to within sub-morphs.\\
-		\hline
-
-		& 0.2 0.6 0.2 & Distribution among sub-morphs. Enter custom vector or enter -1 to first value of vector to get a normal approximation: (0.15, 0.70, 0.15) for 3 sub-morphs, (0.031, 0.237, 0.464, 0.237, 0.031) for 5 sub-morphs.\\
-		\hline
-
-		1 & & Recruitment distribution method.  Options: 1 = use the 3.24 or earlier setup, 2 = main effects for GP, settle timing, and area, 3 = each settle entity, and 4 = none when N GP*Nsettle=1\\
-		\hline
-
-		1 & & Number of recruitment settlement assignments. Options: 1 = global, 2 = by area\\
-		\hline
-
-		\multicolumn{2}{l}{COND = 1}&\multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Only read if recruitment distribution method is set to 1 (3.24 and earlier version)}}}\\
+		1 & & Recruitment: 1 = global, 2 = by area\\
+		1 & & Number of recruitment settlement assignments.\\
+		0 & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1)\\
+		\multicolumn{2}{l}{1 1 1}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Recruitment assignment to GP, month, area (for each settlement event).}}}\\
 		\\
-		& 0 & \multicolumn{1}{l}{\multirow{1}{12cm}[0cm]{\parbox{12.5cm}{Year x Area x Settlement Event Interaction Requested}}}\\
-		\hline
+		\hline	
 
-		\multicolumn{2}{l}{1 1 1}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Recruitment assignment to GP, season, area (for each settlement event).}}}\\
+		%\multicolumn{2}{l}{COND = 1}&\multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Only read if recruitment distribution method is set to 1 (3.24 and earlier version)}}}\\
+		%\\
+		%& 0 & \multicolumn{1}{l}{\multirow{1}{12cm}[0cm]{\parbox{12.5cm}{Year x Area x Settlement Event Interaction Requested}}}\\
+		%\hline
+
+		%\multicolumn{2}{l}{1 1 1}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Recruitment assignment to GP, month, area (for each settlement event).}}}\\
+		%\hline
+
+		%\multicolumn{2}{l}{COND:}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{If there are multiple GP, season, and areas, specify the additional lines:}}}\\
+		%\\
+		%& 1 1 1 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP1, season 1, area 1}}\\
+		%& 2 1 2 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP1, season 1, area 2}}\\
+		%& 2 1 1 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP2, season 1, area 1}}\\
+		%& 2 2 2 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP2, season 2, area 2}}\\
+		%\hline
+
+		\pagebreak
+		\multicolumn{2}{l}{COND} & \multicolumn{1}{l}{If N movement definition if areas > 1:}\\
+		
+		%& 0 & \multicolumn{1}{l}{\parbox{12.5cm}{Movement: Only read following movement section if N areas > 1}}\\
+		%\hline
+
+		%multicolumn{2}{l}{COND > 0 } & \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Following lines are %conditional if movement is selected:}}}\\
+
+		%& 4 & \multicolumn{1}{l}{N movement definitions}\\
+
+		& 1.0 & \multirow{1}{12cm}{First age that moves. Real, not integer age at the beginning of season.  This control primarily used to keep new recruits from moving until after their first year.}\\
 		\\
-		\hline
-
-		\multicolumn{2}{l}{COND:}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{If there are multiple GP, season, and areas, specify the additional lines:}}}\\
 		\\
-		& 1 1 1 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP1, season 1, area 1}}\\
-		& 2 1 2 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP1, season 1, area 2}}\\
-		& 2 1 1 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP2, season 1, area 1}}\\
-		& 2 2 2 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP2, season 2, area 2}}\\
-		\hline
-
-		\multicolumn{2}{l}{COND:} & \multicolumn{1}{l}{If N areas > 1:}\\
-		& 0 & \multicolumn{1}{l}{\parbox{12.5cm}{Movement: Only read following movement section if N areas > 1}}\\
-		\hline
-
-		\multicolumn{2}{l}{COND > 0 } & \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Following lines are conditional if movement is selected:}}}\\
-
-		& 4 & \multicolumn{1}{l}{N movement definitions}\\
-
-		& 0.60 & \multirow{1}{12cm}{First age that moves. Real, not integer age at the beginning of season.  This control primarily used to keep new recruits from moving until after their first year.}\\
-		\\
-		\\
-		& 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, GP source area, destination area, min age, max age. The rate of movement will be controlled by the movement parameters later.  Here the minage and maxage controls specify the range over which the movement parameters are active.}}}\\
+		& 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, morph, source area, destination age1, age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 controls specify the range over which the movement parameters are active.}}}\\
 		& 1 1 2 1 4 10 &  \\
 		& 1 2 1 2 4 10 &  \\
 		& 1 2 2 1 4 10 &  \\
@@ -216,7 +219,7 @@ This section controls the biology parameters.  These include:  natural mortality
 	   \\
 	   & 2.0 4.5 9.0 15.0 & Vector of age breakpoints \\
 	   \multicolumn{2}{l}{COND = 2}& \\
-	   & 4 & \multirow{1}{12cm}[-0.1cm]{Lorenzen Natural Mortality: read one additional value that is the reference age (integer) (\hyperlink{Lorenzen}{\textit{click here for more information}}). Later read one parameter for each gender x GP that will be the M at the reference age.  Other ages will have an M scaled to its body size-at-age.  However, if sub-morphs are used, all will have the same M a their growth pattern.  Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated.  So be careful in using Lorenzen when there is time-varying growth.}\\
+	   & 4 & \multirow{1}{12cm}[-0.1cm]{Lorenzen Natural Mortality: read one additional value that is the reference age (integer) (\hyperlink{Lorenzen}{\textit{click here for more information}}). Later read one parameter for each gender x GP that will be the M at the reference age.  Other ages will have an M scaled to its body size-at-age.  However, if platoons are used, all will have the same M a their growth pattern.  Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated.  So be careful in using Lorenzen when there is time-varying growth.}\\
 	   \\
 	   \\
 	   \\
@@ -244,7 +247,7 @@ This section controls the biology parameters.  These include:  natural mortality
 	   1.66 & & Growth Amin (A1): Reference age for first size-at-age parameter (\hyperlink{A1}{\textit{click here for more information}})\\
 	   \hline
 
-	   25 & & Growth Amax (A2): Reference age for second size-at-age parameter.\\
+	   25 & & Growth Amax (A2): Reference age for second size-at-age parameter (999 to use as L infinity).\\
 	   \hline
 
 	   \multicolumn{2}{l}{COND = 3} & Growth option age-specific \textit{k}\\
@@ -290,8 +293,8 @@ This section controls the biology parameters.  These include:  natural mortality
 
 	  0 & & Hermaphroditisim Option:\\
 	   &  & 0 = not used, \\
-	   &  & 1 = invoke female to male transition, \\
-	   &  & -1 = invoke male to female transition \\
+	   &  & 1 = invoke female to male age-specific function, \\
+	   &  & -1 = invoke male to female age-specific function \\
 	  \hline
 
 	  \multicolumn{2}{l}{COND = 1}& Read 2 lines below if hermaphroditism. is selected; also read 3 parameters after reading the male weight-length parameter\\
@@ -319,7 +322,6 @@ This section controls the biology parameters.  These include:  natural mortality
 
 	\end{longtable}
 \end{center}
-
 
 
 \subsubsection{Read Mortality-Growth Parameters}
@@ -493,8 +495,8 @@ If “Growth\textunderscore age\textunderscore for\textunderscore L2” is set e
 	A new growth option, \#3, has been introduced in V3.23.  This option creates age-specific K deviations for each age of a user-specified age range, with independent additive deviations for each age in the range and for each growth pattern / gender.  Each of these deviations is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
 \end{description}
 
-\subsubsection{Growth Patterns (morphs) and Sub-Morphs}
-The user specifies a number of growth patterns (usually just 1), a number of genders (usually 2), and a number of birth seasons.  The collection of Bio\textunderscore pattern x Gender x BirthSeas constitute the “morphs”.  The number of sub-morphs per morph can be 1, 3, or 5.  The fraction of recruits that are female is specified as an input value (not a parameter), and the fraction of recruits assigned to each sub-morph is custom-input or designated to be a normal approximation.  When multiple sub-morphs are designated, an additional input is the ratio of between sub-morph to within sub-morph variability in size-at-age.  This is used to partition the total growth variability.  Growth parameters are read for each growth pattern x gender combination.  For the sub-morphs, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for the growth pattern x gender.
+\subsubsection{Growth Patterns (morphs) and Platoons}
+The user specifies a number of growth patterns (usually just 1), a number of genders (usually 2), and a number of birth seasons.  The collection of Bio\textunderscore pattern x Gender x BirthSeas constitute the “morphs”.  The number of platoons per morph can be 1, 3, or 5.  The fraction of recruits that are female is specified as an input value (not a parameter), and the fraction of recruits assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  Growth parameters are read for each growth pattern x gender combination.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for the growth pattern x gender.
 
 \subsubsection{Recruitment, Age, and Growth}
 Recruitment can occur in any season.  In older versions of SS one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produces one annual total recruitment value and this annual recruitment was distributed among seasons, areas, and growth types according to other model parameters.  SSv3.3 allows for the spawning biomass in a season to produce recruitment that may vary over the year based on the spawning biomass which associated with the area and growth types according to the model parameterization. These distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular season can change from year to year. For the recruitment apportionment, the parameter values are the ln(apportionment weight), so should have values ranging from about –4 to +4.  The product of all apportionment weights is calculated for each pattern x area x season cell that has been designated to receive recruits in the recruitment design matrix.  Then the apportionment weights are scaled to sum to 1.0 (within year, not within season) so that the total annual recruitment is distributed among the cells designated to receive recruitment.
@@ -647,7 +649,7 @@ When time-varying growth is used, there are some additional considerations to be
 		& 0 & 0:  Do not use custom environmental linkage setup, read just one parameter line \\
 		&   & 1:  Use custom environmental linkage, so read one parameter line for each MG parameter that uses linkage\\
 		\\
-		& <short parameter line(s)> & Read 0, 1 or many short parameter lines as necessary\\
+		& <short parameter line(s)> & Read short parameter lines as necessary if applying a environmental link to MG parameters\\
 		\hline
 		\multicolumn{2}{l}{COND:} & If any MG parameters use blocks then read next factor \\
 		& 0 & 0:  Do not use custom block setup, read just one parameter line \\
@@ -710,8 +712,8 @@ The spawner-recruitment section starts by specification of the functional relati
 	      &                     & 8:  Sheperd (3 parameters)\\
 		\hline
 		\\
-		\multicolumn{3}{l}{Read the required number of short parameter set-up lines (ex. LO, HI, INIT, PRIOR, }\\
-		\multicolumn{3}{l}{Prior Type, SD, and PHASE).  These parameters are:}\\
+		\multicolumn{3}{l}{Read the required number of short parameter set-up lines (e.g. LO, HI, INIT, PRIOR, }\\
+		\multicolumn{3}{l}{PRIOR TYPE, SD, and PHASE).  These parameters are:}\\
 		\hline
 		8.5 & log(R0) & Log of virgin recruitment level \\
 		\hline
@@ -727,7 +729,7 @@ The spawner-recruitment section starts by specification of the functional relati
 		\hline
 		8.5 & log(R1) & Offset for initial equilibrium recruitment to virgin recruitment.\\
 		\hline
-		\multicolumn{2}{l}{AutoCorrelation} & Autocorrelation in recruitment \\
+		\multicolumn{2}{l}{0.707} & Autocorrelation in recruitment \\
 		\hline
 		\\
 		\multicolumn{3}{l}{Then read additional spawner-recruitment conditions:}\\
@@ -930,10 +932,10 @@ There are now three methods available for calculation of fishing mortality.  The
 			-1990 & & F ballpark year \\
 			      & & Negative value disable F ballpark \\
 		   \hline
-			-3  & & F Method \\
+			 3  & & F Method \\
 			    & & 1 = Pope's \\
 			    & & 2 = Continuous F as a parameter \\
-			    & & 3 = Hybrid F \\
+			    & & 3 = Hybrid F (recommended)\\
 		   \hline
 		   0.9 & & Maximum F \\
 		       & & This maximum is applied within each season and area.   A value of 0.9 is recommended for F method 1, and a value of about 4 is recommended for F method 2 and 3. \\
@@ -972,12 +974,13 @@ It is possible to use the initial F method to achieve an estimate of the initial
 For each fishery and survey, enter a row with these 4 entries as described below:
 
 \begin{enumerate}
+	\item Fleet Number
 	\item Link type
 	\begin{enumerate}
-		\item 1 = simple Q
+		\item 1 = simple Q, proportional assumption about Q: $y=q*x$.
 		%, establish a parameter to create environmental effect on Q, where the integer is the index of the environmental variable to be linked.  The relationship is:  $ ln(q_y) = ln(q_{base}) + Q_{env\_link\_para}*Env\_Value_y$.
-		\item 2 = mirror simple Q, 1 mirrored parameter.
-		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage.
+		\item 2 = mirror simple Q, 1 mirrored parameter.  %Assumes proportional with offset: $y=q(x-a)$.
+		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage.  Assumes proportional with offset and power function: $y=q(x-a)^c$.
 	\end{enumerate}
 	\item Extra input for link (i.e. mirror fleet)
 	\begin{enumerate}
@@ -995,8 +998,8 @@ For each fishery and survey, enter a row with these 4 entries as described below
 	\end{enumerate}
 	\item Q float
 	\begin{enumerate}
-		\item 0 = 
-		\item 1 = 
+		\item 0 = no float 
+		\item 1 = float
 	\end{enumerate}
 	
 	%\item Q Type
@@ -1010,79 +1013,71 @@ For each fishery and survey, enter a row with these 4 entries as described below
 	%\end{enumerate}
 \end{enumerate}
 
-So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:
 
 \begin{center}
-	\begin{longtable}{p{2.75cm} p{2.75cm} p{2.75cm} p{2cm} p{2cm} p{2cm}}
-
+	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
+		\multicolumn{7}{l}{So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:}\\
 		\hline
-		\endfirsthead
-
-		\hline
-		\endhead
-
-		\endfoot
-		\endlastfoot
-	    \#Link Type & Extra Input & Extra SD & Bias Adjust & Q Float  & Fleet \\
+	    \#Fleet Num. & Link Type & Link Info & Extra SD & Bias Adjust & Float  & Label \\
 	    \hline
-	    1 & 0 & 1 & 0 & 0 & \#Fishery 1 \\
-	    1 & 0 & 1 & 0 & 0 & \#Fishery 2 \\
-	    1 & 0 & 0 & 0 & 0 & \#Survey 1 \\
-	    1 & 0 & 1 & 0 & 0 & \#Survey 2 \\
+	    1 & 1 & 0 & 1 & 0 & 0 & \#Fishery 1 \\
+	    2 & 1 & 0 & 1 & 0 & 0 & \#Fishery 2 \\
+	    3 & 1 & 0 & 0 & 0 & 0 & \#Survey 1 \\
+	    4 & 1 & 0 & 1 & 0 & 0 & \#Survey 2 \\
+	    -9999 & 1 & 0 & 1 & 0 & 0 & \#End Read \\
 	    \hline
 	\end{longtable}
 \end{center}
 
-\noindent Q types
-\begin{itemize}
-	\item <0 = mirror another fleet
-	\item 0 = float no bias adjustment
-	\item 1 = float bias adjustment
-	\item 2 = parameter no bias adjustment
-	\item 3 = parameter with random deviations
-	\item 4 = parameter with random walk
-	\item 5 = mean unbiased float assignment to parameter
-\end{itemize}
+%\noindent Q types
+%\begin{itemize}
+%	\item <0 = mirror another fleet
+%	\item 0 = float no bias adjustment
+%	\item 1 = float bias adjustment
+%	\item 2 = parameter no bias adjustment
+%	\item 3 = parameter with random deviations
+%	\item 4 = parameter with random walk
+%	\item 5 = mean unbiased float assignment to parameter
+%\end{itemize}
 
-\noindent COND: If any fishery or survey uses random devs or random walk, there is an option to either read detailed input to set up the deviation, or to just read a template.
+%\noindent COND: If any fishery or survey uses random devs or random walk, there is an option to either read detailed input to set up the deviation, or to just read a template.
 
-\begin{center}
-	\begin{longtable}{p{2.75cm} p{2.75cm} p{2.75cm} p{2cm} p{2cm} p{2cm}}
-		\endfirsthead
+%\begin{center}
+%	\begin{longtable}{p{2.75cm} p{2.75cm} p{2.75cm} p{2cm} p{2cm} p{2cm}}
+%		\endfirsthead
 
-		\hline
-		\#Value & Label & \multicolumn{4}{l}{Label, Description, and Options} \\
-		\hline
-		\endhead
+%		\hline
+%		\#Value & Label & \multicolumn{4}{l}{Label, Description, and Options} \\
+%		\hline
+%		\endhead
 
-				%\hline
-		\endfoot
-		\endlastfoot
+%		\endfoot
+%		\endlastfoot
 
-		\hline
-		\#Value & Label & \multicolumn{4}{l}{Label, Description, and Options} \\
-		\hline
-		1 & Random effects & \multicolumn{4}{l}{\multirow{2}{10cm}{0:  read one parameter line and use it as a template to create a time series of parameters for each observation for each fleet/survey that uses random effects.  The output to control.ss\_new will be in detailed format even if the input is not detailed.  Therefore a simple way to create a detailed setup file is to start with a simple template then edit the control.ss\_new file to create a detailed input for subsequent model runs;}}\\
-		\\
-		\\
-		\\
-		\\
-		\\
-		\\
-		\\
-		&  & \multicolumn{4}{l}{\multirow{2}{8cm}{1:  read a parameter line for each observation of each fleet/survey that uses random effects, thus allowing customization.  If the Q option for a fleet is 3 (random devs), then read one parameter for each observation.  If the Q option is 4, then read (N observations -1) parameters.}}\\
-		\\
-		\\
-		\\
-		\\
-		\\
-		\\
-		\hline
-	\end{longtable}
-\end{center}
+%		\hline
+%		\#Value & Label & \multicolumn{4}{l}{Label, Description, and Options} \\
+%		\hline
+%		1 & Random effects & \multicolumn{4}{l}{\multirow{2}{10cm}{0:  read one parameter line and use it as a template to create a time series of parameters for each observation for each fleet/survey that uses random effects.  The output to control.ss\_new will be in detailed format even if the input is not detailed.  Therefore a simple way to create a detailed setup file is to start with a simple template then edit the control.ss\_new file to create a detailed input for subsequent model runs;}}\\
+%		\\
+%		\\
+%		\\
+%		\\
+%		\\
+%		\\
+%		\\
+%		&  & \multicolumn{4}{l}{\multirow{2}{8cm}{1:  read a parameter line for each observation of each fleet/survey that uses random effects, thus allowing customization.  If the Q option for a fleet is 3 (random devs), then read one parameter for each observation.  If the Q option is 4, then read (N observations -1) parameters.}}\\
+%		\\
+%		\\
+%		\\
+%		\\
+%		\\
+%		\\
+%		\hline
+%	\end{longtable}
+%\end{center}
 
 
-\noindent For each positive element in columns for the catchability (Q) setup above, read a long parameter setup line.  The order is: fishery 1 through survey N within power transformation, then within environment link, then within extra standard deviation, then within Q.  If no elements are selected, then there must be no parameter setup lines.
+%\noindent For each positive element in columns for the catchability (Q) setup above, read a long parameter setup line.  The order is: fishery 1 through survey N within power transformation, then within environment link, then within extra standard deviation, then within Q.  If no elements are selected, then there must be no parameter setup lines.
 
 \begin{center}
 	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.5cm} p{4.3cm}}
@@ -1143,14 +1138,66 @@ For each fleet and survey, read a definition line for age selectivity.  The 4 va
 		\multicolumn{5}{l}{\#Example Setup for Size Selectivity Types}\\
 		\#Pattern & Discard & Male & Special & Label \\
 		\hline
-		27 & 0 & 0 & 3 & \#Fishery1\\
+		1  & 2 & 0 & 0 & \#Fishery1\\
 		1  & 0 & 0 & 0 & \#Survey1\\
 		0  & 0 & 0 & 0 & \#Survey2\\
 		\multicolumn{5}{l}{\#Age Selectivity Types}\\
 		\hline
-		11 & 0 & 0 & 3 & \#Fishery1\\
+		11  & 0 & 0 & 0 & \#Fishery1\\
 		11  & 0 & 0 & 0 & \#Survey1\\
 		11  & 0 & 0 & 0 & \#Survey2\\
+		\hline
+	\end{longtable}
+\end{center}
+
+\subsubsection{Reading the Selectivity and Retention Parameters}
+Read the required number of parameter setup lines as specified by the definition lines above.  The complete order of the parameter setup lines is:
+\begin{enumerate}
+	\item Size selectivity for fishery 1
+	\item Retention for fishery 1 (if discard specified)
+	\item Discard Mortality for fishery 1 (if discard specified)
+	\item Male offsets for size selectivity for fishery 1 (if offsets used)
+	\item <repeat for additional fleets and surveys>
+	\item Age selectivity for fishery 1
+	\item Male offsets for age selectivity for fishery 1 (if offsets used)
+	\item <repeat for additional fleets and surveys>.
+\end{enumerate}
+
+\begin{center}
+	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.5cm} p{4.3cm}}
+		\endfirsthead
+		
+		\hline
+		\#LO & HI & INIT & PRIOR & PR TYPE & SD & PHASE & LABEL \\
+		\hline
+		\endhead
+		
+		\hline
+		\endfoot
+		\endlastfoot
+		
+		\multicolumn{8}{l}{The list of parameters to be read from the above setup would be:}\\
+		\hline
+		\#LO & HI & INIT & PRIOR & PR TYPE & ... & BLOCK FXN & LABEL \\
+		\hline
+		19    & 80   & 53.5 & 50  & 1 & ...  & 0   & \#SizeSel p1 fishery 1\\
+		0.01  & 60   & 18.9 & 15  & 1 & ...  & 0   & \#SizeSel p2 fishery 1 \\
+		20    & 70   & 38.6 & 40  & 0 & ...  & 0   & \#Retain p1 fishery 1\\
+		0.1   & 10   & 6.5  & 1   & 0 & ...  & 0   & \#Retain p2 fishery 1\\
+		0.001 & 1    & 0.98 & 1   & 0 & ...  & 0   & \#Retain p3 fishery 1\\
+		-10   & 10   & 1    & 0   & 0 & ...  & 0   & \#Retain p4 fishery 1\\
+		0.1   & 1    & 0.6  & 0.6 & 0 & ...  & 0   & \#DiscMort p1 fishery 1\\
+		-2    & 2    & 0    & 0   & 0 & ...  & 0   & \#DiscMort p2 fishery 1\\
+		20    & 70   & 40   & 40  & 0 & ...  & 0   & \#DiscMort p3 fishery 1\\
+		0.1   & 10   & 1    & 1   & 0 & ...  & 0   & \#DiscMort p4 fishery 1\\
+		19    & 80   & 53.5 & 50  & 1 & ...  & 0   & \#SizeSel p1 survey 1\\
+		0.01  & 60   & 18.9 & 15  & 1 & ...  & 0   & \#SizeSel p2 survey 1 \\
+		0     & 40   & 0    & 5   & -1 & ...  & 0   & \#AgeSel p1 fishery 1\\
+		0     & 40   & 40   & 5   & -1 & ...  & 0   & \#AgeSel p2 fishery 1\\
+		0     & 40   & 0    & 5   & -1 & ...  & 0   & \#AgeSel p1 survey 1\\
+		0     & 40   & 40   & 5   & -1 & ...  & 0   & \#AgeSel p2 survey 1\\
+		0     & 40   & 0    & 5   & -1 & ...  & 0   & \#AgeSel p1 survey 2\\
+		0     & 40   & 0    & 5   & -1 & ...  & 0   & \#AgeSele p1 fishery 1\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1555,18 +1602,8 @@ If the size selectivity pattern is 20, 23 or 24 (double normal), then:
 
 Note that the male selectivity offsets currently cannot be time-varying (need to check on this).  Because they are offsets from female selectivity, they inherit the time-varying characteristics of the female selectivity.
 
-\subsubsection{Reading the Selectivity and Retention Parameters}
-Read the required number of parameter setup lines as specified by the definition lines above.  The complete order of the parameter setup lines is:
-\begin{enumerate}
-	\item Size selectivity for fishery 1
-	\item Retention for fishery 1
-	\item Male offsets for size selectivity for fishery 1
-	\item <repeat for additional fleets and surveys>
-	\item Age selectivity for fishery 1
-	\item Male offsets for age selectivity for fishery 1
-	\item <repeat for additional fleets and surveys>.
-\end{enumerate}
 
+\subsubsection{Time-varying Options}
 The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the Time-Varying Parameter Options section.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or dev vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
 
 \begin{center}
@@ -1603,12 +1640,12 @@ The time-varying options for selectivity parameters are identical to the time-va
 			COND &  & & If any selectivity parameters use annual devs, then read  value\\
 			     & -4 & Selparm dev phase & Phase in which selparm devs, if any, are estimated. \\
 			\hline
-			COND &  & & If any selectivity parameters use environmental links, blocks or annual devs, then read value.\\
-			     & 2 & Selparm Adjust Method & 1 = parameter adjustments for env, block and dev are applied directly and resulting value is not compared to base parameter bounds\\
-			     &   & & 2 = parameter adjustments use a logistic transformation to assure that adjusted parameter value stays within bounds of base parameter.\\
+			%COND &  & & If any selectivity parameters use environmental links, blocks or annual devs, then read value.\\
+			%     & 2 & Selparm Adjust Method & 1 = parameter adjustments for env, block and dev are applied directly and resulting value is not compared to base parameter bounds\\
+			%     &   & & 2 = parameter adjustments use a logistic transformation to assure that adjusted parameter value stays within bounds of base parameter.\\
 			     %&  & & 3 = parameter adjustments use an additive random walk.\\
 			     %&  & & 4 = parameter adjustments use a mean reverting random walk.\\
-			\hline
+			%\hline
 	\end{longtable}
 \end{center}
 
@@ -1667,6 +1704,7 @@ When doing iterative reweighting of the input variance factors, it is convenient
 		1 & 2 & 0.5 \\
 		4 & 1 & 0.25 \\
 		4 & 2 & 0.75 \\
+		-9999 & 0 & 0 \\
 		%0 & 0 & 0 & 0 & \#Survey CV\\
 		%0 & 0 & 0 & 0 & \#Discard CV\\
 		%0 & 0 & 0 & 0 & \#Mean BodyWght SD\\
@@ -1815,7 +1853,7 @@ Where:
 	\item 	N Selectivity bins:  enter the number of bins for which selectivity will be output.  This number controls the number of items to be read below, even if the FLEET is set to zero.  In other words, the read occurs even if the effect of the read is disabled.
 	\item GROWTH PATTERN:  growth pattern is the number of the growth pattern to be output.  Enter "0" to get no variance output for size-at-age.   Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then stddev output of mean size-at-age is disabled.
 	\item 	N growth bins:  Number of ages for which size-at-age variance is requested.  This number controls the number of items to be read below, even if the growth pattern selection is set to zero.   In other words, the read occurs even if the effect of the read is disabled.
-	\item 	Area:  specifies the area for which output of numbers at age is requested.  A value of 0 disables this output.  A value of -1 requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and sub-morphs and output for each gender.
+	\item 	Area:  specifies the area for which output of numbers at age is requested.  A value of 0 disables this output.  A value of -1 requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each gender.
 	\item 	Year:  specifies the year for which numbers-at-age are output.  A value of -1 requests output for year equal to endyear+1, hence the year that starts the forecast period.
 	\item N numbers-at-age bins:  as with the N growth bins.
 \end{itemize}

@@ -1,8 +1,8 @@
 \hypertarget{appendB}{}
-\section{Appendix B}
-\subsection{Forecast Module}
+\section{Appendix B: Forecast Module}
 
-\subsubsection{Introduction}
+
+\subsection{Introduction}
 Version 3.20 of Stock Synthesis (SS) introduced substantial upgrades to the benchmark and forecast module.  The general intent was to make the forecast outputs more consistent with the requirement to set catch limits that have a known probability of exceeding the overfishing limit.  In addition, this upgrade addressed several inadequacies with the previous module, including:
 
 \begin{itemize}
@@ -24,7 +24,7 @@ The V3.20 module addressed these issues by:
 	\item Introduce capability to have implementation error in the forecast catch (single value applied to all fleets in all seasons of the year).
 \end{itemize}
 
-\subsubsection{Multiple Pass Forecast}
+\subsection{Multiple Pass Forecast}
 The most complicated aspect of the changes is with regard to the multiple pass aspect of the forecast.  This multiple pass approach is needed to calculate both OFL and ABC in a single model run.  More importantly, the multiple passes are needed in order to mimic the actual sequence of assessment-management action – catch over a multi-year period.  The first pass calculates OFL based on catching OFL each year, so presents the absolute maximum upper limit to catches.  The second pass forecasts a catch based on a harvest policy, then applies catch caps and allocations, then updates the F’s to match these catches.  In the third pass, stochastic recruitment and catch implementation error are implemented and SS calculates the F that would be needed in order to catch the adjusted catch amount previously calculated in the second pass.  With this approach, SS is able to produce improved estimates of the probability that F would exceed the overfishing F.  In effect it is the complement of the P* approach.  Rather than the P* approach that calculates the stream of annual catches that would have an annual probability of F>Flimit, SS calculates the expected time series of P* that would result from a specified harvest policy implemented as a buffer between Ftarget and Flimit.
 
 The sequence of multiple forecast passes is as follows:
@@ -81,7 +81,7 @@ The sequence of multiple forecast passes is as follows:
 	\end{enumerate}
 \end{enumerate}
 
-\subsubsection{Example Effects on Correlations}
+\subsection{Example Effects on Correlations}
 An example that illustrates the above process was conducted.  The situation was a low M, late-maturing species, so changes are not dramatic.  The example conducted a 10 year forecast and examined correlations with derived quantities in the last year of the forecast.  This was done once with the full set of 3 passes as described above, and again with only 2 passes and stochastic recruitment occurring in pass 2, rather than 3.  This alternative setup is more similar to forecasts done using previous model versions.
 
 \begin{center}
@@ -107,7 +107,7 @@ Correlations B1 and B2 are in terms of absolute recruitment, not recruitment dev
 
 Correlation C2 shows a positive correlation between recruitment deviation in 2002 and forecast catch in 2011.  However, correlation C1 is 0.0 because the forecast catch in 2011 is set based on equilibrium recruitment and is not influenced by the recruitment deviations.
 
-\subsubsection{Future Work}
+\subsection{Future Work}
 \begin{itemize}
 	\item More testing with high M, rapid turnover conditions
 	\item Testing without inflection in control rule

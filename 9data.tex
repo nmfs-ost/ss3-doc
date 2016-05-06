@@ -30,7 +30,6 @@ The normal units of measure are as follows:
 	\item Spawning biomass -- metric tons of mature females if eggs/kg = 1 for all weights; otherwise has units that are proportional to egg production	
 \end{itemize}
 
-
 \subsection{Time Units}
 Year
 	\begin{itemize}
@@ -47,6 +46,23 @@ Seasons
 	 	\item Season duration is input in real months and is converted into fractions of an annum.  Annual rate values are multiplied by the per annum season duration.
 	 	\item If the sum of the input season durations is not close to 12.0, then the input durations is divided by 12.  This allows for a special situation in which the year could be only 0.25 in duration (e.g. seasons as years) so that spawning and time-varying parameters can occur more frequently.	 	
 	 \end{itemize}
+\hypertarget{SubSeas}{Timing of events in SS v3.30}
+	\begin{itemize}
+		\item Even number (min = 2) of subseasons per season (regardless of season duration):
+			\begin{itemize}
+				\item 2 subseasons will mimic SS v3.24
+				\item Specifying more sub seasons will give finer temporal resolution, but will slow the model down, the effect of which is mitigated by only calculating growth as needed.
+			\end{itemize}
+		\item Survey timing is now cruise-specific and specified in units of months fraction (e.g. April 15 = 4.5).
+		\item Survey integer season and spawn integer season assigned at runtime based on real month and season duration(s).
+		\item The closest subseason is calculated for each observation.
+		\item Growth and the age-length-key (ALK) is only calculated at beginning and mid-season or when there is an observation in that subseason.
+		\item Fishery body weight and size composition uses mid-subseason growth.
+		\item Survey body weight and size composition is calculated using the nearest subseason.
+		\item Reproductive output now has specified spawn timing (in months fraction) and interpolates growth to that timing.
+		\item Survey numbers calculated at cruise survey timing using $e^{-z}$.
+		\item Continuous Z for entire season.  Same as applied in version 3.24.
+	\end{itemize}
 
 \subsection{Data File Syntax}
 \subsubsection{Model Dimensions}
@@ -72,7 +88,7 @@ Seasons
 			& \\
 			& \\
 			\hline
-			\hypertarget{SubSeas}{2} & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{The number of subseasons.  Entry must be even and the minimum value is 2. This is for the purpose of finer temporal granularity in calculating and using the length-at-age.}}\\
+			2 & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{The number of subseasons.  Entry must be even and the minimum value is 2. This is for the purpose of finer temporal granularity in calculating and using the length-at-age.}}\\
 			& \\
 			& \\
 			& \\
@@ -87,7 +103,7 @@ Seasons
 			\hline
 			1 & Number of areas \\
 			\hline
-			2 & Number of fleets (including surveys)\\
+			2 & Number of fleets (including surveys).\\
 			\hline
 	\end{tabular}
 \end{center}
@@ -116,7 +132,7 @@ Seasons
   \item[Fleet Type] \ 
 	  \begin{itemize}
 	  	\item 1 = fleet with input retained catch
-	  	\item 2 = bycatch fleet
+	  	\item 2 = bycatch fleet (not yet implemented)
 	  	\item 3 = survey
 	  	\item 4 = ignored (not yet implemented)
 	  \end{itemize}
@@ -145,14 +161,14 @@ Seasons
 	  \end{itemize}  
 \end{description}
 
-After reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year, season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   To include an equilibrium catch value the year should be noted as -999 and be included as the first entry for the associated fleet.  \hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g. catch, length- and age-composition data), the control file (e.g. lambdas), and the forecast file (e.g. total catch by fleet, total catch by area, allocation groups, forecasted catch).  Additionally, initial equilibrium catch is now season specific and can be specified using -999 in the year column.
+\subsubsection{Catch}
+\hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year, season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   Only positive catches need to be entered, so there is no need for records for the survey fleets.  To include an equilibrium catch value the year should be noted as -999 and be included as the first entry for the associated fleet.  \hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g. catch, length- and age-composition data), the control file (e.g. lambdas), and the forecast file (e.g. total catch by fleet, total catch by area, allocation groups, forecasted catch).  Additionally, initial equilibrium catch is now season specific and can be specified using -999 in the year column.
 
 In addition, it is possible to collapse the number of seasons.  So if a season value is greater than the N seasons for a particular model, that catch is added to the catch for N seasons.  This is generally to collapse a seasonal model into an annual model.  In a seasonal model, use of season=0 will cause SS to distribute the input value of catch equally among the N seasons.
 
-If a bycatch fleet is included the continuous F method must be selected (F\textunderscore method = 2) and are excluded from the catch log-likelihood.  Bycatch fleets have selectivity and retention functions, so even though they are considered to have unknown catch levels, this does not mena that their calculated retained catch is zero.  MSY and yield per recruit are calculated in terms of dead catch, and they currently include catch from bycatch fleets.  The F for bycatch only fleets is kept constant in benchmark and forecast calculations, so it is not included in any forecast cap and allocation calculations.  It is not part of the acceptable biological catch, but it is still calculated and reported.  
+If a bycatch fleet (not yet implemented) is included the continuous F method must be selected (F\_method = 2) and are excluded from the catch log-likelihood.  Bycatch fleets have selectivity and retention functions, so even though they are considered to have unknown catch levels, this does not mean that their calculated retained catch is zero.  SS v3.30 will later add the option for bycatch fleets to have retained and discarded catch calculated or have all their catch be assigned to discard.  MSY and yield per recruit are calculated in terms of dead catch, and they currently include catch from bycatch fleets.  The F for bycatch only fleets is kept constant in benchmark and forecast calculations, so it is not included in any forecast cap and allocation calculations.  It is not part of the acceptable biological catch, but it is still calculated and reported.  
 
-\subsubsection{Catch}
-\hypertarget{CatchFormat}{The} new format for version 3.30 for a 2 season model with 2 fisheries looks like the table below.  The example is sorted by fleet, but the sort order does not matter.  In data.ss\textunderscore new, the sort order is fleet, year, season.
+The new format for version 3.30 for a 2 season model with 2 fisheries looks like the table below.  The example is sorted by fleet, but the sort order does not matter.  In data.ss\_new, the sort order is fleet, year, season.
 
 \begin{center}
 	\begin{tabular}{p{3cm} p{3cm} p{3cm} p{3cm} p{2cm}}
@@ -180,8 +196,6 @@ If a bycatch fleet is included the continuous F method must be selected (F\textu
 	\item Catch is retained catch. If there is discard also, then it is handled in the discard section below.
 	\item If there is reason to believe that the retained catch values underestimate the true catch, then it is possible in the retention parameter set up to create the ability for the model to estimate the degree of unrecorded catch.  However, this is better handled with the new catch multiplier option.
 \end{itemize}
-
-If a bycatch fleet is used, continuous F (F\textunderscore method 2) must be used and are excluded from the catch log likelihood.  Bycatch fleets have selectivity and retention functions, so even though they are considered to have unknown catch levels, this does not mean that their retained catch is zero.  SS v3.30 will later add the option for bycatch fleets to have retained and discarded catch calculated or have all their catch be assigned to discard.  MSY and yield per recruit are calculated in terms of dead catch, and currently include catch from bycatch fleets. Future bycatch fleet options will address this.
 
 \subsubsection{Abundance Indices}
 For fishing fleets, catch-per-unit-effor (CPUE) is defined in terms of retained catch (biomass or numbers).  For fishery independent surveys, retention/discard is not defined so CPUE is implicitly in terms of total CPUE.  If a survey has its selectivity mirrored to that of a fishery, only the selectivity is mirrored so the expected CPUE for this mirrored survey is in terms of total catch.  Also, fishing effort is related to F, which is the F for total catch.
@@ -235,7 +249,7 @@ If the fishery or survey has time-varying selectivity, then this changing select
 	\item[Error Distribution]\
 		\begin{itemize}
 			\item -1 = normal error
-			\item  0 = lognormal error
+			\item  0 = lognormal error 
 			\item >0 = Student's t-distribution in log space with degrees of freedom equal to this value.  For DF>30, results will be nearly identical to that for lognormal distribution.  A DF value of about 4 gives a fat-tail to the distribution (see Chen (2003)).  The se values entered in the data file must be the standard error in log\textsubscript{e} space.
 		\end{itemize}
 \end{description}
@@ -278,11 +292,11 @@ If discard is being used, the input syntax is:
 			\hline
 			1 & \multicolumn{4}{l}{\#Number of fleets with discard observations}\\
 			\hline
-			\#Fleet & Units & \multicolumn{3}{l}{Error}\\
+			\#Fleet & Units & \multicolumn{3}{l}{Error Distribution}\\
 			\hline
 			1 & 2 & \multicolumn{3}{l}{-1}\\
 			\hline
-			\#Year & Month & Fleet  & Observation & Error \\
+			\#Year & Month & Fleet  & Observation & Standard Error \\
 			\hline
 			1980  & 7 & 1 & 0.05 & 0.25 \\
 			1991  & 7 & 1 & 0.10 & 0.25 \\
@@ -298,7 +312,7 @@ If discard is being used, the input syntax is:
 		\item 2 = values are fraction (in biomass or numbers) of total catch discarded; bio/num selection matches that of retained catch
 		\item 3 = values are in numbers (thousands) of fish discarded, even if retained catch has units of biomass
 	\end{itemize}
-	\item[Discard Error Structure]\hfill\\
+	\item[Discard Error Distribution]\hfill\\
 	The four options for discard error are:
 	\begin{itemize}
 		\item >0 = degrees of freedom for Student's t-distribution used to scale mean body weight deviations.  Value of error in data file in interpreted as CV of the observation.
@@ -332,7 +346,7 @@ This is the overall mean body weight across all selected sizes and ages.  This m
 		30 & \multicolumn{5}{l}{\#Degrees of freedom for Student's t-distribution used to evaluate mean } \\
 		   & \multicolumn{5}{l}{\parbox{13cm }{ body weight deviation.  This is not a conditional input, must be here even if there are no mean body weight observations.}}\\
 		\hline
-		\#Year & Month & Fleet & Partition & Value & CV \\
+		\#Year & Month & Fleet & Partition & Value & Standard Error \\
 		\hline
 		1990  & 7 & 1 & 0 & 4.0 & 0.95 \\
 		1990  & 7 & 1 & 0 & 1.0 & 0.95 \\
@@ -348,9 +362,12 @@ This is the overall mean body weight across all selected sizes and ages.  This m
 		\item 0 = whole catch in units of weight (discard + retained)
 		\item 1 = discarded catch in units of weight
 		\item 2 = retained catch in units of weight
-		\item 10 = whole catch in units of length (discard + retained)
-		\item 11 = discarded catch in units of weight
-		\item 12 retained catch in units of length
+		\item -0 = whole catch in units of length (discard + retained)
+		\item -1 = discarded catch in units of length
+		\item -2 = retained catch in units of length
+		%\item 10 = whole catch in units of length (discard + retained)
+		%\item 11 = discarded catch in units of length
+		%\item 12 = retained catch in units of length
 	\end{itemize}
 	\item[Value - Units]\hfill\\
 	Units must correspond to the units of body weight (or mean length in cm), normally in kilograms.  The expected value of mean body weight (or mean length) is calculated in a way that incorporates effect of selectivity and retention.
@@ -657,7 +674,7 @@ SS also accepts input of mean length-at-age’ or mean bodywt-at-age’.  This i
 \begin{center}
 	\begin{tabular}{p{0.75cm} p{1cm} p{0.75cm} p{1cm} p{0.75cm} p{1cm} p{1cm} p{3.2cm} p{3.2cm} }
 		\hline
-		6 & \multicolumn{8}{l}{\# Number of mean size-at-age observation} \\
+		1 & \multicolumn{8}{l}{\#Use mean size-at-age obsevation (0 = none, 1 = read data matrix)} \\
 		\multicolumn{9}{l}{An example observation:}\\
 		\hline
 		\#Yr & Month & Fleet & Gender & Part & AgeErr & Ignore & Data Vector (Female - Male) & Sample Size (Female - Male) \\
@@ -672,7 +689,7 @@ SS also accepts input of mean length-at-age’ or mean bodywt-at-age’.  This i
 \begin{description}
 	\item[Note:]\
 	\begin{itemize}
-		\item Nsamp value is ignored if positive, but a negative value will cause the entire observation to be ignore.
+		%\item Nsamp value is ignored if positive, but a negative value will cause the entire observation to be ignore.
 		\item Negatively valued mean size entries with be ignored in fitting.
 		\item Nfish value of 0 will cause mean size value to be ignored in fitting.
 		\item Negative value for year causes observation to not be included in the working matrix.
@@ -689,7 +706,7 @@ SS accepts input of time series of environmental data.  Parameters can be made t
 	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{3cm}}
 		\multicolumn{4}{l}{\# Parameter values can be a function of an environmental data series: }\\
 		\hline
-		0 & \multicolumn{3}{l}{\#Number of environmental variables}\\
+		1 & \multicolumn{3}{l}{\#Number of environmental variables}\\
 		\hline
 		\multicolumn{4}{l}{COND > 0  Example of 2 environmental observations:} \\
 		  & \#Year & Variable & Value \\
@@ -727,15 +744,15 @@ A new feature with SS\textunderscore v3 is a generalized approach to size compos
 		0 &  & \#N of weight frequency methods\\
 		\hline
 		\multicolumn{3}{l}{COND > 0 }  \\
-		\multicolumn{2}{r}{25 4} & \#Nbins per method\\
+		\multicolumn{2}{r}{25 15} & \#Nbins per method\\
 		%\hline
-		\multicolumn{2}{r}{2 1} & \#Units per each method (1 = biomass, 2 = numbers)\\
+		\multicolumn{2}{r}{2 3} & \#Units per each method (1 = biomass, 2 = numbers)\\
 		%\hline
-		\multicolumn{2}{r}{3 2} & \#Scale per each method (1 = kg, 2 = lbs, 3 = cm, 4 = inches)\\
+		\multicolumn{2}{r}{3 3} & \#Scale per each method (1 = kg, 2 = lbs, 3 = cm, 4 = inches)\\
 		%\hline
-		\multicolumn{2}{r}{ 0.00001 -1} & \#Min compression to add to each observation (entry for each method)\\
+		\multicolumn{2}{r}{1e-9 1e-9} & \#Min compression to add to each observation (entry for each method)\\
 		%\hline
-		\multicolumn{2}{r}{40 5} & \#N observations per weight frequency method \\
+		\multicolumn{2}{r}{2 2} & \#N observations per weight frequency method \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -745,8 +762,8 @@ A new feature with SS\textunderscore v3 is a generalized approach to size compos
 		\multicolumn{18}{l}{Then enter the lower edge of the bins for each method. The two row vectors shown}\\
 		\multicolumn{18}{l}{below contain the bin definitions for methods 1 and 2 respectively:}\\
 		\hline
-		26 & 28 & 30 & 32 & 34 & 36 & 38 & 40 & 42 & ... & 60 & 62 & 64 & 68 & 72 & 76 & 80 & 90\\
-		1 & 2.4 & 4 & 9 & ... & ... & ... & ... & ... & ... & ... & ... & ... & ... & ... & ... & ... & 1 \\
+		-26 & 28 & 30 & 32 & 34 & 36 & 38 & 40 & 42 & ... & 60 & 62 & 64 & 68 & 72 & 76 & 80 & 90\\
+		-26 & 28 & 30 & 32 & 34 & 36 & 38 & 40 & 42 &  44 & 46 & 48 & 50 & 52 & \multicolumn{4}{l}{54} \\
 		\hline 
 	\end{tabular}
 \end{center}
@@ -776,6 +793,9 @@ An example observation is below.  Note that its format is identical to the lengt
 		\#Method & Year & Month & Fleet & Gender & Part & Sample Size & <composition females then males>\\
 		\hline
 		1 & 1975 & 1 & 1 & 3 & 0 & 43 & <data> \\
+		1 & 1977 & 1 & 1 & 3 & 0 & 43 & <data> \\
+		1 & 1979 & 1 & 1 & 3 & 0 & 43 & <data> \\
+		1 & 1980 & 1 & 1 & 3 & 0 & 43 & <data> \\
 		\hline
 	\end{tabular}
 \end{center}

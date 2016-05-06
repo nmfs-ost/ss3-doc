@@ -1,6 +1,5 @@
-\section{Appendix A }
+\section{Appendix A: Recruitment Variability and Bias Correction }
 
-\subsection{Recruitment Variability and Bias Correction}
 
 Recruitments in SS are defined as lognormal deviates around a log-bias adjusted spawner- recruitment curve.  The magnitude of the log-bias adjustment is calculated from the level of $\sigma_R$ , which is the standard deviation of the recruitment deviations (in log-space).  There are 5 segments of the time series in which to consider the effect of the log-bias adjustment: virgin; initial equilibrium; early data-poor period; data-rich period; very-recent/forecast. The choice of break points between these segments need not correspond directly with the settings for the bias adjustment, although some alignment might be desired. Methot and Taylor (2011) provide more detailed discussion of the bias adjustment than what is provided below but do not address the separation of time periods into separate segments. The approach is illustrated with figures associated with a recent assessment for darkblotched rockfish (Gertseva and Thorson, 2013).
 
@@ -36,7 +35,7 @@ Recruitments in SS are defined as lognormal deviates around a log-bias adjusted 
 \includegraphics{appendixA_depl}\\
 \figurename{ A.5. Comparison of timeseries of spawning depletion for darkblotched rockfish models with early recruitment deviations (starting in 1870) and without early deviations (only main recruitment deviations starting in 1960). The point estimates are similar, but the 95\% uncertainty intervals are substantially different. With no recruitment deviations for the early period, the estimates of spawning depletion in the early years are very precise and uncertainty increases as the stock moves into the data rich period. In contrast, the addition of the early recruitment deviations results in a large uncertainty in spawning depletion for the early years and an increase in precision as the stock moves into the data rich period. In this application, the uncertainty associated with the recent years is independent of the assumptions about early recruitments.}
 
-\subsubsection{Issues with Including Environmental Effects}
+\subsection{Issues with Including Environmental Effects}
 The expected level of recruitment is a function of spawning biomass, an environmental time series, and a log-bias adjustment.
 \begin{equation}
 	E(Recruitment) = f(SpBio) * exp(\beta*envdata) * exp(-0.5*\sigma_R^2)
@@ -47,5 +46,5 @@ The environmental effect is inherently lognormal.  So when an environmental effe
 
 The preferred approach to including environmental effects on recruitment is not to use the environmental effect in the direct calculation of the expected level of recruitment.  Instead, the environmental data would be used as if it was a survey observation of the recruitment deviation.  This approach is similar to using the environmental index as if it was a survey of age 0 recruitment abundance because by focusing on the fit to the deviations it removes the effect of SpBio on recruitment.  In this alternative, the $\sigma_R$ would not be changed by the environmental data; instead the environmental data would be used to explain some of the total variability represented by $\sigma_R$.  This approach may also allow greater uncertainty in forecasts, as the variability in projected recruitments would reflect both the uncertainty in the environmental observations themselves and the model fit to these observations.
 
-\subsubsection{Initial Age Composition}
+\subsection{Initial Age Composition}
 If the first year with recruitment deviations is set less than the start year of the model, then these early deviations will modify the initial age composition.  The amount of information on historical recruitment variability certainly will degrade as the model attempts to estimate deviations for older age groups in the initial equilibrium.  So the degree of bias correction is reduced linearly in proportion to age so that the correction disappears when maximum age is reached.  The initial age composition approach normally produces a result that is indistinguishable from a configuration that starts earlier in the time series and estimates a longer time series of recruitments.  However, because the initial equilibrium is calculated from a recruitment level unaffected by spawner-recruitment steepness and initial age composition adjustments are applied after the initial equilibrium is calculated, it is possible that the initial age composition approach will produce a slightly different result than if the time series was started earlier and the deviations were being applied to the recruitment levels predicted from the spawner-recruitment curve. 
