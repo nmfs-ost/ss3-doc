@@ -5,17 +5,22 @@ The name of the SS executable files often contains the phrase “safe” or “o
 
 On Mac and Linux computers, the executable does not include an extension (like .exe on Windows).
 Running the executable on from the DOS command line in Windows simply require typing the executable name (without the .exe extension):
-
-\begin{verbatim}
+\begin{quote}
+	\begin{verbatim}
 	> ss3
-\end{verbatim}
+	\end{verbatim}
+\end{quote}
+
 
 
 On Mac and Linux computers, the executable name must be preceded by a period and slash (unless it’s location has been added to the user’s PATH):
 
-\begin{verbatim}
+\begin{quote}
+	\begin{verbatim}
 	> ./ss3
-\end{verbatim}
+	\end{verbatim}
+\end{quote}
+
 
 Additional ADMB commands can follow the executable name, such as “ –nohess” to avoid calculating the Hessian matrix. To see a full list of options, add “ -?” after the executable name (with a space in between).
 
@@ -27,86 +32,106 @@ One file management approach is to put SS3.EXE in its own folder (example:  C:\t
 
 A DOS batch file (e.g. SS.bat) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
 
-\begin{verbatim}
-	> c:\SS_model\ss3.exe -cbs 5000000000 -gbs 50000000000 \%1 \%2 \%3 \%4 
-	> del ss3.r0*
-	> del ss3.p0*
-	> del ss3.b0*
-\end{verbatim}
+\begin{quote}
+	\begin{verbatim}
+	c:\SS_model\ss3.exe -cbs 5000000000 -gbs 50000000000 \%1 \%2 \%3 \%4 
+	del ss3.r0*
+	del ss3.p0*
+	del ss3.b0*
+	\end{verbatim}
+\end{quote}
+
 
 In this batch file, the –cbs and –gbs arguments allocate a large amount of memory for SS to use (you may need to edit these for your computer and SS configuration), and the \%1, \%2 etc. allows passing of command line arguments such as –nox or –nohess.  You add more items to the list of \% arguments as needed.
 
 An easy way to start a command line in your current directory (SS\_runs) is to create a shortcut to the DOS command line prompt.  The shortcut’s target would be:
 
-\begin{verbatim}
+\begin{quote}
+	\begin{verbatim}
 	> %SystemRoot%\system32\cmd.exe
-\end{verbatim}
+	\end{verbatim}
+\end{quote}
 
-\noindent And it would start in: 
-\begin{verbatim}
+
+\noindent And it would start in:
+\begin{quote}
+	\begin{verbatim}
 	> %CURRDIR%
-\end{verbatim}
+	\end{verbatim}
+\end{quote} 
+
 
 \subsubsection{Simple Batch}
 This first example relies upon having a set of prototype files that can be renamed to starter.ss and then used to direct the running of SS.  The example also copies one of the output files to save it from being overwritten.  This sequence is repeated 3 times here and can be repeated an unlimited number of times.  The batch file can have any name with the .bat extension, and there is no particular limit to the DOS commands invoked.  Note that brief output from each run will be appended to cumreport.sso (see below).
 
-\begin{verbatim}
-		> del ss3.cor
-		> del ss3.std
-		> copy starter.r01 starter.ss
-		> c:\admodel\ss\ss3.exe -sdonly
-		> copy ss3.std ss-std01.txt
-		> copy starter.r01 starter.ss
-		> c:\admodel\ss\ss3.exe -sdonly
-		> copy ss3.std ss-std02.txt
-\end{verbatim}
+\begin{quote}
+	\begin{verbatim}
+	del ss3.cor
+	del ss3.std
+	copy starter.r01 starter.ss
+	c:\admodel\ss\ss3.exe -sdonly
+	copy ss3.std ss-std01.txt
+	copy starter.r01 starter.ss
+	c:\admodel\ss\ss3.exe -sdonly
+	copy ss3.std ss-std02.txt
+	\end{verbatim}
+\end{quote}
+
 
 \subsubsection{Complicated Batch}
 This second example processes 25 dat files from a different directory, each time using the same ctl and nam file.  The loop index is used in the file names, and the output is searched for particular keywords to accumulate a few key results into the file SUMMARY.TXT.  Comparable batch processing can be accomplished by using R or other script processing programs.
 
-\begin{verbatim}
-		> del summary.txt
-		> del ss3-report.txt
-		> copy /Y runnumber.zero runnumber.ss3
-		> FOR /L \%\%i IN (1,1,25) DO (
-		> copy /Y ..\MakeData\A1-D1-%%i.dat  Asel.dat
-		> del ss3.std
-		> del ss3.cor
-		> del ss3.par
-		> c:\admodel\ss\ss3.exe
-		> copy /Y ss3.par A1-D1-A1-%%i.par
-		> copy /Y ss3.std A1-D1-A1-%%i.std
-		> find "Number" A1-D1-A1-%%i.par >> Summary.txt
-		> find "hessian" ss3.cor >> Summary.txt)
-\end{verbatim}
+\begin{quote}
+	\begin{verbatim}
+	del summary.txt
+	del ss3-report.txt
+	copy /Y runnumber.zero runnumber.ss3
+	FOR /L \%\%i IN (1,1,25) DO (
+	copy /Y ..\MakeData\A1-D1-%%i.dat  Asel.dat
+	del ss3.std
+	del ss3.cor
+	del ss3.par
+	c:\admodel\ss\ss3.exe
+	copy /Y ss3.par A1-D1-A1-%%i.par
+	copy /Y ss3.std A1-D1-A1-%%i.std
+	find "Number" A1-D1-A1-%%i.par >> Summary.txt
+	find "hessian" ss3.cor >> Summary.txt)
+	\end{verbatim}
+\end{quote}
+
 
 
 \subsubsection{Batch Using PROFILEVALUES.SS}
 This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to –9999.  Edit STARTER.SS to refer to this control file and the appropriate data file.
 
-\begin{center}
-	\begin{longtable}{p{13cm}}		
-		Create a PROFILEVALUES.SS file\\
-		2	\# number of parameters using profile feature\\
-		0.16	\# value for first selected parameter when runnumber equals 1\\
-		0.35	\# value for second selected parameter when runnumber equals 1\\
-		0.16	\# value for first selected parameter when runnumber equals 2\\
-		0.40	\# value for second selected parameter when runnumber equals 2\\
-		0.18	\# value for first selected parameter when runnumber equals 3\\
-		0.40	\# value for second selected parameter when runnumber equals 3\\
-		etc.;  make it as long as you like.\\
+%\begin{center}
+	\begin{longtable}{p{0.5cm} p{16cm}}		
+		& Create a PROFILEVALUES.SS file\\
+		& 2	\# number of parameters using profile feature\\
+		& 0.16	\# value for first selected parameter when runnumber equals 1\\
+		& 0.35	\# value for second selected parameter when runnumber equals 1\\
+		& 0.16	\# value for first selected parameter when runnumber equals 2\\
+		& 0.40	\# value for second selected parameter when runnumber equals 2\\
+		& 0.18	\# value for first selected parameter when runnumber equals 3\\
+		& 0.40	\# value for second selected parameter when runnumber equals 3\\
+		& etc.;  make it as long as you like.\\
 	\end{longtable}
-\end{center}
+%\end{center}
 
 Create a batch file that looks something like this.  Or make it more complicated as in the example above.
 
+%\setlength{\leftskip}{3cm}
+\begin{quote}
 \begin{verbatim}
-		> del cumreport.sso
-		> copy /Y runnumber.zero runnumber.ss  % so you will start with runnumber=0 
-		> C:\SS3\ss3.exe 
-		> C:\SS3\ss3.exe 
-		> C:\SS3\ss3.exe 
+	del cumreport.sso
+	copy /Y runnumber.zero runnumber.ss  % so you will start with runnumber=0 
+	C:\SS3\ss3.exe 
+	C:\SS3\ss3.exe 
+	C:\SS3\ss3.exe 
 \end{verbatim}
+\end{quote}
+
+%\setlength{\leftskip}{0pt}
 
 Repeat as many times as you have set up conditions in the PROFILEVALUES.SS file.
 The summary results will all be collected in the cumreport.sso file.  Each step of the profile will have an unique Runnumber and its output will include the values of the natmort and steepness parameters for that run.

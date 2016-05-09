@@ -683,7 +683,7 @@ With version 3.04, SS adds the capability to read empirical body weight at age f
 
 \hypertarget{SRR}{text}
 \subsubsection{Spawner-Recruitment}
-The spawner-recruitment section starts by specification of the functional relationship.  The number of parameters needed by each relationship is stored internally (same approach as is used for the number of parameters for each selectivity relationship).  %In previous version of SS (v3.24 and before) only a short parameter line set-up was required for the spawner-recrutment section. SS v3.30 now requires long parameter lines to set-up the spawner-recruitment section which will allow for blocking around R0.  
+The spawner-recruitment section starts by specification of the functional relationship.  The number of parameters needed by each relationship is stored internally (same approach as is used for the number of parameters for each selectivity relationship).  In previous version of SS (v3.24 and before) only a short parameter line set-up was required for the spawner-recrutment section. SS v3.30 now requires long parameter lines to set-up the spawner-recruitment section which will allow for blocking around R0 and steepness, but deviation effects are now disallowed.  The R1 offset parameter has been replaced to a bas for annual deviation multiplier.  R0 blocks will be additive offset from the previous block (e.g. random walk). 
 
 \begin{center}
 	\begin{longtable}{p{1cm} p{3cm} p{11cm}}
@@ -711,10 +711,30 @@ The spawner-recruitment section starts by specification of the functional relati
 		  &                     & 6:  Beverton-Holt with flat-top beyond Bzero (2 parameters)\\
 		  &                     & 7:  Survivorship function (3 parameters).  Suitable for sharks and low fecundity stocks to assure recruits are <= pop production \\
 	      &                     & 8:  Sheperd (3 parameters)\\
+	\end{longtable}
+\end{center}
+
+\begin{center}
+	\begin{longtable}{p{1cm} p{3cm} p{11cm}}
+		
+		%\hline
+		%Value & Label &  Description\\
+		%\hline
+		%\endfirsthead
+		
+		%\hline
+		%Value & Label &  Description\\
+		%\hline
+		%\endhead
+		
+		%\hline
+		%\endfoot
+		%\endlastfoot
+	      
+		\multicolumn{3}{l}{Read the required number of long parameter set-up lines (e.g. LO, HI, INIT, PRIOR, }\\
+		\multicolumn{3}{l}{PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE).  These parameters are:}\\
 		\hline
-		\\
-		\multicolumn{3}{l}{Read the required number of short parameter set-up lines (e.g. LO, HI, INIT, PRIOR, }\\
-		\multicolumn{3}{l}{PRIOR TYPE, SD, and PHASE).  These parameters are:}\\
+		Value & Label &  Description\\
 		\hline
 		8.5 & log(R0) & Log of virgin recruitment level \\
 		\hline
@@ -732,7 +752,54 @@ The spawner-recruitment section starts by specification of the functional relati
 		\hline
 		\multicolumn{2}{l}{0.707} & Autocorrelation in recruitment \\
 		\hline
+	\end{longtable}
+\end{center}
+
+\begin{center}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{3cm}  p{2.5cm}  p{3cm}  }
+		
+		\multicolumn{7}{l}{Example set-up of the spawner-recruitment section:}\\
+		\hline
+		LO & HI & INIT & PRIOR &  <other entries> & Block Type & Parameter Label \\
+		\hline
+		3    & 31 & 8.81 & 10.3 & ... & 0 & \#SR\_LN(R0) \\
+		0.2  & 1  & 0.61 & 0.70 & ... & 0 & \#SR\_BH\_steep \\
+		0    & 2  & 0.60 & 0.80 & ... & 0 & \#SR\_sigmaR \\
+		-5   & 5  & 0.1  & 0    & ... & 0 & \#SR\_envlink \\
+		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_devmulti\\
+		0    & 0  & 0    & 0    & ... & 0 & \#SR\_autocorr  \\
+		\hline
 		\\
+		%\multicolumn{7}{l}{ }
+	\end{longtable}
+\end{center}
+
+\noindent If any of the advanced options are selected the following short parameter line order is:
+\begin{enumerate}
+	\item Environmental link parameter if requested for SR\_LN(R0)
+	\item Environmental link parameter if requested for steepness
+	\item Environmental link parameter if requested for deviation multiplier
+	\item 0-many block parameters for R0; note that setting a block for just the initial equilibrium year is equivalent to R1\_offset
+	\item 0-many block parameters for steepness
+	\item 0-many block parameters for deviation multiplier
+\end{enumerate}
+
+\begin{center}
+\begin{longtable}{p{1cm} p{3cm} p{11cm}}
+	\multicolumn{3}{l}{Control file continued:}\\
+	\hline
+	\multicolumn{2}{l}{Value \& Label} &  Description\\
+	\hline
+	\endfirsthead
+	
+	\hline
+	\multicolumn{2}{l}{Value \& Label} &  Description\\
+	\hline
+	\endhead
+	
+	%\hline
+	\endfoot
+	\endlastfoot
 		\multicolumn{3}{l}{Then read additional spawner-recruitment conditions:}\\
 		\hline
 		0 & SR\_env\_link & This is the index of the environmental variable that will be used as the basis for adjustment of SR expectations.  This works for both the forecast period and for the initial equilibrium (by entering a value for the environmental variable one year before the start of the time series).\\
