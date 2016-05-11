@@ -52,7 +52,7 @@ A primary role of the SS control file is to define the parameters to be used by 
 		\hline
 		1 & LO & Minimum value for the parameter\\
 		2 & HI & Maximum value for the parameter\\
-		3 & INIT & Initial value for the parameter.  If the SS3 PAR file is read, it overwrites these INIT values.\\
+		3 & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
 		4 & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is -1 or 1.\\
 		5 & PRIOR TYPE  & -1 = none, 0 = normal, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, 5 = gamma\\
 		6 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
@@ -119,7 +119,7 @@ Terminology:
 		1 & & Recruitment distribution method.  Options: 1 = use the 3.24 or earlier setup, 2 = main effects for GP, settle timing, and area, 3 = each settle entity, and 4 = none when N GP*Nsettle*Pop=1\\
 		%\hline
 
-		1 & & Recruitment: 1 = global, 2 = by area\\
+		1 & & Recruitment: 1 = global, 2 = by area (not yet implemented)\\
 		1 & & Number of recruitment settlement assignments.\\
 		0 & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1)\\
 		\multicolumn{2}{l}{1 1 1}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Recruitment assignment to GP, month, area (for each settlement event).}}}\\
@@ -271,8 +271,9 @@ This section controls the biology parameters.  These include:  natural mortality
 	     & & 3 = read age-maturity for each female GP\\
 	     & & 4 = read an empirical age-maturity vector for all ages\\
 	     & & 5 = read empirical age-fecundity and body weight-at-age from separate file, wtatage.ss.  Allows for reading time series of input. See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details. NOTE:  need to read 2 parameters even if option 3, 4, or 5 is selected.\\
-	     & & 6 = read an empirical length-maturity vector by population length bin (available in v3.24q)\\
+	     %& & 6 = read an empirical length-maturity vector by population length bin (available in v3.24q)\\
 	   \hline
+	   \pagebreak
 
 	   \multicolumn{2}{l}{COND = 3 or 4} & Maturity Option\\
 	   & 0 0.05 0.10 ... & Vector of age-specific maturity or fecundity.  One row of length Nages + 1 for each female GP\\
@@ -280,8 +281,14 @@ This section controls the biology parameters.  These include:  natural mortality
 	   & 0 0.05 0.10 ... & Vector of length-specific maturity or fecundity.  One row of length of the population length bins for each female GP\\
 	   \hline
 
-	   1 & & First Mature Age: Overridden if maturity option is 3, 4, or 5, but still must exist here.  Otherwise, all ages below the first mature age will have maturity set to zero.\\
+	   \hypertarget{WAA}{}
+	   0 & & Empirical weight-at-age option \\
+	     & & 0 = option not applied \\
+	     & & 1 = read an empirical length-maturity vector by population length bin in the wtatage.ss file. \hyperlink{WAAinfo}{\textit{Click here for more information.}}\\
 	   \hline
+	   
+	   1 & & First Mature Age: Overridden if maturity option is 3, 4, or 5, but still must exist here.  Otherwise, all ages below the first mature age will have maturity set to zero.\\
+	   \hline	  
 
 	   1 & & Fecundity Option (irrelevant if maturity option is 4 or 5):\\
 	     & & 1 = to  interpret the 2 egg parameters as linear eggs/kg on body weight (current SS default),  so fecundity = $wt * (a+b*wt)$, so value of a=1, b=0 causes eggs to be equivalent to spawning biomass.\\
@@ -677,9 +684,9 @@ SS\_v3 begins to introduce seasonal effects on selected biology parameters.  Cur
 P'=P*exp(seas\_value)
 \end{equation}
 
-\hypertarget{WAA}{}
+\hypertarget{WAAinfo}{}
 \subsubsection{Empirical Weight-at-Age (wtatage.ss)}
-With version 3.04, SS adds the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is done by setting Maturity\_Option = 5.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See section 8.1 for additional information on file formatting for empirical weight-at-age.
+With version 3.04, SS adds the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is top at the top of the control file.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See section 8.1 for additional information on file formatting for empirical weight-at-age.
 
 \hypertarget{SRR}{text}
 \subsubsection{Spawner-Recruitment}
@@ -1083,13 +1090,13 @@ For each fishery and survey, enter a row with these 4 entries as described below
 
 
 \begin{center}
-	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
+	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.5cm} p{2.5cm}}
 		\multicolumn{7}{l}{So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:}\\
 		\hline
 	    \#Fleet Num. & Link Type & Link Info & Extra SD & Bias Adjust & Float  & Label \\
 	    \hline
-	    1 & 1 & 0 & 1 & 0 & 0 & \#Fishery 1 \\
-	    2 & 1 & 0 & 1 & 0 & 0 & \#Fishery 2 \\
+%	    1 & 1 & 0 & 1 & 0 & 0 & \#Fishery 1 \\
+%	    2 & 1 & 0 & 1 & 0 & 0 & \#Fishery 2 \\
 	    3 & 1 & 0 & 0 & 0 & 0 & \#Survey 1 \\
 	    4 & 1 & 0 & 1 & 0 & 0 & \#Survey 2 \\
 	    -9999 & 1 & 0 & 1 & 0 & 0 & \#End Read \\
@@ -1164,18 +1171,19 @@ For each fishery and survey, enter a row with these 4 entries as described below
 		\hline
 		\#LO & HI & INIT & PRIOR & PR TYPE & ... & BLOCK FXN & LABEL \\
 		\hline
-		0  & 3   & 1    & 1    & 0  & ...  & 0   & \#Fishery1 power\\
-		0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Fishery1 extra SD\\
-		0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Fishery2 extra SD\\
-		0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Survey2 extra SD\\
-		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery1 base Q\\
-		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery2 base Q\\
-		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey1 base Q\\
-		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs2\\
-		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs3\\
-		0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs4\\
-		... & ... & ... & ...  & ...& ...  & ... & ... \\
-		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey3 base Q\\
+		%0  & 3   & 1    & 1    & 0  & ...  & 0   & \#Fishery1 power\\
+		%0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Fishery1 extra SD\\
+		%0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Fishery2 extra SD\\
+		%0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Survey2 extra SD\\
+		%-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery1 base Q\\
+		%-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery2 base Q\\
+		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey1 LnQ base\\
+		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey2 LnQ base\\
+		%0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs2\\
+		%0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs3\\
+		%0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs4\\
+		%... & ... & ... & ...  & ...& ...  & ... & ... \\
+		 0  & 0.5 & 0.0 & 0.0 & 1 & ...  & 0   & \#Survey1 Q extra SD\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1396,7 +1404,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	\begin{itemize}
 		\item  p1 – PEAK:  size (age) for peak. Should be an integer and should be at bin boundary and not estimated.  But options 7 and 18 may allow estimation.
 		\item p2 – INIT:  selectivity at lengthbin=1 (minL) or age=0.
-		\item p3 – INIT:  selectivity at lengthbin=1 (minL) or age=0. A logit transform $(1/(1+exp(-x))$ is used so that the transformed value will be between 0 and 1.  So a p1 value of –1.1 will be transformed to 0.25 and used to set the selectivity equal to 0.5 at a size (age) equal to 0.25 of the way between minL and PEAK.  (see SS3-selex.xls).
+		\item p3 – INIT:  selectivity at lengthbin=1 (minL) or age=0. A logit transform $(1/(1+exp(-x))$ is used so that the transformed value will be between 0 and 1.  So a p1 value of –1.1 will be transformed to 0.25 and used to set the selectivity equal to 0.5 at a size (age) equal to 0.25 of the way between minL and PEAK. 
 		\item p4 – SLOPE1:  log(slope) of left side (ascending) selectivity.
 		\item p5 – FINAL:  logit transform for selectivity at maxL (or maxage).
 		\item p6 – INFL2:  logit transform for size(age) at right side selectivity equal to half way between PEAK+PEAKWIDTH and maxL (or max age).
@@ -1752,6 +1760,7 @@ The tagging reporting rate parameter is transformed within SS during estimation 
 	\text{Tagging Reporting Rate} = \frac{e^{\text{input parameter}}}{1+e^{\text{input parameter}}}
 \end{equation}
 
+\hypertarget{GcompVar}{}
 \subsubsection{Variance Adjustment Factors}
 When doing iterative reweighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
 \begin{center}
@@ -1797,7 +1806,7 @@ When doing iterative reweighting of the input variance factors, it is convenient
 	Age composition is treated the same way as length composition.
 	\item[Size-at-Age - Factor 6]\hfill\\
 	Size-at-age input variance is the sample size for the N observations at each age.  The variance adjustment is multiplied by these N values. Set to 1.0 for no effect.
-	\item[Generalized Size Comp - Factor 7]\hfill\\
+	\item[Generalized Size Composition - Factor 7]\hfill\\
 	Generalized size composition input variance is the sample size for each observation.  The variance adjustment for each fleet is multiplied by these sample sizes. Set to 1.0 for no effect.
 	\item[Usage Notes]\hfill
 	\begin{itemize}
@@ -1841,75 +1850,83 @@ The reading of the lambda values has been substantially altered with SS v3.  Ins
 	\end{longtable}
 \end{center}
 
+
 \begin{center}
-	\begin{longtable}{p{16cm}}
-		The codes for component are:\\
-		1 = survey;\\
-		2 = discard;\\
-		3 = mean weight;\\
-		4 = length;\\
-		5 = age; \\
-		6 = size frequency;\\
-		7 = size-at-age; \\
-		8 = catch; \\
-		9 = initial equilibrium catch;\\
-	    10 = recruitment deviations; \\
-		11 = parameter priors; \\
-		12 = parameter deviations;\\
-		13 = crash penalty; \\
-		14 = morph composition;v
-		15 = tag composition;\\
-		16 = tag negbin.\\
+	\begin{longtable}{p{1cm} p{6cm} p{1cm} p{6cm} }
+		\multicolumn{4}{l}{The codes for component are:}\\
+		\hline
+		1 & survey & 10 & recruitment deviations \\	
+		2 & discard & 11 & parameter priors\\		
+		3 &  mean weight & 12 & parameter deviations\\	
+		4 & length & 13 & crash penalty\\		
+		5 & age & 14 & morph composition\\
+		6 & size frequency & 15 & tag composition\\		
+		7 & size-at-age & 16 & tag negative binomial\\
+		8 & catch & 17 & F ballpark\\		
+		9 & initial equilibrium catch & & \\
+		\hline
 	\end{longtable}
 \end{center}
 
-\begin{center}
-	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{6cm}}
-		\hline
-		\endfirsthead
 
-		\hline
-		\endhead
-		\hline
+%\begin{center}
+%	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{6cm}}
+		%\hline
+%		\endfirsthead
 
-		\endfoot
-		\endlastfoot
-
-		\multicolumn{5}{l}{On output to control.ss\_new, the full table is written:}\\
-		\multicolumn{5}{l}{\#Lambdas (for information only; columns are phases)}\\
-		\hline
-		\# 0 & 0 & 0 & 0 & \#CPUE/survey: 1\\
-		\# 1 & 1.5 & 1.5 & 1.5 & \#CPUE/survey: 2\\
-		\# 1 & 1 & 1 & 1 & \#CPUE/survey: 3\\
-		\# 1 & 1 & 1 & 1 & \#lencomp: 1\\
-		\# 1 & 10 & 2 & 2 & \#lencomp: 2\\
-		\# 0 & 0 & 0 & 0 & \#lencomp: 3\\
-		\# 1 & 1 & 1 & 1 & \#agecomp: 1\\
-		\# 1 & 1 & 1 & 1 & \#agecomp: 2\\
-		\# 0 & 0 & 0 & 0 & \#agecomp: 3\\
-		\# 1 & 1 & 1 & 1 & \#size-at-at-age: 1\\
-		\# 1 & 1 & 1 & 1 & \#size-at-at-age: 2\\
-		\# 0 & 0 & 0 & 0 & \#size-at-at-age: 3\\
-		\# 1 & 1 & 1 & 1 & \#init\_equil\_catch \\
-		\# 1 & 1 & 1 & 1 & \#recruitments \\
-		\# 1 & 1 & 1 & 1 & \#parameter priors\\
-		\# 1 & 1 & 1 & 1 & \#parameter dev vectors\\
-		\# 1 & 1 & 1 & 1 & \#crash penalty lambda\\
-		\hline
-	\end{longtable}
-\end{center}
+%		\hline
+%		\endhead
+%		\hline
+%
+%		\endfoot
+%		\endlastfoot
+%
+%		\multicolumn{5}{l}{On output to control.ss\_new, the full table is written:}\\
+%		\multicolumn{5}{l}{\#Lambdas (for information only; columns are phases)}\\
+%		\hline
+%		\# 0 & 0 & 0 & 0 & \#CPUE/survey: 1\\
+%		\# 1 & 1.5 & 1.5 & 1.5 & \#CPUE/survey: 2\\
+%		\# 1 & 1 & 1 & 1 & \#CPUE/survey: 3\\
+%		\# 1 & 1 & 1 & 1 & \#lencomp: 1\\
+%		\# 1 & 10 & 2 & 2 & \#lencomp: 2\\
+%		\# 0 & 0 & 0 & 0 & \#lencomp: 3\\
+%		\# 1 & 1 & 1 & 1 & \#agecomp: 1\\
+%		\# 1 & 1 & 1 & 1 & \#agecomp: 2\\
+%		\# 0 & 0 & 0 & 0 & \#agecomp: 3\\
+%		\# 1 & 1 & 1 & 1 & \#size-at-at-age: 1\\
+%		\# 1 & 1 & 1 & 1 & \#size-at-at-age: 2\\
+%		\# 0 & 0 & 0 & 0 & \#size-at-at-age: 3\\
+%		\# 1 & 1 & 1 & 1 & \#init\_equil\_catch \\
+%		\# 1 & 1 & 1 & 1 & \#recruitments \\
+%		\# 1 & 1 & 1 & 1 & \#parameter priors\\
+%		\# 1 & 1 & 1 & 1 & \#parameter dev vectors\\
+%		\hline
+%	\end{longtable}
+%\end{center}
 
 \subsubsection{Controls for Variance of Derived Quantities}
-Add option to get variance estimates for one selectivity pattern and for size-at-age.  At the end of the control file, just before the "999", add:
+Additional standard deviation reported may be selected.
 \begin{center}
 	\begin{longtable}{p{1cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.5cm} p{1.8cm}}
 		\hline
 		1 & \multicolumn{8}{l}{0 = no additional std dev reporting, 1 = read values}\\
 		\multicolumn{2}{l}{COND > 0} & \multicolumn{7}{l}{If the above value is "0", then do not include any more entries.}\\
-		  & & \multicolumn{7}{l}{If the above value is "1", then read 9 more integers:}\\
-		\#Fleet & Len/Age & Year & Nselex Bins & Growth Pattern & Ngrowth Areas & Area for Natage & Year for Natage & N ages to report\\
+		  & & \multicolumn{7}{l}{If the above value is "1", then read the 4 following lines:}\\
+		Selex Type & Len/Age & Year & Nselex Bins & Growth Pattern & Ngrowth ages & Area for Natage & NatAge year  & N ages to report\\
 		\hline
-		1 & 1 & -1 & 7 & 1 & 5 & -1 & -1 & 5\\
+		1 & 1 & -1 & 5 & 1 & 5 & 1 & -1 & 5\\ 
+		\hline
+		\multicolumn{9}{l}{\#Vector with selex std bin picks (-1 in first bin to self-generate).} \\
+		5 & 15 & 25 & 35 & 43 & & & & \\
+		\hline
+		\multicolumn{9}{l}{\#Vector with growth std bin picks (-1 in first bin to self-generate).} \\	
+		1 & 2 & 14 & 26 & 40 & & & & \\	
+		\hline
+		\multicolumn{9}{l}{\#Vector with NatAge std bin picks (-1 in first bin to self-generate).} \\	
+		1 & 2 & 14 & 26 & 40 & & & & \\			
+		%\#Fleet & Len/Age & Year & Nselex Bins & Growth Pattern & Ngrowth Areas & Area for Natage & Year for Natage & N ages to report\\
+		%\hline
+		%1 & 1 & -1 & 7 & 1 & 5 & -1 & -1 & 5\\
 		\hline
 	\end{longtable}
 \end{center}

@@ -37,9 +37,9 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  control\textunderscore file.ctl & control\textunderscore file.ctl & File name of the control file\\
    
  \hline		
- 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Don't use this if there have been any changes to the control file that would alter the number or order of parameters stored in the SS3.par file.  Values in SS3.par can be edited, carefully.}}\\
+ 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Don't use this if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file.  Values in ss.par can be edited, carefully.}}\\
  & 0 = use values in control file; &  \\
- & 1 = use ss3.par after reading setup in the control file & \\
+ & 1 = use ss.par after reading setup in the control file & \\
 		
  \hline
  1 & Run display detail: &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{With option 2, the display shows value of each logL component for each iteration and it displays where crash penalties are created}} \\
@@ -214,15 +214,16 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
   
  %\pagebreak
  \hline
- \hypertarget{Convert}{3.3} & 3.3: Indicates that the control and data files are currently in SS3.30 format. 
-	 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{The transition executable for SSv3.30 will create converted files in the new format from previous version when 999 is given.  All ss\_new files are in the 3.30 format, so starter.ss\_new has 3.30 on the last line.  Some Mgparms are in new sequence, so 3.30 cannot read a ss3.par file produced by version 3.24 and earlier. }}\\
+ \hypertarget{Convert}{3.3} & 3.3: Indicates that the control and data files are currently in SS v3.30 format. 
+	 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{The transition executable for SS v3.30 will create converted files in the new format from previous version when 999 is given.  All ss\_new files are in the 3.30 format, so starter.ss\_new has 3.30 on the last line.  Some Mgparms are in new sequence, so 3.30 cannot read a ss.par file produced by version 3.24 and earlier. }}\\
      & \multirow{1}{1cm}[-0.1cm]{\parbox{7cm}{999: Indicates that the control and data file are in a previous SS 3.24 version.  The transition executable for 3.3 should be used which will convert the files to the new format in the control.ss\_new and data.ss\_new files.}}  & \\  
      & & \\  
 	 & & \\
      & & \\
    	 & & \\
      & & \\
-    
+ 
+ \hypertarget{ALK}{0} & Age-length-key (ALK) tolerance level, value 0 or greater & Value of 0 will not apply any compression.  Values > 0 (e.g. 0.0001) will apply compression to the ALK which will increase the speed of calculations.  
     	
 \end{longtable}
 \end{landscape}
