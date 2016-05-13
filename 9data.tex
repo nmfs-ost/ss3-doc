@@ -589,13 +589,13 @@ The above table shows the values for the first 3 ages for each of two age transi
 		\item Syntax for Sex, Partition, and data vector are same as for length.
 		\item Ageerr identifies which ageing error matrix to use to generate expected value for this observation.
 		\item The data vector has female values then male values, just as for the length composition data.
-		\item As with the length comp data, a negative value for year causes the observation to not be read into the working matrix, a negative value for fleetcauses the observation to be included in expected values calculation, but not in contribution to total logL.
+		\item As with the length comp data, a negative value for year causes the observation to not be read into the working matrix, a negative value for fleet causes the observation to be included in expected values calculation, but not in contribution to total logL.
 		\item Lbin lo, and Lbin hi are the range of length bins that this age composition observation refers to.  Normally these are entered with a value of 1 and Maxbin.  Whether these are entered as population bin number, length data bin number, or actual length is controlled by the value of the length bin range method above.
 		\begin{itemize}
 			\item Entering value of 0 or –1 for Lbin lo converts Lbin lo to 1;
 			\item Entering value of 0 or -1 for Lbin hi converts Lbin hi to Maxbin;
 			\item It is strongly advised to use the “-1” codes to select the full size range.  If you use explicit values, then the model could unintentionally exclude information from some size range if the population bin structure is changed.
-			\item In reporting to the comp\textunderscore report.sso, the reported Lbin\textunderscore lo and Lbin\textunderscore hi values are always converted to actual length.
+			\item In reporting to the comp\_report.sso, the reported Lbin\_lo and Lbin\_hi values are always converted to actual length.
 		\end{itemize}			  
 	\end{itemize}
 \end{description}
@@ -705,13 +705,14 @@ SS also accepts input of mean length-at-age’ or mean bodywt-at-age’.  This i
 SS accepts input of time series of environmental data.  Parameters can be made to be time-varying by making them a function of one of these environmental time series.
 
 \begin{center}
-	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{3cm}}
+	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{8cm}}
 		\multicolumn{4}{l}{\# Parameter values can be a function of an environmental data series: }\\
 		\hline
 		1 & \multicolumn{3}{l}{\#Number of environmental variables}\\
 		\hline
 		\multicolumn{4}{l}{COND > 0  Example of 2 environmental observations:} \\
 		  & \#Year & Variable & Value \\
+		\hline
 		  & 1990 & 1 & 0.10 \\
 		  & 1991 & 1 & 0.15 \\
 		  & -9999 & 0 & 0 \\
@@ -743,7 +744,7 @@ A new feature with SS\textunderscore v3 is a generalized approach to size compos
 	\begin{tabular}{p{1.4cm} p{0.5cm} p{13 cm}}
 		\multicolumn{3}{l}{Example entry:}\\
 		\hline
-		0 &  & \#N of weight frequency methods\\
+		0 &  & \#N of size frequency methods\\
 		\hline
 		\multicolumn{3}{l}{COND > 0 }  \\
 		\multicolumn{2}{r}{25 15} & \#Nbins per method\\
@@ -790,7 +791,7 @@ A new feature with SS\textunderscore v3 is a generalized approach to size compos
 An example observation is below.  Note that its format is identical to the length composition data, including sex and partition options, except for the addition of the first column to indicate the size frequency method.
 
 \begin{center}
-	\begin{tabular}{p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{5cm}}
+	\begin{tabular}{p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{6cm}}
 		\hline
 		\#Method & Year & Month & Fleet & Sex & Part & Sample Size & <composition females then males>\\
 		\hline
@@ -806,7 +807,7 @@ An example observation is below.  Note that its format is identical to the lengt
 The ability to analyze tag-recapture data has been introduced with SS\textunderscore v3.  Each released tag group is characterized by an area, time, sex and age at release.  Each recapture event is characterized by a time and fleet.  Because SS fleet’s each operate in only one area, it is not necessary to record the area of recapture.  Inside the model, the tag cohort is apportioned across all growth patterns in that area at that time (with options to apportion to only one sex or to both).  The tag cohort x growth pattern then behaves according to the movement and mortality of that growth pattern.  The number of tagged fish is modeled as a negligible fraction of the total population.  This means that a tagging event does not move fish from an untagged group to a tagged group.  Instead it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality.  The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice.  By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are considered to be released at the beginning of a season (period).
 
 \begin{center}
-	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm}}
+	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3cm}}
 		\multicolumn{9}{l}{Example set-up for tagging data:}\\
 		\hline
 		1 & & \multicolumn{7}{l}{\#Do tags - if this value is 0, then omit all entries below}\\
@@ -856,7 +857,7 @@ The ability to analyze tag-recapture data has been introduced with SS\textunders
 It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks.  These data could come from genetics, otolith microchemistry, tags or other means.  The growth pattern feature in SS allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas.  SS now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns.  In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
 
 \begin{center}
-	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm}}
+	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3.5cm}}
 		\multicolumn{9}{l}{Stock composition data can be entered in SS as follows:}\\
 		\hline
 		1 &  \multicolumn{8}{l}{\#Do morphcomp (if zero, then do not enter any further input below)}\\
@@ -887,12 +888,15 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 	\end{itemize}
 \end{description}
 
-\begin{tabular}{p{2cm} p{13cm}}
-	\multicolumn{2}{l}{End of Data File}\\
-	\hline
-	999 & \#End of data file marker\\
-	\hline
-\end{tabular}
+\begin{center}
+	\begin{tabular}{p{2cm} p{14cm}}
+		\multicolumn{2}{l}{End of Data File}\\
+		\hline
+		999 & \#End of data file marker\\
+		\hline
+	\end{tabular}
+\end{center}
+
 
 \subsubsection{Excluding Data}
 Data that are before the model start year or greater than the retrospective year are not moved into the internal working arrays at all.  So if you have any alternative observations that are used in some model runs and not in others, you can simply give them a negative year value rather than having to comment them out and revise the observation read counter. The first output to data.ss\textunderscore new has the unaltered and complete input data.  Subsequent reports to data.ss\textunderscore new produce expected values or bootstraps only for the data that are being used.  Note that the number of observed values are adjusted accordingly.
@@ -908,7 +912,7 @@ An expected value for the observation will be computed for each selected time pe
 Not all time steps within the extent of a super-period need be included.  For example, in a 3 season model a super-period could be set up to combine information from season 2 across 3 years, e.g. skip over the season 1 and season 2 for the purposes of calculating the expected value for the super-period.  The key is to create a dummy observation (negative fleet value) for all time steps, except 1, that will be included in the super-period and to include one real observation (positive fleet value; which contains the real combined data from all the specified time steps).
 
 \begin{center}
-	\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{8cm}}
+	\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{9cm}}
 		\multicolumn{6}{l}{Example:}\\
 		\hline
 		\#Year & Month & Fleet & Obs & SE & Comment \\
