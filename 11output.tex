@@ -241,7 +241,7 @@ The reference point output is shown int he table below:
 
 
 \begin{landscape}
-	The forecast is done once using the Target SPR and once using the adjustments specified in the 40:10 section of forecast.ss input.  Each section contains a time series of seasonal biomass and catch, followed by a time series of population numbers-at-age for each morph.
+	The forecast is done once using the Target SPR and once using the adjustments specified in the 40:10 section of forecast.ss input.  Each section contains a time series of seasonal biomass and catch, followed by a time series of population numbers-at-age for each platoon.
 	
 	\begin{center}
 		\includegraphics{Forecast}
@@ -265,7 +265,7 @@ where:
 	\item ABC is equal to the Total-Catch when the 40:10 option is not used (upper portion of table).  When the 40:10 is on (lower table), the ABC is the catch level corresponding to no 40:10 adjustment after accounting for catch in previous year’s from the 40:10.
 \end{itemize}
 
-The time series output described above is detailed by season, area, morph and fishery.  It is usually more convenient to have annual values summed across areas, morphs and fisheries.  This is done for the 40:10 output and a subset of these values are replicated in the depletion vector in the sd\_report so that variance estimates can be obtained.  The elements of the depletion vector in the sd\_report are:
+The time series output described above is detailed by season, area, platoon and fishery.  It is usually more convenient to have annual values summed across areas, platoons and fisheries.  This is done for the 40:10 output and a subset of these values are replicated in the depletion vector in the sd\_report so that variance estimates can be obtained.  The elements of the depletion vector in the sd\_report are:
 \begin{itemize}
 	\item depletion level in end year
 	\item depletion level in end year+1
@@ -348,9 +348,9 @@ ADMB NOTE:  while vectors of null length are very useful for controlling optiona
 	\begin{itemize}
 		\item This block shows the distribution of recruitment across growth patterns, genders, birthseasons, and areas in the endyr of the model.
 	\end{itemize}
-	\item Morph Indexing
+	\item Platoon Indexing
 	\begin{itemize}
-		\item This block shows the internal index values for various quantities.  It can be a useful reference for complex model setups.  The vocabulary is:  Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; Gender is the next main index.  If recruitment occurs in multiple seasons, then Birthseas is the index for that factor.  The index labeled “Morph” is used as a continuous index across all the other factor-specific indices.  If sub-morphs are used, they are nested within the Bio\_Pattern x Gender x Birthseas morphs.  However, some of the output tables use the column label “morph” as a continuous index across morphs and sub-morphs.  Note that there is no index here for area.  Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
+		\item This block shows the internal index values for various quantities.  It can be a useful reference for complex model setups.  The vocabulary is:  Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index.  If recruitment occurs in multiple seasons, then Birthseas is the index for that factor.  The index labeled “Platoon” is used as a continuous index across all the other factor-specific indices.  If sub-platoons are used, they are nested within the Bio\_Pattern x Sex x Birthseas platoon.  However, some of the output tables use the column label “platoon” as a continuous index across platoons and sub-platoons.  Note that there is no index here for area.  Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
 	\end{itemize}
 	\item Size Freq Translation
 	\begin{itemize}
@@ -430,11 +430,11 @@ ADMB NOTE:  while vectors of null length are very useful for controlling optiona
 	\end{itemize}
 	\item Mean Body Wt (begin)
 	\begin{itemize}
-		\item This section reports the time series of mean body weight for each morph.  Values shown are for the beginning of each season of each year.
+		\item This section reports the time series of mean body weight for each platoon.  Values shown are for the beginning of each season of each year.
 	\end{itemize}
 	\item Mean Size Timeseries
 	\begin{itemize}
-		\item This section shows the time series of mean length-at-age for each morph.  At the bottom is the average mean size as the weighted average across all morphs for each gender.
+		\item This section shows the time series of mean length-at-age for each platoon.  At the bottom is the average mean size as the weighted average across all platoons for each gender.
 	\end{itemize}
 	\item Age Length Key
 	\begin{itemize}
@@ -450,7 +450,7 @@ ADMB NOTE:  while vectors of null length are very useful for controlling optiona
 	\end{itemize}
 	\item Spawning Biomass Report 2, etc.
 	\begin{itemize}
-		\item The section shows annual total spawning biomass, then numbers-at-age at the beginning of each year for each Bio\_Pattern and Gender as summed over sub-morphs and areas.  Then Z-at-age is reported simply as $ln(N_{t+1,a+1} N_{t,a})$.  Then the Report\_1 section loops back through the time series with all F values set to zero so that a dynamic Bzero, N-at-age, and M-at-age can be reported.  The difference between Report\_1 and Report\_2 can be used to create an aggregate F-at-age.
+		\item The section shows annual total spawning biomass, then numbers-at-age at the beginning of each year for each Bio\_Pattern and Sex as summed over sub-platoons and areas.  Then Z-at-age is reported simply as $ln(N_{t+1,a+1} N_{t,a})$.  Then the Report\_1 section loops back through the time series with all F values set to zero so that a dynamic Bzero, N-at-age, and M-at-age can be reported.  The difference between Report\_1 and Report\_2 can be used to create an aggregate F-at-age.
 	\end{itemize}
 	\item Composition Database
 	\begin{itemize}

@@ -2,15 +2,14 @@
 \subsection{Overview of Control File}
 These listed model features are denoted in the control file in the following order:
 	\begin{enumerate}
-		\itemsep0em
 		\item Number of growth patterns and platoons
 		\item Design matrix for assignment of recruitment to area/season/growth pattern
 		\item Design matrix for movement between areas
 		\item Definition of time blocks that can be used for time-varying parameters
 		\\
 		\item Specification for growth and fecundity
-		\item Natural mortality and growth parameters for each gender x growth pattern
-		\item Maturity, fecundity and weight-length for each gender
+		\item Natural mortality and growth parameters for each sex x growth pattern
+		\item Maturity, fecundity and weight-length for each sex
 		\item Recruitment distribution parameters for each area, season, growth pattern
 		\item Cohort growth deviation
 		\item Catch Multiplier
@@ -211,7 +210,7 @@ This section controls the biology parameters.  These include:  natural mortality
 
 	   \multicolumn{2}{l}{COND = 0} & No additional natural mortality controls \\
 	   \multicolumn{2}{l}{COND = 1} & \\
-	   & 4 & \multirow{1}{12cm}[-0.1cm]{Number of breakpoints.  A value of 2 would correspond to the M pattern as defined in SS V2.  Then read a vector of ages for these breakpoints (e.g. corresponding to natM\textunderscore amin and natM\textunderscore amax in SS V2). Later, per gender x GP, read N parameters for the natural mortality at each breakpoint.}
+	   & 4 & \multirow{1}{12cm}[-0.1cm]{Number of breakpoints.  A value of 2 would correspond to the M pattern as defined in SS V2.  Then read a vector of ages for these breakpoints (e.g. corresponding to natM\textunderscore amin and natM\textunderscore amax in SS V2). Later, per sex x GP, read N parameters for the natural mortality at each breakpoint.}
 	   \\
 	   \\
 	   \\
@@ -219,7 +218,7 @@ This section controls the biology parameters.  These include:  natural mortality
 	   \\
 	   & 2.0 4.5 9.0 15.0 & Vector of age breakpoints \\
 	   \multicolumn{2}{l}{COND = 2}& \\
-	   & 4 & \multirow{1}{12cm}[-0.1cm]{Lorenzen Natural Mortality: read one additional value that is the reference age (integer) (\hyperlink{Lorenzen}{\textit{click here for more information}}). Later read one parameter for each gender x GP that will be the M at the reference age.  Other ages will have an M scaled to its body size-at-age.  However, if platoons are used, all will have the same M a their growth pattern.  Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated.  So be careful in using Lorenzen when there is time-varying growth.}\\
+	   & 4 & \multirow{1}{12cm}[-0.1cm]{Lorenzen Natural Mortality: read one additional value that is the reference age (integer) (\hyperlink{Lorenzen}{\textit{click here for more information}}). Later read one parameter for each sex x GP that will be the M at the reference age.  Other ages will have an M scaled to its body size-at-age.  However, if platoons are used, all will have the same M a their growth pattern.  Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated.  So be careful in using Lorenzen when there is time-varying growth.}\\
 	   \\
 	   \\
 	   \\
@@ -317,8 +316,8 @@ This section controls the biology parameters.  These include:  natural mortality
 
 	  2 & & Parameter Offset Method \\
 	    & & 1 = direct assignment \\
-	    & & 2 = for each GP x gender, parameter defines offset from gender 1, offsets are in exponential terms, so for example: $M_{oldmale} = M_{oldfemale}*exp(M_{oldmale})$. \\
-	    & & 3 = for each GP x gender, parameter defines offset from GP 1 gender 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{oldfemale} = M_{youngfemale}*exp(M_{oldfemale}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{oldmale} = M_{youngfemale}*exp(M_{youngmale})*exp(M_{oldmale})$)\\
+	    & & 2 = for each GP x sex, parameter defines offset from sex 1, offsets are in exponential terms, so for example: $M_{oldmale} = M_{oldfemale}*exp(M_{oldmale})$. \\
+	    & & 3 = for each GP x sex, parameter defines offset from GP 1 sex 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{oldfemale} = M_{youngfemale}*exp(M_{oldfemale}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{oldmale} = M_{youngfemale}*exp(M_{youngmale})*exp(M_{oldmale})$)\\
 	 \hline
 
 	 1 & & Time-varying adjustment constraint:\\
@@ -499,11 +498,11 @@ If “Growth\textunderscore age\textunderscore for\textunderscore L2” is set e
 	\item[Schnute growth function]\hfil\\
 	The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow type field.  Then a fourth parameter is read after reading the von Bertalanffy K parameter.  When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
 	\item[Age-specific K]\hfil\\
-	A new growth option, \#3, has been introduced in V3.23.  This option creates age-specific K deviations for each age of a user-specified age range, with independent additive deviations for each age in the range and for each growth pattern / gender.  Each of these deviations is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
+	A new growth option, \#3, has been introduced in V3.23.  This option creates age-specific K deviations for each age of a user-specified age range, with independent additive deviations for each age in the range and for each growth pattern / sex.  Each of these deviations is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
 \end{description}
 
 \subsubsection{Growth Patterns (morphs) and Platoons}
-The user specifies a number of growth patterns (usually just 1), a number of genders (usually 2), and a number of birth seasons.  The collection of Bio\textunderscore pattern x Gender x BirthSeas constitute the “morphs”.  The number of platoons per morph can be 1, 3, or 5.  The fraction of recruits that are female is specified as an input value (not a parameter), and the fraction of recruits assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  Growth parameters are read for each growth pattern x gender combination.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for the growth pattern x gender.
+The user specifies a number of growth patterns (usually just 1), a number of sexes (usually 2), and a number of birth seasons.  The collection of Bio\textunderscore pattern x Sex x BirthSeas constitute the “morphs”.  The number of platoons per morph can be 1, 3, or 5.  The fraction of recruits that are female is specified as an input value (not a parameter), and the fraction of recruits assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  Growth parameters are read for each growth pattern x sex combination.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for the growth pattern x sex.
 
 \subsubsection{Recruitment, Age, and Growth}
 Recruitment can occur in any season.  In older versions of SS one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produces one annual total recruitment value and this annual recruitment was distributed among seasons, areas, and growth types according to other model parameters.  SSv3.3 allows for the spawning biomass in a season to produce recruitment that may vary over the year based on the spawning biomass which associated with the area and growth types according to the model parameterization. These distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular season can change from year to year. For the recruitment apportionment, the parameter values are the ln(apportionment weight), so should have values ranging from about –4 to +4.  The product of all apportionment weights is calculated for each pattern x area x season cell that has been designated to receive recruits in the recruitment design matrix.  Then the apportionment weights are scaled to sum to 1.0 (within year, not within season) so that the total annual recruitment is distributed among the cells designated to receive recruitment.
@@ -526,7 +525,7 @@ An added feature is the reading of migr\textunderscore firstage immediately afte
 
 A new feature added in v3.3 allows for a multi-season setup to have a growth pattern (GP) to have some fish recruit in different “birthseasons”.  The movement parameters are now specific to GP x birthseason x actual season.
 
-Future Need:  augment the capability further to allow sex-specific movement, and also to allow some sort of mirroring so that genders and growth patterns can share the same movement parameters if desired.
+Future Need:  augment the capability further to allow sex-specific movement, and also to allow some sort of mirroring so that sexes and growth patterns can share the same movement parameters if desired.
 
 The model will allow movement only between source-destination pairs that have an explicit movement definition.  For fish that stay in an area, there are two options:
 \begin{enumerate}
@@ -1376,11 +1375,11 @@ The currently defined selectivity patterns, and corresponding required number of
 \subsubsection{Selectivity Pattern Details}
 \begin{description}
 	\item[Pattern \#1 (size) and \#12 (age) - Simple Logistic]\hfill\\
-	Within SS logistic selectivity for the primary gender (if selectivity varies by gender) is formulated as:
+	Within SS logistic selectivity for the primary sex (if selectivity varies by sex) is formulated as:
 	\begin{equation}
 	S_l = \frac{1.0}{1+exp(-ln(19)(L_l - p1)/p2)}
 	\end{equation}
-	where $L_l$ is the length bin.  If age based selectivity is selected then the length bin is replaced by the age vector. If gender specific selectivity is specified the non-primary gender the p1 and p2 parameters are estimated as offsets.  Note that with a large p2 parameter, selectivity may not reach 1.0 at the largest size bin. The parameters are:
+	where $L_l$ is the length bin.  If age based selectivity is selected then the length bin is replaced by the age vector. If sex specific selectivity is specified the non-primary sex the p1 and p2 parameters are estimated as offsets.  Note that with a large p2 parameter, selectivity may not reach 1.0 at the largest size bin. The parameters are:
 		\begin{itemize}
 			\item p1 - size/age at inflection
 			\item p2 - width for 95\% selection; a negative width causes a descending curve.
@@ -1573,7 +1572,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	
 	With either the auto-generate option \#1 or \#2, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix dimensioned as N parameters x 14 columns.  The read values of min, max, init, prior, prior type, prior stddev, and phase will be overwritten.
 	
-	Cumulative size and age distribution is calculated for each fleet, summing across all samples and both genders.  These distributions are output in echoinput.sso and in a new OVERALL\_COMPS section of report.sso.
+	Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes.  These distributions are output in echoinput.sso and in a new OVERALL\_COMPS section of report.sso.
 	
 	When the nodes are auto-generated, the first node is placed at the size corresponding to the 2.5\% percentile of the cumulative size distribution, the last is placed at the 97.5\% percentile of the size distribution, and the remainder are placed at equally spaced percentiles along the cumulative size distribution.  These calculated node values are output into control.ss\_new.  So, the user could extract these nodes from control.ss\_new, edit them to desired values, then, insert them into the input control file.  Remember to turn off auto-generation in the revised control file.
 	
@@ -1644,23 +1643,23 @@ Discard mortality is calculated as:
 \end{equation}
 
 \subsubsection{Male Selectivity}
-There are two approaches to specifying gender specific selectivity.  One approach allows male selectivity to be specified as a fraction of female selectivity (or vice versa).  This first approach can be used for any selectivity pattern.  The other option allows for separate selectivity parameters for each gender plus an additional parameter to define the scaling of one gender’s peak selectivity relative to the other gender’s peak.  This second approach has only been implemented for a few selectivity patterns.\\
+There are two approaches to specifying sex specific selectivity.  One approach allows male selectivity to be specified as a fraction of female selectivity (or vice versa).  This first approach can be used for any selectivity pattern.  The other option allows for separate selectivity parameters for each sex plus an additional parameter to define the scaling of one sex’s peak selectivity relative to the other sex’s peak.  This second approach has only been implemented for a few selectivity patterns.\\
 \\
 Approach \#1:\\
-If the “domale” flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity.  The two genders switch roles if the “domale” flag is set to 2.  Generally it is best to select the option so that the dependent gender has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0.  Gender specific selectivity is done the same way for all size and age selectivity options.
+If the “domale” flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity.  The two sexes switch roles if the “domale” flag is set to 2.  Generally it is best to select the option so that the dependent sex has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0.  Sex specific selectivity is done the same way for all size and age selectivity options.
 \begin{itemize}
 	\item P1 – size (age) at which a dogleg occurs (set to an integer at a bin boundary and do not estimate)
-	\item P2 – log(relative selectivity) at minL or age=0.  Typically this will be set to a value of 0.0 (for no offset) and not estimated.  It would be a rare circumstance in which the youngest/smallest fish had gender-specific selectivity.
+	\item P2 – log(relative selectivity) at minL or age=0.  Typically this will be set to a value of 0.0 (for no offset) and not estimated.  It would be a rare circumstance in which the youngest/smallest fish had sex-specific selectivity.
 	\item P3 – log(relative selectivity) at the dogleg
 	\item P4 – log(relative selectivity) at maxL or max age.
 \end{itemize}
 
 For intermediate ages, the log values are linearly interpolated on size (age).
 
-If selectivity for the dependent gender is greater than the selectivity for the first gender (which always peaks at 1.0), then the male-female selectivity matrix is rescaled to have a maximum of 1.0.\\
+If selectivity for the dependent sex is greater than the selectivity for the first sex (which always peaks at 1.0), then the male-female selectivity matrix is rescaled to have a maximum of 1.0.\\
 \\
 Approach \#2:\\
-A new gender selectivity option (3 or 4) has been implemented for size selectivity patterns 1 (logistic) and 23 and 24 (double normal) or age selectivity pattern 20 (double normal age).  Rather than calculate male selectivity as an offset from female selectivity, here the male selectivity is calculated by making the male parameters an offset from the female parameters (option 3), or females are offset from males with option 4.  The description below applies to option 3. If the size selectivity pattern is 1 (logistic), then read 3 parameters:
+A new sex selectivity option (3 or 4) has been implemented for size selectivity patterns 1 (logistic) and 23 and 24 (double normal) or age selectivity pattern 20 (double normal age).  Rather than calculate male selectivity as an offset from female selectivity, here the male selectivity is calculated by making the male parameters an offset from the female parameters (option 3), or females are offset from males with option 4.  The description below applies to option 3. If the size selectivity pattern is 1 (logistic), then read 3 parameters:
 \begin{itemize}
 	\item male parm 1 is added to the first selectivity parm (inflection)
 	\item male parm 2 is added to the second selectivity parm (width of curve)
@@ -1939,7 +1938,7 @@ Where:
 	\item 	N Selectivity bins:  enter the number of bins for which selectivity will be output.  This number controls the number of items to be read below, even if the FLEET is set to zero.  In other words, the read occurs even if the effect of the read is disabled.
 	\item GROWTH PATTERN:  growth pattern is the number of the growth pattern to be output.  Enter "0" to get no variance output for size-at-age.   Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then stddev output of mean size-at-age is disabled.
 	\item 	N growth bins:  Number of ages for which size-at-age variance is requested.  This number controls the number of items to be read below, even if the growth pattern selection is set to zero.   In other words, the read occurs even if the effect of the read is disabled.
-	\item 	Area:  specifies the area for which output of numbers at age is requested.  A value of 0 disables this output.  A value of -1 requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each gender.
+	\item 	Area:  specifies the area for which output of numbers at age is requested.  A value of 0 disables this output.  A value of -1 requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each sex.
 	\item 	Year:  specifies the year for which numbers-at-age are output.  A value of -1 requests output for year equal to endyear+1, hence the year that starts the forecast period.
 	\item N numbers-at-age bins:  as with the N growth bins.
 \end{itemize}
