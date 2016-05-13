@@ -97,7 +97,7 @@ Seasons
 			& \\
 			& \\
 			\hline
-			2 & Number of genders \\
+			2 & Number of sexes (1/2) \\
 			\hline
 			20 & Number of ages. The value here will be the plus-group age.  SS start age 0. \\
 			\hline
@@ -215,7 +215,7 @@ If the fishery or survey has time-varying selectivity, then this changing select
 		2 & 1 & \multicolumn{3}{l}{0}\\
 		... & ... & \multicolumn{3}{l}{...}\\
 		\hline
-		\#Year & Month & Fleet/Survey & Observation & SE of log(value) \\
+		\#Year & Month & Fleet/Survey & Observation & SE \\
 		\hline
 		1991 & 7   & 3   & 80000 & 0.056 \\
 		1995 & 7.2 & 3   & 65000 & 0.056 \\
@@ -275,7 +275,7 @@ If the data exist as a set of normalized Z-scores, you can either:  assert a log
 If discard is not a feature of the model specification, then just a single input is needed:
 
 \begin{center}
-\begin{tabular}{p{2cm} p{10cm}}
+\begin{tabular}{p{2cm} p{13cm}}
 	\#Input & Description\\
 	\hline
 	0 & \#Number of fleets with discard observations\\
@@ -287,7 +287,7 @@ If discard is not a feature of the model specification, then just a single input
 \noindent	
 If discard is being used, the input syntax is:
 	\begin{center}
-		\begin{tabular}{p{3cm} p{3cm} p{3cm} p{3cm} p{3cm}}
+		\begin{tabular}{p{2cm} p{3cm} p{3cm} p{3cm} p{3cm}}
 			\#Input & \multicolumn{4}{l}{Description}\\
 			\hline
 			1 & \multicolumn{4}{l}{\#Number of fleets with discard observations}\\
@@ -350,7 +350,7 @@ This is the overall mean body weight across all selected sizes and ages.  This m
 		\hline
 		1990  & 7 & 1 & 0 & 4.0 & 0.95 \\
 		1990  & 7 & 1 & 0 & 1.0 & 0.95 \\
-		-9999 & 1 & 1 & 0 & 0   & 0 \\
+		-9999 & 0 & 0 & 0 & 0   & 0 \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -396,9 +396,11 @@ The beginning of the length composition section sets up the bin structure for bo
 		COND = 3 & \multicolumn{2}{l}{Selects option 3 - read 1 value and then read vector of bin boundaries} \\
 		\multirow{2}{2cm}[-0.1cm]{} & 25 & Number of population length bins to be read\\ 
 									& 26 28 30 ... & Vector containing lower edge of each population size bin \\
-		\hline
-		\multicolumn{3}{l}{End of conditional inputs for length bin method.}\\
-		\hline										  
+		%\hline
+		%\multicolumn{3}{l}{End of conditional inputs for length bin method.}\\
+		\hline	
+		1 & \multicolumn{2}{l}{Use length composition data (0/1)}\\
+		\hline									  
 	\end{tabular}
 	
 \end{center}
@@ -417,7 +419,7 @@ The beginning of the length composition section sets up the bin structure for bo
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
 		\multicolumn{7}{l}{Specify bin compression and error structure for length composition data:}\\
 		\hline
-		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & \hypertarget{Dirichlet}{Error Distribution} & Dirichlet Parameter Number & \\
+		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & \hypertarget{Dirichlet}{Error Distribution} & Dirichlet Parameter Number & Label\\
 		\hline
 		0 & 0.0001 & 0 & 0 & 0 & 0 & \#Fleet 1\\
 		0 & 0.0001 & 0 & 0 & 0 & 0 & \#Fleet 2\\
@@ -431,7 +433,7 @@ The beginning of the length composition section sets up the bin structure for bo
 	\item[Added Constant]\hfill\\
 	Constant added to observed and expected proportions at length and age to make logL calculations more robust.  Tail compression occurs before adding this constant.  Proportions are renormalized to sum to 1.0 after constant is added.
 	\item[Combine Males \& Females]\hfill\\
-	Combine males into females at or below this bin number.  This is useful if the gender determination of very small fish is doubtful so allows the small fish to be treated as combined gender.  If CombGender>0, then add males into females for bins 1 thru this number, zero out the males, set male data to start at the first bin above this bin.  Note that CombGender is entered as a bin index, not as the size associated with that bin.  Comparable option is available for age composition data.
+	Combine males into females at or below this bin number.  This is useful if the sex determination of very small fish is doubtful so allows the small fish to be treated as combined sex.  If CombM+F>0, then add males into females for bins 1 thru this number, zero out the males, set male data to start at the first bin above this bin.  Note that CombM+F is entered as a bin index, not as the size associated with that bin.  Comparable option is available for age composition data.
 	\item[Error Distribution]\
 	\begin{itemize}
 		\item 0 = Multinomial Error
@@ -463,7 +465,7 @@ The beginning of the length composition section sets up the bin structure for bo
 		\\
 		\multicolumn{7}{l}{Example of a single length composition observation:} \\
 		\hline
-		\#Year & Month & Fleet & Gender & Partition & Nsamp & data vector\\
+		\#Year & Month & Fleet & Sex & Partition & Nsamp & data vector\\
 		\hline
 		1986 & 1 & 1 & 3 & 0 & 20 & <female then male data> \\
 		... & ...& ... & ... & ...& ... & ... \\
@@ -473,13 +475,13 @@ The beginning of the length composition section sets up the bin structure for bo
 \end{center}
 
 \begin{description}
-	\item[Gender]\hfill\\
-	If model has only one gender defined in the set-up, all observations must have gender set equal to 0 or 1.  In a 2 gender model, the data vector always has female data followed by male data, even if only one of the two genders has data that will be used.
+	\item[Sex]\hfill\\
+	If model has only one sex defined in the set-up, all observations must have sex set equal to 0 or 1.  In a 2 sex model, the data vector always has female data followed by male data, even if only one of the two sexes has data that will be used.
 	\begin{itemize}
-		\item Gender = 0 means combined male and female (must already be combined and information placed in the female portion of the data vector) (entries in male portion of vector must exist and will be ignored).
-		\item Gender = 1 means female only (male entries must exist for correct data reading, then will be ignored).
-		\item Gender = 2 means male only (female entries must exist and will be ignored after being read).
-		\item Gender = 3 means data from both genders will be used and they are scaled so that they together sum to 1.0.
+		\item Sex = 0 means combined male and female (must already be combined and information placed in the female portion of the data vector) (entries in male portion of vector must exist and will be ignored).
+		\item Sex = 1 means female only (male entries must exist for correct data reading, then will be ignored).
+		\item Sex = 2 means male only (female entries must exist and will be ignored after being read).
+		\item Sex = 3 means data from both sexes will be used and they are scaled so that they together sum to 1.0.
 	\end{itemize}
 	\item[Partition]\hfill\\
 	Partition indicates samples from either discards,retained, or combined.
@@ -553,7 +555,7 @@ The above table shows the values for the first 3 ages for each of two age transi
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
 		\multicolumn{6}{l}{Specify bin compression and error structure for age composition data:}\\
 		\hline
-		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & Error Distribution & Dirichlet Parameter Number & \\
+		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & Error Distribution & Dirichlet Parameter Number & Label\\
 		\hline
 		0 & 0.0001 & 1 & 0 & 0 & 0 & \#Fleet 1\\
 		0 & 0.0001 & 1 & 0 & 0 & 0 & \#Fleet 2\\
@@ -573,7 +575,7 @@ The above table shows the values for the first 3 ages for each of two age transi
 	\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1.5cm} p{1.5cm} p{1cm} p{2.5cm}}
 		\multicolumn{10}{l}{An example age composition observation:}\\
 		\hline
-		\#Year & Month & Fleet & Gender & Partition & AgeErr & Lbin lo & Lbin hi & Nsamp & Data Vector \\
+		\#Year & Month & Fleet & Sex & Partition & AgeErr & Lbin lo & Lbin hi & Nsamp & Data Vector \\
 		\hline
 		1987 & 1 & 1 & 3 & 0 & 2 & -1 & -1 & 79 & <enter data values>\\
 		-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
@@ -584,7 +586,7 @@ The above table shows the values for the first 3 ages for each of two age transi
 \begin{description}
 	\item[Note:]\
 	\begin{itemize}		
-		\item Syntax for Gender, Partition, and data vector are same as for length.
+		\item Syntax for Sex, Partition, and data vector are same as for length.
 		\item Ageerr identifies which ageing error matrix to use to generate expected value for this observation.
 		\item The data vector has female values then male values, just as for the length composition data.
 		\item As with the length comp data, a negative value for year causes the observation to not be read into the working matrix, a negative value for fleetcauses the observation to be included in expected values calculation, but not in contribution to total logL.
@@ -601,7 +603,7 @@ The above table shows the values for the first 3 ages for each of two age transi
 \subsubsection{Conditional Age'-at-Length}
 Use of conditional age’-at-length will greatly increase the total number of age’ composition observations and associated model run time, but it is a superior approach for several reasons.  First, it avoids double use of fish for both age’ and size information because the age’ information is considered conditional on the length information.  Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age.  Lastly, where age data are collected in a length-stratified program, the conditional age’-at-length approach can directly match the protocols of the sampling program.
 
-In a two gender model, it is best to enter these conditional age’-at-length data as single gender observations (gender =1 for females and = 2 for males), rather than as joint gender observations (gender = 3).  In this way, it isolates the age composition data from any gender selectivity as well.
+In a two sex model, it is best to enter these conditional age’-at-length data as single sex observations (sex =1 for females and = 2 for males), rather than as joint sex observations (sex = 3).  In this way, it isolates the age composition data from any sex selectivity as well.
 
 When Lbin\textunderscore lo and Lbin\textunderscore hi are used to select a subset of the total size range, the expected value for these age’ data is calculated within that specified size range, so is age’ conditional on length.
 
@@ -677,7 +679,7 @@ SS also accepts input of mean length-at-age’ or mean bodywt-at-age’.  This i
 		1 & \multicolumn{8}{l}{\#Use mean size-at-age obsevation (0 = none, 1 = read data matrix)} \\
 		\multicolumn{9}{l}{An example observation:}\\
 		\hline
-		\#Yr & Month & Fleet & Gender & Part & AgeErr & Ignore & Data Vector (Female - Male) & Sample Size (Female - Male) \\
+		\#Yr & Month & Fleet & Sex & Part & AgeErr & Ignore & Data Vector (Female - Male) & Sample Size (Female - Male) \\
 		\hline
 		1989  & 7 & 1 & 3 & 0 & 1 & 2 & <Mean Size values> & <Sample Sizes> \\
 		...   &   &   &   &   &   &   &  & \\
@@ -693,7 +695,7 @@ SS also accepts input of mean length-at-age’ or mean bodywt-at-age’.  This i
 		\item Negatively valued mean size entries with be ignored in fitting.
 		\item Nfish value of 0 will cause mean size value to be ignored in fitting.
 		\item Negative value for year causes observation to not be included in the working matrix.
-		\item Each genders' data vector and N fish vector has length equal to the number of age' bins.
+		\item Each sexes' data vector and N fish vector has length equal to the number of age' bins.
 		\item Where age data are being entered as conditional age’-at-length and growth parameters are being estimated, it may be useful to include a mean length-at-age vector with nil emphasis to provide another view on the model’s estimates.
 		
 	\end{itemize}
@@ -733,7 +735,7 @@ A new feature with SS\textunderscore v3 is a generalized approach to size compos
 	\item Each method has a specified number of bins.
 	\item Each method has "units" so the frequencies can be in units of biomass or numbers.
 	\item Each method has “scale” so the bins can be in terms of weight or length (including ability to convert bin definitions in pounds or inches to kg or cm). 
-	\item The composition data is input as females then males, just like all other composition data in SS.  So, in a two-gender model, the new composition data can be combined gender, single gender, or both gender.
+	\item The composition data is input as females then males, just like all other composition data in SS.  So, in a two-sex model, the new composition data can be combined sex, single sex, or both sex.
 	\item If a retention function has been defined, then the new composition data can be from the combined discard + retained, discard only or retained only.
 \end{itemize}
 
@@ -781,16 +783,16 @@ A new feature with SS\textunderscore v3 is a generalized approach to size compos
 		\item By choosing units=2 and scale=3, the size comp method can be nearly identical to the length comp method if the bins are set identically;
 		\item Bin boundaries can be real numbers so obviously do not have to align with population length bin boundaries, SS interpolates as necessary;
 		\item Size bins cannot be defined to be narrower than the population binwidth; an untrapped error will occur;
-		\item Because the transition matrix can depend upon weight-at-length, it is calculated internally for each gender and for each season because weight-at-length can differ between genders and can vary seasonally.
+		\item Because the transition matrix can depend upon weight-at-length, it is calculated internally for each sex and for each season because weight-at-length can differ between sexes and can vary seasonally.
 	\end{itemize}
 \end{description}
 
-An example observation is below.  Note that its format is identical to the length composition data, including gender and partition options, except for the addition of the first column to indicate the size frequency method.
+An example observation is below.  Note that its format is identical to the length composition data, including sex and partition options, except for the addition of the first column to indicate the size frequency method.
 
 \begin{center}
 	\begin{tabular}{p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{5cm}}
 		\hline
-		\#Method & Year & Month & Fleet & Gender & Part & Sample Size & <composition females then males>\\
+		\#Method & Year & Month & Fleet & Sex & Part & Sample Size & <composition females then males>\\
 		\hline
 		1 & 1975 & 1 & 1 & 3 & 0 & 43 & <data> \\
 		1 & 1977 & 1 & 1 & 3 & 0 & 43 & <data> \\
@@ -801,7 +803,7 @@ An example observation is below.  Note that its format is identical to the lengt
 \end{center}
 
 \subsubsection{Tag-Recapture Data}
-The ability to analyze tag-recapture data has been introduced with SS\textunderscore v3.  Each released tag group is characterized by an area, time, gender and age at release.  Each recapture event is characterized by a time and fleet.  Because SS fleet’s each operate in only one area, it is not necessary to record the area of recapture.  Inside the model, the tag cohort is apportioned across all growth patterns in that area at that time (with options to apportion to only one gender or to both).  The tag cohort x growth pattern then behaves according to the movement and mortality of that growth pattern.  The number of tagged fish is modeled as a negligible fraction of the total population.  This means that a tagging event does not move fish from an untagged group to a tagged group.  Instead it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality.  The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice.  By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are considered to be released at the beginning of a season (period).
+The ability to analyze tag-recapture data has been introduced with SS\textunderscore v3.  Each released tag group is characterized by an area, time, sex and age at release.  Each recapture event is characterized by a time and fleet.  Because SS fleet’s each operate in only one area, it is not necessary to record the area of recapture.  Inside the model, the tag cohort is apportioned across all growth patterns in that area at that time (with options to apportion to only one sex or to both).  The tag cohort x growth pattern then behaves according to the movement and mortality of that growth pattern.  The number of tagged fish is modeled as a negligible fraction of the total population.  This means that a tagging event does not move fish from an untagged group to a tagged group.  Instead it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality.  The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice.  By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are considered to be released at the beginning of a season (period).
 
 \begin{center}
 	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm}}
@@ -822,7 +824,7 @@ The ability to analyze tag-recapture data has been introduced with SS\textunders
 		 &    & \multicolumn{7}{l}{ accumulator}\\
 		 \hline
 		 & \multicolumn{8}{l}{\#Release Data} \\
-		 & \#TG & Area & Year & Month & <tfill> & Gender & Age & N Release\\ 
+		 & \#TG & Area & Year & Month & <tfill> & Sex & Age & N Release\\ 
 		 \hline
 		 & 1 & 1 & 1980 & 1 & 999 & 0 & 24 & 2000 \\
 		 & 2 & 1 & 1995 & 1 & 999 & 1 & 24 & 1000 \\
@@ -879,7 +881,7 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 	\item[Note:]\
 	\begin{itemize}
 		\item The N stocks entered with these data must match the N growth patterns in the control file.
-		\item The expected value is combined across genders.
+		\item The expected value is combined across sexes.
 		\item The “partition” flag is included here in the data, but cannot be used because the expected value is calculated before the catch is partitioned into discard and retained components.
 		\item Note that there is a specific value of mincomp to add to all values of observed and expected.
 	\end{itemize}
