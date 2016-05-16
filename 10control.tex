@@ -1050,7 +1050,7 @@ For each fishery and survey, enter a row with these 4 entries as described below
 
 \begin{enumerate}
 	\item Fleet Number
-	\item Link type
+	\item Link type: An assumed functional form between Q, the expected value, and the survey observation.
 	\begin{enumerate}
 		\item 1 = simple Q, proportional assumption about Q: $y=q*x$.
 		%, establish a parameter to create environmental effect on Q, where the integer is the index of the environmental variable to be linked.  The relationship is:  $ ln(q_y) = ln(q_{base}) + Q_{env\_link\_para}*Env\_Value_y$.
@@ -1074,7 +1074,7 @@ For each fishery and survey, enter a row with these 4 entries as described below
 	\item Q float
 	\begin{enumerate}
 		\item 0 = no float 
-		\item 1 = float
+		\item 1 = float  %Makes Q as a mean unbiased float assignment.
 	\end{enumerate}
 	
 	%\item Q Type
@@ -1103,6 +1103,8 @@ For each fishery and survey, enter a row with these 4 entries as described below
 	    \hline
 	\end{longtable}
 \end{center}
+
+%Note: The deviation standard deviation line (in the 13 long parameter line section) does not do anything and is considered an used option.  The env-var column will replace this functionality
 
 %\noindent Q types
 %\begin{itemize}
@@ -1217,7 +1219,9 @@ For each fleet and survey, read a definition line for age selectivity.  The 4 va
 		1  & 2 & 0 & 0 & \#Fishery1\\
 		1  & 0 & 0 & 0 & \#Survey1\\
 		0  & 0 & 0 & 0 & \#Survey2\\
+		\hline
 		\multicolumn{5}{l}{\#Age Selectivity Types}\\
+		\#Pattern & Discard & Male & Special & Label \\
 		\hline
 		11  & 0 & 0 & 0 & \#Fishery1\\
 		11  & 0 & 0 & 0 & \#Survey1\\
@@ -1797,19 +1801,19 @@ When doing iterative reweighting of the input variance factors, it is convenient
 \end{center}
 
 \begin{description}
-	\item[Survey CV - Factor 1]\hfil\\
+	\item[Additive Survey CV - Factor 1]\hfil\\
 	The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey).  The variance adjustment is added directly to this standard deviation.  Set to 0.0 for no effect.  Negative values are OK, but will crash if adjusted value becomes negative.
-	\item[Discard - Factor 2]\hfil\\
+	\item[Additive Discard - Factor 2]\hfil\\
 	The input variance is the CV of the observation.  Because this will cause observations of near zero discard to appear overly precise, the variance adjustment is added to the discard standard deviation, not to the CV.  Set to 0.0 for no effect.
-	\item[Mean Body Weight - Factor 3]\hfil\\
+	\item[Additive Mean Body Weight - Factor 3]\hfil\\
 	The input variance is in terms of the CV of the observation.  Because such data are typically not very noisy, the variance adjustment is added to the CV and then multiplied by the observation to get the adjusted standard deviation of the observation.
-	\item[Length Composition - Factor 4]\hfil\\
+	\item[Multiplicative Length Composition - Factor 4]\hfil\\
 	The input variance is in terms of an effective sample size.  The variance adjustment is multiplied times this sample size.  Set variance adjustment to 1.0 for no effect.
-	\item[Age Composition - Factor 5]\hfill\\
+	\item[Multiplicative Age Composition - Factor 5]\hfill\\
 	Age composition is treated the same way as length composition.
-	\item[Size-at-Age - Factor 6]\hfill\\
+	\item[Multiplicative Size-at-Age - Factor 6]\hfill\\
 	Size-at-age input variance is the sample size for the N observations at each age.  The variance adjustment is multiplied by these N values. Set to 1.0 for no effect.
-	\item[Generalized Size Composition - Factor 7]\hfill\\
+	\item[Multiplicative Generalized Size Composition - Factor 7]\hfill\\
 	Generalized size composition input variance is the sample size for each observation.  The variance adjustment for each fleet is multiplied by these sample sizes. Set to 1.0 for no effect.
 	\item[Usage Notes]\hfill
 	\begin{itemize}
