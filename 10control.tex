@@ -475,8 +475,8 @@ This section controls the biology parameters.  These include:  natural mortality
 		-3   & 4    & 3    & 3    & ... & 0 & \#Wtlen\_2\_Mal \\
 		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_GP\_1 \\
 		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_Area\_1 \\
-		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_Bseas\_1 \\
-		 0   & 0    & 0    & 0    & ... & 0 & \#CohortGrowDev \\
+		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_Settlement\_1 \\
+		 0.2 & 5    & 1    & 1    & ... & 0 & \#CohortGrowDev \\
 		0.001 & 0.999 & 0.5 & 0.5 & ... & 0 & \#FracFemale\_GP\_1 \\
 		\hline
 	\end{longtable}
@@ -514,17 +514,17 @@ In a seasonal model, all cohorts graduate to the age of 1 when they first reach 
 
 Seasonal recruitment is coded to work smoothly with growth.  If the recruitment occurring in each season is assigned the same growth pattern, then each seasonal cohort’s growth trajectory is simply shifted along the age/time axis.  At the end of the year, the early born cohorts will be larger, but all are growing with the same growth parameters so all will converge in size as they approach their common Lmax.
 
-Age 0.0 fish (at beginning of their birth season) are assigned a size equal to the lower edge of the first population size bin and they grow linearly until they reach the age A1.  SS generates a warning if the first population length bin is greater than 10 cm as this seems an unreasonably large value for a larval fish.  A1 is in terms of real age elapsed since birth.  All fish advance to the next integer age on Jan 1, regardless of birth season.  For example, consider a 2 season model with some recruitment in each season and with each season’s recruits coming from the same GP.  At the end of the first year, the early born fish will be larger but both of the seasonal cohorts will advance to an integer age of 1 on Jan 1 of the next year.  The full growth curve is still calculated below A1, but the size-at-age used by SS is the linear replacement.  Because the linear growth trajectory can never go negative, there is no need for the additive constant to the stddev (necessary for the growth model used in SS2 V1.x), but the option to add a constant has been retained in the model.
+Age 0.0 fish (at beginning of their birth season) are assigned a size equal to the lower edge of the first population size bin and they grow linearly until they reach the age A1.  SS generates a warning if the first population length bin is greater than 10 cm as this seems an unreasonably large value for a larval fish.  A1 is in terms of real age elapsed since birth.  All fish advance to the next integer age on Jan 1, regardless of birth season.  For example, consider a 2 season model with some recruitment in each season and with each season’s recruits coming from the same GP.  At the end of the first year, the early born fish will be larger but both of the seasonal cohorts will advance to an integer age of 1 on Jan 1 of the next year.  The full growth curve is still calculated below A1, but the size-at-age used by SS is the linear replacement.  Because the linear growth trajectory can never go negative, there is no need for the additive constant to the standard deviation (necessary for the growth model used in SS2 V1.x), but the option to add a constant has been retained in the model.
 
 \subsubsection{Cohort Growth Deviation}
-This parameter must be given a value of 1.0 and be given a negative phase so it is not estimated.  Its importance is in serving as a base for blocks or annual devs, which may be estimated, around this base value of 1.0.
+This parameter must be given a value of 1.0 and be given a negative phase so it is not estimated.  Its importance is in serving as a base for blocks or annual deviations, which may be estimated, around this base value of 1.0.
 
 \subsubsection{Movement Parameters}
 There are 2 movement parameters per area pair flagged in the movement design matrix as needing estimable movement parameters.  For each, the first parameter is for the movement coefficient for young fish and the second is for old fish (with intermediate ramp calculated using the designated start age and end age.  Parameter values are the ln(movement coefficient).  For fish that stay in their source area (e.g. move from area 1 to area 1 in season 1), they are given a movement coefficient of ln(1)=0, but this default value is replaced if the stay movement is selected as needed parameters.  For each source area, each movement coefficient is exponentiated and then they are scaled to sum to 1.0.  At least one needs to not be estimated so that all others are estimated relative to it.
 
 The movement model has been augmented to define movement parameters for each growth pattern.  With this capability, it will be possible to have homing of a growth pattern back to its natal area.
 
-An added feature is the reading of migr\textunderscore firstage immediately after reading the do\textunderscore migration flag if the do\textunderscore migration flag is positive.  This value is a real number, not an integer, to allow for an in-year start to movement in a multi-season model.  The value is the real age at the beginning of a season, even though movement does not occur until the end of the season.  For example, in a  setup with two 6-month seasons:  a value of 0.5 will cause the age 0 fish to not move when they complete their first 6 month season of life, and then to move at the end of their second season because they start movement capability when they reach the age of 0.5 years (6 months).
+An added feature is the reading of migr\_firstage immediately after reading the do\textunderscore migration flag if the do\_migration flag is positive.  This value is a real number, not an integer, to allow for an in-year start to movement in a multi-season model.  The value is the real age at the beginning of a season, even though movement does not occur until the end of the season.  For example, in a  setup with two 6-month seasons:  a value of 0.5 will cause the age 0 fish to not move when they complete their first 6 month season of life, and then to move at the end of their second season because they start movement capability when they reach the age of 0.5 years (6 months).
 
 A new feature added in v3.3 allows for a multi-season setup to have a growth pattern (GP) to have some fish recruit in different “birthseasons”.  The movement parameters are now specific to GP x birthseason x actual season.
 
@@ -755,9 +755,9 @@ The spawner-recruitment section starts by specification of the functional relati
 		0.60 & sigma-R &  Standard deviation of log recruitment.
 		This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\\
 		\hline
-		0 & Environmental Link & \\%Environmental linkage coefficient. The recruitment parameters are short parameters, so cannot have the generic block or environmental link options.  Instead, this dedicated env-link is provided.  It is used to create a multiplicative adjustment to the target parameter, so $P_{y’} = P *exp(EnviroLink * EnviroData_{y})$.  An alternative that provides an additive link is under development.\\
+		%0 & Environmental Linkages & \\%Environmental linkage coefficient. The recruitment parameters are short parameters, so cannot have the generic block or environmental link options.  Instead, this dedicated env-link is provided.  It is used to create a multiplicative adjustment to the target parameter, so $P_{y’} = P *exp(EnviroLink * EnviroData_{y})$.  An alternative that provides an additive link is under development.\\
 		\hline
-		0 & Deviation Multiplier & \\
+		0 & Annual Deviation Multiplier & \\
 		\hline
 		0 & Autocorrelation & Autocorrelation in recruitment. \\
 		\hline
@@ -765,7 +765,7 @@ The spawner-recruitment section starts by specification of the functional relati
 \end{center}
 
 \begin{center}
-	\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{3cm}  p{2.5cm}  p{3cm}  }
+	\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{2.5cm}  p{1.5cm}  p{4.5cm}  }
 		
 		\multicolumn{7}{l}{Example set-up of the spawner-recruitment section:}\\
 		\hline
@@ -774,8 +774,8 @@ The spawner-recruitment section starts by specification of the functional relati
 		3    & 31 & 8.81 & 10.3 & ... & 0 & \#SR\_LN(R0) \\
 		0.2  & 1  & 0.61 & 0.70 & ... & 0 & \#SR\_BH\_steep \\
 		0    & 2  & 0.60 & 0.80 & ... & 0 & \#SR\_sigmaR \\
-		-5   & 5  & 0.1  & 0    & ... & 0 & \#SR\_envlink \\
-		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_devmulti\\
+		%-5   & 5  & 0.1  & 0    & ... & 0 & \#SR\_envlink \\
+		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_Ann\_Dev\_Multi\\
 		0    & 0  & 0    & 0    & ... & 0 & \#SR\_autocorr  \\
 		\hline
 	\end{longtable}
@@ -1050,7 +1050,7 @@ For each fishery and survey, enter a row with these 4 entries as described below
 
 \begin{enumerate}
 	\item Fleet Number
-	\item Link type
+	\item Link type: An assumed functional form between Q, the expected value, and the survey observation.
 	\begin{enumerate}
 		\item 1 = simple Q, proportional assumption about Q: $y=q*x$.
 		%, establish a parameter to create environmental effect on Q, where the integer is the index of the environmental variable to be linked.  The relationship is:  $ ln(q_y) = ln(q_{base}) + Q_{env\_link\_para}*Env\_Value_y$.
@@ -1103,6 +1103,8 @@ For each fishery and survey, enter a row with these 4 entries as described below
 	    \hline
 	\end{longtable}
 \end{center}
+
+%Note: The deviation standard deviation line (in the 13 long parameter line section) does not do anything and is considered an used option.  The env-var column will replace this functionality
 
 %\noindent Q types
 %\begin{itemize}
@@ -1217,7 +1219,9 @@ For each fleet and survey, read a definition line for age selectivity.  The 4 va
 		1  & 2 & 0 & 0 & \#Fishery1\\
 		1  & 0 & 0 & 0 & \#Survey1\\
 		0  & 0 & 0 & 0 & \#Survey2\\
+		\hline
 		\multicolumn{5}{l}{\#Age Selectivity Types}\\
+		\#Pattern & Discard & Male & Special & Label \\
 		\hline
 		11  & 0 & 0 & 0 & \#Fishery1\\
 		11  & 0 & 0 & 0 & \#Survey1\\
@@ -1797,19 +1801,19 @@ When doing iterative reweighting of the input variance factors, it is convenient
 \end{center}
 
 \begin{description}
-	\item[Survey CV - Factor 1]\hfil\\
+	\item[Additive Survey CV - Factor 1]\hfil\\
 	The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey).  The variance adjustment is added directly to this standard deviation.  Set to 0.0 for no effect.  Negative values are OK, but will crash if adjusted value becomes negative.
-	\item[Discard - Factor 2]\hfil\\
+	\item[Additive Discard - Factor 2]\hfil\\
 	The input variance is the CV of the observation.  Because this will cause observations of near zero discard to appear overly precise, the variance adjustment is added to the discard standard deviation, not to the CV.  Set to 0.0 for no effect.
-	\item[Mean Body Weight - Factor 3]\hfil\\
+	\item[Additive Mean Body Weight - Factor 3]\hfil\\
 	The input variance is in terms of the CV of the observation.  Because such data are typically not very noisy, the variance adjustment is added to the CV and then multiplied by the observation to get the adjusted standard deviation of the observation.
-	\item[Length Composition - Factor 4]\hfil\\
+	\item[Multiplicative Length Composition - Factor 4]\hfil\\
 	The input variance is in terms of an effective sample size.  The variance adjustment is multiplied times this sample size.  Set variance adjustment to 1.0 for no effect.
-	\item[Age Composition - Factor 5]\hfill\\
+	\item[Multiplicative Age Composition - Factor 5]\hfill\\
 	Age composition is treated the same way as length composition.
-	\item[Size-at-Age - Factor 6]\hfill\\
+	\item[Multiplicative Size-at-Age - Factor 6]\hfill\\
 	Size-at-age input variance is the sample size for the N observations at each age.  The variance adjustment is multiplied by these N values. Set to 1.0 for no effect.
-	\item[Generalized Size Composition - Factor 7]\hfill\\
+	\item[Multiplicative Generalized Size Composition - Factor 7]\hfill\\
 	Generalized size composition input variance is the sample size for each observation.  The variance adjustment for each fleet is multiplied by these sample sizes. Set to 1.0 for no effect.
 	\item[Usage Notes]\hfill
 	\begin{itemize}
