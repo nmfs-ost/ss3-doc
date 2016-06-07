@@ -1,7 +1,8 @@
 \section{Optional Inputs}
 
+\hypertarget{WAA}{}
 \subsection{Empirical Weight-at-Age (wtatage.ss)}
-With version 3.04, SS adds the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is done by setting Maturity\textunderscore Option equal to 5.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  
+SS has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is done by setting Maturity\textunderscore Option equal to 5.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  
 
 The format of this input file is:
 \begin{center}
@@ -9,17 +10,21 @@ The format of this input file is:
 		\hline
 		%\multicolumn{2}{l}{10} & \multicolumn{7}{l}{\# Number of rows} \\
 		%\hline
-		\multicolumn{2}{l}{40} & \multicolumn{7}{l}{\# Number of ages (equal to Maximum Age)} \\
+		%\multicolumn{2}{l}{40} & \multicolumn{7}{l}{\# Number of ages (equal to Maximum Age)} \\
 		\hline
 		\#Year & Season & Gender & GP & Birth Season & Fleet & Age-0 & Age-1 & ... \\
 		\hline
-		\-1971 & 1 & 1 & 1 & 1 & 1 & 0.0128586 & 0.13718 & 0.432243 \\
+		\-1971 & 1 & 1 & 1 & 1 & -2 & 0      & 0      & 0.1003 \\
 		%\hline
-		\-1971 & 1 & 1 & 1 & 1 & 2 & ... & ... & ... \\
+		\-1971 & 1 & 1 & 1 & 1 & -1 & 0.0169 & 0.0864 & 0.2495 \\
 		%\hline
-		\-1971 & 1 & 1 & 1 & 1 & 0 & ... & ... & ... \\
+		\-1971 & 1 & 1 & 1 & 1 & 0  & ...    & ...    & ... \\
 		%\hline
-		-9999 & 1 & 1 & 1 & 1 & 0 & ... & ... & ... \\
+		\-1971 & 1 & 1 & 1 & 1 & 1  & ...    & ...    & ... \\
+		%\hline
+		\-1971 & 1 & 1 & 1 & 1 & 2  & ...    & ...    & ... \\
+		%\hline
+		-9999  & 1 & 1 & 1 & 1 & 0  & ...    & ...    & ... \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -30,7 +35,7 @@ where:
 	\item Fleet = -2 is age-specific fecundity*maturity, so time-varying fecundity is possible to implement.
 	\item Fleet = -1 is population wt-at-age at middle of the season.
 	\item Fleet = 0 is population wt-at-age at the beginning of the season.
-	\item There must be an entry for each fleet for fecundity*maturity, wt-at-age at the middle of the season, and wt-at-age at the beginning of the season.
+	\item There must be an entry fecundity*maturity, population wt-at-age at the middle of the season, population wt-at-age at the beginning of the season, and wt-at-age for each fleet (even if these vectors are identical in some cases)
 	\item GP and birthseas probably will never be used, but are included for completeness.
 	\item A negative value for year will fill the table from that year through the ending year of the forecast, overwriting anything that has already been read for those years.
 	\item Judicious use of negative years in the right order will allow user to enter blocks without having to enter a row of info for each year
