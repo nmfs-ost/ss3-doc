@@ -116,41 +116,16 @@ Terminology:
 		\hline
 
 		1 & & Recruitment distribution method.  Options: 1 = use the 3.24 or earlier setup, 2 = main effects for GP, settle timing, and area, 3 = each settle entity, and 4 = none when N GP*Nsettle*Pop=1\\
-		%\hline
 
 		1 & & Recruitment: 1 = global, 2 = by area (not yet implemented)\\
 		1 & & Number of recruitment settlement assignments.\\
 		0 & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1)\\
-		\multicolumn{2}{l}{1 1 1}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Recruitment assignment to GP, month, area (for each settlement event).}}}\\
+		\multicolumn{2}{l}{1 1 1 0}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Recruitment assignment to GP, month, area, and age (for each settlement event).}}}\\
 		\\
 		\hline	
 
-		%\multicolumn{2}{l}{COND = 1}&\multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Only read if recruitment distribution method is set to 1 (3.24 and earlier version)}}}\\
-		%\\
-		%& 0 & \multicolumn{1}{l}{\multirow{1}{12cm}[0cm]{\parbox{12.5cm}{Year x Area x Settlement Event Interaction Requested}}}\\
-		%\hline
-
-		%\multicolumn{2}{l}{1 1 1}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Recruitment assignment to GP, month, area (for each settlement event).}}}\\
-		%\hline
-
-		%\multicolumn{2}{l}{COND:}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{If there are multiple GP, season, and areas, specify the additional lines:}}}\\
-		%\\
-		%& 1 1 1 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP1, season 1, area 1}}\\
-		%& 2 1 2 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP1, season 1, area 2}}\\
-		%& 2 1 1 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP2, season 1, area 1}}\\
-		%& 2 2 2 & \multicolumn{1}{l}{\parbox{12.5cm}{Recruitment assignment to GP2, season 2, area 2}}\\
-		%\hline
-
-		%\pagebreak
 		\multicolumn{2}{l}{COND} & \multicolumn{1}{l}{If N movement definition if areas > 1:}\\
 		
-		%& 0 & \multicolumn{1}{l}{\parbox{12.5cm}{Movement: Only read following movement section if N areas > 1}}\\
-		%\hline
-
-		%multicolumn{2}{l}{COND > 0 } & \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Following lines are %conditional if movement is selected:}}}\\
-
-		%& 4 & \multicolumn{1}{l}{N movement definitions}\\
-
 		& 1.0 & \multirow{1}{12cm}{First age that moves. Real, not integer age at the beginning of season.  This control primarily used to keep new recruits from moving until after their first year.}\\
 		\\
 		\\
@@ -254,6 +229,9 @@ This section controls the biology parameters.  These include:  natural mortality
 	   \multicolumn{2}{l}{COND = 3} & Growth option age-specific \textit{k}\\
 	   & 5 & Minimum age for age-specific \textit{k}\\
 	   & 7 & Maximum age for age-specific \textit{k}\\
+	   \hline
+	   
+	   0.2 & & Exponential decay for growth above maximum age (fixed at 0.2 in 3.24; should approx initial Z).\\
 	   \hline
 
 	   0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.  \hyperlink{A1}{(\textit{click here for more information})}\\
@@ -755,8 +733,6 @@ The spawner-recruitment section starts by specification of the functional relati
 		0.60 & sigma-R &  Standard deviation of log recruitment.
 		This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\\
 		\hline
-		%0 & Environmental Linkages & \\%Environmental linkage coefficient. The recruitment parameters are short parameters, so cannot have the generic block or environmental link options.  Instead, this dedicated env-link is provided.  It is used to create a multiplicative adjustment to the target parameter, so $P_{y’} = P *exp(EnviroLink * EnviroData_{y})$.  An alternative that provides an additive link is under development.\\
-		\hline
 		0 & Annual Deviation Multiplier & \\
 		\hline
 		0 & Autocorrelation & Autocorrelation in recruitment. \\
@@ -928,11 +904,11 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 	\item[Shepherd]\hfil\\
 	\hypertarget{Shepard}{The} Shepherd stock recruit curve is calculated as:
 	\begin{equation}
-		R_y = \bigg(\frac{SB_y}{SB_0}\bigg)\frac{5hR_0SB^c_0(1-0.2^c)}{(1-h_{adj}0.2^c)+(5h_{adj}-1)SB^c_y}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad \tilde{R}_y\sim N(0;\sigma^2_R)
+		R_y = \bigg(\frac{SB_y}{SB_0}\bigg)\frac{5h_{adj}R_0(1-0.2^c)}{(1-5h_{adj}0.2^c)+(5h_{adj}-1)(\frac{SB_y}{SB_0})^c}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad \tilde{R}_y\sim N(0;\sigma^2_R)
 	\end{equation}
 	where c is the shape parameter for the stock recruitment curve, and $h_{adj}$ is the transformed steepness parameter defined as:
 	\begin{equation}
-		h_{adj}=\frac{\big(0.2+(h-0.2)\big)\big(1-0.2(5-0.2^c)\big)}{4*0.2^c}
+		h_{adj}=0.2+\bigg(\frac{h-0.2}{0.8}\bigg)\bigg(\frac{1}{5*0.2^c}-0.2\bigg)
 	\end{equation}
 \end{description}
 
