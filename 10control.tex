@@ -1318,7 +1318,9 @@ The currently defined selectivity patterns, and corresponding required number of
 		23 & 6 & Same as the double normal pattern \#24 except the final selectivity is now directly interpreted as the terminal selectivity value.\\\
 		24 & 6 & Double normal with defined initial and final selectivity level – Recommended option.  Test using SELEX-24.xls. \\
 		25 & 3 & Exponential-logistic \\
-		27 & 3+2*N nodes & Cubic spline\\
+		27 & 3 + 2*N nodes & Cubic spline \\
+		31 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
+		32 & 4 + special value & Selectivity pattern 6 with user-defined scaling \\
 		\hline
 		%\\
 		%\multicolumn{3}{c}{SPECIAL SELECTIVITY}\\
@@ -1364,7 +1366,7 @@ The currently defined selectivity patterns, and corresponding required number of
 		11 & 2 & Pick min-max age\\
 		12 & 2 & Logistic\\
 		13 & 8 & Double logistic, IF joiners.  Use discouraged.  Use pattern \#18 instead.\\
-		14 & nages+1 & Each age, value at age is $\frac{1}{1+exp(-x)}$ \\
+		14 & nages  +1 & Each age, value at age is $\frac{1}{1+exp(-x)}$ \\
 		15 & 0 & Mirror another selectivity\\
 		16 & 2 & Coleraine single Gaussian\\
 		17 & nages + 1 & Each age as random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \hyperlink{RandWalk}{Click here for more information.}\\
@@ -1372,7 +1374,9 @@ The currently defined selectivity patterns, and corresponding required number of
 		19 & 6 & Simple double logistic with no defined peak.\\
 		20 & 6 & Double normal with defined initial and final level.  Recommended option. Test using SELEX-24.xls.\\
 		26 & 3 & Exponential logistic\\
-		27 & 3+2*N\_nodes & Cubic Spline\\
+		27 & 3 + 2*N nodes & Cubic Spline\\
+		30 & 2 + nages + 1 & Selectivity pattern 17 with user-defined scaling \\
+		31 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1399,7 +1403,7 @@ The currently defined selectivity patterns, and corresponding required number of
 
 
 \begin{description}
-	\item[Pattern \#6 (size) - Non-parametric selectivity]\hfil\\
+	\item[Pattern \#6 (size) - Non-parametric Selectivity]\hfil\\
 	Non-parametric size selectivity uses a set of linear segments.  The first waypoint is at Length = p1 and the last waypoint is at Length = p2.  The total number of waypoints is specified by the value of the Special factor in the selectivity set-up, so the N intervals is one less than the number of waypoints.  Intermediate waypoints are located at equidistant intervals between p1 and p2.  Parameters 3 to N are the selectivity values at the waypoints, entered as logistic, e.g. $1/(1+exp(-x))$.  Ramps from –10 to p3 if L<p1.  Constant at pN if L>p2.  Note that prior to version 3.03 the waypoints were specified in terms of bin number, rather than length.
 \end{description}
 
@@ -1600,6 +1604,25 @@ The currently defined selectivity patterns, and corresponding required number of
 		\end{longtable}
 	\end{center}
 \end{description}
+
+
+\begin{description}
+	\item[Pattern \#30 (age) - Random Walk with User-defined Scaling]\hfil\\
+	Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+\end{description}
+
+
+\begin{description}
+	\item[Pattern \#31 - Cubic Spline with User-defined Scaling]\hfil\\
+	Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+\end{description}
+
+
+\begin{description}
+	\item[Pattern \#32 (size) - Non-parametric with User-defined Scaling]\hfil\\
+	Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+\end{description}
+
 
 %\begin{description}
 %	\item[Survey Pattern \#34 - Depletion]\hfil\\
