@@ -666,9 +666,9 @@ P'=P*exp(\text{seas\_value})
 
 \hypertarget{WAAinfo}{}
 \subsubsection{Empirical Weight-at-Age (wtatage.ss)}
-With version 3.04, SS adds the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is top at the top of the control file.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See section 8.1 for additional information on file formatting for empirical weight-at-age.
+With version 3.04, SS adds the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is top at the top of the control file.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See section \hyperlink{WAA} for additional information on file formatting for empirical weight-at-age.
 
-\hypertarget{SRR}{text}
+\hypertarget{SRR}{text} % this line causes the file to say "text" which maybe isn't the intent
 \subsubsection{Spawner-Recruitment}
 The spawner-recruitment section starts by specification of the functional relationship.  The number of parameters needed by each relationship is stored internally (same approach as is used for the number of parameters for each selectivity relationship).  In previous version of SS (v3.24 and before) only a short parameter line set-up was required for the spawner-recrutment section. SS v3.30 now requires long parameter lines to set-up the spawner-recruitment section which will allow for blocking around R0 and steepness, but deviation effects are now disallowed.  The R1 offset parameter has been replaced to a bas for annual deviation multiplier.  R0 blocks will be additive offset from the previous block (e.g. random walk). 
 
@@ -1291,10 +1291,12 @@ The currently defined selectivity patterns, and corresponding required number of
 		9 & 6 & Simple double logistic with no defined peak.\\
 		15 & 0 & Mirror another selectivity (same as for age selectivity).\\
 		22 & 4 & Double normal; similar to CASAL.\\
-		23 & 6 & Same as the double normal pattern \#24 except the final selectivity is now directly interpreted as the terminal selectivity value.\\\
+		23 & 6 & Same as the double normal pattern \#24 except the final selectivity is now directly interpreted as the terminal selectivity value.\\
 		24 & 6 & Double normal with defined initial and final selectivity level – Recommended option.  Test using SELEX-24.xls. \\
 		25 & 3 & Exponential-logistic \\
-		27 & 3+2*N nodes & Cubic spline\\
+		27 & 3 + 2*N nodes & Cubic spline \\
+		42 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
+		43 & 4 + special value & Selectivity pattern 6 with user-defined scaling \\
 		\hline
 		%\\
 		%\multicolumn{3}{c}{SPECIAL SELECTIVITY}\\
@@ -1340,7 +1342,7 @@ The currently defined selectivity patterns, and corresponding required number of
 		11 & 2 & Pick min-max age\\
 		12 & 2 & Logistic\\
 		13 & 8 & Double logistic, IF joiners.  Use discouraged.  Use pattern \#18 instead.\\
-		14 & nages+1 & Each age, value at age is $\frac{1}{1+exp(-x)}$ \\
+		14 & nages  +1 & Each age, value at age is $\frac{1}{1+exp(-x)}$ \\
 		15 & 0 & Mirror another selectivity\\
 		16 & 2 & Coleraine single Gaussian\\
 		17 & nages + 1 & Each age as random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \hyperlink{RandWalk}{Click here for more information.}\\
@@ -1348,7 +1350,9 @@ The currently defined selectivity patterns, and corresponding required number of
 		19 & 6 & Simple double logistic with no defined peak.\\
 		20 & 6 & Double normal with defined initial and final level.  Recommended option. Test using SELEX-24.xls.\\
 		26 & 3 & Exponential logistic\\
-		27 & 3+2*N\_nodes & Cubic Spline\\
+		27 & 3 + 2*N nodes & Cubic Spline\\
+		41 & 2 + nages + 1 & Selectivity pattern 17 with user-defined scaling \\
+		42 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1375,7 +1379,7 @@ The currently defined selectivity patterns, and corresponding required number of
 
 
 \begin{description}
-	\item[Pattern \#6 (size) - Non-parametric selectivity]\hfil\\
+	\item[Pattern \#6 (size) - Non-parametric Selectivity]\hfil\\
 	Non-parametric size selectivity uses a set of linear segments.  The first waypoint is at Length = p1 and the last waypoint is at Length = p2.  The total number of waypoints is specified by the value of the Special factor in the selectivity set-up, so the N intervals is one less than the number of waypoints.  Intermediate waypoints are located at equidistant intervals between p1 and p2.  Parameters 3 to N are the selectivity values at the waypoints, entered as logistic, e.g. $1/(1+exp(-x))$.  Ramps from –10 to p3 if L<p1.  Constant at pN if L>p2.  Note that prior to version 3.03 the waypoints were specified in terms of bin number, rather than length.
 \end{description}
 
@@ -1576,6 +1580,55 @@ The currently defined selectivity patterns, and corresponding required number of
 		\end{longtable}
 	\end{center}
 \end{description}
+
+
+\begin{description}
+	\item[Pattern \#41 (age) - Random Walk with User-defined Scaling]\hfil\\
+	Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+
+	\begin{center}
+		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm} p{1cm} p{1cm} p{1cm} p{4.2cm}}
+			\#LO & HI & INIT & PR & PR\_TYPE & SD & PHASE &  ... & \# Label \\
+			\hline
+			0 & 20 & 10 & 0 & -1 & 0 & -99 & 0 & \# AgeSel\_ScaleAgeLo \\
+			0 & 20 & 20 & 0 & -1 & 0 & -99 & 0 & \# AgeSel\_ScaleAgeHi \\
+			\hline
+		\end{longtable}
+	\end{center}
+\end{description}
+
+
+\begin{description}
+	\item[Pattern \#42 (size and age) - Cubic Spline with User-defined Scaling]\hfil\\
+	Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+
+	\begin{center}
+		\begin{longtable}{p{0.7cm} p{0.7cm} p{0.9cm} p{0.7cm} p{1.75cm} p{1cm} p{1cm} p{1cm} p{4.7cm}}
+		\#LO & HI & INIT & PR & PR\_TYPE & SD & PHASE &  ... & \# Label \\
+		\hline
+		0 & 20 & 10 & 0 & -1 & 0 & -99 & 0 & \# AgeSpline\_ScaleAgeLo \\
+		0 & 20 & 20 & 0 & -1 & 0 & -99 & 0 & \# AgeSpline\_ScaleAgeHi \\
+		\hline
+		\end{longtable}
+	\end{center}
+\end{description}
+
+
+\begin{description}
+	\item[Pattern \#43 (size) - Non-parametric with User-defined Scaling]\hfil\\
+	Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+
+	\begin{center}
+		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm} p{1cm} p{1cm} p{1cm} p{4.2cm}}
+			\#LO & HI & INIT & PR & PR\_TYPE & SD & PHASE &  ... & \# Label \\
+			\hline
+			1 & 80 & 50 & 0 & -1 & 0 & -99 & 0 & \# SizeSel\_ScaleBinLo \\
+			1 & 80 & 70 & 0 & -1 & 0 & -99 & 0 & \# SizeSel\_ScaleBinHi \\
+			\hline
+		\end{longtable}
+	\end{center}
+\end{description}
+
 
 %\begin{description}
 %	\item[Survey Pattern \#34 - Depletion]\hfil\\
