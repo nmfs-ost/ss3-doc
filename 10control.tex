@@ -556,6 +556,7 @@ In a 2 season, 2 area, 2 growth pattern set-up, the recruitment distribution, co
 		-4   & 4    & -4   & 1    & ... & 0 &  \#RecrDist\_Area\_2 \\
 		-4   & 4    & 0    & 1    & ... & 0 &  \#RecrDist\_Seas\_1 \\
 		-4   & 4    & -4   & 1    & ... & 0 &  \#RecrDist\_Seas\_2 \\
+		\multicolumn{7}{l}{Required Cohort growth deviation specification} \\
 		-4   & 4    & 0    & 1    & ... & 0 & \#CohortGrowthDev \\
 		\multicolumn{7}{l}{COND: Only if movement is defined} \\
 		-5   & 5    & -4   & 1    & ... & 0 & \#MoveParm\_A\_seas\_1\_GP\_1from\_1to2 \\
@@ -566,6 +567,13 @@ In a 2 season, 2 area, 2 growth pattern set-up, the recruitment distribution, co
 		-5   & 5    & -4   & 1    & ... & 0 & \#MoveParm\_B\_seas\_1\_GP\_2from\_1to2 \\
 		-5   & 5    & -4   & 1    & ... & 0 & \#MoveParm\_A\_seas\_1\_GP\_2from\_2to1 \\
 		-5   & 5    & -4   & 1    & ... & 0 & \#MoveParm\_B\_seas\_1\_GP\_2from\_2to1 \\
+		\multicolumn{7}{l}{COND: Only if multiple age-length keys are defined} \\
+		-99  & 99   &  1   & 0    & ... & 0 & \#AgeKeyParm1 \\
+		-99  & 99   &  0.288   & 0    & ... & 0 & \#AgeKeyParm2 \\
+		-99  & 99   &  0.715   & 0    & ... & 0 & \#AgeKeyParm3 \\	
+		\multicolumn{7}{l}{Required sex ratio specification} \\
+		0.001 & 0.999 & 0.5 & 0.5    & ... & 0 & \#FracFemale\_GP\_1 \\		
+		0.001 & 0.999 & 0.5 & 0.5    & ... & 0 & \#FracFemale\_GP\_2 \\	
 		\hline
 	\end{longtable}
 \end{center}
@@ -619,53 +627,96 @@ When time-varying growth is used, there are some additional considerations to be
 \end{itemize}
 
 \begin{center}
-	\begin{longtable}{p{0.5cm} p{2.5cm} p{11cm}}
+	\begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
+		\multicolumn{8}{l}{Time-varying parameter specification:} \\
+		\hline
+		   &    &      & Prior &  Prior & Prior & & \\
+		LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \\
+		\hline
+		\endfirsthead
+		
+		\hline
+		   &    &      & Prior &  Prior & Prior &  & \\
+		LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \\
+		\hline
+		\endhead
+		
+		\endfoot
+		
+		\endlastfoot
+		
+		\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \\
+		-99   & 99  & 1 & 0 & -1 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add\\
+		-99   & 99  & 1 & 0 & -1 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add\\
+		\hline
+	\end{longtable}
+\end{center}
+
+%\begin{center}
+%	\begin{longtable}{p{0.5cm} p{2.5cm} p{11cm}}
+%		\multicolumn{3}{l}{Control file continued:}\\
+%		\hline
+%		Value & &  Description\\
+%		\hline
+%		\endfirsthead
+%
+%		\hline
+%		Value & &  Description\\
+%		\hline
+%		\endhead
+%
+%		%\hline
+%		\endfoot
+%		\endlastfoot
+%
+%		\multicolumn{2}{l}{COND:} & If any MG parameters use environmental linkage, then read next factor\\
+%%		&   & 1:  Use custom environmental linkage, so read one parameter line for each MG parameter that uses linkage\\
+%		\\
+%		& <short parameter line(s)> & Read short parameter lines as necessary if applying a environmental link to MG parameters\\
+%		\hline
+%		\multicolumn{2}{l}{COND:} & If any MG parameters use blocks then read next factor \\
+%		& 0 & 0:  Do not use custom block setup, read just one parameter line \\
+%		&   & 1:  Use custom block setup, so read one parameter line for each MG parameter that uses blocks\\
+%		\\
+%		& <short parameter line(s)> & Read 0, 1 or many short parameter lines as necessary\\
+%		
+%		\hline
+%	\end{longtable}
+%\end{center}
+
+
+\subsubsection{Seasonal Biology Parameters}
+SS\_v3 begins to introduce seasonal effects on selected biology parameters.  Currently, seasonal option is only available for the four wt-len parameters and for the growth K.  Seasonality is not needed for the maturity and fecundity parameters because spawning is only defined to occur in one season.  Seasonal L1 may be implemented at a later date.  The seasonal parameter values adjust the base parameter value for that season.
+\begin{equation}
+P'=P*exp(\text{seas\_value})
+\end{equation}
+
+\begin{center}
+	\begin{longtable}{p{0.5cm} p{3.7cm} p{11cm}}
 		\multicolumn{3}{l}{Control file continued:}\\
 		\hline
 		Value & &  Description\\
 		\hline
 		\endfirsthead
-
+		
 		\hline
 		Value & &  Description\\
 		\hline
 		\endhead
-
+		
 		%\hline
 		\endfoot
 		\endlastfoot
-
-		\multicolumn{2}{l}{COND:} & If any MG parameters use environmental linkage, then read next factor\\
-		& 0 & 0:  Do not use custom environmental linkage setup, read just one parameter line \\
-		&   & 1:  Use custom environmental linkage, so read one parameter line for each MG parameter that uses linkage\\
-		\\
-		& <short parameter line(s)> & Read short parameter lines as necessary if applying a environmental link to MG parameters\\
-		\hline
-		\multicolumn{2}{l}{COND:} & If any MG parameters use blocks then read next factor \\
-		& 0 & 0:  Do not use custom block setup, read just one parameter line \\
-		&   & 1:  Use custom block setup, so read one parameter line for each MG parameter that uses blocks\\
-		\\
-		& <short parameter line(s)> & Read 0, 1 or many short parameter lines as necessary\\
-		\hline
 		\multicolumn{3}{l}{\#Seasonality for selected biology parameters (not a conditional input)}\\
-		\multicolumn{2}{l}{0 0 0 0 0 0 0 0 0 0} & Read 10 integers to specify which biology parameters have seasonality:  femwtlen1, femwtlen2, mat1, mat2, fec1, fec2, malewtlen1, malewtlen2, L1, K.  Reading a positive value selects that factor for seasonality (\hyperlink{SeasGrowth}{\textit{click here for more information}})\\
+		\multicolumn{2}{l}{0 0 0 0 0 0 0 0 0 0} & Read 10 integers to specify which biology parameters have seasonality:  femwtlen1, femwtlen2, mat1, mat2, fec1, fec2, malewtlen1, malewtlen2, L1, K.  Reading a positive value selects that factor for seasonality\\
 		\hline
 		\multicolumn{2}{l}{COND:} & If any factors have seasonality, then read N seasons parameters that define the seasonal offsets from the base parameter value.\\
 		& <short parameter line(s)> & Read N seasons short parameter lines for each factor selected for seasonality.
 		The parameter values define an exponential offset from the base parameter value.\\
 		\hline
-		\multicolumn{2}{l}{COND:} & If any MG parameters use annual deviations, then read the phase next. \\
-		& -1 & All MG parameters using annual deviations will have the deviations begin estimation in this phase.\\
-		\hline
+
 	\end{longtable}
 \end{center}
-
-\hypertarget{SeasGrowth}{}
-\subsubsection{Notes on Seasonal Biology Parameters}
-SS\_v3 begins to introduce seasonal effects on selected biology parameters.  Currently, seasonal option is only available for the four wt-len parameters and for the growth K.  Seasonality is not needed for the maturity and fecundity parameters because spawning is only defined to occur in one season.  Seasonal L1 may be implemented at a later date.  The seasonal parameter values adjust the base parameter value for that season.
-\begin{equation}
-P'=P*exp(\text{seas\_value})
-\end{equation}
 
 \hypertarget{WAAinfo}{}
 \subsubsection{Empirical Weight-at-Age (wtatage.ss)}
@@ -748,14 +799,14 @@ The spawner-recruitment section starts by specification of the functional relati
 		
 		\multicolumn{7}{l}{Example set-up of the spawner-recruitment section:}\\
 		\hline
-		LO & HI & INIT & PRIOR &  <other entries> & Block Type & Parameter Label \\
+		LO & HI & INIT & PRIOR &  <other entries> & Block Fxn & Parameter Label \\
 		\hline
 		3    & 31 & 8.81 & 10.3 & ... & 0 & \#SR\_LN(R0) \\
 		0.2  & 1  & 0.61 & 0.70 & ... & 0 & \#SR\_BH\_steep \\
 		0    & 2  & 0.60 & 0.80 & ... & 0 & \#SR\_sigmaR \\
-		%-5   & 5  & 0.1  & 0    & ... & 0 & \#SR\_envlink \\
-		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_Ann\_Dev\_Multi\\
-		0    & 0  & 0    & 0    & ... & 0 & \#SR\_autocorr  \\
+		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_nullparm \\
+		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_R1\_offset\\
+		-99  & 99 & 0    & 0    & ... & 0 & \#SR\_autocorr  \\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1025,7 +1076,7 @@ It is possible to use the initial F method to achieve an estimate of the initial
 
 \hypertarget{Qsetup}{}
 \subsubsection{Catchability}
-For each fishery and survey, enter a row with these 4 entries as described below:
+For each fishery and survey with an index, enter a row with the entries as described below:
 
 \begin{enumerate}
 	\item Fleet Number
@@ -1070,15 +1121,14 @@ For each fishery and survey, enter a row with these 4 entries as described below
 
 \begin{center}
 	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.5cm} p{2.5cm}}
-		\multicolumn{7}{l}{So for a setup with 2 fisheries and 2 surveys, the Q setup matrix could be:}\\
+		\multicolumn{7}{l}{So for a setup with a single survey, the Q setup matrix could be:}\\
 		\hline
 	    \#Fleet Num. & Link Type & Link Info & Extra SD & Bias Adjust & Float  & Label \\
 	    \hline
 %	    1 & 1 & 0 & 1 & 0 & 0 & \#Fishery 1 \\
 %	    2 & 1 & 0 & 1 & 0 & 0 & \#Fishery 2 \\
-	    3 & 1 & 0 & 0 & 0 & 0 & \#Survey 1 \\
-	    4 & 1 & 0 & 1 & 0 & 0 & \#Survey 2 \\
-	    -9999 & 1 & 0 & 1 & 0 & 0 & \#End Read \\
+	    3 & 1 & 0 & 0 & 1 & 0 & \#Survey  \\
+	    -9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \\
 	    \hline
 	\end{longtable}
 \end{center}
@@ -1148,7 +1198,7 @@ For each fishery and survey, enter a row with these 4 entries as described below
 		\endfoot
 		\endlastfoot
 
-		\multicolumn{8}{l}{The list of parameters to be read from the above setup would be:}\\
+		\multicolumn{8}{l}{A long parameter line is expected and the above example would be specified by:}\\
 		\hline
 		\#LO & HI & INIT & PRIOR & PR TYPE & ... & BLOCK FXN & LABEL \\
 		\hline
@@ -1158,7 +1208,7 @@ For each fishery and survey, enter a row with these 4 entries as described below
 		%0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Survey2 extra SD\\
 		%-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery1 base Q\\
 		%-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery2 base Q\\
-		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey1 LnQ base\\
+		0.001 & 2   & 0.079 & 0.079 & -1 & ...  & 0   & \#Survey1 LnQ base\\
 		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey2 LnQ base\\
 		%0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs2\\
 		%0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs3\\
