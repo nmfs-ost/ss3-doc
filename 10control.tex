@@ -6,6 +6,7 @@ These listed model features are denoted in the control file in the following ord
 		\item Design matrix for assignment of recruitment to area/season/growth pattern
 		\item Design matrix for movement between areas
 		\item Definition of time blocks that can be used for time-varying parameters
+		\item Controls far all time-varying parameters
 		\\
 		\item Specification for growth and fecundity
 		\item Natural mortality and growth parameters for each sex x growth pattern
@@ -14,27 +15,27 @@ These listed model features are denoted in the control file in the following ord
 		\item Cohort growth deviation
 		\item Catch Multiplier
 		\item Fraction female
-		\item Environmental link parameters for any mortality-growth (MG) parameters that use a link
 		\item Time-varying setup for any MG parameters that use blocks
 		\item Seasonal effects on biology parameters
-		\item Phase for any MG parameters that use annual deviations
 		\\
 		\item Spawner-recruitment parameters
+		\item Environmental effects on R0, steepness, and annual deviations
+		\item Block or trend effects on R0, steepness, and annual deviations
 		\item Recruitment deviations
 		\\
+		\item F ballpark value in specified year
 		\item Method for calculating fishing mortality (F)
 		\item Initial equilibrium F for each fleet
 		\\
 		\item Catchability (Q) setup for each fleet and survey
 		\item Catchability parameters
+		\item Time-varying Q parameters
 		\\
 		\item Length selectivity, retention, discard mortality setup for each fleet and survey
 		\item Age selectivity setup for each fleet and survey
 		\item Parameters for length selectivity, retention, discard mortality for each fleet and survey
 		\item Parameters for age selectivity for each fleet and survey
-		\item Environmental link parameters for any selectivity/retention parameters that use a link
 		\item Time-varying setup for any selectivity/retention parameters that use blocks
-		\item Phase for any selectivity/retention parameters that use random annual deviation
 		\\
 		\item Tag-recapture parameters
 		\\
@@ -45,6 +46,7 @@ These listed model features are denoted in the control file in the following ord
 \subsection{Parameter Line Elements}
 A primary role of the SS control file is to define the parameters to be used by the model.  The general syntax of a parameter line is described here.  Parameter lines will be used in three sections of the control file: (1) natural mortality and growth; (2) spawner-recruitment, initial F and catchability; and (3) selectivity.  The first seven elements of a parameter line are used in every section and will be referred to as a short parameter line.  The remaining elements are used just in sections (1) and (3).  Each parameter line contains:
 
+\hypertarget{Prior}{} 
 \begin{center}
 	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
 		Column & Element & Description\\
@@ -53,7 +55,7 @@ A primary role of the SS control file is to define the parameters to be used by 
 		2 & HI & Maximum value for the parameter\\
 		3 & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
 		4 & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is -1 or 1.\\
-		5 & PRIOR TYPE  & -1 = none, 0 = normal, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, 5 = gamma\\
+		5 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, 5 = gamma, 6 = normal\\
 		6 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
 		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
 		%\hline
@@ -61,13 +63,13 @@ A primary role of the SS control file is to define the parameters to be used by 
 		\multicolumn{3}{l}{\parbox{16cm}{Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.}}\\
 		 & & \\
 		%\hline
-		8 & Env Var & Create a linkage to an input environmental time-series\\
-		9 & Use Dev & Invokes use of the deviation vector \\
+		8  & Env Var \& Link & Create a linkage to an input environmental time-series\\
+		9  & Dev Link & Invokes use of the deviation vector in the the linkage function \\
 		10 & Dev min yr & Beginning year for the deviation vector \\
 		11 & Dev max yr & Ending year for the deviation vector\\
-		12 & Dev StDev & Standard deviation for elements in the deviation vector \\
-		13 & Use-Block & Set up blocks or parameter trends\\
-		14 & Block-Type & Function form for the block offset\\
+		12 & Dev Phase & Phase for estimation for elements in the deviation vector \\
+		13 & Block & Specify time block to be applied \\
+		14 & Block Fxn & Function form for the block offset\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -231,15 +233,15 @@ This section controls the biology parameters.  These include:  natural mortality
 	   & 7 & Maximum age for age-specific \textit{k}\\
 	   \hline
 	   
-	   0.2 & & Exponential decay for growth above maximum age (fixed at 0.2 in 3.24; should approx initial Z).\\
+	   -999 & & Exponential decay for growth above maximum age (fixed at 0.2 in 3.24; should approx initial Z).\\
 	   \hline
 
 	   0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.  \hyperlink{A1}{(\textit{click here for more information})}\\
 	   \hline
+	   \pagebreak
 	   1 & & CV Pattern \\
 	     & & 0: CV=f(LAA), so the 2 parameters are in terms of CV of the distribution of length-at-age and the interpolation between these 2 parameters is a function of mean length-at-age.\\
 	     & & 1: CV=f(A), so interpolation is a function of age.\\
-	   \hline
 	     & & 2: SD=f(LAA), so parameters define the standard deviations of length-at-age and interpolation is a function of mean length-at-age.\\
 	     & & 3: SD=f(A) \\
 	     & & 4: Lognormal distribution of size-at-age.  Input parameters will specify the standard deviation of loge size at age.  E.g. entered values will typically be between 0.05 and 0.15.  A bias adjustment is applied so the lognormal distribution of size-at-age will have the same mean size as when a normal distribution is used.\\
@@ -250,21 +252,22 @@ This section controls the biology parameters.  These include:  natural mortality
 	     & & 2 = age logistic,\\
 	     & & 3 = read age-maturity for each female GP\\
 	     & & 4 = read an empirical age-maturity vector for all ages\\
-	     %& & 5 = read empirical age-fecundity and body weight-at-age from separate file, wtatage.ss.  Allows for reading time series of input. See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details. NOTE:  need to read 2 parameters even if option 3, 4, or 5 is selected.\\
+	     & & 5 = read empirical age-fecundity and body weight-at-age from separate file, wtatage.ss.  Allows for reading time series of input. See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details. NOTE:  need to read 2 parameters even if option 3, 4, or 5 is selected.\\
 	     %& & 6 = read an empirical length-maturity vector by population length bin (available in v3.24q)\\
 	   \hline
 
 	   \multicolumn{2}{l}{COND = 3 or 4} & Maturity Option\\
 	   & 0 0.05 0.10 ... & Vector of age-specific maturity or fecundity.  One row of length Nages + 1 for each female GP\\
-	   \multicolumn{2}{l}{COND = 6} & Maturity Option\\
-	   & 0 0.05 0.10 ... & Vector of length-specific maturity or fecundity.  One row of length of the population length bins for each female GP\\
+	   %\multicolumn{2}{l}{COND = 6} & Maturity Option\\
+	   %& 0 0.05 0.10 ... & Vector of length-specific maturity or fecundity.  One row of length of the population length bins for each female GP\\
 	   \hline
 
-	   %\hypertarget{WAA}{}
-	   %0 & & Empirical weight-at-age option \\
-	   %  & & 0 = option not applied \\
-	   %  & & 1 = read an empirical length-maturity vector by population length bin in the wtatage.ss file. \hyperlink{WAAinfo}{\textit{Click here for more information.}}\\
-	   %\hline
+	   \hypertarget{WAA}{}
+%	   \multicolumn{2}{l}{COND = 5} & Maturity Option\\
+%	     & & Empirical weight-at-age option \\
+%	     & & 0 = option not applied \\
+%	     & & 1 = read an empirical length-maturity vector by population length bin in the wtatage.ss file. \hyperlink{WAAinfo}{\textit{Click here for more information.}}\\
+
 	   
 	   1 & & First Mature Age: Overridden if maturity option is 3, 4, or 5, but still must exist here.  Otherwise, all ages below the first mature age will have maturity set to zero.\\
 	   \hline	  
@@ -300,11 +303,11 @@ This section controls the biology parameters.  These include:  natural mortality
 	    & & 3 = for each GP x sex, parameter defines offset from GP 1 sex 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{oldfemale} = M_{youngfemale}*exp(M_{oldfemale}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{oldmale} = M_{youngfemale}*exp(M_{youngmale})*exp(M_{oldmale})$)\\
 	 \hline
 
-	 1 & & Time-varying adjustment constraint:\\
-	   & & 1 = standard parameter adjustments for environmental, block, and deviations are not constrained by bounds \\
-	   & & 2 = logistic transform - parameter adjustments use a logistic transformation to assure that adjusted parameter value stays within bounds of base parameter \\
-	   & & 3: standard with no bound check \\
-	 \hline
+	 %1 & & Time-varying adjustment constraint:\\
+	 %  & & 1 = standard parameter adjustments for environmental, block, and deviations are not constrained by bounds \\
+	 %  & & 2 = logistic transform - parameter adjustments use a logistic transformation to assure that adjusted parameter %value stays within bounds of base parameter \\
+	 %  & & 3: standard with no bound check \\
+	 %\hline
 
 	\end{longtable}
 \end{center}
@@ -415,7 +418,7 @@ This section controls the biology parameters.  These include:  natural mortality
 		\hline
 		%LO & HI & INIT & Prior Value &  <other entries> & Block type & Parameter Label \\
 		 &  &  & Prior &  <other & Block &  \\
-		LO & HI & INIT & Value &  entries> & Type & Parameter Label \\
+		LO & HI & INIT & Value &  entries> & Fxn & Parameter Label \\
 		\hline
 		\endfirsthead
 
