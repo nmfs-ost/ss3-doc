@@ -1120,7 +1120,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 
 
 \begin{center}
-	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.5cm} p{2.5cm}}
+	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.3cm} p{2.3cm}}
 		\multicolumn{7}{l}{So for a setup with a single survey, the Q setup matrix could be:}\\
 		\hline
 	    \#Fleet Num. & Link Type & Link Info & Extra SD & Bias Adjust & Float  & Label \\
@@ -1186,7 +1186,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 %\noindent For each positive element in columns for the catchability (Q) setup above, read a long parameter setup line.  The order is: fishery 1 through survey N within power transformation, then within environment link, then within extra standard deviation, then within Q.  If no elements are selected, then there must be no parameter setup lines.
 
 \begin{center}
-	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.5cm} p{4.3cm}}
+	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.4cm} p{1.5cm} p{4.2cm}}
 		\endfirsthead
 
 		\hline
@@ -1200,21 +1200,36 @@ For each fishery and survey with an index, enter a row with the entries as descr
 
 		\multicolumn{8}{l}{A long parameter line is expected and the above example would be specified by:}\\
 		\hline
-		\#LO & HI & INIT & PRIOR & PR TYPE & ... & BLOCK FXN & LABEL \\
+		\#LO & HI & INIT & PRIOR & PR SD & PR TYPE & PHASE & ENV  (Cont. below)\\
 		\hline
-		%0  & 3   & 1    & 1    & 0  & ...  & 0   & \#Fishery1 power\\
-		%0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Fishery1 extra SD\\
-		%0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Fishery2 extra SD\\
-		%0  & 0.5 & 0.10 & 0.10 & 0  & ...  & 0   & \#Survey2 extra SD\\
-		%-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery1 base Q\\
-		%-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Fishery2 base Q\\
-		0.001 & 2   & 0.079 & 0.079 & -1 & ...  & 0   & \#Survey1 LnQ base\\
-		-7 & 5   & 0.50 & 0.50 & -1 & ...  & 0   & \#Survey2 LnQ base\\
-		%0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs2\\
-		%0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs3\\
-		%0  & 1   & 0    & 0    & 1  & ...  & 0   & \#Survey1 Q Random Walk obs4\\
-		%... & ... & ... & ...  & ...& ...  & ... & ... \\
-		 0  & 0.5 & 0.0 & 0.0 & 1 & ...  & 0   & \#Survey1 Q extra SD\\
+		-2 & 2   & -0.12 & 0     & 0     & 0       & 9     & 0 \\
+		\hline
+		Cont: & USE DEV & DEV MINY & DEV MAXY & DEV PH & BLOCK & BLOCK FXN  & LABEL \\	
+		\hline	
+		      & 1       & 1982     & 2015     & -5      & 0     & 0          & \#Survey1 LnQ base\\
+		\hline
+	\end{longtable}
+\end{center}
+
+\begin{center}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.2cm} p{1.2cm} p{1.1cm} p{1.5cm} p{5.2cm}}
+		\endfirsthead
+		
+		\hline
+		\#LO & HI & INIT & PRIOR & PR TYPE & SD & PHASE & LABEL \\
+		\hline
+		\endhead
+		
+		\hline
+		\endfoot
+		\endlastfoot
+		
+		\multicolumn{8}{l}{A long parameter line is expected and the above example would be specified by:}\\
+		\hline
+		\#LO  & HI   & INIT  & PRIOR & PR SD & PRIOR TYPE & PHASE & LABEL \\
+		\hline
+		0.001 & 2    & 0.079 & 0.079 & 0.5   & 6       & -5   & \#LnQ\_base\_Survey\_dev\_se\\
+		-0.99 & 0.99 & 0.00  & 0.00  & 0.5   & 6       & -6   &  \#LnQ\_base\_Survey\_dev\_se\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1277,7 +1292,7 @@ Read the required number of parameter setup lines as specified by the definition
 		\endfirsthead
 		
 		\hline
-		\#LO & HI & INIT & PRIOR & PR TYPE & SD & PHASE & LABEL \\
+		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
 		\hline
 		\endhead
 		
@@ -1287,26 +1302,26 @@ Read the required number of parameter setup lines as specified by the definition
 		
 		\multicolumn{8}{l}{The list of parameters to be read from the above setup would be:}\\
 		\hline
-		\#LO & HI & INIT & PRIOR & PR TYPE & ... & BLOCK FXN & LABEL \\
+		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
 		\hline
-		19    & 80   & 53.5 & 50  & 1 & ...  & 0   & \#SizeSel p1 fishery 1\\
-		0.01  & 60   & 18.9 & 15  & 1 & ...  & 0   & \#SizeSel p2 fishery 1 \\
-		20    & 70   & 38.6 & 40  & 0 & ...  & 0   & \#Retain p1 fishery 1\\
-		0.1   & 10   & 6.5  & 1   & 0 & ...  & 0   & \#Retain p2 fishery 1\\
-		0.001 & 1    & 0.98 & 1   & 0 & ...  & 0   & \#Retain p3 fishery 1\\
-		-10   & 10   & 1    & 0   & 0 & ...  & 0   & \#Retain p4 fishery 1\\
-		0.1   & 1    & 0.6  & 0.6 & 0 & ...  & 0   & \#DiscMort p1 fishery 1\\
-		-2    & 2    & 0    & 0   & 0 & ...  & 0   & \#DiscMort p2 fishery 1\\
-		20    & 70   & 40   & 40  & 0 & ...  & 0   & \#DiscMort p3 fishery 1\\
-		0.1   & 10   & 1    & 1   & 0 & ...  & 0   & \#DiscMort p4 fishery 1\\
-		19    & 80   & 53.5 & 50  & 1 & ...  & 0   & \#SizeSel p1 survey 1\\
-		0.01  & 60   & 18.9 & 15  & 1 & ...  & 0   & \#SizeSel p2 survey 1 \\
-		0     & 40   & 0    & 5   & -1 & ...  & 0   & \#AgeSel p1 fishery 1\\
-		0     & 40   & 40   & 5   & -1 & ...  & 0   & \#AgeSel p2 fishery 1\\
-		0     & 40   & 0    & 5   & -1 & ...  & 0   & \#AgeSel p1 survey 1\\
-		0     & 40   & 40   & 5   & -1 & ...  & 0   & \#AgeSel p2 survey 1\\
-		0     & 40   & 0    & 5   & -1 & ...  & 0   & \#AgeSel p1 survey 2\\
-		0     & 40   & 0    & 5   & -1 & ...  & 0   & \#AgeSel p2 survey 2\\
+		19    & 80   & 53.5 & 50  & 0.5 & ...  & 0   & \#SizeSel p1 fishery 1\\
+		0.01  & 60   & 18.9 & 15  & 0.5 & ...  & 0   & \#SizeSel p2 fishery 1 \\
+		20    & 70   & 38.6 & 40  & 0.5 & ...  & 0   & \#Retain p1 fishery 1\\
+		0.1   & 10   & 6.5  & 1   & 0.5 & ...  & 0   & \#Retain p2 fishery 1\\
+		0.001 & 1    & 0.98 & 1   & 0.5 & ...  & 0   & \#Retain p3 fishery 1\\
+		-10   & 10   & 1    & 0   & 0.5 & ...  & 0   & \#Retain p4 fishery 1\\
+		0.1   & 1    & 0.6  & 0.6 & 0.5 & ...  & 0   & \#DiscMort p1 fishery 1\\
+		-2    & 2    & 0    & 0   & 0.5 & ...  & 0   & \#DiscMort p2 fishery 1\\
+		20    & 70   & 40   & 40  & 0.5 & ...  & 0   & \#DiscMort p3 fishery 1\\
+		0.1   & 10   & 1    & 1   & 0.5 & ...  & 0   & \#DiscMort p4 fishery 1\\
+		19    & 80   & 53.5 & 50  & 0.5 & ...  & 0   & \#SizeSel p1 survey 1\\
+		0.01  & 60   & 18.9 & 15  & 0.5 & ...  & 0   & \#SizeSel p2 survey 1 \\
+		0     & 40   & 0    & 5   & 0.5 & ...  & 0   & \#AgeSel p1 fishery 1\\
+		0     & 40   & 40   & 5   & 0.5 & ...  & 0   & \#AgeSel p2 fishery 1\\
+		0     & 40   & 0    & 5   & 0.5 & ...  & 0   & \#AgeSel p1 survey 1\\
+		0     & 40   & 40   & 5   & 0.5 & ...  & 0   & \#AgeSel p2 survey 1\\
+		0     & 40   & 0    & 5   & 0.5 & ...  & 0   & \#AgeSel p1 survey 2\\
+		0     & 40   & 0    & 5   & 0.5 & ...  & 0   & \#AgeSel p2 survey 2\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1617,18 +1632,19 @@ The currently defined selectivity patterns, and corresponding required number of
 	When the complete auto-generation is selected, the control.ss\_new would look like the table below:
 	
 	\begin{center}
-		\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.75cm} p{1cm} p{1.2cm} p{1cm} p{3.8cm}}
-			\#LO & HI & INIT & PR & PR\_TYPE & SD & PHASE &  ... & \#Label \\
+		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
 			\hline
-			0 &     2 &   2.0 & 0 & -1 & 0     & -99 & 0 & \#SizeSpline Code\\
-			-0.001 & 	 1 &  0.13 & 0 &  1 & 0.001 & 	3 & 0 & \#SizeSpline GradLo\\
-			-1 & 0.001 & -0.03 & 0 &  0 & 0.001 & 	3 & 0 & \#SizeSpline GradHi\\
-			11 & 	95 & 	38 & 0 & -1 & 	  0 & -99 & 0 & \#SizeSpline Knot1\\
-			11 & 	95 & 	59 & 0 & -1 &     0 & -99 & 0 & \#SizeSpline Knot2\\
-			11 & 	95 & 	74 & 0 & -1 & 	  0 & -99 & 0 & \#SizeSpline Knot3\\
-			-9 & 	 7 & 	-3 & 0 &  1 & 0.001 & 	2 & 0 & \#SizeSpline Value1\\
-			-9 &   	 7 & 	-1 & 0 & -1 & 0.001 &  99 & 0 & \#SizeSpline Value2\\
-			-9 & 	 7 & -0.78 & 0 &  1 & 0.001 & 	2 & 0 & \#SizeSpline Value3\\
+			\#LO & HI & INIT & PR & PR\_SD & ... & BLOCK FXN & \#Label \\
+			\hline
+			0      &     2 &   2.0 & 0 & 0   & ... & 0 & \#SizeSpline Code\\
+			-0.001 & 	 1 &  0.13 & 0 & 0.1 & ... & 0 & \#SizeSpline GradLo\\
+			-1     & 0.001 & -0.03 & 0 & 0.1 & ... & 0 & \#SizeSpline GradHi\\
+			11     & 	95 & 	38 & 0 & 0   & ... & 0 & \#SizeSpline Knot1\\
+			11     & 	95 & 	59 & 0 & 0   & ... & 0 & \#SizeSpline Knot2\\
+			11     & 	95 & 	74 & 0 & 0   & ... & 0 & \#SizeSpline Knot3\\
+			-9     & 	 7 & 	-3 & 0 & 0.1 & ... & 0 & \#SizeSpline Value1\\
+			-9     &   	 7 & 	-1 & 0 & 0.1 & ... & 0 & \#SizeSpline Value2\\
+			-9     & 	 7 & -0.78 & 0 & 0.1 & ... & 0 & \#SizeSpline Value3\\
 			\hline
 		\end{longtable}
 	\end{center}
@@ -1640,11 +1656,12 @@ The currently defined selectivity patterns, and corresponding required number of
 	Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{center}
-		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm} p{1cm} p{1cm} p{1cm} p{4.2cm}}
-			\#LO & HI & INIT & PR & PR\_TYPE & SD & PHASE &  ... & \# Label \\
+		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
 			\hline
-			0 & 20 & 10 & 0 & -1 & 0 & -99 & 0 & \# AgeSel\_ScaleAgeLo \\
-			0 & 20 & 20 & 0 & -1 & 0 & -99 & 0 & \# AgeSel\_ScaleAgeHi \\
+			\#LO & HI & INIT & PR & PR\_SD & ... & BLOCK FXN & \#Label \\
+			\hline
+			0 & 20 & 10 & 0 & 0.5 & ... & 0 & \#AgeSel\_ScaleAgeLo \\
+			0 & 20 & 20 & 0 & 0.5 & ... & 0 & \#AgeSel\_ScaleAgeHi \\
 			\hline
 		\end{longtable}
 	\end{center}
@@ -1656,11 +1673,12 @@ The currently defined selectivity patterns, and corresponding required number of
 	Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{center}
-		\begin{longtable}{p{0.7cm} p{0.7cm} p{0.9cm} p{0.7cm} p{1.75cm} p{1cm} p{1cm} p{1cm} p{4.7cm}}
-		\#LO & HI & INIT & PR & PR\_TYPE & SD & PHASE &  ... & \# Label \\
+		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
 		\hline
-		0 & 20 & 10 & 0 & -1 & 0 & -99 & 0 & \# AgeSpline\_ScaleAgeLo \\
-		0 & 20 & 20 & 0 & -1 & 0 & -99 & 0 & \# AgeSpline\_ScaleAgeHi \\
+		\#LO & HI & INIT & PR & PR\_SD & ... & BLOCK FXN & \ Label \\
+		\hline
+		0 & 20 & 10 & 0 & 0.5 &  ... & 0 & \#AgeSpline\_ScaleAgeLo \\
+		0 & 20 & 20 & 0 & 0.5 & ... & 0 & \#AgeSpline\_ScaleAgeHi \\
 		\hline
 		\end{longtable}
 	\end{center}
@@ -1672,11 +1690,12 @@ The currently defined selectivity patterns, and corresponding required number of
 	Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{center}
-		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm} p{1cm} p{1cm} p{1cm} p{4.2cm}}
-			\#LO & HI & INIT & PR & PR\_TYPE & SD & PHASE &  ... & \# Label \\
+		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
 			\hline
-			1 & 80 & 50 & 0 & -1 & 0 & -99 & 0 & \# SizeSel\_ScaleBinLo \\
-			1 & 80 & 70 & 0 & -1 & 0 & -99 & 0 & \# SizeSel\_ScaleBinHi \\
+			\#LO & HI & INIT & PR & PR\_SD  & ... & BLOCK FXN & \#Label \\
+			\hline
+			1 & 80 & 50 & 0 & 0.5  & ... & 0 & \#SizeSel\_ScaleBinLo \\
+			1 & 80 & 70 & 0 & 0.5  & ... & 0 & \#SizeSel\_ScaleBinHi \\
 			\hline
 		\end{longtable}
 	\end{center}
@@ -1766,52 +1785,63 @@ Note that the male selectivity offsets currently cannot be time-varying (need to
 
 
 \subsubsection{Time-varying Options}
-The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the Time-Varying Parameter Options section.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or dev vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
+The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the \hyperlink{TVpara}{\textit{Using Time-Varying Parameter Options section}}.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
 
 \begin{center}
-	\begin{longtable}{p{2cm} p{1cm} p{4cm} p{8cm}}
-		Value & & Label & Description\\
+	\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
+		\multicolumn{8}{r}{Example short parmaeter lines for selectivity time-varying parameters:}\\
 		\hline
-		\endfirsthead
-
-		Value & & Label & Description\\
+		\#LO & HI & INIT & PR & PR\_SD  & PRIOR TYPE & PHASE& \#Label \\
 		\hline
-		\endhead
+		0.01 & 2.0 & 0.58 & 0.58 &   & ... & 0 & \#SizeSel\_ScaleBinLo \\
+		1 & 80 & 70 & 0 & 0.5  & ... & 0 & \#SizeSel\_ScaleBinHi \\
+		\hline
+	\end{longtable}
+\end{center}
 
-		\endfoot
-
-		\endlastfoot
-
-			%Value & & Label & Description \\
-			COND &  & & If any selectivity parameters use environmental linkage, then read next line and associated parameter line(s).\\
-			     & 0 & Custom Environmental Linkage	& \\
-			\hline
-			COND &  & & If custom=0, then read one parameter line below and apply to all env functions;
-			If custom>0, then read a setup line for each SEL-parm with Env-var>0. Note that control.ss\_new will write out with custom=1 so it can write all the parameter values.\\
-			\hline
-			\multicolumn{4}{l}{Enter proper number of short set-up lines (0, 1, several) for the SEL-parm environmental}\\
-			\multicolumn{4}{l}{linkages.  Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_TYPE, SD, PHASE.}\\
-			\hline
-			COND & & & If any selectivity parameters use time blocks, then read next line and associated parameter line(s). \\
-			     & 0 & Custom block setup & If custom=0, then read one setup and apply to all Block fxns;
-			     If custom>0, then read a setup line for each SEL-parm with Block>0.  \\
-			\hline
-			\multicolumn{4}{l}{Enter proper number of short set-up lines (0, 1, several) for the SEL-parm block linkages.}\\
-			\multicolumn{4}{l}{Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_TYPE, SD, PHASE.} \\
-			\hline
-			COND &  & & If any selectivity parameters use annual devs, then read  value\\
-			     & -4 & Selparm dev phase & Phase in which selparm devs, if any, are estimated. \\
-			\hline
-			%COND &  & & If any selectivity parameters use environmental links, blocks or annual devs, then read value.\\
-			%     & 2 & Selparm Adjust Method & 1 = parameter adjustments for env, block and dev are applied directly and resulting value is not compared to base parameter bounds\\
+%\begin{center}
+%	\begin{longtable}{p{2cm} p{1cm} p{4cm} p{8cm}}
+%		Value & & Label & Description\\
+%		\hline
+%		\endfirsthead
+%
+%		Value & & Label & Description\\
+%		\hline
+%		\endhead
+%
+%		\endfoot
+%
+%		\endlastfoot
+%
+%			%Value & & Label & Description \\
+%			COND &  & & If any selectivity parameters use environmental linkage, then read next line and associated parameter line(s).\\
+%			     & 0 & Custom Environmental Linkage	& \\
+%			\hline
+%			COND &  & & If custom=0, then read one parameter line below and apply to all env functions;
+%			If custom>0, then read a setup line for each SEL-parm with Env-var>0. Note that control.ss\_new will write out with custom=1 so it can write all the parameter values.\\
+%			\hline
+%			\multicolumn{4}{l}{Enter proper number of short set-up lines (0, 1, several) for the SEL-parm environmental}\\
+%			\multicolumn{4}{l}{linkages.  Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_TYPE, SD, PHASE.}\\
+%			\hline
+%			COND & & & If any selectivity parameters use time blocks, then read next line and associated parameter line(s). \\
+%			     & 0 & Custom block setup & If custom=0, then read one setup and apply to all Block fxns;
+%			     If custom>0, then read a setup line for each SEL-parm with Block>0.  \\
+%			\hline
+%			\multicolumn{4}{l}{Enter proper number of short set-up lines (0, 1, several) for the SEL-parm block linkages.}\\
+%			\multicolumn{4}{l}{Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_TYPE, SD, PHASE.} \\
+%			\hline
+%			COND &  & & If any selectivity parameters use annual devs, then read  value\\
+%			     & -4 & Selparm dev phase & Phase in which selparm devs, if any, are estimated. \\
+%			\hline
+%			%COND &  & & If any selectivity parameters use environmental links, blocks or annual devs, then read value.\\
+%			%     & 2 & Selparm Adjust Method & 1 = parameter adjustments for env, block and dev are applied directly and resulting value is not compared to base parameter bounds\\
 			%     &   & & 2 = parameter adjustments use a logistic transformation to assure that adjusted parameter value stays within bounds of base parameter.\\
 			     %&  & & 3 = parameter adjustments use an additive random walk.\\
 			     %&  & & 4 = parameter adjustments use a mean reverting random walk.\\
 			%\hline
-	\end{longtable}
-\end{center}
+%	\end{longtable}
+%\end{center}
 
-For additional information on the use of time-varying parameters please see the \hyperlink{TVpara}{\textit{Using Time Varying Parameters}} section.
 
 \subsubsection{Tag Recapture Parameters}
 Specify if tagging data are being used:
@@ -2079,19 +2109,35 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
 
 \hypertarget{TVpara}{}
 \subsubsection{Using Time-Varying Parameters}
-\hypertarget{TVpara}{Biology} parameters and selectivity parameters can vary over time.  There are four options for time-varying parameters:  blocks, trends, environmental linkage, and annual deviations.
+ The approach to allowing parameters to have time-varying values has been completely overhauled in the transition from SS v.3.24 to SS v.3.30.  Fortunately, the sstrans.exe will do the conversion for you, but you should review the new control file closely before simply running with it, especially for time-varying catchability parameters.
+ \\\\
+ \noindent \textbf{Motivation}:  In SS v.3.24, the group of biology parameters (termed MGparm) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient.  The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block.  The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks.  The tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
+ \\\\
+ \noindent \textbf{New Code Flow}:  In SS v.3.30, MG, Sel, SRR, Q, and Tag base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time series of the parameter value that are used as SS subsequently loops through the years.
+ \\\\
+ \noindent \textbf{New Parameter Order}: The order of parameters has changed and the re-ordering is handled by the sstrans.exe.  Previously, for each of MG and Sel parameters all env link parameters were listed first, then block/trend parameters and then dev parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then env, then dev.  So, if MG base parameters 3 and 7 had time varying changes, the order would look like:
+ 
+ \begin{center}
+ 	\begin{longtable}{p{5cm} p{10cm}}
+	 	\hline
+	 	MG base parameter 3 & Block parameter 3-1\\
+	 	                    & Block parameter 3-2\\
+	 	                    & Environmental link parameter 3-1\\
+	 	                    & Deviation se parameter 3 \\
+	 	                    & Deviation rho parameter 3 \\
+		MG base parameter 7 & Block parameter 7-1 \\
+							& Deviation se parameter 7 \\
+							& Deviation rho parameter 7 \\
+		\hline	 	                    
+	 	       
+ 	\end{longtable}
+ \end{center}
+ 
+\noindent \textbf{Link Functions}:  The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$.  Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter.  Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function.  So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options.  But as 3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
 
-Elements 8 through 14 of the full parameter lines are used to setup the time-varying properties.  If any parameter of the biology section is made to be time-varying, then one or more conditional inputs at the end of the biology section (or end of the selectivity section) will need to be turned on, and one or more parameter lines will need to be inserted to contain the parameter linkages and offsets that have been selected.  This is done separately for the block of biology parameters and then for the selectivity parameters.
+The table below shows the link specifications in SS v.3.24 and the corresponding link specification in SS v.3.30.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the firs to three numbers with the environmental index to use specified by two additional numbers. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
 
-With version SS v3, the options for time-varying parameters were expanded to include more additive effects.  This is because it is not logical for a parameter whose range spans 0.0 to have a time-varying effect defined in a multiplicative way.  This is especially true for those parameters that are exponentiated as they are being used.  For example, the parameters that define the allocation of recruitment among areas and seasons should be made time-varying only through an additive function.
-
-The order in which time-varying effects are calculated is:  first blocks or trends, then environmental effects, then annual deviations.
-
-All time-varying options work on an annual time step, so in a multi-season model the parameters remain constant for the entire year.  The exception is for the select biology parameters that have a separate capability to vary seasonally.
-
-If the parameter adjustment method is set to a value of 2, then each parameter time-varying adjustments has an intermediate logistic transformation so the adjusted parameter stays within the min-max bounds of the parameter being adjusted.  With this method, multiplicative adjustments are not implemented and the additive adjustments are in the domain of the logistic transformed base parameter.  So, the adjustment coefficients will not have intuitive values.
-
-The available options for time-varying parameters are described below:
+The new available options for time-varying parameters in SS v3.30 are described below:
 \begin{itemize}
 	\item Env Var - Element 8 in parameter setup
 		\begin{itemize}
