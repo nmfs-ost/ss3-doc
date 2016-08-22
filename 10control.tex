@@ -1789,12 +1789,12 @@ The time-varying options for selectivity parameters are identical to the time-va
 
 \begin{center}
 	\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
-		\multicolumn{8}{r}{Example short parmaeter lines for selectivity time-varying parameters:}\\
+		\multicolumn{8}{r}{Example short parameter lines for selectivity time-varying parameters:}\\
 		\hline
-		\#LO & HI & INIT & PR & PR\_SD  & PRIOR TYPE & PHASE& \#Label \\
+		\#LO & HI & INIT & PRIOR & PR\_SD  & PRIOR TYPE & PHASE& \#Label \\
 		\hline
-		0.01 & 2.0 & 0.58 & 0.58 &   & ... & 0 & \#SizeSel\_ScaleBinLo \\
-		1 & 80 & 70 & 0 & 0.5  & ... & 0 & \#SizeSel\_ScaleBinHi \\
+		0.01 & 2.0 & 0.58 & 0.58 &  0.5  & 6 & -5 & \#AgeSel\_P4\_Fishery\_dev\_se \\
+		1    & 80  & 70   & 70   &  0.5  & 6 & -5 & \#AgeSel\_P4\_Fishery\_dev\_autocorr \\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1846,7 +1846,7 @@ The time-varying options for selectivity parameters are identical to the time-va
 \subsubsection{Tag Recapture Parameters}
 Specify if tagging data are being used:
 \begin{center}
-	\begin{longtable}{p{0.75cm} p{0.75cm} p{0.75cm} p{1.25cm} p{1.75cm} p{1cm} p{1.5cm} p{0.75cm} p{4.5cm}}
+	\begin{longtable}{p{0.75cm} p{0.75cm} p{0.75cm} p{1.25cm} p{1.15cm} p{1.65cm} p{1.5cm} p{0.75cm} p{4.5cm}}
 
 		\multicolumn{3}{l}{Value} &  \multicolumn{3}{l}{Label} & \multicolumn{3}{l}{Description}\\
 		\hline
@@ -1855,21 +1855,22 @@ Specify if tagging data are being used:
 		\\
 		\multicolumn{8}{l}{COND = 1 Read the following long parameter lines:}\\
 		\hline
-		\#LO & HI & INIT & PRIOR & PR\_TYPE& SD & PHASE & ... & LABEL\\
+		     &    &      &       & PRIOR & PRIOR &       &     & \\
+		\#LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & ... & LABEL\\
 		\hline
-		-10 & 10 & 9 & 9 & 1 & 0.001 & -4 & 0 & \#TG loss init 1\\
-		-10 & 10 & 9 & 9 & 1 & 0.001 & -4 & 0 & \#TG loss init 2\\
-		-10 & 10 & 9 & 9 & 1 & 0.001 & -4 & 0 & \#TG loss init 3\\
-		-10 & 10 & 9 & 9 & 1 & 0.001 & -4 & 0 & \#TG loss chronic1\\
-		-10 & 10 & 9 & 9 & 1 & 0.001 & -4 & 0 & \#TG loss chronic2\\
-		-10 & 10 & 9 & 9 & 1 & 0.001 & -4 & 0 & \#TG loss chronic3\\
-		  1 & 10 & 2 & 2 & 1 & 0.001 & -4 & 0 & \#TG loss overdisperion1\\
-		  1 & 10 & 2 & 2 & 1 & 0.001 & -4 & 0 & \#TG loss overdisperion2\\
-		  1 & 10 & 2 & 2 & 1 & 0.001 & -4 & 0 & \#TG loss overdisperion3\\
-		-10 & 10 & 9 & 9 & 1 & 0.001 & -4 & 0 & \#TG report fleet1\\
-		-10 & 10 & 9 & 9 & 1 & 0.001 & -4 & 0 & \#TG report fleet2\\
-		 -4 &  0 & 0 & 0 & 0 &     2 & -4 & 0 & \#TG report decay1\\
-		 -4 &  0 & 0 & 0 & 0 &     2 & -4 & 0 & \#TG report decay2\\
+		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss init 1\\
+		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss init 2\\
+		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss init 3\\
+		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss chronic1\\
+		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss chronic2\\
+		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss chronic3\\
+		  1 & 10 & 2 & 2 & 0.001 & 6 & -4 & 0 & \#TG loss overdisperion1\\
+		  1 & 10 & 2 & 2 & 0.001 & 6 & -4 & 0 & \#TG loss overdisperion2\\
+		  1 & 10 & 2 & 2 & 0.001 & 6 & -4 & 0 & \#TG loss overdisperion3\\
+		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG report fleet1\\
+		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG report fleet2\\
+		 -4 &  0 & 0 & 0 & 0.001 & 2 & -4 & 0 & \#TG report decay1\\
+		 -4 &  0 & 0 & 0 & 0.001 & 2 & -4 & 0 & \#TG report decay2\\
 		 \hline
 	\end{longtable}
 \end{center}
@@ -2137,105 +2138,135 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
 
 The table below shows the link specifications in SS v.3.24 and the corresponding link specification in SS v.3.30.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the firs to three numbers with the environmental index to use specified by two additional numbers. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
 
-The new available options for time-varying parameters in SS v3.30 are described below:
+The new available options for time-varying parameters in SS v3.30 are described below (the options available in v.3.24 are provided for comparison):
 \begin{itemize}
-	\item Env Var - Element 8 in parameter setup
+	\item Environmental Link and  Variance - Element 8 in parameter setup
 		\begin{itemize}
-			\item 0: No MG parameters with environmental linkages.
-			\item 100-199: One parameter multiplicative link, with the environmental variable found by subtracting 100.  For example, a value of 102 would create a multiplicative linkage to environmental variable "2".
-			\item 200-299: One parameter additive linkage.
-			\item 400-499: Two parameter logistic linkage.
-			%\item >0: multiplicative
-			%\item <0: additive
-			%\item abs(value): environmental index
+			\item Parsing: Link = value / 100; Env\_var = value - Link*100
+			\item Link = 1: $P'=P*e^{L1*env}$
+			\item Link = 2: $P'=P+L1*env$
+			\item Link = 3: Reserved for density dependence
+			\item Link = 4: Logistic $P'=P*\frac{2}{1+e^-L1*(env-L2)}$
+			\item Previously available options in SS v.3.24
+			\begin{itemize}
+				\item >0: multiplicative
+				\item <0: additive
+				\item abs(value): environmental index
+			\end{itemize}
 		\end{itemize}
-	\item Use Dev - Element 9 in parameter setup
+	\item Deviation Link - Element 9 in parameter setup
 	\begin{itemize}
-		\item 1: multiplicative
-		\item 2: additive
-		\item 3: additive random walk
+		\item 1 = multiplicative
+		\item 2 = additive
+		\item Random walk options are now implemented by using rho in the objective function
+		\item This column was previously called "Use Deviation". Previously available options in SS v.3.24
+		\begin{itemize}
+			\item 1: multiplicative
+			\item 2: additive
+			\item 3: additive random walk
+			\item 4: mean reverting random walk
+		\end{itemize}
 	\end{itemize}
-	\item Dev minyr - Element 10 in parameter setup
-	\begin{itemize}
-		\item Year for deviations to start for parameter
-	\end{itemize}
-	\item Dev maxyr - Element 11 in parameter setup
+	\item Deviation  Minimum Year - Element 10 in parameter setup
+		\begin{itemize}
+			\item Year for deviations to start for parameter
+			\item This column remains the same as specified in SS v.3.24
+		\end{itemize}
+	\item Deviation  Maximum Year - Element 11 in parameter setup
 		\begin{itemize}
 			\item Year for deviations to end for parameter
+			\item This column remains the same as specified in SS v.3.24
 		\end{itemize}
-	\item Dev StdDev - Element 12 in parameter setup
+	\item Deviation Phase - Element 12 in parameter setup
 		\begin{itemize}
-			\item Standard deviation for deviations
+			\item integer, this available element in the long parameter line is now a deviation vector specific phase control
+			\item This column was previously called "Deviaiton Standard Error". Previously available options in SS v.3.24
+			\begin{itemize}
+				\item Standard deviation for deviations
+			\end{itemize}
 		\end{itemize}
 	\item Blocks - Element 13 in parameter setup
 		\begin{itemize}
 			\item >0: block index for parameter
-			\item <0: trend
+			\item -1: trend with final as offset from base parameter and offset values is in log space, also inflection year is in log space and the offset from log(0.5).
+			\begin{itemize}
+				\item Logistic approach to trend as offset from base parameter
+				\item Transform the base parameter
+				\begin{equation}
+					temp = -0.5*log\Bigg(\frac{MGparm_1(j,2)-MGparm_1(j,1)+0.0000002}{MGparm(j)-MGparm_1(j,1)+0.0000001}-1\Bigg)
+				\end{equation}
+				\item Add the offset.  Note, that offset values in in the transform space.
+				\begin{equation}
+					temp += MGparm(k+1)
+				\end{equation}
+				\item Back transform
+				\begin{equation}
+					temp1 = MGparm_1(j,1)+\frac{MGparm_1(j,2)-MGparm_1(j,1)}{1+e^{-2*temp}}
+				\end{equation}			
+			\end{itemize}
+			\item -2: trend with final as standalone value
+			\item -3 end value is a fraction of base parameter maximum - minimum; inflection year is fraction of end year - start year.
+			\item <= -4: cycle with on parameter per season
+			\item Previously available options in SS v.3.24
+			\begin{itemize}
+				\item >0: block index for parameter
+				\item -1: trend with final as offset from base parameter and offset value in log space
+				\item -2: trend with final as stand alone value
+				\item <= -3: cycle with one parameter per season
+			\end{itemize}
 		\end{itemize}
 	\item Block Functional Form: Element 14 in parameter setup
 		\begin{itemize}
-			\item 0: multiplicative
+			\item 0: multiplicative 
 			\item 1: additive
 			\item 2: replace
-			\item 3: random walk
+			\item 3: random walk across blocks
+			\item This column remains the same as specified in SS v.3.24
 		\end{itemize}
 \end{itemize}
-\begin{center}
-	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2.25cm} p{1.75cm}}
-		\multicolumn{7}{l}{Example of location for specifying time-varying parameters}\\
-		\hline
-		Env Var & Use Dev & Dev Minyr & Dev Maxyr & Dev StDev & Blocks & Block Fxn\\
-		\hline
-		100-199: mult & 1:mult & 1973 & 1985 & 0.40 & block index & 0:mult\\
-		\hline
-	\end{longtable}
-\end{center}
+
 \begin{center}
 	\includegraphics{TimeVarying}
 \end{center}
-\begin{center}
-	\begin{longtable}{p{2.5cm} p{13cm}}
-		\hline
-		Env var & Values between 100-199, g, causes SS to set the annual working value of this parameter equal to a multiplicative function of Environmental Variable\\
-		    & \multicolumn{1}{c}{g: $parm’_y = parm * exp(link * env_{y,g})$ } \\
-			& Values between 200-299, g, causes SS to set the annual working value of this parameter equal to a additive function of Environmental Variable g:\\
-		    & \multicolumn{1}{c}{ $parm’_y = parm + link * env_{y,g}$}\\
-			& Where, link is the environmental link parameter, parm is the base parameter being adjusted, parm’ is the value after adjustment, and env(y-g) is the value of the environmental input g in year y. SS counts the number of parameters that invoke use of an Environmental Variable.  After SS finishes reading the section’s parameter lines, it then creates/reads additional short parameter line(s) to set up the link parameters.  If custom=0, then one short parameter line is used to define the min, max, init, etc, for each of the link parameters.  If custom=1, then a separate line is read for each.\\
-		\hline
-		Use\_Dev & A value of 1 invokes multiplicative:  $parm’_y = parm * exp(dev_y)$\\
-			& A value of 2 invokes additive:  $parm’_y = parm + dev_y$\\
-			& A value of 3 invokes additive random walk:  $parm’_y = parm’_{y-1} + dev_y$\\
-		    & The vector of devs is simply a vector of offsets; there is no inherent sum to zero constraint.  However, the fact that they are each penalized by the DEV std.dev. below will tend to make them sum towards 0.0.\\
-		\hline
-		Dev min yr & Beginning year for the dev vector for this parameter\\
-		\hline
-		Dev max yr & Ending year for the dev vector for this parameter\\
-		\hline
-		Dev Std Dev. & Standard deviation for elements in the dev vector for this parameter \\
-		\hline
-		Use Block & Block: A positive value identifies which block pattern will be used for time changes to a parameter value.  Block patterns are simply numbered sequentially as they are defined near the top of the control file, so the index here must be correct for the order in which they are defined.  More than one parameter can use the same block definition.  The order of generated block parameters is by the order of the parameters that call for creation of the block parameters, then by the order of the blocks within that pattern. \\ \\
-				  & Trend:  A negative value for the Use\_Block input causes SS to create a parameter time trend instead of blocks.  This time trend requires 3 parameters (instead of the normal one parameter per block).  The base parameter is the value for the adjusted parameter in year = start year.  For subsequent years, the three parameters define a normal distribution of change over time:\\
-				  & P1:  parameter value for year = end year.  Either as logistic offset from base P (if Use\_Block=-1), or as direct usage (if Use\_Block=-2)\\
-				  & P2:  inflection year;  if HI value for the base parameter is >1.1, then use as year, else use as fraction of range styr - endyr\\
-				  & P3:  width of change (units of std.dev. of years)\\
-		\hline
-		Block Type & This selects the way in which the block parameter creates an offset from the base parameter. \\
-				   & 0 means that $parm’ = baseparm * exp(blockparm)$\\
-				   & 1 means that $parm’ = baseparm + blockparm$\\
-				   & 2 means that $parm’ = blockparm$\\
-				   & 3 means that $parm’$ = is additive offset from previous block.  Note that blocks must be contiguous to use this option properly.\\
-		\hline
-	\end{longtable}
-\end{center}
+%\begin{center}
+%	\begin{longtable}{p{2.5cm} p{13cm}}
+%		\hline
+%		Env var & Values between 100-199, g, causes SS to set the annual working value of this parameter equal to a multiplicative function of Environmental Variable\\
+%		    & \multicolumn{1}{c}{g: $parm’_y = parm * exp(link * env_{y,g})$ } \\
+%			& Values between 200-299, g, causes SS to set the annual working value of this parameter equal to a additive function of Environmental Variable g:\\
+%		    & \multicolumn{1}{c}{ $parm’_y = parm + link * env_{y,g}$}\\
+%			& Where, link is the environmental link parameter, parm is the base parameter being adjusted, parm’ is the value after adjustment, and env(y-g) is the value of the environmental input g in year y. SS counts the number of parameters that invoke use of an Environmental Variable.  After SS finishes reading the section’s parameter lines, it then creates/reads additional short parameter line(s) to set up the link parameters.  If custom=0, then one short parameter line is used to define the min, max, init, etc, for each of the link parameters.  If custom=1, then a separate line is read for each.\\
+%		\hline
+%		Use\_Dev & A value of 1 invokes multiplicative:  $parm’_y = parm * exp(dev_y)$\\
+%			& A value of 2 invokes additive:  $parm’_y = parm + dev_y$\\
+%			& A value of 3 invokes additive random walk:  $parm’_y = parm’_{y-1} + dev_y$\\
+%		    & The vector of devs is simply a vector of offsets; there is no inherent sum to zero constraint.  However, the fact that they are each penalized by the DEV std.dev. below will tend to make them sum towards 0.0.\\
+%		\hline
+%		Dev min yr & Beginning year for the dev vector for this parameter\\
+%		\hline
+%		Dev max yr & Ending year for the dev vector for this parameter\\
+%		\hline
+%		Dev Std Dev. & Standard deviation for elements in the dev vector for this parameter \\
+%		\hline
+%		Use Block & Block: A positive value identifies which block pattern will be used for time changes to a parameter value.  Block patterns are simply numbered sequentially as they are defined near the top of the control file, so the index here must be correct for the order in which they are defined.  More than one parameter can use the same block definition.  The order of generated block parameters is by the order of the parameters that call for creation of the block parameters, then by the order of the blocks within that pattern. \\ \\
+%				  & Trend:  A negative value for the Use\_Block input causes SS to create a parameter time trend instead of blocks.  This time trend requires 3 parameters (instead of the normal one parameter per block).  The base parameter is the value for the adjusted parameter in year = start year.  For subsequent years, the three parameters define a normal distribution of change over time:\\
+%				  & P1:  parameter value for year = end year.  Either as logistic offset from base P (if Use\_Block=-1), or as direct usage (if Use\_Block=-2)\\
+%				  & P2:  inflection year;  if HI value for the base parameter is >1.1, then use as year, else use as fraction of range styr - endyr\\
+%				  & P3:  width of change (units of std.dev. of years)\\
+%		\hline
+%		Block Type & This selects the way in which the block parameter creates an offset from the base parameter. \\
+%				   & 0 means that $parm’ = baseparm * exp(blockparm)$\\
+%				   & 1 means that $parm’ = baseparm + blockparm$\\
+%				   & 2 means that $parm’ = blockparm$\\
+%				   & 3 means that $parm’$ = is additive offset from previous block.  Note that blocks must be contiguous to use this option properly.\\
+%		\hline
+%	\end{longtable}
+%\end{center}
 
 \subsubsection{Parameter Priors}
 Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall logL function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the logL, so they would have no gradient in the logL and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  The options for parameter priors are:
 \begin{itemize}
-	\item -1 = No prior applied.
-	\item  0 = Normal prior. Note that this function is independent of the parameter.
-	\begin{equation}
-		\text{Prior Likelihood} = 0.50*(\frac{Pval - Prior}{Prior\_SD})^2
-	\end{equation}
+	\item  0 = No prior applied.
 	\item  1 = Symmetric bet prior is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior.
 	\begin{equation}  \mu = -P\_SD*(log((Pmax+Pmin)*0.5-Pmin)-P\_SD*(log(0.5)) \end{equation}
 	\begin{equation}
@@ -2276,5 +2307,9 @@ Priors on parameters fulfill two roles in SS.  First, for parameters provided wi
 	\begin{equation}
 	\text{Prior Likelihood} = 0.50*\Big(\frac{(log(Pval)-Prior)}{Pr\_SD}\Big)^2
 	\end{equation}
+	\item  6 = Normal prior. Note that this function is independent of the parameter.
+		\begin{equation}
+		\text{Prior Likelihood} = 0.50*(\frac{Pval - Prior}{Prior\_SD})^2
+		\end{equation}
 	\item Pval is the value of the parameter for which a prior is being calculated, Pmin and Pmax are the bounds on the parameter, Prior is the value of the parameter prior, or the first of the 2 factors controlling the calculation of the prior, Pr\_SD is the value of the prior's standard deviation, or the second of the 2 factors controlling the calculation of the prior, Pconst is a small constant (0.0001), and Prior\_Like is the calculated value of the prior's contribution to the log likelihood.
 \end{itemize}
