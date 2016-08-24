@@ -46,7 +46,7 @@ These listed model features are denoted in the control file in the following ord
 \subsection{Parameter Line Elements}
 A primary role of the SS control file is to define the parameters to be used by the model.  The general syntax of a parameter line is described here.  Parameter lines will be used in three sections of the control file: (1) natural mortality and growth; (2) spawner-recruitment, initial F and catchability; and (3) selectivity.  The first seven elements of a parameter line are used in every section and will be referred to as a short parameter line.  The remaining elements are used just in sections (1) and (3).  Each parameter line contains:
 
-\hypertarget{Prior}{} 
+\hypertarget{Prior}{} \hypertarget{paraOrder}{}
 \begin{center}
 	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
 		Column & Element & Description\\
@@ -55,8 +55,8 @@ A primary role of the SS control file is to define the parameters to be used by 
 		2 & HI & Maximum value for the parameter\\
 		3 & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
 		4 & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is -1 or 1.\\
-		5 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, 5 = gamma, 6 = normal\\
-		6 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
+		5 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
+		6 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, , 4 = normal, 5 = gamma\\
 		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
 		%\hline
 		 & & \\
@@ -417,13 +417,13 @@ This section controls the biology parameters.  These include:  natural mortality
 		\multicolumn{7}{l}{Example format for MG parameter section:}\\
 		\hline
 		%LO & HI & INIT & Prior Value &  <other entries> & Block type & Parameter Label \\
-		 &  &  & Prior &  <other & Block &  \\
+		   &    &      & Prior &  <other & Block &  \\
 		LO & HI & INIT & Value &  entries> & Fxn & Parameter Label \\
 		\hline
 		\endfirsthead
 
 		\hline
-		&  &  & Prior &  <other & Block &  \\
+		   &    &      & Prior &  <other & Block &  \\
 		LO & HI & INIT & Value &  entries> & Type & Parameter Label \\
 		\hline
 		\endhead
@@ -613,6 +613,7 @@ These 7 parameters are only included in the control file if one of the ageing er
 
 \noindent Code for implementing vectors of mean age' and stdev of age' within SS can be located in Appendix C. \hyperlink{AgeingError}{\textit{Click here for more information.}}
 
+\hypertarget{tvOrder}{}
 \subsubsection{Time-Varying Biology Parameters}
 Any of the parameters defined above can be made time-varying through linkage to an environmental data series, through time blocks, or by setting up annual deviations.  The options for making biology and selectivity parameters change over time is detailed in the section labeled Time-Varying Parameters.  After reading the biology parameters above, which will include possible instructions to create environmental link, blocks, or dev vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the biology parameter section.  So if no biology parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#) except for the line with the input of seasonal factors.
 
@@ -646,8 +647,8 @@ When time-varying growth is used, there are some additional considerations to be
 		\endlastfoot
 		
 		\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \\
-		-99   & 99  & 1 & 0 & -1 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add\\
-		-99   & 99  & 1 & 0 & -1 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add\\
+		-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add\\
+		-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1228,8 +1229,8 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\hline
 		\#LO  & HI   & INIT  & PRIOR & PR SD & PRIOR TYPE & PHASE & LABEL \\
 		\hline
-		0.001 & 2    & 0.079 & 0.079 & 0.5   & 6       & -5   & \#LnQ\_base\_Survey\_dev\_se\\
-		-0.99 & 0.99 & 0.00  & 0.00  & 0.5   & 6       & -6   &  \#LnQ\_base\_Survey\_dev\_se\\
+		0.001 & 2    & 0.079 & 0.079 & 0.5   & 4       & -5   & \#LnQ\_base\_Survey\_dev\_se\\
+		-0.99 & 0.99 & 0.00  & 0.00  & 0.5   & 4       & -6   &  \#LnQ\_base\_Survey\_dev\_se\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1793,8 +1794,8 @@ The time-varying options for selectivity parameters are identical to the time-va
 		\hline
 		\#LO & HI & INIT & PRIOR & PR\_SD  & PRIOR TYPE & PHASE& \#Label \\
 		\hline
-		0.01 & 2.0 & 0.58 & 0.58 &  0.5  & 6 & -5 & \#AgeSel\_P4\_Fishery\_dev\_se \\
-		1    & 80  & 70   & 70   &  0.5  & 6 & -5 & \#AgeSel\_P4\_Fishery\_dev\_autocorr \\
+		0.01 & 2.0 & 0.58 & 0.58 &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_se \\
+		1    & 80  & 70   & 70   &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_autocorr \\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1858,17 +1859,17 @@ Specify if tagging data are being used:
 		     &    &      &       & PRIOR & PRIOR &       &     & \\
 		\#LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & ... & LABEL\\
 		\hline
-		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss init 1\\
-		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss init 2\\
-		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss init 3\\
-		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss chronic1\\
-		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss chronic2\\
-		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG loss chronic3\\
-		  1 & 10 & 2 & 2 & 0.001 & 6 & -4 & 0 & \#TG loss overdisperion1\\
-		  1 & 10 & 2 & 2 & 0.001 & 6 & -4 & 0 & \#TG loss overdisperion2\\
-		  1 & 10 & 2 & 2 & 0.001 & 6 & -4 & 0 & \#TG loss overdisperion3\\
-		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG report fleet1\\
-		-10 & 10 & 9 & 9 & 0.001 & 6 & -4 & 0 & \#TG report fleet2\\
+		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss init 1\\
+		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss init 2\\
+		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss init 3\\
+		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss chronic1\\
+		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss chronic2\\
+		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss chronic3\\
+		  1 & 10 & 2 & 2 & 0.001 & 4 & -4 & 0 & \#TG loss overdisperion1\\
+		  1 & 10 & 2 & 2 & 0.001 & 4 & -4 & 0 & \#TG loss overdisperion2\\
+		  1 & 10 & 2 & 2 & 0.001 & 4 & -4 & 0 & \#TG loss overdisperion3\\
+		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG report fleet1\\
+		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG report fleet2\\
 		 -4 &  0 & 0 & 0 & 0.001 & 2 & -4 & 0 & \#TG report decay1\\
 		 -4 &  0 & 0 & 0 & 0.001 & 2 & -4 & 0 & \#TG report decay2\\
 		 \hline
@@ -2108,7 +2109,7 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
 	\end{longtable}
 \end{center}
 
-\hypertarget{TVpara}{}
+\hypertarget{TVpara}{}; \hypertarget{time-vary}{}
 \subsubsection{Using Time-Varying Parameters}
  The approach to allowing parameters to have time-varying values has been completely overhauled in the transition from SS v.3.24 to SS v.3.30.  Fortunately, the sstrans.exe will do the conversion for you, but you should review the new control file closely before simply running with it, especially for time-varying catchability parameters.
  \\\\
