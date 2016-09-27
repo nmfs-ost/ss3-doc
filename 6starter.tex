@@ -252,6 +252,16 @@ P_{NEW} = P_{MIN} + \frac{P_{MAX}-P_{MIN}}{1+e^{-2 \times temp}}
 
 \hypertarget{ConvIssues}{}
 \subsection{Converting Files from 3.24}
+Converting files fro v. 3.24 to v. 3.30 can be easily performed by specifying 999 in the final line of the starter file.  The following file structure and steps are recommended for converting model files:
+\begin{itemize}
+	\item Create "transition" folder.  Place v. 3.24 files within the transition folder along with the SS transition executable ("SStrans.exe").  Run the transition executable with phase = 0 within the starter file, with the read par file turned off (option 0).
+	\item Create "converted" folder.  Place the ss\_new (data.ss\_new, control.ss\_new, starter.ss\_new, forecast.ss\_new)files created by the transition executable contained within the "transition" folder into this new folder.  Rename the ss\_new files to the appropriate suffixes and change the names in the starter.ss file accordingly.
+	\item Review the control file to examine determine that all model functions converted.  The structural changes and assumptions for some of the advanced model features are too complicated to convert automatically.  See below for some known features that may not convert.
+	\item Within the "transition" folder run the SS\_trans.exe with phases turned.  Compare the transition executable results with those previously obtained by a 3.24 executable.
+	\item Return to the "converted" folder and run the transitioned files with the new 3.30 executable (SS.exe).
+	\item Compare likelihood and model estimates across executables.
+\end{itemize}
+
 There are some options that have been substantially changed in version 3.30 which impedes the converting of 3.24 model files.  Known examples of 3.24 options that cannot be converted are:
 \begin{itemize}
 	\item The use of Q deviations.
