@@ -112,8 +112,8 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  2 & MCMC thin interval & Need to document this and set good default \\
 	   
  \hline 
- 0.0 & Jitter & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{The jitter factor is multiplied by a random normal deviation rdev = N(0,1) to a transformed parameter value based upon the predefined parameter bounds. \hyperlink{Jitter}{\textit{click here for more information}} }}\\
-	 & A positive value here will add a small random jitter to the initial parameter values & \\
+ 0.0 & Jitter & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{The jitter function has been revised with v3.30.  Starting values are now jittered based on a normal distribution based on the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%, \hyperlink{Jitter}{\textit{click here for more information}} }}\\
+	 & A positive value here will add a small random jitter to the initial parameter values.  When using the jitter option, care should be given when defining P\textsubscript{MIN} and P\textsubscript{MAX} values and particularly -999 or 999 should not be used to define bounds. & \\
 	 & &  \\
 	
  \hline
@@ -121,8 +121,8 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
     & -1 = begin annual SD report in start year & \\
     & <year> = begin SD report this year & \\
 	      
- %\hline
- \pagebreak
+ \hline
+ %\pagebreak
  -1 & SD Report End & \\
     & -1 = end annual SD report in end year & \\
     & -2 = end annual SD report in last forecast year & \\
@@ -165,8 +165,8 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  \hline
  0.40 & Fraction (X) for depletion denominator & So would calculate the ratio of SSB\textsubscript{y}/(0.40*SSB0)\\
 
- %\hline
- \pagebreak
+ \hline
+ %\pagebreak
  1 & SPR report basis & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SPR is the equilibrium SSB per recruit that would result from the current year’s pattern and intensity of F’s.  The SPR approach to measuring fishing intensity was implemented because the concept of a single annual F does not exist in SS.
 		The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section.  Then the one specified here is used as the selected denominator in a ratio with the annual value of (1 – SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}}\\
    & 0 = skip & \\
@@ -241,14 +241,14 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 
 \subsection{Jitter}
 \hypertarget{Jitter}{}
-The jitter factor is multiplied by a random normal deviation rdev = N(0,1) to a transformed parameter value based upon the predefined parameter bounds:
-\begin{equation}
-temp = -\frac{1}{2}rdev \times jitter \times ln(\frac{P_{MAX} - P_{MIN} + 0.0000002}{P_{VAL}-P_{MIN} + 0.0000001}-1)
-\end{equation}
-with the final jittered starting parameter value backtransformed as:
-\begin{equation}
-P_{NEW} = P_{MIN} + \frac{P_{MAX}-P_{MIN}}{1+e^{-2 \times temp}}
-\end{equation}
+The jitter function has been updated with v.3.30.  The following steps are now performed to determine the jittered starting parameter values:
+\begin{itemize}
+	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.01\% and the pr(P\textsubscript{MAX}) = 99.9\%.
+	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution based on the pr(P\textsubscript{CURRENT}).
+	\item A random value is drawn, "\textit{J}", from the range of \textit{K}-jitter to \textit{K}+jitter with the constraint that it cannot be $<$0.1\% or $>$ 99.9\% of the distribution.
+	\item \textit{J} is a new cumulative normal probability value.
+	\item Calculate a new parameter value, P\textsubscript{JITTERED}, such that pr(P\textsubscript{JITTERED}) = \textit{J}.
+\end{itemize}
 
 \hypertarget{ConvIssues}{}
 \subsection{Converting Files from 3.24}
