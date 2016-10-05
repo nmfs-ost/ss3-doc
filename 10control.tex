@@ -758,25 +758,17 @@ The spawner-recruitment section starts by specification of the functional relati
 		  &                     & 6:  Beverton-Holt with flat-top beyond Bzero (2 parameters)\\
 		  &                     & 7:  Survivorship function (3 parameters).  Suitable for sharks and low fecundity stocks to assure recruits are <= pop production \\
 	      &                     & 8:  Sheperd (3 parameters)\\
+	    \hline
+	    1 & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
+	      & 						& 0 = none \\
+	      &							& 1 = use steepness \\
+	    0 &  future feature         & Reserved for the future option to make realized sigmaR a function of the stock-recruitment curve.  \\ 
+	    \hline
 	\end{longtable}
 \end{center}
 
 \begin{center}
 	\begin{longtable}{p{1cm} p{3cm} p{11cm}}
-		
-		%\hline
-		%Value & Label &  Description\\
-		%\hline
-		%\endfirsthead
-		
-		%\hline
-		%Value & Label &  Description\\
-		%\hline
-		%\endhead
-		
-		%\hline
-		%\endfoot
-		%\endlastfoot
 	      
 		\multicolumn{3}{l}{Read the required number of long parameter set-up lines (e.g. LO, HI, INIT, PRIOR, }\\
 		\multicolumn{3}{l}{PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE).  These parameters are:}\\
@@ -793,9 +785,9 @@ The spawner-recruitment section starts by specification of the functional relati
 		0.60 & sigma-R &  Standard deviation of log recruitment.
 		This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\\
 		\hline
-		0 & Annual Deviation Multiplier & \\
+		0 & Regime Parameter & Creates a block for the initial equilibrium year with the intention of using this block to fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in v. 3.24 and earlier.\\
 		\hline
-		0 & Autocorrelation & Autocorrelation in recruitment. \\
+		0 & Autocorrelation & Autocorrelation in recruitment \\
 		\hline
 	\end{longtable}
 \end{center}
@@ -810,8 +802,7 @@ The spawner-recruitment section starts by specification of the functional relati
 		3    & 31 & 8.81 & 10.3 & ... & 0 & \#SR\_LN(R0) \\
 		0.2  & 1  & 0.61 & 0.70 & ... & 0 & \#SR\_BH\_steep \\
 		0    & 2  & 0.60 & 0.80 & ... & 0 & \#SR\_sigmaR \\
-		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_nullparm \\
-		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_R1\_offset\\
+		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_regime\\
 		-99  & 99 & 0    & 0    & ... & 0 & \#SR\_autocorr  \\
 		\hline
 	\end{longtable}
