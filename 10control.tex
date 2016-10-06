@@ -103,6 +103,10 @@ Terminology:
 		\multicolumn{2}{l}{\#C comment } & Comments beginning with \#C at the top of the file will be retained and included in output  \\
 		\hline
 
+		0 & & 0 = do not read the wtatage.ss file \\
+		  & & 1 = read the wtatage.ss file, also read and use the growth parameters \\
+		  & & See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details.\\
+		\hline
 		2 & & N growth patterns (GP)  \\
 		%\hline
 
@@ -244,7 +248,7 @@ This section controls the biology parameters.  These include:  natural mortality
 
 	   0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.  \hyperlink{A1}{(\textit{click here for more information})}\\
 	   \hline
-	   \pagebreak
+	   %\pagebreak
 	   1 & & CV Pattern \\
 	     & & 0: CV=f(LAA), so the 2 parameters are in terms of CV of the distribution of length-at-age and the interpolation between these 2 parameters is a function of mean length-at-age.\\
 	     & & 1: CV=f(A), so interpolation is a function of age.\\
@@ -258,7 +262,8 @@ This section controls the biology parameters.  These include:  natural mortality
 	     & & 2 = age logistic,\\
 	     & & 3 = read age-maturity for each female GP\\
 	     & & 4 = read an empirical age-maturity vector for all ages\\
-	     & & 5 = read empirical age-fecundity and body weight-at-age from separate file, wtatage.ss.  Allows for reading time series of input. See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details. NOTE:  need to read 2 parameters even if option 3, 4, or 5 is selected.\\
+	     & & NOTE: need to read 2 parameters even if option 3,4, or 5 is selected \\
+	     %& & 5 = read empirical age-fecundity and body weight-at-age from separate file, wtatage.ss.  Allows for reading time series of input. See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details. NOTE:  need to read 2 parameters even if option 3, 4, or 5 is selected.\\
 	     %& & 6 = read an empirical length-maturity vector by population length bin (available in v3.24q)\\
 	   \hline
 
@@ -285,7 +290,7 @@ This section controls the biology parameters.  These include:  natural mortality
 	     & & 4 = fecundity = $a+b*L$\\
 	     & & 5 = Eggs = $a+b*wt$\\
 	  \hline
-
+	  \pagebreak
 	  0 & & Hermaphroditisim Option:\\
 	   &  & 0 = not used, \\
 	   &  & 1 = invoke female to male age-specific function, \\
