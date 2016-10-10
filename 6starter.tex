@@ -1,5 +1,5 @@
 
-\section{Starter}
+\section{Starter.ss}
 
 SS begins by reading the file starter.ss.  Its format and content is as follows.  Note that the term COND in the Typical Value column means that the existence of input shown there is conditional on a value specified earlier in the file.  Omit or comment out these entries if the appropriate condition has not been selected.
 
@@ -31,18 +31,18 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  \#C this is a starter comment & Must begin with \#C then rest of the line is free form & All lines in this file beginning with \#C will be retained and written to the top of several output files\\
 		
  \hline
- data\textunderscore file.dat & data\textunderscore file.dat & File name of the data file\\
+ data\textunderscore file.dat &  & File name of the data file\\
 		
  \hline
- control\textunderscore file.ctl & control\textunderscore file.ctl & File name of the control file\\
+ control\textunderscore file.ctl &  & File name of the control file\\
    
  \hline		
- 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Don't use this if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file.  Values in ss.par can be edited, carefully.}}\\
+ 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Don't use this if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file.  Values in ss.par can be edited, carefully. Do not run sstrans.exe from a ss.par from SS v.3.24.}}\\
  & 0 = use values in control file; &  \\
  & 1 = use ss.par after reading setup in the control file & \\
 		
  \hline
- 1 & Run display detail: &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{With option 2, the display shows value of each logL component for each iteration and it displays where crash penalties are created}} \\
+ 1 & Run display detail: &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{With option 2, the display shows value of each -logL component for each iteration and it displays where crash penalties are created}} \\
    & 0 = none other than ADMB outputs; & \\
    & 1 = one brief line of display for each iteration; & \\
    & 2 = fuller display per iteration & \\
@@ -228,7 +228,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  \hline
  \hypertarget{Convert}{3.30} & 3.30: Indicates that the control and data files are currently in SS v3.30 format. 
 	 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{The transition executable for SS v3.30 will create converted files in the new format from previous versions (must be 3.24) when 999 is given.  All ss\_new files are in the 3.30 format, so starter.ss\_new has 3.30 on the last line.  Some Mgparms are in new sequence, so 3.30 cannot read a ss.par file produced by version 3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. Please see \hypertarget{ConvIssues} {\textit{Converting Files from 3.24} section for additional information on model features that may impede file conversion.}}}\\
-     & \multirow{1}{1cm}[-0.1cm]{\parbox{7cm}{999: Indicates that the control and data file are in a previous SS 3.24 version.  The transition executable for 3.30 should be used which will convert the files to the new format in the control.ss\_new and data.ss\_new files.}}  & \\  
+     & \multirow{1}{1cm}[-0.1cm]{\parbox{7cm}{999: Indicates that the control and data file are in a previous SS 3.24 version.  The sstrans.exe executable should be used which will convert the files to the new format in the control.ss\_new and data.ss\_new files.}}  & \\  
      & & \\  
 	 & & \\
      & & \\
@@ -242,28 +242,29 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 \subsection{Jitter}
 \hypertarget{Jitter}{}
 The jitter function has been updated with v.3.30.  The following steps are now performed to determine the jittered starting parameter values:
-\begin{itemize}
+\begin{enumerate}
 	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.01\% and the pr(P\textsubscript{MAX}) = 99.9\%.
 	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution based on the pr(P\textsubscript{CURRENT}).
 	\item A random value is drawn, "\textit{J}", from the range of \textit{K}-jitter to \textit{K}+jitter with the constraint that it cannot be $<$0.1\% or $>$ 99.9\% of the distribution.
 	\item \textit{J} is a new cumulative normal probability value.
 	\item Calculate a new parameter value, P\textsubscript{JITTERED}, such that pr(P\textsubscript{JITTERED}) = \textit{J}.
-\end{itemize}
+\end{enumerate}
 
 \hypertarget{ConvIssues}{}
 \subsection{Converting Files from 3.24}
-Converting files fro v. 3.24 to v. 3.30 can be easily performed by specifying 999 in the final line of the starter file.  The following file structure and steps are recommended for converting model files:
+Converting files from v.3.24 to v.3.30 can be easily performed by using the program sstrans.exe. The following file structure and steps are recommended for converting model files:
 \begin{itemize}
 	\item Create "transition" folder.  Place v. 3.24 files within the transition folder along with the SS transition executable ("SStrans.exe").  Run the transition executable with phase = 0 within the starter file, with the read par file turned off (option 0).
 	\item Create "converted" folder.  Place the ss\_new (data.ss\_new, control.ss\_new, starter.ss\_new, forecast.ss\_new)files created by the transition executable contained within the "transition" folder into this new folder.  Rename the ss\_new files to the appropriate suffixes and change the names in the starter.ss file accordingly.
-	\item Review the control file to examine determine that all model functions converted.  The structural changes and assumptions for some of the advanced model features are too complicated to convert automatically.  See below for some known features that may not convert.
-	\item Within the "transition" folder run the SS\_trans.exe with phases turned.  Compare the transition executable results with those previously obtained by a 3.24 executable.
+	\item Review the control file to determine that all model functions converted correctly.  The structural changes and assumptions for a couple of the advanced model features are too complicated to convert automatically.  See below for some known features that may not convert.
+	\item Within the "transition" folder run the SS\_trans.exe with phases turned on.  Compare the transition executable results with those previously obtained by a 3.24 executable.
 	\item Return to the "converted" folder and run the transitioned files with the new 3.30 executable (SS.exe).
 	\item Compare likelihood and model estimates across executables.
 \end{itemize}
 
-There are some options that have been substantially changed in version 3.30 which impedes the converting of 3.24 model files.  Known examples of 3.24 options that cannot be converted are:
+\noindent There are some options that have been substantially changed in version 3.30 which impedes the automatic converting of 3.24 model files. Known examples of 3.24 options that cannot be converted, but for which better alternatives are available in 3.30 are:
 \begin{itemize}
 	\item The use of Q deviations.
 	\item Complex birth seasons.
+	\item Environmental effects on spawner-recruitment parameters
 \end{itemize}
