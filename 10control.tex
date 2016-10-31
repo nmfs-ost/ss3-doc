@@ -3,7 +3,7 @@
 These listed model features are denoted in the control file in the following order:
 	\begin{enumerate}
 		\item Number of growth patterns and platoons
-		\item Design matrix for assignment of recruitment to area/season/growth pattern
+		\item Design matrix for assignment of recruitment to area/settle\_event/growth pattern
 		\item Design matrix for movement between areas
 		\item Definition of time blocks that can be used for time-varying parameters
 		\item Controls far all time-varying parameters
@@ -11,16 +11,15 @@ These listed model features are denoted in the control file in the following ord
 		\item Specification for growth and fecundity
 		\item Natural mortality and growth parameters for each sex x growth pattern
 		\item Maturity, fecundity and weight-length for each sex
-		\item Recruitment distribution parameters for each area, season, growth pattern
+		\item Recruitment distribution parameters for each area, settle\_event, growth pattern
 		\item Cohort growth deviation
 		\item Catch Multiplier
 		\item Fraction female
-		\item Time-varying setup for any MG parameters that use blocks
+		\item Setup for any MG parameters are time-varying
 		\item Seasonal effects on biology parameters
 		\\
 		\item Spawner-recruitment parameters
-		\item Environmental effects on R0, steepness, and annual deviations
-		\item Block or trend effects on R0, steepness, and annual deviations
+		\item Setup for any SR parameters are time-varying
 		\item Recruitment deviations
 		\\
 		\item F ballpark value in specified year
@@ -29,13 +28,13 @@ These listed model features are denoted in the control file in the following ord
 		\\
 		\item Catchability (Q) setup for each fleet and survey
 		\item Catchability parameters
-		\item Time-varying Q parameters
+		\item Setup for any Q parameters are time-varying
 		\\
 		\item Length selectivity, retention, discard mortality setup for each fleet and survey
 		\item Age selectivity setup for each fleet and survey
 		\item Parameters for length selectivity, retention, discard mortality for each fleet and survey
 		\item Parameters for age selectivity for each fleet and survey
-		\item Time-varying setup for any selectivity/retention parameters that use blocks
+		\item Setup for any selectivity parameters are time-varying
 		\\
 		\item Tag-recapture parameters
 		\\
@@ -44,7 +43,7 @@ These listed model features are denoted in the control file in the following ord
 	\end{enumerate}
 
 \subsection{Parameter Line Elements}
-A primary role of the SS control file is to define the parameters to be used by the model.  The general syntax of a parameter line is described here.  Parameter lines will be used in three sections of the control file: (1) natural mortality and growth; (2) spawner-recruitment, initial F and catchability; and (3) selectivity.  The first seven elements of a parameter line are used in every section and will be referred to as a short parameter line.  The remaining elements are used just in sections (1) and (3).  Each parameter line contains:
+A primary role of the SS control file is to define the parameters to be used by the model.  The general syntax of the 14 elements of a long parameter line is described here.  The first seven elements of a parameter line are used for time-varying parameters that cannot themselves be time-varying and will be referred to as a short parameter line.  Three types of time-varying properties can be applied to a base parameter:  blocks or trend, environmental linkage, and random deviation.  Each parameter line contains:
 
 \hypertarget{Prior}{} \hypertarget{paraOrder}{}
 \begin{center}
@@ -56,19 +55,21 @@ A primary role of the SS control file is to define the parameters to be used by 
 		3 & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
 		4 & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is -1 or 1.\\
 		5 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
-		6 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal with bias adjustment, , 4 = normal, 5 = gamma\\
+		6 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal without bias adjustment, 4 = lognormal without bias adjustment, 5 = gamma, 6 = normal \\
 		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
 		%\hline
 		 & & \\
-		\multicolumn{3}{l}{\parbox{16cm}{Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.}}\\
+		\multicolumn{3}{l}{\parbox{16cm}{Note that relative to SS3.24,  the order of Prior stdev and Prior type have been switched and the prior type options have been renumbered.
+				\\Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
+		}}\\
 		 & & \\
 		%\hline
 		8  & Env Var \& Link & Create a linkage to an input environmental time-series\\
-		9  & Dev Link & Invokes use of the deviation vector in the the linkage function \\
+		9  & Dev Link & Invokes use of the deviation vector in the linkage function \\
 		10 & Dev min yr & Beginning year for the deviation vector \\
 		11 & Dev max yr & Ending year for the deviation vector\\
 		12 & Dev Phase & Phase for estimation for elements in the deviation vector \\
-		13 & Block & Specify time block to be applied \\
+		13 & Block & Specify time block or trend to be applied \\
 		14 & Block Fxn & Function form for the block offset\\
 		\hline
 	\end{tabular}
@@ -76,12 +77,15 @@ A primary role of the SS control file is to define the parameters to be used by 
 
 \subsection{Control File Syntax}
 
-Terminology:
+\paragraph{Terminology:}
 \begin{itemize}
 	\item Where the term “COND” appears in the value column of this documentation (it does not actually appear in the control file), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions.
 	\item In most cases, the description in the Definition column is the same as the label output to the control.ss\textunderscore new file.
 \end{itemize}
 
+
+\subsubsection{Miscellaneous setups:}
+The top section of the control file has various controls for growth, movement, morphs.  The order in which they appear in the control file has grown over time rather opportunistically, so it may not appear particularly logical at this time.  When the same information is entered via the GUI, it is organized more logically and then written in this form to the text control file.
 
 \begin{center}
 
@@ -105,46 +109,57 @@ Terminology:
 
 		0 & & 0 = do not read the wtatage.ss file \\
 		  & & 1 = read the wtatage.ss file, also read and use the growth parameters \\
-		  & & See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details.\\
+		  & & 2 = Future option to read the wtatage.ss file, then omit reading and using growth parameters and all length-based data\\
+		  & &   NOTE:  With version 3.04, SS added the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See section \hyperlink{WAA} for additional information on file formatting for empirical weight-at-age.\\
+		  
+		  
 		\hline
 		2 & & N growth patterns (GP)  \\
-		%\hline
-
-		3 & & Number of platoons within a growth pattern. Permissible values are 1, 3, 5 only.  Typical value is 1.  Values of 3 or 5 allow exploration of size-dependent survivorship. \\
 		\hline
+
+		3 & & Number of platoons within a growth pattern to allow exploration of size-dependent survivorship. A value of 1 will not create additional platoons.  Odd-numbered values of 3 - 5 will break the overall cohort into that number of platoons.  More platoons slows model execution, so values above 5 not advised.\\
 
 		\multicolumn{2}{l}{COND > 1}& \multicolumn{1}{l}{\parbox{12cm}{Following 2 lines are conditional on N platoons > 1}} \\
 
-		& 0.7 & Platoon between/within stdev ratio. Ratio of the amount of growth variability between platoons to within platoons.\\
+		& 0.7 & Platoon between/within stdev ratio. Ratio of the amount of variability in length-at-age between platoons to within platoons.\\
 		%\hline
 
 		& 0.2 0.6 0.2 & Distribution among platoons. Enter custom vector or enter -1 to first value of vector to get a normal approximation: (0.15, 0.70, 0.15) for 3 platoons, (0.031, 0.237, 0.464, 0.237, 0.031) for 5 platoons.\\
 		\hline
-
+\pagebreak
 		1 & & Recruitment distribution method.  Options: 1 = use the 3.24 or earlier setup, 2 = main effects for GP, settle timing, and area, 3 = each settle entity, and 4 = none when N GP*Nsettle*Pop=1\\
 
 		1 & & Recruitment: 1 = global, 2 = by area (not yet implemented)\\
-		1 & & Number of recruitment settlement assignments.\\
+		1 & & Number of recruitment settlement assignments.  Must be at least 1 even if only 1 season and 1 area.\\
 		0 & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1)\\
-		\multicolumn{2}{l}{1 1 1 0}& \multicolumn{1}{l}{\multirow{1}{12cm}[-0.1cm]{\parbox{12.5cm}{Recruitment assignment to GP, month, area, and age (for each settlement event).}}}\\
-		\\
+		\multicolumn{2}{l}{1 5.5 1 0}& \multicolumn{1}{l}{\multirow{1}{20cm}[-0.1cm]{\parbox[10cm]{12.5cm}{Recruitment assignment to GP, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5) NOTE:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In 3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of 3.24 for testing purposes.}}}\\
+		\\ \\ \\ \\ \\ \\
 		\hline	
 
-		\multicolumn{2}{l}{COND} & \multicolumn{1}{l}{If N movement definition if areas > 1:}\\
+		\multicolumn{2}{l}{COND} & \multicolumn{1}{l}{Enter N movement definitions, only if areas > 1:}\\
 		
-		& 1.0 & \multirow{1}{12cm}{First age that moves. Real, not integer age at the beginning of season.  This control primarily used to keep new recruits from moving until after their first year.}\\
-		\\
-		\\
-		& 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, morph, source area, destination age1, age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 controls specify the range over which the movement parameters are active.}}}\\
+		& 1.0 & \multirow{1}{12cm}{First age that moves. Real, not integer age at the beginning of season.  This control primarily used to keep new recruits from moving until after their first year.}\\ \\ \\
+		& 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, morph, source area, destination age1, age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 controls specify the range over which the movement parameters are interpolated with movement costant below age1 and above age2.}}}\\
 		& 1 1 2 1 4 10 &  \\
 		& 1 2 1 2 4 10 &  \\
 		& 1 2 2 1 4 10 &  \\
-		\\
+		\\ \\
 		\hline
+	\end{longtable}
+\end{center}
+\subsubsection{Blocks}
+\begin{center}
+	
+	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+		
+		\multicolumn{2}{l}{Typical Value} & Description and Options\\
+		\hline
+		\endfirsthead
+		
 		3 & & \multirow{1}{6cm}[-0.1cm]{\parbox{12cm}{Number of block patterns. These patterns can be referred to in the parameter sections to create a separate parameter value for each block.}}\\
 		\\
 		\\
-		\pagebreak
+
 		\hline
 		\multicolumn{2}{l}{COND:} & \multicolumn{1}{l}{Following inputs are omitted if N Block patterns equals 0}\\
 		& \multirow{1}{2cm}[-0.1cm]{ 3 2 1 } & Blocks per pattern\\
@@ -160,10 +175,11 @@ Terminology:
 		\hline
 	\end{longtable}
 \end{center}
-
+	\pagebreak
 \subsubsection{Biology}
-This section controls the biology parameters.  These include:  natural mortality, growth, maturity, fecundity, distribution of recruitment, and movement.  Collectively, these are referred to as the MG parameters.  The top of the biology section includes several factors that control the number of parameters to be subsequently read and the method by which SS will use these parameters.
+This section controls the biology parameters.  These include:  natural mortality, growth, maturity, fecundity, distribution of recruitment, movement, sex ratio, and catch multiplier.  Collectively, these are referred to as the MG parameters.  The top of the biology section includes several factors that control the number of parameters to be subsequently read and the method by which SS will use these parameters.
 
+\paragraph{Natural Mortality}
 \begin{center}
 
 	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
@@ -181,6 +197,7 @@ This section controls the biology parameters.  These include:  natural mortality
 
 		\endlastfoot
 
+
 		1 & & Natural Mortality Options:\\
 		  & & 0 = A single parameter\\
 		  & & 1 = N breakpoints\\
@@ -190,8 +207,9 @@ This section controls the biology parameters.  These include:  natural mortality
 		\hline
 
 	   \multicolumn{2}{l}{COND = 0} & No additional natural mortality controls \\
-	   \multicolumn{2}{l}{COND = 1} & \\
-	   & 4 & \multirow{1}{12cm}[-0.1cm]{Number of breakpoints.  A value of 2 would correspond to the M pattern as defined in SS V2.  Then read a vector of ages for these breakpoints (e.g. corresponding to natM\textunderscore amin and natM\textunderscore amax in SS V2). Later, per sex x GP, read N parameters for the natural mortality at each breakpoint.}
+		\hline
+		\multicolumn{2}{l}{COND = 1} & \\
+	   & 4 & \multirow{1}{12cm}[-0.1cm]{Number of breakpoints.  A value of 2 would correspond to the M pattern as defined in SS V2.  Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint.}
 	   \\
 	   \\
 	   \\
@@ -199,7 +217,7 @@ This section controls the biology parameters.  These include:  natural mortality
 	   \\
 	   & 2.0 4.5 9.0 15.0 & Vector of age breakpoints \\
 	   \hline
-	   \pagebreak
+
 	   \multicolumn{2}{l}{COND = 2}& \\
 	   & 4 & \multirow{1}{12cm}[-0.1cm]{Lorenzen Natural Mortality: read one additional value that is the reference age (integer) (\hyperlink{Lorenzen}{\textit{click here for more information}}). Later read one parameter for each sex x GP that will be the M at the reference age.  Other ages will have an M scaled to its body size-at-age.  However, if platoons are used, all will have the same M a their growth pattern.  Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated.  So be careful in using Lorenzen when there is time-varying growth.}\\
 	   \\
@@ -211,16 +229,22 @@ This section controls the biology parameters.  These include:  natural mortality
 	   \\
 	   \\
 	   \\
+			\hline
 	   \multicolumn{2}{l}{COND = 3 or 4} & \multirow{1}{12cm}[-0.1cm]{Do not read any natural mortality parameters.  With option 2, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.}\\
 	   \\
 	   \\
 	   \\
 	   & 0.20 0.25 ... 0.20 0.23 ... & \multirow{1}{12cm}[-0.1cm]{Age-specific M values: row 1 is female GP1, row 2 is female 2 GP2, row 3 is male GP1, etc.}\\
 	   \hline
+	\end{longtable}
+\end{center}
+\paragraph{Growth}
+\begin{center}
+	
+	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 
-	   \hypertarget{WAAparm}{}
+	   \hline
 	   1 & & Growth Model: \\
-	     & & empirical weight-at-age (uses wtatage.ss file).  See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details.\\
 	     & & 1 = von Bertalanffy (2 parameters)\\
 	     & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters \\
 	     & & 3 = von Bertalanffy with age-specific \textit{k} deviations for specified range of ages\\
@@ -256,6 +280,14 @@ This section controls the biology parameters.  These include:  natural mortality
 	     & & 3: SD=f(A) \\
 	     & & 4: Lognormal distribution of size-at-age.  Input parameters will specify the standard deviation of loge size at age.  E.g. entered values will typically be between 0.05 and 0.15.  A bias adjustment is applied so the lognormal distribution of size-at-age will have the same mean size as when a normal distribution is used.\\
 	   \hline
+	\end{longtable}
+\end{center}
+\paragraph{Maturity-Fecundity}
+\begin{center}
+
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+
+\hline
 
 	   2 & & Maturity Option: \\
 	     & & 1 = length logistic,\\
@@ -290,7 +322,14 @@ This section controls the biology parameters.  These include:  natural mortality
 	     & & 4 = fecundity = $a+b*L$\\
 	     & & 5 = Eggs = $a+b*wt$\\
 	  \hline
-	  \pagebreak
+	\end{longtable}
+\end{center}
+\paragraph{Hermaphroditism}
+\begin{center}
+
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+
+\hline
 	  0 & & Hermaphroditisim Option:\\
 	   &  & 0 = not used, \\
 	   &  & 1 = invoke female to male age-specific function, \\
@@ -307,6 +346,14 @@ This section controls the biology parameters.  These include:  natural mortality
 	  &    & 1 = simple addition of males to females\\
 	  &    & xx = more options to come later \\
 	  \hline
+	\end{longtable}
+\end{center}
+\paragraph{Parameter Offset Method}
+\begin{center}
+
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+
+\hline
 
 	  2 & & Parameter Offset Method \\
 	    & & 1 = direct assignment \\
@@ -323,7 +370,7 @@ This section controls the biology parameters.  These include:  natural mortality
 	\end{longtable}
 \end{center}
 
-
+\pagebreak
 \subsubsection{Read Mortality-Growth Parameters}
 \hypertarget{MGorder}{Next}, SS reads the MG parameters in generally the following order (may vary based on selected options):
 
@@ -361,8 +408,6 @@ This section controls the biology parameters.  These include:  natural mortality
 	    & CV young & Variability for size at age <= AFIX (units are fraction) for females, GP1.  Note that CV cannot vary over time, so do not set up env-link or a dev vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
 		& CV old & Variability for size at age >= AFIX (units are fraction) for females, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset.\\
 		\hline
-		\multicolumn{2}{l}{COND: GP > 1} & Repeat female parameters in the above order for GP2\\
-		\hline
 		& WtLen scale & Coefficient to convert length in cm to weight in kg for females\\
 		& WtLen exp & Exponent in to convert length to weight for females\\
 		& Mat-50 & Maturity logistic inflection (in cm or years).  Where female maturity-at-length (or age) is a logistic function: $M_{l} = 1/(1+exp(\alpha*(l_{a} - \beta)))$ where $\alpha$ is the slope, $l_{a}$ is the size-at-age, and $\beta$ is the inflection of the maturity curve. \\ 
@@ -397,7 +442,7 @@ This section controls the biology parameters.  These include:  natural mortality
 		\hline
 		\multicolumn{2}{l}{COND: GP > 1} & Repeat male parameters in the above order for GP2\\
 		\hline
-		\multicolumn{2}{l}{COND: Hermaphrodism} & 3 parameters define a normal distribution for the transition rate of females to males\\
+		\multicolumn{2}{l}{COND: Hermaphrodism} & 3 parameters define a normal distribution for the transition rate of females to males (or vice versa)\\
 		& Inflect Age & Hermaphrodite inflection age\\
 		& StDev & Hermaphrodite standard deviation (in age) \\
 		& Asmp Rate & Hermaphrodite asymptotic rate\\
@@ -409,12 +454,13 @@ This section controls the biology parameters.  These include:  natural mortality
 		\multicolumn{2}{l}{COND:} & If recruitment distribution interaction = 1 (on)\\
 		& N patterns x N areas x N seasons & Note that the order of recruitment distribution parameters has areas then seasons for main effect, and seasons then areas for interactions.\\
 		\hline
-		\multicolumn{2}{l}{Cohort growth deviation} & If no deviations the INIT set equal to 1\\
+		\multicolumn{2}{l}{Cohort growth deviation} & Set equal to 1.0 and do not estimate; it is deviations from this base that matter.\\
+		\hline
 		\multicolumn{2}{l}{2 x N selected movement pairs} & Movement parameters\\
 		\hline
 		\multicolumn{2}{l}{COND:} & The following lines are only required when the associated features are turned on\\
 		& Ageing Error & Turned on in the data file\\
-		& Catch Multiplier & Turned on in the data file\\
+		& Catch Multiplier & For each fleet selected for this option in the data file\\
 		\hline
 		\multicolumn{2}{l}{Fraction female} & \hypertarget{SexRatio}{Fraction} female by GP, if multiple GP, multiple entries required\\
 		\hline
@@ -492,11 +538,11 @@ If “Growth\textunderscore age\textunderscore for\textunderscore L2” is set e
 	\item[Schnute growth function]\hfil\\
 	The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow type field.  Then a fourth parameter is read after reading the von Bertalanffy K parameter.  When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
 	\item[Age-specific K]\hfil\\
-	A new growth option, \#3, has been introduced in V3.23.  This option creates age-specific K deviations for each age of a user-specified age range, with independent additive deviations for each age in the range and for each growth pattern / sex.  Each of these deviations is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
+	This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex.  The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current aged's multiplier.  Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
 \end{description}
 
 \subsubsection{Growth Patterns (morphs) and Platoons}
-The user specifies a number of growth patterns (usually just 1), a number of sexes (usually 2), and a number of birth seasons.  The collection of Bio\textunderscore pattern x Sex x BirthSeas constitute the “morphs”.  The number of platoons per morph can be 1, 3, or 5.  The fraction of recruits that are female is specified as an input value (not a parameter), and the fraction of recruits assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  Growth parameters are read for each growth pattern x sex combination.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for the growth pattern x sex.
+The user specifies a number of growth patterns (usually just 1), a number of sexes (usually 2), and a number of settlement events.  The collection of Bio\textunderscore pattern x Sex x Settlement constitute the “morphs”.  The number of platoons per morph can be 1, 3, or 5.  The fraction of recruits assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  Growth parameters are read for each growth pattern x sex combination.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for the growth pattern x sex.
 
 \subsubsection{Recruitment, Age, and Growth}
 Recruitment can occur in any season.  In older versions of SS one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produces one annual total recruitment value and this annual recruitment was distributed among seasons, areas, and growth types according to other model parameters.  SSv3.3 allows for the spawning biomass in a season to produce recruitment that may vary over the year based on the spawning biomass which associated with the area and growth types according to the model parameterization. These distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular season can change from year to year. For the recruitment apportionment, the parameter values are the ln(apportionment weight), so should have values ranging from about –4 to +4.  The product of all apportionment weights is calculated for each pattern x area x season cell that has been designated to receive recruits in the recruitment design matrix.  Then the apportionment weights are scaled to sum to 1.0 (within year, not within season) so that the total annual recruitment is distributed among the cells designated to receive recruitment.
@@ -603,11 +649,11 @@ In a 2 season, 2 area, 2 growth pattern set-up, the recruitment distribution, co
 \end{description}
 
 \subsubsection{Catch Multiplier}
-This  parameter line is only included in the control file if the catch multiplier field in the data file is set to 1.  A single value may be fixed or estimated where:
+These  parameter lines are only included in the control file if the catch multiplier field in the data file is set to 1 for a fleet:
 \begin{equation}
-C_{obs} = C_{exp} * c_{mult}
+C_{adj} = C_{exp} * c_{mult}
 \end{equation}
-where $C_{exp}$ is the expected catch and $c_{mult}$ is the catch multiplier. It has year-specific, not season-specific, time-varying capabilities.  In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery before being compared to the observed retained catch, so value of 1.1 means that the observed catch has overestimated actual catch by 10\%.
+where $C_{exp}$ is the expected catch from the fishing mortality and $c_{mult}$ is the catch multiplier. It has year-specific, not season-specific, time-varying capabilities.  In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{adj}$ before being compared to the observed retained catch, so $C_{adj}$ value of 1.1 means that the observed catch is 10\% greater than modeled catch.
 
 \subsubsection{Ageing Error Parameters}
 These 7 parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition.  Although these are input with full parameter lines (with inherent time-varying capability), the time-varying updating has not been implemented. The 7 parameters are:
@@ -625,7 +671,7 @@ These 7 parameters are only included in the control file if one of the ageing er
 
 \hypertarget{tvOrder}{}
 \subsubsection{Time-Varying Biology Parameters}
-Any of the parameters defined above can be made time-varying through linkage to an environmental data series, through time blocks, or by setting up annual deviations.  The options for making biology and selectivity parameters change over time is detailed in the section labeled Time-Varying Parameters.  After reading the biology parameters above, which will include possible instructions to create environmental link, blocks, or dev vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the biology parameter section.  So if no biology parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#) except for the line with the input of seasonal factors.
+Any of the parameters defined above can be made time-varying through linkage to an environmental data series, through time blocks or trend, or by setting up annual deviations.  The options for making biology and selectivity parameters change over time is detailed in the section labeled Time-Varying Parameters.  After reading the biology parameters above, which will include possible instructions to create environmental link, blocks, or dev vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the biology parameter section.  So if no biology parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#) except for the line with the input of seasonal factors.
 
 When time-varying growth is used, there are some additional considerations to be aware of:
 \begin{itemize}
@@ -728,10 +774,6 @@ P'=P*exp(\text{seas\_value})
 
 	\end{longtable}
 \end{center}
-
-\hypertarget{WAAinfo}{}
-\subsubsection{Empirical Weight-at-Age (wtatage.ss)}
-With version 3.04, SS adds the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is top at the top of the control file.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See section \hyperlink{WAA} for additional information on file formatting for empirical weight-at-age.
 
 \hypertarget{SRR}{} 
 \subsubsection{Spawner-Recruitment}
