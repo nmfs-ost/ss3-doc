@@ -227,10 +227,10 @@ rate_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
 
 	\pagebreak
 	\subsubsection{TimeVary Parameter Controls}
-	In SS3.30, several cahnges are introduced to the implementation of timevarying parameters.
+	In SS3.30, several changes are introduced to the implementation of timevarying parameters.
 \begin{itemize}
   \item	timevarying parameters for biology, spawner-recruitment, catchability, and selectivity are implemented using the same approach and share code.
-  \item the block feature that allowed input of one block parameter line and replication of that line by SS as oten as needed has been replaced.  Now there is a complete timevary parameter autogeneration capability.
+  \item the block feature that allowed input of one block parameter line and replication of that line by SS as often as needed has been replaced.  Now there is a complete timevary parameter autogeneration capability.
   \item The logistic bound constraint is no longer implemented due to the challenges it created to interpreting parameter values.  Instead, the autogenerate feature now creates bounds on timevary parameters for blocks such that the combination of a bounded  value of the timevary parameter and the base parameter will not violate the base parameter bounds.
   \item For more information on the implementation of timevary parameters, see that section at:  xxxx
 \end{itemize}	
@@ -241,7 +241,10 @@ rate_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
      \hline
 		1 & & \multirow{1}{6cm}[-0.1cm]{\parbox{12cm}{env/block/dev adjust method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)}}
 		\\ \\ \\
-		0 & & \multirow{1}{6cm}[-0.1cm]{\parbox{12cm}{where 0 means to autogenerate all time-varying parameters; 1 means to read each time-varying parameter line}}
+		& 0 1 0 0 2  & \multirow{1}{6cm}[-0.1cm]{\parbox{12cm}{Five values control autogen for:  1-biology, 2-spawnrecr, 3-catchability, 4-tag (future), 5-selectivity.  \\ The accepted values are:\\
+				0 to autogenerate all time-varying parameters;\\
+				1 to read each time-varying parameter line;\\
+			    2 to read each line and autogen if read value for parm min = -12345}}
 	\end{longtable}
 \end{center}
 
