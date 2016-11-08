@@ -733,11 +733,11 @@ P'=P*exp(\text{seas\_value})
 
 \hypertarget{SRR}{} 
 \subsubsection{Spawner-Recruitment}
-The spawner-recruitment section starts by specification of the functional relationship.  The number of parameters needed by each relationship is stored internally (same approach as is used for the number of parameters for each selectivity relationship).  In previous version of SS (v3.24 and before) only a short parameter line set-up was required for the spawner-recrutment section. SS v3.30 now requires long parameter lines to set-up the spawner-recruitment section which will allow for blocking around R0 and steepness, but deviation effects are now disallowed.  The R1 offset parameter has been replaced to a bas for annual deviation multiplier.  R0 blocks will be additive offset from the previous block (e.g. random walk). 
+The spawner-recruitment section starts by specification of the functional relationship that will be used.  
 
 \begin{center}
 	\begin{longtable}{p{1cm} p{3cm} p{11cm}}
-		\multicolumn{3}{l}{Control file continued:}\\
+		\multicolumn{3}{l}{ }\\
 		\hline
 		Value & Label &  Description\\
 		\hline
@@ -769,7 +769,7 @@ The spawner-recruitment section starts by specification of the functional relati
 	    \hline
 	\end{longtable}
 \end{center}
-
+The number of parameters needed by each relationship is stored internally.  In SS3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in 3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  This regime shift parameter can have blocks, environmental links or random devs. 
 \begin{center}
 	\begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	      
@@ -788,7 +788,7 @@ The spawner-recruitment section starts by specification of the functional relati
 		0.60 & sigma-R &  Standard deviation of log recruitment.
 		This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\\
 		\hline
-		0 & Regime Parameter & Creates a block for the initial equilibrium year with the intention of using this block to fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in v. 3.24 and earlier.\\
+		0 & Regime Parameter & This replaces the R1 offset parameter.  It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in v. 3.24 and earlier.\\
 		\hline
 		0 & Autocorrelation & Autocorrelation in recruitment \\
 		\hline
@@ -811,15 +811,18 @@ The spawner-recruitment section starts by specification of the functional relati
 	\end{longtable}
 \end{center}
 
-\noindent If any of the advanced options are selected the following short parameter line order is:
-\begin{enumerate}
-	\item Environmental link parameter if requested for SR\_LN(R0)
-	\item Environmental link parameter if requested for steepness
-	\item Environmental link parameter if requested for deviation multiplier
-	\item 0-many block parameters for R0; note that setting a block for just the initial equilibrium year is equivalent to R1\_offset
-	\item 0-many block parameters for steepness
-	\item 0-many block parameters for deviation multiplier
-\end{enumerate}
+\begin{itemize}
+	\item 	The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, env link, or random deviation.  However, not all of these options make sense for all parameters.  Before discussing these, another important change must be noted.
+	\item In SS3.24, the R0 and steepness parameter was used for both the virgin calculation and for the MSY (benchmark) calculations.  In SS3.30, these usages are more explicitly defined.  The value of R0 and steepness in the initial year is used for virgin and for calculation the denominator in depletion estimates.  The average value of R0 and steepness in the range of years specified as the benchmark years 9 and 10 (see forecast.ss) is used for MSY type calculations.  So, for example, a long-term climate effect could cause R0 to change over time and Bmsy could now be calculated for some future range of years.
+	\item Since R0 can be time-varying, what is regime shift for?  Regime shift is for multi-year or environmentally driven deviations from R0 without changing R0 itself.  Then rec devs are annual deviations from the current regime.  And these rec devs can have autocorrelation.
+	\item 	WARNING!  use these options judiciously because the same algebraic effect on the calculated recruitment can be achieved by different combinations of these options.
+	\item Preliminary recommendation:  Use block, trend or environmental effects on R0 only for very long-term and highly persistent effects; use time-vary effects on regime shift for transitory, but multi-year deviations from R0.
+	\item The time-vary parameter lines are short lines because they themselves cannot be time-varying.
+	\item The order of time-vary parameters is:
+	\item 0-many time-vary parameters for R0
+	\item 0-many time-vary parameters for steepness
+	\item 0-many time-vary parameters for regime shift; note that setting a block for just the initial equilibrium year is equivalent to R1\_offset.  If R1 offset is being used in 3.24, then sstrans.exe will automatically add a new block for the initial equilibrium year so that you can easily re-implement a R1 offset effect.
+\end{itemize}
 
 \begin{center}
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
