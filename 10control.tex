@@ -972,11 +972,10 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 \subsubsection{Recruitment Eras}
 Conceptually, SS treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum.  The user has control of the break year between eras.  Each era has its own vector.  The early era is defined as a vector (prior to V3.10 this was a dev\_vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations.  The main era can be a vector of simple deviations, or a dev\_vector but it is normally implemented as a dev\_vector so that the spawner-recruitment function is its central tendency.  The last era does not force a zero-centered deviation vector so it can have zeros during the actual forecast and non-zero values in last few years of the time series.  The early and last eras are optional, but their use can help prevent SS from balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years.  When the 3 eras are used, it would be typically to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.
 
-\subsubsection{Recruitment Likelihood}
-In SS2, recruitment log(L) contained a term, + N\_forecast\_rec\_devs*log(sigmaR).  This meant that the total log(L) changed according to how many forecast years were included in the model scenario.  Worse, if sigmaR was allowed to be estimated by SS2, then this term would cause all the zero deviations during the forecast period to drag the overall estimated value of sigmaR down.  This problem is rectified in SS V3.  Now, for each year in the total time series (early, mid, late/forecast) the contribution of that year to the logL is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the magnitude of the adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component.  With this approach, sigmaR may be estimable when there is good data to establish the time series of recruitment deviations.  In the likegfish example, turning on estimate of sigmaR results in an estimated value that is very close to the root mean squared error (rmse) of the estimated recruitment deviations.
+\subsubsection{Recruitment Likelihood with bias adjustment}
+For each year in the total recdev time series (early, mid, late/forecast) the contribution of that year to the logL is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component. SigmaR may be estimable when there is good data to establish the time series of recruitment deviations, but see recent work (Thorson et al) on use of a superior approach.
 
-\subsubsection{Recruitment Bias Adjustment}
-The recruitment bias adjustment implemented in SS is based upon the work being documented in Methot and Taylor (2011) and following the work of Maunder and Deriso (2003).  The concept is based upon the following logic.  SigmaR represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, sigmaR, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see eq. below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches sigmaR.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach sigmaR and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
+The recruitment bias adjustment implemented in SS is based upon the work documented in Methot and Taylor (2011) and following the work of Maunder and Deriso (2003).  The concept is based upon the following logic.  SigmaR represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, sigmaR, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see eq. below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches sigmaR.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach sigmaR and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
 \begin{equation}
 	SE(\hat{r}_y)^2 + SD(\hat{r})^2=\Bigg( \bigg( \frac{1}{\sigma^2_d}+\frac{1}{\sigma^2_R}\bigg)^{-1/2}\Bigg)^2+\Bigg( \frac{\sigma^2_R}{(\sigma^2_R+\sigma^2_d)^{1/2}}\Bigg)^2=\sigma^2_R
 \end{equation}
@@ -1012,10 +1011,11 @@ When SS is configured such that seasons are modeled as years, the concept of sea
 \end{equation}
 
 \subsubsection{Initial Age Composition}
-A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year.  These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series.  The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector, then it applies the recruitment deviations for the specified number of younger ages in this vector.  If the number of estimated ages in the initial age composition is less than Nages, then the older ages will retain their equilibrium levels.  Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
+A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year.  These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series.  The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector.  If the number of estimated ages in the initial age composition is less than Nages, then the older ages will retain their equilibrium levels.  Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
 \subsubsection{Fishing Mortality Method}
-There are now three methods available for calculation of fishing mortality.  These are:  Pope’s approximation, continuous F with each F as a model parameter, and a hybrid method that does a Pope’s approximation to provide initial values for iterative adjustment of the continuous F values to closely approximate the observed catch.  With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters.  In a 2 fishery, low F case, it is just as fast as the Pope approx. and produces identical result.  When F is very high, the problem becomes quite stiff for Pope’s and the hybrid method so convergence may slow.  It may still be better to use F option 2 (continuous F as full parameters) in these high F cases.  F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly.  Option 1 (Pope’s approx) still exists, but it is recommended to switch to option 3.
+There are  three methods available for calculation of fishing mortality.  These are:  Pope’s approximation, continuous F with each F as a model parameter, and a hybrid method that does a Pope’s approximation to provide initial values for iterative adjustment of the continuous F values to closely approximate the observed catch.  With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters.  In a 2 fishery, low F case, the hybrid nethod is just as fast as the Pope approx. and produces identical result.  When F is very high, the problem becomes quite stiff for Pope’s and the hybrid method so convergence may slow.  It may  be better to use F option 2 (continuous F as full parameters) in these high F cases.  F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly.  For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.\\
+Option 1 (Pope’s approx) still exists, but it is recommended to switch to option 3.
 
 \begin{center}
 		\begin{longtable}{p{1cm} p{3cm} p{11.3cm}}
@@ -1070,6 +1070,8 @@ There are now three methods available for calculation of fishing mortality.  The
 \subsubsection{Initial Fishing Mortality}
 Read a short parameter setup line for each fishery.  The parameters are the fishing mortalities for the initial equilibrium.  Do not try to estimate parameters for fisheries with zero initial equilibrium catch.  If there is catch, then give a starting value greater than zero and it generally is best to estimate the parameter in phase 1.
 
+In SS3.30, the initial equilibrium year has explicit seasons, so the needed initial F values will also be by season.  Initial F values are only needed for fleet/seasons that have catch.  So if no fleet/season combo has catch, then no parameters are needed.
+
 It is possible to use the initial F method to achieve an estimate of the initial equilibrium Z in cases where the initial equilibrium catch is unknown.  To do this:
 \begin{itemize}
 	\item Include a positive value for the initial equilibrium catch;
@@ -1079,6 +1081,8 @@ It is possible to use the initial F method to achieve an estimate of the initial
 
 \hypertarget{Qsetup}{}
 \subsubsection{Catchability}
+Catchability is the scaling factor that relates a model quantity to the expected value for some type of data (index).  Typically this is used to converted selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet.  In SS, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the tiem series of deviations for some parameter.  This flexibility means that a family of link functions beyond simple proportionality is needed.
+
 For each fishery and survey with an index, enter a row with the entries as described below:
 
 \begin{enumerate}
@@ -1130,7 +1134,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	    \hline
 %	    1 & 1 & 0 & 1 & 0 & 0 & \#Fishery 1 \\
 %	    2 & 1 & 0 & 1 & 0 & 0 & \#Fishery 2 \\
-	    3 & 1 & 0 & 0 & 1 & 0 & \#Survey  \\
+	    3 & 1 & 0 & 1 & 1 & 0 & \#Survey  \\
 	    -9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \\
 	    \hline
 	\end{longtable}
@@ -1201,42 +1205,38 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\endfoot
 		\endlastfoot
 
-		\multicolumn{8}{l}{A long parameter line is expected and the above example would be specified by:}\\
+		\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e. Q) and for the extra SD parameter.}\\
 		\hline
 		\#LO & HI & INIT & PRIOR & PR SD & PR TYPE & PHASE & ENV  (Cont. below)\\
 		\hline
 		-2 & 2   & -0.12 & 0     & 0     & 0       & 9     & 0 \\
-		\hline
+		0 & 0.5   & 0.05 & 0.05     & 0     & 0       & 9     & 0 \\		\hline
 		Cont: & USE DEV & DEV MINY & DEV MAXY & DEV PH & BLOCK & BLOCK FXN  & LABEL \\	
 		\hline	
 		      & 1       & 1982     & 2015     & -5      & 0     & 0          & \#Survey1 LnQ base\\
+		      & 0       & 0     & 0     & 0      & 0     & 0          & \#Survey1 extra sd\\
 		\hline
 	\end{longtable}
 \end{center}
+Then because the Q base parameter specifies that it is time-varying by the annual dev method, short parameter lines to specify the specifications of the dev vector come after all the base Q parameters.
+
 
 \begin{center}
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.2cm} p{1.2cm} p{1.1cm} p{1.5cm} p{5.2cm}}
-		\endfirsthead
-		
-		\hline
-		\#LO & HI & INIT & PRIOR & PR TYPE & SD & PHASE & LABEL \\
-		\hline
-		\endhead
-		
 		\hline
 		\endfoot
 		\endlastfoot
 		
-		\multicolumn{8}{l}{A long parameter line is expected and the above example would be specified by:}\\
 		\hline
 		\#LO  & HI   & INIT  & PRIOR & PR SD & PRIOR TYPE & PHASE & LABEL \\
 		\hline
 		0.001 & 2    & 0.079 & 0.079 & 0.5   & 4       & -5   & \#LnQ\_base\_Survey\_dev\_se\\
-		-0.99 & 0.99 & 0.00  & 0.00  & 0.5   & 4       & -6   &  \#LnQ\_base\_Survey\_dev\_se\\
+		-0.99 & 0.99 & 0.00  & 0.00  & 0.5   & 4       & -6   &  \#LnQ\_base\_Survey\_dev\_autocorr\\
 		\hline
 	\end{longtable}
 \end{center}
-
+NOTE:  In 3.24 it was common to use the dev approach and this dev approach in SS3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's dev was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual devs.  Also note that devs in 3.24 were survey specific (so no parameter for yeares with no survey).  But in SS3.30, devs are always year-specific, so you might have a dev created for a year with no survey.\\
+\pagebreak
 \subsubsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention.  The four values read from each line are:
 
