@@ -62,8 +62,9 @@ The primary role of the SS control file is to define the parameters to be used b
 		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
 		%\hline
 		 & & \\
-		\multicolumn{3}{l}{\parbox{16cm}{Note that relative to SS3.24,  the order of Prior stdev and Prior type have been switched and the prior type options have been renumbered.
-				\\Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
+		\multicolumn{3}{l}{\parbox{16cm}{Note that relative to SS v.3.24,  the order of Prior stdev and Prior type have been switched and the prior type options have been renumbered.
+		\\\\
+		Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
 		}}\\
 		 & & \\
 		%\hline
@@ -129,13 +130,14 @@ In most cases, the description in the Definition column is the same as the label
 
 \subsubsection{Recruitment Timing and Distribution}
 In older versions of SS one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produces one annual total recruitment value and this annual recruitment was distributed among seasons, areas, and growth types according to other model parameters.\\ 
-In SS3.3, more control of the seasonal timing is provided and there now is an explicit time delta between spawning and recruitment. Spawning still occurs just once per year, but its timing can be at any specified time, not just the beginning of a season.  Recruitment of the progeny from an annual spawning enter the population in one or more settlement events.  The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each GP, then for each area, then for each settlement.  All of these are required, but only those GP x area x settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation.  For the recruitment apportionment, the parameter values are the ln(apportionment weight).  The sum of all apportionment weights is calculated for each pattern x area x settlements that have been designated to receive recruits in the recruitment design matrix.  Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. These distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular GP, area, or settlement can change from year to year. 
+
+In SS v.3.30, more control of the seasonal timing is provided and there now is an explicit time delta between spawning and recruitment. Spawning still occurs just once per year, but its timing can be at any specified time, not just the beginning of a season.  Recruitment of the progeny from an annual spawning enter the population in one or more settlement events.  The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each GP, then for each area, then for each settlement.  All of these are required, but only those GP x area x settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation.  For the recruitment apportionment, the parameter values are the ln(apportionment weight).  The sum of all apportionment weights is calculated for each pattern x area x settlements that have been designated to receive recruits in the recruitment design matrix.  Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. These distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular GP, area, or settlement can change from year to year. 
 \begin{description}
 	\item[ ]\
 	\begin{itemize}
 		\item SS processes the parameter values according to the following equation:
 		\begin{equation}
-		apportionment_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
+		\text{apportionment}_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
 		\end{equation}
 		\item Set the value for one of these parameters to 0.0 and not estimate it so that other parameters will be estimated relative to its fixed value.
 		\item Give the estimated parameters a min-max of something like -5 and 5, so they have a good range relative to the base parameter.
@@ -145,31 +147,33 @@ In SS3.3, more control of the seasonal timing is provided and there now is an ex
 		\item At the time of settlement, fish are assigned a size equal to the lower edge of the first population size bin and they grow linearly until they reach the age A1.  SS generates a warning if the first population length bin is greater than 10 cm as this seems an unreasonably large value for a larval fish.  A1 is in terms of real age elapsed since birth.  All fish advance to the next integer age on Jan 1, regardless of birth season.  For example, consider a 2 season model with some recruitment in each season and with each season’s recruits coming from the same GP.  At the end of the first year, the early born fish will be larger but both of the seasonal cohorts will advance to an integer age of 1 on Jan 1 of the next year.  The full growth curve is still calculated below A1, but the size-at-age used by SS is the linear replacement.  Because the linear growth trajectory can never go negative, there is no need for the additive constant to the standard deviation (necessary for the growth model used in SS2 V1.x), but the option to add a constant has been retained in the model.
 	\end{itemize}
 \end{description}
-\begin{center}
 	
-	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-		
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+	\hline		
 	1 & & Recruitment distribution method.  \\
 		& &  This section controls which combinations of GP x area x settlement will get a portion of the total recruitment coming from each spawning.  \\
 		& &  Options: 1 = use the 3.24 or earlier setup, 2 = main effects for GP, settle timing, and area, 3 = each settle entity.\\
+	\hline
+	1 & & Spawner-Recruitment: 1 = global, 2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing)\\
+	\hline
+	1 & & Number of recruitment settlement assignments.  Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.\\
+	\hline
+	0 & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1)\\
+	\hline
+	\multicolumn{2}{l}{1 5.5 1 0}& Recruitment assignment to GP, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5) NOTE:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In 3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of 3.24 for testing purposes.
+	\\
+	\hline
+\end{longtable}
 
-		1 & & Spawner-Recruitment: 1 = global, 2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing)\\
-		1 & & Number of recruitment settlement assignments.  Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.\\
-		0 & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1)\\
-		\multicolumn{2}{l}{1 5.5 1 0}& Recruitment assignment to GP, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5) NOTE:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In 3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of 3.24 for testing purposes.
-		\\
-			\hline
-			\end{longtable}
-\end{center}
 
 \pagebreak
 \subsubsection{Movement}
 Here we define movement among the areas.  This is a box transfer with no explicit adjacency of areas, so fish can move from any area to any other area in each time step.  
 Future Need:  augment the capability further to allow sex-specific movement, and also to allow some sort of mirroring so that sexes and growth patterns can share the same movement parameters if desired.
 
-\begin{center}	
-	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-		
+
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+	\hline	
 	\multicolumn{2}{l}{4} & \multicolumn{1}{l}{Enter Number of movement definitions, COND:  only if areas > 1}\\
 		
 		& 1.0 & \multirow{1}{12cm}{First age that moves. This value is a real number, not an integer, to allow for an in-year start to movement in a multi-season model.  It is the real age at the beginning of a season, even though movement does not occur until the end of the season.  For example, in a  setup with two 6-month seasons:  a value of 0.5 will cause the age 0 fish to not move when they complete their first 6 month season of life, and then to move at the end of their second season because they start movement capability when they reach the age of 0.5 years (6 months).} \\ \\ \\ \\ \\ \\ \\ \\ \\
@@ -180,7 +184,7 @@ Future Need:  augment the capability further to allow sex-specific movement, and
 		\\ \\
 		\hline
 	\end{longtable}
-\end{center}
+
 Two parameters will be entered later for each growth pattern, area pair and season.   
 \begin{itemize}
 	\item movement is constant at P1 below the specified minage for movement change, constant at P2 above maxage for movement change, and linearly interpolated for intermediate ages;
@@ -188,18 +192,17 @@ Two parameters will be entered later for each growth pattern, area pair and seas
 	\item the parameter is exponentiated so that a movement parameter value of 0 becomes 1.0;
 	\item for each source area, all movement rates are then summed and divided by this sum so that 100\% of the fish are accounted for in the movement calculations;
 	\begin{equation}
-rate_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
-\end{equation}
+	\text{rate}_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
+	\end{equation}
 	\item at least one movement parameter must be fixed so that all other movement parameters are estimated relative to it.  This is achieved naturally by not specifying the stay rate parameter so it has a fixed value of 0.0;
 	\item the resultant movement rates are multiplied by season duration in a seasonal model;
 	
 \end{itemize}
 
-		\pagebreak
-		\subsubsection{Blocks}
-\begin{center}
+
+\subsubsection{Blocks}
 	
-	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 		
 		\multicolumn{2}{l}{Typical Value} & Description and Options\\
 		\hline
@@ -221,41 +224,43 @@ rate_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
 		\\
 		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12cm}[-0.10cm]{Beginning and ending years for blocks in design 3.}\\
 		\hline
-	\end{longtable}
-\end{center}
+\end{longtable}
 
 
-	\pagebreak
-	\subsubsection{TimeVary Parameter Controls}
-	In SS3.30, several changes are introduced to the implementation of timevarying parameters.
+\subsubsection{Time-varying Parameter Controls}
+In SS v.3.30, several changes are introduced to the implementation of time-varying parameters.
+
 \begin{itemize}
-  \item	timevarying parameters for biology, spawner-recruitment, catchability, and selectivity are implemented using the same approach and share code.
-  \item the block feature that allowed input of one block parameter line and replication of that line by SS as often as needed has been replaced.  Now there is a complete timevary parameter autogeneration capability.
-  \item The logistic bound constraint is no longer implemented due to the challenges it created to interpreting parameter values.  Instead, the autogenerate feature now creates bounds on timevary parameters for blocks such that the combination of a bounded  value of the timevary parameter and the base parameter will not violate the base parameter bounds.
-  \item For more information on the implementation of timevary parameters, see that section at:  xxxx
+  \item	time-varying parameters for biology, spawner-recruitment, catchability, and selectivity are implemented using the same approach and share code.
+  \item the block feature that allowed input of one block parameter line and replication of that line by SS as often as needed has been replaced.  Now there is a complete time-varying parameter auto-generation capability.
+  \item The logistic bound constraint is no longer implemented due to the challenges it created to interpreting parameter values.  Instead, the auto-generate feature now creates bounds on time-varying parameters for blocks such that the combination of a bounded  value of the time-varying parameter and the base parameter will not violate the base parameter bounds.
+  \item For more information on the implementation of time-varying parameters, see that section at:  xxxx
 \end{itemize}	
 	
-\begin{center}
-	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-     \multicolumn{2}{l}{} & \multicolumn{1}{l}{controls for all timevary  parameters}\\
-     \hline
-		1 & & \multirow{1}{6cm}[-0.1cm]{\parbox{12cm}{env/block/dev adjust method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)}}
-		\\ \\ \\
-		& 0 1 0 0 2  & \multirow{1}{6cm}[-0.1cm]{\parbox{12cm}{Five values control autogen for:  1-biology, 2-spawnrecr, 3-catchability, 4-tag (future), 5-selectivity.  \\ The accepted values are:\\
-				0 to autogenerate all time-varying parameters;\\
-				1 to read each time-varying parameter line;\\
-			    2 to read each line and autogen if read value for parm min = -12345}}
-	\end{longtable}
-\end{center}
 
-	\pagebreak
-	\subsection{Biology}
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+	 \hline
+	 \\
+     \multicolumn{3}{l}{Controls for all time-varying  parameters}\\
+     \hline
+	 1 & & \multirow{1}{6cm}[-0.1cm]{\parbox{12cm}{env/block/dev adjust method for all time-vary parameters (1=warning relative to base parameter bounds; 3=no bound check)}}
+	\\ \\ \\
+	& 0 1 0 0 2 & Five values control auto-generation for:  1-biology, 2-spawnrecr, 3-catchability, 4-tag (future), 5-selectivity.\\
+	&			& The accepted values are:\\
+	&           & 0 to auto-generate all time-varying parameters;\\
+	& 			& 1 to read each time-varying parameter line;\\
+	&			& 2 to read each line and auto-generation if read value for parameter min = -12345 \\
+	\hline
+\end{longtable}
+
+
+\subsection{Biology}
 \subsubsection{Natural Mortality}
 Natural mortality (M) has some options that are referenced to integer age, and some to real age since settlement.  So, if M varies by age, M will change by season and cohorts born  early in the year will have different M than late born cohorts.
+
 Lorenzen natural mortality is based on the concept that natural mortality varies over the life cycle of a fish, which is driven by physiological and ecological processes.  So, natural mortality is scaled by the length of the fish.
 
-\begin{center}
-	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 
 		\multicolumn{2}{l}{Typical Value} & Description and Options\\
 		\hline
@@ -309,8 +314,8 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	   \\
 	   & 0.20 0.25 ... 0.20 0.23 ... & \multirow{1}{12cm}[-0.1cm]{Age-specific M values: row 1 is female GP1, row 2 is female 2 GP2, row 3 is male GP1, etc.}\\
 	   \hline
-	\end{longtable}
-\end{center}
+\end{longtable}
+
 \subsubsection{Growth}
 \begin{description}
 	\item [Timing] - When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin.  The fish then grow linearly until they reach a real age equal to the input value “growth\textunderscore age\textunderscore for\textunderscore L1” and have a size equal to the parameter value for L1.  As they age further, they grow according the selected growth equation.  The growth curve is calibrated to go through the size L2 when they reach the age “Growth\textunderscore age\textunderscore for\textunderscore L2”.
@@ -320,9 +325,8 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	\item[Age-specific K] - This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex.  The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current aged's multiplier.  Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
 \end{description}
 
-\begin{center}
 	
-	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 
 	   \hline
 	   1 & & Growth Model: \\
@@ -337,7 +341,7 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	   25 & & Growth Amax (A2): Reference age for second size-at-age parameter (999 to use as L infinity).\\
 	   \hline
 	   
-	   0.20 & & Exponential decay for growth above maximum age (fixed at 0.20 in 3.24; should approximate initial Z).   Setting value to -999 will replicate the simpler calculation done in SS3.24.\\
+	   0.20 & & Exponential decay for growth above maximum age (fixed at 0.20 in 3.24; should approximate initial Z).   Setting value to -999 will replicate the simpler calculation done in SS v.3.24.\\
 	   \hline
 
 	   \multicolumn{2}{l}{COND = 3} & Growth option age-specific \textit{k}\\
@@ -359,9 +363,9 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	     & & 4: Lognormal distribution of size-at-age.  Input parameters will specify the standard deviation of loge size at age.  E.g. entered values will typically be between 0.05 and 0.15.  A bias adjustment is applied so the lognormal distribution of size-at-age will have the same mean size as when a normal distribution is used.\\
 	   \hline
 	\end{longtable}
-\end{center}
+
 \subsubsection{Maturity-Fecundity}
-\begin{center}
+
 
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 
@@ -374,7 +378,7 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	     & & 4 = read an empirical age-maturity vector for all ages\\
 	     & & NOTE: need to read 2 parameters even if option 3 or 4 is selected \\
 	     %& & 5 = read empirical age-fecundity and body weight-at-age from separate file, wtatage.ss.  Allows for reading time series of input. See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details. NOTE:  need to read 2 parameters even if option 3, 4, or 5 is selected.\\
-	     %& & 6 = read an empirical length-maturity vector by population length bin (available in v3.24q)\\
+	     %& & 6 = read an empirical length-maturity vector by population length bin (available in v.3.24q)\\
 	   \hline
 
 	   \multicolumn{2}{l}{COND = 3 or 4} & Maturity Option\\
@@ -401,9 +405,9 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	     & & 5 = Eggs = $a+b*wt$\\
 	  \hline
 	\end{longtable}
-\end{center}
+
 \subsubsection{Hermaphroditism}
-\begin{center}
+
 
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 
@@ -426,17 +430,17 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	  &    & xx = more options to come later \\
 	  \hline
 	\end{longtable}
-\end{center}
+
 \subsubsection{Parameter offset method}
-\begin{center}
+
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 
 \hline
 
 	  2 & & Parameter Offset Method \\
 	    & & 1 = direct assignment \\
-	    & & 2 = for each GP x sex, parameter defines offset from sex 1, offsets are in exponential terms, so for example: $M_{oldmale} = M_{oldfemale}*exp(M_{oldmale})$. \\
-	    & & 3 = for each GP x sex, parameter defines offset from GP 1 sex 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{oldfemale} = M_{youngfemale}*exp(M_{oldfemale}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{oldmale} = M_{youngfemale}*exp(M_{youngmale})*exp(M_{oldmale})$)\\
+	    & & 2 = for each GP x sex, parameter defines offset from sex 1, offsets are in exponential terms, so for example: $M_{\text{old male}} = M_{\text{old female}}*exp(M_{\text{old male}})$. \\
+	    & & 3 = for each GP x sex, parameter defines offset from GP 1 sex 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{\text{old female}} = M_{\text{young female}}*exp(M_{\text{old female}}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{\text{old male}} = M_{\text{young female}}*exp(M_{\text{young male}})*exp(M_{\text{old male}})$)\\
 	 \hline
 
 	 %1 & & Time-varying adjustment constraint:\\
@@ -446,14 +450,16 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	 %\hline
 
 	\end{longtable}
-\end{center}
+
 
 \subsubsection{Catch Multiplier}
 These  parameter lines are only included in the control file if the catch multiplier field in the data file is set to 1 for a fleet:
+
 \begin{equation}
 C_{adj} = C_{exp} * c_{mult}
 \end{equation}
-where $C_{exp}$ is the expected catch from the fishing mortality and $c_{mult}$ is the catch multiplier. It has year-specific, not season-specific, time-varying capabilities.  In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{adj}$ before being compared to the observed retained catch, so $C_{adj}$ value of 1.1 means that the observed catch is 10\% greater than modeled catch.
+
+\noindent where $C_{exp}$ is the expected catch from the fishing mortality and $c_{mult}$ is the catch multiplier. It has year-specific, not season-specific, time-varying capabilities.  In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{adj}$ before being compared to the observed retained catch, so $C_{adj}$ value of 1.1 means that the observed catch is 10\% greater than modeled catch.
 
 \subsubsection{Ageing Error Parameters}
 These 7 parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition.  Although these are input with full parameter lines (with inherent time-varying capability), the time-varying updating has not been implemented. The 7 parameters are:
@@ -769,7 +775,7 @@ The spawner-recruitment section starts by specification of the functional relati
 	    \hline
 	\end{longtable}
 \end{center}
-The number of parameters needed by each relationship is stored internally.  In SS3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in 3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  This regime shift parameter can have blocks, environmental links or random devs. 
+The number of parameters needed by each relationship is stored internally.  In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS v.3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in 3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  This regime shift parameter can have blocks, environmental links or random devs. 
 \begin{center}
 	\begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	      
@@ -788,7 +794,7 @@ The number of parameters needed by each relationship is stored internally.  In S
 		0.60 & sigma-R &  Standard deviation of log recruitment.
 		This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\\
 		\hline
-		0 & Regime Parameter & This replaces the R1 offset parameter.  It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in v. 3.24 and earlier.\\
+		0 & Regime Parameter & This replaces the R1 offset parameter.  It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier.\\
 		\hline
 		0 & Autocorrelation & Autocorrelation in recruitment \\
 		\hline
@@ -813,7 +819,7 @@ The number of parameters needed by each relationship is stored internally.  In S
 
 \begin{itemize}
 	\item 	The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, env link, or random deviation.  However, not all of these options make sense for all parameters.  Before discussing these, another important change must be noted.
-	\item In SS3.24, the R0 and steepness parameter was used for both the virgin calculation and for the MSY (benchmark) calculations.  In SS3.30, these usages are more explicitly defined.  The value of R0 and steepness in the initial year is used for virgin and for calculation the denominator in depletion estimates.  The average value of R0 and steepness in the range of years specified as the benchmark years 9 and 10 (see forecast.ss) is used for MSY type calculations.  So, for example, a long-term climate effect could cause R0 to change over time and Bmsy could now be calculated for some future range of years.
+	\item In SS v.3.24, the R0 and steepness parameter was used for both the virgin calculation and for the MSY (benchmark) calculations.  In SS3.30, these usages are more explicitly defined.  The value of R0 and steepness in the initial year is used for virgin and for calculation the denominator in depletion estimates.  The average value of R0 and steepness in the range of years specified as the benchmark years 9 and 10 (see forecast.ss) is used for MSY type calculations.  So, for example, a long-term climate effect could cause R0 to change over time and Bmsy could now be calculated for some future range of years.
 	\item Since R0 can be time-varying, what is regime shift for?  Regime shift is for multi-year or environmentally driven deviations from R0 without changing R0 itself.  Then rec devs are annual deviations from the current regime.  And these rec devs can have autocorrelation.
 	\item 	WARNING!  use these options judiciously because the same algebraic effect on the calculated recruitment can be achieved by different combinations of these options.
 	\item Preliminary recommendation:  Use block, trend or environmental effects on R0 only for very long-term and highly persistent effects; use time-vary effects on regime shift for transitory, but multi-year deviations from R0.
@@ -1126,8 +1132,8 @@ For each fishery and survey with an index, enter a row with the entries as descr
 \end{enumerate}
 
 
-\begin{center}
-	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.3cm} p{2.3cm}}
+
+\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.3cm} p{2.3cm}}
 		\multicolumn{7}{l}{So for a setup with a single survey, the Q setup matrix could be:}\\
 		\hline
 	    \#Fleet Num. & Link Type & Link Info & Extra SD & Bias Adjust & Float  & Label \\
@@ -1137,8 +1143,8 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	    3 & 1 & 0 & 1 & 1 & 0 & \#Survey  \\
 	    -9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \\
 	    \hline
-	\end{longtable}
-\end{center}
+\end{longtable}
+
 
 %Note: The deviation standard deviation line (in the 13 long parameter line section) does not do anything and is considered an used option.  The env-var column will replace this functionality
 
@@ -1192,8 +1198,8 @@ For each fishery and survey with an index, enter a row with the entries as descr
 
 %\noindent For each positive element in columns for the catchability (Q) setup above, read a long parameter setup line.  The order is: fishery 1 through survey N within power transformation, then within environment link, then within extra standard deviation, then within Q.  If no elements are selected, then there must be no parameter setup lines.
 
-\begin{center}
-	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.4cm} p{1.5cm} p{4.2cm}}
+
+\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.4cm} p{1.5cm} p{4.2cm}}
 		\endfirsthead
 
 		\hline
@@ -1205,24 +1211,27 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\endfoot
 		\endlastfoot
 
-		\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e. Q) and for the extra SD parameter.}\\
+		\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e. Q) and for the}\\
+		\multicolumn{8}{l}{extra SD parameter.}\\
 		\hline
 		\#LO & HI & INIT & PRIOR & PR SD & PR TYPE & PHASE & ENV  (Cont. below)\\
 		\hline
 		-2 & 2   & -0.12 & 0     & 0     & 0       & 9     & 0 \\
 		0 & 0.5   & 0.05 & 0.05     & 0     & 0       & 9     & 0 \\		\hline
+		\\
 		Cont: & USE DEV & DEV MINY & DEV MAXY & DEV PH & BLOCK & BLOCK FXN  & LABEL \\	
 		\hline	
 		      & 1       & 1982     & 2015     & -5      & 0     & 0          & \#Survey1 LnQ base\\
 		      & 0       & 0     & 0     & 0      & 0     & 0          & \#Survey1 extra sd\\
 		\hline
 	\end{longtable}
-\end{center}
-Then because the Q base parameter specifies that it is time-varying by the annual dev method, short parameter lines to specify the specifications of the dev vector come after all the base Q parameters.
 
 
-\begin{center}
-	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.2cm} p{1.2cm} p{1.1cm} p{1.5cm} p{5.2cm}}
+\noindent Then because the Q base parameter specifies that it is time-varying by the annual dev method, short parameter lines to specify the specifications of the dev vector come after all the base Q parameters.
+
+\pagebreak
+
+\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.2cm} p{1.2cm} p{1.1cm} p{1.5cm} p{5.2cm}}
 		\hline
 		\endfoot
 		\endlastfoot
@@ -1230,13 +1239,13 @@ Then because the Q base parameter specifies that it is time-varying by the annua
 		\hline
 		\#LO  & HI   & INIT  & PRIOR & PR SD & PRIOR TYPE & PHASE & LABEL \\
 		\hline
-		0.001 & 2    & 0.079 & 0.079 & 0.5   & 4       & -5   & \#LnQ\_base\_Survey\_dev\_se\\
-		-0.99 & 0.99 & 0.00  & 0.00  & 0.5   & 4       & -6   &  \#LnQ\_base\_Survey\_dev\_autocorr\\
+		0.001 & 2    & 0.079 & 0.079 & 0.5   & 4       & -5   & \#LnQ base Survey dev se\\
+		-0.99 & 0.99 & 0.00  & 0.00  & 0.5   & 4       & -6   &  \#LnQ base Survey dev autocorrelated\\
 		\hline
-	\end{longtable}
-\end{center}
-NOTE:  In 3.24 it was common to use the dev approach and this dev approach in SS3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's dev was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual devs.  Also note that devs in 3.24 were survey specific (so no parameter for yeares with no survey).  But in SS3.30, devs are always year-specific, so you might have a dev created for a year with no survey.\\
-\pagebreak
+\end{longtable}
+
+\noindent NOTE:  In 3.24 it was common to use the dev approach and this dev approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's dev was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual devs.  Also note that devs in 3.24 were survey specific (so no parameter for yeares with no survey).  But in SS3.30, devs are always year-specific, so you might have a dev created for a year with no survey.\\
+
 \subsubsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention.  The four values read from each line are:
 
