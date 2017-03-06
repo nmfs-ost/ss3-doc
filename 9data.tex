@@ -470,6 +470,8 @@ First read a single value to select one of three population length bin methods, 
 	Constant added to observed and expected proportions at length and age to make logL calculations more robust.  Tail compression occurs before adding this constant.  Proportions are renormalized to sum to 1.0 after constant is added.
 	\item[Combine Males \& Females]\hfill\\
 	Combine males into females at or below this bin number.  This is useful if the sex determination of very small fish is doubtful so allows the small fish to be treated as combined sex.  If CombM+F>0, then add males into females for bins 1 thru this number, zero out the males, set male data to start at the first bin above this bin.  Note that CombM+F is entered as a bin index, not as the size associated with that bin.  Comparable option is available for age composition data.
+	\item[Compress Bins]\hfill\\
+	This options allows for the compression of length or age bins beyond a specific length or age by each data source.  As an example,  a value of 5 in the compress bins column would condense the final five length bins for the specified data source.
 	\item[Error Distribution]\
 	\begin{itemize}
 		\item 0 = Multinomial Error
@@ -645,7 +647,7 @@ The above table shows the values for the first 3 ages for each of two age transi
 \subsubsection{Conditional Age'-at-Length}
 Use of conditional age’-at-length will greatly increase the total number of age’ composition observations and associated model run time, but it is a superior approach for several reasons.  First, it avoids double use of fish for both age’ and size information because the age’ information is considered conditional on the length information.  Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age.  Lastly, where age data are collected in a length-stratified program, the conditional age’-at-length approach can directly match the protocols of the sampling program.
 
-In a two sex model, it is best to enter these conditional age’-at-length data as single sex observations (sex =1 for females and = 2 for males), rather than as joint sex observations (sex = 3).  In this way, it isolates the age composition data from any sex selectivity as well.
+In a two sex model, it is best to enter these conditional age’-at-length data as single sex observations (sex =1 for females and = 2 for males), rather than as joint sex observations (sex = 3).  Inputting joint sex observations comes with a more rigid assumption about sex ratios within each length bin. Using separate vectors with sex = 1 and 2 allows 100\% of the expected comp to be fit to 100\% observations within each sex, whereas with sex=3, you would have a bad fit if the sex ratio were out of balance with the model expectation, even if the observed proportion at age within each sex exactly matched the model expectation for that age.  Additionally, inputting the conditional age-at-length data as single sex observations isolates the age composition data from any sex selectivity as well.
 
 When Lbin\textunderscore lo and Lbin\textunderscore hi are used to select a subset of the total size range, the expected value for these age’ data is calculated within that specified size range, so is age’ conditional on length.
 
