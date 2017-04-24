@@ -221,17 +221,19 @@ Bycatch fleets have an F so impose mortality and catch fish.  All this catch is 
 Indices are data that are compared to aggregate quantities in the model.  Typically the index is a measure of fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model.  The first section of the Indices setup contains the fleet ID, Units, and error distribution for each fleet that has index data.
 
 \begin{center}
-	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{3cm} p{3cm}}
-		\multicolumn{5}{l}{\#CPUE and Suvey Abundance Observations:}\\
+	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{3cm}}
+		\multicolumn{4}{l}{\#CPUE and Suvey Abundance Observations:}\\
 		\hline
-		\#Fleet/Survey & Units & \multicolumn{3}{l}{\#Error Distribution}\\
+		\#Fleet/Survey & Units & \#Error      & Enable \\
+		               &       & Distribution & SD\_Report \\
 		\hline
-		1 & 1 & \multicolumn{3}{l}{0}\\
-		2 & 1 & \multicolumn{3}{l}{0}\\
-		... & ... & \multicolumn{3}{l}{...}\\
+		1 & 1 & 0 & 0 \\
+		2 & 1 & 0 & 0 \\
+		... & ... & ... & ... \\
 		\hline
 	\end{tabular}		
 \end{center}
+
 \begin{description}
 	\item[\hypertarget{IndexUnits}{Units}]\hfill\\	
 	\begin{itemize}
@@ -259,11 +261,21 @@ Indices are data that are compared to aggregate quantities in the model.  Typica
 		\item  0 = lognormal error 
 		\item >0 = Student's t-distribution in log space with degrees of freedom equal to this value.  For DF>30, results will be nearly identical to that for lognormal distribution.  A DF value of about 4 gives a fat-tail to the distribution (see Chen (2003)).  The se values entered in the data file must be the standard error in log\textsubscript{e} space.
 	\end{itemize}
+
 Abundance indices typically have a lognormal error structure with units of standard error of log\textsubscript{e}(index).  If the variance of the observations is available only as a CV, then the value of se can be approximated as $\sqrt{(log\textsubscript{e}(1+(CV)\textsuperscript{2}))}$ where CV is the standard error of the observation divided by the mean value of the observation.
 
 For the normal error structure, the entered values for se are interpreted directly as a se in arithmetic space and not as a CV.  Thus switching from a lognormal to a normal error structure forces the user to provide different values for the se input in the data file.
 
 If the data exist as a set of normalized Z-scores, you can either:  assert a lognormal error structure after entering the data as exp(Z-score) because it will be logged by SS.  Preferably, the Z-scores would be entered directly and the normal error structure would be used.
+
+	\item[Enable SD\_Report]\
+	\begin{itemize}
+		\item 0 = SD\_Report not enabled for this index
+		\item 1 = SD\_Report enabled for this index
+	\end{itemize}
+
+Indices with SD\_Report enabled will have the expected values for their historical values appear in the ss.std and ss.cor files. The default value is for this option is 0.
+
 \end{description}
 
 \begin{description}
