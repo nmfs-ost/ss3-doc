@@ -58,7 +58,7 @@ The primary role of the SS control file is to define the parameters to be used b
 		3 & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
 		4 & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is -1 or 1.\\
 		5 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is -1. \\
-		6 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal without bias adjustment, 4 = lognormal without bias adjustment, 5 = gamma, 6 = normal \\
+		6 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal without bias adjustment ($Pr_{\text{like}} = 0.5((log(P_{\text{val}}) -Pr)/Pr_{\text{sd}})^2$), 4 = lognormal with bias adjustment ($Pr_{\text{like}} = 0.5((log(P_{\text{val}}) -Pr+0.5*Pr_{\text{sd}}^2)/Pr_{\text{sd}})^2$), 5 = gamma, 6 = normal \\
 		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
 		%\hline
 		 & & \\
