@@ -456,7 +456,7 @@ First read a single value to select one of three population length bin methods, 
 \end{description}
 
 \begin{description}
-	\item[Length Composition Data Structure:]\
+	\item[Length Composition Data Structure]\
 		{\\Enter a code to indicate whether or not length composition data will be used.}
 \end{description}
 
@@ -467,16 +467,16 @@ First read a single value to select one of three population length bin methods, 
 		1 & \multicolumn{2}{l}{Use length composition data (0/1)}\\
 		\hline									  
 \end{tabular}
-\\\\If the value 0 is entered, then skip all length related inputs below and skip to the age data setup section.  Else continue:
+\\\\If the value 0 is entered, then skip all length related inputs below and skip to the age data setup section.  Otherwise continue:
 	
 
-\begin{tabular}{p{2cm} p{2.75cm} p{2.75cm} p{2cm} p{2cm} p{2cm} p{3.5cm}}
-		\multicolumn{6}{l}{Specify bin compression and error structure for length composition data:}\\
+\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
+		\multicolumn{7}{l}{Specify bin compression and error structure for length composition data for each fleet:}\\
 		\hline
-		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & \hypertarget{Dirichlet}{Error Distribution} & Dirichlet Parameter Number\\
+		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & \hypertarget{Dirichlet}{Error Distribution} & Dirichlet Parameter Number & Min Sample Size\\
 		\hline
-		0 & 0.0001 & 0 & 0 & 0 & 0\\
-		0 & 0.0001 & 0 & 0 & 0 & 0\\
+		0 & 0.0001 & 0 & 0 & 0 & 0 & 1 \\
+		0 & 0.0001 & 0 & 0 & 0 & 0 & 1 \\
 		\hline
 \end{tabular}
 
@@ -484,10 +484,13 @@ First read a single value to select one of three population length bin methods, 
 \begin{description}
 	\item[Minimum Tail Compression]\hfill\\
 	Compress tails of composition until observed proportion is greater than this value; negative value causes no compression; Advise using no compression if data are very sparse, and especially if the set-up is using agecomp within length bins because of the sparseness of these data.
+
 	\item[Added Constant]\hfill\\
 	Constant added to observed and expected proportions at length and age to make logL calculations more robust.  Tail compression occurs before adding this constant.  Proportions are renormalized to sum to 1.0 after constant is added.
+
 	\item[Combine Males \& Females]\hfill\\
 	Combine males into females at or below this bin number.  This is useful if the sex determination of very small fish is doubtful so allows the small fish to be treated as combined sex.  If CombM+F>0, then add males into females for bins 1 thru this number, zero out the males, set male data to start at the first bin above this bin.  Note that CombM+F is entered as a bin index, not as the size associated with that bin.  Comparable option is available for age composition data.
+
 	\item[Compress Bins]\hfill\\
 	This options allows for the compression of length or age bins beyond a specific length or age by each data source.  As an example,  a value of 5 in the compress bins column would condense the final five length bins for the specified data source.
 	\item[Error Distribution]\
@@ -495,8 +498,12 @@ First read a single value to select one of three population length bin methods, 
 		\item 0 = Multinomial Error
 		\item 1 = Dirichlet Multinomial Error
 	\end{itemize}
+
 	\item[Dirichlet Parameter Number and Effective Sample Sizes]\hfill\\
 	If the Dirichlet multinomial error distribution is selected, indicate here which of a list of Dirichlet multinomial parameters will be used for this fleet.  So each fleet could use a unique Dirichlet multinomial parameter, or all could share the same, or any combination of unique and shared.  The requested number of Dirichlet multinomial parameters will be read from the control file.  The Dirichlet estimates the effective sample size as $N_{eff}=(\frac{1}{1+\theta})(\frac{N\theta}{1+\theta})$ where $\theta$ is the estimated parameter and $N$ is the input sample size.  Stock Synthesis estimates the log of the Dirichlet multinomial parameter such that $\hat{\theta}_{\text{fishery}} = e^{-0.6072} = 0.54$ where assuming $N=100$ for the fishery would result in an effective sample size equal to 35.7.  For additional information about the Dirichlet multinomial please see Thorson et al. 2016. Model-based estimates of effective sample size in stock assessment models using the Dirichlet-multinomial distribution. Fisheries Research.
+
+	\item[Minimum Sample Size]\hfill\\
+	The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. Stock Synthesis 3.24 has an implicit minimum sample size value of 1.
 \end{description}
 
 \hypertarget{CompTiming}{}
@@ -607,14 +614,14 @@ The above table shows the values for the first 3 ages for each of two age transi
 \end{description}
 
 
-\begin{tabular}{p{1.75cm} p{2cm} p{1.75cm} p{2cm} p{2cm} p{2cm} p{1.75cm}}
+\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
 		\multicolumn{7}{l}{Specify bin compression and error structure for age composition data for each fleet:}\\
 		\hline
-		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & Error Distribution & Dirichlet Parameter Number & Label\\
+		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & Error Distribution & Dirichlet Parameter Number & Minimum Sample Size\\
 		\hline
-		0 & 0.0001 & 1 & 0 & 0 & 0 & \#Fleet 1\\
-		0 & 0.0001 & 1 & 0 & 0 & 0 & \#Fleet 2\\
-		0 & 0.0001 & 1 & 0 & 0 & 0 & \#Survey 2\\
+		0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \\
+		0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \\
+		0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \\
 		\hline
 \end{tabular}
 
