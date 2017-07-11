@@ -1095,9 +1095,8 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	\item Link type: An assumed functional form between Q, the expected value, and the survey observation.
 	\begin{enumerate}
 		\item 1 = simple Q, proportional assumption about Q: $y=q*x$.
-		%, establish a parameter to create environmental effect on Q, where the integer is the index of the environmental variable to be linked.  The relationship is:  $ ln(q_y) = ln(q_{base}) + Q_{env\_link\_para}*Env\_Value_y$.
 		\item 2 = mirror simple Q, 1 mirrored parameter.  %Assumes proportional with offset: $y=q(x-a)$.
-		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage.  Assumes proportional with offset and power function: $y=q(x-a)^c$.
+		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage.  Assumes proportional with offset and power function: $y=qx^c$.
 	\end{enumerate}
 	\item Extra input for link (i.e. mirror fleet)
 	\begin{enumerate}
@@ -1143,59 +1142,6 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	    -9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \\
 	    \hline
 \end{longtable}
-
-
-%Note: The deviation standard deviation line (in the 13 long parameter line section) does not do anything and is considered an used option.  The env-var column will replace this functionality
-
-%\noindent Q types
-%\begin{itemize}
-%	\item <0 = mirror another fleet
-%	\item 0 = float no bias adjustment
-%	\item 1 = float bias adjustment
-%	\item 2 = parameter no bias adjustment
-%	\item 3 = parameter with random deviations
-%	\item 4 = parameter with random walk
-%	\item 5 = mean unbiased float assignment to parameter
-%\end{itemize}
-
-%\noindent COND: If any fishery or survey uses random devs or random walk, there is an option to either read detailed input to set up the deviation, or to just read a template.
-
-%\begin{center}
-%	\begin{longtable}{p{2.75cm} p{2.75cm} p{2.75cm} p{2cm} p{2cm} p{2cm}}
-%		\endfirsthead
-
-%		\hline
-%		\#Value & Label & \multicolumn{4}{l}{Label, Description, and Options} \\
-%		\hline
-%		\endhead
-
-%		\endfoot
-%		\endlastfoot
-
-%		\hline
-%		\#Value & Label & \multicolumn{4}{l}{Label, Description, and Options} \\
-%		\hline
-%		1 & Random effects & \multicolumn{4}{l}{\multirow{2}{10cm}{0:  read one parameter line and use it as a template to create a time series of parameters for each observation for each fleet/survey that uses random effects.  The output to control.ss\_new will be in detailed format even if the input is not detailed.  Therefore a simple way to create a detailed setup file is to start with a simple template then edit the control.ss\_new file to create a detailed input for subsequent model runs;}}\\
-%		\\
-%		\\
-%		\\
-%		\\
-%		\\
-%		\\
-%		\\
-%		&  & \multicolumn{4}{l}{\multirow{2}{8cm}{1:  read a parameter line for each observation of each fleet/survey that uses random effects, thus allowing customization.  If the Q option for a fleet is 3 (random devs), then read one parameter for each observation.  If the Q option is 4, then read (N observations -1) parameters.}}\\
-%		\\
-%		\\
-%		\\
-%		\\
-%		\\
-%		\\
-%		\hline
-%	\end{longtable}
-%\end{center}
-
-
-%\noindent For each positive element in columns for the catchability (Q) setup above, read a long parameter setup line.  The order is: fishery 1 through survey N within power transformation, then within environment link, then within extra standard deviation, then within Q.  If no elements are selected, then there must be no parameter setup lines.
 
 
 \begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.4cm} p{1.5cm} p{4.2cm}}
@@ -1377,16 +1323,6 @@ The currently defined selectivity patterns, and corresponding required number of
 		42 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
 		43 & 4 + special value & Selectivity pattern 6 with user-defined scaling \\
 		\hline
-		%\\
-		%\multicolumn{3}{c}{SPECIAL SELECTIVITY}\\
-		%Pattern & N Parameters & Description \\
-		%\hline
-		%30 & 0 & Sets expected survey abundance equal to spawning biomass (population fecundity). \\
-		%31 & 0 & Sets expected survey abundance equal to exp(recruitment deviation).  This is useful if environmental data is used as an index of recruitment variability. \\
-		%32 & 0 & Sets expected survey abundance equal to exp(recruitment deviation ) * SpawnBiomass.  So this is recruitment without density-dependence (for pre-recruit survey) because most ecological logic places the density-dependent stage during the juvenile period following the larval stage that is most sensitive to environmental perturbation.\\
-		%33 & 0 & Sets expected survey abundance equal to age-0 recruitment.\\
-		%34 & 0 & Spawning biomass depletion (B/B0).\\
-		%\hline
 	\end{longtable}
 \end{center}
 
@@ -1717,17 +1653,6 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 
-%\begin{description}
-%	\item[Survey Pattern \#34 - Depletion]\hfil\\
-%	This option allows a specified degree of stock depletion (in terms of spawning biomass) to be entered as the ratio of current year’s spawning biomass relative to Bzero.  With this option, it is not necessary or reasonable to estimate the Q for this fleet, but you must set ln(Q) = 0.0 as a fixed value for absolute abundance.  Also, if this option is used, then automatic adjustments to phase and lambda are made such that:
-%	\begin{itemize}
-%		\item all parameter phases are adjusted by +1 so that only R0 is active in phase 1
-%		\item all lambdas are set to 0 in phase 1, except the lambda for this depletion survey.  Internally, the flag "depletion\_fleet" is turned on (= to the index of that fleet) if there is a fleet with selex = \#34
-%	\end{itemize}
-	
-%	Essentially, these automated features cause SS to mimic DB-SRA in phase 1.  If the model is only run through phase 1, then this will be the final result.  Alternatively, use of this option could just be used to get the R0 parameter into a reasonable range before proceeding to estimate other parameters.  The lambda for the depletion survey could remain at 1.0 for the entire model run, or it could be reduced in later phases to prevent influencing final model results.
-%\end{description}
-
 \subsubsection{Retention}
 Retention is defined as a logistic function of size.  It does not apply to surveys.  Four parameters (for asymptotic retention) or seven parameters (for dome-shaped retention) are used:
 \begin{itemize}
@@ -1814,50 +1739,7 @@ The time-varying options for selectivity parameters are identical to the time-va
 	\end{longtable}
 \end{center}
 
-%\begin{center}
-%	\begin{longtable}{p{2cm} p{1cm} p{4cm} p{8cm}}
-%		Value & & Label & Description\\
-%		\hline
-%		\endfirsthead
-%
-%		Value & & Label & Description\\
-%		\hline
-%		\endhead
-%
-%		\endfoot
-%
-%		\endlastfoot
-%
-%			%Value & & Label & Description \\
-%			COND &  & & If any selectivity parameters use environmental linkage, then read next line and associated parameter line(s).\\
-%			     & 0 & Custom Environmental Linkage	& \\
-%			\hline
-%			COND &  & & If custom=0, then read one parameter line below and apply to all env functions;
-%			If custom>0, then read a setup line for each SEL-parm with Env-var>0. Note that control.ss\_new will write out with custom=1 so it can write all the parameter values.\\
-%			\hline
-%			\multicolumn{4}{l}{Enter proper number of short set-up lines (0, 1, several) for the SEL-parm environmental}\\
-%			\multicolumn{4}{l}{linkages.  Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_TYPE, SD, PHASE.}\\
-%			\hline
-%			COND & & & If any selectivity parameters use time blocks, then read next line and associated parameter line(s). \\
-%			     & 0 & Custom block setup & If custom=0, then read one setup and apply to all Block fxns;
-%			     If custom>0, then read a setup line for each SEL-parm with Block>0.  \\
-%			\hline
-%			\multicolumn{4}{l}{Enter proper number of short set-up lines (0, 1, several) for the SEL-parm block linkages.}\\
-%			\multicolumn{4}{l}{Each line will have 7 values:  LO, HI, INIT, PRIOR, PR\_TYPE, SD, PHASE.} \\
-%			\hline
-%			COND &  & & If any selectivity parameters use annual devs, then read  value\\
-%			     & -4 & Selparm dev phase & Phase in which selparm devs, if any, are estimated. \\
-%			\hline
-%			%COND &  & & If any selectivity parameters use environmental links, blocks or annual devs, then read value.\\
-%			%     & 2 & Selparm Adjust Method & 1 = parameter adjustments for env, block and dev are applied directly and resulting value is not compared to base parameter bounds\\
-			%     &   & & 2 = parameter adjustments use a logistic transformation to assure that adjusted parameter value stays within bounds of base parameter.\\
-			     %&  & & 3 = parameter adjustments use an additive random walk.\\
-			     %&  & & 4 = parameter adjustments use a mean reverting random walk.\\
-			%\hline
-%	\end{longtable}
-%\end{center}
-
-\subsection{Two-Dimensional Auto-Regressive Selectivity}
+\subsubsection{Two-Dimensional Auto-Regressive Selectivity}
 A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do not have this feature and hence this input is not expected.
 \begin{center}
 	\begin{longtable}{p{2cm} p{4cm} p{6cm}}
@@ -1868,7 +1750,7 @@ A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do n
 		\hline
 	\end{longtable}
 \end{center}
-\subsection{end}
+
 
 \subsubsection{Tag Recapture Parameters}
 Specify if tagging data are being used:
