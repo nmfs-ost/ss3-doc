@@ -149,10 +149,10 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 	  \begin{itemize}
 	  	\item 1 = fleet with input retained catch
 	  	\item 2 = bycatch fleet (all catch discarded)
-	  	\item 3 = survey
+	  	\item 3 = survey (should not have catch removals, use option = 1 to remove survey catches)
 	  	\item 4 = ignored (not yet implemented)
 	  \end{itemize}
-	  %1 = fleet with input retained catch, 2 = bycatch fleet, 3 = survey, 4 = ignored (not yet implemented)
+
  \hypertarget{ObsTiming}{}
   \item[Timing]\hfill\\
    Timing for data observation has been revised in v3.30.  Fishery fleets can either have a -1 which will indicate that catch occurred over the whole season or a user can specify specific timing for a fishery fleet by using 1007 which would indicate that catch was removed from the population mid-year. %Carryover from 3.24 approach, now superseded by real month input for data observations.
@@ -614,10 +614,10 @@ The above table shows the values for the first 3 ages for each of two age transi
 \end{description}
 
 
-\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
+\begin{tabular}{p{2cm} p{2cm} p{2cm} p{1.5cm} p{1.5cm} p{2cm} p{2cm}}
 		\multicolumn{7}{l}{Specify bin compression and error structure for age composition data for each fleet:}\\
 		\hline
-		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & Error Distribution & Dirichlet Parameter Number & Minimum Sample Size\\
+		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & Error Dist. & Dirichlet Parameter Number & Minimum Sample Size\\
 		\hline
 		0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \\
 		0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \\
@@ -625,30 +625,29 @@ The above table shows the values for the first 3 ages for each of two age transi
 		\hline
 \end{tabular}
 
-		
-		
-\begin{center}
-	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
-		\multicolumn{7}{l}{Specify method by which length bin range for age obs will be interpreted:}\\
-		\hline
-		1 & \multicolumn{6}{l}{Bin method for age data}\\
-		  & \multicolumn{6}{l}{1 = value refers to population bin index}\\
-		  & \multicolumn{6}{l}{2 = value refers to data bin index}\\
-		  & \multicolumn{6}{l}{3 = value is actual length (which must correspond to population }\\
-		  & \multicolumn{6}{l}{length bin boundary)}\\
-	    \hline
-	    %26 & \multicolumn{6}{l}{\# Number of age observations}
-	\end{tabular}
-\end{center}
+			
+\begin{tabular}{p{1cm} p{14cm}}
+	 & \\
+	\multicolumn{2}{l}{Specify method by which length bin range for age obs will be interpreted:}\\
+	\hline
+	1 & Bin method for age data\\
+	  & 1 = value refers to population bin index\\
+	  & 2 = value refers to data bin index\\
+	  & 3 = value is actual length (which must correspond to population length bin  \\
+	  & boundary)\\
+	 \hline
+\end{tabular}
 
-\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{2cm}}
-		\multicolumn{10}{l}{An example age composition observation:}\\
-		\hline
-		\#Year & Month & Fleet & Sex & Partition & Age Err & Lbin lo & Lbin hi & Nsamp & Data Vector \\
-		\hline
-		1987 & 1 & 1 & 3 & 0 & 2 & -1 & -1 & 79 & <enter data values>\\
-		-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
-		\hline
+
+\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{2.1cm}}
+	\multicolumn{10}{l}{ }\\
+	\multicolumn{10}{l}{An example age composition observation:}\\
+	\hline
+	\#Year & Month & Fleet & Sex & Partition & Age Err & Lbin lo & Lbin hi & Nsamp & Data Vector \\
+	\hline
+	1987 & 1 & 1 & 3 & 0 & 2 & -1 & -1 & 79 & <enter data values>\\
+	-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\\
+	\hline
 \end{tabular}
 
 
