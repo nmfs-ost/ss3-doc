@@ -1086,7 +1086,7 @@ It is possible to use the initial F method to achieve an estimate of the initial
 
 \hypertarget{Qsetup}{}
 \subsubsection{Catchability}
-Catchability is the scaling factor that relates a model quantity to the expected value for some type of data (index).  Typically this is used to converted selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet.  In SS, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the tiem series of deviations for some parameter.  This flexibility means that a family of link functions beyond simple proportionality is needed.
+Catchability is the scaling factor that relates a model quantity to the expected value for some type of data (index).  Typically this is used to converted selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet.  In SS, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the time series of deviations for some parameter.  This flexibility means that a family of link functions beyond simple proportionality is needed.
 
 For each fishery and survey with an index, enter a row with the entries as described below:
 
@@ -1095,8 +1095,8 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	\item Link type: An assumed functional form between Q, the expected value, and the survey observation.
 	\begin{enumerate}
 		\item 1 = simple Q, proportional assumption about Q: $y=q*x$.
-		\item 2 = mirror simple Q, 1 mirrored parameter.  %Assumes proportional with offset: $y=q(x-a)$.
-		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage.  Assumes proportional with offset and power function: $y=qx^c$.
+		\item 2 = mirror simple Q, 1 mirrored parameter.  
+		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage.  Assumes proportional with offset and power function: $y=qx^c$ where $q = exp(lnQ_base))$ thus the $c$ is not related to expected biomass but vulnerable biomass to Q.  Therefore, $c$ $<$ 0 leads to hyper-stability and $c > 0$ leads to hyper-depletion.
 	\end{enumerate}
 	\item Extra input for link (i.e. mirror fleet)
 	\begin{enumerate}
