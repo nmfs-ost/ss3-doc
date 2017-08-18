@@ -701,9 +701,9 @@ SS also accepts input of mean length-at-age’ or mean bodywt-at-age’.  This i
 		\hline
 		\#Yr & Month & Fleet & Sex & Part & AgeErr & Ignore & Data Vector (Female - Male) & Sample Size (Female - Male) \\
 		\hline
-		1989  & 7 & 1 & 3 & 0 & 1 & 2 & <Mean Size values> & <Sample Sizes> \\
+		1989  & 7 & 1 & 3 & 0 & 1 & 999 & <Mean Size values> & <Sample Sizes> \\
 		...   &   &   &   &   &   &   &  & \\
-		-9999 & 7 & 1 & 3 & 0 & 1 & 2 &  & \\
+		-9999 & 7 & 1 & 3 & 0 & 1 & 999 &  & \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -716,6 +716,7 @@ SS also accepts input of mean length-at-age’ or mean bodywt-at-age’.  This i
 		\item Nfish value of 0 will cause mean size value to be ignored in fitting.
 		\item Negative value for year causes observation to not be included in the working matrix.
 		\item Each sexes' data vector and N fish vector has length equal to the number of age' bins.
+		\item The "Ignore" column is not used but still needs to have default values in that column.
 		\item Where age data are being entered as conditional age’-at-length and growth parameters are being estimated, it may be useful to include a mean length-at-age vector with nil emphasis to provide another view on the model’s estimates.
 		\item An experiment that may be of interest might be to take the body weight-at-age data an enter it to SS as empirical body wt-at-true age in the wtatage.ss file, and to contrast results to entering the same body weight-at-age data here and to attempt to estimate growth parameters, potentially time-varying, that match these body weight data.		
 	\end{itemize}
