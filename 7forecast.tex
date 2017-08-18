@@ -1,4 +1,4 @@
-\section{Forecast}
+\section{Forecast File Syntax}
 The specification of options for forecasts is contained in the mandatory input file named FORECAST.SS.  For additional detail on the forecast file see Appendix B.
 
 \begin{landscape}
@@ -25,7 +25,7 @@ The specification of options for forecasts is contained in the mandatory input f
 		\hline
 		\endlastfoot
 		
- %START TABLE HERE
+
  1 & Benchmarks/Reference Points & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SS checks for consistency of the Forecast specification and the benchmark specification.  It will turn benchmarks on if necessary and report a warning.}}\\
    & 0 = omit & \\
    & 1 = calculate F\textsubscript{SPR}, F\textsubscript{BTGT}, and F\textsubscript{MSY} & \\
@@ -36,21 +36,8 @@ The specification of options for forecasts is contained in the mandatory input f
    & 2 = calculate F\textsubscript{MSY} & \\
    & 3 = F\textsubscript{Btarget} as proxy& \\
    & 4 = F\textsubscript{end year} as proxy& \\
-   %& 5 = Average recent F(enter years) - not yet implemented & \\
-   %& 6 = read Fmult - not yet implemented & \\
-  
- %\hline  
- %COND 0-4: & No additional input for these options & \\
- 
- %\hline
- %\multicolumn{3}{l}{COND 5: Input annual F scalar} \\
- %\multicolumn{1}{r}{-4}  & First year for recent average F relative to the end year. & \ \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{Read a range of years for calculation of recent average F (not yet implemented). Will be used to calculate an average F multiplier for each fleet over a range of years. } }\\
- %\multicolumn{1}{r}{0}  & Last year for recent average F. & \\
- 
- %\hline
- %COND: 6 & & \\
- %\multicolumn{1}{r}{0.6} & F multiplier for option 6 (not yet implemented). & \\
- 
+
+
  \hline
  0.45 & SPR\textsubscript{target} &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{ SS searches for F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to unfished value.}} \\
       & & \\
@@ -96,7 +83,9 @@ The specification of options for forecasts is contained in the mandatory input f
     \\
     \\  \\
  \hline   
- 0 & Forecast Selectivity Option & not yet implemented \\
+ 0 & Forecast Selectivity Option & Determines the selectivity used in the forecast years. \\
+   & 0 = forecast selectivity is mean from year range & \\
+   & 1 = forecast selectivity from annual time-varying parameters & \\
 
  \hline   
  1 & Control Rule & \\
@@ -114,7 +103,8 @@ The specification of options for forecasts is contained in the mandatory input f
  \hline
  0.75 & Control Rule Buffer & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Control rule F\textsubscript{target} as a fraction of selected F\textsubscript{MSY} proxy.}} \\ 
  
- \pagebreak %\hline
+ %\pagebreak %
+ \hline
  
  3 & Number of forecast loops (1,2,3) & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SS sequentially goes through the forecast up to three times.  Maximum number of forecast loops: 1=OFL only, 2=ABC control rule, 3=set catches equal to control rule or input catch and redo forecast implementation error.}} \\
  & & \\
@@ -156,7 +146,7 @@ The specification of options for forecasts is contained in the mandatory input f
  2004 & Rebuilder start year (Year Initial) & \\
       & >0 = year for current age structure & \\
       & -1 = set to end year +1 & \\
- \pagebreak %\hline      
+ %\pagebreak %\hline      
  \hline
  1 & Fleet Relative F & \\
    & 1 = use first-last allocation year & \\
