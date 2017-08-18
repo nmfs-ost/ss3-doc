@@ -735,7 +735,7 @@ P'=P*exp(\text{seas\_value})
 \end{center}
 
 \hypertarget{SRR}{} 
-\subsubsection{Spawner-Recruitment}
+\subsection{Spawner-Recruitment}
 The spawner-recruitment section starts by specification of the functional relationship that will be used.  
 
 \begin{center}
@@ -1018,7 +1018,7 @@ When SS is configured such that seasons are modeled as years, the concept of sea
 \subsubsection{Initial Age Composition}
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year.  These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series.  The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector.  If the number of estimated ages in the initial age composition is less than Nages, then the older ages will retain their equilibrium levels.  Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
-\subsubsection{Fishing Mortality Method}
+\subsection{Fishing Mortality Method}
 There are  three methods available for calculation of fishing mortality.  These are:  Pope’s approximation, continuous F with each F as a model parameter, and a hybrid method that does a Pope’s approximation to provide initial values for iterative adjustment of the continuous F values to closely approximate the observed catch.  With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters.  In a 2 fishery, low F case, the hybrid nethod is just as fast as the Pope approx. and produces identical result.  When F is very high, the problem becomes quite stiff for Pope’s and the hybrid method so convergence may slow.  It may  be better to use F option 2 (continuous F as full parameters) in these high F cases.  F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly.  For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.\\
 Option 1 (Pope’s approx) still exists, but it is recommended to switch to option 3.
 
@@ -1085,7 +1085,7 @@ It is possible to use the initial F method to achieve an estimate of the initial
 \end{itemize}
 
 \hypertarget{Qsetup}{}
-\subsubsection{Catchability}
+\subsection{Catchability}
 Catchability is the scaling factor that relates a model quantity to the expected value for some type of data (index).  Typically this is used to converted selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet.  In SS, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the time series of deviations for some parameter.  This flexibility means that a family of link functions beyond simple proportionality is needed.
 
 For each fishery and survey with an index, enter a row with the entries as described below:
@@ -1191,7 +1191,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 
 \noindent NOTE:  In 3.24 it was common to use the dev approach and this dev approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's dev was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual devs.  Also note that devs in 3.24 were survey specific (so no parameter for yeares with no survey).  But in SS3.30, devs are always year-specific, so you might have a dev created for a year with no survey.\\
 
-\subsubsection{Selectivity and Discard}
+\subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention.  The four values read from each line are:
 
 \begin{description}
@@ -1752,7 +1752,7 @@ A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do n
 \end{center}
 
 
-\subsubsection{Tag Recapture Parameters}
+\subsection{Tag Recapture Parameters}
 Specify if tagging data are being used:
 \begin{center}
 	\begin{longtable}{p{0.75cm} p{0.75cm} p{0.75cm} p{1.25cm} p{1.15cm} p{1.65cm} p{1.5cm} p{0.75cm} p{4.5cm}}
@@ -1791,7 +1791,7 @@ Specify if tagging data are being used:
 
 \pagebreak
 \hypertarget{GcompVar}{}
-\subsubsection{Variance Adjustment Factors}
+\subsection{Variance Adjustment Factors}
 When doing iterative reweighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
 \begin{center}
 	\begin{longtable}{p{3cm} p{3cm} p{9.5cm} }
@@ -1845,7 +1845,7 @@ When doing iterative reweighting of the input variance factors, it is convenient
 	\end{itemize}
 \end{description}
 
-\subsubsection{Lambdas (Emphasis Factors)}
+\subsection{Lambdas (Emphasis Factors)}
 These values are multiplied by the corresponding likelihood component to calculate the overall negative log likelihood to be minimized.
 
 \begin{center}
@@ -1934,7 +1934,7 @@ The reading of the lambda values has been substantially altered with SS v3.  Ins
 %	\end{longtable}
 %\end{center}
 
-\subsubsection{Controls for Variance of Derived Quantities}
+\subsection{Controls for Variance of Derived Quantities}
 Additional standard deviation reported may be selected.
 \begin{center}
 	\begin{longtable}{p{1cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.5cm} p{1.8cm}}
@@ -2019,7 +2019,7 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
 \end{center}
 
 \hypertarget{TVpara}{}
-\subsubsection{Using Time-Varying Parameters}
+\subsection{Using Time-Varying Parameters}
  The approach to allowing parameters to have time-varying values has been completely overhauled in the transition from SS v.3.24 to SS v.3.30.  Fortunately, the sstrans.exe will do the conversion for you, but you should review the new control file closely before simply running with it, especially for time-varying catchability parameters.
  \\\\
  \noindent \textbf{Motivation}:  In SS v.3.24, the group of biology parameters (termed MGparm) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient.  The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block.  The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks.  The tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
@@ -2173,7 +2173,7 @@ The new available options for time-varying parameters in SS v3.30 are described 
 %	\end{longtable}
 %\end{center}
 
-\subsubsection{Parameter Priors}
+\subsection{Parameter Priors}
 Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall logL function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the logL, so they would have no gradient in the logL and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  The options for parameter priors are:
 \begin{itemize}
 	\item  0 = No prior applied.
