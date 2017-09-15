@@ -1105,7 +1105,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	\item Do extra SD
 	\begin{enumerate}
 		\item 0 = skip (typical)
-		\item 1 = estimate a parameter that will contain an additive constant to be added to the input stddev of the survey variability.  This extra SD approach is highly redundant with the older code that provided for iterative input of variance adjustment factors.  The newer code for extra SD estimation is recommended.
+		\item 1 = estimate a parameter that will contain an additive constant to be added to the input standard deviation of the survey variability.  This extra SD approach accomplishes the same thing in principle as the older code, but may not give exactly the same answer as the older code.  The newer code for extra SD estimation is recommended.
 	\end{enumerate}
 	\item Bias adjustment
 	\begin{enumerate}
@@ -1853,7 +1853,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 		Value & Description \\
 		\hline
 		4 & Max lambda phase: read this number of lambda values for each element below.  The last lambda value is used for all higher numbered phases.\\
-		1 & sd offset; value=0 causes log(like) to omit the +log(s) term; value=1 causes log(like) to include the log(s) term for CPUE, discard, meanbodywt, recruitment deviations. \\
+		1 & sd offset; value=0 causes log(like) to omit the +log(s) term; value=1 causes log(like) to include the log(s) term for CPUE, discard, growth CV, mean body weight, recruitment deviations. If you are estimating any variance parameters, sd offset must be set to 1.\\
 		\hline
 	\end{tabular}
 \end{center}
