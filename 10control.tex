@@ -817,16 +817,19 @@ If the R0 or steepness parameters are time-varying, then SS will use the current
 \end{center}
 
 \begin{itemize}
-	\item 	The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, env link, or random deviation.  However, not all of these options make sense for all parameters.  Before discussing these, another important change must be noted.
-	\item In SS v.3.24, the R0 and steepness parameter was used for both the virgin calculation and for the MSY (benchmark) calculations.  In SS3.30, these usages are more explicitly defined.  The value of R0 and steepness in the initial year is used for virgin and for calculation the denominator in depletion estimates.  The average value of R0 and steepness in the range of years specified as the benchmark years 9 and 10 (see forecast.ss) is used for MSY type calculations.  So, for example, a long-term climate effect could cause R0 to change over time and Bmsy could now be calculated for some future range of years.
-	\item Since R0 can be time-varying, what is regime shift for?  Regime shift is for multi-year or environmentally driven deviations from R0 without changing R0 itself.  Then rec devs are annual deviations from the current regime.  And these rec devs can have autocorrelation.
-	\item 	WARNING!  use these options judiciously because the same algebraic effect on the calculated recruitment can be achieved by different combinations of these options.
+	\item 	The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviation.  However, not all of these options make sense for all parameters.  Before discussing these, another important change must be noted.
+	\item In SS v.3.24, the R0 and steepness parameter was used for both the virgin calculation and for the MSY (benchmark) calculations.  In SS v.3.30, these usages are more explicitly defined.  The value of R0 and steepness in the initial year is used for virgin and for calculation the denominator in depletion estimates.  The average value of R0 and steepness in the range of years specified as the benchmark years 9 and 10 (see forecast.ss) is used for MSY type calculations.  So, for example, a long-term climate effect could cause R0 to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
+	\item Since R0 can be time-varying, what is regime shift for?  Regime shift is for multi-year or environmentally driven deviations from R0 without changing R0 itself.  Then the recruitment deviations are annual deviations from the current regime.  And these recruitment deviations can have autocorrelation.
+	
+	\begin{itemize}
+		\item WARNING!  Use these options judiciously because the same algebraic effect on the calculated recruitment can be achieved by different combinations of these options.
+	\end{itemize}
+	
 	\item Preliminary recommendation:  Use block, trend or environmental effects on R0 only for very long-term and highly persistent effects; use time-vary effects on regime shift for transitory, but multi-year deviations from R0.
+	
 	\item The time-vary parameter lines are short lines because they themselves cannot be time-varying.
-	\item The order of time-vary parameters is:
-	\item 0-many time-vary parameters for R0
-	\item 0-many time-vary parameters for steepness
-	\item 0-many time-vary parameters for regime shift; note that setting a block for just the initial equilibrium year is equivalent to R1\_offset.  If R1 offset is being used in 3.24, then sstrans.exe will automatically add a new block for the initial equilibrium year so that you can easily re-implement a R1 offset effect.
+	
+	\item The order of time-vary parameters are; R0,  steepness, then regime shift.  The number of time-varying parameters from each of these can range from zero to many. \item Note that setting a block for just the initial equilibrium year is equivalent to R1\_offset.  If R1 offset is being used in 3.24, then sstrans.exe will automatically add a new block for the initial equilibrium year so that you can easily re-implement a R1 offset effect.
 \end{itemize}
 
 \begin{center}
@@ -847,14 +850,6 @@ If the R0 or steepness parameters are time-varying, then SS will use the current
 	\endlastfoot
 		\multicolumn{3}{l}{Then read additional spawner-recruitment conditions:}\\
 		\hline
-		%0 & SR\_env\_link & This is the index of the environmental variable that will be used as the basis for adjustment of SR expectations.  This works for both the forecast period and for the initial equilibrium (by entering a value for the environmental variable one year before the start of the time series).\\
-		%\hline
-		%3 & SR\_env\_target & This factor determines what aspect of spawner-recruitment is affected by the environmental variable.  The options are:\\
-		%& & 1: annual deviations\\
-		%& & 2: R0 \\
-		%& & 3: steepness\\
-		%& & If the application needs to compare the environment to annual recruitment deviations, then the preferred option is to transform the environmental variable into an age 0 pre-recruit survey and enter these as a survey with expected value based on selectivity option \#31.  Use of SR\_env\_target=1 is discouraged because it interacts with the level of residual recruitment variability and there is no implementation of a bias correction for the variability in recruitment caused by the environmental variable.  If the application is investigating regime shifts, then enter an environmental variable with a time series of zeros and ones to describe the regime periods, then use SR\_env\_target of 2 or 3 to adjust the expected level of recruitment according to the regime variable.  Note that MSY related quantities will be calculated with the regime in the zero state only.  However, the forecast can be responsive to designated regime levels.\\
-		%\hline
 		1 & Do Recruitment Deviations & This selects the way in which recruitment deviations are coded:\\
 		  &  & 0:  none (so all recruitments come from S-R curve)\\
 		  &  & 1:  dev vector (previously the only option).  Here the deviations are encoded as a dev\_vector, so ADMB enforces a sum-to-zero constraint.\\
@@ -878,7 +873,7 @@ If the R0 or steepness parameters are time-varying, then SS will use the current
 		& 6 & Early Recruitment Deviation Phase: \\
 		& & Users may want to set to a late phase if there is not much early data; Default:  -4\\
 		& 0 & Forecast Recruitment Phase: \\
-		& & Forecast recruitment deviations always begin in the first year after the end of the main recruitment deviations.  Setting their phase to 0 causes their phase to be set to max lambda phase +1 (so that they become active after rest of parameters have converged.).  However, it is possible here to set an earlier phase for their estimation, or to set a negative phase to keep the forecast recruitment devs at a constant level. Default:  0 \\
+		& & Forecast recruitment deviations always begin in the first year after the end of the main recruitment deviations. Recruitment in the forecast period is deterministic derived from the specified stock-recruitment relationship.  Setting their phase to 0 causes their phase to be set to max lambda phase +1 (so that they become active after rest of parameters have converged.).  However, it is possible here to set an earlier phase for their estimation, or to set a negative phase to keep the forecast recruitment devs at a constant level. Default:  0 \\
 		& 1 & Forecast Recruitment Deviations Lambda:\\
 		&   & This lambda is for the logL of the forecast recruitment devs that occur before endyr+1.  Use a larger value here if solitary, noisy data at end of time series cause unruly recr dev estimation. Default:  1.0 \\
 		& 1956 & Last Year With No Bias Adjustment \\
@@ -1742,10 +1737,10 @@ The time-varying options for selectivity parameters are identical to the time-va
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity}
 A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do not have this feature and hence this input is not expected.
 \begin{center}
-	\begin{longtable}{p{2cm} p{4cm} p{6cm}}
+	\begin{longtable}{p{2cm} p{8cm} p{5.5cm}}
 		Value & Label & Description \\
 		\hline
-		0 & 2D AR1 selectivity & 0 = not used \\
+		0 & two-dimensional auto-regressive selectivity & 0 = not used \\
 		  &  & 1 = use\\
 		\hline
 	\end{longtable}
@@ -1794,24 +1789,24 @@ Specify if tagging data are being used:
 \subsection{Variance Adjustment Factors}
 When doing iterative reweighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
 \begin{center}
-	\begin{longtable}{p{3cm} p{3cm} p{9.5cm} }
+	\begin{longtable}{p{3cm} p{3cm} p{3cm} p{6.5cm} }
 
 		%Value & Description & & Options & \\
 		%\hline
 		%0 & \multicolumn{2}{l}{Variance Adjustment Factors } & \multicolumn{2}{l}{0 = none, 1 = read table}\\
-		 \multicolumn{3}{l}{Variance Adjustment Factors }\\
+		 \multicolumn{4}{l}{Variance Adjustment Factors }\\
 		 \hline
-		-9999 1 0 & \multicolumn{2}{l}{No variance adjustment factors applied }\\
+		-9999 1 0 & \multicolumn{3}{l}{No variance adjustment factors applied }\\
 		\\
-		\multicolumn{3}{l}{If variance adjustment factors are to be applied:}\\
+		\multicolumn{4}{l}{If variance adjustment factors are to be applied:}\\
 		\hline
 		%Fleet/Survey 1 & Fleet/Survey 2 & Fleet/Survey 3 & Fleet/Survey 4 & Label \\
-		Factor & Fleet & Value \\
+		Factor & Fleet & Value & Description \\
 		\hline
-		1 & 2 & 0.5 \\
-		4 & 1 & 0.25 \\
-		4 & 2 & 0.75 \\
-		-9999 & 0 & 0 \\
+		1 & 2 & 0.5 & \# Survey CV for survey/fleet 2 \\
+		4 & 1 & 0.25 & \# Length data for fleet 1 \\
+		4 & 2 & 0.75 & \# Length data for fleet 2\\
+		-9999 & 0 & 0 & \\
 		%0 & 0 & 0 & 0 & \#Survey CV\\
 		%0 & 0 & 0 & 0 & \#Discard CV\\
 		%0 & 0 & 0 & 0 & \#Mean BodyWght SD\\
@@ -1853,7 +1848,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 		Value & Description \\
 		\hline
 		4 & Max lambda phase: read this number of lambda values for each element below.  The last lambda value is used for all higher numbered phases.\\
-		1 & sd offset; value=0 causes log(like) to omit the +log(s) term; value=1 causes log(like) to include the log(s) term for CPUE, discard, growth CV, mean body weight, recruitment deviations. If you are estimating any variance parameters, sd offset must be set to 1.\\
+		1 & sd offset; value=0 causes log(like) to omit the +log(s) term; value=1 causes log(like) to include the log(s) term for CPUE, discard, growth CV, mean body weight, recruitment deviations. If you are estimating any variance parameters, sd offset must be set to 1.  \\
 		\hline
 	\end{tabular}
 \end{center}
