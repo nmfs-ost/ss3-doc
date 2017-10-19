@@ -16,7 +16,7 @@
 		\item Tag-recapture
 		\item Stock composition (e.g. morphs ID'ed by otolith microchemistry)
 		\item Environmental data
-		\item selectivity observations (new placeholder, not yet implemented)
+		\item Selectivity observations (new placeholder, not yet implemented)
 	\end{enumerate}
 	
 \hypertarget{UnitsOfMeasure}{}
@@ -25,10 +25,10 @@ The normal units of measure are as follows:
 \begin{itemize}
 	\item Catch biomass -- metric tons	
 	\item Body weight -- kilograms	
-	\item Body length -- usually in cm. Weight at length parameters must correspond to the units of body length and body weight.	
-	\item Survey abundance -- any units if q is freely scaled; metric tons or thousands of fish if q has a quantitative interpretation	
+	\item Body length -- usually in centimeters. Weight at length parameters must correspond to the units of body length and body weight.	
+	\item Survey abundance -- any units if catchability (Q) is freely scaled; metric tons or thousands of fish if Q has a quantitative interpretation	
 	\item Output biomass -- metric tons	
-	\item Numbers -- thousands of fish, because catch is in mtons and body weight is in kg	
+	\item Numbers -- thousands of fish, because catch is in metric tons and body weight is in kilograms	
 	\item Spawning biomass -- metric tons of mature females if eggs/kg = 1 for all weights; otherwise has units that are based on the user-specified fecundity	
 \end{itemize}
 
@@ -81,7 +81,7 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 	\begin{tabular}{p{4cm} p{12cm}}
 			\textbf{Typical Value} & \textbf{Description} \\
 			\hline
-			\#V3.30.0.0 & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{model version number.  This is written by SS in the  new files and a good idea to keep updated}} \\
+			\#V3.30.XX.XX & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Model version number.  This is written by SS in the  new files and a good idea to keep updated in the input files.}} \\
 			&  \\
 			\hline
 			\#C data using new survey & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Data file comment. Must start with \#C to be retained then written to top of various output files.  These comments can occur anywhere in the data file, but must have \#C in columns 1-2.}} \\
@@ -127,7 +127,7 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 \hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version 3.30 all fleets now have the same status within the model structure and each has a specified fleet type.  Available types are: catch fleet, bycatch only, or survey.  
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2.5cm}}
+	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{4cm} }
 		\multicolumn{6}{l}{Inputs that define the fishing and survey fleets:}\\
 		\hline
 		2 & \multicolumn{5}{l}{\#Number of fleets which includes survey in any order} \\
@@ -135,8 +135,8 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 		\#Fleet Type & Timing & Area & Catch Units & Catch Mult. & Fleet Name \\
 
 		\hline
-		1 & -1 & 1 & 1 & 0 & FISHERY1\\
-		1 & -1 & 1 & 2 & 0 & SURVEY1\\
+		1 & -1  & 1 & 1 & 0 & FISHERY1\\
+		3 & 0.5 & 1 & 2 & 0 & SURVEY1\\
 		\hline
 		
 	\end{tabular}
@@ -145,9 +145,9 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 \begin{description}
   \item[Fleet Type] \ 
 	  \begin{itemize}
-	  	\item 1 = fleet with input retained catch
+	  	\item 1 = fleet with input catches
 	  	\item 2 = bycatch fleet (all catch discarded)
-	  	\item 3 = survey (should not have catch removals, use option = 1 to remove survey catches)
+	  	\item 3 = survey: assumes no catch removals even if associated catches are specified below.  If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in Timing)
 	  	\item 4 = ignored (not yet implemented)
 	  \end{itemize}
 
@@ -156,9 +156,7 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
    Timing for data observation has been revised in v3.30.  Fishery fleets can either have a -1 which will indicate that catch occurred over the whole season or a user can specify specific timing for a fishery fleet by using 1007 which would indicate that catch was removed from the population mid-year. %Carryover from 3.24 approach, now superseded by real month input for data observations.
 	  \begin{itemize}
 	  	\item fishery = -1 treat as catch occurred over the whole season or a user can override this assumption by using the code 10XX (e.g 1007 would indicate that catch was removed mid-year in July).
-	  	\item survey = explicit timing using real month (e.g. July would by 7)
-	  	\item 0.50 = now ignored in v3.30
-	  	%\item >0.50 = month of the observation (e.g April 15th would be 4.5)
+	  	\item survey = 0.50 assumes discrete removal of catch midseason.  Alternative option would to used specific timing corresponding to month of removal using code 10XX (e.g 1007 would indicate that catch was removed in July). 
 	  \end{itemize}
   \item[Area]\hfill\\
   An integer value indicating the area in which a fleet operates.
@@ -208,11 +206,11 @@ The new format for version 3.30 for a 2 season model with 2 fisheries looks like
 
 \begin{itemize}
 	\item Catch can be in terms of biomass or numbers for each fleet.
-	\item Catch is retained catch. If there is discard also, then it is handled in the discard section below.
+	\item Catch is retained catch. If there is discard also, then it is handled in the discard section below.  This is the recommended setup which results in a model estimated retention curve based upon the discard data (specifically discard composition data).  However, there may be instances where the data do not support estimation of retention curves.  In these instances catches can be specified as all dead (retained + discard estimates).
 	\item If there is reason to believe that the retained catch values underestimate the true catch, then it is possible in the retention parameter set up to create the ability for the model to estimate the degree of unrecorded catch.  However, this is better handled with the new catch multiplier option.
 \end{itemize}
 \subsubsection{Bycatch}
-Bycatch fleets have an F so impose mortality and catch fish.  All this catch is discarded.  There must be a value entered for retained catch so that SS knows to calculate an F for that season, but this catch amount is ignored in the logL.  The amount of discarded catch can be entered as a discard observation(s).  Bycatch fleets have selectivity, which must be specified or estimated if observations of the size or age composition of the discards is entered.
+Bycatch fleets have an F so impose mortality and catch fish.  All this catch is discarded.  There must be a value entered for retained catch so that SS knows to calculate an F for that season, but this catch amount is ignored in the log likelihood.  The amount of discarded catch can be entered as a discard observation(s).  Bycatch fleets have selectivity, which must be specified or estimated if observations of the size or age composition of the discards is entered.
 \begin{itemize}
 	\item Because there is no retained catch amount to match, the F for bycatch only fleets must be by th continuous F method  (F\_method = 2).
 	\item  MSY and yield per recruit are calculated in terms of dead catch, and they currently include catch from bycatch fleets.  So the search for Fmsy scales the bycatch F along with the F for the fleets that retain catch.  A future version of SS3.30 will implement more controls for how bycatch fleets are handled in MSY and in forecast calculations. 
@@ -222,10 +220,10 @@ Bycatch fleets have an F so impose mortality and catch fish.  All this catch is 
 Indices are data that are compared to aggregate quantities in the model.  Typically the index is a measure of fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model.  The first section of the Indices setup contains the fleet ID, Units, and error distribution for each fleet that has index data.
 
 \begin{center}
-	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{3cm}}
+	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{6cm}}
 		\multicolumn{4}{l}{\#CPUE and Suvey Abundance Observations:}\\
 		\hline
-		\#Fleet/Survey & Units & \#Error      & Enable \\
+		\#Fleet/Survey & Units & \#Error      &  \\
 		               &       & Distribution & SD\_Report \\
 		\hline
 		1 & 1 & 0 & 0 \\
@@ -278,19 +276,19 @@ For the normal error structure, the entered values for se are interpreted direct
 If the data exist as a set of normalized Z-scores, you can either:  assert a lognormal error structure after entering the data as exp(Z-score) because it will be logged by SS.  Preferably, the Z-scores would be entered directly and the normal error structure would be used.
 
 	\item[Enable SD\_Report]\
+	
+	Indices with SD\_Report enabled will have the expected values for their historical values appear in the ss.std and ss.cor files. The default value is for this option is 0.
 	\begin{itemize}
 		\item 0 = SD\_Report not enabled for this index
 		\item 1 = SD\_Report enabled for this index
 	\end{itemize}
-
-Indices with SD\_Report enabled will have the expected values for their historical values appear in the ss.std and ss.cor files. The default value is for this option is 0.
 
 \end{description}
 
 \begin{description}
 	\item[Data Format]\
 \begin{center}
-	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{3cm} p{3cm}}
+	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{3cm} p{2.5cm}}
 		\hline
 		\#Year & Month & Fleet/Survey & Observation & SE \\
 		\hline
@@ -310,8 +308,8 @@ Indices with SD\_Report enabled will have the expected values for their historic
 		\item Year values that are before start year or after end year are excluded from model, so the easiest way to include provisional data in a data file is to put a negative sign on its year value.
 		\item Duplicate survey observations are not allowed.
 		\item Observations can be entered in any order, except if the super-year feature is used.
-		\item Observations that are to be included in the model but not included in the –logL need to have a negative sign on their fleet ID.  Previously the code for not using observations was to enter the observation itself as a negative value.  However, that old approach prevented use of a Z-score environmental index as a “survey”.
-		\item Super-periods are turned on and then turned back off again by putting a negative sign on the season.  Previously, super-periods were started and stopped by entering -9999 and the -9998 in the se field.  See the “Data Super-Period” section of this manual for more information.
+		\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID.  Previously the code for not using observations was to enter the observation itself as a negative value.  However, that old approach prevented use of a Z-score environmental index as a “survey”.  This approach is best for single or select years from an index rather than an approach to remove a whole index.  Removing a whole index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
+		\item Super-periods are turned on and then turned back off again by putting a negative sign on the season.  Previously, super-periods were started and stopped by entering -9999 and the -9998 in the SE field.  See the “Data Super-Period” section of this manual for more information.
 		\item RESEARCH NOTE:  If the statistical analysis used to create the CPUE index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery’s size and age composition, then you may want to enter the CPUE as if it was a separate survey and with a selectivity that differs from the fishery’s estimated selectivity.  The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the CPUE should be derived through an area-weighted approach to better serve as a survey of stock abundance.
 	\end{itemize}
 \end{description}
@@ -378,11 +376,11 @@ If discard is being used, the input syntax is:
 		\item Note that in the control file you will enter information for retention such that 1-retention is the amount discarded.  All discard is assumed dead, unless you enter information for discard mortality.  Retention and discard mortality can be either size-based of (new with 3.30) age-based.
 	\end{itemize}
 	\item[Cautionary Note]\hfill\\
-	The use of CV as the measure of variance can cause a small discard value to appear to be overly precise, even with the minimum standard error (std. err.) of the discard observation set to 0.001.  In the control file, there is an option to add an extra amount of variance.  This amount is added to the standard error, not to the CV, to help correct this problem of underestimated variance.
+	The use of CV as the measure of variance can cause a small discard value to appear to be overly precise, even with the minimum standard error of the discard observation set to 0.001.  In the control file, there is an option to add an extra amount of variance.  This amount is added to the standard error, not to the CV, to help correct this problem of underestimated variance.
 \end{description}
 
 \subsection{Mean Body Weight or Length}
-This is the overall mean body weight orr length across all selected sizes and ages.  This may be useful in situations where individual fish are not measured but mean weight is obtained by counting the number of fish in a specified sample, e.g. a 25 kg basket.  Observations can be  in terms of mean length by setting switching the partition code to a negative value (e.g. -0, -1, -2) rather than 0, 1, and 2 typically used with the mean body weight approach.
+This is the overall mean body weight or length across all selected sizes and ages.  This may be useful in situations where individual fish are not measured but mean weight is obtained by counting the number of fish in a specified sample, e.g. a 25 kg basket.  Observations can be  in terms of mean length by setting switching the partition code to a negative value (e.g. -0, -1, -2) rather than 0, 1, and 2 typically used with the mean body weight approach.
 
 \begin{center}
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
