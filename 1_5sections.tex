@@ -148,27 +148,28 @@ The process of updating and adding new features within SS v.3.30 expose several 
 		\item control file:  file containing set-up for the parameters (required)
 		\item forecast.ss:  file containing specifications for reference points and forecasts (required) 
 		\item ss.par:  previously created parameter file that can be read to overwrite the initial parameter values in the control file (optional)
+		\item wtatage.ss: file containing empirical input of body weight by fleet and population and empirical fecundity-at-age (optional)
 		\item runnumber.ss:  file containing a single number used as runnumber in output to CumReport.sso and in the processing of profilevalues.ss (optional)
 		\item profilevalues.ss:  file contain special conditions for batch file processing (optional)
-		item wtatage.ss: file containing empirical input of body weight by fleet and population and empirical fecundity-at-age (optional)
 	\end{enumerate}
 	
 	\subsection{Output Files}
 	\begin{enumerate}
-		\item ss.par, ss.std, ss.rep, ss.cor etc.  standard ADMB output files
-		\item echoinput.sso:  This file is produced while reading the input files and includes an annotated echo of the input.  The sole purpose of this output file is debugging input errors.
+		\item data.ss\textunderscore new:  contains a user-specified number of datafiles, generated through a parametric bootstrap procedure, and written sequentially to this file
+		\item control.ss\textunderscore new:  Updated version of the control file with final parameter values replacing the Init parameter values.
+		\item starter.ss\textunderscore new:  New version of the starter file with annotations
+		\item Forecast.ss\textunderscore new:  New version of the forecast file with annotations.
 		\item warning.sso:  This file contains a list of warnings generated during program execution.
-		\item checkup.sso:  Contains details of selectivity parameters and resulting vectors.  This is written during the first call of the objective function.
+		\item echoinput.sso:  This file is produced while reading the input files and includes an annotated echo of the input.  The sole purpose of this output file is debugging input errors.
 		\item Report.sso:  This file is the primary report file.
 		\item CompReport.sso:  Observed and expected composition data in a list-based format
 		\item Forecast-report.sso:  Output of management quantities and for forecasts
 		\item CumReport.sso:  This file contains a brief version of the run output, output is appended to current content of file so results of several runs can be collected together.  This is useful when a batch of runs is being processed.
 		\item Covar.sso:  This file replaces the standard ADMB ss.cor with an output of the parameter and derived quantity correlations in database format
+		\item ss.par: This file contains all estimated and fixed parameters from the model run. 
+		\item ss.std, ss.rep, ss.cor etc.  standard ADMB output files
+		\item checkup.sso:  Contains details of selectivity parameters and resulting vectors.  This is written during the first call of the objective function.
 		\item Gradient.dat: New for SS3.30, this file shows parameter gradients at the end of the run.
-		\item data.ss\textunderscore new:  contains a user-specified number of datafiles, generated through a parametric bootstrap procedure, and written sequentially to this file
-		\item control.ss\textunderscore new:  Updated version of the control file with final parameter values replacing the Init parameter values.
-		\item starter.ss\textunderscore new:  New version of the starter file with annotations
-		\item Forecast.ss\textunderscore new:  New version of the forecast file with annotations.
 		\item rebuild.dat:  Output formatted for direct input to Andre Punt's rebuilding analysis package.  Cumulative output is output to REBUILD.SS (useful when doing MCMC or profiles).
 		\item SIS\_table.sso:  Output formatted for reading into the NMFS Species Information System.
 		\item ss\_summary.sso: Output file that contains all the likelihood components, parameters, and derived quantities. 
