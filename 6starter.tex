@@ -48,7 +48,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
    & 2 = fuller display per iteration & \\
 		  
  \hline
- 1 & Detailed age-structure report & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Detailed age-structured report in REPORT.SSO.}} \\
+ 1 & Detailed age-structure report & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Detailed age-structured report in Report.sso}} \\
    & 0 = omit catch-at-age for each fleet and cohort; & \\
    & 1 = include all output; &  \\
    & 2 = reduce output for data-limited models &  \\		 
@@ -56,19 +56,19 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  \hline
  0 & Check-up & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{This output is largely unformatted and undocumented and is mostly used by the developer. }}\\
    & 0 = omit & \\
-   & 1 = write detailed intermediate calculations to ECHOINPUT.SSO during first call & \\
+   & 1 = write detailed intermediate calculations to echoinput.sso during first call & \\
 
  \pagebreak		
  %\hline
- 0 & Parameter Trace & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{This controls the output to PARMTRACE.SSO. The contents of this output can be used to determine which values are changing when a model approaches a crash condition.  It also can be used to investigate patterns of parameter changes as model convergence slowly moves along a ridge.}} \\
+ 0 & Parameter Trace & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{This controls the output to parmtrace.sso. The contents of this output can be used to determine which values are changing when a model approaches a crash condition.  It also can be used to investigate patterns of parameter changes as model convergence slowly moves along a ridge.}} \\
    & 0 = omit & \\
-   & 1 = write good iteration and active parms & \\
-   & 2 = write good iterations and all parms & \\
-   & 3 = write every iteration and all parms & \\
-   & 4 = write every iteration and active parms &  \\
+   & 1 = write good iteration and active parameters & \\
+   & 2 = write good iterations and all parameters & \\
+   & 3 = write every iteration and all parameters & \\
+   & 4 = write every iteration and active parameters &  \\
    
  \hline
- 1 & Cumulative Report & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Controls reporting to the file CUMREPORT.SSO.
+ 1 & Cumulative Report & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Controls reporting to the file Cumreport.sso.
  		This cumulative report is most useful when accumulating summary information from likelihood profiles or when simply accumulating a record of all model runs within the current subdirectory}}\\
    & 0 = omit  & \\
    & 1 = brief & \\
@@ -76,7 +76,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
    & & \\
 	 
  \hline
- 1 & Full Priors & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Turning on this option causes all prior values to be calculated.  With this option off, the total logL, which includes the logL for priors, would change between model phases as more parameters became active.}} \\
+ 1 & Full Priors & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Turning on this option causes all prior values to be calculated.  With this option off, the total log likelihood, which includes the log likelihood for priors, would change between model phases as more parameters became active.}} \\
    & 0 = only calculate priors for active parameters &	\\
    & 1 = calculate priors for all parameters that have a defined prior & \\
 	     
@@ -92,7 +92,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 
  \pagebreak	   
  %\hline
- 1 & Data File Output & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{All output files are sequentially output to DATA.SS\textunderscore new and will need to be parsed by the user into separate data files. The output of the input data file makes no changes, so retains the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. The N obs values are adjusted accordingly.  At this time, the tag recapture data is not output to DATA.SS\textunderscore new.}}\\
+ 1 & Data File Output & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{All output files are sequentially output to data.ss\_new and will need to be parsed by the user into separate data files. The output of the input data file makes no changes, so retains the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. The N obs values are adjusted accordingly.  At this time, the tag recapture data is not output to DATA.SS\textunderscore new.}}\\
    & 0 = none & \\
    & 1 = output an annotated replicate of the input data file & \\
    & 2 = add a second data file containing the model's expected values with no added error & \\
@@ -100,9 +100,9 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
    & & \\
 
  \hline
- 8 & Turn off estimation &  \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{The 0 option is useful for (1) quickly reading in a messy set of input files and producing the annotated CONTROL.SS\textunderscore new and DATA.SS\textunderscore new files, or (2) examining model output based solely on input parameter values.  Similarly, the value option allows examination of model output after completing a specified phase.  Also see usage note for restarting from a specified phase.}}\\
+ 8 & Turn off estimation &  \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{The 0 option is useful for (1) quickly reading in a messy set of input files and producing the annotated control.ss\_new and data.ss\_new files, or (2) examining model output based solely on input parameter values.  Similarly, the value option allows examination of model output after completing a specified phase.  Also see usage note for restarting from a specified phase.}}\\
    & -1 = exit after reading input files & \\
-   & 0 = exit after one call to the calculation routines and production of SSO and SS\textunderscore New files & \\
+   & 0 = exit after one call to the calculation routines and production of sso and ss\_new files & \\
    & <positive value> = exit after completing this phase & \\	  
 	     
  \hline
@@ -116,7 +116,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 	 & A positive value here will add a small random jitter to the initial parameter values.  When using the jitter option, care should be given when defining P\textsubscript{MIN} and P\textsubscript{MAX} values and particularly -999 or 999 should not be used to define bounds. & \\
 	 & &  \\
 	
- \hline
+ %\hline
  -1 & SD Report Start & \\
     & -1 = begin annual SD report in start year & \\
     & <year> = begin SD report this year & \\
@@ -141,7 +141,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  \multicolumn{1}{r}{1940 1950} & \multicolumn{2}{l}{Vector of years for additional SD reporting} \\
 
  \hline
- 0.0001 & Final convergence & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{This is a reasonable default value for the change in logL denoting convergence.  For applications with much data and thus a large total logL value, a larger convergence criterion may still provide acceptable convergence}}\\
+ 0.0001 & Final convergence & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{This is a reasonable default value for the change in log likelihood denoting convergence.  For applications with much data and thus a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence}}\\
         & & \\
         & & \\
 		& & \\ 
