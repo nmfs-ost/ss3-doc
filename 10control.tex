@@ -1735,13 +1735,33 @@ The time-varying options for selectivity parameters are identical to the time-va
 \end{center}
 
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity}
-A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do not have this feature and hence this input is not expected.
+A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do not have this feature and hence this input is not expected.  This features allows for auto-correlation by age and/or time.  
 \begin{center}
-	\begin{longtable}{p{2cm} p{8cm} p{5.5cm}}
-		Value & Label & Description \\
+	%\begin{longtable}{p{2cm} p{8cm} p{5.5cm}}
+	%	Value & Label & Description \\
+	%	\hline
+	%	0 & Two-dimensional auto-regressive selectivity & 0 = not used \\
+	%	  &  & 1 = use\\
+	%	\hline
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{2cm} p{1.3cm} p{1.75cm} p{2.25cm}}
+			
+		\multicolumn{2}{l}{Value} &  \multicolumn{5}{l}{Label} & \multicolumn{2}{l}{Description}\\
 		\hline
-		0 & two-dimensional auto-regressive selectivity & 0 = not used \\
-		  &  & 1 = use\\
+		\multicolumn{2}{l}{0} &  \multicolumn{5}{l}{Two-dimensional auto-regressive selectivity} & \multicolumn{2}{l} {0 = not used}\\
+		\multicolumn{3}{l}{} &  \multicolumn{4}{l}{} & \multicolumn{2}{l} {1 = use}\\
+		\\
+		\multicolumn{8}{l}{COND = 1 Read the following long parameter lines:}\\
+		\hline
+		        &      &      &      &      & Sigma & Use & Len(1)/ &  \\
+		\#Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase \\
+		   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5 \\
+		\\
+		     &    &      &       & PRIOR & PRIOR &       &     & \\
+		\#LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{2}{l}{LABEL}\\
+		\hline
+		 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{2}{l}{\#Sigma selex}\\
+		-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{2}{l}{\#Rho year}\\
+		-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{2}{l}{\#Rho age}\\
 		\hline
 	\end{longtable}
 \end{center}
