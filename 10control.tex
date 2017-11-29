@@ -1743,28 +1743,49 @@ A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do n
 	%	0 & Two-dimensional auto-regressive selectivity & 0 = not used \\
 	%	  &  & 1 = use\\
 	%	\hline
-	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{2cm} p{1.3cm} p{1.75cm} p{2.25cm}}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
 			
 		\multicolumn{2}{l}{Value} &  \multicolumn{5}{l}{Label} & \multicolumn{2}{l}{Description}\\
 		\hline
-		\multicolumn{2}{l}{0} &  \multicolumn{5}{l}{Two-dimensional auto-regressive selectivity} & \multicolumn{2}{l} {0 = not used}\\
-		\multicolumn{3}{l}{} &  \multicolumn{4}{l}{} & \multicolumn{2}{l} {1 = use}\\
+		\multicolumn{2}{l}{0} &  \multicolumn{5}{l}{Two-dimensional auto-regressive selectivity} & \multicolumn{4}{l} {0 = not used}\\
+		\multicolumn{3}{l}{} &  \multicolumn{4}{l}{} & \multicolumn{4}{l} {1 = use}\\
 		\\
-		\multicolumn{8}{l}{COND = 1 Read the following long parameter lines:}\\
+		\multicolumn{10}{l}{COND = 1 Read the following long parameter lines:}\\
 		\hline
-		        &      &      &      &      & Sigma & Use & Len(1)/ &  \\
-		\#Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase \\
-		   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5 \\
+		        &      &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
+		\#Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\\
+		\hline
+		   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 1980   & 2007\\
+		\hline
 		\\
-		     &    &      &       & PRIOR & PRIOR &       &     & \\
-		\#LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{2}{l}{LABEL}\\
+		\multicolumn{10}{l}{Continued:} \\
 		\hline
-		 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{2}{l}{\#Sigma selex}\\
-		-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{2}{l}{\#Rho year}\\
-		-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{2}{l}{\#Rho age}\\
+		     &    &      &       & PRIOR & PRIOR &       &     & & & \\
+		\#LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL}\\
+		\hline
+		 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex}\\
+		-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year}\\
+		-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age}\\
 		\hline
 	\end{longtable}
 \end{center}
+
+\begin{description}
+	\item[How is the two-dimensional autoregressive selectivity parameterized in SS?]\hfil\\
+	When the two-dimensional autoregressive selectivity feature in turned on for a fleet, the selectivity of which is calculated as a product of the assumed selectivity pattern and a non-parametric deviation term away from this assumed pattern:
+	\begin{equation}
+		\hat{S}_{a,t} = S_aexp^{\epsilon_{a,t}}
+	\end{equation}
+	where $S_a$ is specified in the corresponding age/length selectivity types section and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in Stock Synthesis); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2D AR1) process:
+	\begin{equation}
+		vec(\epsilon) \sim MVN(0,\sigma_s^2R_{total})
+	\end{equation}
+	where $\epsilon$ is the two-dimensional deviation matrix and $\sigma_s^2R_{total}$ is the covariance matrix for the 2D AR1 process. More specifically, $\sigma_s^2$ quantifies the variance in selectivity deviations and $R_{total}$ is equal to the knonecker product ($\otimes$) of the two correlation matrices for the among-age and among-year AR(1) processes:
+	\begin{equation}
+		R_{total}=R\otimes\tilde{R}
+	\end{equation}
+\end{description}
+
 
 
 \subsection{Tag Recapture Parameters}
