@@ -116,10 +116,12 @@ The specification of options for forecasts is contained in the mandatory input f
    & & \\
  
  \hline
- 0 & Forecast loop control \#3 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Reserved for future model features.}} \\
- 
+ 0 & Forecast recruitment & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{0= spawner recruit curve; 1=value*(spawner recruit curve); 2=value*(virgin recruitment); 3=recent mean, \hyperlink{ForeSpawn}{\textit{click here for more information}}}} \\
+    & & \\
+    & & \\
+     
  \hline
- 0 & Forecast loop control \#4 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Reserved for future model features.}} \\
+ 0 & N years recent main recruitments to average & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Averages recruitment over the N years if using option $>$ 0 above to control forecast recruitment.}} \\
  
  \hline
  0 & Forecast loop control \#5 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Reserved for future model features.}} \\
@@ -206,3 +208,28 @@ The specification of options for forecasts is contained in the mandatory input f
 
   \end{longtable}
 \end{landscape}
+
+\hypertarget{ForeSpawn}{}
+\subsection{Forecast Recruitment Adjustment}
+Recruitment during the forecast years sometimes needs to be set at a level other than that determined by the spawner-recruitment curve.  One way to do this is by an environmental or block effect on the regime shift parameter.  A more straightforward approach is now provided by the special forecast recruitment feature described here. There are 4 options provided for this feature.  These are:
+\begin{itemize}
+	\item 0 = Do nothing. This is the default and will invoke no special treatment for the forecast recruitments.
+	\item 1 = Multiplier on spawner-recruitment:  The expected recruitment from the SRR is multiplied by this factor.
+	\begin{itemize}
+		\item This is a multiplier, so null effect comes from a value of 1.0;
+		\item The order of operations is to apply the SRR, then the regime effect, then this special forecast effect, then bias adjustment, then the deviations;
+		\item In the spawner recruit output of the report.sso there are 4 recruitment values stored.
+	\end{itemize}
+	\item 2 = Multiplier on virgin recruitment:  The virgin recruitment is multiplied by this factor.
+	\begin{itemize}
+		\item This is a multiplier, so null effect comes from a value of 1.0;
+		\item The order of operations is to apply any environmental or block effects to R0, then apply the special forecast effect, then bias adjustment, then the deviations;
+		\item Note that environmental or block effects on R0 are rare and are different than environment or block effects on the regime parameter.
+	\end{itemize}
+	\item 3 = Mean recent recruitment: calculate the mean recruitment and use it.
+	\begin{itemize}
+		\item Note that bias adjustment is not applied to this mean because the values going into the mean have already been bias adjusted.
+	\end{itemize}
+\end{itemize}
+
+This feature affects the expected recruitment in all years after the last year of the main recruitment deviations.  This means that if the last year of main recruitment deviations is before end year, then the last few recruitments, termed “late”, are also affected by this forecast option.  For example, option 3 would allow you to set the last 2 years of the time series and all forecast years to have recruitment equal to the mean recruitment for the last 10 years of the main recruitment era.
