@@ -6,7 +6,7 @@ The specification of options for forecasts is contained in the mandatory input f
   \centerline{\large{FORECAST.SS}} 
 	\vspace{0.25in}
 	
-  \begin{longtable}{p{3cm} p{7cm} p{11cm}} 
+  \begin{longtable}{p{3.2cm} p{7cm} p{10.8cm}} 
 		
 		\hline
 		Typical Value & Options & Description\\ 
@@ -55,6 +55,7 @@ The specification of options for forecasts is contained in the mandatory input f
   & -999: start year & \\
   & >0:   absolute year & \\
   & <= 0: year relative to end year & \\
+  & & \\
   
   \hline
   1 & Benchmark Relative F Basis &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{ Does not affect year range for selectivity and biology.}} \\
@@ -76,6 +77,7 @@ The specification of options for forecasts is contained in the mandatory input f
      
   \hline
   1 & F scalar & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar).}}\\
+  & & \\
   
   \hline
   0 0 0 0 0 0 & Forecast Years &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Requires 6 values:  beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts.  In future, hope to allow random effects to propagate into forecast.  \\NOTE:  Relative F for bycatch only fleets is scaled just like other fleets.  More options for this in future.}}\\
@@ -93,7 +95,8 @@ The specification of options for forecasts is contained in the mandatory input f
    & 1 = catch is function of SSB U.S. West Coast & \\
    & 2 = F is a function of SSB & \\
    
- \hline
+ %\hline
+ \pagebreak
  0.40 & Control Rule Upper Limit & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) above which F is constant at control rule F\textsubscript{target}.}} \\
    &  & \\
  
@@ -102,7 +105,12 @@ The specification of options for forecasts is contained in the mandatory input f
    &  & \\
  
  \hline
- 0.75 & Control Rule Buffer & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Control rule F\textsubscript{target} as a fraction of selected F\textsubscript{MSY} proxy.}} \\ 
+ 0.75 & Control Rule Buffer & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Control rule F\textsubscript{target} as a fraction of selected F\textsubscript{MSY} proxy. Note, if using Pope's F, then this value will be applied to the catch rather than the F.  Model's that use either continuous F or the hybrid F will apply this value directly to the F.  Future versions will allow a user to specify whether the adjustment should be applied to either the catch or F independent of the fishing mortality method selected.}} \\ 
+  & & \\
+  & & \\
+  & & \\
+  & & \\
+  & & \\ \\
  
  %\pagebreak %
  \hline
@@ -126,19 +134,21 @@ The specification of options for forecasts is contained in the mandatory input f
  
  \hline
  0 & Forecast loop control \#5 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Reserved for future model features.}} \\
+ & & \\
  
  \hline
  2015 & First year for caps and allocations & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \\
+ & & \\
  
- \hline
+ %\hline
  0 & Implementation Error & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{The standard deviation of the log of the ratio between the realized catch and the target catch in the forecast. (set value >0.0 to cause implementation error devs to be an estimated parameter that will add variance to forecast).}} \\
    &   & \\
    &   & \\ \\
  
  \hline
- 0 & Rebuilder &\multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{this code has not been verified in a long time.}} \\
+ 0 & Rebuilder &\multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Creates a rebuild.dat file to be used for West Coast groundfish rebuilder program.}} \\
    & 0 = omit West Coast rebuilder output & \\
-   & 1 = do rebuilder output & \\
+   & 1 = do West Coast rebuilder output & \\
    
  \hline
  2004 & Rebuilder catch (Year Declared) & \\
@@ -160,7 +170,9 @@ The specification of options for forecasts is contained in the mandatory input f
    & 3 = retained catch biomass & \\
    & 5 = total catch numbers & \\
    & 6 = retained total numbers & \\
-  \hline  
+ % \hline 
+  
+ \pagebreak 
  \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F} \\
  \multicolumn{1}{r}{0.1 0.8 0.1}  & Fleet allocation by relative F fraction & The fraction of the forecast F value.  For a multiple area model user must define a fraction for each fleet and each area.  The total fractions must sum to one over all fleets and areas.  Starting in version 3.3 this now also includes surveys which are treated similar to fleets.\\
    &  &  Ex: \# Fleet 1  Fleet 2  Survey X (rows are seasons)\\ 
@@ -169,15 +181,14 @@ The specification of options for forecasts is contained in the mandatory input f
   \hline
   1 50 & Maximum total catch by fleet & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter fleet number and its max. Last line of the entry must have fleet number = -9999.}} \\
   -9999 -1 & & \\
-	   & & \\
+  %\hline
   
-  \hline
   -9999 -1 & Maximum total catch by area & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter area number and its max. Last line of the entry must have area number = -9999.}} \\
      & -1 = no maximum & \\
      
   \hline
   1 1  & Fleet assignment to allocation group & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter list of fleet number and its allocation group number if it is in a group. Last line of the entry must have fleet number = -9999.}} \\
-  -9999 -1  & & \\ \\ \\
+  -9999 -1  & & \\ \\ 
     
   %\pagebreak
   \multicolumn{3}{l}{COND: if N allocation groups is >0 } \\
@@ -193,7 +204,7 @@ The specification of options for forecasts is contained in the mandatory input f
     & 3 = Retained catch & \\
     & 99 = Input harvest rate (F) & \\
     
-  \hline
+  \pagebreak
   \multicolumn{1}{l}{COND: == -1 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\\
   \multicolumn{1}{r}{2012 1 1 1200 2}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
   \multicolumn{1}{r}{2013 1 1 14"00 3}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
