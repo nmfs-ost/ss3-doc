@@ -1,0 +1,29 @@
+	\item[Survivorship]\hfill\\
+	Survival-based recruitment (Taylor et al. 2013) is constrained so that the recruitment rate cannot exceed fecundity:
+	\begin{equation}{ R_y = e^{\Big(-z_0 + (z_0-z_{min})\big(1-(SB_y/SB_0)^\beta \big)\Big)}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
+	\end{equation}
+	where $z_0$ is the negative log of the pre-recruit mortality rate at unfished equilibrium, $z_{min}$ is the limit of the pre-recruit mortality as relative spawning biomass approaches 0, parameterized as a function of $z_{frac}$ (which represents the reduction in mortality as a fraction of $z_0$), and $\rho$ is a parameter controlling the shape of density-dependent relationship between relative spawning biomass and pre-recruit survival. The steepness ($h$) of the spawner-recruit curve (defined as recruitment relative to R0 at a spawning depletion level of 0.2) is:\\
+	\begin{equation}
+		h = 0.2e^{z_0z_{frac}(1-0.2^\beta)}
+	\end{equation}
+	This 3-parameter function was created for use with low fecundity species, but its use of 3-parameters provides a flexibility comparable to the 3-parameter Shepherd function.  This survival based spawner-recruitment function defines survival from the egg (e.g. hatched pups) to the recruits stage to be a declining function of the initial number of pups produced (Taylor et al. 2013).
+	\begin{itemize}
+		\item Start with the parameter, ln($R_0$), which is the ln(mean number of recruits) that enter the population in unfished conditions.
+		\item These recruits over their lifetime will produce some total number of eggs (pups), termed $Pups_0$, which can be calculated from natural mortality, which defines the numbers at age in the adult population, and fecundity at age.
+		\item Because the unfished condition is considered to be a stable equilibrium, we can calculate $PPR_0 = \frac{Pups_0}{R_0}$ and its inverse which is survivorship, which we will define in logarithmic space.  So, $Z_0 = ln(\frac{R_0}{Pups_0})$.  Note that there is no explicit time over which this Z acts.  Such an explicit time (e.g. the age ar recruitment) may be implemented in the future.  For now, this means that the Z is really a Z*delta t.
+		\item So, $Z_0$ is the survival when the population is at carrying capacity.  On the other extreme, the maximum survival is 1.0, so the maximum Z is 0.0.
+		\item The parameter, $S_{frac}$, defines the level of Z when the population approaches an abundance of 0.0.  This has values bounded by 0.0 and 1.0 and creates a $Z_{max}$ which is between $Z_0$ and 0.0. $Z_{max} = Z_0 + S_{frac}*(0.0-Z_0)$
+		\item Then for the current level of pup production (e.g. total population fecundity, aka “spawning biomass”):
+		\begin{itemize}
+			\item $Z_y=(1 - \frac{Pups_y}{Pups_0}*Beta)*(Z_{max}-Z_0)+Z_0$
+			\item So $R_y = Pups_y * exp(-Z_y)$
+			\item Where beta is the third parameter and which logically has values between about 0.4 for a left-shifted spawner-recruitment curve, and 3.0 for a right-shifted curve.
+		\end{itemize}
+		\item With the other spawner-recruitment relationships, the mean level of recruits, $R_y$, serves as the base against which environmental effects and annual lognormal deviations are applied.  However, in a survival context, it is possible that a large positive deviation on recruitments could imply survival greater than 1.0, so an alternative approach is needed for this survival approach.  Here, the lognormal deviations are applied to Z and the resultant S is constrained to not exceed 1.0.
+		\item In SS, it is also necessary to be able to calculate the equilibrium level of spawning biomass (pup production) and recruitment for a given level of spawning biomass per recruit (pups per recruit), PPR.
+		\begin{itemize}
+			\item $Pups_{equil} = Pups_0 * (1 - (LN(1/PPR) - Z_0)/(Z_{max} - Z_0))^{(1/Beta)} $
+			\item Then, $R_{equil} = Pups_{equil} * exp(-(1 - (Pups_{equil}/Pups_0)^{Beta})*(Z_{max}-Z_0)+Z_0)$
+		\end{itemize}
+		\item Code for the survival based recruitment can be found in Appendix C. \hyperlink{AppendixC}{\textit{Click here for more information.}}
+	\end{itemize}

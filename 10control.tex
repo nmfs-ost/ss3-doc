@@ -924,39 +924,44 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 	\begin{equation}{ join = \bigg[1+e^{1000*\frac{(SB_0-hSB_0)}{SB_0}}\bigg]^{-1} } \end{equation}
 
 	\item[Survivorship]\hfill\\
-	Survival-based recruitment (Taylor et al. 2013) is constrained so that the recruitment rate cannot exceed fecundity:
-	\begin{equation}{ R_y = e^{\Big(-z_0 + (z_0-z_{min})\big(1-(SB_y/SB_0)^\beta \big)\Big)}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
-	\end{equation}
-	where $z_0$ is the negative log of the pre-recruit mortality rate at unfished equilibrium, $z_{min}$ is the limit of the pre-recruit mortality as relative spawning biomass approaches 0, parameterized as a function of $z_{frac}$ (which represents the reduction in mortality as a fraction of $z_0$), and $\rho$ is a parameter controlling the shape of density-dependent relationship between relative spawning biomass and pre-recruit survival. The steepness (h) of the spawner-recruit curve (defined as recruitment relative to R0 at a spawning depletion level of 0.2) is:\\
+	The survivorship stock recruitment relationship based on Taylor et al. 2013 is a stock-recruitment model that enables explicit modeling of survival between embryos and age 0 recruits, and allows the description of a wide rage of pre-recruit survival curves based.  The model is especially useful for low fecundity species that produce relatively few offspring per litter and exhibit a more direct connection between spawning output and recruitment than species generating millions of eggs.  \\
+	
+	Survival-based recruitment is constrained so that the recruitment rate cannot exceed fecundity. The relationship between survival and spawning output is based on parameters which are on a log scale. These are:
 	\begin{equation}
-		h = 0.2e^{z_0z_{frac}(1-0.2^\beta)}
+		z_0=-log(S_0)
+	\end{equation} 
+	which is the negative of the log of the equilibrium survival $S_0$, and can be thought of as a pre-recruit instantaneous mortality rate at equilibrium, and
+	\begin{equation}
+		z_{\text{min}}=-log(S_{\text{max}})=z_0(1-z_{\text{frac}})
 	\end{equation}
-	This 3-parameter function was created for use with low fecundity species, but its use of 3-parameters provides a flexibility comparable to the 3-parameter Shepherd function.  This survival based spawner-recruitment function defines survival from the egg (e.g. hatched pups) to the recruits stage to be a declining function of the initial number of pups produced (Taylor et al. 2013).
-	\begin{itemize}
-		\item Start with the parameter, ln($R_0$), which is the ln(mean number of recruits) that enter the population in unfished conditions.
-		\item These recruits over their lifetime will produce some total number of eggs (pups), termed $Pups_0$, which can be calculated from natural mortality, which defines the numbers at age in the adult population, and fecundity at age.
-		\item Because the unfished condition is considered to be a stable equilibrium, we can calculate $PPR_0 = \frac{Pups_0}{R_0}$ and its inverse which is survivorship, which we will define in logarithmic space.  So, $Z_0 = ln(\frac{R_0}{Pups_0})$.  Note that there is no explicit time over which this Z acts.  Such an explicit time (e.g. the age ar recruitment) may be implemented in the future.  For now, this means that the Z is really a Z*delta t.
-		\item So, $Z_0$ is the survival when the population is at carrying capacity.  On the other extreme, the maximum survival is 1.0, so the maximum Z is 0.0.
-		\item The parameter, $S_{frac}$, defines the level of Z when the population approaches an abundance of 0.0.  This has values bounded by 0.0 and 1.0 and creates a $Z_{max}$ which is between $Z_0$ and 0.0. $Z_{max} = Z_0 + S_{frac}*(0.0-Z_0)$
-		\item Then for the current level of pup production (e.g. total population fecundity, aka “spawning biomass”):
-		\begin{itemize}
-			\item $Z_y=(1 - \frac{Pups_y}{Pups_0}*Beta)*(Z_{max}-Z_0)+Z_0$
-			\item So $R_y = Pups_y * exp(-Z_y)$
-			\item Where beta is the third parameter and which logically has values between about 0.4 for a left-shifted spawner-recruitment curve, and 3.0 for a right-shifted curve.
-		\end{itemize}
-		\item With the other spawner-recruitment relationships, the mean level of recruits, $R_y$, serves as the base against which environmental effects and annual lognormal deviations are applied.  However, in a survival context, it is possible that a large positive deviation on recruitments could imply survival greater than 1.0, so an alternative approach is needed for this survival approach.  Here, the lognormal deviations are applied to Z and the resultant S is constrained to not exceed 1.0.
-		\item In SS, it is also necessary to be able to calculate the equilibrium level of spawning biomass (pup production) and recruitment for a given level of spawning biomass per recruit (pups per recruit), PPR.
-		\begin{itemize}
-			\item $Pups_{equil} = Pups_0 * (1 - (LN(1/PPR) - Z_0)/(Z_{max} - Z_0))^{(1/Beta)} $
-			\item Then, $R_{equil} = Pups_{equil} * exp(-(1 - (Pups_{equil}/Pups_0)^{Beta})*(Z_{max}-Z_0)+Z_0)$
-		\end{itemize}
-		\item Code for the survival based recruitment can be found in Appendix C. \hyperlink{AppendixC}{\textit{Click here for more information.}}
-	\end{itemize}
+	which is the negative of the log of the maximum pre-recruit survival rate ($S_{\text{max}}$, the limit as spawning output approaches 0), and is parameterized as a function of $z_{\text{frac}}$ (which represents the reduction in mortality as a fraction of $z_0$) so the expression is well defined over the parameter range 0<$z_{\text{frac}}$<1.\\
+	
+	Recruitment at age 0 for each year in the time series is calculated as:
+	\begin{equation}{ R_y = SB_ye^{\Big(-z_0 + (z_0-z_{min})\big(1-(SB_y/SB_0)^\beta \big)\Big)}e^{\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
+	\end{equation}
+	where $SB_y$ is the spawning output in year y,  $\beta$ is a parameter controlling the shape of density-dependent relationship between relative spawning depletion $SB_y/SB_0$ and pre-recruit survival (with limit $\beta$ < 1), $\tilde{R}_y$ is the recruitment in year $y$, and $\sigma_R$ is the standard deviation of recruitment in log space. \\
+	
+	As implemented in Stock Synthesis, the parameters needed to apply the stock-recruitment relationship based on the pre-recruit survival are log($R_0$), $z_{\text{frac}}$, and $\beta$. The value of log($R_0$) defines the equilibrium quantities of $SB_0$, $S_0$, and $z_0$ for a given set of biological inputs (either estimated of fixed), regardless of the values of $z_{\text{frac}}$ and $\beta$.\\
+	
+	The interpretation of the quantity $z_0=-log(S_0)$ as pre-recruit instantaneous mortality rate at unfished equilibrium is imperfect because the recruitment in a given year is calculated as a product of the survival fraction $S_y$ and the spawning output $SB_y$ for that same time period so that there is not a 1-year lag between quantification of eggs or pups and recruitment at age 0, which is when recruits are calculated within Stock Synthesis. However, if age 0 or some set of youngest ages is not selected by any fishery of survey, then density dependent survival may be assumed to occur anywhere before the first appearance of any cohort in the data or model expectations. In such cases, the upper limit on survival up to age $a$ is given by $S_{\text{max}}e^{-aM}$. \\
+	
+	Nevertheless, interpreting $z_0$ as an instantaneous mortality helps with the understanding of $z_{\text{frac}}$. This parameter controls the magnitude of the density-dependent increase in survival associated with a reduction in spawning output. It represents the fraction by whcih this mortality-like rate is reduced as spawning output is reduced from $SB_0$ to 0. This is approximately equal to the increase in survival as a fraction of the maximum possible increase in survival. That is: 
+	\begin{equation}
+		z_{\text{frac}}=\frac{log(S_{\text{max}})-log(S_0)}{-log(S_0)} \approx \frac{S_{\text{max}}-S_0}{1-S_0}
+	\end{equation}
+	For example, if $S_0 = 0.4$, $z_{\text{frac}}=0.8$, then the resulting fraction increase in survival is $(S_{\text{max}}-S_0)/(1-S_0)=0.72$.\\
+	
+	The parameter $\beta$ controls the point where survival changes fastest as a function of spawning depletion. A value of $\beta$ = 1 corresponds to a linear change in log survival and an approximately linear relationship between survival and spawning depletion. Values of $\beta$<1 have survival increasing fastest at low spawning output (concave decreasing survival) whereas $\beta$>1 has the increase in survival occuring fastest closer to the unfished equilibrium (convex decreasing survival).  
+	
+	The steepness ($h$) of the spawner-recruit curve (defined as recruitment relative to R0 at a spawning depletion level of 0.2) based on pre-recruit survival can be derived from the parameters discussed above according to the relationship and associated inequality:
+	\begin{equation}
+		h = 0.2e^{z_0z_{\text{frac}}(1-0.2^\beta)}<0.2e^{z_0}=\frac{1}{5S_0}=\frac{SB_0}{5R_0}
+	\end{equation}
+	
+	Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$>0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$=0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.\\
+	
+	Code for the survival based recruitment can be found in Appendix C. \hyperlink{AppendixC}{\textit{Click here for more information.}}
 
-	%\includegraphics{survival_1}\\
-	%\includegraphics{survival_2}
-	%\includegraphics{survival_3}
-	%\includegraphics{survival_code}
 
 	\item[Shepherd]\hfil\\
 	\hypertarget{Shepherd}{The} Shepherd stock recruit curve is calculated as:
