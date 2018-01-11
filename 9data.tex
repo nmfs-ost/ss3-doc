@@ -177,7 +177,9 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 \end{description}
 
 \subsection{Optional Bycatch Fleets}
-The option to include bycatch fleets was introduced in Stock Synthesis version 3.30.10.  This is an optional input and if no bycatch is to be included in the catches this section can be ignored. 
+The option to include bycatch fleets was introduced in Stock Synthesis version 3.30.10.  This is an optional input and if no bycatch is to be included in the catches this section can be ignored.\\
+
+\noindent If a fleet above was set as a bycatch fleet (fleet type = 2), the following line is required: 
 \begin{center}
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{4cm} }
 
@@ -186,7 +188,6 @@ The option to include bycatch fleets was introduced in Stock Synthesis version 3
 		\#Fleet Index & Include in MSY & Fmult & F or First Year & F or Last Year & Not used \\		
 		\hline
 		1 & 1  & 1 & 1982 & 2010 & 999\\
-		-9999 & 1 & 1 & 1 & 1 & 1 \\
 		\hline		
 	\end{tabular}
 \end{center}
@@ -194,7 +195,7 @@ The option to include bycatch fleets was introduced in Stock Synthesis version 3
 \begin{description}
   \item[Fleet Index] \
 	  \begin{itemize}
-	  	\item Fleet to include bycatch catch for
+	  	\item Fleet to include bycatch catch for.  The fleet type above in the fleet definition should be fleet type =2.  If there are multiple bycatch fleets, then a line for each fleet is required in the bycatch section.
 	  \end{itemize}
 	  
   \item[Include in MSY] \
@@ -207,6 +208,7 @@ The option to include bycatch fleets was introduced in Stock Synthesis version 3
   \begin{itemize}
   	\item 1 = F multiplier scales with other fleets
   	\item 2 = Bycatch F constant at input value
+  	\item 3 = Bycatch F from range of years
   \end{itemize}
   
   \item[F First Year] \
@@ -214,7 +216,7 @@ The option to include bycatch fleets was introduced in Stock Synthesis version 3
   	\item F or first year of range
   \end{itemize}
 
-  \item[F First Year] \
+  \item[Last Year] \
   \begin{itemize}
   	\item Last year of range
   \end{itemize}
