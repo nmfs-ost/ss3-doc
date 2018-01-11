@@ -176,6 +176,56 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 	  \end{itemize}  
 \end{description}
 
+\subsection{Optional Bycatch Fleets}
+The option to include bycatch fleets was introduced in Stock Synthesis version 3.30.10.  This is an optional input and if no bycatch is to be included in the catches this section can be ignored. 
+\begin{center}
+	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{4cm} }
+
+		\multicolumn{6}{l}{Optional inputs that define bycatch fleet:}\\
+		\hline
+		\#Fleet Index & Include in MSY & Fmult & F or First Year & F or Last Year & Not used \\		
+		\hline
+		1 & 1  & 1 & 1982 & 2010 & 999\\
+		-9999 & 1 & 1 & 1 & 1 & 1 \\
+		\hline		
+	\end{tabular}
+\end{center}
+
+\begin{description}
+  \item[Fleet Index] \
+	  \begin{itemize}
+	  	\item Fleet to include bycatch catch for
+	  \end{itemize}
+	  
+  \item[Include in MSY] \
+  \begin{itemize}
+  	\item 1 = deadfish in MSY, ABC, and other benchmark and forecast output
+  	\item 2 = omit from MSY and ABC (but still include the mortality)
+  \end{itemize}
+  
+  \item[Fmult] \
+  \begin{itemize}
+  	\item 1 = F multiplier scales with other fleets
+  	\item 2 = Bycatch F constant at input value
+  \end{itemize}
+  
+  \item[F First Year] \
+  \begin{itemize}
+  	\item F or first year of range
+  \end{itemize}
+
+  \item[F First Year] \
+  \begin{itemize}
+  	\item Last year of range
+  \end{itemize}
+  
+  \item[Not Used] \
+  \begin{itemize}
+  	\item This column is not yet used and is reserved for future features.
+  \end{itemize}
+
+\end{description}
+
 \subsection{Catch}
 \hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year, season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   Only positive catches need to be entered, so there is no need for records for the survey fleets.  To include an equilibrium catch value the year should be noted as -999 and this is now season specific .  \hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g. catch, length- and age-composition data), the control file (e.g. lambdas), and the forecast file (e.g. total catch by fleet, total catch by area, allocation groups, forecasted catch).
 
