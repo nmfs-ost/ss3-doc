@@ -757,13 +757,13 @@ The spawner-recruitment section starts by specification of the functional relati
 
 		3 & Spawner-            & The options are: \\
 		  & Recruitment         & 1: null \\
-		  & Relationship        & 2:  Ricker (2 parameters) \\
-		  &                     & 3:  standard Beverton-Holt (2 parameters) \\
+		  & Relationship        & 2:  Ricker (2 parameters: log(R0) and steepness) \\
+		  &                     & 3:  standard Beverton-Holt (2 parameters: log(R0) and steepness) \\
 		  &                     & 4:  ignore steepness and no bias adjustment.  Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates. (2 parameters, but only uses the first one.)\\
-		  &                     & 5:  Hockey stick (3 parameters) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0.\\
-		  &                     & 6:  Beverton-Holt with flat-top beyond Bzero (2 parameters)\\
-		  &                     & 7:  Survivorship function (3 parameters).  Suitable for sharks and low fecundity stocks to assure recruits are <= pop production \\
-	      &                     & 8:  Shepherd (3 parameters)\\
+		  &                     & 5:  Hockey stick (3 parameters: log(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0. \hyperlink{Hockey}{\textit{Click here for more information.}}\\
+		  &                     & 6:  Beverton-Holt with flat-top beyond Bzero (2 parameters: log(R0) and steepness)\\
+		  &                     & 7:  Survivorship function (3 parameters: log(R0), $z_{frac}$, and $\beta$).  Suitable for sharks and low fecundity stocks to assure recruits are <= population production. \hyperlink{Survivorship}{\textit{Click here for more information}}\\
+	      &                     & 8:  Shepherd (3 parameters: log(R0), steepness, and shape parameter, $c$). \hyperlink{Shepherd}{\textit{Click here for more information.}}\\
 	    \hline
 	    1 & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
 	      & 						& 0 = none \\
@@ -917,14 +917,17 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 	\begin{equation}{R_y = \frac{R_0SB_y}{SB_0}e^{h(1-SB_y/SB_0)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
 	\end{equation}
 
+	\hypertarget{Hockey}{}
 	\item[Hockey-Stick]\hfil\\
 	The hockey-stick recruitment curve is calculated as:
-	\begin{equation}{R_y = R_{min}R_0+\frac{SB_y}{hSB_0}(R_0-R_{min})(join)+R_0(1-join) }\end{equation}
-	where $R_{min}$ is the minimum recruitment level predicted at a spawning size of zero and is set by the user in the control file, h is defined as the fraction of $SB0$ below which recruitment declines linearly, and $join$ is defined as:
+	\begin{equation}{R_y = R_{\text{min}}R_0+\frac{SB_y}{hSB_0}(R_0-R_{\text{min}}(join)+R_0(1-join) }\end{equation}
+	where $R_{\text{min}}$ is the minimum recruitment level predicted at a spawning size of zero and is set by the user in the control file, $h$ is defined as the fraction of $SB_0$ below which recruitment declines linearly, and $join$ is defined as:
 	\begin{equation}{ join = \bigg[1+e^{1000*\frac{(SB_0-hSB_0)}{SB_0}}\bigg]^{-1} } \end{equation}
 
+	\hypertarget{Survivorship}{}
 	\item[Survivorship]\hfill\\
-	The survivorship stock recruitment relationship based on Taylor et al. 2013 is a stock-recruitment model that enables explicit modeling of survival between embryos and age 0 recruits, and allows the description of a wide rage of pre-recruit survival curves based.  The model is especially useful for low fecundity species that produce relatively few offspring per litter and exhibit a more direct connection between spawning output and recruitment than species generating millions of eggs.  \\
+	The survivorship stock recruitment relationship based on Taylor et al. 2013 is a stock-recruitment model that enables explicit modeling of survival between embryos and age 0 recruits, and allows the description of a wide rage of pre-recruit survival curves based.  The model is especially useful for low fecundity species that produce relatively few offspring per litter and exhibit a more direct connection between spawning output and recruitment than species generating millions of eggs.
+	\\
 	
 	Survival-based recruitment is constrained so that the recruitment rate cannot exceed fecundity. The relationship between survival and spawning output is based on parameters which are on a log scale. These are:
 	\begin{equation}
@@ -962,7 +965,7 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 	
 	Code for the survival based recruitment can be found in Appendix C. \hyperlink{AppendixC}{\textit{Click here for more information.}}
 
-
+	\hypertarget{Shepherd}{}
 	\item[Shepherd]\hfil\\
 	\hypertarget{Shepherd}{The} Shepherd stock recruit curve is calculated as:
 	\begin{equation}
