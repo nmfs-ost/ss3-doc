@@ -125,12 +125,19 @@ The specification of options for forecasts is contained in the mandatory input f
    & & \\
  
  \hline
- 0 & Forecast recruitment & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{0= spawner recruit curve; 1=value*(spawner recruit curve); 2=value*(virgin recruitment); 3=recent mean, \hyperlink{ForeSpawn}{\textit{click here for more information}}}} \\
+ 0 & Forecast recruitment & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations).  \hyperlink{ForeSpawn}{\textit{Click here for more information}}}} \\
+    & 0= spawner recruit curve & \\
+    & 1=value*(spawner recruit curve) & \\
+    & 2=value*(virgin recruitment) & \\
+    & 3=recent mean & \\
+    & & \\
     & & \\
     & & \\
      
  \hline
  1 & Scaler or N years recent main recruitments to average & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{This input depends upon option selected directly above.  If option 1 or 2 selected this value should be a scalar value to be applied to recruitment. If option 3 is selected above this should be input as the number of years to average recruitment.}} \\
+ & & \\
+ & & \\
  
  \hline
  0 & Forecast loop control \#5 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Reserved for future model features.}} \\
@@ -159,29 +166,28 @@ The specification of options for forecasts is contained in the mandatory input f
  2004 & Rebuilder start year (Year Initial) & \\
       & >0 = year for current age structure & \\
       & -1 = set to end year +1 & \\
- %\pagebreak %\hline      
+    
  \hline
  1 & Fleet Relative F & \\
    & 1 = use first-last allocation year & \\
    & 2 = read season(row) x fleet (column) set below & \\
+
  \hline 
  2 & Basis for maximum forecast catch &  \\
    & 2 = total catch biomass & \\
    & 3 = retained catch biomass & \\
    & 5 = total catch numbers & \\
    & 6 = retained total numbers & \\
- % \hline 
-  
- \pagebreak 
+    
+ \hline 
  \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F} \\
  \multicolumn{1}{r}{0.1 0.8 0.1}  & Fleet allocation by relative F fraction & The fraction of the forecast F value.  For a multiple area model user must define a fraction for each fleet and each area.  The total fractions must sum to one over all fleets and areas.  Starting in version 3.3 this now also includes surveys which are treated similar to fleets.\\
    &  &  Ex: \# Fleet 1  Fleet 2  Survey X (rows are seasons)\\ 
- %\pagebreak
- 
+
   \hline
   1 50 & Maximum total catch by fleet & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter fleet number and its max. Last line of the entry must have fleet number = -9999.}} \\
   -9999 -1 & & \\
-  %\hline
+  \hline
   
   -9999 -1 & Maximum total catch by area & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter area number and its max. Last line of the entry must have area number = -9999.}} \\
      & -1 = no maximum & \\
@@ -190,21 +196,19 @@ The specification of options for forecasts is contained in the mandatory input f
   1 1  & Fleet assignment to allocation group & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter list of fleet number and its allocation group number if it is in a group. Last line of the entry must have fleet number = -9999.}} \\
   -9999 -1  & & \\ \\ 
     
-  %\pagebreak
+
   \multicolumn{3}{l}{COND: if N allocation groups is >0 } \\
   \multicolumn{1}{r}{2002 1}  & Allocation to each group for each year of the forecast & Enter a year and the allocation fraction to each group for that year.  SS will fill those values to the end of the forecast, then read another year from this list.  Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0. \\
   \multicolumn{1}{r}{-9999 1} & & \\
   
-  \hline
-  %0 & Forecast catch levels & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Number of forecast catch levels to input, else calculated from the forecast F.}} \\
-  %\\
+  \pagebreak
     -1 & Basis for forecast catch & \\
     & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below. & \\
     & 2 = Dead catch & \\
     & 3 = Retained catch & \\
     & 99 = Input harvest rate (F) & \\
     
-  \pagebreak
+  \hline
   \multicolumn{1}{l}{COND: == -1 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\\
   \multicolumn{1}{r}{2012 1 1 1200 2}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
   \multicolumn{1}{r}{2013 1 1 14"00 3}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
