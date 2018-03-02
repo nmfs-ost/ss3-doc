@@ -668,39 +668,6 @@ When time-varying growth is used, there are some additional considerations to be
 	\end{longtable}
 \end{center}
 
-%\begin{center}
-%	\begin{longtable}{p{0.5cm} p{2.5cm} p{11cm}}
-%		\multicolumn{3}{l}{Control file continued:}\\
-%		\hline
-%		Value & &  Description\\
-%		\hline
-%		\endfirsthead
-%
-%		\hline
-%		Value & &  Description\\
-%		\hline
-%		\endhead
-%
-%		%\hline
-%		\endfoot
-%		\endlastfoot
-%
-%		\multicolumn{2}{l}{COND:} & If any MG parameters use environmental linkage, then read next factor\\
-%%		&   & 1:  Use custom environmental linkage, so read one parameter line for each MG parameter that uses linkage\\
-%		\\
-%		& <short parameter line(s)> & Read short parameter lines as necessary if applying a environmental link to MG parameters\\
-%		\hline
-%		\multicolumn{2}{l}{COND:} & If any MG parameters use blocks then read next factor \\
-%		& 0 & 0:  Do not use custom block setup, read just one parameter line \\
-%		&   & 1:  Use custom block setup, so read one parameter line for each MG parameter that uses blocks\\
-%		\\
-%		& <short parameter line(s)> & Read 0, 1 or many short parameter lines as necessary\\
-%		
-%		\hline
-%	\end{longtable}
-%\end{center}
-
-
 \subsubsection{Seasonal Biology Parameters}
 Seasonal effects are available for wt-len parameters and for the growth K.  Seasonality is not needed for the maturity and fecundity parameters because spawning is only defined to occur in one season.  Seasonal L1 may be implemented at a later date.  The seasonal parameter values adjust the base parameter value for that season.
 \begin{equation}
@@ -867,23 +834,22 @@ If the R0 or steepness parameters are time-varying, then SS will use the current
 		\multicolumn{3}{l}{COND = 1 Beginning of advanced options}\\
 		& 1950 & Early Recruitment Deviation Start Year: \\
 		&  & 0: skip (default) \\
-		&  & +year:  absolute year (must be less than begin year of main  recr devs)\\
-		&  & -integer:  set relative to main recr dev start year\\
-		&  & NOTE:  because this is a dev vector, it should be long enough so that recr devs for individual years are not unduly constrained. \\
+		&  & +year:  absolute year (must be less than begin year of main recruitment deviations)\\
+		&  & -integer:  set relative to main recruitment deviations start year\\
+		&  & NOTE:  because this is a deviation vector, it should be long enough so that recruitment deviations for individual years are not unduly constrained. \\
 		& 6 & Early Recruitment Deviation Phase: \\
 		& & Users may want to set to a late phase if there is not much early data; Default:  -4\\
 		& 0 & Forecast Recruitment Phase: \\
-		& & Forecast recruitment deviations always begin in the first year after the end of the main recruitment deviations. Recruitment in the forecast period is deterministic derived from the specified stock-recruitment relationship.  Setting their phase to 0 causes their phase to be set to max lambda phase +1 (so that they become active after rest of parameters have converged.).  However, it is possible here to set an earlier phase for their estimation, or to set a negative phase to keep the forecast recruitment devs at a constant level. Default:  0 \\
+		& & Forecast recruitment deviations always begin in the first year after the end of the main recruitment deviations. Recruitment in the forecast period is deterministic derived from the specified stock-recruitment relationship.  Setting their phase to 0 causes their phase to be set to max lambda phase +1 (so that they become active after rest of parameters have converged.).  However, it is possible here to set an earlier phase for their estimation, or to set a negative phase to keep the forecast recruitment deviations at a constant level. Default:  0 \\
 		& 1 & Forecast Recruitment Deviations Lambda:\\
-		&   & This lambda is for the logL of the forecast recruitment devs that occur before endyr+1.  Use a larger value here if solitary, noisy data at end of time series cause unruly recr dev estimation. Default:  1.0 \\
+		&   & This lambda is for the logL of the forecast recruitment deviations that occur before endyr + 1.  Use a larger value here if solitary, noisy data at end of time series cause unruly recruitment deviation estimation. Default:  1.0 \\
 		& 1956 & Last Year With No Bias Adjustment \\
 		& 1970 & First Year With Full Bias Adjustment \\
 		& 2001 & Last Year With Full Bias Adjustment \\
 		& 2002 & First Recent Year With No Bias Adjustment \\
-		&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum logL.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that SS will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  See the recruitment advisory for more information.
-		Defaults for the four year values: Start year – 1000, Start year – Nages, Main recr dev final year, End year +1.\\
+		&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum logL.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that SS will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: Start year – 1000, Start year – Nages, Main recruitment deviation final year, End year +1. \hyperlink{RecBias}{\textit{Click here for more information.}}.\\
 		& 0.85 & Max Bias Adjustment: \\
-		&      & Value for the maximum bias adjustment during the MLE mode. A value of -1 will set the bias adjustment to 1.0 for all years with estimated recruitment deviations. Likewise, all estimated recrdevs, even those within a ramped era, switch to maxbias=1.0 during MCMC.\\
+		&      & Value for the maximum bias adjustment during the MLE mode. A value of -1 will set the bias adjustment to 1.0 for all years with estimated recruitment deviations. Likewise, all estimated recruitment deviations, even those within a ramped era, switch to maxbias=1.0 during MCMC.\\
 		& 0    & Period For Recruitment Cycles: \\
 		&      & Use this when SS is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level.  If value is >0, then read that number of full parameter lines below define the recruitment cycle \\
 		& -5   & Minimum Recruitment Deviation: Min value for recruitment deviation. Default: -5\\
@@ -978,9 +944,10 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 \end{description}
 
 \subsubsection{Recruitment Eras}
-Conceptually, SS treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum.  The user has control of the break year between eras.  Each era has its own vector.  The early era is defined as a vector (prior to V3.10 this was a dev\_vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations.  The main era can be a vector of simple deviations, or a dev\_vector but it is normally implemented as a dev\_vector so that the spawner-recruitment function is its central tendency.  The last era does not force a zero-centered deviation vector so it can have zeros during the actual forecast and non-zero values in last few years of the time series.  The early and last eras are optional, but their use can help prevent SS from balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years.  When the 3 eras are used, it would be typically to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.
+Conceptually, SS treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum.  The user has control of the break year between eras.  Each era has its own vector.  The early era is defined as a vector (prior to V3.10 this was a deviation vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations.  The main era can be a vector of simple deviations, or a deviation vector but it is normally implemented as a deviation vector so that the spawner-recruitment function is its central tendency.  The last era does not force a zero-centered deviation vector so it can have zeros during the actual forecast and non-zero values in last few years of the time series.  The early and last eras are optional, but their use can help prevent SS from balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years.  When the 3 eras are used, it would be typically to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.
 
-\subsubsection{Recruitment Likelihood with bias adjustment}
+\hypertarget{RecBias}{}
+\subsubsection{Recruitment Likelihood with Bias Adjustment}
 For each year in the total recdev time series (early, mid, late/forecast) the contribution of that year to the logL is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component. SigmaR may be estimable when there is good data to establish the time series of recruitment deviations, but see recent work (Thorson et al) on use of a superior approach.
 
 The recruitment bias adjustment implemented in SS is based upon the work documented in Methot and Taylor (2011) and following the work of Maunder and Deriso (2003).  The concept is based upon the following logic.  SigmaR represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, sigmaR, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see eq. below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches sigmaR.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach sigmaR and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
@@ -1001,7 +968,7 @@ The correct offset (bias adjustment) to apply to the expected value for recruitm
 \end{center}
 
 Because the quantity and quality of data varies during a time series, SS allows the user to control the rate at which the offset is ramped in during the early, data-poor years, and then ramped back to zero for the forecast years.
-On output to report.sso, SS calculates the mean bias adjustment during the early and main eras and compares it to the rmse of estimated recruitment devs.  A warning is generated if the rmse is small and the bias adjustment is larger than 2.0 times the ratio of $rmse^2$ to $sigmaR^2$.
+On output to report.sso, SS calculates the mean bias adjustment during the early and main eras and compares it to the RMSE of estimated recruitment deviations.  A warning is generated if the RMSE is small and the bias adjustment is larger than 2.0 times the ratio of $rmse^2$ to $sigmaR^2$.
 
 In MCMC mode, the model still draws recruitment deviations from the lognormal distribution, so the full offset is used such that the expected mean recruitment from this lognormal distribution will stay equal to the mean from the spawner-recruitment curve. When SS reaches the MCMC and MCEVAL phases, all biasadj values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full lognormal distribution of each recruitment.
 
