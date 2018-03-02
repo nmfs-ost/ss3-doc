@@ -227,6 +227,12 @@ Two parameters will be entered later for each growth pattern, area pair and seas
 		\hline
 \end{longtable}
 
+When using time blocks, it is important to consider which parameters will affect which years of the time series.  There are three main situations:
+\begin{enumerate}
+	\item Offset approach: One or more time blocks are created and cover all or a subset of the years.  Each block gets a parameter that is used as an offset from the base parameter.  In this situation you typically will allow SS to estimate the base parameter and each of the offset parameters.  In years not covered by blocks, the base parameter alone is used.  However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all the years be covered by blocks when doing offsets, or to fix the base parameter value at a reasonable level when doing offsets for all years.	
+	\item Replacement approach-Option A: Here time blocks are created which cover a subset of the years.  The base parameter is used in the non-block years and the value of that base parameter is replaced by the block parameter in each respective block.  In this situation, you typically allow SS to estimate the base parameter and each of the block parameters.	
+	\item Replacement-Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter.   In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log-likelihood, so model convergence and variance estimation could be effected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
+\end{enumerate}
 
 \subsubsection{Time-varying Parameter Controls}
 In SS v.3.30, several changes are introduced to the implementation of time-varying parameters.
@@ -269,11 +275,9 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 		\hline
 		\endhead
 
-		%\hline
 		\endfoot
 
 		\endlastfoot
-
 
 		1 & & Natural Mortality Options:\\
 		  & & 0 = A single parameter\\
@@ -295,7 +299,6 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	   & 2.0 4.5 9.0 15.0 & Vector of age breakpoints \\
 	   \hline
 	   
-	   \pagebreak
 	   \multicolumn{2}{l}{COND = 2}& \\
 	   & 4 & \multirow{1}{12cm}[-0.1cm]{Reference age for Lorenzen Natural Mortality: read one additional integer value that is the reference age. Later read one parameter for each sex x GP that will be the M at the reference age.  Other ages will have an M scaled to its body size-at-age.  However, if platoons are used, all will have the same M as their growth pattern.  Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated.  So be careful in using Lorenzen when there is time-varying growth.}\\
 	   \\
@@ -307,7 +310,9 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	   \\
 	   \\
 	   \\
-			\hline
+	   \hline
+	   
+	   \pagebreak
 	   \multicolumn{2}{l}{COND = 3 or 4} & \multirow{1}{12cm}[-0.1cm]{Do not read any natural mortality parameters.  With option 2, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.}\\
 	   \\
 	   \\
@@ -385,12 +390,6 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	   %\multicolumn{2}{l}{COND = 6} & Maturity Option\\
 	   %& 0 0.05 0.10 ... & Vector of length-specific maturity or fecundity.  One row of length of the population length bins for each female GP\\
 	   \hline
-
-%	   \multicolumn{2}{l}{COND = 5} & Maturity Option\\
-%	     & & Empirical weight-at-age option \\
-%	     & & 0 = option not applied \\
-%	     & & 1 = read an empirical length-maturity vector by population length bin in the wtatage.ss file. \hyperlink{WAAinfo}{\textit{Click here for more information.}}\\
-
 	   
 	   1 & & First Mature Age: Overridden if maturity option is 3 or 4 or if empirical wtatage.ss is used, but still must exist here.  Otherwise, all ages below the first mature age will have maturity set to zero.\\
 	   \hline	  
@@ -439,14 +438,7 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	    & & 2 = for each GP x sex, parameter defines offset from sex 1, offsets are in exponential terms, so for example: $M_{\text{old male}} = M_{\text{old female}}*exp(M_{\text{old male}})$. \\
 	    & & 3 = for each GP x sex, parameter defines offset from GP 1 sex 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{\text{old female}} = M_{\text{young female}}*exp(M_{\text{old female}}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{\text{old male}} = M_{\text{young female}}*exp(M_{\text{young male}})*exp(M_{\text{old male}})$)\\
 	 \hline
-
-	 %1 & & Time-varying adjustment constraint:\\
-	 %  & & 1 = standard parameter adjustments for environmental, block, and deviations are not constrained by bounds \\
-	 %  & & 2 = logistic transform - parameter adjustments use a logistic transformation to assure that adjusted parameter %value stays within bounds of base parameter \\
-	 %  & & 3: standard with no bound check \\
-	 %\hline
-
-	\end{longtable}
+\end{longtable}
 
 
 \subsubsection{Catch Multiplier}
@@ -473,7 +465,6 @@ These 7 parameters are only included in the control file if one of the ageing er
 \noindent Code for implementing vectors of mean age' and stdev of age' within SS can be located in Appendix C. \hyperlink{AgeingError}{\textit{Click here for more information.}}
 
 
-\pagebreak
 \subsubsection{Read Biology Parameters}
 \hypertarget{MGorder}{Next}, SS reads the MG parameters in generally the following order (may vary based on selected options):
 
@@ -509,7 +500,7 @@ These 7 parameters are only included in the control file if one of the ageing er
 		& \multicolumn{2}{l}{K deviations for last age in range}\\
 		\hline
 	    & CV young & Variability for size at age <= AFIX (units are fraction) for females, GP1.  Note that CV cannot vary over time, so do not set up env-link or a dev vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
-		& CV old & Variability for size at age >= AFIX (units are fraction) for females, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset.\\
+		& CV old & Variability for size at age >= AFIX (units are fraction) for females, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset. The CV value cannot vary over time.\\
 		\hline
 		& WtLen scale & Coefficient to convert length in cm to weight in kg for females\\
 		& WtLen exp & Exponent in to convert length to weight for females\\
@@ -569,9 +560,10 @@ These 7 parameters are only included in the control file if one of the ageing er
 		\hline
 	\end{longtable}
 \end{center}
+
 \pagebreak
-		Example format for MG parameter section with 2 sexes, 2 areas.
-		Parameters marked with COND are conditional on selecting that feature:
+Example format for MG parameter section with 2 sexes, 2 areas.
+Parameters marked with COND are conditional on selecting that feature:
 \begin{center}
 	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.1cm}  p{1.1cm}  p{1.1cm}  p{1.1cm}  p{8cm}  }
 		\hline
@@ -1144,8 +1136,6 @@ For each fishery and survey with an index, enter a row with the entries as descr
 
 \noindent Then because the Q base parameter specifies that it is time-varying by the annual dev method, short parameter lines to specify the specifications of the dev vector come after all the base Q parameters.
 
-\pagebreak
-
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.2cm} p{1.2cm} p{1.1cm} p{1.5cm} p{5.2cm}}
 		\hline
 		\endfoot
@@ -1302,14 +1292,6 @@ The currently defined selectivity patterns, and corresponding required number of
 	Special selectivity options (type 30 and above) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{\textit{Index units}}).	
 \end{description}
 
-
-%\begin{description}
-%	\item[Notes on Special Selectivity Options:]\hfil
-%	\begin{itemize}
-%		\item Do not input any size/age composition data for surveys using pattern 30-33.
-%		\item The "catchability" coefficient for these selectivity patterns 30-33 have all the general properties of the catchability coefficient for real surveys, e.g. they can be time-varying, use power relationship, etc.
-%	\end{itemize}
-%\end{description}
 
 \begin{center}
 	\begin{longtable}{p{2cm} p{3cm} p{10cm}}
@@ -1575,7 +1557,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#41 (age) - Random Walk with User-defined Scaling]\hfil\\
+	\item[Pattern \#41 (age) - Random Walk with User-Defined Scaling]\hfil\\
 	Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{center}
@@ -1591,7 +1573,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#42 (size and age) - Cubic Spline with User-defined Scaling]\hfil\\
+	\item[Pattern \#42 (size and age) - Cubic Spline with User-Defined Scaling]\hfil\\
 	Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{center}
@@ -1607,9 +1589,9 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#43 (size) - Non-parametric with User-defined Scaling]\hfil\\
+	\item[Pattern \#43 (size) - Non-parametric with User-Defined Scaling]\hfil\\
 	Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
-	\pagebreak
+	
 	\begin{center}
 		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
 			\hline
@@ -1683,7 +1665,7 @@ A new sex selectivity option (3 or 4) has been implemented for size selectivity 
 \end{itemize}
 
 If the size selectivity pattern is 20, 23 or 24 (double normal), then:
-\begin{itemize}
+\begin{itemize}○
 	\item male parm 1 is added to the first selectivity parm (peak)
 	\item male parm 2 is added to the third selectivity parm (width of ascending side); then exp(this sum) per previous transform
 	\item male parm 3 is added to the fourth selectivity parm (width of descending side); then exp(sum) per previous transform
@@ -1693,6 +1675,23 @@ If the size selectivity pattern is 20, 23 or 24 (double normal), then:
 
 Note that the male selectivity offsets currently cannot be time-varying (need to check on this).  Because they are offsets from female selectivity, they inherit the time-varying characteristics of the female selectivity.
 
+\hypertarget{Dirichletparameter}{}
+\subsubsection{Dirichlet Multinomial Error for Data Weighting}
+If the Dirichlet multinomial error distribution was selected in the data file for either length or age data weighting an additional parameter line is required immediately following the selectivity parameter block. 
+
+\begin{center}
+	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.5cm} p{4.3cm}}
+		\hline
+		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
+		\hline		
+		\multicolumn{8}{l}{The list of parameters to be read from the above setup would be:}\\
+		\hline
+		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
+		\hline
+		1    & 25 & 1 & 1 & 10 & ...  & 0   & \#ln(EffN\_mult)\_1 Dirichlet\\
+		\hline
+	\end{longtable}
+\end{center} 
 
 \subsubsection{Time-varying Options}
 The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the \hyperlink{TVpara}{\textit{Using Time-Varying Parameter Options section}}.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
@@ -1712,6 +1711,7 @@ The time-varying options for selectivity parameters are identical to the time-va
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity}
 A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do not have this feature and hence this input is not expected.  This features allows for auto-correlation by age and/or time.  
 
+\pagebreak
 \begin{center}
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
 			
@@ -1728,6 +1728,7 @@ A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do n
 		   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 1980   & 2007\\
 		\hline
 		\\
+		
 		\multicolumn{10}{l}{Continued:} \\
 		\hline
 		     &    &      &       & PRIOR & PRIOR &       &     & & & \\
@@ -1798,7 +1799,7 @@ Parameter Definitions:
 	\par Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, Stock Synthesis should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the  autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
 \end{description}
 
-\pagebreak
+
 \subsection{Tag Recapture Parameters}
 Specify if tagging data are being used:
 \begin{center}
@@ -1840,7 +1841,6 @@ Specify if tagging data are being used:
 \subsection{Variance Adjustment Factors}
 When doing iterative reweighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
 
-\pagebreak
 
 \begin{center}
 	\begin{longtable}{p{3cm} p{3cm} p{3cm} p{6.5cm} }
