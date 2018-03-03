@@ -529,7 +529,7 @@ First read a single value to select one of three population length bin methods, 
 \begin{tabular}{p{2cm} p{2cm} p{2cm} p{1.75cm} p{1cm} p{2cm} p{2cm} p{2cm}}
 		\multicolumn{7}{l}{Specify bin compression and error structure for length composition data for each fleet:}\\
 		\hline
-		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & \hypertarget{Dirichlet}{Error Dist.} & Dirichlet Parameter Number & Min Sample Size\\
+		\#Min Tail Compression & Constant added to proportions & Combine males \& females & Compress Bins & \hypertarget{Dirichlet}{Comp Error Dist.} & Dirichlet Parameter Select & Min Sample Size\\
 		\hline
 		0 & 0.0001 & 0 & 0 & 0 & 0 & 1 \\
 		0 & 0.0001 & 0 & 0 & 0 & 0 & 1 \\
@@ -549,29 +549,35 @@ First read a single value to select one of three population length bin methods, 
 
 	\item[Compress Bins]\hfill\\
 	This options allows for the compression of length or age bins beyond a specific length or age by each data source.  As an example,  a value of 5 in the compress bins column would condense the final five length bins for the specified data source.
-	\item[Error Distribution]\
+	
+	\item[Composition Error Distribution]\
 	\begin{itemize}
 		\item 0 = Multinomial Error
 		\item 1 = Dirichlet Multinomial Error
 		\begin{itemize}
 			\item The Dirichlet Multinomial Error distribution requires the addition of a parameter lines for the natural log of the effective sample size multiplier ($\theta$) at the end of the selectivity parameter section in the control file. \hyperlink{Dirichletparameter}{\textit{Click here to see the parameter setup in the control file.}}
+			\item The Parameter Select option needs be used to specified which data sources should be weighted together or separate. 
 		\end{itemize}
 	\end{itemize}
-
-	\item[Dirichlet Parameter Number and Effective Sample Sizes]\hfill\\
-	If the Dirichlet multinomial error distribution is selected, indicate here which of a list of Dirichlet multinomial parameters will be used for this fleet.  So each fleet could use a unique Dirichlet multinomial parameter, or all could share the same, or any combination of unique and shared.  The requested number of Dirichlet multinomial parameters will be read from the control file. Please note that age-compositions Dirichlet multinomial parameters are continued after length-compositions, so a model with one fleet and both data types would presumably require two new Dirichlet multinomial parameters.  
 	
-	\setlength{\parindent}{25pt}	
-	The Dirichlet estimates the effective sample size as $N_{eff}=\frac{1}{1+\theta}+\frac{N\theta}{1+\theta}$ where $\theta$ is the estimated parameter and $N$ is the input sample size.  Stock Synthesis estimates the log of the Dirichlet multinomial parameter such that $\hat{\theta}_{\text{fishery}} = e^{-0.6072} = 0.54$ where assuming $N=100$ for the fishery would result in an effective sample size equal to 35.7.
-	
-
-	This formula for effective sample size implies that, as the Stock Synthesis parameter log\_Theta goes to large values (i.e., 20), then  $N_{eff}$ will converge to the input sample size ($N_{input}$).  In this case, small changes in the value of the log\_Theta parameter has no action, and the derivative of the negative log-likelihood is zero with respect to the parameter, which means the Hessian will be singular and cannot be inverted. To avoid this non-invertible Hessian when the log\_Theta parameter becomes large, turn it off while fixing it at the high value. In summary, we recommend setting the upper bound for the Dirichlet multinomial parameter log\_Theta to a high value (i.e., 20-25), and then if any fleet has an estimate of log\_Theta $>$ 15 then turn that Dirichlet multinomial parameter off while starting it at the estimated high value.  This is equivalent to turning off down-weighting of fleets where evidence suggests that $N_{eff}$ = $N_{input}$.  
-	
-	For additional information about the Dirichlet multinomial please see Thorson et al. 2017. \textit{Model-based estimates of effective sample size in stock assessment models using the Dirichlet-multinomial distribution}. Fisheries Research, 192: 84-93.
+	\item[Parameter Select]\
+		\begin{itemize}
+			\item 0 = Default
+			\item 1-N = Only used for the Dirichlet option. Set to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. That is, if you have 3 fleets with length data, but only 2 also have age data, you would have values 1 to 3 in the length comp setup and 4 to 5 in the age comp setup. You can also have a data weight that is shared across fleets by repeating values in Parameter Select.
+		\end{itemize}	
 
 	\item[Minimum Sample Size]\hfill\\
 	The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. Stock Synthesis 3.24 has an implicit minimum sample size value of 1.
 \end{description}
+
+\subsection{Dirichlet Parameter Number and Effective Sample Sizes}
+If the Dirichlet multinomial error distribution is selected, indicate here which of a list of Dirichlet multinomial parameters will be used for this fleet.  So each fleet could use a unique Dirichlet multinomial parameter, or all could share the same, or any combination of unique and shared.  The requested number of Dirichlet multinomial parameters will be read from the control file. Please note that age-compositions Dirichlet multinomial parameters are continued after length-compositions, so a model with one fleet and both data types would presumably require two new Dirichlet multinomial parameters.  	
+	
+The Dirichlet estimates the effective sample size as $N_{eff}=\frac{1}{1+\theta}+\frac{N\theta}{1+\theta}$ where $\theta$ is the estimated parameter and $N$ is the input sample size.  Stock Synthesis estimates the log of the Dirichlet multinomial parameter such that $\hat{\theta}_{\text{fishery}} = e^{-0.6072} = 0.54$ where assuming $N=100$ for the fishery would result in an effective sample size equal to 35.7.
+	
+This formula for effective sample size implies that, as the Stock Synthesis parameter log\_Theta goes to large values (i.e., 20), then  $N_{eff}$ will converge to the input sample size ($N_{input}$).  In this case, small changes in the value of the log\_Theta parameter has no action, and the derivative of the negative log-likelihood is zero with respect to the parameter, which means the Hessian will be singular and cannot be inverted. To avoid this non-invertible Hessian when the log\_Theta parameter becomes large, turn it off while fixing it at the high value. In summary, we recommend setting the upper bound for the Dirichlet multinomial parameter log\_Theta to a high value (i.e., 20-25), and then if any fleet has an estimate of log\_Theta $>$ 15 then turn that Dirichlet multinomial parameter off while starting it at the estimated high value.  This is equivalent to turning off down-weighting of fleets where evidence suggests that $N_{eff}$ = $N_{input}$.  
+	
+For additional information about the Dirichlet multinomial please see Thorson et al. 2017. \textit{Model-based estimates of effective sample size in stock assessment models using the Dirichlet-multinomial distribution}. Fisheries Research, 192: 84-93.
 
 \hypertarget{CompTiming}{}
 \subsection{Length Composition Data}

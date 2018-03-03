@@ -381,14 +381,10 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	     & & 3 = read age-maturity for each female GP\\
 	     & & 4 = read an empirical age-maturity vector for all ages\\
 	     & & NOTE: need to read 2 parameters even if option 3 or 4 is selected \\
-	     %& & 5 = read empirical age-fecundity and body weight-at-age from separate file, wtatage.ss.  Allows for reading time series of input. See section \hyperlink{WAA}{\textit{Empirical Wt-at-Age}} for details. NOTE:  need to read 2 parameters even if option 3, 4, or 5 is selected.\\
-	     %& & 6 = read an empirical length-maturity vector by population length bin (available in v.3.24q)\\
 	   \hline
 
 	   \multicolumn{2}{l}{COND = 3 or 4} & Maturity Option\\
 	   & 0 0.05 0.10 ... & Vector of age-specific maturity or fecundity.  One row of length Nages + 1 for each female GP\\
-	   %\multicolumn{2}{l}{COND = 6} & Maturity Option\\
-	   %& 0 0.05 0.10 ... & Vector of length-specific maturity or fecundity.  One row of length of the population length bins for each female GP\\
 	   \hline
 	   
 	   1 & & First Mature Age: Overridden if maturity option is 3 or 4 or if empirical wtatage.ss is used, but still must exist here.  Otherwise, all ages below the first mature age will have maturity set to zero.\\
@@ -456,13 +452,13 @@ These 7 parameters are only included in the control file if one of the ageing er
 	\item age at which the estimated pattern begins (just linear below this age).  This is “start age”
 	\item bias at start age (as additive offset from unbiased age’)
 	\item bias at maxage (as additive offset from unbiased age’)
-	\item power fxn coefficient for interpolating between those 2 values (value of 0.0 produces linear interpolation in the bias)
-	\item stdev at age
-	\item stdev at max age
-	\item power fxn coefficient for interpolating between those 2 values
+	\item power function coefficient for interpolating between those 2 values (value of 0.0 produces linear interpolation in the bias)
+	\item standard deviation at age
+	\item standard deviation at max age
+	\item power function coefficient for interpolating between those 2 values
 \end{itemize}
 
-\noindent Code for implementing vectors of mean age' and stdev of age' within SS can be located in Appendix C. \hyperlink{AgeingError}{\textit{Click here for more information.}}
+\noindent Code for implementing vectors of mean age' and standard deviation of age' within SS can be located in Appendix C. \hyperlink{AgeingError}{\textit{Click here for more information.}}
 
 
 \subsubsection{Read Biology Parameters}
@@ -499,7 +495,7 @@ These 7 parameters are only included in the control file if one of the ageing er
 		& ... & \\
 		& \multicolumn{2}{l}{K deviations for last age in range}\\
 		\hline
-	    & CV young & Variability for size at age <= AFIX (units are fraction) for females, GP1.  Note that CV cannot vary over time, so do not set up env-link or a dev vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
+	    & CV young & Variability for size at age <= AFIX (units are fraction) for females, GP1.  Note that CV cannot vary over time, so do not set up env-link or a deviation vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
 		& CV old & Variability for size at age >= AFIX (units are fraction) for females, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset. The CV value cannot vary over time.\\
 		\hline
 		& WtLen scale & Coefficient to convert length in cm to weight in kg for females\\
@@ -529,8 +525,6 @@ These 7 parameters are only included in the control file if one of the ageing er
 		& CV old &  Variability for size at age >= AFIX (units are fraction) for males, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset.\\
 		\multicolumn{2}{l}{COND: GP > 1} & Repeat male parameters in the above order for GP2\\
 		\hline
-		%\multicolumn{2}{l}{Females} & Weight length relationship parameters, maturity and fecundity\\
-		%\multicolumn{2}{l}{Males} & Weight length relationship parameters\\
 		& WtLen scale & Coefficient to convert length in cm to weight in kg for males\\
 	    & WtLen exp & Exponent in to convert length to weight for males\\
 		\hline
@@ -622,11 +616,11 @@ Parameters marked with COND are conditional on selecting that feature:
 
 \hypertarget{tvOrder}{}
 \subsubsection{Time-Varying Biology Parameters}
-Any of the parameters defined above can be made time-varying through linkage to an environmental data series, through time blocks or trend, or by setting up annual deviations.  The options for making biology, spawner-recruitment,  catchability and selectivity parameters change over time is detailed in the section labeled Time-Varying Parameters.  After reading the biology parameters above, which will include possible instructions to create environmental link, blocks, or dev vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the biology parameter section.  So if no biology parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
+Any of the parameters defined above can be made time-varying through linkage to an environmental data series, through time blocks or trend, or by setting up annual deviations.  The options for making biology, spawner-recruitment,  catchability and selectivity parameters change over time is detailed in the section labeled Time-Varying Parameters.  After reading the biology parameters above, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the biology parameter section.  So if no biology parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
 
 When time-varying growth is used, there are some additional considerations to be aware of:
 \begin{itemize}
-	\item Growth deviations propagate into the forecast.  The user can select which growth parameters get used during the forecast by setting the end year of the last block.  If the last block ends in the model’s endyr, then the grorth parameters in effect during the forecast will revert to the “no-block” baseline level.  By setting the end year of the last block to end year (endyr) + 1, the model will continue the last block’s growth parameter levels throughout the forecast.
+	\item Growth deviations propagate into the forecast.  The user can select which growth parameters get used during the forecast by setting the end year of the last block.  If the last block ends in the model’s end year, then the growth parameters in effect during the forecast will revert to the “no-block” baseline level.  By setting the end year of the last block to end year (endyr) + 1, the model will continue the last block’s growth parameter levels throughout the forecast.
 	\item The equilibrium benchmark quantities (MSY, F40\%, etc.) previously used end year (endyr) body size-at-age, which is a disequilibrium vector.  There is a capability to specify a range of years over which to average the size-at-age used in the benchmark calculations.
 	\item An addition issue occurred in versions prior to 3.20.  Its description is retained here, but it was resolved with the growth code modification for version 3.20.
 	\begin{itemize}
@@ -661,7 +655,7 @@ When time-varying growth is used, there are some additional considerations to be
 \end{center}
 
 \subsubsection{Seasonal Biology Parameters}
-Seasonal effects are available for wt-len parameters and for the growth K.  Seasonality is not needed for the maturity and fecundity parameters because spawning is only defined to occur in one season.  Seasonal L1 may be implemented at a later date.  The seasonal parameter values adjust the base parameter value for that season.
+Seasonal effects are available for weight-length parameters and for the growth K.  Seasonality is not needed for the maturity and fecundity parameters because spawning is only defined to occur in one season.  Seasonal L1 may be implemented at a later date.  The seasonal parameter values adjust the base parameter value for that season.
 \begin{equation}
 P'=P*exp(\text{seas\_value})
 \end{equation}
@@ -683,7 +677,7 @@ P'=P*exp(\text{seas\_value})
 		\endfoot
 		\endlastfoot
 		\multicolumn{3}{l}{\#Seasonality for selected biology parameters (not a conditional input)}\\
-		\multicolumn{2}{l}{0 0 0 0 0 0 0 0 0 0} & Read 10 integers to specify which biology parameters have seasonality:  femwtlen1, femwtlen2, mat1, mat2, fec1, fec2, malewtlen1, malewtlen2, L1, K.  Reading a positive value selects that factor for seasonality\\
+		\multicolumn{2}{l}{0 0 0 0 0 0 0 0 0 0} & Read 10 integers to specify which biology parameters have seasonality:  fem-wtlen1, fem-wtlen2, mat1, mat2, fec1, fec2, male-wtlen1, male-wtlen2, L1, K.  Reading a positive value selects that factor for seasonality\\
 		\hline
 		\multicolumn{2}{l}{COND:} & If any factors have seasonality, then read N seasons parameters that define the seasonal offsets from the base parameter value.\\
 		& <short parameter line(s)> & Read N seasons short parameter lines for each factor selected for seasonality.
@@ -811,14 +805,14 @@ If the R0 or steepness parameters are time-varying, then SS will use the current
 		\hline
 		1 & Do Recruitment Deviations & This selects the way in which recruitment deviations are coded:\\
 		  &  & 0:  none (so all recruitments come from S-R curve)\\
-		  &  & 1:  dev vector (previously the only option).  Here the deviations are encoded as a dev\_vector, so ADMB enforces a sum-to-zero constraint.\\
+		  &  & 1:  deviation vector (previously the only option).  Here the deviations are encoded as a deviation vector, so ADMB enforces a sum-to-zero constraint.\\
 		  &  & 2:  simple deviations.  Here the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero sum.  The difference in model performance between options (1) and (2) has not been fully explored to date.\\
 		\hline
-		1971 & Main recr devs begin year & If begin year is less than the model start year, then the early deviations are used to modify the initial age composition.   However, if set to be more than Nages before start year, it is changed to equal Nages before start year. \\
+		1971 & Main recruitment deviations begin year & If begin year is less than the model start year, then the early deviations are used to modify the initial age composition.   However, if set to be more than Nages before start year, it is changed to equal Nages before start year. \\
 		\hline
-		1999 & Main recr devs end year & If recr devs end year is later than retro year, it is reset to equal retro year. \\
+		1999 & Main recruitment deviations end year & If recruitment deviations end year is later than retro year, it is reset to equal retro year. \\
 		\hline
-		3    & Main recr dev phase & \\
+		3    & Main recruitment deviations phase & \\
 		\hline
 		1 & Advanced  & 0: Use default values for advanced options \\
 		  & Options  & 1: Read values for the 11 advanced options \\
@@ -834,12 +828,12 @@ If the R0 or steepness parameters are time-varying, then SS will use the current
 		& 0 & Forecast Recruitment Phase: \\
 		& & Forecast recruitment deviations always begin in the first year after the end of the main recruitment deviations. Recruitment in the forecast period is deterministic derived from the specified stock-recruitment relationship.  Setting their phase to 0 causes their phase to be set to max lambda phase +1 (so that they become active after rest of parameters have converged.).  However, it is possible here to set an earlier phase for their estimation, or to set a negative phase to keep the forecast recruitment deviations at a constant level. Default:  0 \\
 		& 1 & Forecast Recruitment Deviations Lambda:\\
-		&   & This lambda is for the logL of the forecast recruitment deviations that occur before endyr + 1.  Use a larger value here if solitary, noisy data at end of time series cause unruly recruitment deviation estimation. Default:  1.0 \\
+		&   & This lambda is for the log-likelihood of the forecast recruitment deviations that occur before endyr + 1.  Use a larger value here if solitary, noisy data at end of time series cause unruly recruitment deviation estimation. Default:  1.0 \\
 		& 1956 & Last Year With No Bias Adjustment \\
 		& 1970 & First Year With Full Bias Adjustment \\
 		& 2001 & Last Year With Full Bias Adjustment \\
 		& 2002 & First Recent Year With No Bias Adjustment \\
-		&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum logL.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that SS will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: Start year – 1000, Start year – Nages, Main recruitment deviation final year, End year +1. \hyperlink{RecBias}{\textit{Click here for more information.}}.\\
+		&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum log-likelihood.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that SS will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: Start year – 1000, Start year – Nages, Main recruitment deviation final year, End year +1. \hyperlink{RecBias}{\textit{Click here for more information.}}.\\
 		& 0.85 & Max Bias Adjustment: \\
 		&      & Value for the maximum bias adjustment during the MLE mode. A value of -1 will set the bias adjustment to 1.0 for all years with estimated recruitment deviations. Likewise, all estimated recruitment deviations, even those within a ramped era, switch to maxbias=1.0 during MCMC.\\
 		& 0    & Period For Recruitment Cycles: \\
@@ -906,13 +900,13 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 	
 	The interpretation of the quantity $z_0=-log(S_0)$ as pre-recruit instantaneous mortality rate at unfished equilibrium is imperfect because the recruitment in a given year is calculated as a product of the survival fraction $S_y$ and the spawning output $SB_y$ for that same time period so that there is not a 1-year lag between quantification of eggs or pups and recruitment at age 0, which is when recruits are calculated within Stock Synthesis. However, if age 0 or some set of youngest ages is not selected by any fishery of survey, then density dependent survival may be assumed to occur anywhere before the first appearance of any cohort in the data or model expectations. In such cases, the upper limit on survival up to age $a$ is given by $S_{\text{max}}e^{-aM}$. \\
 	
-	Nevertheless, interpreting $z_0$ as an instantaneous mortality helps with the understanding of $z_{\text{frac}}$. This parameter controls the magnitude of the density-dependent increase in survival associated with a reduction in spawning output. It represents the fraction by whcih this mortality-like rate is reduced as spawning output is reduced from $SB_0$ to 0. This is approximately equal to the increase in survival as a fraction of the maximum possible increase in survival. That is: 
+	Nevertheless, interpreting $z_0$ as an instantaneous mortality helps with the understanding of $z_{\text{frac}}$. This parameter controls the magnitude of the density-dependent increase in survival associated with a reduction in spawning output. It represents the fraction by which this mortality-like rate is reduced as spawning output is reduced from $SB_0$ to 0. This is approximately equal to the increase in survival as a fraction of the maximum possible increase in survival. That is: 
 	\begin{equation}
 		z_{\text{frac}}=\frac{log(S_{\text{max}})-log(S_0)}{-log(S_0)} \approx \frac{S_{\text{max}}-S_0}{1-S_0}
 	\end{equation}
 	For example, if $S_0 = 0.4$, $z_{\text{frac}}=0.8$, then the resulting fraction increase in survival is $(S_{\text{max}}-S_0)/(1-S_0)=0.72$.\\
 	
-	The parameter $\beta$ controls the point where survival changes fastest as a function of spawning depletion. A value of $\beta$ = 1 corresponds to a linear change in log survival and an approximately linear relationship between survival and spawning depletion. Values of $\beta$<1 have survival increasing fastest at low spawning output (concave decreasing survival) whereas $\beta$>1 has the increase in survival occuring fastest closer to the unfished equilibrium (convex decreasing survival).  
+	The parameter $\beta$ controls the point where survival changes fastest as a function of spawning depletion. A value of $\beta$ = 1 corresponds to a linear change in log survival and an approximately linear relationship between survival and spawning depletion. Values of $\beta$<1 have survival increasing fastest at low spawning output (concave decreasing survival) whereas $\beta$>1 has the increase in survival occurring fastest closer to the unfished equilibrium (convex decreasing survival).  
 	
 	The steepness ($h$) of the spawner-recruit curve (defined as recruitment relative to R0 at a spawning depletion level of 0.2) based on pre-recruit survival can be derived from the parameters discussed above according to the relationship and associated inequality:
 	\begin{equation}
@@ -940,7 +934,7 @@ Conceptually, SS treats the early, data-poor period, the main data-rich period, 
 
 \hypertarget{RecBias}{}
 \subsubsection{Recruitment Likelihood with Bias Adjustment}
-For each year in the total recdev time series (early, mid, late/forecast) the contribution of that year to the logL is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component. SigmaR may be estimable when there is good data to establish the time series of recruitment deviations, but see recent work (Thorson et al) on use of a superior approach.
+For each year in the total recruitment deviation time series (early, mid, late/forecast) the contribution of that year to the log-likelihood is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component. SigmaR may be estimable when there is good data to establish the time series of recruitment deviations, but see recent work (Thorson et al) on use of a superior approach.
 
 The recruitment bias adjustment implemented in SS is based upon the work documented in Methot and Taylor (2011) and following the work of Maunder and Deriso (2003).  The concept is based upon the following logic.  SigmaR represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, sigmaR, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see eq. below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches sigmaR.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach sigmaR and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
 \begin{equation}
@@ -962,7 +956,7 @@ The correct offset (bias adjustment) to apply to the expected value for recruitm
 Because the quantity and quality of data varies during a time series, SS allows the user to control the rate at which the offset is ramped in during the early, data-poor years, and then ramped back to zero for the forecast years.
 On output to report.sso, SS calculates the mean bias adjustment during the early and main eras and compares it to the RMSE of estimated recruitment deviations.  A warning is generated if the RMSE is small and the bias adjustment is larger than 2.0 times the ratio of $rmse^2$ to $sigmaR^2$.
 
-In MCMC mode, the model still draws recruitment deviations from the lognormal distribution, so the full offset is used such that the expected mean recruitment from this lognormal distribution will stay equal to the mean from the spawner-recruitment curve. When SS reaches the MCMC and MCEVAL phases, all biasadj values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full lognormal distribution of each recruitment.
+In MCMC mode, the model still draws recruitment deviations from the lognormal distribution, so the full offset is used such that the expected mean recruitment from this lognormal distribution will stay equal to the mean from the spawner-recruitment curve. When SS reaches the MCMC and MCEVAL phases, all bias adjustment values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full lognormal distribution of each recruitment.
 
 \subsubsection{Recruitment Autocorrelation}
 The autocorrelation parameter is implemented.  It is not performance tested and it has no effect on the calculation of the offsets described in the section above.
@@ -981,7 +975,7 @@ When SS is configured such that seasons are modeled as years, the concept of sea
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year.  These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series.  The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector.  If the number of estimated ages in the initial age composition is less than Nages, then the older ages will retain their equilibrium levels.  Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
 \subsection{Fishing Mortality Method}
-There are  three methods available for calculation of fishing mortality.  These are:  Pope’s approximation, continuous F with each F as a model parameter, and a hybrid method that does a Pope’s approximation to provide initial values for iterative adjustment of the continuous F values to closely approximate the observed catch.  With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters.  In a 2 fishery, low F case, the hybrid nethod is just as fast as the Pope approx. and produces identical result.  When F is very high, the problem becomes quite stiff for Pope’s and the hybrid method so convergence may slow.  It may  be better to use F option 2 (continuous F as full parameters) in these high F cases.  F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly.  For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.\\
+There are  three methods available for calculation of fishing mortality.  These are:  Pope’s approximation, continuous F with each F as a model parameter, and a hybrid method that does a Pope’s approximation to provide initial values for iterative adjustment of the continuous F values to closely approximate the observed catch.  With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters.  In a 2 fishery, low F case, the hybrid method is just as fast as the Pope approx. and produces identical result.  When F is very high, the problem becomes quite stiff for Pope’s and the hybrid method so convergence may slow.  It may  be better to use F option 2 (continuous F as full parameters) in these high F cases.  F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly.  For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.\\
 Option 1 (Pope’s approx) still exists, but it is recommended to switch to option 3.
 
 \begin{center}
@@ -1079,16 +1073,6 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\item 0 = no float (parameter is estimated)
 		\item 1 = float (analytical solution is used, but parameter line still required)
 	\end{enumerate}
-	
-	%\item Q Type
-	%\begin{enumerate}
-	%	\item <0 = mirror the Q from another (lower numbered survey designated by abs(value))
-	%	\item 0 = set Q as a scaling factor such that the estimate is median unbiased.  This is comparable to the old “float” option.  This option is not available if a normal error structure is used.
-	%	\item 2 = establish one parameter that will be the ln(Q).  Note that Q is in log units even if the error structure is normal.
-	%	\item 3 = establish one parameter that will be the base ln(Q) and a set of additional parameters for each year of the survey that will be deviations in ln(Q).  These deviation parameters are full parameters, so each has a prior and variance, so surveys with high uncertainty in their calibration can be given a more diffuse prior to allow a larger deviation.  Because each of these Q deviations is coded as a separate parameter, rather than a member of a deviation vector, the contribution of these deviations to the model’s objective function is captured in the parameter prior section.  However, because there is no inherent constraint that these deviations have a zero sum, a separate log(L) contribution is calculated from the sum of the deviations ($(1+(\sum(devs))^2)^2-1$) and added to the “parm\_dev\_like” component.
-	%	\item 4 = establish one parameter that will be the base ln(Q) and used as the Q for the first survey observation.  Subsequent N-1 parameters for remaining survey observations will be deviations in random walk of ln(Q).  These deviation parameters are otherwise treated identically to those generated by option (3) above, except that the extra contribution for the mean deviation is not calculated.
-	%	\item 5 = This option will calculate the survey Q according to mean unbiased scaling, then assigns this value to the parameter (which must be set up in the control file and be given a negative phase).  Advantage is that the calculated Q can now have a prior.
-	%\end{enumerate}
 \end{enumerate}
 
 
@@ -1098,8 +1082,6 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\hline
 	    \#Fleet Num. & Link Type & Link Info & Extra SD & Bias Adjust & Float  & Label \\
 	    \hline
-%	    1 & 1 & 0 & 1 & 0 & 0 & \#Fishery 1 \\
-%	    2 & 1 & 0 & 1 & 0 & 0 & \#Fishery 2 \\
 	    3 & 1 & 0 & 1 & 1 & 0 & \#Survey  \\
 	    -9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \\
 	    \hline
@@ -1149,7 +1131,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\hline
 \end{longtable}
 
-\noindent NOTE:  In 3.24 it was common to use the dev approach and this dev approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's dev was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual devs.  Also note that devs in 3.24 were survey specific (so no parameter for yeares with no survey).  But in SS3.30, devs are always year-specific, so you might have a dev created for a year with no survey.\\
+\noindent NOTE:  In 3.24 it was common to use the deviation approach and this deviation approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual deviations.  Also note that deviations in 3.24 were survey specific (so no parameter for years with no survey).  But in SS3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.\\
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention.  The four values read from each line are:
@@ -1659,18 +1641,18 @@ If selectivity for the dependent sex is greater than the selectivity for the fir
 Approach \#2:\\
 A new sex selectivity option (3 or 4) has been implemented for size selectivity patterns 1 (logistic) and 23 and 24 (double normal) or age selectivity pattern 20 (double normal age).  Rather than calculate male selectivity as an offset from female selectivity, here the male selectivity is calculated by making the male parameters an offset from the female parameters (option 3), or females are offset from males with option 4.  The description below applies to option 3. If the size selectivity pattern is 1 (logistic), then read 3 parameters:
 \begin{itemize}
-	\item male parm 1 is added to the first selectivity parm (inflection)
-	\item male parm 2 is added to the second selectivity parm (width of curve)
-	\item male parm 3 is the asymptotic selectivity
+	\item male parameter 1 is added to the first selectivity parameter (inflection)
+	\item male parameter 2 is added to the second selectivity parameter (width of curve)
+	\item male parameter 3 is the asymptotic selectivity
 \end{itemize}
 
 If the size selectivity pattern is 20, 23 or 24 (double normal), then:
-\begin{itemize}○
-	\item male parm 1 is added to the first selectivity parm (peak)
-	\item male parm 2 is added to the third selectivity parm (width of ascending side); then exp(this sum) per previous transform
-	\item male parm 3 is added to the fourth selectivity parm (width of descending side); then exp(sum) per previous transform
-	\item male parm 4 is added to the sixth selectivity parm (selectivity at final size bin); then 1/(1+exp(-sum)) per previous transform
-	\item male parm 5 is the apical selectivity for males
+\begin{itemize}
+	\item male parameter 1 is added to the first selectivity parameter (peak)
+	\item male parameter 2 is added to the third selectivity parameter (width of ascending side); then exp(this sum) per previous transform
+	\item male parameter 3 is added to the fourth selectivity parameter (width of descending side); then exp(sum) per previous transform
+	\item male parameter 4 is added to the sixth selectivity parameter (selectivity at final size bin); then 1/(1+exp(-sum)) per previous transform
+	\item male parameter 5 is the apical selectivity for males
 \end{itemize}
 
 Note that the male selectivity offsets currently cannot be time-varying (need to check on this).  Because they are offsets from female selectivity, they inherit the time-varying characteristics of the female selectivity.
@@ -1688,7 +1670,8 @@ If the Dirichlet multinomial error distribution was selected in the data file fo
 		\hline
 		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
 		\hline
-		1    & 25 & 1 & 1 & 10 & ...  & 0   & \#ln(EffN\_mult)\_1 Dirichlet\\
+		1    & 25 & 1 & 1 & 10 & ...  & 0   & \#ln(EffN mult) Fleet 1 Dirichlet\\
+		1    & 25 & 1 & 1 & 10 & ...  & 0   & \#ln(EffN mult) Fleet 2 Dirichlet\\
 		\hline
 	\end{longtable}
 \end{center} 
@@ -1845,29 +1828,18 @@ When doing iterative reweighting of the input variance factors, it is convenient
 \begin{center}
 	\begin{longtable}{p{3cm} p{3cm} p{3cm} p{6.5cm} }
 
-		%Value & Description & & Options & \\
-		%\hline
-		%0 & \multicolumn{2}{l}{Variance Adjustment Factors } & \multicolumn{2}{l}{0 = none, 1 = read table}\\
 		 \multicolumn{4}{l}{Variance Adjustment Factors }\\
 		 \hline
 		-9999 1 0 & \multicolumn{3}{l}{No variance adjustment factors applied }\\
 		\\
 		\multicolumn{4}{l}{If variance adjustment factors are to be applied:}\\
 		\hline
-		%Fleet/Survey 1 & Fleet/Survey 2 & Fleet/Survey 3 & Fleet/Survey 4 & Label \\
 		Factor & Fleet & Value & Description \\
 		\hline
 		1 & 2 & 0.5 & \# Survey CV for survey/fleet 2 \\
 		4 & 1 & 0.25 & \# Length data for fleet 1 \\
 		4 & 2 & 0.75 & \# Length data for fleet 2\\
 		-9999 & 0 & 0 & \\
-		%0 & 0 & 0 & 0 & \#Survey CV\\
-		%0 & 0 & 0 & 0 & \#Discard CV\\
-		%0 & 0 & 0 & 0 & \#Mean BodyWght SD\\
-		%1 & 1 & 1 & 1 & \#Length Comp\\
-		%1 & 1 & 1 & 1 & \#Age Comp\\
-		%1 & 1 & 1 & 1 & \#Size-at-Age\\
-		%1 & 1 & 1 & 1 & \#Generalized Size Comp\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1917,7 +1889,6 @@ The reading of the lambda values has been substantially altered with SS v3.  Ins
 \begin{center}
 	\begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
 		\hline
-		%3 & \multicolumn{4}{l}{\#Number of changes to make to default lambdas (default value is 1.0)}\\
 		\multicolumn{5}{l}{\#Then read that number of lines containing the change information:}\\
 		\#Component & Fleet/Survey & Phase & Lambda & SizeFreq Method \\
 		\hline
@@ -1948,40 +1919,6 @@ The reading of the lambda values has been substantially altered with SS v3.  Ins
 \end{center}
 
 
-%\begin{center}
-%	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{6cm}}
-		%\hline
-%		\endfirsthead
-
-%		\hline
-%		\endhead
-%		\hline
-%
-%		\endfoot
-%		\endlastfoot
-%
-%		\multicolumn{5}{l}{On output to control.ss\_new, the full table is written:}\\
-%		\multicolumn{5}{l}{\#Lambdas (for information only; columns are phases)}\\
-%		\hline
-%		\# 0 & 0 & 0 & 0 & \#CPUE/survey: 1\\
-%		\# 1 & 1.5 & 1.5 & 1.5 & \#CPUE/survey: 2\\
-%		\# 1 & 1 & 1 & 1 & \#CPUE/survey: 3\\
-%		\# 1 & 1 & 1 & 1 & \#lencomp: 1\\
-%		\# 1 & 10 & 2 & 2 & \#lencomp: 2\\
-%		\# 0 & 0 & 0 & 0 & \#lencomp: 3\\
-%		\# 1 & 1 & 1 & 1 & \#agecomp: 1\\
-%		\# 1 & 1 & 1 & 1 & \#agecomp: 2\\
-%		\# 0 & 0 & 0 & 0 & \#agecomp: 3\\
-%		\# 1 & 1 & 1 & 1 & \#size-at-at-age: 1\\
-%		\# 1 & 1 & 1 & 1 & \#size-at-at-age: 2\\
-%		\# 0 & 0 & 0 & 0 & \#size-at-at-age: 3\\
-%		\# 1 & 1 & 1 & 1 & \#init\_equil\_catch \\
-%		\# 1 & 1 & 1 & 1 & \#recruitments \\
-%		\# 1 & 1 & 1 & 1 & \#parameter priors\\
-%		\# 1 & 1 & 1 & 1 & \#parameter dev vectors\\
-%		\hline
-%	\end{longtable}
-%\end{center}
 
 \subsection{Controls for Variance of Derived Quantities}
 Additional standard deviation reported may be selected.
@@ -2003,31 +1940,27 @@ Additional standard deviation reported may be selected.
 		\hline
 		\multicolumn{9}{l}{\#Vector with NatAge std bin picks (-1 in first bin to self-generate).} \\	
 		1 & 2 & 14 & 26 & 40 & & & & \\			
-		%\#Fleet & Len/Age & Year & Nselex Bins & Growth Pattern & Ngrowth Areas & Area for Natage & Year for Natage & N ages to report\\
-		%\hline
-		%1 & 1 & -1 & 7 & 1 & 5 & -1 & -1 & 5\\
-		\hline
 	\end{longtable}
 \end{center}
 
 Where:
 \begin{itemize}
 	\item FLEET:  is the index of the fleet to be output.  A value of zero causes there to be no selectivity variance output;
-	\item LEN/AGE:  enter "1" to select length selex or "2" to select age selectivity.  There is no option to get the combined age selectivity that incorporates the size selectivity;
+	\item LEN/AGE:  enter "1" to select length selectivity or "2" to select age selectivity.  There is no option to get the combined age selectivity that incorporates the size selectivity;
 	\item YEAR:  enter a value for the selected year, or enter -1 to get the selectivity in the end year
 	\item 	N Selectivity bins:  enter the number of bins for which selectivity will be output.  This number controls the number of items to be read below, even if the FLEET is set to zero.  In other words, the read occurs even if the effect of the read is disabled.
-	\item GROWTH PATTERN:  growth pattern is the number of the growth pattern to be output.  Enter "0" to get no variance output for size-at-age.   Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then stddev output of mean size-at-age is disabled.
+	\item GROWTH PATTERN:  growth pattern is the number of the growth pattern to be output.  Enter "0" to get no variance output for size-at-age.   Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then standard deviation output of mean size-at-age is disabled.
 	\item 	N growth bins:  Number of ages for which size-at-age variance is requested.  This number controls the number of items to be read below, even if the growth pattern selection is set to zero.   In other words, the read occurs even if the effect of the read is disabled.
 	\item 	Area:  specifies the area for which output of numbers at age is requested.  A value of 0 disables this output.  A value of -1 requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each sex.
 	\item 	Year:  specifies the year for which numbers-at-age are output.  A value of -1 requests output for year equal to endyear+1, hence the year that starts the forecast period.
 	\item N numbers-at-age bins:  as with the N growth bins.
 \end{itemize}
-For size selex, these are population bin numbers.  For age selex, they refer directly to age.  Entering a negative value for the first bin causes SS to self-generate an evenly spaced set.
+For size selectivity, these are population bin numbers.  For age selectivity, they refer directly to age.  Entering a negative value for the first bin causes SS to self-generate an evenly spaced set.
 
 \begin{center}
 	\begin{tabular}{p{4cm} p{12cm}}
 		\hline
-		5 10 16 22 27 38 46 & \#Vector with selex std bin picks (-1 in first bin to self generate)\\
+		5 10 16 22 27 38 46 & \#Vector with selectivity std bin picks (-1 in first bin to self generate)\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -2057,7 +1990,7 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
 		\hline
 		\multicolumn{10}{l}{COND > 0}\\
 		& 1 & 1 & -1 & 5 & 1 & 5 & 1 & -1 & 5 \\
-		& 5 & 16 & 27 & 38 & 46 & \multicolumn{4}{l}{\#Vector with selex std bin picks}\\
+		& 5 & 16 & 27 & 38 & 46 & \multicolumn{4}{l}{\#Vector with selectivity std bin picks}\\
 		& 1 & 2 & 14 & 26 & 40 & \multicolumn{4}{l}{\#Vector with growth std bin picks}\\
 		& 1 & 2 & 14 & 26 & 40 & \multicolumn{4}{l}{\#Vector with n-at-age std bin picks}\\
 		\hline
@@ -2075,7 +2008,7 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
  \\\\
  \noindent \textbf{New Code Flow}:  In SS v.3.30, MG, Sel, SRR, Q, and Tag base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time series of the parameter value that are used as SS subsequently loops through the years.
  \\\\
- \noindent \textbf{New Parameter Order}: The order of parameters has changed and the re-ordering is handled by the sstrans.exe.  Previously, for each of MG and Sel parameters all env link parameters were listed first, then block/trend parameters and then dev parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then env, then dev.  So, if MG base parameters 3 and 7 had time varying changes, the order would look like:
+ \noindent \textbf{New Parameter Order}: The order of parameters has changed and the re-ordering is handled by the sstrans.exe.  Previously, for each of MG and Sel parameters all environmental link parameters were listed first, then block/trend parameters and then deviaiton parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if MG base parameters 3 and 7 had time varying changes, the order would look like:
  
  \begin{center}
  	\begin{longtable}{p{5cm} p{10cm}}
@@ -2118,7 +2051,7 @@ The new available options for time-varying parameters in SS v3.30 are described 
 		\item 1 = multiplicative
 		\item 2 = additive
 		\item Random walk options are now implemented by using rho in the objective function
-		\item This column was previously called "Use Deviation". Previously available options in SS v.3.24
+		\item This column was previously called "Use Deviation. Previously available options in SS v.3.24
 		\begin{itemize}
 			\item 1: multiplicative
 			\item 2: additive
@@ -2139,7 +2072,7 @@ The new available options for time-varying parameters in SS v3.30 are described 
 	\item Deviation Phase - Element 12 in parameter setup
 		\begin{itemize}
 			\item integer, this available element in the long parameter line is now a deviation vector specific phase control
-			\item This column was previously called "Deviaiton Standard Error". Previously available options in SS v.3.24
+			\item This column was previously called "Deviation Standard Error". Previously available options in SS v.3.24
 			\begin{itemize}
 				\item Standard deviation for deviations
 			\end{itemize}
@@ -2187,43 +2120,9 @@ The new available options for time-varying parameters in SS v3.30 are described 
 \begin{center}
 	\includegraphics{TimeVarying}
 \end{center}
-%\begin{center}
-%	\begin{longtable}{p{2.5cm} p{13cm}}
-%		\hline
-%		Env var & Values between 100-199, g, causes SS to set the annual working value of this parameter equal to a multiplicative function of Environmental Variable\\
-%		    & \multicolumn{1}{c}{g: $parm’_y = parm * exp(link * env_{y,g})$ } \\
-%			& Values between 200-299, g, causes SS to set the annual working value of this parameter equal to a additive function of Environmental Variable g:\\
-%		    & \multicolumn{1}{c}{ $parm’_y = parm + link * env_{y,g}$}\\
-%			& Where, link is the environmental link parameter, parm is the base parameter being adjusted, parm’ is the value after adjustment, and env(y-g) is the value of the environmental input g in year y. SS counts the number of parameters that invoke use of an Environmental Variable.  After SS finishes reading the section’s parameter lines, it then creates/reads additional short parameter line(s) to set up the link parameters.  If custom=0, then one short parameter line is used to define the min, max, init, etc, for each of the link parameters.  If custom=1, then a separate line is read for each.\\
-%		\hline
-%		Use\_Dev & A value of 1 invokes multiplicative:  $parm’_y = parm * exp(dev_y)$\\
-%			& A value of 2 invokes additive:  $parm’_y = parm + dev_y$\\
-%			& A value of 3 invokes additive random walk:  $parm’_y = parm’_{y-1} + dev_y$\\
-%		    & The vector of devs is simply a vector of offsets; there is no inherent sum to zero constraint.  However, the fact that they are each penalized by the DEV std.dev. below will tend to make them sum towards 0.0.\\
-%		\hline
-%		Dev min yr & Beginning year for the dev vector for this parameter\\
-%		\hline
-%		Dev max yr & Ending year for the dev vector for this parameter\\
-%		\hline
-%		Dev Std Dev. & Standard deviation for elements in the dev vector for this parameter \\
-%		\hline
-%		Use Block & Block: A positive value identifies which block pattern will be used for time changes to a parameter value.  Block patterns are simply numbered sequentially as they are defined near the top of the control file, so the index here must be correct for the order in which they are defined.  More than one parameter can use the same block definition.  The order of generated block parameters is by the order of the parameters that call for creation of the block parameters, then by the order of the blocks within that pattern. \\ \\
-%				  & Trend:  A negative value for the Use\_Block input causes SS to create a parameter time trend instead of blocks.  This time trend requires 3 parameters (instead of the normal one parameter per block).  The base parameter is the value for the adjusted parameter in year = start year.  For subsequent years, the three parameters define a normal distribution of change over time:\\
-%				  & P1:  parameter value for year = end year.  Either as logistic offset from base P (if Use\_Block=-1), or as direct usage (if Use\_Block=-2)\\
-%				  & P2:  inflection year;  if HI value for the base parameter is >1.1, then use as year, else use as fraction of range styr - endyr\\
-%				  & P3:  width of change (units of std.dev. of years)\\
-%		\hline
-%		Block Type & This selects the way in which the block parameter creates an offset from the base parameter. \\
-%				   & 0 means that $parm’ = baseparm * exp(blockparm)$\\
-%				   & 1 means that $parm’ = baseparm + blockparm$\\
-%				   & 2 means that $parm’ = blockparm$\\
-%				   & 3 means that $parm’$ = is additive offset from previous block.  Note that blocks must be contiguous to use this option properly.\\
-%		\hline
-%	\end{longtable}
-%\end{center}
 
 \subsection{Parameter Priors}
-Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall logL function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the logL, so they would have no gradient in the logL and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  The options for parameter priors are:
+Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log-likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log-likelihood, so they would have no gradient in the log-likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  The options for parameter priors are:
 \begin{itemize}
 	\item  0 = No prior applied.
 	\item  1 = Symmetric bet prior is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior.
