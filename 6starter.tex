@@ -206,7 +206,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 
  \hline
  %\pagebreak
- 1 & F report basis &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Selects the denominator to use when reporting the F std report values.  Note that order of these options differs from the biomass report basis options.}}\\
+ 1 & F report basis &  \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Selects the denominator to use when reporting the F std report values.  Note that order of these options differs from the biomass report basis options.}}\\
    & 0 = not relative, report raw values & \\
    & 1 = use F std value corresponding to SPR\textsubscript{target} & \\
    & 2 = use F std value corresponding to F\textsubscript{MSY} & \\
@@ -214,15 +214,22 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 
   %\hline
   \pagebreak
-  0 & MCMC output detail & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Specify format of MCMC output}} \\
+  0.01 & MCMC output detail & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Specify format of MCMC output. This input requires the specification of two items; the output detail and a bump value to be added to the ln(R0) at the start of MCMC. A bias adjustment of 1.0 is applied to recruitment deviations in the MCMC phase, which could result in reduced recruitment estimates relative to the MLE when a lower bias adjustment value is applied.  A small value, called the "bump", is added to the ln(R0) at the start of the MCMC phase to prevent the stock from hitting the lower bounds. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \\
   & 0 = default & \\
   & 1 = output likelihood components and associated lambda values &  \\
   & 2 = expanded output &  \\		 
-  % & 3 = create output subdirectory and files for each MCMC vector &  \\		 
+  & 3 = make output subdirectory for each MCMC vector. &  \\
+  & & \\
+  & & \\
+  & & \\
+  & & \\		 
   
   \hline
-  \hypertarget{ALK}{0} & Age-length-key (ALK) tolerance level, 0 >= values required & Value of 0 will not apply any compression.  Values > 0 (e.g. 0.0001) will apply compression to the ALK which will increase the speed of calculations.  The size of this value will impact the run time of your model, but one should be careful to ensure that the value used does not appreciably impact the estimated quantities relative to no compression of the ALK.  The suggested value if applied is 0.0001. \\  
-  
+  \hypertarget{ALK}{0} & Age-length-key (ALK) tolerance level, 0 >= values required & \multirow{1}{1cm}[-0.1cm]{\parbox{12.5cm}{Value of 0 will not apply any compression.  Values > 0 (e.g. 0.0001) will apply compression to the ALK which will increase the speed of calculations.  The size of this value will impact the run time of your model, but one should be careful to ensure that the value used does not appreciably impact the estimated quantities relative to no compression of the ALK.  The suggested value if applied is 0.0001.}} \\  
+  & & \\
+  & & \\
+  & & \\
+  & & \\
 %\pagebreak
  
  \hline
