@@ -1,11 +1,13 @@
 
- \section{Introduction}\label{sec:intro}
- \begin{sloppypar}
+\section{Introduction}\label{sec:intro}
+\begin{sloppypar}
 This manual provides a guide for using the stock assessment program, Stock Synthesis (SS). The guide contains a description of the input and output files and usage instructions. A technical description of the model itself is in Methot and Wetzel (2013). SS is programmed using Auto Differentiation Model Builder (ADMB; Fournier 2001. ADMB is now available at admb-project.org). SS currently is compiled using ADMB version 11.using various compilers to provide Windows, MacOS and Linux executables. The model and a graphical user interface are available from the NOAA VLAB at https://vlab.ncep.noaa.gov/group/stock-synthesis/home. The VLAB site also provides a user forum for posting Q\&A and for accessing various additional materials.  An output processor package, r4ss, in R is available for download from CRAN or GitHub. Additional information about the package can be located at github.com/r4ss/r4ss.
+
+Additional guidance for new users is available from the NOAA VLAB at https://vlab.ncep.noaa.gov/group/stock-synthesis/document-library.  The "Begin Here - Introduction to Stock Synthesis" folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.  
 \end{sloppypar}
 	
 \section{New Features Available in Version 3.30}
-		Stock Synthesis version v.3.30 was designed specifically to provide more precise temporal control of growth, expected values for data, and for recruitment.  In additional, a large number of new features that make substantial changes to the input formats have been introduced.  Two versions of SS are provided.  One, ss\_trans.exe, will read SS v.3.24 input files and produce SS v.3.30 formatted versions of those input files.  Nearly every feature in v.3.24 can be converted by this program.  The other version, ss.exe, will then be your primary new assessment tool. Additional information on each new feature available by clicking on the "Item".
+Stock Synthesis version v.3.30 was designed specifically to provided more precise temporal control of growth, expected values for data, and for recruitment.  In additional, a large number of new features that make substantial changes to the input formats have been introduced.  Two executables of SS are provided.  One, ss\_trans.exe, will read SS v.3.24 input files and produce SS v.3.30 formatted versions of those input files.  Nearly every feature in v.3.24 can be converted by this program.  The other executable, ss.exe, will then be your primary new assessment tool. Additional information on each new feature available by clicking on the item.
 		
 		\begin{center}
 			\begin{longtable}{p{2cm} p{3cm} p{10cm}}
@@ -99,8 +101,8 @@ This manual provides a guide for using the stock assessment program, Stock Synth
 						MGparms now have maturity, fecundity, sex ratio, and weight-length by growth pattern.\\
 				  \\						
 				    & \hyperlink{SexRatio}{Sex ratio} & 
-					    Change sex ratio at birth from a constant to a morph-specific MGparameter. \\
-				%\hline
+					    Change sex ratio at birth from a constant to a morph-specific MG parameter. This feature was not correctly implemented in versions of 3.30 earlier than 3.30.12. \\
+				\hline
 				Statistical 
 					& \hyperlink{GcompVar}{Input variance adjuster} & 
 						Added variance adjustment factor for generalized size comp. \\
@@ -115,14 +117,14 @@ This manual provides a guide for using the stock assessment program, Stock Synth
 					& \hyperlink{paraOrder}{Parameter order} & The prior standard deviation column for all parameter lines has been moved before the prior type column.  This modification improves formatting output between integer and decimal inputs.\\ 
 				 \\
 					& Density dependence & 
-						Beginning of year summary biomass and the rec\_dev parameters are mapped to the "environmental" matrix so that parameters can be density-dependent.\\
+						Beginning of year summary biomass and the recruitment deviation parameters are mapped to the "environmental" matrix so that parameters can be density-dependent.\\
 				  \\						
 					& \hyperlink{tvOrder}{Re-order} & 
 						Pay attention to the new order of the time-varying adjustments to parameters (block/trend, then environmental, then deviations). \\
 				  \\						
 					& \hyperlink{time-vary}{Time-varying parameters} & 
 						Long parameter lines for spawner-recruit relationship (SRR), catchability (Q), and tag parameters and complete re-vamp of the way that time-varying parameters are implemented for SRR and Q.  Now shares same internal code as mortality-growth and selectivity parameters for time-varying capabilities.\\
-				 \hline
+				 %\hline
 				 Software version control
 					 & Version numbering	& The implementation of as new version control has changed how executable versions will be specified.  The executable releases are now named SS3.3x.xx.xx representing, in order; major features, minor features, and code fixes. \\
 				 
@@ -156,33 +158,33 @@ The process of updating and adding new features within SS v.3.30 expose several 
 	\subsection{Output Files}
 	\begin{enumerate}
 		\item data.ss\textunderscore new:  contains a user-specified number of datafiles, generated through a parametric bootstrap procedure, and written sequentially to this file
-		\item control.ss\textunderscore new:  Updated version of the control file with final parameter values replacing the Init parameter values.
-		\item starter.ss\textunderscore new:  New version of the starter file with annotations
-		\item Forecast.ss\textunderscore new:  New version of the forecast file with annotations.
-		\item warning.sso:  This file contains a list of warnings generated during program execution.
-		\item echoinput.sso:  This file is produced while reading the input files and includes an annotated echo of the input.  The sole purpose of this output file is debugging input errors.
-		\item Report.sso:  This file is the primary report file.
-		\item ss\_summary.sso: Output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in version 3.30.08.03 and greater.
-		\item CompReport.sso:  Observed and expected composition data in a list-based format
-		\item Forecast-report.sso:  Output of management quantities and for forecasts
-		\item CumReport.sso:  This file contains a brief version of the run output, output is appended to current content of file so results of several runs can be collected together.  This is useful when a batch of runs is being processed.
-		\item Covar.sso:  This file replaces the standard ADMB ss.cor with an output of the parameter and derived quantity correlations in database format
-		\item ss.par: This file contains all estimated and fixed parameters from the model run. 
+		\item control.ss\textunderscore new:  updated version of the control file with final parameter values replacing the Init parameter values.
+		\item starter.ss\textunderscore new:  new version of the starter file with annotations
+		\item Forecast.ss\textunderscore new:  new version of the forecast file with annotations.
+		\item warning.sso:  this file contains a list of warnings generated during program execution.
+		\item echoinput.sso:  this file is produced while reading the input files and includes an annotated echo of the input.  The sole purpose of this output file is debugging input errors.
+		\item Report.sso:  this file is the primary report file.
+		\item ss\_summary.sso: output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in version 3.30.08.03 and greater.
+		\item CompReport.sso:  observed and expected composition data in a list-based format
+		\item Forecast-report.sso:  output of management quantities and for forecasts
+		\item CumReport.sso:  this file contains a brief version of the run output, output is appended to current content of file so results of several runs can be collected together.  This is useful when a batch of runs is being processed.
+		\item Covar.sso:  this file replaces the standard ADMB ss.cor with an output of the parameter and derived quantity correlations in database format
+		\item ss.par: this file contains all estimated and fixed parameters from the model run. 
 		\item ss.std, ss.rep, ss.cor etc.  standard ADMB output files
-		\item checkup.sso:  Contains details of selectivity parameters and resulting vectors.  This is written during the first call of the objective function.
-		\item Gradient.dat: New for SS3.30, this file shows parameter gradients at the end of the run.
-		\item rebuild.dat:  Output formatted for direct input to Andre Punt's rebuilding analysis package.  Cumulative output is output to REBUILD.SS (useful when doing MCMC or profiles).
-		\item SIS\_table.sso:  Output formatted for reading into the NMFS Species Information System.
-		\item Parmtrace.sso: Parameter values at each iteration.
+		\item checkup.sso:  contains details of selectivity parameters and resulting vectors.  This is written during the first call of the objective function.
+		\item Gradient.dat: new for SS3.30, this file shows parameter gradients at the end of the run.
+		\item rebuild.dat:  output formatted for direct input to Andre Punt's rebuilding analysis package.  Cumulative output is output to REBUILD.SS (useful when doing MCMC or profiles).
+		\item SIS\_table.sso:  output formatted for reading into the NMFS Species Information System.
+		\item Parmtrace.sso: parameter values at each iteration.
 		\item posteriors.sso, derived\_posteriors.sso, posterior\_vectors.sso: files associated with MCMC.
 	\end{enumerate}
 
 	
 	\subsection{Auxiliary Files}
-	These files are additional files (e.g. excel files) which allow for exploration or understanding of specific parameterization which can assist in selecting appropriate starting values.  These files are available for download from the Vlab website. 
+	These files are additional files (e.g. excel files) which allow for exploration or understanding of specific parameterization which can assist in selecting appropriate starting values.  These files are available for download from the VLAB website. 
 	\begin{enumerate}
-		\item SSv330-OUTPUT.XLS:   Excel file with macros to read report.sso and display results
-		\item SELEX24\textunderscore dbl\textunderscore normal.XLS:
+		\item SS3-OUTPUT.xls:   Excel file with macros to read report.sso and display results.
+		\item Selex24\_dbl\_normal.xls:
 		\begin{enumerate}
 			\item This excel file is used to show the shape of a double normal selectivity (option number 20 for age-based and 24 for length-based selectivity) given user-selected parameter values.
 			\item Instructions are noted in the XLS file but, to summarize
@@ -193,25 +195,29 @@ The process of updating and adding new features within SS v.3.30 expose several 
 			\item It is recommend that users select plausible starting values for double-normal selectivity options, especially when estimating all 6 parameters
 			\item Please note that the XLS does NOT show the impact of setting parameters 5 or 6 to ''-999''.  In SS v3.30, this allows the the value of selectivity at the initial and final age or length to be determined by the shape of the double-normal arising from parameters 1-4, rather than forcing the selectivity at the intial and final age or length to be estimated separately using the value of parameters 5 and 6. 
 		\end{enumerate}
-		\item SELEX17\textunderscore age\textunderscore randwalk.XLS:
+		\item Selex17\_age\_randwalk.xls:
 		\begin{enumerate}
 			\item This excel file is used to show the shape of age-based selectivity arising from option 17 given user-selected parameter values
 			\item Users should only change entries in the yellow box.
 			\item The red box is the maximum cumulative value, which is subtracted from all cumulative values.  This is then exponentiated to yield the estimated selectivity curve.  Positive values yield increasing selectivity and negative values yield decreasing selectivity.
 		\end{enumerate}
-		\item PRIOR-TESTER.XLS:
+		\item Prior\_Tester.xls:
 		\begin{enumerate}
 			\item The 'compare' tab of this spreadsheet shows how the various options for defining parameter priors work
 		\end{enumerate}
-		\item SS-Control\textunderscore Setup.XLS:
+		\item SS\_330\_Control\_Setup.xls:
 		\begin{enumerate}
 			\item Shows how to setup an example control file for SS
 		\end{enumerate}
-		\item SS-Data\textunderscore Input.XLS:
+		\item SS\_330\_Data\_Input.xls:
 		\begin{enumerate}
 			\item Shows how to setup an example data input for SS
 		\end{enumerate}
-		\item Growth.XLS: 
+		\item SS\_330\_Starter\&Forecast.xls:
+		\begin{enumerate}
+			\item Shows how to setup an example data input for SS
+		\end{enumerate}
+		\item Growth\_Comparison.xls: 
 		\begin{enumerate}
 			\item Excel file to test parameterization between the growth curve options within SS.
 			\item Instructions are noted in the XLS file but, to summarize
@@ -221,7 +227,7 @@ The process of updating and adding new features within SS v.3.30 expose several 
 			\end{enumerate}
 			\item The SS-VB is identical to the standard VB, but uses a parameterization where length is estimated at pre-defined ages, rather than A=0 and A=Inf.  The Schnute- Richards is identical to the Richards-Maunder, but similarly uses the parameterization with length at pre-defined ages.  The Richards coefficient controls curvature, and if the curvature coefficient = 1, it reverts to the standard VB curve. 
 		\end{enumerate}
-		\item Movement.XLS:
+		\item Movement.xls:
 		\begin{enumerate}
 			\item Excel file to explore SS movement parameterization
 		\end{enumerate}

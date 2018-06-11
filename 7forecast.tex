@@ -90,17 +90,19 @@ The specification of options for forecasts is contained in the mandatory input f
    & 0 = forecast selectivity is mean from year range & \\
    & 1 = forecast selectivity from annual time-varying parameters & \\
 
- \hline   
- 1 & Control Rule & \\
-   & 1 = catch is function of SSB U.S. West Coast & \\
-   & 2 = F is a function of SSB & \\
-   
- %\hline
  \pagebreak
+ %\hline   
+ 1 & Control Rule & \\
+   & 1 = catch as function of SSB, buffer on F & \\
+   & 2 = F as function of SSB, buffer on F & \\
+   & 3 = catch as function of SSB, buffer on catch & \\
+   & 4 = F is a function of SSB, buffer on catch & \\
+ \hline
+ 
  0.40 & Control Rule Upper Limit & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) above which F is constant at control rule F\textsubscript{target}.}} \\
    &  & \\
  
- %\hline
+ \hline
  0.10 & Control Rule Lower Limit & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) below which F is set to 0.}} \\
    &  & \\
  
@@ -124,7 +126,8 @@ The specification of options for forecasts is contained in the mandatory input f
    & & \\
    & & \\
  
- \hline
+ %\hline
+ \pagebreak
  0 & Forecast recruitment & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations).  \hyperlink{ForeSpawn}{\textit{Click here for more information}}}} \\
     & 0= spawner recruit curve & \\
     & 1=value*(spawner recruit curve) & \\
@@ -162,7 +165,8 @@ The specification of options for forecasts is contained in the mandatory input f
       & >0 = year first catch should be set to zero & \\
       & -1 = set to 1999 & \\
       
- \hline
+ %\hline
+ \pagebreak
  2004 & Rebuilder start year (Year Initial) & \\
       & >0 = year for current age structure & \\
       & -1 = set to end year +1 & \\
@@ -201,7 +205,8 @@ The specification of options for forecasts is contained in the mandatory input f
   \multicolumn{1}{r}{2002 1}  & Allocation to each group for each year of the forecast & Enter a year and the allocation fraction to each group for that year.  SS will fill those values to the end of the forecast, then read another year from this list.  Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0. \\
   \multicolumn{1}{r}{-9999 1} & & \\
   
-  \pagebreak
+  %\pagebreak
+  \hline
     -1 & Basis for forecast catch & \\
     & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below. & \\
     & 2 = Dead catch & \\
@@ -211,7 +216,7 @@ The specification of options for forecasts is contained in the mandatory input f
   \hline
   \multicolumn{1}{l}{COND: == -1 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\\
   \multicolumn{1}{r}{2012 1 1 1200 2}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
-  \multicolumn{1}{r}{2013 1 1 14"00 3}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
+  \multicolumn{1}{r}{2013 1 1 1400 3}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
   \multicolumn{1}{r}{-9999 1 1 0000 2}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \\
   \\
   \multicolumn{1}{l}{COND: > 0 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\\

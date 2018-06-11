@@ -60,14 +60,14 @@ The primary role of the SS control file is to define the parameters to be used b
 		5 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. \\
 		6 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal without bias adjustment ($Pr_{\text{like}} = 0.5((log(P_{\text{val}}) -Pr)/Pr_{\text{sd}})^2$), 4 = lognormal with bias adjustment ($Pr_{\text{like}} = 0.5((log(P_{\text{val}}) -Pr+0.5*Pr_{\text{sd}}^2)/Pr_{\text{sd}})^2$), 5 = gamma, 6 = normal \\
 		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
-		%\hline
+		\hline
 		 & & \\
 		\multicolumn{3}{l}{\parbox{16cm}{Note that relative to SS v.3.24,  the order of Prior stdev and Prior type have been switched and the prior type options have been renumbered.
 		\\\\
 		Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
 		}}\\
 		 & & \\
-		%\hline
+		\hline
 		8  & Env Var \& Link & Create a linkage to an input environmental time-series\\
 		9  & Dev Link & Invokes use of the deviation vector in the linkage function \\
 		10 & Dev min yr & Beginning year for the deviation vector \\
@@ -79,7 +79,7 @@ The primary role of the SS control file is to define the parameters to be used b
 	\end{tabular}
 \end{center}
 
-\subsubsection{Terminology:}
+\subsection{Terminology}
 Where the term “COND” appears in the value column of this documentation (it does not actually appear in the control file), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions.
 In most cases, the description in the Definition column is the same as the label output to the control.ss\textunderscore new file.
 
@@ -110,7 +110,8 @@ In most cases, the description in the Definition column is the same as the label
 		  & &   NOTE:  With version 3.04, SS added the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See the section on \hyperlink{WAA}{\textit{weight-at-age}} for additional information on file formatting for empirical weight-at-age.\\
 
 
-		\hline
+		%\hline
+		\pagebreak
 		2 & & N growth patterns (GP)\\
 		& & These are collections of fish with unique biological characteristics (growth, M, wt-len, reproduction.)  The GP x sex x settlement\_events constitute unique morphs that are tracked in SS.  They are assigned these characteristics at birth and retain them throughout their lifetime.  At recruitment, morph members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing morph to recruit predominately in a southern areas and a slow-gorwing morph to a northern area.  The natural mortality and growth parameters are specified for each growth pattern in the MG parameters section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N.\\
 		\hline
@@ -148,6 +149,7 @@ In SS v.3.30, more control of the seasonal timing is provided and there now is a
 	\end{itemize}
 \end{description}
 	
+	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 	\multicolumn{2}{l}{Typical Value} & Description \\
 	\hline		
@@ -171,7 +173,6 @@ In SS v.3.30, more control of the seasonal timing is provided and there now is a
 Here we define movement among the areas.  This is a box transfer with no explicit adjacency of areas, so fish can move from any area to any other area in each time step.  
 Future Need:  augment the capability further to allow sex-specific movement, and also to allow some sort of mirroring so that sexes and growth patterns can share the same movement parameters if desired.
 
-\pagebreak
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 	\multicolumn{2}{l}{Typical Value} & Description \\
 	\hline	
@@ -183,7 +184,7 @@ Future Need:  augment the capability further to allow sex-specific movement, and
 		& 1 2 1 2 4 10 &  \\
 		& 1 2 2 1 4 10 &  \\
 		\\ \\
-		\hline
+		%\hline
 	\end{longtable}
 
 Two parameters will be entered later for each growth pattern, area pair and season.   
@@ -246,7 +247,7 @@ In SS v.3.30, several changes are introduced to the implementation of time-varyi
   \item For more information on the implementation of time-varying parameters, see the \hyperlink{TVpara}{\textit{Using Time-varying Parameters}} section
 \end{itemize}	
 	
-
+\pagebreak
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
      \multicolumn{2}{l}{Typical Value} & Description and Options\\
      \hline
@@ -288,7 +289,7 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 		  & & 3 = Read age specific M and do not do seasonal interpolation\\
 		  & & \multirow{1}{12cm}[-0.1cm]{4 = Read age specific and do seasonal interpolation, if appropriate}\\
 		\hline
-
+	   \pagebreak
 	   \multicolumn{2}{l}{COND = 0} & No additional natural mortality controls \\
 		\hline
 		\multicolumn{2}{l}{COND = 1} & \\
@@ -311,10 +312,8 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	   \\
 	   \\
 	   \\
-	   \\
 	   \hline
 	   
-	   \pagebreak
 	   \multicolumn{2}{l}{COND = 3 or 4} & \multirow{1}{12cm}[-0.1cm]{Do not read any natural mortality parameters.  With option 2, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.}\\
 	   \\
 	   \\
@@ -426,6 +425,7 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	  \hline
 	\end{longtable}
 
+\pagebreak
 \subsubsection{Parameter offset method}
 
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
@@ -491,6 +491,7 @@ These 7 parameters are only included in the control file if one of the ageing er
 		\hline
 		\multicolumn{2}{l}{COND if growth type =2 } & \\
 		& Richards Coefficient & Only include this parameter if Richards growth function is used.  If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy.\\
+		\pagebreak
 		\multicolumn{2}{l}{COND if growth type =3 } & Age-Specific K \\
 		& \multicolumn{2}{l}{K deviations for first age in range}\\
 		& \multicolumn{2}{l}{K deviations for next age in range}\\
@@ -541,6 +542,7 @@ These 7 parameters are only included in the control file if one of the ageing er
 		\multicolumn{2}{l}{Recr Dist Area} & Recruitment apportionment by area, if multiple areas, multiple entries required\\
 		\multicolumn{2}{l}{Recr Dist Seas} & Recruitment apportionment by season, if multiple seasons, multiple entries required\\
 		\hline
+		\pagebreak
 		\multicolumn{2}{l}{COND:} & If recruitment distribution interaction = 1 (on)\\
 		& N patterns x N areas x N seasons & Note that the order of recruitment distribution parameters has areas then seasons for main effect, and seasons then areas for interactions.\\
 		\hline
@@ -1249,6 +1251,7 @@ Read the required number of parameter setup lines as specified by the definition
 	\end{longtable}
 \end{center}
 
+\pagebreak
 \subsubsection{Selectivity Patterns}
 The currently defined selectivity patterns, and corresponding required number of parameters, are:
 
@@ -1266,7 +1269,7 @@ The currently defined selectivity patterns, and corresponding required number of
 		\endlastfoot
 
 		\hline
-		\multicolumn{3}{c}{SIZE SELECTIVITY}\\
+		\multicolumn{3}{c}{SIZE BASED SELECTIVITY}\\
 		  &   &  \\
 		Pattern & N Parameters & Description \\
 		\hline
@@ -1293,12 +1296,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{center}
 
 
-\begin{description}
-	\item[Special Selectivity Options]\hfil\\
-	Special selectivity options (type 30 and above) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{\textit{Index units}}).	
-\end{description}
-
-
+\pagebreak
 \begin{center}
 	\begin{longtable}{p{2cm} p{3cm} p{10cm}}
 
@@ -1314,7 +1312,7 @@ The currently defined selectivity patterns, and corresponding required number of
 		\endlastfoot
 
 		\hline
-		\multicolumn{3}{c}{AGE SELECTIVITY}\\
+		\multicolumn{3}{c}{AGE BASED SELECTIVITY}\\
 		   &   &  \\
 		Pattern & N Parameters & Description \\
 		\hline
@@ -1322,7 +1320,7 @@ The currently defined selectivity patterns, and corresponding required number of
 		11 & 2 & Pick min-max age\\
 		12 & 2 & Logistic\\
 		13 & 8 & Double logistic, IF joiners.  Use discouraged.  Use pattern \#18 instead.\\
-		14 & nages  +1 & Each age, value at age is $\frac{1}{1+exp(-x)}$ \\
+		14 & nages + 1 & Each age, value at age is $\frac{1}{1+exp(-x)}$ \\
 		15 & 0 & Mirror another selectivity\\
 		16 & 2 & Coleraine single Gaussian\\
 		17 & nages + 1 & Each age as random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \hyperlink{RandWalk}{Click here for more information.}\\
@@ -1333,9 +1331,16 @@ The currently defined selectivity patterns, and corresponding required number of
 		27 & 3 + 2*N nodes & Cubic Spline\\
 		41 & 2 + nages + 1 & Selectivity pattern 17 with user-defined scaling \\
 		42 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
+		44 & nages + 4 & Similar to age selectivity option 17 but with separate parameters for males and with revised controls \\
+		44 & nages + 4 & Similar to age selectivity option 14 but with separate parameters for males and with revised controls \\
 		\hline
 	\end{longtable}
 \end{center}
+
+\begin{description}
+	\item[Special Selectivity Options]\hfil\\
+	Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{\textit{Index units}}).	
+\end{description}
 
 \subsubsection{Selectivity Pattern Details}
 \begin{description}
