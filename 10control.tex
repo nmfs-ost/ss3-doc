@@ -1331,8 +1331,8 @@ The currently defined selectivity patterns, and corresponding required number of
 		27 & 3 + 2*N nodes & Cubic Spline\\
 		41 & 2 + nages + 1 & Selectivity pattern 17 with user-defined scaling \\
 		42 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
-		44 & nages + 4 & Similar to age selectivity option 17 but with separate parameters for males and with revised controls \\
-		44 & nages + 4 & Similar to age selectivity option 14 but with separate parameters for males and with revised controls \\
+		44 & 4 & Similar to age selectivity pattern 17 but with separate parameters for males and with revised controls \\
+		45 & 4 & Similar to age selectivity pattern 14 but with separate parameters for males and with revised controls \\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1613,6 +1613,32 @@ The currently defined selectivity patterns, and corresponding required number of
 			\hline
 		\end{longtable}
 	\end{center}
+\end{description}
+
+\begin{description}
+	\item[Pattern \#44 (age)]\hfill\\
+	Similar to pattern \#17 but with separate parameters for males and females. This selectivity pattern provides for a random walk in ln(selectivity).  In typical usage:
+	\begin{itemize}
+		\item p1 - First parameter (for age 0) could have a value of -1000 so that the age 0 fish would get a selectivity of 0.0.
+		\item p2 - The first age for which mean selectivity = 1.
+		\item p3 - The last age for which mean selectivity = 1.
+		\item p4 - Male mean selectivity relative to the female selectivity mean entered as ln(ratio) for the male relative female selectivity.
+		\item -999 input indicates to the model to keep the change unchanged from the previous age (keeps same rate of change).
+		\item -1000 input indicates used only for male selectivity indicates to the model to set the change in male selectivity equal to the female change in selectivity.
+	\end{itemize}
+\end{description}
+
+\begin{description}
+\item[Pattern \#45 (age) - Revise Age]\hfil\\
+Similar to pattern \#14 but with separate parameters for males and females. Age-selectivity pattern \#45 to allow selectivity-at-age to be the same as selectivity at the next younger age.  
+	\begin{itemize}
+		\item p1 - is the first age with non-zero selectivity.
+		\item p2 - The first age in mean for peak selectivity
+		\item p3 - The last age in mean for peak selectivity
+		\item p4 - The male mean selectivity relative to the female mean, entered as ln(ratio) for the male relative female selectivity
+		\item -999 input indicates to the model to keep the change unchanged from the previous age (keeps same rate of change).
+		\item -1000 input indicates used only for male selectivity indicates to the model to set the change in male selectivity equal to the female change in selectivity.
+	\end{itemize}	
 \end{description}
 
 
