@@ -1,0 +1,18 @@
+\hypertarget{ConvIssues}{}
+\section{Converting Files from 3.24}
+Converting files from v.3.24 to v.3.30 can be easily performed by using the program sstrans.exe. The following file structure and steps are recommended for converting model files:
+\begin{itemize}
+	\item Create "transition" folder.  Place four model files from version 3.24 within the transition folder along with the SS transition executable ("ss\_trans.exe").  One tip is to use the control.ss\_new from the 3.24 estimated model rather than the control.ss file which will set all parameter values at the previous estimated MLE parameters.  Run the transition executable with phase = 0 within the starter file, with the read par file turned off (option 0).
+	\item Create "converted" folder.  Place the ss\_new (data.ss\_new, control.ss\_new, starter.ss\_new, forecast.ss\_new)files created by the transition executable contained within the "transition" folder into this new folder.  Rename the ss\_new files to the appropriate suffixes and change the names in the starter.ss file accordingly.
+	\item Review the control file to determine that all model functions converted correctly.  The structural changes and assumptions for a couple of the advanced model features are too complicated to convert automatically.  See below for some known features that may not convert.
+	\item Change the max phase to a value greater than the last phase in which the a parameter is set to estimated within the control file.  Run the new 3.30 executable (ss.exe) within the "converted" folder using the renamed ss\_new files created from the transition executable.
+	\item Compare likelihood and model estimates between the 3.24 and 3.30 model versions.
+\end{itemize}
+
+\noindent There are some options that have been substantially changed in version 3.30 which impedes the automatic converting of 3.24 model files. Known examples of 3.24 options that cannot be converted, but for which better alternatives are available in 3.30 are:
+\begin{itemize}
+	\item The use of Q deviations,
+	\item Complex birth seasons,
+	\item Environmental effects on spawner-recruitment parameters,
+	\item Setup of time-varying quantities for models that used the no-longer-available (e.g logistic bound constraint).
+\end{itemize}
