@@ -1,3 +1,40 @@
 \section{Likelihood components}
 
+The objective function $L$ is the weighted sum of the individual components indexed by kind of data $i$, and fishery/survey $f$ as appropriate:
 
+\begin{equation}
+	L = \sum_{i=1}^{I}\sum_{f=1}^{A_f}\omega_{i,f} L_{i,f}+\omega_R L_R + \sum_{\theta}^{}\omega_\theta L_\theta + \sum_{P}^{}\omega_P L_P
+\end{equation}
+
+where $L$ is the total objective function, $i$ is the index of the objective function component, $L_{i,f}$ is the objective function for data kind $i$ for the fishery/survey $f$, and $\omega_{i,f}$ is a weighting factor for each objective function component.
+
+The components of the objective function based on the model set-up and data are: 
+
+\begin{longtable}{p{1cm} p{3.5cm} p{5.5cm} p{4.75cm}}
+	Index & Source & Kind & Error structure\\
+	\hline	
+	$i$ & fishery/survey $f$ & CPUE or Abundance index & user choice \\
+	$i$ & fishery $f$        & Discard biomass         & user choice \\
+	$i$ & fishery/survey $f$ & Mean body weight        & normal \\
+	$i$ & fishery/survey $f$ & Length composition      & multinomial or log-gamma \\
+	$i$ & fishery/survey $f$ & Age composition         & multinomial or log-gamma \\
+	$i$ & fishery/survey $f$ & Mean size-at-age        & normal \\
+	$i$ & fishery/survey $f$ & Tag-recapture 1         & multinomial \\
+	$i$ & fishery/survey $f$ & Tag-recapture 2         & negative binomial\\
+	$i$ & fishery $f$        & Initial equilibrium catch & normal \\
+	$R$ & 					 & Recruitment deviations  & lognormal \\
+	$P$ & 					 & Random parameter devs   & normal \\
+	$\theta$ & 				 & Parameter priors	       & user choice\\
+	$F_B$ & 				 & F ballpark penalty	   &  \\
+	$C_P$ &				     & Crash penalty           &  \\
+	\hline
+\end{longtable}
+
+Full description of likelihood distributions by source will be added in the future.
+
+%\subsection{CPUE or abundance index}
+
+%The distribution for CPUE or abundance index data can be lognormal, student-t, or normal.  The %lognormal likelihood formulation is:  
+
+%\begin{equation} L_{i,f} = N(ln(\sigma)) + \sum_{y=1}^{N_y}\frac{(ln(I_{y,f})-ln(Q_f B_{y,f}))^2}{2\sigma^2}
+%\end{equation}
