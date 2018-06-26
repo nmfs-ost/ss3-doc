@@ -1323,7 +1323,7 @@ The currently defined selectivity patterns, and corresponding required number of
 		14 & nages + 1 & Each age, value at age is $\frac{1}{1+exp(-x)}$ \\
 		15 & 0 & Mirror another selectivity\\
 		16 & 2 & Coleraine single Gaussian\\
-		17 & nages + 1 & Each age as random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \hyperlink{RandWalk}{Click here for more information.}\\
+		17 & nages + 1 & Each age as random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \\
 		18 & 8 & Double logistic, with defined peak, uses smooth joiners.  \\
 		19 & 6 & Simple double logistic with no defined peak.\\
 		20 & 6 & Double normal with defined initial and final level.  Recommended option. Test using SELEX-24.xls.\\
@@ -1331,8 +1331,8 @@ The currently defined selectivity patterns, and corresponding required number of
 		27 & 3 + 2*N nodes & Cubic Spline\\
 		41 & 2 + nages + 1 & Selectivity pattern 17 with user-defined scaling \\
 		42 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
-		44 & 4 & Similar to age selectivity pattern 17 but with separate parameters for males and with revised controls \\
-		45 & 4 & Similar to age selectivity pattern 14 but with separate parameters for males and with revised controls \\
+		44 & 4 + nages & Similar to age selectivity pattern 17 but with separate parameters for males and with revised controls \\
+		45 & 4 + nages & Similar to age selectivity pattern 14 but with separate parameters for males and with revised controls \\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1395,7 +1395,33 @@ The currently defined selectivity patterns, and corresponding required number of
 
 \begin{description}
 	\item[Pattern \#17 (age) - Random Walk]\hfill\\
-	This selectivity pattern provides for a random walk in ln(selectivity).  In typical usage:
+	This selectivity pattern provides for a random walk in ln(selectivity).  For each age $a \geq A_{\text{min}}$, where $A_{\text{min}}$ is the minimum age for which selectivity is allowed to be non-zero, there is a selectivity parameter, $p_a$, controlling the changein selectivity from age $a-1$ to age $a$.
+	
+	The selectivity at age $a$ is computed as
+	\begin{equation}
+	S_a = \exp (S'_a - S'_{\text{max}}),
+	\end{equation}
+	where
+	\begin{equation}
+	S'_a = \sum_{i = A_{\text{min}}}^a p_i
+	\end{equation}
+	and 
+	\begin{equation}
+	S'_{\text{max}} = \mbox{max} \{S'_a\}.
+	\end{equation}
+	Selectivity is fixed at $S_a = 0$ for $a < A_{\text{min}}$. 
+	
+	This formulation has the properties that the maximum selectivity equals 1,
+	positive values of $p_a$ are associated with increasing selectivity between ages $a-1$
+	and $a$, and negative values are associated with decreasing selectivity between
+	those ages and $p_a = 0$ gives constant selectivity.
+	
+	The condition that maximum selectivity equals 1 results in one fewer
+	degree of freedom than the number of estimated $p_a$. Therefore, at least
+	one parameter should be fixed at an arbitrary value,
+	typically $p_{A_{\text{min}}}=0$.
+	
+	In typical usage:
 	\begin{itemize}
 		\item First parameter (for age 0) could have a value of -1000 so that the age 0 fish would get a selectivity of 0.0;
 		\item 	Second parameter (for age 1) could have a value of 0.0 and not be estimated, so age 1 is the reference age against which subsequent changes occur;
@@ -1623,9 +1649,41 @@ The currently defined selectivity patterns, and corresponding required number of
 		\item p2 - The first age for which mean selectivity = 1.
 		\item p3 - The last age for which mean selectivity = 1.
 		\item p4 - Male mean selectivity relative to the female selectivity mean entered as ln(ratio) for the male relative female selectivity.
+		\item p5-p\textsubscript{n} - Additional parameter lines for the log of the selectivity change between ages corresponding to the user specified number of changes in the "special" column for the selectivity specification for each sex with females entered first then males.
 		\item -999 input indicates to the model to keep the change unchanged from the previous age (keeps same rate of change).
 		\item -1000 input indicates used only for male selectivity indicates to the model to set the change in male selectivity equal to the female change in selectivity.
 	\end{itemize}
+	An example specification and setup for this selectivity option where selectivity is dome-shaped, peaking at age 2 with female and male selectivity are equal with 4 change points per sex:
+	\begin{center}
+		\begin{longtable}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
+			\hline
+			\#Pattern & Discard & Male & Special\\
+			\hline
+			44 & 0 & 0 & 4 \\
+			\hline
+		\end{longtable}
+	\end{center}
+
+	\begin{center}
+		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
+			\hline
+			\#LO & HI & INIT & PR & PR\_SD  & ... & BLOCK FXN & \#Label \\
+			\hline
+			0 & 20 &  0 &  0 & 0.5  & ... & 0 & \#first selex age \\
+			0 & 20 &  2 &  2 & 0.5  & ... & 0 & \#first age peak selex (mean) \\
+			0 & 20 &  2 &  2 & 0.5  & ... & 0 & \#last age peak selex (mean) \\
+		   -1 & 2 & -0.001 & -0.001 & 0.5  & ... & 0 & \#male ln(ratio) \\
+		   -10 & 10 &  3.01 &  3.01 & 0.5  & ... & 0 & \#female ln(selex) change 1\\
+		   -10 & 10 &  1.56 &  1.56 & 0.5  & ... & 0 & \#female ln(selex) change 2\\
+		   -10 & 10 & -0.15 & -0.15 & 0.5  & ... & 0 & \#female ln(selex) change 3\\
+		   -10 & 10 & -0.15 & -0.15 & 0.5  & ... & 0 & \#female ln(selex) change 4\\
+		   -1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 1\\
+		   -1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 2\\
+		   -1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 3\\
+		   -1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 4\\
+			\hline
+		\end{longtable}
+	\end{center}		
 \end{description}
 
 \begin{description}
@@ -1638,7 +1696,36 @@ Similar to pattern \#14 but with separate parameters for males and females. Age-
 		\item p4 - The male mean selectivity relative to the female mean, entered as ln(ratio) for the male relative female selectivity
 		\item -999 input indicates to the model to keep the change unchanged from the previous age (keeps same rate of change).
 		\item -1000 input indicates used only for male selectivity indicates to the model to set the change in male selectivity equal to the female change in selectivity.
-	\end{itemize}	
+	\end{itemize}
+		An example specification and setup for this selectivity option where selectivity is asymptotic, with female and male selectivity are equal with 4 change points per sex:
+		\begin{center}
+			\begin{longtable}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
+				\hline
+				\#Pattern & Discard & Male & Special\\
+				\hline
+				45 & 0 & 0 & 3 \\
+				\hline
+			\end{longtable}
+		\end{center}
+		
+		\begin{center}
+			\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
+				\hline
+				\#LO & HI & INIT & PR & PR\_SD  & ... & BLOCK FXN & \#Label \\
+				\hline
+				0 & 20 &  2 &  0 & 0.5  & ... & 0 & \#first selex age \\
+				0 & 20 &  5 &  2 & 0.5  & ... & 0 & \#first age peak selex (mean) \\
+				0 & 20 &  5 &  2 & 0.5  & ... & 0 & \#last age peak selex (mean) \\
+				-1  &  2 & -0.001 & -0.001 & 0.5  & ... & 0 & \#male ln(ratio) \\
+				-10 & 10 & -8.1   &  -8.1 & 0.5  & ... & 0 & \#female ln(selex) change 1\\
+				-10 & 10 & -4.1   & -4.1 & 0.5  & ... & 0 & \#female ln(selex) change 2\\
+				-10 & 10 & -1.8   & -1.8 & 0.5  & ... & 0 & \#female ln(selex) change 3\\
+				-1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 1\\
+				-1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 2\\
+				-1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 3\\
+				\hline
+			\end{longtable}
+		\end{center}	
 \end{description}
 
 
@@ -2061,11 +2148,11 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
 \subsection{Using Time-Varying Parameters}
  The approach to allowing parameters to have time-varying values has been completely overhauled in the transition from SS v.3.24 to SS v.3.30.  Fortunately, the sstrans.exe will do the conversion for you, but you should review the new control file closely before simply running with it, especially for time-varying catchability parameters.
  \\\\
- \noindent \textbf{Motivation}:  In SS v.3.24, the group of biology parameters (termed MGparm) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient.  The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block.  The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks.  The tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
+ \noindent \textbf{Motivation}:  In SS v.3.24, the group of biology parameters (termed MGparm) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient.  The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block.  The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks.  Then finally, the tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
  \\\\
- \noindent \textbf{New Code Flow}:  In SS v.3.30, MG, Sel, SRR, Q, and Tag base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time series of the parameter value that are used as SS subsequently loops through the years.
+ \noindent \textbf{New Code Flow}:  In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
  \\\\
- \noindent \textbf{New Parameter Order}: The order of parameters has changed and the re-ordering is handled by the sstrans.exe.  Previously, for each of MG and Sel parameters all environmental link parameters were listed first, then block/trend parameters and then deviaiton parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if MG base parameters 3 and 7 had time varying changes, the order would look like:
+ \noindent \textbf{New Parameter Order}: The order of parameters has changed and the re-ordering is handled by the sstrans.exe.  Previously, for each of mortality-growth and selectivity parameters all environmental link parameters were listed first, then block/trend parameters and then deviation parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
  
  \begin{center}
  	\begin{longtable}{p{5cm} p{10cm}}
@@ -2085,7 +2172,7 @@ If the number of numbers-at-age bins to be output is >0, then read a vector of a
  
 \noindent \textbf{Link Functions}:  The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$.  Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter.  Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function.  So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options.  But as 3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
 
-The table below shows the link specifications in SS v.3.24 and the corresponding link specification in SS v.3.30.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the firs to three numbers with the environmental index to use specified by two additional numbers. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
+The table below shows the link specifications in SS v.3.24 and the corresponding link specification in SS v.3.30.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the first of three numbers with the environmental index to use specified by two additional numbers. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
 
 The new available options for time-varying parameters in SS v3.30 are described below (the options available in v.3.24 are provided for comparison):
 \begin{itemize}
@@ -2108,7 +2195,7 @@ The new available options for time-varying parameters in SS v3.30 are described 
 		\item 1 = multiplicative
 		\item 2 = additive
 		\item Random walk options are now implemented by using rho in the objective function
-		\item This column was previously called "Use Deviation. Previously available options in SS v.3.24
+		\item This column was previously called "Use Deviation". Previously available options in SS v.3.24 for comparison were:
 		\begin{itemize}
 			\item 1: multiplicative
 			\item 2: additive
@@ -2129,15 +2216,16 @@ The new available options for time-varying parameters in SS v3.30 are described 
 	\item Deviation Phase - Element 12 in parameter setup
 		\begin{itemize}
 			\item integer, this available element in the long parameter line is now a deviation vector specific phase control
-			\item This column was previously called "Deviation Standard Error". Previously available options in SS v.3.24
+			\item This column was previously called "Deviation Standard Error". Previously available option in SS v.3.24, for comparison was:
 			\begin{itemize}
 				\item Standard deviation for deviations
 			\end{itemize}
 		\end{itemize}
-	\item Blocks - Element 13 in parameter setup
+	\item Blocks - Element 13 in parameter setup. Currently, there are four options for applying blocks:
+	
 		\begin{itemize}
 			\item >0: block index for parameter
-			\item -1: trend with final as offset from base parameter and offset values is in log space, also inflection year is in log space and the offset from log(0.5).
+			\item -1: trend with final as offset from base parameter and offset values is in log space, also inflection year is in log space and the offset from log(0.5).  
 			\begin{itemize}
 				\item Logistic approach to trend as offset from base parameter
 				\item Transform the base parameter
@@ -2174,9 +2262,7 @@ The new available options for time-varying parameters in SS v3.30 are described 
 		\end{itemize}
 \end{itemize}
 
-\begin{center}
-	\includegraphics{TimeVarying}
-\end{center}
+
 
 \subsection{Parameter Priors}
 Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log-likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log-likelihood, so they would have no gradient in the log-likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  The options for parameter priors are:
