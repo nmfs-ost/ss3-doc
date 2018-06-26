@@ -124,7 +124,7 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 
 
 \subsection{Fleet Definitions }
-\hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version 3.30 all fleets now have the same status within the model structure and each has a specified fleet type.  Available types are: catch fleet, bycatch only, or survey.  
+\hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version 3.30 all fleets now have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions).  Available types are: catch fleet, bycatch only, or survey.  
 
 \begin{center}
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{4cm} }
@@ -135,8 +135,8 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 		\#Fleet Type & Timing & Area & Catch Units & Catch Mult. & Fleet Name \\
 
 		\hline
-		1 & -1  & 1 & 1 & 0 & FISHERY1\\
-		3 & 0.5 & 1 & 2 & 0 & SURVEY1\\
+		1 & -1 & 1 & 1 & 0 & FISHERY1\\
+		3 &  1 & 1 & 2 & 0 & SURVEY1\\
 		\hline
 		
 	\end{tabular}
@@ -153,11 +153,38 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 
  \hypertarget{ObsTiming}{}
   \item[Timing]\hfill\\
-   Timing for data observation has been revised in v3.30.  Fishery fleets can either have a -1 which will indicate that catch occurred over the whole season or a user can specify specific timing for a fishery fleet by using 1007 which would indicate that catch was removed from the population mid-year. %Carryover from 3.24 approach, now superseded by real month input for data observations.
+   Timing for data observations has been revised in v3.30.
 	  \begin{itemize}
-	  	\item fishery = -1 treat as catch occurred over the whole season or a user can override this assumption by using the code 10XX (e.g 1007 would indicate that catch was removed mid-year in July).
-	  	\item survey = 0.50 assumes discrete removal of catch midseason.  Alternative option would to used specific timing corresponding to month of removal using code 10XX (e.g 1007 would indicate that catch was removed in July). 
+	  	\item fishery = -1 treat as catch occurred over the whole season or a user can override this assumption by using the code 10XX (e.g 1007 would indicate that catch was removed mid-year in July). Fishery fleets can either have a -1 which means that CPUE and composition observations default to using the total seasonal catch-at-age  and midseason length-at-age, or they can have a timing value of 1 (actually any positive value) in which case the expected value for CPUE and composition observations will be sampled at the time indicated by the month value associated with the observation.  If the -1 code is entered here, then individual observations (e.g., compositional data) can override the midseason default by entering the month as 1000+month.  For example, 1004.5 would be entered for a mid-April observation.
+	  	\item survey = 1 The fleet timing here for surveys is not used and only the month value with the observation is relevant (e.g., month specification in the indices of abundance or the month for composition data).  
 	  \end{itemize}
+
+	\begin{center}
+		\begin{tabular}{| p{2cm}| p{2cm}|  p{2cm}|  p{2cm}|  p{2cm}|  p{2cm}|  }
+			\multicolumn{6}{l}{Time steps in SSv3.30 can have finer granularity compared to previous versions}\\
+			\multicolumn{6}{l}{where season can be broken into subseason and the age-length key (ALK) can be }\\
+			\multicolumn{6}{l}{calculated multiple times over the course of a year:}\\
+			\hline
+			ALK & ALK* & ALK* & ALK & ALK* & ALK \\
+			\hline
+			Subseason 1 & Subseason 2 & Subseason 3 & Subseason 4 & Subseason 5 & Subseason 6 \\		
+			\hline		
+		\end{tabular}
+	\end{center}
+	
+	\begin{itemize}
+		\item Continuous Z for entire season;
+		\item Even number (min = 2) of subseasons per season (regardless of season duration);
+		\item Fishery bodywt uses mid subseason ALK;
+		\item SpawnBio has specified spawn\_timing (in months.fraction); uses closest ALK to that timing;
+		\item Survey timing is now observation-specific and specified in units of months.fraction (Apr 15 = 4.5);
+		\item Survey season and spawn season assigned at runtime based on month and on season duration(s);
+		\item Survey body weight and length composition uses closest ALK to survey timing;
+		\item ALK* only re-calculated when there is a survey that subseason;
+		\item Survey numbers calculated at survey timing using e-Z		
+	\end{itemize} 
+	  
+	  
   \item[Area]\hfill\\
   An integer value indicating the area in which a fleet operates.
   \item[Catch Units] \hfill\\
@@ -301,7 +328,7 @@ Indices are data that are compared to aggregate quantities in the model.  Typica
 			\item 32 = spawning biomass * exp(recruitment deviation), for a pre-recruit survey occurring before density-dependence
 			\item 33 = recruitment, age-0 recruits
 			\item 34 = depletion (spawning biomass/virgin spawning biomass)
-			\item 35 = survey of a deviation vector
+			\item 35 = survey of a deviation vector ($e(survey(y)) = f(parm\_dev(k,y))$), can be used for an environmental time-series with soft linkage to the index.
 		\end{itemize}
 	    For survey type 35, the selected deviation vector is specified in Q section of the control file. 
 	     
