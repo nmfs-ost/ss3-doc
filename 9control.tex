@@ -395,7 +395,6 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	   & 5 & Minimum age for age-specific \textit{k}\\
 	   & 7 & Maximum age for age-specific \textit{k}\\
 	   \hline
-	    
 
 	   0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.  \hyperlink{A1}{(\textit{click here for more information})}\\
 	   \hline
@@ -500,6 +499,10 @@ These parameters are only included in the control file if one of the ageing erro
 
 \noindent Code for implementing vectors of mean age' and standard deviation of age' within SS can be located in Appendix C. \hyperlink{AgeingError}{\textit{Click here for more information.}}
 
+\subsubsection{Sex ratio}
+The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish.  The parameter is specified in the fraction of female fish. The default option is a sex ratio of 0.50 with this parameter not being estimated.  Estimation of the sex ratio is a new feature within SS and should be done with care with the user checking that the answer is reflective of the data.  
+
+As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
 
 \subsubsection{Read Biology Parameters}
 \hypertarget{MGorder}{Next}, SS reads the MG parameters in generally the following order (may vary based on selected options):
@@ -1840,7 +1843,6 @@ Note that the male selectivity offsets currently cannot be time-varying (need to
 \subsubsection{Dirichlet Multinomial Error for Data Weighting}
 If the Dirichlet multinomial error distribution was selected in the data file for either length or age data weighting an additional parameter line is required immediately following the selectivity parameter block. 
 
-\pagebreak
 \begin{center}
 	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.5cm} p{4.3cm}}
 		\hline
@@ -2217,86 +2219,70 @@ The new available options for time-varying parameters in SS v3.30 are described 
 	\item Environmental Link and  Variance - Element 8 in parameter setup
 		\begin{itemize}
 			\item Parsing: Link = value / 100; Env\_var = value - Link*100
-			\item Link = 1: $P'=P*e^{L1*env}$
-			\item Link = 2: $P'=P+L1*env$
+			\item Link = 1: Exponential environmental link ($P'=P*e^{L1*env}$)
+			\item Link = 2: Linear environmental link ($P'=P+L1*env$)
 			\item Link = 3: Reserved for density dependence
-			\item Link = 4: Logistic $P'=P*\frac{2}{1+e^-L1*(env-L2)}$
-			\item Previously available options in SS v.3.24
-			\begin{itemize}
-				\item >0: multiplicative
-				\item <0: additive
-				\item abs(value): environmental index
-			\end{itemize}
+			\item Link = 4: Logistic MGparm environmental link ($P'=P*\frac{2}{1+e^-L1*(env-L2)}$)
 		\end{itemize}
+		
 	\item Deviation Link - Element 9 in parameter setup
 	\begin{itemize}
 		\item 1 = multiplicative
 		\item 2 = additive
 		\item Random walk options are now implemented by using rho in the objective function
-		\item This column was previously called "Use Deviation". Previously available options in SS v.3.24 for comparison were:
-		\begin{itemize}
-			\item 1: multiplicative
-			\item 2: additive
-			\item 3: additive random walk
-			\item 4: mean reverting random walk
-		\end{itemize}
 	\end{itemize}
+	
 	\item Deviation  Minimum Year - Element 10 in parameter setup
 		\begin{itemize}
 			\item Year for deviations to start for parameter
-			\item This column remains the same as specified in SS v.3.24
 		\end{itemize}
+		
 	\item Deviation  Maximum Year - Element 11 in parameter setup
 		\begin{itemize}
 			\item Year for deviations to end for parameter
-			\item This column remains the same as specified in SS v.3.24
 		\end{itemize}
+		
 	\item Deviation Phase - Element 12 in parameter setup
 		\begin{itemize}
 			\item integer, this available element in the long parameter line is now a deviation vector specific phase control
-			\item This column was previously called "Deviation Standard Error". Previously available option in SS v.3.24, for comparison was:
-			\begin{itemize}
-				\item Standard deviation for deviations
-			\end{itemize}
 		\end{itemize}
+		
 	\item Blocks - Element 13 in parameter setup. Currently, there are four options for applying blocks:
-	
 		\begin{itemize}
 			\item >0: block index for parameter
-			\item -1: trend with final as offset from base parameter and offset values is in log space, also inflection year is in log space and the offset from log(0.5).  
-			\begin{itemize}
-				\item Logistic approach to trend as offset from base parameter
-				\item Transform the base parameter
-				\begin{equation}
-					temp = -0.5*log\Bigg(\frac{MGparm_1(j,2)-MGparm_1(j,1)+0.0000002}{MGparm(j)-MGparm_1(j,1)+0.0000001}-1\Bigg)
-				\end{equation}
-				\item Add the offset.  Note, that offset values in in the transform space.
-				\begin{equation}
-					temp += MGparm(k+1)
-				\end{equation}
-				\item Back transform
-				\begin{equation}
-					temp1 = MGparm_1(j,1)+\frac{MGparm_1(j,2)-MGparm_1(j,1)}{1+e^{-2*temp}}
-				\end{equation}			
-			\end{itemize}
-			\item -2: trend with final as standalone value
-			\item -3 end value is a fraction of base parameter maximum - minimum; inflection year is fraction of end year - start year.
-			\item <= -4: cycle with on parameter per season
-			\item Previously available options in SS v.3.24
-			\begin{itemize}
-				\item >0: block index for parameter
-				\item -1: trend with final as offset from base parameter and offset value in log space
-				\item -2: trend with final as stand alone value
-				\item <= -3: cycle with one parameter per season
-			\end{itemize}
+			\item -1: trend with final as offset from base parameter and offset values is in log space, also inflection year is in log space and the offset from log(0.5). No additional parameter lines are required.  Three parameters will be estimated; end trend parameter value logistic offset, inflection year logistic offset, and slope.
+			\item -2: trend with final as standalone value. No additional parameter lines are required. Three parameters will be estimated; end trend parameter value, inflection year, and slope.
+			\item -3 end value is a fraction of base parameter maximum - minimum; inflection year is fraction of end year - start year. No additional parameter lines are required. Three parameters will be estimated; end trend parameter value as a fraction, inflection year as a fraction, and slope.
+			%\item <= -4: cycle with on parameter per season
 		\end{itemize}
+		
 	\item Block Functional Form: Element 14 in parameter setup
 		\begin{itemize}
 			\item 0: multiplicative 
 			\item 1: additive
 			\item 2: replace
 			\item 3: random walk across blocks
-			\item This column remains the same as specified in SS v.3.24
+			\item 4: mean reverting random walk
+		\end{itemize}
+\end{itemize}
+
+Additional information regarding the options for applying blocks (element 13):
+\begin{itemize} 
+	\item -1: Trend with final as offset
+		\begin{itemize}
+			\item Logistic approach to trend as offset from base parameter
+			\item Transform the base parameter
+			\begin{equation}
+				temp = -0.5*log\Bigg(\frac{MGparm_1(j,2)-MGparm_1(j,1)+0.0000002}{MGparm(j)-MGparm_1(j,1)+0.0000001}-1\Bigg)
+			\end{equation}
+			\item Add the offset.  Note, that offset values in in the transform space.
+			\begin{equation}
+				temp += MGparm(k+1)
+			\end{equation}
+			\item Back transform
+			\begin{equation}
+				temp1 = MGparm_1(j,1)+\frac{MGparm_1(j,2)-MGparm_1(j,1)}{1+e^{-2*temp}}
+			\end{equation}			
 		\end{itemize}
 \end{itemize}
 
