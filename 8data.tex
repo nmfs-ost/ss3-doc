@@ -462,20 +462,20 @@ If discard is being used, the input syntax is:
 This is the overall mean body weight or length across all selected sizes and ages.  This may be useful in situations where individual fish are not measured but mean weight is obtained by counting the number of fish in a specified sample, e.g. a 25 kg basket.  Observations can be  in terms of mean length by setting switching the partition code to a negative value (e.g. -0, -1, -2) rather than 0, 1, and 2 typically used with the mean body weight approach.
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
-		\multicolumn{6}{l}{\#Mean Body Weight Data Section}\\
+	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm}}
+		\multicolumn{7}{l}{\#Mean Body Weight Data Section}\\
 		\hline
 		%\\
-		1  & \multicolumn{5}{l}{Use mean body size data (0/1) } \\
+		1  & \multicolumn{6}{l}{Use mean body size data (0/1) } \\
 		\hline
-		30 & \multicolumn{5}{l}{\#Degrees of freedom for Student's t-distribution used to evaluate mean } \\
-		   & \multicolumn{5}{l}{\parbox{13cm }{ body weight deviation.  This is not a conditional input, must be here even if there are no mean body weight observations.}}\\
+		30 & \multicolumn{6}{l}{\#Degrees of freedom for Student's t-distribution used to evaluate mean } \\
+		   & \multicolumn{6}{l}{\parbox{13cm }{ body weight deviation.  This is not a conditional input, must be here even if there are no mean body weight observations.}}\\
 		\hline
-		\#Year & Month & Fleet & Partition & Observation & Standard Error \\
+		\#Year & Month & Fleet & Partition & Type & Observation & Standard Error \\
 		\hline
-		1990  & 7 & 1 & 0 & 4.0 & 0.95 \\
-		1990  & 7 & 1 & 0 & 1.0 & 0.95 \\
-		-9999 & 0 & 0 & 0 & 0   & 0 \\
+		1990  & 7 & 1 & 0 & 1 & 4.0 & 0.95 \\
+		1990  & 7 & 1 & 0 & 1 & 1.0 & 0.95 \\
+		-9999 & 0 & 0 & 0 & 0 & 0   & 0 \\
 		\hline
 	\end{tabular}
 \end{center}
@@ -494,8 +494,17 @@ This is the overall mean body weight or length across all selected sizes and age
 		%\item 11 = discarded catch in units of length
 		%\item 12 = retained catch in units of length
 	\end{itemize}
+	
+	\item[Type]\hfill\\
+		Specify the type of data:
+		\begin{itemize}
+			\item 1 = mean length
+			\item 2 = mean body weight
+		\end{itemize}
+		
 	\item[Observation - Units]\hfill\\
 	Units must correspond to the units of body weight, normally in kilograms, (or mean length in cm).  The expected value of mean body weight (or mean length) is calculated in a way that incorporates effect of selectivity and retention.
+	
 	\item[Error]\hfill\\
 	Error is entered as the CV of the observed mean body weight (or mean length)
 \end{description}
