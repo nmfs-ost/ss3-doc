@@ -231,7 +231,7 @@ Two parameters will be entered later for each growth pattern, area pair and seas
 	
 \end{itemize}
 
-%\pagebreak
+
 \subsubsection{Blocks}
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
@@ -267,7 +267,7 @@ When using time blocks, it is important to consider which parameters will affect
 
 Regardless of the block set-up approach, special consideration should be given regarding which parameter values are should be applied during forecast years.  The model will default to use all base parameter values during the forecast period.  However, there are controls in the forecast file which allow the user to specify specific parameter years to be applied during the forecast period for selectivity, relative F, and recruitment.  
 
-
+%For some reason the doc crashes without this pagebreak here...
 \pagebreak
 \subsubsection{Time-varying Parameter Controls}
 In SS v.3.30, several changes are introduced to the implementation of time-varying parameters.
@@ -320,7 +320,7 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 		  & & 3 = Read age specific M and do not do seasonal interpolation\\
 		  & & \multirow{1}{12cm}[-0.1cm]{4 = Read age specific and do seasonal interpolation, if appropriate}\\
 		\hline
-	   %\pagebreak
+
 	   \multicolumn{2}{l}{COND = 0} & No additional natural mortality controls \\
 		\hline
 		\multicolumn{2}{l}{COND = 1} & \\
@@ -462,7 +462,7 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	  \hline
 	\end{longtable}
 
-%\pagebreak
+
 \subsubsection{Parameter offset method}
 
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
@@ -1964,7 +1964,7 @@ Parameter Definitions:
 	\par Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, Stock Synthesis should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the  autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
 \end{description}
 
-\pagebreak
+
 \subsection{Tag Recapture Parameters}
 Specify if tagging data are being used:
 \begin{center}
@@ -2006,7 +2006,7 @@ Specify if tagging data are being used:
 \subsection{Variance Adjustment Factors}
 When doing iterative reweighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
 
-\pagebreak
+
 \begin{center}
 	\begin{longtable}{p{3cm} p{3cm} p{3cm} p{6.5cm} }
 
@@ -2068,7 +2068,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 
 The reading of the lambda values has been substantially altered with SS v3.  Instead of reading a matrix containing all the needed lambda values, SS now just reads those elements that will be given a value other than 1.0.  After reading the datafile, SS sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist.  So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS.  First read an integer for the number of changes.
 
-\pagebreak
+
 \begin{center}
 	\begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
 		\hline
@@ -2102,7 +2102,7 @@ The reading of the lambda values has been substantially altered with SS v3.  Ins
 \end{center}
 
 
-
+\pagebreak
 \subsection{Controls for Variance of Derived Quantities}
 Additional standard deviation reported may be selected.
 \begin{center}
@@ -2237,7 +2237,7 @@ The new available options for time-varying parameters in SS v3.30 are described 
 		\end{itemize}
 \end{itemize}
 
-Additional information regarding the options for applying blocks (element 13):
+\noindent \textbf{Blocks}:Additional information regarding the options for applying blocks (element 13):
 \begin{itemize} 
 	\item -1: Trend with final as offset
 		\begin{itemize}
