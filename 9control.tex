@@ -2106,12 +2106,12 @@ The reading of the lambda values has been substantially altered with SS v3.  Ins
 \subsection{Controls for Variance of Derived Quantities}
 Additional standard deviation reported may be selected.
 \begin{center}
-	\begin{longtable}{p{1cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.5cm} p{1.8cm}}
+	\begin{longtable}{p{1cm} p{1.3cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.4cm} p{1.4cm} p{1.4cm}}
 		\hline
 		1 & \multicolumn{8}{l}{0 = no additional std dev reporting, 1 = read values}\\
 		\multicolumn{2}{l}{COND > 0} & \multicolumn{7}{l}{If the above value is "0", then do not include any more entries.}\\
 		  & & \multicolumn{7}{l}{If the above value is "1", then read the 4 following lines:}\\
-		Selex Type & Len/Age & Year & Nselex Bins & Growth Pattern & Ngrowth ages & Area for Natage & NatAge year  & N ages to report\\
+		Selex Type & Len/Age /Both & Year & Nselex Bins & Growth Pattern & N growth ages & NatAge Area & NatAge year  & N Natage\\
 		\hline
 		1 & 1 & -1 & 5 & 1 & 5 & 1 & -1 & 5\\ 
 		\hline
@@ -2129,60 +2129,34 @@ Additional standard deviation reported may be selected.
 
 Where:
 \begin{itemize}
-	\item FLEET:  is the index of the fleet to be output.  A value of zero causes there to be no selectivity variance output;
-	\item LEN/AGE:  enter "1" to select length selectivity or "2" to select age selectivity.  There is no option to get the combined age selectivity that incorporates the size selectivity;
-	\item YEAR:  enter a value for the selected year, or enter -1 to get the selectivity in the end year
-	\item 	N Selectivity bins:  enter the number of bins for which selectivity will be output.  This number controls the number of items to be read below, even if the FLEET is set to zero.  In other words, the read occurs even if the effect of the read is disabled.
-	\item GROWTH PATTERN:  growth pattern is the number of the growth pattern to be output.  Enter "0" to get no variance output for size-at-age.   Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then standard deviation output of mean size-at-age is disabled.
+	\item Selex fleet:  is the index of the fleet to be output.  A value of zero causes there to be no selectivity variance output;
+	\item Len/Age/Both:  enter "1" to select length selectivity, "2" to select age selectivity, or "3" for both.  
+	
+	\item Year:  enter a value for the selected year, or enter -1 to get the selectivity in the end year
+	
+	\item 	N Selex bins:  enter the number of bins for which selectivity will be output.  This number controls the number of items to be read below, even if the Selex fleet is set to zero.  In other words, the read occurs even if the effect of the read is disabled. 
+	
+	\item Growth pattern:  growth pattern is the number of the growth pattern to be output.  Enter "0" to get no variance output for size-at-age.   Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then standard deviation output of mean size-at-age is disabled.
+	
 	\item 	N growth bins:  Number of ages for which size-at-age variance is requested.  This number controls the number of items to be read below, even if the growth pattern selection is set to zero.   In other words, the read occurs even if the effect of the read is disabled.
-	\item 	Area:  specifies the area for which output of numbers at age is requested.  A value of 0 disables this output.  A value of -1 requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each sex.
-	\item 	Year:  specifies the year for which numbers-at-age are output.  A value of -1 requests output for year equal to endyear+1, hence the year that starts the forecast period.
-	\item N numbers-at-age bins:  as with the N growth bins.
+	
+	\item 	Area for Natage:  specifies the area for which output of numbers at age is requested.  A value of 0 disables this output.  A value of -1 requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each sex.
+	
+	\item 	NatAge Year:  specifies the year for which numbers-at-age are output.  A value of -1 requests output for year equal to endyear+1, hence the year that starts the forecast period.
+	
+	\item N Natage bins:  as with the N growth bins.
 \end{itemize}
-For size selectivity, these are population bin numbers.  For age selectivity, they refer directly to age.  Entering a negative value for the first bin causes SS to self-generate an evenly spaced set.
 
+\pagebreak
 \begin{center}
-	\begin{tabular}{p{4cm} p{12cm}}
+	\begin{longtable}{p{2cm} p{13cm} }
 		\hline
-		5 10 16 22 27 38 46 & \#Vector with selectivity std bin picks (-1 in first bin to self generate)\\
+		\multicolumn{2}{l}{End of Control File Input}\\
+		\bfseries{999} & \#End of file\\
 		\hline
-	\end{tabular}
-\end{center}
-If the number of growth bins to be output is >0, then read a vector of ages to be output.  Entering a negative value for the first bin causes SS to self-generate a set that begins at AFIX, ends at Nages, and is denser at younger ages.
-\begin{center}
-	\begin{tabular}{p{4cm} p{12cm}}
-		\hline
-		1 2 14 26 40 & \#Vector with growth std bin picks (-1 in first bin to self generate)\\
-		\hline
-	\end{tabular}
-\end{center}
-If the number of numbers-at-age bins to be output is >0, then read a vector of ages to be output.  Entering a negative value for the first bin causes SS to self-generate a set that begins at 1, ends at Nages, and is denser at younger ages.
-\begin{center}
-	\begin{tabular}{p{4cm} p{12cm}}
-		\hline
-		1 2 14 26 40 & \#Vector with n-at-age std bin picks (-1 in first bin to self generate)\\
-		\hline
-	\end{tabular}
-\end{center}
-
-\begin{center}
-	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{3.5cm}}
-
-		\multicolumn{10}{l}{So a complete input looks like:}\\
-		\hline
-		1 & & \multicolumn{8}{l}{\# 0 = no additional input, 1 = read stdev reporting lines}\\
-		\hline
-		\multicolumn{10}{l}{COND > 0}\\
-		& 1 & 1 & -1 & 5 & 1 & 5 & 1 & -1 & 5 \\
-		& 5 & 16 & 27 & 38 & 46 & \multicolumn{4}{l}{\#Vector with selectivity std bin picks}\\
-		& 1 & 2 & 14 & 26 & 40 & \multicolumn{4}{l}{\#Vector with growth std bin picks}\\
-		& 1 & 2 & 14 & 26 & 40 & \multicolumn{4}{l}{\#Vector with n-at-age std bin picks}\\
-		\hline
-		\\
-		\multicolumn{10}{l}{End Control File Input}\\
-		\bfseries{999} & \multicolumn{9}{l}{\#End of file}
 	\end{longtable}
 \end{center}
+
 
 \hypertarget{TVpara}{}
 \subsection{Using Time-Varying Parameters}
