@@ -322,23 +322,19 @@ Indices are data that are compared to aggregate quantities in the model.  Typica
 			\item 	Note the “F” option can only be used for a fishing fleet and not for a survey, even if the survey selectivity is mirrored to a fishing fleet.  The values of these effort data are interpreted as proportional to the level of the fishery F values.  No adjustment is made for differentiating between continuous F values versus exploitation rate values coming from Pope’s approximation.  A normal error structure is recommended so that the input effort data are compared directly to the model’s calculated F, rather than to loge(F).  The resultant proportionality constant has units of 1/Q. The options for units are:	
 		\end{itemize}
 		\item >=30 special survey types.  These options bypass the calculation of survey selectivity so no selectivity parameters should be entered and especially not estimated.  The expected values for these types are:
-		\begin{itemize}
+		\begin{enumerate}
 			\item 30 = spawning biomass (e.g. for an egg and larvae survey)
 			\item 31 = exp(recruitment deviation), useful for environmental index affecting recruitment
 			\item 32 = spawning biomass * exp(recruitment deviation), for a pre-recruit survey occurring before density-dependence
 			\item 33 = recruitment, age-0 recruits
-			\item 34 = depletion (spawning biomass/virgin spawning biomass)
-			\item 35 = survey of a deviation vector ($e(survey(y)) = f(parm\_dev(k,y))$), can be used for an environmental time-series with soft linkage to the index.
-		\end{itemize}
-	    For survey type 35, the selected deviation vector is specified in Q section of the control file. 
-	     
-	    \setlength{\parindent}{25pt}
-	    Special survey option 34 automatically adjusts phases of parameters.  There are options for additional control over this in the control file Q setup section under the link information column where:
-	    \begin{itemize}
-		    \item 0 = add 1 to phases of all parameters; only R0 active in new phase 1; mimics the default option of previous model versions
-		    \item 1 = only R0 active in phase 1; then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters.  Essentially, this option allows SS to mimic DB-SRA. 
-		    \item 2 = no phase adjustments, can be used when profiling on fixed R0
-	    \end{itemize}
+			\item 34 = depletion (spawning biomass/virgin spawning biomass). Special survey option 34 automatically adjusts phases of parameters.  There are options for additional control over this in the control file Q setup section under the link information column where:
+			\begin{itemize}
+			    \item 0 = add 1 to phases of all parameters; only R0 active in new phase 1; mimics the default option of previous model versions
+			    \item 1 = only R0 active in phase 1; then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters.  Essentially, this option allows SS to mimic DB-SRA. 
+			    \item 2 = no phase adjustments, can be used when profiling on fixed R0
+			\end{itemize}
+			\item 35 = survey of a deviation vector ($e(survey(y)) = f(parm\_dev(k,y))$), can be used for an environmental time-series with soft linkage to the index. The selected deviation vector is specified in Q section of the control file. The index of the dev vector to which the index is related is specified in the 2nd column of the Q setup table (see \hyperlink{Qsetup}{\textit{Catchability}}).
+		\end{enumerate}
 	\end{itemize}
 	
 	\item[Error Distribution]\
