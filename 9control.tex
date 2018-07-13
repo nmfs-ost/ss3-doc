@@ -356,9 +356,13 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 \subsubsection{Growth}
 \begin{description}
 	\item [Timing] - When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin.  The fish then grow linearly until they reach a real age equal to the input value “growth\textunderscore age\textunderscore for\textunderscore L1” and have a size equal to the parameter value for L1.  As they age further, they grow according the selected growth equation.  The growth curve is calibrated to go through the size L2 when they reach the age “Growth\textunderscore age\textunderscore for\textunderscore L2”.
+	
 	\item  [Linf] - If “Growth\textunderscore age\textunderscore for\textunderscore L2” is set equal to 999, then the size L2 is used as Linf.  If MGparm\textunderscore def option = 1 (direct estimate, not offsets), then setting a male growth or natural mortality parameter value to 0.0 and not estimating it will cause SS to use the corresponding female parameter value for the males. This check is done on a parameter, by parameter basis and is probably most useful for setting male L1 equal to female L1, then letting males and females have separate K and Linf parameters.
+	
 	\item[Schnute growth function] - The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow type field.  Then a fourth parameter is read after reading the von Bertalanffy K parameter.  When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
+	
 	\item[Mean size-at-maxage] - The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age AND the mortality rate of fish after they reach max age.  SS provides an option for the mortality rate to use in this calculation during the initial equilibrium year.  This must be specified by the user and should be reasonably close to M plus initial F.  In SS v.3.30, this uses the von Bertalanffy growth out to 3*nages and decays the numbers at age by exp(-value set here). For subsequent years of the time series, SS should update the size-at-maxage according to the weighted average mean size of fish already at max age and the size of fish just graduating into max age.  Unfortunately, this updating is only happening in years with time-varying growth.  Hope to fix that in the future.
+	
 	\item[Age-specific K] - This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex.  The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current aged's multiplier.  Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
 \end{description}
 
@@ -370,6 +374,8 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	     & & 1 = von Bertalanffy (2 parameters)\\
 	     & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters.  Third parameter has null value of 1.0. \\
 	     & & 3 = von Bertalanffy with age-specific \textit{k} multipliers for specified range of ages\\
+	     & & 4 = age specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier. \\
+	     & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier. \\
 	   \hline
 
 	   1.66 & & Growth Amin (A1): Reference age for first size-at-age parameter (\hyperlink{A1}{\textit{click here for more information}})\\
@@ -479,7 +485,7 @@ C_{adj} = C_{exp} * c_{mult}
 \noindent where $C_{exp}$ is the expected catch from the fishing mortality and $c_{mult}$ is the catch multiplier. It has year-specific, not season-specific, time-varying capabilities.  In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{adj}$ before being compared to the observed retained catch, so $C_{adj}$ value of 1.1 means that the observed catch is 10\% greater than modeled catch.
 
 \subsubsection{Ageing Error Parameters}
-These 7 parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition.  Although these are input with full parameter lines (with inherent time-varying capability), the time-varying updating has not been implemented. The 7 parameters are:
+These parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition). As of version 3.30.12, these parameters now have time-varying capability. Seven additional full parameter lines are required. The parameter lines specify:
 \begin{itemize}
 	\item age at which the estimated pattern begins (just linear below this age).  This is “start age”
 	\item bias at start age (as additive offset from unbiased age’)
