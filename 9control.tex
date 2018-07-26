@@ -1314,24 +1314,25 @@ The currently defined selectivity patterns, and corresponding required number of
 		  &   &  \\
 		Pattern & N Parameters & Description \\
 		\hline
-		0 & 0 & Selectivity equals 1.0 for all sizes \\
-		1 & 2 & Logistic \\
-		2 & 8 & Discontinued: Double logistic with defined peak (uses IF joiners). Use pattern \#8 instead.\\
+		0 & 0 & Selectivity = 1.0 for all sizes. \\
+		1 & 2 & Logistic selectivity.\\
+		2 & 8 & Discontinued: Double logistic with defined peak (uses IF joiners). Use pattern 8 instead.\\
 		3 & 6 & Discontinued \\
-		4 & 0 & Discontinued: Set size selectivity equal to female fecundity. Use pattern \#30 instead.\\
+		4 & 0 & Discontinued: Set size selectivity equal to female fecundity. Use special survey pattern 30 located in the index section within the data file instead.\\
 		5 & 2 & Mirror another selectivity. The two parameters select bin range.\\
 		6 & 2 + special value & Non-parametric \\
 		7 & 8 & Discontinued: Double logistic with defined peak, uses smooth joiners; special = 1 causes constant selectivity above Linf for morph 1.  Use pattern \#8.\\
-		8 & 8 & Double logistic, with defined peak, uses smooth joiners; special=1 causes constant selectivity above Linf for morph 1.  \\
+		8 & 8 & Double logistic, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1.  \\
 		9 & 6 & Simple double logistic with no defined peak.\\
 		15 & 0 & Mirror another selectivity (same as for age selectivity).\\
+		21 & 1 + special value  & Non-parametric size selectivity\\
 		22 & 4 & Double normal; similar to CASAL.\\
-		23 & 6 & Same as the double normal pattern \#24 except the final selectivity is now directly interpreted as the terminal selectivity value.\\
+		23 & 6 & Same as the double normal pattern 24 except the final selectivity is now directly interpreted as the terminal selectivity value. Cannot be used with Pope's F method because maximum selectivity may be greater than 1.\\
 		24 & 6 & Double normal with defined initial and final selectivity level – Recommended option.  Test using SELEX-24.xls. \\
-		25 & 3 & Exponential-logistic \\
-		27 & 3 + 2*N nodes & Cubic spline \\
-		42 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
-		43 & 4 + special value & Selectivity pattern 6 with user-defined scaling \\
+		25 & 3 & Exponential-logistic. \\
+		27 & 3 + 2*N nodes & Cubic spline with N nodes. \\
+		42 & 5 + 2*x & Selectivity pattern 27 but with 2 additional scaling parameters. \\
+		43 & 4 + x & Selectivity pattern 6 but with 2 additional scaling parameters.\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1356,21 +1357,22 @@ The currently defined selectivity patterns, and corresponding required number of
 		   &   &  \\
 		Pattern & N Parameters & Description \\
 		\hline
-		10 & 0 & Age selectivity = 1.0 for all ages beginning at age 1.  If it is desired that age-0 fish be selected, then use pattern \#11 and set minimum age to 0.0. \\
-		11 & 2 & Pick min-max age\\
-		12 & 2 & Logistic\\
-		13 & 8 & Double logistic, IF joiners.  Use discouraged.  Use pattern \#18 instead.\\
-		14 & nages + 1 & Each age, value at age is $\frac{1}{1+exp(-x)}$ \\
-		15 & 0 & Mirror another selectivity\\
+		0  & 0 & Selectivity = 1.0 for ages 0+.\\
+		10 & 0 & Selectivity = 1.0 for all ages beginning at age 1.  If it is desired that age-0 fish be selected, then use pattern \#11 and set minimum age to 0.0. \\
+		11 & 2 & Selectivity = 1.0 for a specified age range.\\
+		12 & 2 & Logistic selectivity.\\
+		13 & 8 & Double logistic, IF joiners.  Use discouraged.  Use pattern 18 instead.\\
+		14 & nages + 1 & Separate parameter for each age (empirical), value at age is $\frac{1}{1+exp(-x)}$. \\
+		15 & 0 & Mirror another age-specific selectivity pattern.\\
 		16 & 2 & Coleraine single Gaussian\\
-		17 & nages + 1 & Each age as random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \\
+		17 & nages + 1 & Empirical as a random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \\
 		18 & 8 & Double logistic, with defined peak, uses smooth joiners.  \\
 		19 & 6 & Simple double logistic with no defined peak.\\
 		20 & 6 & Double normal with defined initial and final level.  Recommended option. Test using SELEX-24.xls.\\
-		26 & 3 & Exponential logistic\\
-		27 & 3 + 2*N nodes & Cubic Spline\\
-		41 & 2 + nages + 1 & Selectivity pattern 17 with user-defined scaling \\
-		42 & 5 + 2*N nodes & Selectivity pattern 27 with user-defined scaling \\
+		26 & 3 & Exponential logistic.\\
+		27 & 3 + 2*N nodes & Cubic spline in age based on N nodes.\\
+		41 & 2 + nages + 1 & Selectivity pattern 17 but with 2 additional scaling parameters. \\
+		42 & 5 + 2*N nodes & Selectivity pattern 27 but with 2 additional scaling parameters. \\
 		44 & 4 + nages & Similar to age selectivity pattern 17 but with separate parameters for males and with revised controls \\
 		45 & 4 + nages & Similar to age selectivity pattern 14 but with separate parameters for males and with revised controls \\
 		\hline
@@ -1384,7 +1386,7 @@ The currently defined selectivity patterns, and corresponding required number of
 
 \subsubsection{Selectivity Pattern Details}
 \begin{description}
-	\item[Pattern \#1 (size) and \#12 (age) - Simple Logistic]\hfill\\
+	\item[Pattern 1 (size) and 12 (age) - Simple Logistic]\hfill\\
 	Within SS logistic selectivity for the primary sex (if selectivity varies by sex) is formulated as:
 	\begin{equation}
 	S_l = \frac{1.0}{1+exp(-ln(19)(L_l - p1)/p2)}
@@ -1398,18 +1400,18 @@ The currently defined selectivity patterns, and corresponding required number of
 
 
 \begin{description}
-	\item[Pattern \#5 (size) - Mirror Selectivity]\hfil\\
+	\item[Pattern 5 (size) - Mirror Selectivity]\hfil\\
 	Two parameters select the min and max bin number (not min max size) of the source pattern.  If first parameter has value <=0, then interpreted as a value of 1 (e.g. first bin).  If second parameter has value <=0, then interpreted as nlength (e.g. last bin). The source pattern must have a lower type number
 \end{description}	
 
 
 \begin{description}
-	\item[Pattern \#6 (size) - Non-parametric Selectivity]\hfil\\
+	\item[Pattern 6 (size) - Non-parametric Selectivity]\hfil\\
 	Non-parametric size selectivity uses a set of linear segments.  The first waypoint is at Length = p1 and the last waypoint is at Length = p2.  The total number of waypoints is specified by the value of the Special factor in the selectivity set-up, so the N intervals is one less than the number of waypoints.  Intermediate waypoints are located at equidistant intervals between p1 and p2.  Parameters 3 to N are the selectivity values at the waypoints, entered as logistic, e.g. $1/(1+exp(-x))$.  Ramps from –10 to p3 if L<p1.  Constant at pN if L>p2.  Note that prior to version 3.03 the waypoints were specified in terms of bin number, rather than length.
 \end{description}
 
 \begin{description}
-	\item[Pattern \#8 (size) and \#18 (age) - Double Logistic]\hfil
+	\item[Pattern 8 (size) and 18 (age) - Double Logistic]\hfil
 	\begin{itemize}
 		\item  p1 – PEAK:  size (age) for peak. Should be an integer and should be at bin boundary and not estimated.  But options 7 and 18 may allow estimation.
 		\item p2 – INIT:  selectivity at lengthbin=1 (minL) or age=0.
@@ -1423,8 +1425,8 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#14 (age) - Revise Age]\hfil\\
-	Age-selectivity pattern \#14 to allow selectivity-at-age to be the same as selectivity at the next younger age.  When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. SS calculates the age-based selectivity as where $a = 1$ to $a = Amax + 1$:
+	\item[Pattern 14 (age) - Revise Age]\hfil\\
+	Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age.  When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. SS calculates the age-based selectivity as where $a = 1$ to $a = Amax + 1$:
 	\begin{equation}
 		 \begin{split}
 		 temp = 9 - max(p(a))\\
@@ -1434,7 +1436,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#17 (age) - Random Walk]\hfill\\
+	\item[Pattern 17 (age) - Random Walk]\hfill\\
 	This selectivity pattern provides for a random walk in ln(selectivity).  For each age $a \geq A_{\text{min}}$, where $A_{\text{min}}$ is the minimum age for which selectivity is allowed to be non-zero, there is a selectivity parameter, $p_a$, controlling the changein selectivity from age $a-1$ to age $a$.
 	
 	The selectivity at age $a$ is computed as
@@ -1474,7 +1476,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#9 (size) and \#19 (age) - Simple Double Logistic with no defined peak]\hfil
+	\item[Pattern 9 (size) and 19 (age) - Simple Double Logistic with no defined peak]\hfil
 	\begin{itemize}
 		\item p1 - INFL1:  ascending inflection size (in cm)
 		\item p2 – SLOPE1:  ascending slope
@@ -1486,7 +1488,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#22 (size) - Double Normal with Plateau]\hfil
+	\item[Pattern 22 (size) - Double Normal with Plateau]\hfil
 	\begin{itemize}
 		\item p1 – PEAK1:  beginning size for the plateau (in cm)
 		\item p2 – PEAK2:  ending size for the plateau.  Calculated as a fraction of the distance between PEAK1 and 99\% of the lower edge of the last size bin in the model.  Transformed as (1/(1+exp(-p2)).   So a value of 0 results in PEAK2 being halfway between PEAK1 and 99\% of the last bin
@@ -1496,43 +1498,43 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern\#23 (size) and \#24 (size) - Double Normal Selectivity]\hfil
+	\item[Pattern 23 (size) and 24 (size) - Double Normal Selectivity]\hfil
 	\begin{itemize}
 		\item p1 – PEAK:  beginning size for the plateau (in cm)
 		\item p2 – TOP:  width of plateau, as logistic between PEAK and MAXLEN
 		\item p3 – ASC-WIDTH:  parameter value is ln(width)
 		\item p4 – DESC-WIDTH:  parameter value is ln(width)
 		\item p5 – INIT:  selectivity at first bin, as logistic between 0 and 1.
-		\item p6 – FINAL: selectivity at last bin, as logistic between 0 and 1.  (for pattern \#24) or
-		\item p6 – FINAL: selectivity at last bin, as absolute value, so can be >1.0.  (for pattern \#23).  Warning:  Do not allow this value to go above 1.0 if the F\_method uses Pope’s approximation.  OK to go above 1.0 when F is in exponential form.  When this parameter is above 1.0, the overall selectivity pattern will have an intermediate plateau at 1.0 (according to peak and top), then will ascend further to the final value.
+		\item p6 – FINAL: selectivity at last bin, as logistic between 0 and 1.  (for pattern 24) or
+		\item p6 – FINAL: selectivity at last bin, as absolute value, so can be >1.0.  (for pattern 23).  Warning:  Do not allow this value to go above 1.0 if the F\_method uses Pope’s approximation.  OK to go above 1.0 when F is in exponential form.  When this parameter is above 1.0, the overall selectivity pattern will have an intermediate plateau at 1.0 (according to peak and top), then will ascend further to the final value.
 	\end{itemize}
 	Notes for Double Normal Selectivity:
 	\begin{itemize}
 		\item See spreadsheet SELEX-24.xls for parameterization example.
-		\item For the initial selectivity parameter (\#5)
+		\item For the initial selectivity parameter (parameter 5)
 		\begin{itemize}
 			\item -999 or –1000:   ignore the initial selectivity algorithm and simply decay the small fish selectivity according to P3,
 			\item < -1000:  ignore the initial selectivity algorithm as above and then set selectivity equal to 1.0e-06 for size bins 1 through bin =  -1001 –value.  So a value of –1003 would set selectivity to a nil level for bins 1 through 2 and begin using the modeled selectivity in bin 3.
 		\end{itemize}
-		\item For the final selectivity parameter (\#6)
+		\item For the final selectivity parameter (parameter 6)
 		\begin{itemize}
-			\item -999 or –1000:   ignore the final selectivity algorithm and simply decay the large fish selectivity according to parameter \#4,
+			\item -999 or –1000:   ignore the final selectivity algorithm and simply decay the large fish selectivity according to parameter 4,
 			\item <-1000:  set selectivity constant for bins greater than bin number =  -1000 – value.
 		\end{itemize}
 	\end{itemize}
-	Selectivity pattern \#24, double normal, showing sub-functions and steep logistic joiners:
+	Selectivity pattern 24, double normal, showing sub-functions and steep logistic joiners:
 	\begin{center}
 		\includegraphics{DoubleNormal}
 	\end{center}
 \end{description}
 
 \begin{description}
-	\item[Pattern \#15 (age) - Mirror]\hfil\\
+	\item[Pattern 15 (age) - Mirror]\hfil\\
 	No parameters.  Whole age range is mirrored from a user-specified fleet.
 \end{description}
 
 \begin{description}
-	\item[Pattern \#16 - Gaussian (similar to Coleraine)]\hfil
+	\item[Pattern 16 - Gaussian (similar to Coleraine)]\hfil
 	\begin{itemize}
 		\item p1 – age below which selectivity declines
 		\item p2 – scaling factor for decline
@@ -1540,7 +1542,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#9 (size) and \#19 (age) - Simple Double Logistic]\hfil
+	\item[Pattern 9 (size) and 19 (age) - Simple Double Logistic]\hfil
 	\begin{itemize}
 		\item p1 – ascending inflection age/size
 		\item p2 – ascending slope
@@ -1553,7 +1555,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#25 (size) and \#26 (age) - Exponential logistic]\hfil
+	\item[Pattern 25 (size) and 26 (age) - Exponential logistic]\hfil
 	\begin{itemize}
 		\item p1 – ascending rate, min: 0.02, max: 1.0, reasonable start value:  0.1
 		\item p2 – peak, as fraction of way between min size and max size.  Parameter min value:  0.01; max:  0.99; reasonable start value:  0.5
@@ -1570,7 +1572,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#27 (size and age)- Cubic Spline]\hfil\\
+	\item[Pattern 27 (size and age)- Cubic Spline]\hfil\\
 	This selectivity pattern uses the ADMB implementation of the cubic spline function. This function requires input of the number of nodes, the positions of those nodes, the parameter values at those nodes, and the slope of the function at the first and last node.  In SS, the number of nodes is specified in the “special” column of the selectivity set-up.  The pattern number 27 is used to invoke cubic spline for size selectivity and for age selectivity; the input syntax is identical.\\
 	\\
 	For a 3 node setup, the SS input parameters would be:
@@ -1634,7 +1636,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#41 (age) - Random Walk with User-Defined Scaling]\hfil\\
+	\item[Pattern 41 (age) - Random Walk with User-Defined Scaling]\hfil\\
 	Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{center}
@@ -1650,7 +1652,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#42 (size and age) - Cubic Spline with User-Defined Scaling]\hfil\\
+	\item[Pattern 42 (size and age) - Cubic Spline with User-Defined Scaling]\hfil\\
 	Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{center}
@@ -1666,7 +1668,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#43 (size) - Non-parametric with User-Defined Scaling]\hfil\\
+	\item[Pattern 43 (size) - Non-parametric with User-Defined Scaling]\hfil\\
 	Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 	
 	\begin{center}
@@ -1682,8 +1684,8 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-	\item[Pattern \#44 (age)]\hfill\\
-	Similar to pattern \#17 but with separate parameters for males and females. This selectivity pattern provides for a random walk in ln(selectivity).  In typical usage:
+	\item[Pattern 44 (age)]\hfill\\
+	Similar to pattern 17 but with separate parameters for males and females. This selectivity pattern provides for a random walk in ln(selectivity).  In typical usage:
 	\begin{itemize}
 		\item p1 - First parameter (for age 0) could have a value of -1000 so that the age 0 fish would get a selectivity of 0.0.
 		\item p2 - The first age for which mean selectivity = 1.
@@ -1727,8 +1729,8 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{description}
 
 \begin{description}
-\item[Pattern \#45 (age) - Revise Age]\hfil\\
-Similar to pattern \#14 but with separate parameters for males and females. Age-selectivity pattern \#45 to allow selectivity-at-age to be the same as selectivity at the next younger age.  
+\item[Pattern 45 (age) - Revise Age]\hfil\\
+Similar to pattern 14 but with separate parameters for males and females. Age-selectivity pattern 45 to allow selectivity-at-age to be the same as selectivity at the next younger age.  
 	\begin{itemize}
 		\item p1 - is the first age with non-zero selectivity.
 		\item p2 - The first age in mean for peak selectivity
