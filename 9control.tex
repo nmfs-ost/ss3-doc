@@ -113,7 +113,7 @@ In most cases, the description in the Definition column is the same as the label
 		%\hline
 		\pagebreak
 		2 & & N growth patterns (GP)\\
-		& & These are collections of fish with unique biological characteristics (growth, M, wt-len, reproduction.)  The GP x sex x settlement\_events constitute unique morphs that are tracked in SS.  They are assigned these characteristics at birth and retain them throughout their lifetime.  At recruitment, morph members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing morph to recruit predominately in a southern areas and a slow-gorwing morph to a northern area.  The natural mortality and growth parameters are specified for each growth pattern in the MG parameters section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N.\\
+		& & These are collections of fish with unique biological characteristics (growth, M, wt-len, reproduction.)  The GP x sex x settlement\_events constitute unique morphs that are tracked in SS.  They are assigned these characteristics at birth and retain them throughout their lifetime.  At recruitment, morph members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing morph to recruit predominately in a southern areas and a slow-growing morph to a northern area.  The natural mortality and growth parameters are specified for each growth pattern in the MG parameters section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N.\\
 		\hline
 		3 & & Number of platoons within a morph.\\
 		& & This allows exploration of size-dependent survivorship. A value of 1 will not create additional platoons.  Odd-numbered values of 3 - 5 will break the overall morph into that number of platoons.  More platoons slows model execution, so values above 5 not advised.  The fraction of each morph assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for that growth pattern x sex.\\
@@ -152,7 +152,7 @@ In SS v.3.30, more control of the seasonal timing is provided and there now is a
 \begin{description}
 	\item[Recruitment timing and settlement]\
 	\begin{itemize}
-		\item Recruitment happens in specified settlement events (growth\_pattern, Month, Area);
+		\item Recruitment happens in specified settlement events (growth pattern, Month, Area);
 		\item Number of unique settlement timings calculated at runtime;
 		\item Now there is explicit elapsed time between spawning and recruitment;
 		\item Growth and natural mortality of the platoon begins at time of settlement, which is its real age 0.0 for growth; but pre-settlement fish exist from the beginning of the season of settlement, so can be caught if selected;
@@ -185,7 +185,7 @@ The distribution of recruitment among these settlement events is controlled by r
 	\hline		
 	1 & & Recruitment distribution method.  \\
 		& &  This section controls which combinations of GP x area x settlement will get a portion of the total recruitment coming from each spawning.  \\
-		& &  Options: 1 = use the 3.24 or earlier setup, 2 = main effects for GP, settle timing, and area, 3 = each settle entity.\\
+		& &  Options: 1 = use the 3.24 or earlier setup; 2 = main effects for GP, settle timing, and area; 3 = each settle entity; 4=no parameters (only if GP x settle x area=1).\\
 	\hline
 	1 & & Spawner-Recruitment: 1 = global, 2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing)\\
 	\hline
@@ -2183,19 +2183,35 @@ Where:
  	\end{longtable}
  \end{center}
  
-\noindent \textbf{Link Functions}:  The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$.  Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter.  Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function.  So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options.  But as 3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
+\noindent \textbf{Link Functions}:  The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$.  Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter.  Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function.  So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options.  But as v.3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
 
-The table below shows the link specifications in SS v.3.24 and the corresponding link specification in SS v.3.30.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the first of three numbers with the environmental index to use specified by two additional numbers. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
+The link specifications in SS v.3.30 has been updated from v.3.24.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the first of three numbers with the environmental index to use specified by two additional numbers. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
 
-The new available options for time-varying parameters in SS v3.30 are described below (the options available in v.3.24 are provided for comparison):
+The new available options for time-varying parameters in SS v3.30 are described below:
 \begin{itemize}
 	\item Environmental Link and  Variance - Element 8 in parameter setup
 		\begin{itemize}
-			\item Parsing: Link = value / 100; Env\_var = value - Link*100
-			\item Link = 1: Exponential environmental link ($P'=P*e^{L1*env}$)
-			\item Link = 2: Linear environmental link ($P'=P+L1*env$)
-			\item Link = 3: Reserved for density dependence
-			\item Link = 4: Logistic MGparm environmental link ($P'=P*\frac{2}{1+e^-L1*(env-L2)}$)
+			\item New approach to the coding of the link type (MGparm\_envtype) and environmental variable (MGparm\_envuse) being linked to: %Parsing: Link = value / 100; Env\_var = value - Link*100
+			\begin{itemize}
+				\item 100 - 199  to indicate one parameter multiplicative link, with the environmental variable found by subtracting 100.  For example, a value of 102 would create a multiplicative linkage to environmental variable "2". %Link = 1: Exponential environmental link ($P'=P*e^{L1*env}$)
+				\item 200 - 299  for one parameter additive linkage %Link = 2: Linear environmental link ($P'=P+L1*env$)
+				\item 400 - 499  for  2 parameter logistic function %Link = 3: Reserved for density dependence
+				\item etc. %Link = 4: Logistic MGparm environmental link ($P'=P*\frac{2}{1+e^-L1*(env-L2)}$)
+			\end{itemize}
+			\item where MGparm\_env is zero if no link else contains the parameter number of the first link parameter, MGparm\_envtype identifies the form of the linkage, some of which take more than one link parameter, MGparm\_envuse identifies the ID of the environmental time series being linked to the integer values of MGparm\_envtype are created when parsing the input:
+			\begin{itemize}
+				\item k=int(MGparm\_1(f,8)/100); 
+				\item find the link code from the value read from the parameter line: MGparm\_envtype(f)=k;
+				\item MGparm\_envuse(f)=MGparm\_1(f,8)-k*100;
+			\end{itemize}
+			\item env\_data is a dvar\_matrix populated with the read environmental data for columns 1-N\_envvariables and derived quantities can be mapped to columns -1 to -4 to achieve density-dependence:
+			\begin{itemize}
+				\item -1;  for log(relative spawning biomass);
+				\item -2;  for recdev;
+				\item -3;  for log(relative summary biomass) (e.g. smrybio/smrybio in initial equilibrium);
+				\item -4;  for log(relative summary numbers).
+			\end{itemize}
+			\item So, environmental input 103 would use link type 1 and apply it to environmental data column 3 and environmental input -103  would use link type 1 and apply it to the "-3" column which is log(relative summary biomass).
 		\end{itemize}
 		
 	\item Deviation Link - Element 9 in parameter setup
