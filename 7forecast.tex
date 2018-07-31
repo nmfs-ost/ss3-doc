@@ -5,15 +5,17 @@ The specification of options for forecasts is contained in the mandatory input f
 	
   \centerline{\large{FORECAST.SS}} 
 	\vspace{0.25in}
-	
+  {
+  \setlength\extrarowheight{4pt}	
   \begin{longtable}{p{3.2cm} p{7cm} p{10.8cm}} 
 		
 		\hline
-		Typical Value & Options & Description\\ 
+		Typical Value & Options & Description\Tstrut\Bstrut\\ 
 		\hline
 		\endfirsthead
 		
-		Typical Value & Options & Description\\ 
+    \hline
+		Typical Value & Options & Description\Tstrut\Bstrut\\ 
 		\hline
 		\endhead
 		
@@ -21,213 +23,216 @@ The specification of options for forecasts is contained in the mandatory input f
 		\endfoot
 		
 		\hline
-		\multicolumn{3}{ c }{End of Forecast File}\\
-		\hline
+		%\multicolumn{3}{ c }{End of Forecast File}\\
+		%\hline
 		\endlastfoot
 		
 
- 1 & Benchmarks/Reference Points & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SS checks for consistency of the Forecast specification and the benchmark specification.  It will turn benchmarks on if necessary and report a warning. Please \hyperlink{Benchmark}{\textit{click here for more information}}}}\\
+ 1 & Benchmarks/Reference Points & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SS checks for consistency of the Forecast specification and the benchmark specification.  It will turn benchmarks on if necessary and report a warning. Please \hyperlink{Benchmark}{\textit{click here for more information}}}}\Tstrut\\
    & 0 = omit & \\
    & 1 = calculate F\textsubscript{SPR}, F\textsubscript{Btarget}, and F\textsubscript{MSY} & \\
-   & 2 = calculate F\textsubscript{SPR}, F\textsubscript{Btarget}, F\textsubscript{MSY}, F\textsubscript{0.10} & \\ 
+   & 2 = calculate F\textsubscript{SPR}, F\textsubscript{Btarget}, F\textsubscript{MSY}, F\textsubscript{0.10} & \Bstrut\\ 
    
  \hline
- 1 & MSY Method &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Specifies basis for F\textsubscript{MSY}.}}\\
+ 1 & MSY Method &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Specifies basis for F\textsubscript{MSY}.}}\Tstrut\\
    & 1 = F\textsubscript{SPR} as proxy & \\
    & 2 = calculate F\textsubscript{MSY} & \\
    & 3 = F\textsubscript{Btarget} as proxy or F\textsubscript{0.10}& \\
-   & 4 = F\textsubscript{end year} as proxy& \\
+   & 4 = F\textsubscript{end year} as proxy & \Bstrut\\
 
 
  \hline
- 0.45 & SPR\textsubscript{target} &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{ SS searches for F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to unfished value.}} \\
+ 0.45 & SPR\textsubscript{target} &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ SS searches for F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to unfished value.}} \Tstrut\\
       & & \\
       & & \\
  
  \hline
- 0.40 & Relative Biomass Target & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{ SS searches for F multiplier that will produce this level of spawning biomass relative to unfished value.  This is not “per recruit” and takes into account the spawner-recruitment relationship.}} \\
-      & & \\
-      & & \\
-      & & \\
+ 0.40 & Relative Biomass Target & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ SS searches for F multiplier that will produce this level of spawning biomass relative to unfished value.  This is not “per recruit” and takes into account the spawner-recruitment relationship.}} \Tstrut\\
+      & & \Bstrut\\
+      & & \Bstrut\\
   
  \hline
- 0 0 0 0 0 0 0 0 0 0 & Benchmark Years & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{ Requires 10 values, (1,2) beginning and ending years for biology (growth, natmort, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) SRparms for averaging years in calculating benchmark quantities}} \\
+ 0 0 0 0 0 0 0 0 0 0 & Benchmark Years & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Requires 10 values, (1,2) beginning and ending years for biology (growth, natmort, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) SRparms for averaging years in calculating benchmark quantities}} \Tstrut\\
   & -999: start year & \\
   & >0:   absolute year & \\
   & <= 0: year relative to end year & \\
-  & & \\
+
+
   
-  \hline
-  1 & Benchmark Relative F Basis &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{ Does not affect year range for selectivity and biology.}} \\
+  %\hline
+  1 & Benchmark Relative F Basis &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Does not affect year range for selectivity and biology.}} \Tstrut\\
     & 1 = use year range & \\
     & 2 = set range for relF same as forecast below & \\
     
-  \pagebreak
-  2 & Forecast & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{ This input is required but is ignored if benchmarks are turned off.  If F\textsubscript{MSY} is selected, it uses whatever proxy, e.g. F\textsubscript{SPR} or F\textsubscript{BTGT} is selected in the benchmark section.}} \\
+  %\pagebreak
+  \hline
+  2 & Forecast & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ This input is required but is ignored if benchmarks are turned off.  If F\textsubscript{MSY} is selected, it uses whatever proxy, e.g. F\textsubscript{SPR} or F\textsubscript{BTGT} is selected in the benchmark section.}} \Tstrut\\
     & 0 = none (no forecast years) & \\
     & 1 = use F\textsubscript{SPR} & \\
     & 2 = use F\textsubscript{MSY} & \\
     & 3 = use F\textsubscript{Btarget} or F\textsubscript{0.10} & \\
     & 4 = set to average F scalar for the forecast relative F years below & \\
-    & 5 = input annual F scalar & \\
+    & 5 = input annual F scalar & \Bstrut\\
     
   \hline
-  10 & N forecast years (must be >= 1) &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm }{ At least one forecast year now required which differs from version 3.24 that allowed zero forecast years.}} \\
-     & & \\
+  10 & N forecast years (must be >= 1) &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ At least one forecast year now required which differs from version 3.24 that allowed zero forecast years.}} \Tstrut\\
+     & & \Bstrut\\
      
   \hline
-  1 & F scalar & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar).}}\\
-  & & \\
+  1 & F scalar & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar).}}\Tstrut\Bstrut\\
   
   \hline
-  0 0 0 0 0 0 & Forecast Years &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Requires 6 values:  beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts.  In future, hope to allow random effects to propagate into forecast.  \\NOTE:  Relative F for bycatch only fleets is scaled just like other fleets.  More options for this in future.}}\\
+  0 0 0 0 0 0 & Forecast Years &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Requires 6 values:  beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts.  In future, hope to allow random effects to propagate into forecast.  \\NOTE:  Relative F for bycatch only fleets is scaled just like other fleets.  More options for this in future.}}\Tstrut\\
     & >0 = absolute year & \\
     & <= 0 = year relative to end year & \\
-    \\
-    \\  \\
- \hline   
- 0 & Forecast Selectivity Option & Determines the selectivity used in the forecast years. \\
-   & 0 = forecast selectivity is mean from year range & \\
-   & 1 = forecast selectivity from annual time-varying parameters & \\
+    & & \\ 
+    & & \Bstrut\\  
 
- \pagebreak
+ \pagebreak   
  %\hline   
- 1 & Control Rule & \\
+ 0 & Forecast Selectivity Option & Determines the selectivity used in the forecast years. \Tstrut\\
+   & 0 = forecast selectivity is mean from year range & \\
+   & 1 = forecast selectivity from annual time-varying parameters & \Bstrut\\
+
+ %\pagebreak
+ \hline   
+ 1 & Control Rule & \Tstrut\\
    & 1 = catch as function of SSB, buffer on F & \\
    & 2 = F as function of SSB, buffer on F & \\
    & 3 = catch as function of SSB, buffer on catch & \\
-   & 4 = F is a function of SSB, buffer on catch & \\
+   & 4 = F is a function of SSB, buffer on catch & \Bstrut\\
  \hline
  
- 0.40 & Control Rule Upper Limit & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) above which F is constant at control rule F\textsubscript{target}.}} \\
-   &  & \\
+ 0.40 & Control Rule Upper Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) above which F is constant at control rule F\textsubscript{target}.}} \Tstrut\\
+   &  & \Bstrut\\
  
  \hline
- 0.10 & Control Rule Lower Limit & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) below which F is set to 0.}} \\
-   &  & \\
+ 0.10 & Control Rule Lower Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) below which F is set to 0.}} \Tstrut\\
+   &  & \Bstrut\\
  
  \hline
- 0.75 & Control Rule Buffer & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Control rule F\textsubscript{target} as a fraction of selected F\textsubscript{MSY} proxy. Note, if using Pope's F, then this value will be applied to the catch rather than the F.  Model's that use either continuous F or the hybrid F will apply this value directly to the F.  Future versions will allow a user to specify whether the adjustment should be applied to either the catch or F independent of the fishing mortality method selected.}} \\ 
+ 0.75 & Control Rule Buffer & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Control rule F\textsubscript{target} as a fraction of selected F\textsubscript{MSY} proxy. Note, if using Pope's F, then this value will be applied to the catch rather than the F.  Model's that use either continuous F or the hybrid F will apply this value directly to the F.  Future versions will allow a user to specify whether the adjustment should be applied to either the catch or F independent of the fishing mortality method selected.}} \Tstrut\\ 
   & & \\
   & & \\
   & & \\
   & & \\
-  & & \\ \\
+  & & \\
  
- %\pagebreak %
- \hline
+ \pagebreak %
+ %\hline
  
- 3 & Number of forecast loops (1,2,3) & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SS sequentially goes through the forecast up to three times.  Maximum number of forecast loops: 1=OFL only, 2=ABC control rule, 3=set catches equal to control rule or input catch and redo forecast implementation error.}} \\
- & & \\
- & & \\ \\
+ 3 & Number of forecast loops (1,2,3) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{SS sequentially goes through the forecast up to three times.  Maximum number of forecast loops: 1=OFL only, 2=ABC control rule, 3=set catches equal to control rule or input catch and redo forecast implementation error.}} \Tstrut\\
+ & & \Bstrut\\
+ & & \Bstrut\\
  
  \hline  
- 3 & First forecast loop with stochastic recruitment & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{If this is set to 1 or 2, then OFL and ABC will be as if there was perfect knowledge about recruitment deviations in the future. For additional information on forecast loops, \hyperlink{appendB}{\textit{click here for more information}} }} \\
+ 3 & First forecast loop with stochastic recruitment & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{If this is set to 1 or 2, then OFL and ABC will be as if there was perfect knowledge about recruitment deviations in the future. For additional information on forecast loops, \hyperlink{appendB}{\textit{click here for more information}} }} \Tstrut\\
    & & \\
-   & & \\
+   & & \Bstrut\\
  
- %\hline
- \pagebreak
- 0 & Forecast recruitment & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations).  \hyperlink{ForeSpawn}{\textit{Click here for more information}}}} \\
+ \hline
+ %\pagebreak
+ 0 & Forecast recruitment & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations).  \hyperlink{ForeSpawn}{\textit{Click here for more information}}}} \Tstrut\\
     & 0 = spawner recruit curve & \\
     & 1 = value*(spawner recruit curve) & \\
     & 2 = value*(virgin recruitment) & \\
     & 3 = recent mean from year range above & \\
     & & \\
-    & & \\
-    & & \\
+    & & \Bstrut\\
      
  \hline
- 1 & Scaler or N years recent main recruitments to average & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{This input depends upon option selected directly above.  If option 1 or 2 selected this value should be a scalar value to be applied to recruitment. If option 3 is selected above this should be input as the number of years to average recruitment.}} \\
+ 1 & Scaler or N years recent main recruitments to average & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{This input depends upon option selected directly above.  If option 1 or 2 selected this value should be a scalar value to be applied to recruitment. If option 3 is selected above this should be input as the number of years to average recruitment.}} \Tstrut\\
  & & \\
- & & \\
+ & & \Bstrut\\
  
  \hline
- 0 & Forecast loop control \#5 & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Reserved for future model features.}} \\
- & & \\
+ 0 & Forecast loop control \#5 & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Reserved for future model features.}} \Tstrut\Bstrut\\
+ %& & \\
  
  \hline
- 2015 & First year for caps and allocations & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \\
- & & \\
- 
+ 2015 & First year for caps and allocations & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \Tstrut\Bstrut\\
+
+ \pagebreak
  %\hline
- 0 & Implementation Error & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{The standard deviation of the log of the ratio between the realized catch and the target catch in the forecast. (set value >0.0 to cause implementation error devs to be an estimated parameter that will add variance to forecast).}} \\
+ 0 & Implementation Error & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The standard deviation of the log of the ratio between the realized catch and the target catch in the forecast. (set value >0.0 to cause implementation error devs to be an estimated parameter that will add variance to forecast).}} \Tstrut\\
    &   & \\
-   &   & \\ \\
+   &   & \\
+   &   & \Bstrut\\
  
+ %\pagebreak
  \hline
- 0 & Rebuilder &\multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Creates a rebuild.dat file to be used for West Coast groundfish rebuilder program.}} \\
+ 0 & Rebuilder &\multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Creates a rebuild.dat file to be used for West Coast groundfish rebuilder program.}} \Tstrut\\
    & 0 = omit West Coast rebuilder output & \\
-   & 1 = do West Coast rebuilder output & \\
+   & 1 = do West Coast rebuilder output & \Bstrut\\
    
  \hline
- 2004 & Rebuilder catch (Year Declared) & \\
+ 2004 & Rebuilder catch (Year Declared) & \Tstrut\\
       & >0 = year first catch should be set to zero & \\
-      & -1 = set to 1999 & \\
+      & -1 = set to 1999 & \Bstrut\\
       
- %\hline
- \pagebreak
- 2004 & Rebuilder start year (Year Initial) & \\
+ \hline
+ %\pagebreak
+ 2004 & Rebuilder start year (Year Initial) & \Tstrut\\
       & >0 = year for current age structure & \\
-      & -1 = set to end year +1 & \\
+      & -1 = set to end year +1 & \Bstrut\\
     
  \hline
- 1 & Fleet Relative F & \\
+ 1 & Fleet Relative F & \Tstrut\\
    & 1 = use first-last allocation year & \\
-   & 2 = read season(row) x fleet (column) set below & \\
+   & 2 = read season(row) x fleet (column) set below & \Bstrut\\
 
  \hline 
- 2 & Basis for maximum forecast catch &  \\
+ 2 & Basis for maximum forecast catch &  \Tstrut\\
    & 2 = total catch biomass & \\
    & 3 = retained catch biomass & \\
    & 5 = total catch numbers & \\
-   & 6 = retained total numbers & \\
+   & 6 = retained total numbers & \Bstrut\\
     
  \hline 
- \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F} \\
+ \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F} \Tstrut\\
  \multicolumn{1}{r}{0.1 0.8 0.1}  & Fleet allocation by relative F fraction & The fraction of the forecast F value.  For a multiple area model user must define a fraction for each fleet and each area.  The total fractions must sum to one over all fleets and areas.  Starting in version 3.3 this now also includes surveys which are treated similar to fleets.\\
-   &  &  Ex: \# Fleet 1  Fleet 2  Survey X (rows are seasons)\\ 
+   &  &  Ex: \# Fleet 1  Fleet 2  Survey X (rows are seasons) \Bstrut\\ 
 
   \hline
-  1 50 & Maximum total catch by fleet & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter fleet number and its max. Last line of the entry must have fleet number = -9999.}} \\
-  -9999 -1 & & \\
+  1 50 & Maximum total catch by fleet & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter fleet number and its max. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
+  -9999 -1 & & \Bstrut\\
   \hline
   
-  -9999 -1 & Maximum total catch by area & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter area number and its max. Last line of the entry must have area number = -9999.}} \\
-     & -1 = no maximum & \\
+  -9999 -1 & Maximum total catch by area & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter area number and its max. Last line of the entry must have area number = -9999.}} \Tstrut\\
+     & -1 = no maximum & \Bstrut\\
      
   \hline
-  1 1  & Fleet assignment to allocation group & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Enter list of fleet number and its allocation group number if it is in a group. Last line of the entry must have fleet number = -9999.}} \\
-  -9999 -1  & & \\ \\ 
+  1 1  & Fleet assignment to allocation group & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter list of fleet number and its allocation group number if it is in a group. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
+  -9999 -1  & &  \\ \Bstrut\\ 
     
-
-  \multicolumn{3}{l}{COND: if N allocation groups is >0 } \\
-  \multicolumn{1}{r}{2002 1}  & Allocation to each group for each year of the forecast & Enter a year and the allocation fraction to each group for that year.  SS will fill those values to the end of the forecast, then read another year from this list.  Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0. \\
-  \multicolumn{1}{r}{-9999 1} & & \\
-  
-  %\pagebreak
   \hline
-    -1 & Basis for forecast catch & \\
+  \multicolumn{3}{l}{COND: if N allocation groups is >0 } \Tstrut\\
+  \multicolumn{1}{r}{2002 1}  & Allocation to each group for each year of the forecast & Enter a year and the allocation fraction to each group for that year.  SS will fill those values to the end of the forecast, then read another year from this list.  Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0. \\
+  \multicolumn{1}{r}{-9999 1} & & \Bstrut\\
+  
+  \pagebreak
+  %\hline
+    -1 & Basis for forecast catch & \Tstrut\\
     & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below. & \\
     & 2 = Dead catch & \\
     & 3 = Retained catch & \\
-    & 99 = Input harvest rate (F) & \\
+    & 99 = Input harvest rate (F) & \Bstrut\\
     
   \hline
-  \multicolumn{1}{l}{COND: == -1 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\\
+  \multicolumn{1}{l}{COND: == -1 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch} \Tstrut\\
   \multicolumn{1}{r}{2012 1 1 1200 2}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
   \multicolumn{1}{r}{2013 1 1 1400 3}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
-  \multicolumn{1}{r}{-9999 1 1 0000 2}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \\
+  \multicolumn{1}{r}{-9999 1 1 0000 2}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
   \\
-  \multicolumn{1}{l}{COND: > 0 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\\
+  \multicolumn{1}{l}{COND: > 0 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\Tstrut\\
   \multicolumn{1}{r}{2012  1 1 1200}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value}  \\
   \multicolumn{1}{r}{2013  1 1 1200}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value}  \\
-  \multicolumn{1}{r}{-9999 1 1 0000}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \\
+  \multicolumn{1}{r}{-9999 1 1 0000}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
   
   \hline
-  999 & End of Input & \\
+  999 & End of Input & \Bstrut\\
 
-  \end{longtable}
+  \end{longtable}}  
 \end{landscape}
 
 \hypertarget{Benchmark}{}
