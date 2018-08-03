@@ -51,30 +51,46 @@ The primary role of the SS control file is to define the parameters to be used b
 \hypertarget{Prior}{} \hypertarget{paraOrder}{}
 \begin{center}
 	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
-		Column & Element & Description\\
 		\hline
-		1 & LO & Minimum value for the parameter\\
-		2 & HI & Maximum value for the parameter\\
-		3 & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
-		4 & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta).\\
-		5 & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. \\
-		6 & PRIOR TYPE  & 0 = none, 1 = symmetric beta, 2 = full beta, 3 = lognormal without bias adjustment ($Pr_{\text{like}} = 0.5((log(P_{\text{val}}) -Pr)/Pr_{\text{sd}})^2$), 4 = lognormal with bias adjustment ($Pr_{\text{like}} = 0.5((log(P_{\text{val}}) -Pr+0.5*Pr_{\text{sd}}^2)/Pr_{\text{sd}})^2$), 5 = gamma, 6 = normal \\
-		7 & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the PAR file).\\
+		Column & Element & Description \Tstrut\Bstrut\\
 		\hline
-		 & & \\
-		\multicolumn{3}{l}{\parbox{16cm}{Note that relative to SS v.3.24,  the order of Prior stdev and Prior type have been switched and the prior type options have been renumbered.
-		\\\\
-		Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
-		}}\\
-		 & & \\
+		1 & LO & Minimum value for the parameter\Tstrut\\
+		2 & HI & Maximum value for the parameter\Tstrut\\
+		3 \Tstrut & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
+		4 \Tstrut & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta).\\
+		5 \Tstrut & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0.\\
+		6 \Tstrut & PRIOR TYPE  & 0 = none, \\
+		& & 1 = symmetric beta, \\
+		& & 2 = full beta, \\
+		& & 3 = lognormal without bias adjustment, \\
+		%& & ($Pr_{\text{like}} = 0.5((log(P_{\text{val}}) -Pr)/Pr_{\text{sd}})^2$), \\
+		& & 4 = lognormal with bias adjustment, \\
+		%8 8 ($Pr_{\text{like}} = 0.5((log(P_{\text{val}}) -Pr+0.5*Pr_{\text{sd}}^2)/Pr_{\text{sd}})^2$), \\
+		& & 5 = gamma, \\
+		& & 6 = normal. \\
+		7 \Tstrut & PHASE & Phase in which parameter begins to be estimated.  A negative value causes the parameter to retain its INIT value (or value read from the ss.par file).\Bstrut\\
 		\hline
-		8  & Env Var \& Link & Create a linkage to an input environmental time-series\\
-		9  & Dev Link & Invokes use of the deviation vector in the linkage function \\
-		10 & Dev min yr & Beginning year for the deviation vector \\
-		11 & Dev max yr & Ending year for the deviation vector\\
-		12 & Dev Phase & Phase for estimation for elements in the deviation vector \\
-		13 & Block & Specify time block or trend to be applied \\
-		14 & Block Fxn & Function form for the block offset\\
+	\end{tabular}
+\end{center}
+
+Note that relative to SS v.3.24,  the order of Prior StDev and Prior Type have been switched and the Prior Type options have been renumbered.
+
+Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
+
+
+\hypertarget{Prior}{} \hypertarget{paraOrder}{}
+\begin{center}
+	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
+		\hline
+		Column & Element & Description \Tstrut\Bstrut\\
+		\hline
+		8  & Env Var \& Link & Create a linkage to an input environmental time-series\Tstrut\Bstrut\\
+		9  \Tstrut & Dev Link & Invokes use of the deviation vector in the linkage function \\
+		10 \Tstrut & Dev min yr & Beginning year for the deviation vector \\
+		11 \Tstrut & Dev max yr & Ending year for the deviation vector\\
+		12 \Tstrut & Dev Phase & Phase for estimation for elements in the deviation vector \\
+		13 \Tstrut & Block & Specify time block or trend to be applied \\
+		14 \Bstrut & Block Fxn & Function form for the block offset\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -83,16 +99,16 @@ The primary role of the SS control file is to define the parameters to be used b
 Where the term “COND” appears in the value column of this documentation (it does not actually appear in the control file), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions.
 In most cases, the description in the Definition column is the same as the label output to the control.ss\textunderscore new file.
 
-\subsection{Beginning of Control File Inputs:}
+\subsection{Beginning of Control File Inputs}
 \begin{center}
-
 	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-
-		\multicolumn{2}{l}{Typical Value} & Description and Options\\
+		\hline
+		\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
 		\hline
 		\endfirsthead
 
-		\multicolumn{2}{l}{Typical Value} & Description and Options\\
+		\hline
+		\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
 		\hline
 		\endhead
 
@@ -101,32 +117,34 @@ In most cases, the description in the Definition column is the same as the label
 
 		\endlastfoot
 
-		\multicolumn{2}{l}{\#C comment } & Comments beginning with \#C at the top of the file will be retained and included in output  \\
+		\multicolumn{2}{l}{\#C comment }\Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
 		\hline
 
-		0 & & 0 = do not read the wtatage.ss file \\
-		  & & 1 = read the wtatage.ss file, also read and use the growth parameters \\
-		  & & 2 = Future option to read the wtatage.ss file, then omit reading and using growth parameters and all length-based data\\
-		  & &   NOTE:  With version 3.04, SS added the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See the section on \hyperlink{WAA}{\textit{weight-at-age}} for additional information on file formatting for empirical weight-at-age.\\
-
+		0 & & 0 = do not read the wtatage.ss file, \Tstrut\\
+		  & & 1 = read the wtatage.ss file, also read and use the growth parameters, \\
+		  & & 2 = Future option to read the wtatage.ss file, then omit reading and using growth parameters and all length-based data.\Bstrut\\
 
 		%\hline
 		\pagebreak
-		2 & & N growth patterns (GP)\\
-		& & These are collections of fish with unique biological characteristics (growth, M, wt-len, reproduction.)  The GP x sex x settlement\_events constitute unique morphs that are tracked in SS.  They are assigned these characteristics at birth and retain them throughout their lifetime.  At recruitment, morph members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing morph to recruit predominately in a southern areas and a slow-growing morph to a northern area.  The natural mortality and growth parameters are specified for each growth pattern in the MG parameters section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N.\\
+		2 & & N growth patterns (GP)\Tstrut\\
+		& & These are collections of fish with unique biological characteristics (growth, M, wt-len, reproduction.)  The GP x Sex x Settlement Events constitute unique morphs that are tracked in SS.  They are assigned these characteristics at birth and retain them throughout their lifetime.  At recruitment, morph members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing morph to recruit predominately in a southern areas and a slow-growing morph to a northern area.  The natural mortality and growth parameters are specified for each growth pattern in the MG parameters section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N.\Bstrut\\
+
 		\hline
-		3 & & Number of platoons within a morph.\\
-		& & This allows exploration of size-dependent survivorship. A value of 1 will not create additional platoons.  Odd-numbered values of 3 - 5 will break the overall morph into that number of platoons.  More platoons slows model execution, so values above 5 not advised.  The fraction of each morph assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for that growth pattern x sex.\\
+		3 & & Number of platoons within a morph.\Tstrut\\
+		& & This allows exploration of size-dependent survivorship. A value of 1 will not create additional platoons.  Odd-numbered values of 3 - 5 will break the overall morph into that number of platoons.  More platoons slows model execution, so values above 5 not advised.  The fraction of each morph assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for that Growth Pattern x Sex. \Bstrut\\
 
-		\multicolumn{2}{l}{COND > 1}& \multicolumn{1}{l}{\parbox{12cm}{Following 2 lines are conditional on N platoons > 1}} \\
+		\multicolumn{2}{l}{COND > 1}& \multicolumn{1}{l}{\parbox{12cm}{Following 2 lines are conditional on N platoons > 1}} \Tstrut\Bstrut\\
 
-		& 0.7 & Platoon between/within stdev ratio. Ratio of the amount of variability in length-at-age between platoons to within platoons.\\
+		& 0.7 & Platoon between/within stdev ratio. Ratio of the amount of variability in length-at-age between platoons to within platoons.\Bstrut\\
 		%\hline
 
-		& 0.2 0.6 0.2 & Distribution among platoons. Enter custom vector or enter -1 to first value of vector to get a normal approximation: (0.15, 0.70, 0.15) for 3 platoons, (0.031, 0.237, 0.464, 0.237, 0.031) for 5 platoons.\\
+		& 0.2 0.6 0.2 & Distribution among platoons. Enter custom vector or enter -1 to first value of vector to get a normal approximation: (0.15, 0.70, 0.15) for 3 platoons, (0.031, 0.237, 0.464, 0.237, 0.031) for 5 platoons.\Bstrut\\
 		\hline
 	\end{longtable}
 \end{center}
+
+\subsubsection{Empirical Weight-at-Age}
+With version 3.04, SS added the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See the section on \hyperlink{WAA}{\textit{weight-at-age}} for additional information on file formatting for empirical weight-at-age.
 
 
 \subsubsection{Recruitment Timing and Distribution}
@@ -135,22 +153,23 @@ In older versions of SS one value of spawning biomass was calculated annually at
 In SS v.3.30, more control of the seasonal timing is provided and there now is an explicit time delta between spawning and recruitment. Spawning still occurs just once per year, but its timing can be at any specified time, not just the beginning of a season.  Recruitment of the progeny from an annual spawning enter the population in one or more settlement events.  
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{4cm}}
+	\begin{tabular}{p{3cm} p{2cm} p{2cm} p{7cm}}
 		\multicolumn{4}{l}{Example set-up where there are multiple settlement events:}\\
-		3 & \multicolumn{3}{l}{Number of recruitment settlement events}\\
-		0 & \multicolumn{3}{l}{Unused option}\\
 		\hline
-		Growth Pattern & Month & Area & Age (for each settlement assignment)\\
+		3 & \multicolumn{3}{l}{Number of recruitment settlement events}\Tstrut\\
+		0 & \multicolumn{3}{l}{Unused option}\Bstrut\\
 		\hline
-		1 & 11.0 & 1 & 0 \\
+		Growth Pattern & Month & Area & Age (for each settlement assignment)\Tstrut\Bstrut\\
+		\hline
+		1 & 11.0 & 1 & 0 \Tstrut\\
 		1 & 12.0 & 1 & 0 \\
-		1 & 1.0  & 1 & 1 \\
+		1 & 1.0  & 1 & 1 \Bstrut\\
 		\hline
 	\end{tabular}		
 \end{center}
 
 \begin{description}
-	\item[Recruitment timing and settlement]\
+	\item[Recruitment Timing and Settlement]\
 	\begin{itemize}
 		\item Recruitment happens in specified settlement events (growth pattern, Month, Area);
 		\item Number of unique settlement timings calculated at runtime;
@@ -163,8 +182,9 @@ In SS v.3.30, more control of the seasonal timing is provided and there now is a
 \end{description}
 
 The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each GP, then for each area, then for each settlement.  All of these are required, but only those GP x area x settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation.  For the recruitment apportionment, the parameter values are the ln(apportionment weight).  The sum of all apportionment weights is calculated for each pattern x area x settlements that have been designated to receive recruits in the recruitment design matrix.  Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. These distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular GP, area, or settlement can change from year to year. 
+
 \begin{description}
-	\item[Recruitment distribution parameters]\
+	\item[Recruitment Distribution Parameters]\
 	\begin{itemize}
 		\item SS processes the parameter values according to the following equation:
 		\begin{equation}
@@ -181,40 +201,76 @@ The distribution of recruitment among these settlement events is controlled by r
 	
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-	\multicolumn{2}{l}{Typical Value} & Description \\
-	\hline		
-	1 & & Recruitment distribution method.  \\
-		& &  This section controls which combinations of GP x area x settlement will get a portion of the total recruitment coming from each spawning.  \\
-		& &  Options: 1 = use the 3.24 or earlier setup; 2 = main effects for GP, settle timing, and area; 3 = each settle entity; 4=no parameters (only if GP x settle x area=1).\\
 	\hline
-	1 & & Spawner-Recruitment: 1 = global, 2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing)\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
 	\hline
-	1 & & Number of recruitment settlement assignments.  Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.\\
+	\endfirsthead
+
 	\hline
-	0 & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1)\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
 	\hline
-	\multicolumn{2}{l}{1 5.5 1 0}& Recruitment assignment to GP, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5) NOTE:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In 3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of 3.24 for testing purposes.
-	\\
+	\endhead
+
+	\hline
+	\endfoot
+
+	\endlastfoot
+
+	%\hline
+	%\multicolumn{2}{l}{Typical Value} & Description \Tstrut\Bstrut\\
+	%\hline		
+	1 \Tstrut & & Recruitment distribution method. This section controls which combinations of Growth Pattern x Area x Settlement will get a portion of the total recruitment coming from each spawning.  Options: \\
+	  & & 1 = use the 3.24 or earlier setup, \\
+	  & & 2 = main effects for GP, settle timing, and area, \\
+	  & & 3 = each settle entity, \\
+	  & & 4=no parameters (only if Growth Pattern x Settlement x Area = 1). \Bstrut\\
+
+	\hline
+	1 & & Spawner-Recruitment, options: \Tstrut\\
+	  & & 1 = global, \\
+	  & & 2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing).\Bstrut\\
+
+	\hline
+	1 \Tstrut & & Number of recruitment settlement assignments.  Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.\Bstrut\\
+
+	\hline
+	0 \Tstrut & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1). \Bstrut\\
+
+	\hline
+	\multicolumn{2}{l}{1 5.5 1 0} \Tstrut & Recruitment assignment to grwoth pattern, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5). Note:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In 3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of 3.24 for testing purposes.
+	\Bstrut\\
 	\hline
 \end{longtable}
 
 
 \subsubsection{Movement}
-Here we define movement among the areas.  This is a box transfer with no explicit adjacency of areas, so fish can move from any area to any other area in each time step.  
-Future Need:  augment the capability further to allow sex-specific movement, and also to allow some sort of mirroring so that sexes and growth patterns can share the same movement parameters if desired.
+Here we define movement among the areas.  This is a box transfer with no explicit adjacency of areas, so fish can move from any area to any other area in each time step.  Future Need:  augment the capability further to allow sex-specific movement, and also to allow some sort of mirroring so that sexes and growth patterns can share the same movement parameters if desired.
 
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-	\multicolumn{2}{l}{Typical Value} & Description \\
-	\hline	
-	\multicolumn{2}{l}{4} & \multicolumn{1}{l}{Enter Number of movement definitions, COND:  only if areas > 1}\\
-		
-		& 1.0 & \multirow{1}{12cm}{First age that moves. This value is a real number, not an integer, to allow for an in-year start to movement in a multi-season model.  It is the real age at the beginning of a season, even though movement does not occur until the end of the season.  For example, in a  setup with two 6-month seasons:  a value of 0.5 will cause the age 0 fish to not move when they complete their first 6 month season of life, and then to move at the end of their second season because they start movement capability when they reach the age of 0.5 years (6 months).} \\ \\ \\ \\ \\ \\ \\ \\ \\
-		& 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, morph, source area, destination age1, age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 controls specify the range over which the movement parameters are interpolated with movement costant below age1 and above age2.}}}\\
-		& 1 1 2 1 4 10 &  \\
-		& 1 2 1 2 4 10 &  \\
-		& 1 2 2 1 4 10 &  \\
-		\\ \\
-		%\hline
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endhead
+
+	\hline
+	\endfoot
+
+	\endlastfoot
+	
+	\multicolumn{3}{l}{COND:  only if areas > 1}\Tstrut\\ 
+	& 4   & Enter Number of movement definitions.\Tstrut\\		
+	\Tstrut & 1.0  & First age that moves. This value is a real number, not an integer, to allow for an in-year start to movement in a multi-season model.  It is the real age at the beginning of a season, even though movement does not occur until the end of the season. For example, in a  setup with two 6-month seasons a value of 0.5 will cause the age 0 fish to not move when they complete their first 6 month season of life, and then to move at the end of their second season because they start movement capability when they reach the age of 0.5 years (6 months). \\
+	\Tstrut & 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, morph, source area, destination age1, age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 controls specify the range over which the movement parameters are interpolated with movement costant below age1 and above age2.}}}\\
+	& 1 1 2 1 4 10 &  \Tstrut\\
+	& 1 2 1 2 4 10 &  \\
+	& 1 2 2 1 4 10 &  \Bstrut\\
+	\\ 
+	\hline
 	\end{longtable}
 
 Two parameters will be entered later for each growth pattern, area pair and season.   
@@ -227,26 +283,26 @@ Two parameters will be entered later for each growth pattern, area pair and seas
 	\text{rate}_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
 	\end{equation}
 	\item at least one movement parameter must be fixed so that all other movement parameters are estimated relative to it.  This is achieved naturally by not specifying the stay rate parameter so it has a fixed value of 0.0;
-	\item the resultant movement rates are multiplied by season duration in a seasonal model;
-	
+	\item the resultant movement rates are multiplied by season duration in a seasonal model;	
 \end{itemize}
 
 
-\subsubsection{Blocks}
+\subsubsection{Time Blocks}
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-		
-		\multicolumn{2}{l}{Typical Value} & Description and Options\\
+		\hline
+		\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
 		\hline
 		\endfirsthead
 		
-		3 & & \multirow{1}{4cm}[-0.1cm]{\parbox{12cm}{Number of block patterns. These patterns can be referred to in the parameter sections to create a separate parameter value for each block.}}\\
+		3 \Tstrut & & \multirow{1}{4cm}[-0.1cm]{\parbox{12cm}{Number of block patterns. These patterns can be referred to in the parameter sections to create a separate parameter value for each block.}}\\
 		\\
 		\\
+
 		\hline
-		\multicolumn{2}{l}{COND:} & \multicolumn{1}{l}{Following inputs are omitted if N Block patterns equals 0}\\
-		& \multirow{1}{2cm}[-0.1cm]{ 3 2 1 } & Blocks per pattern\\
-		\\
+		\multicolumn{2}{l}{COND > 0:} \Tstrut & \multicolumn{1}{l}{Following inputs are omitted if N Block patterns equals 0.}\\
+		& \multirow{1}{2cm}[-0.1cm]{ 3 2 1 } & Blocks per pattern\\ \\
+
 		& \multirow{1}{2cm}[-0.1cm]{1975 1985 1986 1990 1995 2001} & \multirow{3}{12cm}[-0.1cm]{Beginning and ending years for blocks in design 1; years not assigned to a block period retain the baseline value for a parameter that uses this pattern.}\\
 		\\
 		\\
@@ -254,7 +310,7 @@ Two parameters will be entered later for each growth pattern, area pair and seas
 		& \multirow{1}{2cm}[-0.1cm]{1987 1990 1995 2001} & \multirow{1}{12cm}[-0.1cm]{Beginning and ending years for blocks in design 2.}\\
 		\\
 		\\
-		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12cm}[-0.10cm]{Beginning and ending years for blocks in design 3.}\\
+		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12cm}[-0.10cm]{Beginning and ending years for blocks in design 3.}\Bstrut\\
 		\hline
 \end{longtable}
 
@@ -268,9 +324,9 @@ When using time blocks, it is important to consider which parameters will affect
 Regardless of the block set-up approach, special consideration should be given regarding which parameter values are should be applied during forecast years.  The model will default to use all base parameter values during the forecast period.  However, there are controls in the forecast file which allow the user to specify specific parameter years to be applied during the forecast period for selectivity, relative F, and recruitment.  
 
 %For some reason the doc crashes without this pagebreak here...
-\pagebreak
+%\pagebreak
 \subsubsection{Time-varying Parameter Controls}
-In SS v.3.30, several changes are introduced to the implementation of time-varying parameters.
+In SS v.3.30, several changes are introduced to the implementation of time-varying parameters:
 
 \begin{itemize}
   \item	Time-varying parameters for biology, spawner-recruitment, catchability, and selectivity are implemented using the same approach and share code.
@@ -280,15 +336,30 @@ In SS v.3.30, several changes are introduced to the implementation of time-varyi
 \end{itemize}	
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-     \multicolumn{2}{l}{Typical Value} & Description and Options\\
-     \hline
-	 1 & & \multirow{1}{6cm}[-0.1cm]{\parbox{12cm}{env/block/dev adjust method for all time-vary parameters (1=warning relative to base parameter bounds; 3=no bound check). Note: logistic bound check form previous SS versions (e.g., 3.24) is no longer an option.}}
-	\\ \\ \\ \\
-	\multicolumn{2}{l}{0 0 0 0 0} & Five values control auto-generation for:  1-biology, 2-spawnrecr, 3-catchability, 4-tag (future), 5-selectivity.\\
-	&			& The accepted values are:\\
-	&           & 0 to auto-generate all time-varying parameters;\\
-	& 			& 1 to read each time-varying parameter line;\\
-	&			& 2 to read each line and auto-generation if read value for parameter min = -12345 \\
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endhead
+
+	\hline
+	\endfoot
+
+	\endlastfoot
+
+	1 & & Environmental/Block/Deviation adjust method for all time-vary parameters. \Tstrut\\
+	  & & 1 = warning relative to baseparameter bounds, \\
+	  & & 3 = no bound check). Note: logistic bound check form previous SS versions (e.g., 3.24) is no longer an option.\Bstrut\\
+
+	\multicolumn{2}{l}{0 0 0 0 0} & Five values control auto-generation for: 1-biology, 2-spawnrecr, 3-catchability, 4-tag (future), 5-selectivity.\\
+	&			& The accepted values are:\Tstrut\\
+	&           & 0 = auto-generate all time-varying parameters,\\
+	& 			& 1 = read each time-varying parameter line,\\
+	&			& 2 = read each line and auto-generation if read value for parameter min = -12345. \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -300,64 +371,53 @@ Natural mortality (M) has some options that are referenced to integer age, and s
 Lorenzen natural mortality is based on the concept that natural mortality varies over the life cycle of a fish, which is driven by physiological and ecological processes.  So, natural mortality is scaled by the length of the fish.
 
 \begin{longtable}{p{0.5cm} p{2cm} p{12.75cm}}
+	\hline	
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
 
-		\multicolumn{2}{l}{Typical Value} & Description and Options\\
-		\hline
-		\endfirsthead
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
 
-		\multicolumn{2}{l}{Typical Value} & Description and Options\\
-		\hline
-		\endhead
+	\endfoot
+	
+	\endlastfoot
 
-		\endfoot
+	1 & & Natural Mortality Options:\Tstrut\\
+	  & & 0 = A single parameter,\\
+	  & & 1 = N breakpoints,\\
+	  & & 2 = Lorenzen, \\
+	  & & 3 = Read age specific M and do not do seasonal interpolation.\\
+	  & & 4 = Read age specific and do seasonal interpolation, if appropriate.\Bstrut\\
+	\hline
 
-		\endlastfoot
+	\multicolumn{2}{l}{COND = 0} & No additional natural mortality controls. \Tstrut\Bstrut\\
+	\hline
 
-		1 & & Natural Mortality Options:\\
-		  & & 0 = A single parameter\\
-		  & & 1 = N breakpoints\\
-		  & & 2 = Lorenzen \\
-		  & & 3 = Read age specific M and do not do seasonal interpolation\\
-		  & & \multirow{1}{12cm}[-0.1cm]{4 = Read age specific and do seasonal interpolation, if appropriate}\\
-		\hline
+	\multicolumn{2}{l}{COND = 1} & \Tstrut\Bstrut\\
+	& 4 & Number of breakpoints.  Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint.\\
 
-	   \multicolumn{2}{l}{COND = 0} & No additional natural mortality controls \\
-		\hline
-		\multicolumn{2}{l}{COND = 1} & \\
-	   & 4 & \multirow{1}{12cm}[-0.1cm]{Number of breakpoints.  Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint.}
-	   \\
-	   \\
-	   \\
-	   \\
-	   \\
-	   & 2.0 4.5 9.0 15.0 & Vector of age breakpoints \\
-	   \hline
-	   
-	   \multicolumn{2}{l}{COND = 2}& \\
-	   & 4 & \multirow{1}{12cm}[-0.1cm]{Reference age for Lorenzen Natural Mortality: read one additional integer value that is the reference age. Later read one parameter for each sex x GP that will be the M at the reference age.  Other ages will have an M scaled to its body size-at-age.  However, if platoons are used, all will have the same M as their growth pattern.  Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated.  So be careful in using Lorenzen when there is time-varying growth.}\\
-	   \\
-	   \\
-	   \\
-	   \\
-	   \\
-	   \\
-	   \\
-	   \\
-	   \hline
-	   
-	   \multicolumn{2}{l}{COND = 3 or 4} & \multirow{1}{12cm}[-0.1cm]{Do not read any natural mortality parameters.  With option 2, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.}\\
-	   \\
-	   \\
-	   \\
-	   & 0.20 0.25 ... 0.20 0.23 ... & \multirow{1}{12cm}[-0.1cm]{Age-specific M values: row 1 is female GP1, row 2 is female 2 GP2, row 3 is male GP1, etc.}\\
-	   \hline
+	\multicolumn{2}{r}{2.5 4.5 9.0 15.0} & Vector of age breakpoints. \Bstrut\\
+	\hline
+	
+	\multicolumn{2}{l}{COND = 2} & \Tstrut\\
+	& 4 \Tstrut & Reference age for Lorenzen Natural Mortality: read one additional integer value that is the reference age. Later read one parameter for each sex x growth pattern that will be the M at the reference age.  Other ages will have an M scaled to its body size-at-age.  However, if platoons are used, all will have the same M as their growth pattern.  Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated.  So be careful in using Lorenzen when there is time-varying growth.\\
+	\hline
+	
+	\multicolumn{2}{l}{COND = 3 or 4} \Tstrut & Do not read any natural mortality parameters.  With option 2, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.\\
+
+	& 0.20 0.25 ... 0.20 0.23 ... & Age-specific M values: row 1 is female growth pattern 1, row 2 is female 2 growth pattern 2, row 3 is male growth pattern1, etc.\Bstrut\\
+	\hline
 \end{longtable}
 
 \subsubsection{Growth}
 \begin{description}
-	\item [Timing] - When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin.  The fish then grow linearly until they reach a real age equal to the input value “growth\textunderscore age\textunderscore for\textunderscore L1” and have a size equal to the parameter value for L1.  As they age further, they grow according the selected growth equation.  The growth curve is calibrated to go through the size L2 when they reach the age “Growth\textunderscore age\textunderscore for\textunderscore L2”.
+	\item [Timing] - When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin.  The fish then grow linearly until they reach a real age equal to the input value “growth\_age\_for\_L1” and have a size equal to the parameter value for L1.  As they age further, they grow according the selected growth equation.  The growth curve is calibrated to go through the size L2 when they reach the age “Growth\_age\_for\_L2”.
 	
-	\item  [Linf] - If “Growth\textunderscore age\textunderscore for\textunderscore L2” is set equal to 999, then the size L2 is used as Linf.  If MGparm\textunderscore def option = 1 (direct estimate, not offsets), then setting a male growth or natural mortality parameter value to 0.0 and not estimating it will cause SS to use the corresponding female parameter value for the males. This check is done on a parameter, by parameter basis and is probably most useful for setting male L1 equal to female L1, then letting males and females have separate K and Linf parameters.
+	\item  [Linf] - If “Growth\_age\_for\_L2” is set equal to 999, then the size L2 is used as Linf.  If MGparm\_def option = 1 (direct estimate, not offsets), then setting a male growth or natural mortality parameter value to 0.0 and not estimating it will cause SS to use the corresponding female parameter value for the males. This check is done on a parameter, by parameter basis and is probably most useful for setting male L1 equal to female L1, then letting males and females have separate K and Linf parameters.
 	
 	\item[Schnute growth function] - The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow type field.  Then a fourth parameter is read after reading the von Bertalanffy K parameter.  When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
 	
@@ -368,111 +428,166 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-	   \multicolumn{2}{l}{Typical Value} & Description \\
-	   \hline
-	   1 & & Growth Model: \\
-	     & & 1 = von Bertalanffy (2 parameters)\\
-	     & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters.  Third parameter has null value of 1.0. \\
-	     & & 3 = von Bertalanffy with age-specific \textit{k} multipliers for specified range of ages\\
-	     & & 4 = age specific K. Set base \textit{k} as \textit{k} for age = nages and working backwards and the age-specific \textit{k} = \textit{k} for the next older age * multiplier. \\
-	     & & 5 = age specific \textit{k}. Set base \textit{k} as \textit{k} for nages and work backwards and the age-specific \textit{k} = base \textit{k} * multiplier. \\
-	   \hline
+	\hline	
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
 
-	   1.66 & & Growth Amin (A1): Reference age for first size-at-age parameter (\hyperlink{A1}{\textit{click here for more information}})\\
-	   \hline
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
 
-	   25 & & Growth Amax (A2): Reference age for second size-at-age parameter (999 to use as L infinity).\\
-	   \hline
-	   
-	   0.20 & & Exponential decay for growth above maximum age (fixed at 0.20 in 3.24; should approximate initial Z).   Setting value to -999 will replicate the simpler calculation done in SS v.3.24.\\
-	   \hline
-	   
-	   0   & & Placeholder for future growth feature. \\
-	   \hline
+	\endfoot
+	
+	\endlastfoot
 
-	   \multicolumn{2}{l}{COND >= 3} & Growth option age-specific \textit{k}\\
-	   2 & & Number of \textit{(k)} multipliers to read\\
-	   & 5 & Minimum age for age-specific \textit{k}\\
-	   & 7 & Maximum age for age-specific \textit{k}\\
-	   \hline
+	1 & & Growth Model: \Tstrut\\
+	  & & 1 = von Bertalanffy (2 parameters),\\
+	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters.  Third parameter has null value of 1.0, \\
+	  & & 3 = von Bertalanffy with age-specific \textit{k} multipliers for specified range of ages,\\
+	  & & 4 = age specific K. Set base \textit{k} as \textit{k} for age = nages and working backwards and the age-specific \textit{k} = \textit{k} for the next older age * multiplier, \\
+	  & & 5 = age specific \textit{k}. Set base \textit{k} as \textit{k} for nages and work backwards and the age-specific \textit{k} = base \textit{k} * multiplier.\Bstrut \\
+	\hline
 
-	   0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.  \hyperlink{A1}{(\textit{click here for more information})}\\
-	   \hline
+	\Tstrut 1.66 & & Growth Amin (A1): Reference age for first size-at-age parameter. \hyperlink{A1}{\textit{Click here for more information.}}\Bstrut\\
+	\hline
 
-	   1 & & CV Pattern \\
-	     & & 0: CV=f(LAA), so the 2 parameters are in terms of CV of the distribution of length-at-age and the interpolation between these 2 parameters is a function of mean length-at-age.\\
-	     & & 1: CV=f(A), so interpolation is a function of age.\\
-	     & & 2: SD=f(LAA), so parameters define the standard deviations of length-at-age and interpolation is a function of mean length-at-age.\\
-	     & & 3: SD=f(A) \\
-	     & & 4: Lognormal distribution of size-at-age.  Input parameters will specify the standard deviation of loge size at age.  E.g. entered values will typically be between 0.05 and 0.15.  A bias adjustment is applied so the lognormal distribution of size-at-age will have the same mean size as when a normal distribution is used.\\
-	   \hline
-	\end{longtable}
+	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age parameter (999 to use as L infinity).\Bstrut\\
+	\hline
+	
+	\Tstrut 0.20 & & Exponential decay for growth above maximum age (plus group: fixed at 0.20 in 3.24; should approximate initial Z).\\
+			     & & Alternative Options: \\
+			     & & -998 = Disable growth above maximum age (plus group) similar to earlier versions of SS (prior to SS v3.24),\\
+			     & & -999 = Replicate the simpler calculation done in SS v.3.24.\Bstrut\\
+	\hline
+	
+	0   & & Placeholder for future growth feature. \Tstrut\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{COND >= 3} & Growth option age-specific \textit{k} \Tstrut\\
+	2 & & Number of \textit{(k)} multipliers to read\\
+	& 5 & Minimum age for age-specific \textit{k}\\
+	& 7 & Maximum age for age-specific \textit{k}\Bstrut\\
+	\hline
+
+	\Tstrut 0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.  \hyperlink{A1}{\textit{Click here for more information.}}\Bstrut\\
+	\hline
+
+	1 & & CV Pattern \Tstrut\\
+	  & & 0: CV=f(LAA), so the 2 parameters are in terms of CV of the distribution of length-at-age and the interpolation between these 2 parameters is a function of mean length-at-age,\\
+	  & & 1: CV=f(A), so interpolation is a function of age,\\
+	  & & 2: SD=f(LAA), so parameters define the standard deviations of length-at-age and interpolation is a function of mean length-at-age,\\
+	  & & 3: SD=f(A), \\
+	  & & 4: Lognormal distribution of size-at-age.  Input parameters will specify the standard deviation of loge size at age.  E.g. entered values will typically be between 0.05 and 0.15.  A bias adjustment is applied so the lognormal distribution of size-at-age will have the same mean size as when a normal distribution is used.\Bstrut\\
+	\hline
+\end{longtable}
+
 
 \subsubsection{Maturity-Fecundity}
 
+\begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
+	\hline	
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
 
-\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-		\multicolumn{2}{l}{Typical Value} & Description \\
-		\hline
-	    2 & & Maturity Option: \\
-	     & & 1 = length logistic,\\
-	     & & 2 = age logistic,\\
-	     & & 3 = read age-maturity for each female GP\\
-	     & & 4 = read an empirical age-maturity vector for all ages\\
-	     & & NOTE: need to read 2 parameters even if option 3 or 4 is selected \\
-	   \hline
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
 
-	   \multicolumn{2}{l}{COND = 3 or 4} & Maturity Option\\
-	   & 0 0.05 0.10 ... & Vector of age-specific maturity or fecundity.  One row of length Nages + 1 for each female GP\\
-	   \hline
-	   
-	   1 & & First Mature Age: Overridden if maturity option is 3 or 4 or if empirical wtatage.ss is used, but still must exist here.  Otherwise, all ages below the first mature age will have maturity set to zero.\\
-	   \hline	  
+	\endfoot
+	
+	\endlastfoot
 
-	   1 & & Fecundity Option (irrelevant if maturity option is 4 or wtatage.ss is used):\\
-	     & & 1 = to  interpret the 2 egg parameters as linear eggs/kg on body weight (current SS default),  so fecundity = $wt * (a+b*wt)$, so value of a=1, b=0 causes eggs to be equivalent to spawning biomass.\\
-	     & & 2 = to set fecundity= $a*L^ b$\\
-	     & & 3 = to set fecundity= $a*W^ b$, so values of a=1, b=1 causes fecundity to be equiv to spawning biomass\\
-	     & & 4 = fecundity = $a+b*L$\\
-	     & & 5 = Eggs = $a+b*wt$\\
-	  \hline
-	\end{longtable}
+	2 & & Maturity Option: \Tstrut\\
+	  & & 1 = length logistic,\\
+	  & & 2 = age logistic,\\
+	  & & 3 = read age-maturity for each female growth pattern,\\
+	  & & 4 = read an empirical age-maturity vector for all ages,\\
+	  & & Note: need to read 2 parameters even if option 3 or 4 is selected.\Bstrut \\
+	\hline
+
+	\multicolumn{2}{l}{COND = 3 or 4} & Maturity Option\Tstrut\\
+	\multicolumn{2}{r}{0 0.05 0.10 ...} & Vector of age-specific maturity or fecundity.  One row of length Nages + 1 for each female growth pattern. \Bstrut\\
+	\hline
+	
+	\Tstrut 1  & & First Mature Age: Overridden if maturity option is 3 or 4 or if empirical wtatage.ss is used, but still must exist here.  therwise, all ages below the first mature age will have maturity set to zero.\Bstrut\\
+	\hline	  
+
+	\Tstrut 1 & & Fecundity Option (irrelevant if maturity option is 4 or wtatage.ss is used):\\
+	  & & 1 = to  interpret the 2 egg parameters as linear eggs/kg on body weight (current SS default),  so fecundity = $wt * (a+b*wt)$,  so value of a=1, b=0 causes eggs to be equivalent to spawning biomass,\\
+	  & & 2 = to set fecundity= $a*L^ b$,\\
+	  & & 3 = to set fecundity= $a*W^ b$, so values of a=1, b=1 causes fecundity to be equiv to spawning biomass,\\
+	  & & 4 = fecundity = $a+b*L$,\\
+	  & & 5 = Eggs = $a+b*wt$.\Bstrut\\
+	\hline
+\end{longtable}
 
 \subsubsection{Hermaphroditism}
 
-\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-	  \multicolumn{2}{l}{Typical Value} & Description \\
-	  \hline
-	  0 & & Hermaphroditism Option:\\
-	   &  & 0 = not used, \\
-	   &  & 1 = invoke female to male age-specific function, \\
-	   &  & -1 = invoke male to female age-specific function \\
-	   &  & NOTE:  this creates the annual, age-specific fraction that change sex, it is not the fraction that is each sex.\\
-	  \hline
+\begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
+	\hline	
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
 
-	  \multicolumn{2}{l}{COND = 1}& Read 2 lines below if hermaphroditism. is selected; also read 3 parameters after reading the male weight-length parameter\\
-	  & -1 & Hermaphroditism Season: \\
-	  &    & -1 to do transition at the end of each season (after mortality and before movement)\\
-	  &    & <positive integer> to select just one season\\
-	  \\
-	  & 1  & Include males in spawning biomass \\
-	  &    & 0 = no males in spawning biomass \\
-	  &    & 1 = simple addition of males to females\\
-	  &    & xx = more options to come later \\
-	  \hline
-	\end{longtable}
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
+
+	\endfoot
+	
+	\endlastfoot
+
+	0 & & Hermaphroditism Option:\Tstrut\\
+	 &  & 0 = not used, \\
+	 &  & 1 = invoke female to male age-specific function, \\
+	 &  & -1 = invoke male to female age-specific function, \\
+	 &  & Note:  this creates the annual, age-specific fraction that change sex, it is not the fraction that is each sex.\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{COND = 1} \Tstrut & Read 2 lines below if hermaphroditism. is selected; also read 3 parameters after reading the male weight-length parameter.\Bstrut\\
+	& -1 & Hermaphroditism Season: \\
+	&    & -1 to do transition at the end of each season (after mortality and before movement),\\
+	&    & <positive integer> to select just one season,\\
+	\\
+	& 1  & Include males in spawning biomass, \\
+	&    & 0 = no males in spawning biomass, \\
+	&    & 1 = simple addition of males to females,\\
+	&    & xx = more options to come later. \Bstrut\\
+	\hline
+\end{longtable}
 
 
 \subsubsection{Parameter offset method}
 
-\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
-	\multicolumn{2}{l}{Typical Value} & Description \\
+\begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
+	\hline	
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
 	\hline
-	  2 & & Parameter Offset Method \\
-	    & & 1 = direct assignment \\
-	    & & 2 = for each GP x sex, parameter defines offset from sex 1, offsets are in exponential terms, so for example: $M_{\text{old male}} = M_{\text{old female}}*exp(M_{\text{old male}})$. \\
-	    & & 3 = for each GP x sex, parameter defines offset from GP 1 sex 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{\text{old female}} = M_{\text{young female}}*exp(M_{\text{old female}}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{\text{old male}} = M_{\text{young female}}*exp(M_{\text{young male}})*exp(M_{\text{old male}})$)\\
-	 \hline
+	\endfirsthead
+
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
+
+	\endfoot
+	
+	\endlastfoot
+
+	 2 & & Parameter Offset Method: \Tstrut\Bstrut\\
+	   & & 1 = direct assignment, \\
+	   & & 2 = for each growth pattern x sex, parameter defines offset from sex 1, offsets are in exponential terms, so for example: $M_{\text{old male}} = M_{\text{old female}}*exp(M_{\text{old male}})$, \\
+	   & & 3 = for each growth pattern x sex, parameter defines offset from growth pattern 1 sex 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{\text{old female}} = M_{\text{young female}}*exp(M_{\text{old female}}$). For males, given that “natM option” is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{\text{old male}} = M_{\text{young female}}*exp(M_{\text{young male}})*exp(M_{\text{old male}})$).\Bstrut\\
+	\hline
 \end{longtable}
 
 
@@ -505,157 +620,173 @@ The last line in the mortality-growth parameter section allows the user to fix o
 As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
 
 \subsubsection{Read Biology Parameters}
-\hypertarget{MGorder}{Next}, SS reads the MG parameters in generally the following order (may vary based on selected options):
+\hypertarget{MGorder}{Next}, SS reads the mortality-gowth (MG) parameters in generally the following order (may vary based on selected options):
 
-\begin{center}
-	\begin{longtable}{p{1cm} p{2.5cm} p{10cm}}
 
-		Parameter& & Description\\
-		\hline
-		\endfirsthead
+\begin{longtable}{p{1cm} p{2.5cm} p{10cm}}
+	\hline
+	Parameter& & Description\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
 
-		Parameter& & Description\\
-		\hline
-		\endhead
+	\hline
+	Parameter& & Description\Tstrut\Bstrut\\
+	\hline
+	\endhead
 
-		%\hline
-		\endfoot
+	\hline
+	\endfoot
 
-		\endlastfoot
+	\endlastfoot
 
-		%\hline
-		\multicolumn{2}{l}{Females} & Female natural mortality and growth parameters in the following order by GP\\
-		& natM & Natural mortality for female GP1, where the number of natural mortality parameters depends on the option selected.\\
-		& Lmin & Length at Amin (units in cm) for female, GP1 \\
-		& Lmax & Length at Amax (units in cm) for female, GP1 \\
-		& VBK & Von Bertanlaffy growth coefficient (units are per year) for females, GP1\\
-		\hline
-		\multicolumn{2}{l}{COND if growth type =2 } & \\
-		& Richards Coefficient & Only include this parameter if Richards growth function is used.  If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy.\\
+	%\hline
+	\multicolumn{2}{l}{Females}\Tstrut & Female natural mortality and growth parameters in the following order by growth pattern.\\
+	& natM & Natural mortality for female growth pattern 1, where the number of natural mortality parameters depends on the option selected.\\
+	& Lmin & Length at Amin (units in cm) for female, growth pattern 1. \\
+	& Lmax & Length at Amax (units in cm) for female, growth pattern 1. \\
+	& VBK & Von Bertanlaffy growth coefficient (units are per year) for females, growt pattern 1.\Bstrut\\
+	\hline
 
-		\multicolumn{2}{l}{COND if growth type >=3 } & Age-Specific \textit{k}\\
-		& \multicolumn{2}{l}{\textit{k} deviations for first age in range}\\
-		& \multicolumn{2}{l}{\textit{k} deviations for next age in range}\\
-		& ... & \\
-		& \multicolumn{2}{l}{\textit{k} deviations for last age in range}\\
-		\hline
-	    & CV young & Variability for size at age <= AFIX (units are fraction) for females, GP1.  Note that CV cannot vary over time, so do not set up env-link or a deviation vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
-		& CV old & Variability for size at age >= AFIX (units are fraction) for females, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset. The CV value cannot vary over time.\\
-		\hline
-		& WtLen scale & Coefficient to convert length in cm to weight in kg for females\\
-		& WtLen exp & Exponent in to convert length to weight for females\\
-		& Mat-50 & Maturity logistic inflection (in cm or years).  Where female maturity-at-length (or age) is a logistic function: $M_{l} = 1/(1+exp(\alpha*(l_{a} - \beta)))$ where $\alpha$ is the slope, $l_{a}$ is the size-at-age, and $\beta$ is the inflection of the maturity curve. \\ 
-		& Mat-slope & Logistic slope (must have negative value) \\
-		& Eggs-alpha & Two fecundity parameters; usage depends on the selected fecundity option.  Must be included here eve if vector is read in the control section above.\\
-		& Eggs-beta & \\
-		\hline
-		\multicolumn{2}{l}{COND: GP > 1} & Repeat female parameters in the above order for GP2\\
-		\hline
-		\multicolumn{2}{l}{Males} & Male natural mortality and growth parameters in the following order by GP\\
-		& natM & Natural mortality for male GP1, where the number of natural mortality parameters depends on the option selected.\\
-		& Lmin & Length at Amin (units in cm) for male, GP1\\
-		& Lmax & Length at Amax (units in cm) for male, GP1\ \\
-		& VBK &  Von Bertanlaffy growth coefficient (units are per year) for males, GP1\\
-		\hline
-		\multicolumn{2}{l}{COND if growth type =2 } & \\
-		& Richards Coefficient & Only include this parameter if Richards growth function is used.  If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy.\\
-		\multicolumn{2}{l}{COND if growth type =3 } & Age-Specific K \\
-		& \multicolumn{2}{l}{K deviations for first age in range}\\
-		& \multicolumn{2}{l}{K deviations for next age in range}\\
-		& ... & \\
-		& \multicolumn{2}{l}{K deviations for last age in range}\\
-		\hline
-		& CV young & Variability for size at age <= AFIX (units are fraction) for males, GP1.  Note that CV cannot vary over time, so do not set up env-link or a dev vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
-		& CV old &  Variability for size at age >= AFIX (units are fraction) for males, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset.\\
-		\multicolumn{2}{l}{COND: GP > 1} & Repeat male parameters in the above order for GP2\\
-		\hline
-		& WtLen scale & Coefficient to convert length in cm to weight in kg for males\\
-	    & WtLen exp & Exponent in to convert length to weight for males\\
-		\hline
-		\multicolumn{2}{l}{COND: GP > 1} & Repeat male parameters in the above order for GP2\\
-		\hline
-		\multicolumn{2}{l}{COND: Hermaphrodism} & 3 parameters define a normal distribution for the transition rate of females to males (or vice versa)\\
-		& Inflect Age & Hermaphrodite inflection age\\
-		& StDev & Hermaphrodite standard deviation (in age) \\
-		& Asmp Rate & Hermaphrodite asymptotic rate\\
-		\hline
-		\multicolumn{2}{l}{Recr Dist GP} & Recruitment apportionment by GP, if multiple GP, multiple entries required\\
-		\multicolumn{2}{l}{Recr Dist Area} & Recruitment apportionment by area, if multiple areas, multiple entries required\\
-		\multicolumn{2}{l}{Recr Dist Seas} & Recruitment apportionment by season, if multiple seasons, multiple entries required\\
-		\hline
-		\multicolumn{2}{l}{COND:} & If recruitment distribution interaction = 1 (on)\\
-		& N patterns x N areas x N seasons & Note that the order of recruitment distribution parameters has areas then seasons for main effect, and seasons then areas for interactions.\\
-		\hline
-		\multicolumn{2}{l}{Cohort growth deviation} & Set equal to 1.0 and do not estimate; it is deviations from this base that matter.\\
-		\hline
-		\multicolumn{2}{l}{2 x N selected movement pairs} & Movement parameters\\
-		\hline
-		\multicolumn{2}{l}{COND:} & The following lines are only required when the associated features are turned on\\
-		& Ageing Error & Turned on in the data file\\
-		& Catch Multiplier & For each fleet selected for this option in the data file\\
-		\hline
-		\multicolumn{2}{l}{Fraction female} & \hypertarget{SexRatio}{Fraction} female by GP, if multiple GP, multiple entries required\\
-		\hline
-	\end{longtable}
-\end{center}
+	\multicolumn{2}{l}{COND if growth type =2 } & \Tstrut\\
+	& Richards Coefficient & Only include this parameter if Richards growth function is used.  If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy.\\
+
+	\multicolumn{2}{l}{COND if growth type >=3 } & Age-Specific \textit{k}\\
+	& \multicolumn{2}{l}{\textit{k} deviations for first age in range}\\
+	& \multicolumn{2}{l}{\textit{k} deviations for next age in range}\\
+	& ... & \\
+	& \multicolumn{2}{l}{\textit{k} deviations for last age in range}\Bstrut\\
+	\hline
+
+    \Tstrut & CV young & Variability for size at age <= AFIX (units are fraction) for females, growth pattern 1.  Note that CV cannot vary over time, so do not set up env-link or a deviation vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
+	& CV old & Variability for size at age >= AFIX (units are fraction) for females, growth pattern 1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset. The CV value cannot vary over time.\Bstrut\\
+	\hline
+
+	\Tstrut & WtLen scale & Coefficient to convert length in cm to weight in kg for females.\\
+	& WtLen exp & Exponent in to convert length to weight for females.\\
+	& Mat-50 & Maturity logistic inflection (in cm or years).  Where female maturity-at-length (or age) is a logistic function: $M_{l} = 1/(1+exp(\alpha*(l_{a} - \beta)))$ where $\alpha$ is the slope, $l_{a}$ is the size-at-age, and $\beta$ is the inflection of the maturity curve. \\ 
+	& Mat-slope & Logistic slope (must have negative value). \\
+	& Eggs-alpha & Two fecundity parameters; usage depends on the selected fecundity option.  Must be included here eve if vector is read in the control section above.\\
+	& Eggs-beta & \Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{COND: GP > 1} \Tstrut & Repeat female parameters in the above order for growth pattern 2.\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{Males} \Tstrut & Male natural mortality and growth parameters in the following order by growth pattern. \Bstrut\\
+	& natM & Natural mortality for male GP1, where the number of natural mortality parameters depends on the option selected.\\
+	& Lmin & Length at Amin (units in cm) for male, GP1\\
+	& Lmax & Length at Amax (units in cm) for male, GP1\ \\
+	& VBK &  Von Bertanlaffy growth coefficient (units are per year) for males, growth pattern1.\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{COND if growth type = 2 } & \Tstrut\\
+	& Richards Coefficient & Only include this parameter if Richards growth function is used.  If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy.\\
+	\multicolumn{2}{l}{COND if growth type = 3 } & Age-Specific K \\
+	& \multicolumn{2}{l}{K deviations for first age in range}\\
+	& \multicolumn{2}{l}{K deviations for next age in range}\\
+	& ... & \\
+	& \multicolumn{2}{l}{K deviations for last age in range}\Bstrut\\
+	\hline
+
+	\Tstrut & CV young & Variability for size at age <= AFIX (units are fraction) for males, GP1.  Note that CV cannot vary over time, so do not set up env-link or a dev vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
+	& CV old &  Variability for size at age >= AFIX (units are fraction) for males, GP1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of MGparm as offset.\\
+	\multicolumn{2}{l}{COND: GP > 1} & Repeat male parameters in the above order for growth pattern 2.\\
+	\hline
+
+	\Tstrut & WtLen scale & Coefficient to convert length in cm to weight in kg for males.\\
+    & WtLen exp & Exponent in to convert length to weight for males.\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{COND: GP > 1} \Tstrut & Repeat male parameters in the above order for growth pattern 2.\\
+	\hline
+
+	\multicolumn{2}{l}{COND: Hermaphrodism} \Tstrut & 3 parameters define a normal distribution for the transition rate of females to males (or vice versa).\\
+	& Inflect Age & Hermaphrodite inflection age.\\
+	& StDev & Hermaphrodite standard deviation (in age) .\\
+	& Asmp Rate & Hermaphrodite asymptotic rate.\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{Recr Dist GP} \Tstrut & Recruitment apportionment by growth pattern, if multiple growth patterns, multiple entries required.\\
+	\multicolumn{2}{l}{Recr Dist Area} & Recruitment apportionment by area, if multiple areas, multiple entries required\\
+	\multicolumn{2}{l}{Recr Dist Seas} & Recruitment apportionment by season, if multiple seasons, multiple entries required\Bstrut\\
+	\hline
+
+	\multicolumn{3}{l}{COND:  If recruitment distribution interaction = 1 (on).} \Tstrut \\
+	& N patterns x N areas x N seasons & Note that the order of recruitment distribution parameters has areas then seasons for main effect, and seasons then areas for interactions.\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{Cohort growth deviation} \Tstrut & Set equal to 1.0 and do not estimate; it is deviations from this base that matter.\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{2 x N selected movement pairs} & Movement parameters\Tstrut\Bstrut\\
+	\hline
+
+	\multicolumn{3}{l}{COND: The following lines are only required when the associated features are turned on.}\Tstrut\\
+	& Ageing Error & Turned on in the data file.\\
+	& Catch Multiplier & For each fleet selected for this option in the data file.\\
+	\hline
+
+	\multicolumn{2}{l}{Fraction female}\Tstrut & \hypertarget{SexRatio}{Fraction} female by growth pattern, if multiple growth patterns, multiple entries required.\Bstrut\\
+	\hline
+\end{longtable}
+
 
 Example format for MG parameter section with 2 sexes, 2 areas.
 Parameters marked with COND are conditional on selecting that feature:
-\begin{center}
-	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.1cm}  p{1.1cm}  p{1.1cm}  p{1.1cm}  p{8cm}  }
-		\hline
-		   &    &      & Prior &  <other & Block &  \\
-		LO & HI & INIT & Value &  entries> & Fxn & Parameter Label \\
-		\hline
-		\endfirsthead
+\begin{longtable}{p{1.1cm} p{1.1cm} p{1.1cm}  p{1.1cm}  p{1.5cm}  p{1.1cm}  p{6.75cm}  }
+	\hline
+	   &    &      & Prior &  <other  & Block &  \Tstrut\\
+	LO & HI & INIT & Value &  entries>& Fxn & Parameter Label \Bstrut\\
+	\hline
+	\endfirsthead
 
-		\hline
-		   &    &      & Prior &  <other & Block &  \\
-		LO & HI & INIT & Value &  entries> & Type & Parameter Label \\
-		\hline
-		\endhead
+	\hline
+	   &    &      & Prior &  <other   & Block &  \Tstrut\\
+	LO & HI & INIT & Value &  entries> & Type & Parameter Label \Bstrut\\
+	\hline
+	\endhead
 
-		%\hline
-		\endfoot
+	\hline
+	\endfoot
 
-		\endlastfoot
+	\endlastfoot
 
-		%\hline
-		0    & 0.50 & 0.15 & 0.1  & ... & 0 & \#NatM\_p\_1\_Fem\_GP\_1\\
-		0    & 45   & 21   & 36   & ... & 0 & \#L\_at\_Amin\_Fem\_GP\_1 \\
-		40   & 90   & 70   & 70   & ... & 0 & \#L\_at\_Amax\_Fem\_GP\_1 \\
-		0    & 0.25 & 0.15 & 0.10 & ... & 0 & \#VonBert\_K\_Fem\_GP\_1 \\
-		0.10 & 0.25 & 0.15 & 0.20 & ... & 0 & \#CV\_young\_Fem\_GP\_1 \\
-		0.10 & 0.25 & 0.15 & 0.20 & ... & 0 & \#CV\_old\_Fem\_GP\_1 \\
-		-3   & 3    & 2e-6 & 0    & ... & 0 & \#Wtlen\_1\_Fem \\
-		-3   & 4    & 3    & 3    & ... & 0 & \#Wtlen\_2\_Fem \\
-		50   & 60   & 55   & 55   & ... & 0 & \#Mat50\%\_Fem  \\
-		-3   & 3    & -0.2 & -0.2 & ... & 0 & \#Mat\_slope\_Fem \\
-		-5   & 5    & 0    & 0    & ... & 0 & \#Eggs/kg\_inter\_Fem \\
-		-50  & 5    & 0    & 0    & ... & 0 & \#Eggs/kg\_slope\_wt\_Fem \\
-		0    & 0.50 & 0.15 & 0.1  & ... & 0 & \#NatM\_p\_1\_Mal\_GP\_1\\
-		0    & 45   & 21   & 36   & ... & 0 & \#L\_at\_Amin\_Mal\_GP\_1 \\
-		40   & 90   & 70   & 70   & ... & 0 & \#L\_at\_Amax\_Mal\_GP\_1 \\
-		0    & 0.25 & 0.15 & 0.10 & ... & 0 & \#VonBert\_K\_Mal\_GP\_1 \\
-		0.10 & 0.25 & 0.15 & 0.20 & ... & 0 & \#CV\_young\_Mal\_GP\_1 \\
-		0.10 & 0.25 & 0.15 & 0.20 & ... & 0 & \#CV\_old\_Mal\_GP\_1 \\
-		-3   & 3    & 2e-6 & 0    & ... & 0 & \#Wtlen\_1\_Mal \\
-		-3   & 4    & 3    & 3    & ... & 0 & \#Wtlen\_2\_Mal \\
-		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_GP\_1 \\
-		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_Area\_1 \\
-		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_Area\_2 \\
-		 0   & 0    & 0    & 0    & ... & 0 & \#RecrDist\_Settlement\_1 \\
-		 0.2 & 5    & 1    & 1    & ... & 0 & \#CohortGrowDev \\
-		-5   & 5    & -4   & 1    & ... & 0 & \#Move\_A\_seas1\_GP1\_from\_1to2 (CND)\\
-        -5   & 5    & -4   & 1    & ... & 0 & \#Move\_B\_seas1\_GP1\_from\_1to2 (CND)\\
-		-99  & 99   &  1   & 0    & ... & 0 & \#AgeKeyParm1 (COND)\\
-		-99  & 99   &  0.288   & 0    & ... & 0 & \#AgeKeyParms 2 to 5 (COND)\\
-		-99  & 99   &  0.715   & 0    & ... & 0 & \#AgeKeyParm6 (COND)\\	
-		0.2  & 3.0   &  1.0   & 0    & ... & 0 & \#Catch\_mult\_fleet1 (COND)\\
-		0.001 & 0.999 & 0.5 & 0.5    & ... & 0 & \#FracFemale\_GP\_1 \\		
-		\hline
-	\end{longtable}
-\end{center}
+	%\hline
+	0    & 0.50 & 0.15 & 0.1  & \multicolumn{1}{c}{...} & 0 & \#NatM\_p\_1\_Fem\_GP\_1\Tstrut\\
+	0    & 45   & 21   & 36   & \multicolumn{1}{c}{...} & 0 & \#L\_at\_Amin\_Fem\_GP\_1 \\
+	40   & 90   & 70   & 70   & \multicolumn{1}{c}{...} & 0 & \#L\_at\_Amax\_Fem\_GP\_1 \\
+	0    & 0.25 & 0.15 & 0.10 & \multicolumn{1}{c}{...} & 0 & \#VonBert\_K\_Fem\_GP\_1 \\
+	0.10 & 0.25 & 0.15 & 0.20 & \multicolumn{1}{c}{...} & 0 & \#CV\_young\_Fem\_GP\_1 \\
+	0.10 & 0.25 & 0.15 & 0.20 & \multicolumn{1}{c}{...} & 0 & \#CV\_old\_Fem\_GP\_1 \\
+	-3   & 3    & 2e-6 & 0    & \multicolumn{1}{c}{...} & 0 & \#Wtlen\_1\_Fem \\
+	-3   & 4    & 3    & 3    & \multicolumn{1}{c}{...} & 0 & \#Wtlen\_2\_Fem \\
+	50   & 60   & 55   & 55   & \multicolumn{1}{c}{...} & 0 & \#Mat50\%\_Fem  \\
+	-3   & 3    & -0.2 & -0.2 & \multicolumn{1}{c}{...} & 0 & \#Mat\_slope\_Fem \\
+	-5   & 5    & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#Eggs/kg\_inter\_Fem \\
+	-50  & 5    & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#Eggs/kg\_slope\_wt\_Fem \\
+	0    & 0.50 & 0.15 & 0.1  & \multicolumn{1}{c}{...} & 0 & \#NatM\_p\_1\_Mal\_GP\_1\\
+	0    & 45   & 21   & 36   & \multicolumn{1}{c}{...} & 0 & \#L\_at\_Amin\_Mal\_GP\_1 \\
+	40   & 90   & 70   & 70   & \multicolumn{1}{c}{...} & 0 & \#L\_at\_Amax\_Mal\_GP\_1 \\
+	0    & 0.25 & 0.15 & 0.10 & \multicolumn{1}{c}{...} & 0 & \#VonBert\_K\_Mal\_GP\_1 \\
+	0.10 & 0.25 & 0.15 & 0.20 & \multicolumn{1}{c}{...} & 0 & \#CV\_young\_Mal\_GP\_1 \\
+	0.10 & 0.25 & 0.15 & 0.20 & \multicolumn{1}{c}{...} & 0 & \#CV\_old\_Mal\_GP\_1 \\
+	-3   & 3    & 2e-6 & 0    & \multicolumn{1}{c}{...} & 0 & \#Wtlen\_1\_Mal \\
+	-3   & 4    & 3    & 3    & \multicolumn{1}{c}{...} & 0 & \#Wtlen\_2\_Mal \\
+	 0   & 0    & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#RecrDist\_GP\_1 \\
+	 0   & 0    & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#RecrDist\_Area\_1 \\
+	 0   & 0    & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#RecrDist\_Area\_2 \\
+	 0   & 0    & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#RecrDist\_Settlement\_1 \\
+	 0.2 & 5    & 1    & 1    & \multicolumn{1}{c}{...} & 0 & \#CohortGrowDev \\
+	-5   & 5    & -4   & 1    & \multicolumn{1}{c}{...} & 0 & \#Move\_A\_seas1\_GP1\_from\_1to2 (COND)\\
+    -5   & 5    & -4   & 1    & \multicolumn{1}{c}{...} & 0 & \#Move\_B\_seas1\_GP1\_from\_1to2 (COND)\\
+	-99  & 99   &  1   & 0    & \multicolumn{1}{c}{...} & 0 & \#AgeKeyParm1 (COND)\\
+	-99  & 99   &  0.288   & 0    & ... & 0 & \#AgeKeyParms 2 to 5 (COND)\\
+	-99  & 99   &  0.715   & 0    & ... & 0 & \#AgeKeyParm6 (COND)\\	
+	0.2  & 3.0   &  1.0   & 0    & ... & 0 & \#Catch\_mult\_fleet1 (COND)\\
+	0.001 & 0.999 & 0.5 & 0.5    & ... & 0 & \#FracFemale\_GP\_1 \Bstrut\\		
+	\hline
+\end{longtable}
+
 
 \hypertarget{tvOrder}{}
 \subsubsection{Time-Varying Biology Parameters}
@@ -671,31 +802,31 @@ When time-varying growth is used, there are some additional considerations to be
 	\end{itemize}
 \end{itemize}
 
-\begin{center}
-	\begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
-		\multicolumn{8}{l}{Time-varying parameter specification:} \\
-		\hline
-		   &    &      & Prior &  Prior & Prior & & \\
-		LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \\
-		\hline
-		\endfirsthead
-		
-		\hline
-		   &    &      & Prior &  Prior & Prior &  & \\
-		LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \\
-		\hline
-		\endhead
-		
-		\endfoot
-		
-		\endlastfoot
-		
-		\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \\
-		-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add\\
-		-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add\\
-		\hline
-	\end{longtable}
-\end{center}
+
+\begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
+	\multicolumn{8}{l}{Time-varying parameter specification:} \\
+	\hline
+	   &    &      & Prior &  Prior & Prior & & \Tstrut\\
+	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
+	\hline
+	\endfirsthead
+	
+	\hline
+	   &    &      & Prior &  Prior & Prior &  & \Tstrut\\
+	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
+	\hline
+	\endhead
+	
+	\endfoot
+	
+	\endlastfoot
+	
+	\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \Tstrut\\
+	-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add\Tstrut\\
+	-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add\Bstrut\\
+	\hline
+\end{longtable}
+
 
 \subsubsection{Seasonal Biology Parameters}
 Seasonal effects are available for weight-length parameters and for the growth K.  Seasonality is not needed for the maturity and fecundity parameters because spawning is only defined to occur in one season.  Seasonal L1 may be implemented at a later date.  The seasonal parameter values adjust the base parameter value for that season.
@@ -703,113 +834,128 @@ Seasonal effects are available for weight-length parameters and for the growth K
 P'=P*exp(\text{seas\_value})
 \end{equation}
 
-\begin{center}
-	\begin{longtable}{p{0.5cm} p{3.7cm} p{11cm}}
-		\multicolumn{3}{l}{Control file continued:}\\
-		\hline
-		Value & &  Description\\
-		\hline
-		\endfirsthead
-		
-		\hline
-		Value & &  Description\\
-		\hline
-		\endhead
-		
-		%\hline
-		\endfoot
-		\endlastfoot
-		\multicolumn{3}{l}{\#Seasonality for selected biology parameters (not a conditional input)}\\
-		\multicolumn{2}{l}{0 0 0 0 0 0 0 0 0 0} & Read 10 integers to specify which biology parameters have seasonality:  fem-wtlen1, fem-wtlen2, mat1, mat2, fec1, fec2, male-wtlen1, male-wtlen2, L1, K.  Reading a positive value selects that factor for seasonality\\
-		\hline
-		\multicolumn{2}{l}{COND:} & If any factors have seasonality, then read N seasons parameters that define the seasonal offsets from the base parameter value.\\
-		& <short parameter line(s)> & Read N seasons short parameter lines for each factor selected for seasonality.
-		The parameter values define an exponential offset from the base parameter value.\\
-		\hline
 
-	\end{longtable}
-\end{center}
+\begin{longtable}{p{1cm} p{4cm} p{10cm}}
+	\multicolumn{3}{l}{Control file continued:}\\
+	\hline
+	Value & &  Description\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
+	
+	\hline
+	Value & &  Description\Tstrut\Bstrut\\
+	\hline
+	\endhead
+	
+	%\hline
+	\endfoot
+	\endlastfoot
+
+	\multicolumn{2}{l}{0 0 0 0 0 0 0 0 0 0}\Tstrut & Seasonality for selected biology parameters (not a conditional input). Read 10 integers to specify which biology parameters have seasonality:  fem-wtlen1, fem-wtlen2, mat1, mat2, fec1, fec2, male-wtlen1, male-wtlen2, L1, K.  Reading a positive value selects that factor for seasonality.\Bstrut\\
+	\hline
+	
+	\multicolumn{3}{l}{COND: If any factors have seasonality, then read N seasons parameters that define the}\Tstrut\\
+	\multicolumn{3}{l}{seasonal offsets from the base parameter value.}\\
+	\multicolumn{2}{r}{ <short parameter line(s)>} & Read N seasons short parameter lines for each factor selected for seasonality.
+	The parameter values define an exponential offset from the base parameter value.\Bstrut\\
+	\hline
+
+\end{longtable}
+
 
 \hypertarget{SRR}{} 
 \subsection{Spawner-Recruitment}
 The spawner-recruitment section starts by specification of the functional relationship that will be used.  
 
+
+\begin{longtable}{p{1cm} p{3cm} p{11cm}}
+	\multicolumn{3}{l}{Control file continued:}\\
+	\hline
+	Value & Label &  Description\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	Value & Label &  Description\Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
+	\endfoot
+	\endlastfoot
+
+	3 & Spawner-            & The options are: \Tstrut\\
+	  & Recruitment         & 1: null, \\
+	  & Relationship        & 2:  Ricker (2 parameters: log(R0) and steepness), \\
+	  &                     & 3:  standard Beverton-Holt (2 parameters: log(R0) and steepness), \\
+	  &                     & 4:  ignore steepness and no bias adjustment.  Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates (2 parameters, but only uses the first one),\\
+	  &                     & 5:  Hockey stick (3 parameters: log(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0. \hyperlink{Hockey}{\textit{Click here for more information,}}\\
+	  &                     & 6:  Beverton-Holt with flat-top beyond Bzero (2 parameters: log(R0) and steepness),\\
+	  &                     & 7:  Survivorship function (3 parameters: log(R0), $z_{frac}$, and $\beta$).  Suitable for sharks and low fecundity stocks to assure recruits are <= population production. \hyperlink{Survivorship}{\textit{Click here for more information,}}\\
+      &                     & 8:  Shepherd (3 parameters: log(R0), steepness, and shape parameter, $c$). \hyperlink{Shepherd}{\textit{Click here for more information,}}\\
+      & 					& 9(beta): Shepherd re-parameterization (3 parameters: log(R0), steepness, and shape parameter, $c$). \hyperlink{Shepherd2}{\textit{Click here for more information,}}\\
+      & 					& 10(beta): Ricker re-parameterization (3 parameters: log(R0), steepness, and Ricker power, $\gamma$). This SRR is was added to version 3.30.11 and is in beta mode. \hyperlink{Ricker2}{\textit{Click here for more information.}}\Bstrut\\
+    \hline
+
+    1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
+      & 						& 0 = none \\
+      &							& 1 = use steepness \\
+    0 &  Future Feature         & Reserved for the future option to make realized sigmaR a function of the stock-recruitment curve.\Bstrut\\ 
+    \hline
+\end{longtable}
+
+The number of parameters needed by each relationship is stored internally.  In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS v.3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in v.3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This regime shift parameter can have blocks, environmental links or random deviations. 
+
+If the R0 or steepness parameters are time-varying, then SS will use the current year's parameters to calculate recruits as a function of the spawning biomass.  If the SR regime parameter is time-varying, then SS applies this offset after calculating recruits as function of spawning biomass.  The expected deviations can no longer be linked to "env": instead the environmental effect will be on the "regime". 
+
+
+Read the required number of long parameter set-up lines (e.g. LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE).  These parameters are:
+\begin{longtable}{p{1cm} p{3cm} p{11cm}}
+	\hline
+	Value & Label &  Description\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	Value & Label &  Description\Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
+	\endfoot
+	\endlastfoot
+
+	8.5 & log(R0) & Log of virgin recruitment level. \Tstrut\Bstrut\\
+	\hline
+
+	0.60 \Tstrut & Steepness  & Steepness of S-R, bound by 0.2 and 1.0 for the Beverton-Holt.\Bstrut\\
+	\hline
+
+	\multicolumn{2}{l}{COND:} \Tstrut & If SRR = 5, 7, or 8\\
+	& 3rd Parameter & Optional depending on which SRR function is used.\Bstrut\\
+	\hline
+
+	0.60 \Tstrut & sigma-R &  Standard deviation of log recruitment. This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\Bstrut\\
+	\hline
+
+	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter.  It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier.\Bstrut\\
+	\hline
+
+	0 & Autocorrelation & Autocorrelation in recruitment.\Tstrut\Bstrut\\
+	\hline
+\end{longtable}
+
+
+Example set-up of the spawner-recruitment section:
 \begin{center}
-	\begin{longtable}{p{1cm} p{3cm} p{11cm}}
-		\multicolumn{3}{l}{ }\\
-		\hline
-		Value & Label &  Description\\
-		\hline
-		\endfirsthead
-
-		\hline
-		Value & Label &  Description\\
-		\hline
-		\endhead
-
-		%\hline
-		\endfoot
-		\endlastfoot
-
-		3 & Spawner-            & The options are: \\
-		  & Recruitment         & 1: null \\
-		  & Relationship        & 2:  Ricker (2 parameters: log(R0) and steepness) \\
-		  &                     & 3:  standard Beverton-Holt (2 parameters: log(R0) and steepness) \\
-		  &                     & 4:  ignore steepness and no bias adjustment.  Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates. (2 parameters, but only uses the first one.)\\
-		  &                     & 5:  Hockey stick (3 parameters: log(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0. \hyperlink{Hockey}{\textit{Click here for more information.}}\\
-		  &                     & 6:  Beverton-Holt with flat-top beyond Bzero (2 parameters: log(R0) and steepness)\\
-		  &                     & 7:  Survivorship function (3 parameters: log(R0), $z_{frac}$, and $\beta$).  Suitable for sharks and low fecundity stocks to assure recruits are <= population production. \hyperlink{Survivorship}{\textit{Click here for more information}}\\
-	      &                     & 8:  Shepherd (3 parameters: log(R0), steepness, and shape parameter, $c$). \hyperlink{Shepherd}{\textit{Click here for more information.}}\\
-	      & 					& 9(beta): Shepherd re-parameterization (3 parameters: log(R0), steepness, and shape parameter, $c$). \hyperlink{Shepherd2}{\textit{Click here for more information.}}\\
-	      & 					& 10(beta): Ricker re-parameterization (3 parameters: log(R0), steepness, and Ricker power, $\gamma$). This SRR is was added to version 3.30.11 and is in beta mode. \hyperlink{Ricker2}{\textit{Click here for more information.}}\\
-	    \hline
-	    1 & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
-	      & 						& 0 = none \\
-	      &							& 1 = use steepness \\
-	    0 &  future feature         & Reserved for the future option to make realized sigmaR a function of the stock-recruitment curve.  \\ 
-	    \hline
-	\end{longtable}
-\end{center}
-The number of parameters needed by each relationship is stored internally.  In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS v.3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in 3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This regime shift parameter can have blocks, environmental links or random deviations. 
-
-If the R0 or steepness parameters are time-varying, then SS will use the current year's parameters to calculate recruits as a function of the spawning biomass.  If the SR regime parameter is time-varying, then SS applies this offset after calculating recruits as function of spawning biomass.  The expected deviations can no longer be linked to "env": instead the environmental effect will be on the "regime".   
-\begin{center}
-	\begin{longtable}{p{1cm} p{3cm} p{11cm}}
-	      
-		\multicolumn{3}{l}{Read the required number of long parameter set-up lines (e.g. LO, HI, INIT, PRIOR, }\\
-		\multicolumn{3}{l}{PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE).  These parameters are:}\\
-		\hline
-		Value & Label &  Description\\
-		\hline
-		8.5 & log(R0) & Log of virgin recruitment level \\
-		\hline
-		0.60 & Steepness  & Steepness of S-R, bound by 0.2 and 1.0 for the Beverton-Holt \\
-		\hline
-		\multicolumn{2}{l}{COND:} & If SRR = 5, 7, or 8\\
-		& 3rd Parameter & Optional depending on which SRR function is used \\
-		\hline
-		0.60 & sigma-R &  Standard deviation of log recruitment.
-		This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\\
-		\hline
-		0 & Regime Parameter & This replaces the R1 offset parameter.  It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier.\\
-		\hline
-		0 & Autocorrelation & Autocorrelation in recruitment \\
-		\hline
-	\end{longtable}
-\end{center}
-
-\begin{center}
-	\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{2.5cm}  p{1.5cm}  p{4.5cm}  }
+	\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{3cm}  p{2cm}  p{3.5cm}  }
 		
-		\multicolumn{7}{l}{Example set-up of the spawner-recruitment section:}\\
 		\hline
-		LO & HI & INIT & PRIOR &  <other entries> & Block Fxn & Parameter Label \\
+		LO \Tstrut & HI & INIT & PRIOR &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
 		\hline
-		3    & 31 & 8.81 & 10.3 & ... & 0 & \#SR\_LN(R0) \\
-		0.2  & 1  & 0.61 & 0.70 & ... & 0 & \#SR\_BH\_steep \\
-		0    & 2  & 0.60 & 0.80 & ... & 0 & \#SR\_sigmaR \\
-		-5   & 5  & 0    & 0    & ... & 0 & \#SR\_regime\\
-		-99  & 99 & 0    & 0    & ... & 0 & \#SR\_autocorr  \\
+		3    & 31 & 8.81 & 10.3 & \multicolumn{1}{c}{...} & 0 & \#SR\_LN(R0) \Tstrut\\
+		0.2  & 1  & 0.61 & 0.70 & \multicolumn{1}{c}{...} & 0 & \#SR\_BH\_steep \\
+		0    & 2  & 0.60 & 0.80 & \multicolumn{1}{c}{...} & 0 & \#SR\_sigmaR \\
+		-5   & 5  & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_regime\\
+		-99  & 99 & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_autocorr \Bstrut\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -824,84 +970,109 @@ If the R0 or steepness parameters are time-varying, then SS will use the current
 	\item Since R0 can be time-varying, what is regime shift for?  Regime shift is for multi-year or environmentally driven deviations from R0 without changing R0 itself.  Then the recruitment deviations are annual deviations from the current regime.  And these recruitment deviations can have autocorrelation.
 	
 	\begin{itemize}
-		\item WARNING!  Use these options judiciously because the same algebraic effect on the calculated recruitment can be achieved by different combinations of these options.
+		\item Warning: Use these options judiciously because the same algebraic effect on the calculated recruitment can be achieved by different combinations of these options.
 	\end{itemize}
 	
 	\item Preliminary recommendation:  Use block, trend or environmental effects on R0 only for very long-term and highly persistent effects; use time-vary effects on regime shift for transitory, but multi-year deviations from R0.
 	
 	\item The time-vary parameter lines are short lines because they themselves cannot be time-varying.
 	
-	\item The order of time-vary parameters are; R0,  steepness, then regime shift.  The number of time-varying parameters from each of these can range from zero to many. \item Note that setting a block for just the initial equilibrium year is equivalent to R1\_offset.  If R1 offset is being used in 3.24, then sstrans.exe will automatically add a new block for the initial equilibrium year so that you can easily re-implement a R1 offset effect.
+	\item The order of time-vary parameters are; R0,  steepness, then regime shift.  The number of time-varying parameters from each of these can range from zero to many. 
+
+	\item Note that setting a block for just the initial equilibrium year is equivalent to R1\_offset.  If R1 offset is being used in 3.24, then sstrans.exe will automatically add a new block for the initial equilibrium year so that you can easily re-implement a R1 offset effect.
 \end{itemize}
 
-\begin{center}
+
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	\multicolumn{3}{l}{Control file continued:}\\
+
 	\hline
-	\multicolumn{2}{l}{Value \& Label} &  Description\\
+	Value & Label &  Description\Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
-	
+
 	\hline
-	\multicolumn{2}{l}{Value \& Label} &  Description\\
+	Value & Label &  Description\Tstrut\Bstrut\\
 	\hline
 	\endhead
-	
-	%\hline
+	\hline
 	\endfoot
 	\endlastfoot
-		\multicolumn{3}{l}{Then read additional spawner-recruitment conditions:}\\
-		\hline
-		1 & Do Recruitment Deviations & This selects the way in which recruitment deviations are coded:\\
-		  &  & 0:  none (so all recruitments come from S-R curve)\\
-		  &  & 1:  deviation vector (previously the only option).  Here the deviations are encoded as a deviation vector, so ADMB enforces a sum-to-zero constraint.\\
-		  &  & 2:  simple deviations.  Here the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero sum.  The difference in model performance between options (1) and (2) has not been fully explored to date.\\
-		\hline
-		1971 & Main recruitment deviations begin year & If begin year is less than the model start year, then the early deviations are used to modify the initial age composition.   However, if set to be more than Nages before start year, it is changed to equal Nages before start year. \\
-		\hline
-		1999 & Main recruitment deviations end year & If recruitment deviations end year is later than retro year, it is reset to equal retro year. \\
-		\hline
-		3    & Main recruitment deviations phase & \\
-		\hline
-		1 & Advanced  & 0: Use default values for advanced options \\
-		  & Options  & 1: Read values for the 11 advanced options \\
-		\hline
-		\multicolumn{3}{l}{COND = 1 Beginning of advanced options}\\
-		& 1950 & Early Recruitment Deviation Start Year: \\
-		&  & 0: skip (default) \\
-		&  & +year:  absolute year (must be less than begin year of main recruitment deviations)\\
-		&  & -integer:  set relative to main recruitment deviations start year\\
-		&  & NOTE:  because this is a deviation vector, it should be long enough so that recruitment deviations for individual years are not unduly constrained. \\
-		& 6 & Early Recruitment Deviation Phase: \\
-		& & Users may want to set to a late phase if there is not much early data; Default:  -4\\
-		& 0 & Forecast Recruitment Phase: \\
-		& & Forecast recruitment deviations always begin in the first year after the end of the main recruitment deviations. Recruitment in the forecast period is deterministic derived from the specified stock-recruitment relationship.  Setting their phase to 0 causes their phase to be set to max lambda phase +1 (so that they become active after rest of parameters have converged.).  However, it is possible here to set an earlier phase for their estimation, or to set a negative phase to keep the forecast recruitment deviations at a constant level. Default:  0 \\
-		& 1 & Forecast Recruitment Deviations Lambda:\\
-		&   & This lambda is for the log-likelihood of the forecast recruitment deviations that occur before endyr + 1.  Use a larger value here if solitary, noisy data at end of time series cause unruly recruitment deviation estimation. Default:  1.0 \\
-		& 1956 & Last Year With No Bias Adjustment \\
-		& 1970 & First Year With Full Bias Adjustment \\
-		& 2001 & Last Year With Full Bias Adjustment \\
-		& 2002 & First Recent Year With No Bias Adjustment \\
-		&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum log-likelihood.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that SS will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: Start year – 1000, Start year – Nages, Main recruitment deviation final year, End year +1. \hyperlink{RecBias}{\textit{Click here for more information.}}.\\
-		& 0.85 & Max Bias Adjustment: \\
-		&      & Value for the maximum bias adjustment during the MLE mode. A value of -1 will set the bias adjustment to 1.0 for all years with estimated recruitment deviations. Likewise, all estimated recruitment deviations, even those within a ramped era, switch to maxbias=1.0 during MCMC.\\
-		& 0    & Period For Recruitment Cycles: \\
-		&      & Use this when SS is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level.  If value is >0, then read that number of full parameter lines below define the recruitment cycle \\
-		& -5   & Minimum Recruitment Deviation: Min value for recruitment deviation. Default: -5\\
-		& 5    & Maximum Recruitment Deviation: Max value for recruitment deviation. Default: 5\\
-		& 2    & Number of Explicit Recruitment Deviations to Read:\\
-		&      & 0: Do not read any recruitment deviations; Integer: read this number of recruitment deviations; Default:  0 \\
-		\multicolumn{3}{l}{END OF ADVANCED OPTIONS}\\
-		\hline
-		\multicolumn{3}{l}{COND = Enter N full parameter lines below if N recruitment cycles is > 0}\\
-		& <parameter line> & Full parameter line for each of the N periods of recruitment cycle\\
-		\hline
-		\multicolumn{3}{l}{COND = If N explicit recruitment deviations is > 0, then enter N lines below}\\
-		& 1977 3.0 & Enter Year and Deviation\\
-		& 1984 3.0 & Two example recruitment deviations being read.  NOTE:  SS will rescale the entire vector of recrdevs after reading these deviations, so by reading two positive values, all other recrdevs will be scaled to a small negative value to achieve a sum to zero condition before starting model estimation\\
-		\hline
-	\end{longtable}
-\end{center}
+
+	%\multicolumn{3}{l}{Then read additional spawner-recruitment conditions:}\\
+
+	1 \Tstrut & Do Recruitment Deviations & This selects the way in which recruitment deviations are coded:\\
+	  &  & 0:  None (so all recruitments come from S-R curve),\\
+	  &  & 1:  Deviation vector (previously the only option).  Here the deviations are encoded as a deviation vector, so ADMB enforces a sum-to-zero constraint.\\
+	  &  & 2:  Simple deviations.  Here the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero sum.  The difference in model performance between options (1) and (2) has not been fully explored to date.\Bstrut\\
+	\hline
+
+	1971 \Tstrut & Main recruitment deviations begin year & If begin year is less than the model start year, then the early deviations are used to modify the initial age composition.   However, if set to be more than Nages before start year, it is changed to equal Nages before start year. \Bstrut\\
+	\hline
+
+	1999 \Tstrut & Main recruitment deviations end year & If recruitment deviations end year is later than retro year, it is reset to equal retro year.\Bstrut\\
+	\hline
+
+	3 \Tstrut & Main recruitment deviations phase & \Bstrut\\
+	\hline
+
+	1 \Tstrut & Advanced  & 0: Use default values for advanced options \\
+	  & Options  & 1: Read values for the 11 advanced options.\Bstrut\\
+	\hline
+
+	\multicolumn{3}{l}{COND = 1 Beginning of advanced options}\Tstrut\Bstrut\\
+	& 1950 & Early Recruitment Deviation Start Year: \\
+	&  & 0: skip (default), \\
+	&  & +year:  absolute year (must be less than begin year of main recruitment deviations),\\
+	&  & -integer:  set relative to main recruitment deviations start year.\\
+	&  & Note: because this is a deviation vector, it should be long enough so that recruitment deviations for individual years are not unduly constrained. \\
+
+	\Tstrut & 6 & Early Recruitment Deviation Phase: \\
+	& & Negative value: default value to not estimate early deviations. \\
+	& & Users may want to set to a late phase if there is not much early data.\\
+	
+	\Tstrut & 0 & Forecast Recruitment Phase: \\
+			&   & 0 = Default value. \\
+	        &   & Forecast recruitment deviations always begin in the first year after the end of the main recruitment deviations. Recruitment in the forecast period is deterministic derived from the specified stock-recruitment relationship.  Setting their phase to 0 causes their phase to be set to max lambda phase +1 (so that they become active after rest of parameters have converged.).  However, it is possible here to set an earlier phase for their estimation, or to set a negative phase to keep the forecast recruitment deviations at a constant level.\Bstrut\\
+
+	\Tstrut & 1 & Forecast Recruitment Deviations Lambda:\\
+			&   & 1 = Default value. \\
+			&   & This lambda is for the log-likelihood of the forecast recruitment deviations that occur before endyr + 1.  Use a larger value here if solitary, noisy data at end of time series cause unruly recruitment deviation estimation.\\
+	
+	\Tstrut & 1956 & Last year wth no bias adjustment. \\
+			& 1970 & First year wth full bias adjustment. \\
+			& 2001 & Last year wth full bias adjustment. \\
+			& 2002 & First recent year with no bias adjustment. \\
+			&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum log-likelihood.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that SS will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: start year – 1000, start year – Nages, main recruitment deviation final year, end year + 1. \hyperlink{RecBias}{\textit{Click here for more information.}}.\\
+	
+	\Tstrut & 0.85 & Max Bias Adjustment: \\
+			&      & Value for the maximum bias adjustment during the MLE mode. A value of -1 will set the bias adjustment to 1.0 for all years with estimated recruitment deviations. Likewise, all estimated recruitment deviations, even those within a ramped era, switch to maxbias=1.0 during MCMC.\\
+
+	\Tstrut & 0    & Period For Recruitment Cycles: \\
+			&      & Use this when SS is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level.  If value is >0, then read that number of full parameter lines below define the recruitment cycle \\
+	
+	\Tstrut & -5   & Minimum Recruitment Deviation: Min value for recruitment deviation.\\
+			&      & Negative phase = Default value.\\
+
+	\Tstrut & 5    & Maximum Recruitment Deviation: Max value for recruitment deviation. \\
+			&      & Late Phase = Default value (e.g., 5)\\
+	
+	\Tstrut & 2    & Number of Explicit Recruitment Deviations to Read:\\
+			&      & 0: Default, do not read any recruitment deviations; Integer: read this number of recruitment deviations.\\
+	
+	\multicolumn{3}{l}{End of advanced options}\Tstrut\Bstrut\\
+	\hline
+
+	\multicolumn{3}{l}{COND = If N recruitment cycle is > 0, enter N full parameter lines below.}\Tstrut\\
+	\Tstrut & <parameter line> & Full parameter line for each of the N periods of recruitment cycle.\Bstrut\\
+	\hline
+
+	\multicolumn{3}{l}{COND = If N explicit recruitment deviations is > 0, then enter N lines below.}\Tstrut\Bstrut\\
+	& 1977 3.0 & Enter year and deviation.\\
+	& 1984 3.0 & Two example recruitment deviations being read.  Note: SS will rescale the entire vector of recrdevs after reading these deviations, so by reading two positive values, all other recrdevs will be scaled to a small negative value to achieve a sum to zero condition before starting model estimation.\Bstrut\\
+	\hline
+\end{longtable}
+
 
 \subsubsection{Spawner-Recruitment Function}
 The number of age-0 fish is related to spawning biomass according to a stock-recruitment relationship.  SS has the option of the Beverton-Holt, Ricker, Hockey-Stick, and a survival-based stock recruitment relationship.
@@ -962,7 +1133,7 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 		h = 0.2e^{z_0z_{\text{frac}}(1-0.2^\beta)}<0.2e^{z_0}=\frac{1}{5S_0}=\frac{SB_0}{5R_0}
 	\end{equation}
 	
-	Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$>0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$=0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.\\
+	Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$>0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$=0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.
 	
 	Code for the survival based recruitment can be found in Appendix C. \hyperlink{AppendixC}{\textit{Click here for more information.}}
 
@@ -977,13 +1148,13 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 	\end{equation}
 	
 	\item[Shepherd re-parameterization]\hfil\\
-	\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version (More details can be found in \textit{Punt and Cope. in press. Extending integrated stock assessment models to use non-depensatory three parameter stock-recruitment relationships. Fisheries Research})
+	\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version (More details can be found in Punt and Cope, in press)
 	\begin{equation}
 		R_y = \frac{R_0SB_y}{SB_0}\bigg(\frac{5h(1-0.2^c)}{1-5h0.2^c+(5h-1)(SB_y/SB_0)^c}\bigg)
 	\end{equation}
 	where $c$ is the shape parameter for the stock recruitment curve.
 	\item[Ricker re-parameterization]\hfil\\
-	\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version (More details can be found in \textit{Punt and Cope. in press. Extending integrated stock assessment models to use non-depensatory three parameter stock-recruitment relationships. Fisheries Research})
+	\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version (More details can be found in Punt and Cope, in press)
 	\begin{equation}
 		R_y = R_0*(1-temp)*e^{ln(5h)(1-SB_y/SB_0)^{\gamma}/0.8^{\gamma}}
 	\end{equation}
@@ -1005,7 +1176,7 @@ Conceptually, SS treats the early, data-poor period, the main data-rich period, 
 \subsubsection{Recruitment Likelihood with Bias Adjustment}
 For each year in the total recruitment deviation time series (early, mid, late/forecast) the contribution of that year to the log-likelihood is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component. SigmaR may be estimable when there is good data to establish the time series of recruitment deviations, but see recent work (Thorson et al) on use of a superior approach.
 
-The recruitment bias adjustment implemented in SS is based upon the work documented in Methot and Taylor (2011) and following the work of Maunder and Deriso (2003).  The concept is based upon the following logic.  SigmaR represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, sigmaR, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see eq. below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches sigmaR.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach sigmaR and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
+The recruitment bias adjustment implemented in SS is based upon the work documented in Methot and Taylor (2011) and following the work of Maunder and Deriso (2003).  The concept is based upon the following logic.  SigmaR represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, sigmaR, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see equation below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches sigmaR.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach sigmaR and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
 \begin{equation}
 	SE(\hat{r}_y)^2 + SD(\hat{r})^2=\Bigg( \bigg( \frac{1}{\sigma^2_d}+\frac{1}{\sigma^2_R}\bigg)^{-1/2}\Bigg)^2+\Bigg( \frac{\sigma^2_R}{(\sigma^2_R+\sigma^2_d)^{1/2}}\Bigg)^2=\sigma^2_R
 \end{equation}
@@ -1047,52 +1218,55 @@ A non-equilibrium initial age composition is achieved by setting the first year 
 There are  three methods available for calculation of fishing mortality.  These are:  Pope’s approximation, continuous F with each F as a model parameter, and a hybrid method that does a Pope’s approximation to provide initial values for iterative adjustment of the continuous F values to closely approximate the observed catch.  With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters.  In a 2 fishery, low F case, the hybrid method is just as fast as the Pope approx. and produces identical result.  When F is very high, the problem becomes quite stiff for Pope’s and the hybrid method so convergence may slow.  It may  be better to use F option 2 (continuous F as full parameters) in these high F cases.  F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly.  For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.\\
 Option 1 (Pope’s approx) still exists, but it is recommended to switch to option 3.
 
-\begin{center}
-		\begin{longtable}{p{1cm} p{3cm} p{11.3cm}}
-			\multicolumn{3}{l}{Control file continued:}\\
-			\hline
-			Value &   &  Description\\
-			\hline
-			\endfirsthead
 
-			\hline
-			Value &  &  Description\\
-			\hline
-			\endhead
+\begin{longtable}{p{1cm} p{3cm} p{11cm}}
+	\multicolumn{3}{l}{Control file continued:}\\
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
 
-			%\hline
-			\endfoot
-			\endlastfoot
+	\hline
+	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\hline
+	\endhead
 
-			0.2 & & F ballpark\\
-			    & & This value is compared to the sum of the F’s for the specified year.  The sum is over all seasons and areas.  The lambda for the comparison goes down by a factor of 10 each phase and goes to 0.0 in the final phase.\\
-		   \hline
-			-1990 & & F ballpark year \\
-			      & & Negative value disable F ballpark \\
-		   \hline
-			 3  & & F Method \\
-			    & & 1 = Pope's \\
-			    & & 2 = Continuous F as a parameter \\
-			    & & 3 = Hybrid F (recommended)\\
-		   \hline
-		   2.9 & & Maximum F \\
-		       & & This maximum is applied within each season and area.   A value of 0.9 is recommended for F method 1, and a value of about 4 is recommended for F method 2 and 3. \\
-		   \hline
-		   \multicolumn{3}{l}{COND: Depending on the F method} \\
-		   \hline
-		   \multicolumn{3}{l}{COND = 1: No additional input for Pope's approximation}\\
-		   \hline
-		   \multicolumn{3}{l}{COND = 2: Continuous F}\\
-		   & 0.10  1  1 & Inital F value, Phase, N F detail setup lines to read. Starting value for each F.  Initializing value for each F parameter.\\
-		   &  & For phases prior to the phase of the F value becoming active,  SS will use the hybrid option and the F values so calculated become the starting values for the F parameters when this phase is reached.\\
-		   \multicolumn{3}{l}{If F method = 2 and N for F detail is > 0}\\
-		   \multicolumn{2}{l}{1 1980 1 0.20 0.05 4} & fleet, year, season, F, SE, phase - these values override the catch se values in the data file and the overall starting F value and phase read just above.\\
-		   \hline
-		   \multicolumn{3}{l}{COND = 3: Hybrid F}\\
-		   & 4 & Number of tuning iterations in hybrid method. A value of 2 or 3 is sufficient with a single fleet and low Fs.  A value of 5 or so may be needed to match the catch near exactly when there are many fleets and high F. \\
-		   \hline
-	\end{longtable}
-\end{center}
+	\hline
+	\endfoot
+	\endlastfoot
+
+	0.2 \Tstrut & & F ballpark\\
+	    & & This value is compared to the sum of the F’s for the specified year.  The sum is over all seasons and areas.  The lambda for the comparison goes down by a factor of 10 each phase and goes to 0.0 in the final phase.\Bstrut\\
+   \hline
+
+	-1990\Tstrut & & F ballpark year\\
+	      & & Negative value disable F ballpark.\Bstrut\\
+   \hline
+
+	3 \Tstrut & & F Method \\
+	   & & 1 = Pope's (discrete), \\
+	   & & 2 = Baranov (continuous) F as a parameter, \\
+	   & & 3 = Hybrid F (recommended).\Bstrut\\
+   \hline
+
+   2.9 \Tstrut & & Maximum F \\
+       & & This maximum is applied within each season and area.   A value of 0.9 is recommended for F method 1, and a value of about 4 is recommended for F method 2 and 3. \Bstrut\\
+   \hline
+
+   \multicolumn{3}{l}{COND: F method = 1, no additional input for Pope's approximation.}\Tstrut\Bstrut\\
+   \hline
+
+   \multicolumn{3}{l}{COND: F method = 2: }\Tstrut\\
+   & 0.10  1  1 & Inital F value, Phase, N F detail setup lines to read. Starting value for each F.  Initializing value for each F parameter.\\
+   &  & For phases prior to the phase of the F value becoming active,  SS will use the hybrid option and the F values so calculated become the starting values for the F parameters when this phase is reached.\\		   
+   \multicolumn{3}{l}{If F method = 2 and N for F detail is > 0}\Tstrut\\
+   \multicolumn{2}{l}{1 1980 1 0.20 0.05 4} & fleet, year, season, F, SE, phase - these values override the catch se values in the data file and the overall starting F value and phase read just above.\Bstrut\\
+   \hline
+
+   \multicolumn{3}{l}{COND: Fmethod = 3}\Tstrut\\
+   & 4 & Number of tuning iterations in hybrid method. A value of 2 or 3 is sufficient with a single fleet and low Fs.  A value of 5 or so may be needed to match the catch near exactly when there are many fleets and high F. \Bstrut\\
+   \hline
+\end{longtable}
 
 \subsubsection{Initial Fishing Mortality}
 Read a short parameter setup line for each fishery.  The parameters are the fishing mortalities for the initial equilibrium.  Do not try to estimate parameters for fisheries with zero initial equilibrium catch.  If there is catch, then give a starting value greater than zero and it generally is best to estimate the parameter in phase 1.
@@ -1145,60 +1319,41 @@ For each fishery and survey with an index, enter a row with the entries as descr
 
 
 \begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.3cm} p{2.3cm}}
-		\multicolumn{7}{l}{So for a setup with a single survey, the Q setup matrix could be:}\\
-		\hline
-	    \#Fleet Num. & Link Type & Link Info & Extra SD & Bias Adjust & Float  & Label \\
-	    \hline
-	    3 & 1 & 0 & 1 & 1 & 0 & \#Survey  \\
-	    -9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \\
-	    \hline
+	\multicolumn{7}{l}{For a setup with a single survey, the Q setup matrix could be:}\\
+	\hline
+	Fleet \Tstrut & Link & Link & Extra  & Bias   &   & \\
+	Num.          & Type & Info & SD     & Adjust & Float  & Label\Bstrut\\
+	\hline
+	3 & 1 & 0 & 1 & 1 & 0 & \#Survey  \Tstrut\\
+	-9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \Bstrut\\
+	\hline
 \end{longtable}
 
 
-\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.4cm} p{1.5cm} p{4.2cm}}
-		\endfirsthead
+\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{3cm}  p{2cm}  p{4cm} }
+	\multicolumn{7}{l}{A long parameter line is expected for each link parameter (i.e. Q) and for the}\\
+	\hline
+	LO \Tstrut & HI & INIT & PRIOR &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endfirsthead
 
-		\hline
-		\#LO & HI & INIT & PRIOR & PR TYPE & SD & PHASE & LABEL \\
-		\hline
-		\endhead
+	\hline
+	LO \Tstrut & HI & INIT & PRIOR & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endhead
 
-		\hline
-		\endfoot
-		\endlastfoot
+	\hline
+	\endfoot
+	\endlastfoot
 
-		\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e. Q) and for the}\\
-		\multicolumn{8}{l}{extra SD parameter.}\\
-		\hline
-		\#LO & HI & INIT & PRIOR & PR SD & PR TYPE & PHASE & ENV  (Cont. below)\\
-		\hline
-		-2 & 2   & -0.12 & 0     & 0     & 0       & 9     & 0 \\
-		0 & 0.5   & 0.05 & 0.05     & 0     & 0       & 9     & 0 \\		\hline
-		\\
-		Cont: & USE DEV & DEV MINY & DEV MAXY & DEV PH & BLOCK & BLOCK FXN  & LABEL \\	
-		\hline	
-		      & 1       & 1982     & 2015     & -5      & 0     & 0          & \#Survey1 LnQ base\\
-		      & 0       & 0     & 0     & 0      & 0     & 0          & \#Survey1 extra sd\\
-		\hline
-	\end{longtable}
-
-
-\noindent Then because the Q base parameter specifies that it is time-varying by the annual dev method, short parameter lines to specify the specifications of the dev vector come after all the base Q parameters.
-
-\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.2cm} p{1.2cm} p{1.1cm} p{1.5cm} p{5.2cm}}
-		\hline
-		\endfoot
-		\endlastfoot
-		
-		\hline
-		\#LO  & HI   & INIT  & PRIOR & PR SD & PRIOR TYPE & PHASE & LABEL \\
-		\hline
-		0.001 & 2    & 0.079 & 0.079 & 0.5   & 4       & -5   & \#LnQ base Survey dev se\\
-		-0.99 & 0.99 & 0.00  & 0.00  & 0.5   & 4       & -6   &  \#LnQ base Survey dev autocorrelated\\
-		\hline
+	-5 & 5   & -0.12 & 0 & \multicolumn{1}{c}{...} & 0  & \#Survey1 LnQ base\Tstrut\\
+	0  & 0.5 & 0.1   & 0 & \multicolumn{1}{c}{...} & 0  & \#Survey1 Extra SD\Bstrut\\
+	\hline
 \end{longtable}
 
-\noindent NOTE:  In 3.24 it was common to use the deviation approach and this deviation approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual deviations.  Also note that deviations in 3.24 were survey specific (so no parameter for years with no survey).  But in SS3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.\\
+If the Q base parameter specifies that it is time-varying by the annual dev method, short parameter lines to specify the specifications of the deviation vector come after all the base Q parameters.
+
+Note: In 3.24 it was common to use the deviation approach and this deviation approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual deviations.  Also note that deviations in 3.24 were survey specific (so no parameter for years with no survey).  But in SS3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention.  The four values read from each line are:
@@ -1223,19 +1378,20 @@ For each fleet and survey, read a definition line for age selectivity.  The 4 va
 \begin{center}
 	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{6.5cm} }
 		\hline
-		\multicolumn{5}{l}{\#Example Setup for Size Selectivity Types}\\
-		\#Pattern & Discard & Male & Special & Label \\
+		\multicolumn{5}{l}{Example Setup for Size Selectivity:}\Tstrut\\
+		Pattern & Discard & Male & Special & Label \Bstrut\\
 		\hline
-		1  & 2 & 0 & 0 & \#Fishery1\\
+		1  & 2 & 0 & 0 & \#Fishery1\Tstrut\\
 		1  & 0 & 0 & 0 & \#Survey1\\
-		0  & 0 & 0 & 0 & \#Survey2\\
+		0  & 0 & 0 & 0 & \#Survey2\Bstrut\\
 		\hline
-		\multicolumn{5}{l}{\#Age Selectivity Types}\\
-		\#Pattern & Discard & Male & Special & Label \\
+
+		\multicolumn{5}{l}{Age Selectivity Types:}\Tstrut\\
+		Pattern & Discard & Male & Special & Label \Bstrut\\
 		\hline
-		11  & 0 & 0 & 0 & \#Fishery1\\
+		11  & 0 & 0 & 0 & \#Fishery1\Tstrut\\
 		11  & 0 & 0 & 0 & \#Survey1\\
-		11  & 0 & 0 & 0 & \#Survey2\\
+		11  & 0 & 0 & 0 & \#Survey2\Bstrut\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -1253,131 +1409,125 @@ Read the required number of parameter setup lines as specified by the definition
 	\item <repeat for additional fleets and surveys>.
 \end{enumerate}
 
-\begin{center}
-	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.5cm} p{4.3cm}}
-		\endfirsthead
+
+\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{2.9cm}  p{1.9cm}  p{4.2cm}}
+	\multicolumn{7}{l}{The list of parameters to be read from the above setup would be:}\\
+	\hline
+	LO \Tstrut & HI & INIT & PRIOR &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	LO \Tstrut & HI & INIT & PRIOR & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endhead
 		
-		\hline
-		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
-		\hline
-		\endhead
-		
-		\hline
-		\endfoot
-		\endlastfoot
-		
-		\multicolumn{8}{l}{The list of parameters to be read from the above setup would be:}\\
-		\hline
-		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
-		\hline
-		19    & 80   & 53.5 & 50  & 0.5 & ...  & 0   & \#SizeSel p1 fishery 1\\
-		0.01  & 60   & 18.9 & 15  & 0.5 & ...  & 0   & \#SizeSel p2 fishery 1 \\
-		20    & 70   & 38.6 & 40  & 0.5 & ...  & 0   & \#Retain p1 fishery 1\\
-		0.1   & 10   & 6.5  & 1   & 0.5 & ...  & 0   & \#Retain p2 fishery 1\\
-		0.001 & 1    & 0.98 & 1   & 0.5 & ...  & 0   & \#Retain p3 fishery 1\\
-		-10   & 10   & 1    & 0   & 0.5 & ...  & 0   & \#Retain p4 fishery 1\\
-		0.1   & 1    & 0.6  & 0.6 & 0.5 & ...  & 0   & \#DiscMort p1 fishery 1\\
-		-2    & 2    & 0    & 0   & 0.5 & ...  & 0   & \#DiscMort p2 fishery 1\\
-		20    & 70   & 40   & 40  & 0.5 & ...  & 0   & \#DiscMort p3 fishery 1\\
-		0.1   & 10   & 1    & 1   & 0.5 & ...  & 0   & \#DiscMort p4 fishery 1\\
-		19    & 80   & 53.5 & 50  & 0.5 & ...  & 0   & \#SizeSel p1 survey 1\\
-		0.01  & 60   & 18.9 & 15  & 0.5 & ...  & 0   & \#SizeSel p2 survey 1 \\
-		0     & 40   & 0    & 5   & 0.5 & ...  & 0   & \#AgeSel p1 fishery 1\\
-		0     & 40   & 40   & 5   & 0.5 & ...  & 0   & \#AgeSel p2 fishery 1\\
-		0     & 40   & 0    & 5   & 0.5 & ...  & 0   & \#AgeSel p1 survey 1\\
-		0     & 40   & 40   & 5   & 0.5 & ...  & 0   & \#AgeSel p2 survey 1\\
-		0     & 40   & 0    & 5   & 0.5 & ...  & 0   & \#AgeSel p1 survey 2\\
-		0     & 40   & 0    & 5   & 0.5 & ...  & 0   & \#AgeSel p2 survey 2\\
-		\hline
-	\end{longtable}
-\end{center}
+	19    & 80   & 53.5 & 50  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p1 fishery 1\Tstrut\\
+	0.01  & 60   & 18.9 & 15  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p2 fishery 1 \\
+	20    & 70   & 38.6 & 40  & \multicolumn{1}{c}{...}  & 0   & \#Retain p1 fishery 1\\
+	0.1   & 10   & 6.5  & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain p2 fishery 1\\
+	0.001 & 1    & 0.98 & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain p3 fishery 1\\
+	-10   & 10   & 1    & 0   & \multicolumn{1}{c}{...}  & 0   & \#Retain p4 fishery 1\\
+	0.1   & 1    & 0.6  & 0.6 & \multicolumn{1}{c}{...}  & 0   & \#DiscMort p1 fishery 1\\
+	-2    & 2    & 0    & 0   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort p2 fishery 1\\
+	20    & 70   & 40   & 40  & \multicolumn{1}{c}{...}  & 0   & \#DiscMort p3 fishery 1\\
+	0.1   & 10   & 1    & 1   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort p4 fishery 1\\
+	19    & 80   & 53.5 & 50  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p1 survey 1\\
+	0.01  & 60   & 18.9 & 15  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p2 survey 1 \\
+	0     & 40   & 0    & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p1 fishery 1\\
+	0     & 40   & 40   & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p2 fishery 1\\
+	0     & 40   & 0    & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p1 survey 1\\
+	0     & 40   & 40   & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p2 survey 1\\
+	0     & 40   & 0    & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p1 survey 2\\
+	0     & 40   & 0    & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p2 survey 2\Bstrut\\
+	\hline
+\end{longtable}
+
 
 
 \subsubsection{Selectivity Patterns}
 The currently defined selectivity patterns, and corresponding required number of parameters, are:
 
-\begin{center}
-	\begin{longtable}{p{2cm} p{3cm} p{10cm}}
-		\endfirsthead
 
-		\hline
-		Pattern & N Parameters & Description \\
-		\hline
-		\endhead
+\begin{longtable}{p{2cm} p{3cm} p{10cm}}
+	\multicolumn{3}{c}{SIZE BASED SELECTIVITY}\Bstrut\\	
+	\endfirsthead
 
-		%\hline
-		\endfoot
-		\endlastfoot
+	\hline
+	Pattern & N Parameters & Description \Tstrut\Bstrut\\
+	\hline
+	\endhead
 
-		\hline
-		\multicolumn{3}{c}{SIZE BASED SELECTIVITY}\\
-		  &   &  \\
-		Pattern & N Parameters & Description \\
-		\hline
-		0 & 0 & Selectivity = 1.0 for all sizes. \\
-		1 & 2 & Logistic selectivity.\\
-		2 & 8 & Discontinued: Double logistic with defined peak (uses IF joiners). Use pattern 8 instead.\\
-		3 & 6 & Discontinued \\
-		4 & 0 & Discontinued: Set size selectivity equal to female fecundity. Use special survey pattern 30 located in the index section within the data file instead.\\
-		5 & 2 & Mirror another selectivity. The two parameters select bin range.\\
-		6 & 2 + special value & Non-parametric \\
-		7 & 8 & Discontinued: Double logistic with defined peak, uses smooth joiners; special = 1 causes constant selectivity above Linf for morph 1.  Use pattern \#8.\\
-		8 & 8 & Double logistic, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1.  \\
-		9 & 6 & Simple double logistic with no defined peak.\\
-		15 & 0 & Mirror another selectivity (same as for age selectivity).\\
-		21 & 1 + special value  & Non-parametric size selectivity\\
-		22 & 4 & Double normal; similar to CASAL.\\
-		23 & 6 & Same as the double normal pattern 24 except the final selectivity is now directly interpreted as the terminal selectivity value. Cannot be used with Pope's F method because maximum selectivity may be greater than 1.\\
-		24 & 6 & Double normal with defined initial and final selectivity level – Recommended option.  Test using SELEX-24.xls. \\
-		25 & 3 & Exponential-logistic. \\
-		27 & 3 + 2*N nodes & Cubic spline with N nodes. \\
-		42 & 5 + 2*x & Selectivity pattern 27 but with 2 additional scaling parameters. \\
-		43 & 4 + x & Selectivity pattern 6 but with 2 additional scaling parameters.\\
-		\hline
-	\end{longtable}
-\end{center}
+	\hline
+	\endfoot
+	\endlastfoot
+
+	\hline
+		
+	Pattern & N Parameters & Description \Tstrut\Bstrut\\
+	\hline
+	0 \Tstrut& 0 & Selectivity = 1.0 for all sizes. \\
+	1 \Tstrut& 2 & Logistic selectivity.\\
+	2 \Tstrut& 8 & Discontinued: Double logistic with defined peak (uses IF joiners). Use pattern 8 instead.\\
+	3 \Tstrut& 6 & Discontinued \\
+	4 \Tstrut& 0 & Discontinued: Set size selectivity equal to female fecundity. Use special survey pattern 30 located in the index section within the data file instead.\\
+	5 \Tstrut& 2 & Mirror another selectivity. The two parameters select bin range.\\
+	6 \Tstrut& 2 + special value & Non-parametric \\
+	7 \Tstrut& 8 & Discontinued: Double logistic with defined peak, uses smooth joiners; special = 1 causes constant selectivity above Linf for morph 1.  Use pattern \#8.\\
+	8 \Tstrut& 8 & Double logistic, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1.  \\
+	9 \Tstrut& 6 & Simple double logistic with no defined peak.\\
+	15 \Tstrut& 0 & Mirror another selectivity (same as for age selectivity).\\
+	21 \Tstrut& 1 + special value  & Non-parametric size selectivity\\
+	22 \Tstrut& 4 & Double normal; similar to CASAL.\\
+	23 \Tstrut& 6 & Same as the double normal pattern 24 except the final selectivity is now directly interpreted as the terminal selectivity value. Cannot be used with Pope's F method because maximum selectivity may be greater than 1.\\
+	24 \Tstrut& 6 & Double normal with defined initial and final selectivity level – Recommended option.  Test using SELEX-24.xls. \\
+	25 \Tstrut& 3 & Exponential-logistic. \\
+	27 \Tstrut& 3 + 2*N nodes & Cubic spline with N nodes. \\
+	42 \Tstrut& 5 + 2*x & Selectivity pattern 27 but with 2 additional scaling parameters. \\
+	43 \Tstrut& 4 + x & Selectivity pattern 6 but with 2 additional scaling parameters.\Bstrut\\
+	\hline
+\end{longtable}
 
 
-\begin{center}
-	\begin{longtable}{p{2cm} p{3cm} p{10cm}}
 
-		\endfirsthead
 
-		\hline
-		Pattern & N Parameters & Description \\
-		\hline
-		\endhead
+\begin{longtable}{p{2cm} p{3cm} p{10cm}}
+	\multicolumn{3}{c}{AGE BASED SELECTIVITY}\\
+	\endfirsthead
 
-		%\hline
-		\endfoot
-		\endlastfoot
+	\hline
+	Pattern & N Parameters & Description \Tstrut\Bstrut\\
+	\hline
+	\endhead
 
-		\hline
-		\multicolumn{3}{c}{AGE BASED SELECTIVITY}\\
-		   &   &  \\
-		Pattern & N Parameters & Description \\
-		\hline
-		0  & 0 & Selectivity = 1.0 for ages 0+.\\
-		10 & 0 & Selectivity = 1.0 for all ages beginning at age 1.  If it is desired that age-0 fish be selected, then use pattern \#11 and set minimum age to 0.0. \\
-		11 & 2 & Selectivity = 1.0 for a specified age range.\\
-		12 & 2 & Logistic selectivity.\\
-		13 & 8 & Double logistic, IF joiners.  Use discouraged.  Use pattern 18 instead.\\
-		14 & nages + 1 & Separate parameter for each age (empirical), value at age is $\frac{1}{1+exp(-x)}$. \\
-		15 & 0 & Mirror another age-specific selectivity pattern.\\
-		16 & 2 & Coleraine single Gaussian\\
-		17 & nages + 1 & Empirical as a random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \\
-		18 & 8 & Double logistic, with defined peak, uses smooth joiners.  \\
-		19 & 6 & Simple double logistic with no defined peak.\\
-		20 & 6 & Double normal with defined initial and final level.  Recommended option. Test using SELEX-24.xls.\\
-		26 & 3 & Exponential logistic.\\
-		27 & 3 + 2*N nodes & Cubic spline in age based on N nodes.\\
-		41 & 2 + nages + 1 & Selectivity pattern 17 but with 2 additional scaling parameters. \\
-		42 & 5 + 2*N nodes & Selectivity pattern 27 but with 2 additional scaling parameters. \\
-		44 & 4 + nages & Similar to age selectivity pattern 17 but with separate parameters for males and with revised controls \\
-		45 & 4 + nages & Similar to age selectivity pattern 14 but with separate parameters for males and with revised controls \\
-		\hline
-	\end{longtable}
-\end{center}
+	\hline
+	\endfoot
+	\endlastfoot
+	
+	\hline
+	Pattern & N Parameters & Description  \Tstrut\Bstrut\\
+	\hline
+	0  \Tstrut& 0 & Selectivity = 1.0 for ages 0+.\\
+	10 \Tstrut& 0 & Selectivity = 1.0 for all ages beginning at age 1.  If it is desired that age-0 fish be selected, then use pattern \#11 and set minimum age to 0.0. \\
+	11 \Tstrut& 2 & Selectivity = 1.0 for a specified age range.\\
+	12 \Tstrut& 2 & Logistic selectivity.\\
+	13 \Tstrut& 8 & Double logistic, IF joiners.  Use discouraged.  Use pattern 18 instead.\\
+	14 \Tstrut& nages + 1 & Separate parameter for each age (empirical), value at age is $\frac{1}{1+exp(-x)}$. \\
+	15 \Tstrut& 0 & Mirror another age-specific selectivity pattern.\\
+	16 \Tstrut& 2 & Coleraine single Gaussian\\
+	17 \Tstrut& nages + 1 & Empirical as a random walk from previous age.  For all ages in the population beginning with Amin = 1 for the fishery and 2 for the survey, there is a corresponding set of selectivity parameters for each fleet, $p_a$. \\
+	18 \Tstrut& 8 & Double logistic, with defined peak, uses smooth joiners.  \\
+	19 \Tstrut& 6 & Simple double logistic with no defined peak.\\
+	20 \Tstrut& 6 & Double normal with defined initial and final level.  Recommended option. Test using SELEX-24.xls.\\
+	26 \Tstrut& 3 & Exponential logistic.\\
+	27 \Tstrut& 3 + 2*N nodes & Cubic spline in age based on N nodes.\\
+	41 \Tstrut& 2 + nages + 1 & Selectivity pattern 17 but with 2 additional scaling parameters. \\
+	42 \Tstrut& 5 + 2*N nodes & Selectivity pattern 27 but with 2 additional scaling parameters. \\
+	44 \Tstrut& 4 + nages & Similar to age selectivity pattern 17 but with separate parameters for males and with revised controls. \\
+	45 \Tstrut& 4 + nages & Similar to age selectivity pattern 14 but with separate parameters for males and with revised controls.\Bstrut\\
+	\hline
+\end{longtable}
+
 
 \begin{description}
 	\item[Special Selectivity Options]\hfil\\
@@ -1616,71 +1766,94 @@ The currently defined selectivity patterns, and corresponding required number of
 	
 	When the complete auto-generation is selected, the control.ss\_new would look like the table below:
 	
-	\begin{center}
-		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
-			\hline
-			\#LO & HI & INIT & PR & PR\_SD & ... & BLOCK FXN & \#Label \\
-			\hline
-			0      &     2 &   2.0 & 0 & 0   & ... & 0 & \#SizeSpline Code\\
-			-0.001 & 	 1 &  0.13 & 0 & 0.1 & ... & 0 & \#SizeSpline GradLo\\
-			-1     & 0.001 & -0.03 & 0 & 0.1 & ... & 0 & \#SizeSpline GradHi\\
-			11     & 	95 & 	38 & 0 & 0   & ... & 0 & \#SizeSpline Knot1\\
-			11     & 	95 & 	59 & 0 & 0   & ... & 0 & \#SizeSpline Knot2\\
-			11     & 	95 & 	74 & 0 & 0   & ... & 0 & \#SizeSpline Knot3\\
-			-9     & 	 7 & 	-3 & 0 & 0.1 & ... & 0 & \#SizeSpline Value1\\
-			-9     &   	 7 & 	-1 & 0 & 0.1 & ... & 0 & \#SizeSpline Value2\\
-			-9     & 	 7 & -0.78 & 0 & 0.1 & ... & 0 & \#SizeSpline Value3\\
-			\hline
-		\end{longtable}
-	\end{center}
+
+\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.9cm}  p{4.2cm}}
+	\hline
+	LO \Tstrut & HI & INIT  &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	LO \Tstrut & HI & INIT & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endhead
+
+	0 \Tstrut &     2  &   2.0 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline Code\\
+	-0.001    & 	 1 &  0.13 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline GradLo\\
+	-1        & 0.001  & -0.03 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline GradHi\\
+	11        & 	95 & 	38 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline Knot1\\
+	11        & 	95 & 	59 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline Knot2\\
+	11        & 	95 & 	74 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline Knot3\\
+	-9        & 	 7 & 	-3 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline Value1\\
+	-9        &   	 7 & 	-1 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline Value2\\
+	-9        & 	 7 & -0.78 & \multicolumn{1}{c}{...} & 0 & \#SizeSpline Value3 \Bstrut\\
+	\hline
+\end{longtable}
+
 \end{description}
 
 \begin{description}
 	\item[Pattern 41 (age) - Random Walk with User-Defined Scaling]\hfil\\
 	Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
-	\begin{center}
-		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
-			\hline
-			\#LO & HI & INIT & PR & PR\_SD & ... & BLOCK FXN & \#Label \\
-			\hline
-			0 & 20 & 10 & 0 & 0.5 & ... & 0 & \#AgeSel\_ScaleAgeLo \\
-			0 & 20 & 20 & 0 & 0.5 & ... & 0 & \#AgeSel\_ScaleAgeHi \\
-			\hline
-		\end{longtable}
-	\end{center}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.9cm}  p{4.2cm}}
+		\hline
+		LO \Tstrut & HI & INIT  &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+		\hline
+		\endfirsthead
+	
+		\hline
+		LO \Tstrut & HI & INIT & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+		\hline
+		\endhead
+
+		0 & 20 & 10 & \multicolumn{1}{c}{...} & 0 & \#AgeSel\_ScaleAgeLo \Tstrut\\
+		0 & 20 & 20 & \multicolumn{1}{c}{...} & 0 & \#AgeSel\_ScaleAgeHi \Bstrut\\
+		\hline
+	\end{longtable}
+
 \end{description}
 
 \begin{description}
 	\item[Pattern 42 (size and age) - Cubic Spline with User-Defined Scaling]\hfil\\
 	Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
-	\begin{center}
-		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.9cm}  p{4.2cm}}
 		\hline
-		\#LO & HI & INIT & PR & PR\_SD & ... & BLOCK FXN & \ Label \\
+		LO \Tstrut & HI & INIT  &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
 		\hline
-		0 & 20 & 10 & 0 & 0.5 &  ... & 0 & \#AgeSpline\_ScaleAgeLo \\
-		0 & 20 & 20 & 0 & 0.5 & ... & 0 & \#AgeSpline\_ScaleAgeHi \\
+		\endfirsthead
+	
 		\hline
-		\end{longtable}
-	\end{center}
+		LO \Tstrut & HI & INIT & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+		\hline
+		\endhead
+
+		0 & 20 & 10 & \multicolumn{1}{c}{...} & 0 & \#AgeSpline\_ScaleAgeLo\Tstrut\\
+		0 & 20 & 20 & \multicolumn{1}{c}{...} & 0 & \#AgeSpline\_ScaleAgeHi\Bstrut\\
+		\hline
+	\end{longtable}
 \end{description}
 
 \begin{description}
 	\item[Pattern 43 (size) - Non-parametric with User-Defined Scaling]\hfil\\
 	Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 	
-	\begin{center}
-		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
-			\hline
-			\#LO & HI & INIT & PR & PR\_SD  & ... & BLOCK FXN & \#Label \\
-			\hline
-			1 & 80 & 50 & 0 & 0.5  & ... & 0 & \#SizeSel\_ScaleBinLo \\
-			1 & 80 & 70 & 0 & 0.5  & ... & 0 & \#SizeSel\_ScaleBinHi \\
-			\hline
-		\end{longtable}
-	\end{center}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.9cm}  p{4.2cm}}
+		\hline
+		LO \Tstrut & HI & INIT  &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+		\hline
+		\endfirsthead
+	
+		\hline
+		LO \Tstrut & HI & INIT & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+		\hline
+		\endhead
+
+		1 & 80 & 50 & \multicolumn{1}{c}{...} & 0 & \#SizeSel\_ScaleBinLo\Tstrut\\
+		1 & 80 & 70 & \multicolumn{1}{c}{...} & 0 & \#SizeSel\_ScaleBinHi\Bstrut\\
+		\hline
+	\end{longtable}
 \end{description}
 
 \begin{description}
@@ -1699,33 +1872,39 @@ The currently defined selectivity patterns, and corresponding required number of
 	\begin{center}
 		\begin{longtable}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
 			\hline
-			\#Pattern & Discard & Male & Special\\
+			\#Pattern & Discard & Male & Special\Tstrut\Bstrut\\
 			\hline
-			44 & 0 & 0 & 4 \\
+			44 & 0 & 0 & 4 \Tstrut\Bstrut\\
 			\hline
 		\end{longtable}
 	\end{center}
 
-	\begin{center}
-		\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
-			\hline
-			\#LO & HI & INIT & PR & PR\_SD  & ... & BLOCK FXN & \#Label \\
-			\hline
-			0 & 20 &  0 &  0 & 0.5  & ... & 0 & \#first selex age \\
-			0 & 20 &  2 &  2 & 0.5  & ... & 0 & \#first age peak selex (mean) \\
-			0 & 20 &  2 &  2 & 0.5  & ... & 0 & \#last age peak selex (mean) \\
-		   -1 & 2 & -0.001 & -0.001 & 0.5  & ... & 0 & \#male ln(ratio) \\
-		   -10 & 10 &  3.01 &  3.01 & 0.5  & ... & 0 & \#female ln(selex) change 1\\
-		   -10 & 10 &  1.56 &  1.56 & 0.5  & ... & 0 & \#female ln(selex) change 2\\
-		   -10 & 10 & -0.15 & -0.15 & 0.5  & ... & 0 & \#female ln(selex) change 3\\
-		   -10 & 10 & -0.15 & -0.15 & 0.5  & ... & 0 & \#female ln(selex) change 4\\
-		   -1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 1\\
-		   -1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 2\\
-		   -1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 3\\
-		   -1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 4\\
-			\hline
-		\end{longtable}
-	\end{center}		
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.8cm}  p{5.1cm}}
+		\hline
+		LO \Tstrut & HI & INIT  &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+		\hline
+		\endfirsthead
+	
+		\hline
+		LO \Tstrut & HI & INIT & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+		\hline
+		\endhead
+
+		0     & 20 &  0     & \multicolumn{1}{c}{...} & 0 & \#first selex age \Tstrut\\
+		0     & 20 &  2     & \multicolumn{1}{c}{...} & 0 & \#first age peak selex (mean) \\
+		0     & 20 &  2     & \multicolumn{1}{c}{...} & 0 & \#last age peak selex (mean) \\
+		-1    & 2  & -0.001 & \multicolumn{1}{c}{...} & 0 & \#male ln(ratio) \\
+		-10   & 10 &  3.01  & \multicolumn{1}{c}{...} & 0 & \#female ln(selex) change 1\\
+		-10   & 10 &  1.56  & \multicolumn{1}{c}{...} & 0 & \#female ln(selex) change 2\\
+		-10   & 10 & -0.15  & \multicolumn{1}{c}{...} & 0 & \#female ln(selex) change 3\\
+		-10   & 10 & -0.15  & \multicolumn{1}{c}{...} & 0 & \#female ln(selex) change 4\\
+		-1000 & 10 & -1000  & \multicolumn{1}{c}{...} & 0 & \#male ln(selex) change 1\\
+		-1000 & 10 & -1000  & \multicolumn{1}{c}{...} & 0 & \#male ln(selex) change 2\\
+		-1000 & 10 & -1000  & \multicolumn{1}{c}{...} & 0 & \#male ln(selex) change 3\\
+		-1000 & 10 & -1000  & \multicolumn{1}{c}{...} & 0 & \#male ln(selex) change 4\Bstrut\\
+		\hline
+	\end{longtable}
+		
 \end{description}
 
 \begin{description}
@@ -1743,31 +1922,38 @@ Similar to pattern 14 but with separate parameters for males and females. Age-se
 		\begin{center}
 			\begin{longtable}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} }
 				\hline
-				\#Pattern & Discard & Male & Special\\
+				\#Pattern & Discard & Male & Special\Tstrut\Bstrut\\
 				\hline
-				45 & 0 & 0 & 3 \\
+				45 & 0 & 0 & 3 \Tstrut\Bstrut\\
 				\hline
 			\end{longtable}
 		\end{center}
 		
-		\begin{center}
-			\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
-				\hline
-				\#LO & HI & INIT & PR & PR\_SD  & ... & BLOCK FXN & \#Label \\
-				\hline
-				0 & 20 &  2 &  0 & 0.5  & ... & 0 & \#first selex age \\
-				0 & 20 &  5 &  2 & 0.5  & ... & 0 & \#first age peak selex (mean) \\
-				0 & 20 &  5 &  2 & 0.5  & ... & 0 & \#last age peak selex (mean) \\
-				-1  &  2 & -0.001 & -0.001 & 0.5  & ... & 0 & \#male ln(ratio) \\
-				-10 & 10 & -8.1   &  -8.1 & 0.5  & ... & 0 & \#female ln(selex) change 1\\
-				-10 & 10 & -4.1   & -4.1 & 0.5  & ... & 0 & \#female ln(selex) change 2\\
-				-10 & 10 & -1.8   & -1.8 & 0.5  & ... & 0 & \#female ln(selex) change 3\\
-				-1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 1\\
-				-1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 2\\
-				-1000 & 10 & -1000 & -0.9 & 0.5  & ... & 0 & \#male ln(selex) change 3\\
-				\hline
-			\end{longtable}
-		\end{center}	
+
+		\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.8cm}  p{5.1cm}}
+			\hline
+			LO \Tstrut & HI & INIT  &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+			\hline
+			\endfirsthead
+		
+			\hline
+			LO \Tstrut & HI & INIT & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+			\hline
+			\endhead
+
+			0     & 20 &  2     &  \multicolumn{1}{c}{...} & 0 & \#first selex age \Tstrut\\
+			0     & 20 &  5     &  \multicolumn{1}{c}{...} & 0 & \#first age peak selex (mean) \\
+			0     & 20 &  5     &  \multicolumn{1}{c}{...} & 0 & \#last age peak selex (mean) \\
+			-1    &  2 & -0.001 &  \multicolumn{1}{c}{...} & 0 & \#male ln(ratio) \\
+			-10   & 10 & -8.1   &  \multicolumn{1}{c}{...} & 0 & \#female ln(selex) change 1\\
+			-10   & 10 & -4.1   &  \multicolumn{1}{c}{...} & 0 & \#female ln(selex) change 2\\
+			-10   & 10 & -1.8   &  \multicolumn{1}{c}{...} & 0 & \#female ln(selex) change 3\\
+			-1000 & 10 & -1000  &  \multicolumn{1}{c}{...} & 0 & \#male ln(selex) change 1\\
+			-1000 & 10 & -1000  &  \multicolumn{1}{c}{...} & 0 & \#male ln(selex) change 2\\
+			-1000 & 10 & -1000  &  \multicolumn{1}{c}{...} & 0 & \#male ln(selex) change 3\Bstrut\\
+			\hline
+		\end{longtable}
+
 \end{description}
 
 
@@ -1845,70 +2031,78 @@ Note that the male selectivity offsets currently cannot be time-varying (need to
 \subsubsection{Dirichlet Multinomial Error for Data Weighting}
 If the Dirichlet multinomial error distribution was selected in the data file for either length or age data weighting an additional parameter line is required immediately following the selectivity parameter block. 
 
-\begin{center}
-	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.2cm} p{1.2cm} p{1.5cm} p{1.1cm} p{1.5cm} p{4.3cm}}
-		\hline
-		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
-		\hline		
-		\multicolumn{8}{l}{The list of parameters to be read from the above setup would be:}\\
-		\hline
-		\#LO & HI & INIT & PRIOR & PR SD & ... & BLOCK FXN & LABEL \\
-		\hline
-		1    & 25 & 1 & 1 & 10 & ...  & 0   & \#ln(EffN mult) Age or Length 1 Dirichlet\\
-		1    & 25 & 1 & 1 & 10 & ...  & 0   & \#ln(EffN mult) Age or Length 2 Dirichlet\\
-		\hline
-	\end{longtable}
-\end{center} 
+	
+	
+\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.8cm}  p{6.5cm}}
+	\multicolumn{6}{l}{The list of parameters to be read from the above setup would be:}\\
+	\hline
+	LO \Tstrut & HI & INIT  &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endfirsthead
+	
+	\hline
+	LO \Tstrut & HI & INIT & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endhead
+
+	1    & 25 & 1  & \multicolumn{1}{c}{...}  & 0   & \#ln(EffN mult) Age or Length 1 \Tstrut\\
+	1    & 25 & 1  & \multicolumn{1}{c}{...}  & 0   & \#ln(EffN mult) Age or Length 2\Bstrut\\
+	\hline
+\end{longtable}
+
 
 \subsubsection{Time-varying Options}
 The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the \hyperlink{TVpara}{\textit{Using Time-Varying Parameter Options section}}.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
 
-\begin{center}
-	\begin{longtable}{p{0.8cm} p{0.8cm} p{1cm} p{0.8cm} p{1.75cm}p{1cm} p{1.2cm} p{5.2cm}}
-		\multicolumn{8}{r}{Example short parameter lines for selectivity time-varying parameters:}\\
-		\hline
-		\#LO & HI & INIT & PRIOR & PR\_SD  & PRIOR TYPE & PHASE& \#Label \\
-		\hline
-		0.01 & 2.0 & 0.58 & 0.58 &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_se \\
-		1    & 80  & 70   & 70   &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_autocorr \\
-		\hline
-	\end{longtable}
-\end{center}
+
+\begin{longtable}{p{0.8cm} p{0.8cm} p{1.1cm} p{1.0cm} p{0.8cm}p{1cm} p{1.2cm} p{6.5cm}}
+	\multicolumn{8}{l}{Example short parameter lines for selectivity time-varying parameters:}\\
+	\hline
+	\Tstrut& &  &  & PR & PRIOR  & &  \\
+	LO & HI & INIT & PRIOR & SD & TYPE & PHASE & Label \Bstrut\\
+	\hline
+	0.01 & 2.0 & 0.58 & 0.58 &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_se\Tstrut\\
+	1    & 80  & 70   & 70   &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_autocorr\Bstrut\\
+	\hline
+\end{longtable}
+
 
 
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity}
 A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do not have this feature and hence this input is not expected.  This features allows for auto-correlation by age and/or time.  The age based random walk selectivity, pattern 17, should be selected to implement the semiparametric auto-regressive selectivity. 
 
-\begin{center}
-	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
-			
-		\multicolumn{2}{l}{Value} &  \multicolumn{5}{l}{Label} & \multicolumn{2}{l}{Description}\\
-		\hline
-		\multicolumn{2}{l}{1} &  \multicolumn{5}{l}{Two-dimensional auto-regressive selectivity} & \multicolumn{4}{l} {0 = not used}\\
-		\multicolumn{3}{l}{} &  \multicolumn{4}{l}{} & \multicolumn{4}{l} {1 = use}\\
-		\\
-		\multicolumn{10}{l}{COND = 1 Read the following long parameter lines:}\\
-		\hline
-		        &      &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
-		\#Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\\
-		\hline
-		   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 1980   & 2007\\
-		\hline
-		\\
+
+\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
 		
-		\multicolumn{10}{l}{Continued:} \\
-		\hline
-		     &    &      &       & PRIOR & PRIOR &       &     & & & \\
-		\#LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL}\\
-		\hline
-		 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex}\\
-		-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year}\\
-		-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age}\\
-		\multicolumn{11}{l}{\#Terminator line of 11 in length indicates the end of parameter input lines}\\
-		-9999 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
-		\hline
-	\end{longtable}
-\end{center}
+	\multicolumn{3}{l}{Typical Value} &  \multicolumn{8}{l}{Description and Options} \\
+	\hline
+
+	\multicolumn{3}{l}{1} & \multicolumn{8}{l}{Two-dimensional auto-regressive selectivity:}\Tstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{8}{l}{0 = Not used,}\\
+	\multicolumn{3}{l}{ } & \multicolumn{8}{l}{1 = Use 2D AR.}\Tstrut\\
+
+	\multicolumn{11}{l}{COND = 1 Read the following long parameter lines:}\\
+	\hline
+	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
+	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\Bstrut\\
+	\hline
+	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 1980   & 2007\Tstrut\Bstrut\\
+	\hline
+	\\
+	
+	\multicolumn{11}{l}{Continued:} \\
+	\hline
+	     &    &      &       & PRIOR & PRIOR &       &     & & & \Tstrut\\
+	LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL}\Bstrut\\
+	\hline
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex}\Tstrut\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age}\Bstrut\\
+	\multicolumn{11}{l}{\#Terminator line of 11 in length indicates the end of parameter input lines}\\
+	-9999 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+	\hline
+\end{longtable}
+
 
 Parameter Definitions:
 \begin{itemize}
@@ -1969,35 +2163,49 @@ Parameter Definitions:
 
 \subsection{Tag Recapture Parameters}
 Specify if tagging data are being used:
-\begin{center}
-	\begin{longtable}{p{0.75cm} p{0.75cm} p{0.75cm} p{1.25cm} p{1.15cm} p{1.65cm} p{1.5cm} p{0.75cm} p{4.5cm}}
 
-		\multicolumn{3}{l}{Value} &  \multicolumn{3}{l}{Label} & \multicolumn{3}{l}{Description}\\
-		\hline
-		\multicolumn{3}{l}{1} &  \multicolumn{3}{l}{Tagging Data Present} & \multicolumn{3}{l} {0 = no read}\\
-		\multicolumn{3}{l}{} &  \multicolumn{3}{l}{} & \multicolumn{3}{l} {1 = read following lines}\\
-		\\
-		\multicolumn{8}{l}{COND = 1 Read the following long parameter lines:}\\
-		\hline
-		     &    &      &       & PRIOR & PRIOR &       &     & \\
-		\#LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & ... & LABEL\\
-		\hline
-		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss init 1\\
-		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss init 2\\
-		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss init 3\\
-		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss chronic1\\
-		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss chronic2\\
-		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG loss chronic3\\
-		  1 & 10 & 2 & 2 & 0.001 & 4 & -4 & 0 & \#TG loss overdisperion1\\
-		  1 & 10 & 2 & 2 & 0.001 & 4 & -4 & 0 & \#TG loss overdisperion2\\
-		  1 & 10 & 2 & 2 & 0.001 & 4 & -4 & 0 & \#TG loss overdisperion3\\
-		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG report fleet1\\
-		-10 & 10 & 9 & 9 & 0.001 & 4 & -4 & 0 & \#TG report fleet2\\
-		 -4 &  0 & 0 & 0 & 0.001 & 2 & -4 & 0 & \#TG report decay1\\
-		 -4 &  0 & 0 & 0 & 0.001 & 2 & -4 & 0 & \#TG report decay2\\
-		 \hline
-	\end{longtable}
-\end{center}
+
+\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{2.9cm}  p{1.5cm}  p{4.5cm} }
+	\hline
+	\multicolumn{3}{l}{Typical Value} &  \multicolumn{4}{l}{Description and Options}\Tstrut\Bstrut\\
+	\hline
+	\multicolumn{3}{l}{1} &  \multicolumn{4}{l}{Tagging Data Present:} \Tstrut\\
+	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{0 = No tagging data,} \\
+	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{1 = Read following lines of tagging data.} \Bstrut\\
+
+
+	\multicolumn{7}{l}{COND = 1 Read the following long parameter lines:}\Tstrut\\
+	\hline
+	LO \Tstrut & HI & INIT & PRIOR &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	LO \Tstrut & HI & INIT & PRIOR & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endhead
+
+	\hline
+	\endfoot
+	\endlastfoot
+
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss init 1\Tstrut\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss init 2\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss init 3\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic1\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic2\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic3\\
+	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdisperion1\\
+	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdisperion2\\
+	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdisperion3\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG report fleet1\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG report fleet2\\
+	 -4 &  0 & 0 & 0 & \multicolumn{1}{c}{...} & 0 & \#TG report decay1\\
+	 -4 &  0 & 0 & 0 & \multicolumn{1}{c}{...} & 0 & \#TG report decay2\Bstrut\\
+	 \hline
+\end{longtable}
+
+
 
 \noindent The tagging reporting rate parameter is transformed within SS during estimation to maintain a positive value and is reported according to the transformation:
 \begin{equation}
@@ -2009,24 +2217,19 @@ Specify if tagging data are being used:
 When doing iterative reweighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
 
 
-\begin{center}
-	\begin{longtable}{p{3cm} p{3cm} p{3cm} p{6.5cm} }
+\begin{longtable}{p{3cm} p{3cm} p{2.5cm} p{6.25cm} }
 
-		 \multicolumn{4}{l}{Variance Adjustment Factors }\\
-		 \hline
-		-9999 1 0 & \multicolumn{3}{l}{No variance adjustment factors applied }\\
-		\\
-		\multicolumn{4}{l}{If variance adjustment factors are to be applied:}\\
-		\hline
-		Factor & Fleet & Value & Description \\
-		\hline
-		1 & 2 & 0.5 & \# Survey CV for survey/fleet 2 \\
-		4 & 1 & 0.25 & \# Length data for fleet 1 \\
-		4 & 2 & 0.75 & \# Length data for fleet 2\\
-		-9999 & 0 & 0 & \\
-		\hline
-	\end{longtable}
-\end{center}
+	\multicolumn{4}{l}{Read variance adjustment factors to be applied:}\\
+	\hline
+	Factor & Fleet & Value & Description \Tstrut\Bstrut\\
+	\hline
+	1 & 2 & 0.5 & \# Survey CV for survey/fleet 2 \Tstrut\\
+	4 & 1 & 0.25 & \# Length data for fleet 1 \\
+	4 & 2 & 0.75 & \# Length data for fleet 2\\
+	-9999 & 0 & 0 & \# End read\Bstrut\\
+	\hline
+\end{longtable}
+
 
 \begin{description}
 	\item[Additive Survey CV - Factor 1]\hfil\\
@@ -2043,116 +2246,161 @@ When doing iterative reweighting of the input variance factors, it is convenient
 	Size-at-age input variance is the sample size for the N observations at each age.  The variance adjustment is multiplied by these N values. Set to 1.0 for no effect.
 	\item[Multiplicative Generalized Size Composition - Factor 7]\hfill\\
 	Generalized size composition input variance is the sample size for each observation.  The variance adjustment for each fleet is multiplied by these sample sizes. Set to 1.0 for no effect.
-	\item[Usage Notes]\hfill
-	\begin{itemize}
-		\item The report.sso output file contains information useful for determining if an adjustment of these input values is warranted to better match the scale of the average residual to the input variance scale.
-		\item Because the actual input variance factors are modified, it is these modified variance factors that are used when creating parametric bootstrap data files.  So, the control files used to analyze bootstrap generated data files should have the variance adjustment factors reset to null levels.
-	\end{itemize}
+	\item[Usage Notes]\hfill\\
+	%\begin{itemize}
+	The report.sso output file contains information useful for determining if an adjustment of these input values is warranted to better match the scale of the average residual to the input variance scale.
+	
+	Because the actual input variance factors are modified, it is these modified variance factors that are used when creating parametric bootstrap data files.  So, the control files used to analyze bootstrap generated data files should have the variance adjustment factors reset to null levels.
+	%\end{itemize}
 \end{description}
 
 \subsection{Lambdas (Emphasis Factors)}
 These values are multiplied by the corresponding likelihood component to calculate the overall negative log likelihood to be minimized.
 
-\begin{center}
-	\begin{tabular}{p{2cm} p{14cm}}
-		Value & Description \\
-		\hline
-		4 & Max lambda phase: read this number of lambda values for each element below.  The last lambda value is used for all higher numbered phases.\\
-		1 & sd offset; value=0 causes log(like) to omit the +log(s) term; value=1 causes log(like) to include the log(s) term for CPUE, discard, growth CV, mean body weight, recruitment deviations. If you are estimating any variance parameters, sd offset must be set to 1.  \\
-		\hline
-	\end{tabular}
-\end{center}
+
+\begin{tabular}{p{3cm} p{13cm}}
+	\hline
+	Typical Value & Description and Options\Tstrut\Bstrut\\
+	\hline
+	4 \Tstrut & Max lambda phase: read this number of lambda values for each element below.  The last lambda value is used for all higher numbered phases.\Bstrut\\
+	1 & SD offset: \\
+	  & 0 = The log(like) to omit the +log(s) term,\\
+	  & 1 = The log(like) to include the log(s) term for CPUE, discard, growth CV, mean body weight, recruitment deviations. If you are estimating any variance parameters, SD offset must be set to 1.  \Bstrut\\
+	\hline
+\end{tabular}
+
 
 \begin{description}
 	\item[Usage Note:]\hfil\\
 	If the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the +log(stddev) term in the likelihood must be included.  Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
 \end{description}
 
-The reading of the lambda values has been substantially altered with SS v3.  Instead of reading a matrix containing all the needed lambda values, SS now just reads those elements that will be given a value other than 1.0.  After reading the datafile, SS sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist.  So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS.  First read an integer for the number of changes.
+The reading of the lambda values has been substantially altered with SS v3.30.  Instead of reading a matrix containing all the needed lambda values, SS now just reads those elements that will be given a value other than 1.0.  After reading the datafile, SS sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist.  So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS.  First read an integer for the number of changes.
+
+
+\begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
+
+	\multicolumn{5}{l}{Read the lambda adjustments by fleet and data type:}\\
+	\hline
+	Likelihood &       &       & Lambda & SizeFreq\Tstrut\\
+	Component  & Fleet & Phase & Value  & Method \Bstrut\\
+	\hline
+	1 & 2 & 2 & 1.5 & 1 \Tstrut\\
+	4 & 2 & 2 & 10 & 1 \\
+	4 & 2 & 3 & 0.2 & 1 \\
+	-9999 & 1 & 1 & 1 & 1 \Bstrut\\
+	\hline
+\end{longtable}
+
 
 
 \begin{center}
-	\begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
+	\begin{longtable}{ p{7.5cm} p{7.5cm} }
+		\multicolumn{2}{l}{The codes for component are:}\\
 		\hline
-		\multicolumn{5}{l}{\#Then read that number of lines containing the change information:}\\
-		\#Component & Fleet/Survey & Phase & Lambda & SizeFreq Method \\
-		\hline
-		1 & 2 & 2 & 1.5 & 1 \\
-		4 & 2 & 2 & 10 & 1 \\
-		4 & 2 & 3 & 0.2 & 1 \\
-		-9999 & 1 & 1 & 1 & 1 \\
+		1 = survey  				  & 10 = recruitment deviations \Tstrut\\	
+		2 = discard 				  & 11 = parameter priors\\		
+		3 = mean weight 			  & 12 = parameter deviations\\	
+		4 = length 					  & 13 = crash penalty\\		
+		5 = age 					  & 14 = morph composition\\
+		6 = size frequency  		  & 15 = tag composition\\		
+		7 = size-at-age 			  & 16 = tag negative binomial\\
+		8 = catch 					  & 17 = F ballpark\\		
+		9 = initial equilibrium catch & 18 = regime shift \Bstrut\\
 		\hline
 	\end{longtable}
 \end{center}
 
 
-\begin{center}
-	\begin{longtable}{p{1cm} p{6cm} p{1cm} p{6cm} }
-		\multicolumn{4}{l}{The codes for component are:}\\
-		\hline
-		1 & survey & 10 & recruitment deviations \\	
-		2 & discard & 11 & parameter priors\\		
-		3 &  mean weight & 12 & parameter deviations\\	
-		4 & length & 13 & crash penalty\\		
-		5 & age & 14 & morph composition\\
-		6 & size frequency & 15 & tag composition\\		
-		7 & size-at-age & 16 & tag negative binomial\\
-		8 & catch & 17 & F ballpark\\		
-		9 & initial equilibrium catch & 18 & regime shift  \\
-		\hline
-	\end{longtable}
-\end{center}
 
-
-\pagebreak
 \subsection{Controls for Variance of Derived Quantities}
-Additional standard deviation reported may be selected.
-\begin{center}
-	\begin{longtable}{p{1cm} p{1.3cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.2cm} p{1.4cm} p{1.4cm} p{1.4cm}}
-		\hline
-		1 & \multicolumn{8}{l}{0 = no additional std dev reporting, 1 = read values}\\
-		\multicolumn{2}{l}{COND > 0} & \multicolumn{7}{l}{If the above value is "0", then do not include any more entries.}\\
-		  & & \multicolumn{7}{l}{If the above value is "1", then read the 4 following lines:}\\
-		\hline
-		Selex Type & Len/Age /Both & Year & Nselex Bins & Growth Pattern & N growth ages & NatAge Area & NatAge year  & N Natage\\
-		\hline
-		1 & 1 & -1 & 5 & 1 & 5 & 1 & -1 & 5\\ 
-		%\hline
-		\multicolumn{9}{l}{\#Vector with selex std bin picks (-1 in first bin to self-generate).} \\
-		5 & 15 & 25 & 35 & 43 & & & & \\
-		%\hline
-		\multicolumn{9}{l}{\#Vector with growth std bin picks (-1 in first bin to self-generate).} \\	
-		1 & 2 & 14 & 26 & 40 & & & & \\	
-		%\hline
-		\multicolumn{9}{l}{\#Vector with NatAge std bin picks (-1 in first bin to self-generate).} \\	
-		1 & 2 & 14 & 26 & 40 & & & & \\
-		\hline
-		\multicolumn{9}{l}{}\\
-		\multicolumn{9}{l}{\#End of the control file input}\\
-		\bfseries{999} & \multicolumn{8}{l}{} \\
-		\hline			
-	\end{longtable}
-\end{center}
+Additional standard deviation reported may be selected:
+
+\begin{longtable}{p{1.1cm} p{1.4cm} p{1.2cm} p{1.2cm} p{1.3cm} p{1.6cm} p{1.4cm} p{1.4cm} p{1.4cm}}
+
+	\hline
+	\multicolumn{3}{l}{Typical Value} & \multicolumn{6}{l}{Description and Options}\Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
+
+
+	\multicolumn{3}{l}{1} & \multicolumn{6}{l}{0 = No additional std dev reporting,} \Tstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read values below.}\Bstrut\\
+
+	\multicolumn{9}{l}{COND > 0 : Read the 4 following lines:}\Bstrut\\
+	
+	\hline
+	\Tstrut Selex Type & Len/Age /Both & Year & Nselex Bins & Growth Pattern & N Growth Ages & NatAge Area & NatAge year  & N Natage\Bstrut\\
+	\hline
+	1 & 1 & -1 & 5 & 1 & 5 & 1 & -1 & 5\Tstrut\Bstrut\\ 
+	
+	\hline
+	\multicolumn{9}{l}{Vector (length of 5) with selex std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
+	\hline
+	5 & 15 & 25 & 35 & 43 & & & & \Tstrut\Bstrut\\
+	
+	\hline
+	\multicolumn{9}{l}{Vector (length of 5) with growth std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
+	\hline	
+	1 & 2 & 14 & 26 & 40 & & & & \Tstrut\Bstrut\\	
+	
+	\hline
+	\multicolumn{9}{l}{Vector (length of 5) with NatAge std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
+	\hline	
+	1 & 2 & 14 & 26 & 40 & & & & \Tstrut\Bstrut\\
+	
+	\hline
+	\bfseries{999} & \multicolumn{8}{l}{\#End of the control file input}\Tstrut\Bstrut\\
+	\hline			
+\end{longtable}
+
 
 
 Where:
 \begin{itemize}
-	\item Selex fleet:  is the index of the fleet to be output.  A value of zero causes there to be no selectivity variance output;
-	\item Len/Age/Both:  enter "1" to select length selectivity, "2" to select age selectivity, or "3" for both.  
+	\item Selex fleet:  The index of the fleet to be output. 
+	\begin{itemize} 
+		\item 0 = No selectivity variance output,
+		\item 1 = Selectivity variance output.
+	\end{itemize} 
 	
-	\item Year:  enter a value for the selected year, or enter -1 to get the selectivity in the end year
+	\item Len/Age/Both:  
+	\begin{itemize}
+		\item 1 = Select length selectivity, 
+		\item 2 = Select age selectivity, 
+		\item 3 = Both length and age selectivity.
+	\end{itemize} 
 	
+	\item Year:  
+	\begin{itemize}
+		\item year = Enter a value for the selected year,
+		\item -1  = To get the selectivity in the end year.
+	\end{itemize} 
+
 	\item 	N Selex bins:  enter the number of bins for which selectivity will be output.  This number controls the number of items to be read below, even if the Selex fleet is set to zero.  In other words, the read occurs even if the effect of the read is disabled. 
 	
-	\item Growth pattern:  growth pattern is the number of the growth pattern to be output.  Enter "0" to get no variance output for size-at-age.   Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then standard deviation output of mean size-at-age is disabled.
-	
+	\item Growth pattern:  growth pattern is the number of the growth pattern to be output. Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then standard deviation output of mean size-at-age is disabled. 
+	\begin{itemize}
+		\item postitive value = Growth pattern,
+		\item 0 =  No variance output for size-at-age.   
+	\end{itemize}
+
 	\item 	N growth bins:  Number of ages for which size-at-age variance is requested.  This number controls the number of items to be read below, even if the growth pattern selection is set to zero.   In other words, the read occurs even if the effect of the read is disabled.
 	
-	\item 	Area for Natage:  specifies the area for which output of numbers at age is requested.  A value of 0 disables this output.  A value of -1 requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each sex.
-	
-	\item 	NatAge Year:  specifies the year for which numbers-at-age are output.  A value of -1 requests output for year equal to endyear+1, hence the year that starts the forecast period.
-	
-	\item N Natage bins:  as with the N growth bins.
+	\item 	Area for Natage: specifies the area for which output of numbers at age is requested. 
+	\begin{itemize}
+		\item positive value = area to output
+		\item 0 = Disables this output,
+		\item -1 = Requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each sex.
+	\end{itemize}
+
+	\item 	NatAge Year:  specifies the year for which numbers-at-age are output.  
+	\begin{itemize}
+		\item year = The year to output,
+		\item -1 = Requests output for year equal to end year + 1, hence the year that starts the forecast period.
+	\end{itemize}
+
+	\item N Natage bins: as with the N growth bins.
 \end{itemize}
 
 
@@ -2170,14 +2418,14 @@ Where:
  \begin{center}
  	\begin{longtable}{p{5cm} p{10cm}}
 	 	\hline
-	 	MG base parameter 3 & Block parameter 3-1\\
+	 	MG base parameter 3 & Block parameter 3-1\Tstrut\\
 	 	                    & Block parameter 3-2\\
 	 	                    & Environmental link parameter 3-1\\
 	 	                    & Deviation se parameter 3 \\
-	 	                    & Deviation rho parameter 3 \\
+	 	                    & Deviation rho parameter 3 \Bstrut\\
 		MG base parameter 7 & Block parameter 7-1 \\
 							& Deviation se parameter 7 \\
-							& Deviation rho parameter 7 \\
+							& Deviation rho parameter 7 \Bstrut\\
 		\hline	 	                    
 	 	       
  	\end{longtable}
