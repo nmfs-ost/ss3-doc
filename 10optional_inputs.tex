@@ -2,25 +2,30 @@
 
 \hypertarget{WAA}{}
 \subsection{Empirical Weight-at-Age (wtatage.ss)}
-SS has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is done by setting an explicit switch near the top of the control file.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.\\ \\
-The first value read is a single integer for the maxage used in reading this file.So if maxage is 40, there will be 41 columns of wt-at-age entries to read, with the first column being for age 0.\\
-If N ages in this table is greater than maxage in the model, the extra wt-at-age values are ignored.\\
-If N ages in this table is less than maxage in the model, the wt-at-age for N ages in the file is filled in for all unread ages out to maxage.\\
+SS has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is done by setting an explicit switch near the top of the control file.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.
+
+The first value read is a single integer for the maxage used in reading this file. So if the maximum age is 40, there will be 41 columns of weight-at-age entries to read, with the first column being for age 0.
+
+If N ages in this table is greater than maximum age in the model, the extra weight-at-age values are ignored.
+
+If N ages in this table is less than maximum age in the model, the weight-at-age for N ages in the file is filled in for all unread ages out to maximum age.
+
 The format of this input file is:
-\begin{center}
-	\begin{tabular}{l l l l l l l l l }
-		\hline
-		\#Year & Season & Gender & GP & Birth Season & Fleet & Age-0 & Age-1 & ... \\
-		\hline
-		\-1971 & 1 & 1 & 1 & 1 & -2 & 0      & 0      & 0.1003 \\
-		\-1971 & 1 & 1 & 1 & 1 & -1 & 0.0169 & 0.0864 & 0.2495 \\
-		\-1971 & 1 & 1 & 1 & 1 & 0  & ...    & ...    & ... \\
-		\-1971 & 1 & 1 & 1 & 1 & 1  & ...    & ...    & ... \\
-		\-1971 & 1 & 1 & 1 & 1 & 2  & ...    & ...    & ... \\
-		-9999  & 1 & 1 & 1 & 1 & 0  & ...    & ...    & ... \\
-		\hline
-	\end{tabular}
-\end{center}
+
+\begin{tabular}{l l l l l l l l l }
+	\hline
+	 &  &  & Growth & Birth & &  &  & \Tstrut\\
+	Year & Season & Gender & Pattern & Season & Fleet & Age-0 & Age-1 & ... \Tstrut\Bstrut\\
+	\hline
+	\-1971 & 1 & 1 & 1 & 1 & -2 & 0      & 0      & 0.1003 \Tstrut\\
+	\-1971 & 1 & 1 & 1 & 1 & -1 & 0.0169 & 0.0864 & 0.2495 \\
+	\-1971 & 1 & 1 & 1 & 1 & 0  & ...    & ...    & ... \\
+	\-1971 & 1 & 1 & 1 & 1 & 1  & ...    & ...    & ... \\
+	\-1971 & 1 & 1 & 1 & 1 & 2  & ...    & ...    & ... \\
+	-9999  & 1 & 1 & 1 & 1 & 0  & ...    & ...    & ... \Bstrut\\
+	\hline
+\end{tabular}
+
 
 where:
 

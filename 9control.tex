@@ -2408,11 +2408,11 @@ Where:
 \hypertarget{TVpara}{}
 \subsection{Using Time-Varying Parameters}
  The approach to allowing parameters to have time-varying values has been completely overhauled in the transition from SS v.3.24 to SS v.3.30.  Fortunately, the sstrans.exe will do the conversion for you, but you should review the new control file closely before simply running with it, especially for time-varying catchability parameters.
- \\\\
+ 
  \noindent \textbf{Motivation}:  In SS v.3.24, the group of biology parameters (termed MGparm) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient.  The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block.  The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks.  Then finally, the tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
- \\\\
- \noindent \textbf{New Code Flow}:  In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
- \\\\
+
+ \noindent \textbf{New Code Flow}:  In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v3.30.12) base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will autogenerate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
+
  \noindent \textbf{New Parameter Order}: The order of parameters has changed and the re-ordering is handled by the sstrans.exe.  Previously, for each of mortality-growth and selectivity parameters all environmental link parameters were listed first, then block/trend parameters and then deviation parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
  
  \begin{center}
@@ -2433,26 +2433,26 @@ Where:
  
 \noindent \textbf{Link Functions}:  The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$.  Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter.  Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function.  So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options.  But as v.3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
 
-The link specifications in SS v.3.30 has been updated from v.3.24.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the first of three numbers with the environmental index to use specified by two additional numbers. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
+The link specifications in SS v.3.30 has been updated from v.3.24.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the first environmental index to use specified by two additional. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
 
 The new available options for time-varying parameters in SS v3.30 are described below:
 \begin{itemize}
 	\item Environmental Link and  Variance - Element 8 in parameter setup
 		\begin{itemize}
-			\item New approach to the coding of the link type (MGparm\_envtype) and environmental variable (MGparm\_envuse) being linked to: %Parsing: Link = value / 100; Env\_var = value - Link*100
-			\begin{itemize}
-				\item 100 - 199  to indicate one parameter multiplicative link, with the environmental variable found by subtracting 100.  For example, a value of 102 would create a multiplicative linkage to environmental variable "2". %Link = 1: Exponential environmental link ($P'=P*e^{L1*env}$)
-				\item 200 - 299  for one parameter additive linkage %Link = 2: Linear environmental link ($P'=P+L1*env$)
-				\item 400 - 499  for  2 parameter logistic function %Link = 3: Reserved for density dependence
-				\item etc. %Link = 4: Logistic MGparm environmental link ($P'=P*\frac{2}{1+e^-L1*(env-L2)}$)
-			\end{itemize}
-			\item where MGparm\_env is zero if no link else contains the parameter number of the first link parameter, MGparm\_envtype identifies the form of the linkage, some of which take more than one link parameter, MGparm\_envuse identifies the ID of the environmental time series being linked to the integer values of MGparm\_envtype are created when parsing the input:
-			\begin{itemize}
-				\item k=int(MGparm\_1(f,8)/100); 
-				\item find the link code from the value read from the parameter line: MGparm\_envtype(f)=k;
-				\item MGparm\_envuse(f)=MGparm\_1(f,8)-k*100;
-			\end{itemize}
-			\item env\_data is a dvar\_matrix populated with the read environmental data for columns 1-N\_envvariables and derived quantities can be mapped to columns -1 to -4 to achieve density-dependence:
+		%	\item New approach to the coding of the link type (MGparm\_envtype) and environmental variable (MGparm\_envuse) being linked %to: %Parsing: Link = value / 100; Env\_var = value - Link*100
+		%	\begin{itemize}
+		%		\item 100 - 199  to indicate one parameter multiplicative link, with the environmental variable found by subtracting %100.  For example, a value of 102 would create a multiplicative linkage to environmental variable "2". %Link = 1: %Exponential environmental link ($P'=P*e^{L1*env}$)
+		%		\item 200 - 299  for one parameter additive linkage %Link = 2: Linear environmental link ($P'=P+L1*env$)
+		%		\item 400 - 499  for  2 parameter logistic function %Link = 3: Reserved for density dependence
+		%		\item etc. %Link = 4: Logistic MGparm environmental link ($P'=P*\frac{2}{1+e^-L1*(env-L2)}$)
+		%	\end{itemize}
+		%	\item where MGparm\_env is zero if no link else contains the parameter number of the first link parameter, MGparm\_envtype %identifies the form of the linkage, some of which take more than one link parameter, MGparm\_envuse identifies the ID of the %environmental time series being linked to the integer values of MGparm\_envtype are created when parsing the input:
+		%	\begin{itemize}
+		%		\item k=int(MGparm\_1(f,8)/100); 
+		%		\item find the link code from the value read from the parameter line: MGparm\_envtype(f)=k;
+		%		\item MGparm\_envuse(f)=MGparm\_1(f,8)-k*100;
+		%	\end{itemize}
+			\item env\_data is a dvar\_matrix populated with the read environmental data for columns 1-N\_envvariables and derived quantities mapped to columns -1 to -4 to density-dependence:
 			\begin{itemize}
 				\item -1;  for log(relative spawning biomass);
 				\item -2;  for recdev;
@@ -2460,13 +2460,16 @@ The new available options for time-varying parameters in SS v3.30 are described 
 				\item -4;  for log(relative summary numbers).
 			\end{itemize}
 			\item So, environmental input 103 would use link type 1 and apply it to environmental data column 3 and environmental input -103  would use link type 1 and apply it to the "-3" column which is log(relative summary biomass).
+			\item These four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any oder of operations rule. 
 		\end{itemize}
 		
 	\item Deviation Link - Element 9 in parameter setup
 	\begin{itemize}
-		\item 1 = multiplicative
-		\item 2 = additive
-		\item Random walk options are now implemented by using rho in the objective function
+		\item 1 = multiplicative ($P(y)*=exp(dev(y)*dev_se$),
+		\item 2 = additive ($P(y)+=env(y)*dev_se$),
+		\item 3 = random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
+		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized accordign to a specified standard error (the approach in v.3.24).
+		\item \hyperlink{DevLink}{\textit{Click here to see the code behind each of these options.}}
 	\end{itemize}
 	
 	\item Deviation  Minimum Year - Element 10 in parameter setup
@@ -2495,17 +2498,17 @@ The new available options for time-varying parameters in SS v3.30 are described 
 		
 	\item Block Functional Form: Element 14 in parameter setup
 		\begin{itemize}
-			\item 0: multiplicative 
-			\item 1: additive
-			\item 2: replace
-			\item 3: random walk across blocks
+			\item 0: multiplicative ($P_{block} = P_{base}*exp(tv_para)$),
+			\item 1: additive ($P_{block} = P_{base} + tv_para$),
+			\item 2: replace ($P_{block} = tv_para$),
+			\item 3: random walk across blocks ($P_{block} = P_{block,-1} + tv_para$),
 			\item 4: mean reverting random walk
 		\end{itemize}
 \end{itemize}
 
-\noindent \textbf{Blocks}:Additional information regarding the options for applying blocks (element 13):
+\noindent \textbf{Block Trends}:Additional information regarding the options for applying blocks (element 13):
 \begin{itemize} 
-	\item -1: Trend with final as offset
+	\item -1: Trend bounded by base parm min-max and parms in transformed units (use with caution),
 		\begin{itemize}
 			\item Logistic approach to trend as offset from base parameter
 			\item Transform the base parameter
