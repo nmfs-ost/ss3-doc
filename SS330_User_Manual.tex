@@ -20,7 +20,7 @@
 \usepackage{longtable}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
-%\usepackage[table]{xcolor}
+\usepackage[table]{xcolor}
 \usepackage{colortbl}
 %\usepackage{fixltx2e}
 \usepackage{hhline}
@@ -35,6 +35,23 @@
 \usepackage{hyperref}
 \usepackage[parfill]{parskip}
 
+\usepackage[T1]{fontenc}         % controls font enconding
+\usepackage{crimson}              % serif font
+\usepackage[sfdefault]{roboto} % sans serif font for headers
+\usepackage{sectsty}                % Allows for different fonts for header and body
+\usepackage{lipsum}
+
+%sectsty commands
+% all section headers use the same sans serif family - roboto
+\allsectionsfont{\sffamily\selectfont\mdseries\bfseries}
+% Set size and color of section header AL's H1
+\sectionfont{\LARGE\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
+% Set size and color of subsection header AL's H2
+\subsectionfont{\fontsize{18pt}{20pt}\selectfont\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
+% Set size and color of subsubsection header AL's H3
+\subsubsectionfont{\hspace{0pt}\nohang\fontsize{16pt}{18pt}\selectfont\raggedright\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
+% Set size and color of paragraph header AL's H4
+\paragraphfont{\fontsize{14pt}{16pt}\selectfont\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 
 \definecolor{lightgray}{gray}{0.92}
 \newcommand\Tstrut{\rule{0pt}{3.5ex}}       % "top" strut
@@ -52,6 +69,21 @@
 \setlength{\extrarowheight}{1.5pt}
 \setlength{\arraycolsep}{1.5pt}
 
+% Create custom font title of document
+% note the use of:
+%% \textcolor in the title itself
+%%  \maketitle BEFORE resetting the \fontfamily
+\usepackage{xparse}
+\usepackage{xpatch}
+\NewDocumentCommand{\TitlePageFont}{}{%
+  	\sffamily\bfseries%
+  	\fontsize{22pt}{24pt}%
+  	\selectfont%
+}%
+\xpretocmd{\maketitle}{\TitlePageFont}{}{}
+\title{\textcolor[cmyk]{1.00,0.83,0.41,0.36}{Stock Synthesis User Manual }}
+\author{Richard D. Methot, Chantel R. Wetzel, Ian G. Taylor \footnote{richard.methot@noaa.gov}}
+
 
 \begin{document}
 	\begin{titlepage}
@@ -64,14 +96,19 @@
 				\LARGE{July 13, 2018}\\
 				[1in]
 				\LARGE{Richard D. Methot}\\
-				%\LARGE{Teresa A'mar}\\
-			    \LARGE{Chantel Wetzel}\\
-			    \LARGE{Ian Taylor}\\
+			    \LARGE{Chantel R. Wetzel}\\
+			    \LARGE{Ian G. Taylor}\\
 			    [1in]
 				NOAA Fisheries\\
 				Seattle, WA USA\\		
 			\end{center}
 		\end{titlepage}
+	
+	%\maketitle
+	% Set base font as serif
+	%\fontfamily{crimson}\selectfont
+	% return the text to 12 point font - otherwise you end up with 22 point font!
+	%\normalsize
 		
 		% ====== Table of Contents ===================================================
 		\pagenumbering{roman}
