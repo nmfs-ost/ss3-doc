@@ -3,11 +3,10 @@
 %\documentclass[12pt,article,onecolumn,tagged, letterpaper]
 
 \usepackage{lipsum, multicol}
-\usepackage[margin=1in,left=1in,includefoot]{geometry}
+\usepackage[margin=1in, includefoot]{geometry}
 \usepackage{graphicx} %allows for impage import
 \graphicspath{{images/}}
 \usepackage[hidelinks]{hyper ref} % Allows for clickable links
-\usepackage{sectsty}
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage[T1]{fontenc}
@@ -15,14 +14,12 @@
 \usepackage[none]{hyphenat}
 \usepackage{array}
 \usepackage{lscape}
-\usepackage{geometry}
 \usepackage{pdflscape}
 \usepackage{longtable}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
-%\usepackage{fixltx2e}
 \usepackage{hhline}
 \usepackage{dcolumn}
 \usepackage{tocloft}
@@ -33,57 +30,38 @@
 \usepackage{hypcap}
 \usepackage{amsmath}
 \usepackage{hyperref}
+\usepackage{float}
+\usepackage{fancyhdr}
 \usepackage[parfill]{parskip}
-
-\usepackage[T1]{fontenc}         % controls font enconding
-\usepackage{crimson}              % serif font
-\usepackage[sfdefault]{roboto} % sans serif font for headers
+\usepackage{roboto} 				% sans serif font for headers
+\usepackage{crimson}              	% serif font
+\usepackage[T1]{fontenc}         	% controls font enconding
 \usepackage{sectsty}                % Allows for different fonts for header and body
-\usepackage{lipsum}
 
 %sectsty commands
 % all section headers use the same sans serif family - roboto
-\allsectionsfont{\sffamily\selectfont\mdseries\bfseries}
+\allsectionsfont{\sffamily\selectfont\roboto\mdseries\bfseries}
 % Set size and color of section header AL's H1
-\sectionfont{\LARGE\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
+\sectionfont{\LARGE\nohang\centering\roboto\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 % Set size and color of subsection header AL's H2
-\subsectionfont{\fontsize{18pt}{20pt}\selectfont\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
+\subsectionfont{\fontsize{18pt}{20pt}\selectfont\roboto\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 % Set size and color of subsubsection header AL's H3
-\subsubsectionfont{\hspace{0pt}\nohang\fontsize{16pt}{18pt}\selectfont\raggedright\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
+\subsubsectionfont{\hspace{0pt}\nohang\fontsize{16pt}{18pt}\selectfont\roboto\raggedright\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 % Set size and color of paragraph header AL's H4
 \paragraphfont{\fontsize{14pt}{16pt}\selectfont\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 
-\definecolor{lightgray}{gray}{0.92}
-\newcommand\Tstrut{\rule{0pt}{3.5ex}}       % "top" strut
-\newcommand\Bstrut{\rule[-1.7ex]{0pt}{0pt}} % "bottom" strut
-\newcommand{\TBstrut}{\Tstrut\Bstrut} % top&bottom struts
+%\definecolor{lightgray}{gray}{0.92}
 
-\newcolumntype{L}{>{\centering\arraybackslash}m{3in}}
-
-\usepackage{float}
-\usepackage{fancyhdr}
 \pagestyle{fancy}
 \fancyhead{}
-\parskip = 12pt
-
+\parskip = 12pt				% space between paragraphs
 \setlength{\extrarowheight}{1.5pt}
 \setlength{\arraycolsep}{1.5pt}
 
-% Create custom font title of document
-% note the use of:
-%% \textcolor in the title itself
-%%  \maketitle BEFORE resetting the \fontfamily
-\usepackage{xparse}
-\usepackage{xpatch}
-\NewDocumentCommand{\TitlePageFont}{}{%
-  	\sffamily\bfseries%
-  	\fontsize{22pt}{24pt}%
-  	\selectfont%
-}%
-\xpretocmd{\maketitle}{\TitlePageFont}{}{}
-\title{\textcolor[cmyk]{1.00,0.83,0.41,0.36}{Stock Synthesis User Manual }}
-\author{Richard D. Methot, Chantel R. Wetzel, Ian G. Taylor \footnote{richard.methot@noaa.gov}}
-
+\newcommand\Tstrut{\rule{0pt}{3.5ex}}       % "top" strut
+\newcommand\Bstrut{\rule[-1.7ex]{0pt}{0pt}} % "bottom" strut
+\newcommand{\TBstrut}{\Tstrut\Bstrut} % top&bottom struts
+\newcolumntype{L}{>{\centering\arraybackslash}m{3in}}
 
 \begin{document}
 	\begin{titlepage}
