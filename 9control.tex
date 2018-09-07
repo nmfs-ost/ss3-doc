@@ -48,7 +48,7 @@ The order in which they appear in the control file has grown over time rather op
 \subsection{Parameter Line Elements}
 The primary role of the SS control file is to define the parameters to be used by the model.  The general syntax of the 14 elements of a long parameter line is described here.  The first seven elements of a parameter line are used for time-varying parameters that cannot themselves be time-varying and will be referred to as a short parameter line.  Three types of time-varying properties can be applied to a base parameter:  blocks or trend, environmental linkage, and random deviation.  Each parameter line contains:
 
-\hypertarget{Prior}{} \hypertarget{paraOrder}{}
+\hypertarget{Priors}{} \hypertarget{paraOrder}{}
 \begin{center}
 	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
 		\hline
@@ -59,7 +59,7 @@ The primary role of the SS control file is to define the parameters to be used b
 		3 \Tstrut & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
 		4 \Tstrut & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta).\\
 		5 \Tstrut & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0.\\
-		6 \Tstrut & PRIOR TYPE  & 0 = none, \\
+		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE}  & 0 = none, \\
 		& & 1 = symmetric beta, \\
 		& & 2 = full beta, \\
 		& & 3 = lognormal without bias adjustment, \\
@@ -77,8 +77,6 @@ Note that relative to SS v.3.24,  the order of Prior StDev and Prior Type have b
 
 Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
 
-
-\hypertarget{Prior}{} \hypertarget{paraOrder}{}
 \begin{center}
 	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
 		\hline
@@ -2585,7 +2583,7 @@ Additional information regarding the options for applying blocks (element 13):
 		\end{itemize}
 \end{itemize}
 
-
+\hypertarget{PriorDescrip}{}
 \subsection{Parameter Priors}
 Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log-likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log-likelihood, so they would have no gradient in the log-likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
 
