@@ -2587,15 +2587,36 @@ Additional information regarding the options for applying blocks (element 13):
 
 
 \subsection{Parameter Priors}
-Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log-likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log-likelihood, so they would have no gradient in the log-likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  The options for parameter priors are:
+Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log-likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log-likelihood, so they would have no gradient in the log-likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
+
+The options for parameter priors are as follows., described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. Finally, $Pconst$ is a small constant, currently hardwired at 0.0001. The Prior Likelihoods below represent the negative log-likelihood in all cases.
+
+\myparagraph{Prior Types}
+
+Note that the numbering in SS version 3.30 is different from that used in 3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log-likelihood is provided below for each prior types, as a function of the following inputs:
+
+\begin{tabular}{ll}
+  $p$       & The value of the parameter for which a prior is being calculated  \\
+  $P_{min}$  & The lower bound of the parameter (1st column in control file)     \\
+  $P_{max}$  & The upper bound of the parameter (2nd column in control file)     \\
+  $Prior$   & The input value for the PRIOR input (4th column in control file)  \\
+  $Pr\_SD$  & The input value for the PR\_SD input (5th column in control file) \\
+\end{tabular}
+
 \begin{itemize}
-	\item  0 = No prior applied.
-	\item  1 = Symmetric bet prior is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior.
-	\begin{equation}  \mu = -P\_SD*(log((Pmax+Pmin)*0.5-Pmin)-P\_SD*(log(0.5)) \end{equation}
+\item  \textbf{Prior Type = 0 = No prior applied} \\ 
+In a Bayesian context this is equivalent to a uniform prior between the parameter bounds.
+
+\item  \textbf{Prior Type = 1 = Symmetric beta prior} \\ 
+The symmetric beta is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior. The PRIOR input is ignored for this prior type.
+	\begin{equation}  
+                \mu = -Pr\_SD \cdot log\left(\frac{P_{max}+P_{min}}{2} - P_{min} \right) - Pr\_SD \cdot log(0.5)
+        \end{equation}
+
 	\begin{equation}
 		\begin{split}
-			\text{Prior Likelihood} = -(\mu + (P\_SD*(log(Pval-Pmin+Pconst))) + \\
-			(P\_SD*(log(1-(\frac{(Pval-Pmin-Pconst)}{(Pmax-Pmin)})))))
+			\text{Prior Likelihood} = & -\mu - Pr\_SD \cdot log\left(p-P_{min}+0.0001\right) \\
+			& - Pr\_SD \cdot log\left(1-\frac{p-P_{min}-0.0001}{P_{max}-P_{min}}\right)
 		\end{split}
 	\end{equation}
 
@@ -2604,21 +2625,28 @@ Priors on parameters fulfill two roles in SS.  First, for parameters provided wi
 			Prior distributions for the symmetric beta distribution.
 	\end{center}
 
-	\item 2 = Beta prior.  The definition of $\mu$ is consistent with CASAL's formulation with the Bprior and Aprior corresponding to the m and n parameter.
+\item \textbf{Prior Type = 2 = Beta prior}  \\ 
+The definition of $\mu$ is consistent with CASAL's formulation with the $Bprior$ and $Aprior$ corresponding to the $m$ and $n$ parameters.
 	\begin{equation}
-		\begin{split}
-			\mu = \frac{Prior-Pmin}{Pmax-Pmin} \\
-			\tau  = \frac{(Prior-Pmin)(Pmax-Prior)}{P\_SD^2}-1.0\\
-			Bprior  = \tau*\mu; Aprior = \tau (1.0-\mu)\\
-		\end{split}
-	\end{equation}
-		\begin{equation}
-		\begin{split}
-		\text{Prior Likelihood} = (1.0-Bprior)*log(Pconst+Pval-Pmin) + \\
-		(1.0-Aprior)*log(Pconst+Pmax-Pval) - \\
-		(1.0-Bprior)*log(Pconst + Prior - Pmin) - \\
-		(1.0-Aprior)*log(Pconst + Pmax - Prior)
-		\end{split}
+		\mu = \frac{Prior-P_{min}}{P_{max}-P_{min}} \\
+        \end{equation}
+	\begin{equation}
+		\tau  = \frac{(Prior-P_{min})(P_{max}-Prior)}{Pr\_SD^2}-1\\
+        \end{equation}
+	\begin{equation}
+		Bprior  = \tau \cdot \mu\\
+        \end{equation}
+	\begin{equation}
+                Aprior = \tau (1-\mu)
+        \end{equation}
+
+	\begin{equation}
+          \begin{split}
+		\text{Prior Likelihood} = & (1 - Bprior) \cdot log(0.0001 + p - P_{min}) \\
+		& + (1 - Aprior) \cdot log(0.0001 + P_{max} - p) \\
+		& - (1 - Bprior) \cdot log(0.0001 + Prior - P_{min}) \\
+		& - (1 - Aprior) \cdot log(0.0001 + P_{max} - Prior)
+	  \end{split}
 	\end{equation}
 
 	\begin{center}
@@ -2626,13 +2654,33 @@ Priors on parameters fulfill two roles in SS.  First, for parameters provided wi
 		Comparison of the symmetric beta and the beta prior functions
 	\end{center}
 
-	\item 3 = Lognormal prior.  Note that lower bound on the parameter must be >0.0. The prior value is input into the parameter line in log space while the initial parameter value is defined in normal space (e.g. INIT = 0.20, PRIOR = -1.609438).
+\item \textbf{Prior Type 3 = Lognormal prior} \\ 
+Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0. The prior value is input into the parameter line in log space while the initial parameter value is defined in normal space (e.g. INIT = 0.20, PRIOR = -1.609438).
 	\begin{equation}
-	\text{Prior Likelihood} = 0.50*\Big(\frac{(log(Pval)-Prior)}{Pr\_SD}\Big)^2
+	\text{Prior Likelihood} = \frac{1}{2} \left(\frac{log(p)-Prior}{Pr\_SD}\right)^2
 	\end{equation}
-	\item  6 = Normal prior. Note that this function is independent of the parameter.
+
+\item \textbf{Prior Type 4 = Lognormal prior with bias correction} \\ 
+This option is thanks to Larry Jacobson. Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0.
+	\begin{equation}
+	\text{Prior Likelihood} = \frac{1}{2} \left(\frac{log(p)-Prior + \frac{1}{2}{Pr\_SD}^2}{Pr\_SD}\right)^2
+	\end{equation}
+
+\item \textbf{Prior Type 5 = Gamma prior} \\ 
+This option is thanks to Larry Jacobson. The lower bound should be 0 or greater.
+	\begin{equation}
+          scale = \frac{{Pr\_SD}^2}{Prior}
+	\end{equation}
+	\begin{equation}
+          shape = \frac{Prior}{scale}
+	\end{equation}
+	\begin{equation}
+          \text{Prior Likelihood} = -shape \cdot log(scale) - log\big(\Gamma(shape)\big) + (shape - 1) \cdot log(p) - \frac{p}{scale}
+	\end{equation}
+
+\item \textbf{Prior Type 6 = Normal prior} \\ 
+Note that this function is independent of the parameter bounds.
 		\begin{equation}
-		\text{Prior Likelihood} = 0.50*(\frac{Pval - Prior}{Prior\_SD})^2
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{p - Prior}{Pr\_SD}\right)^2
 		\end{equation}
-	\item Pval is the value of the parameter for which a prior is being calculated, Pmin and Pmax are the bounds on the parameter, Prior is the value of the parameter prior, or the first of the 2 factors controlling the calculation of the prior, Pr\_SD is the value of the prior's standard deviation, or the second of the 2 factors controlling the calculation of the prior, Pconst is a small constant (0.0001), and Prior\_Like is the calculated value of the prior's contribution to the log likelihood.
 \end{itemize}
