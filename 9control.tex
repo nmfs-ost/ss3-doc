@@ -48,7 +48,7 @@ The order in which they appear in the control file has grown over time rather op
 \subsection{Parameter Line Elements}
 The primary role of the SS control file is to define the parameters to be used by the model.  The general syntax of the 14 elements of a long parameter line is described here.  The first seven elements of a parameter line are used for time-varying parameters that cannot themselves be time-varying and will be referred to as a short parameter line.  Three types of time-varying properties can be applied to a base parameter:  blocks or trend, environmental linkage, and random deviation.  Each parameter line contains:
 
-\hypertarget{Prior}{} \hypertarget{paraOrder}{}
+\hypertarget{Priors}{} \hypertarget{paraOrder}{}
 \begin{center}
 	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
 		\hline
@@ -59,7 +59,7 @@ The primary role of the SS control file is to define the parameters to be used b
 		3 \Tstrut & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
 		4 \Tstrut & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta).\\
 		5 \Tstrut & PRIOR STDEV & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0.\\
-		6 \Tstrut & PRIOR TYPE  & 0 = none, \\
+		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE}  & 0 = none, \\
 		& & 1 = symmetric beta, \\
 		& & 2 = full beta, \\
 		& & 3 = lognormal without bias adjustment, \\
@@ -77,8 +77,6 @@ Note that relative to SS v.3.24,  the order of Prior StDev and Prior Type have b
 
 Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
 
-
-\hypertarget{Prior}{} \hypertarget{paraOrder}{}
 \begin{center}
 	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
 		\hline
@@ -464,7 +462,7 @@ This option creates age-specific K multipliers for each age of a user-specified 
 	  & & 5 = age specific \textit{k}. Set base \textit{k} as \textit{k} for nages and work backwards and the age-specific \textit{k} = base \textit{k} * multiplier.\Bstrut \\
 	\hline
 
-	\Tstrut 1.66 & & Growth Amin (A1): Reference age for first size-at-age parameter. \hyperlink{A1}{\textit{Click here for more information.}}\Bstrut\\
+	\Tstrut 1.66 & & \hyperlink{A1}{Growth Amin (A1)}: Reference age for first size-at-age parameter.\Bstrut\\
 	\hline
 
 	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age parameter (999 to use as L infinity).\Bstrut\\
@@ -521,6 +519,8 @@ This option creates age-specific K multipliers for each age of a user-specified 
 	  & & 2 = age logistic,\\
 	  & & 3 = read age-maturity for each female growth pattern,\\
 	  & & 4 = read an empirical age-maturity vector for all ages,\\
+	  & & 5 = disabled, \\
+	  & & 6 = read vector of length-based maturity values,\\
 	  & & Note: need to read 2 parameters even if option 3 or 4 is selected.\Bstrut \\
 	\hline
 
@@ -625,7 +625,7 @@ These parameters are only included in the control file if one of the ageing erro
 	\item power function coefficient for interpolating between those 2 values
 \end{itemize}
 
-\noindent Code for implementing vectors of mean age' and standard deviation of age' within SS can be located in Appendix C. \hyperlink{AgeingError}{\textit{Click here for more information.}}
+\noindent Code for implementing vectors of mean age' and standard deviation of age' within SS can be located in \hyperlink{AgeingError}{Appendix C}.
 
 \subsubsection{Sex ratio}
 The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish.  The parameter is specified in the fraction of female fish. The default option is a sex ratio of 0.50 with this parameter not being estimated.  Estimation of the sex ratio is a new feature within SS and should be done with care with the user checking that the answer is reflective of the data.  
@@ -898,15 +898,15 @@ The spawner-recruitment section starts by specification of the functional relati
 
 	3 & Spawner-            & The options are: \Tstrut\\
 	  & Recruitment         & 1: null, \\
-	  & Relationship        & 2:  Ricker (2 parameters: log(R0) and steepness), \\
-	  &                     & 3:  standard Beverton-Holt (2 parameters: log(R0) and steepness), \\
-	  &                     & 4:  ignore steepness and no bias adjustment.  Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates (2 parameters, but only uses the first one),\\
-	  &                     & 5:  Hockey stick (3 parameters: log(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0. \hyperlink{Hockey}{\textit{Click here for more information,}}\\
-	  &                     & 6:  Beverton-Holt with flat-top beyond Bzero (2 parameters: log(R0) and steepness),\\
-	  &                     & 7:  Survivorship function (3 parameters: log(R0), $z_{frac}$, and $\beta$).  Suitable for sharks and low fecundity stocks to assure recruits are <= population production. \hyperlink{Survivorship}{\textit{Click here for more information,}}\\
-      &                     & 8:  Shepherd (3 parameters: log(R0), steepness, and shape parameter, $c$). \hyperlink{Shepherd}{\textit{Click here for more information,}}\\
-      & 					& 9(beta): Shepherd re-parameterization (3 parameters: log(R0), steepness, and shape parameter, $c$). \hyperlink{Shepherd2}{\textit{Click here for more information,}}\\
-      & 					& 10(beta): Ricker re-parameterization (3 parameters: log(R0), steepness, and Ricker power, $\gamma$). This SRR is was added to version 3.30.11 and is in beta mode. \hyperlink{Ricker2}{\textit{Click here for more information.}}\Bstrut\\
+	  & Relationship        & 2: Ricker (2 parameters: log(R0) and steepness), \\
+	  &                     & 3: standard Beverton-Holt (2 parameters: log(R0) and steepness), \\
+	  &                     & 4: ignore steepness and no bias adjustment.  Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates (2 parameters, but only uses the first one),\\
+	  &                     & 5: \hyperlink{Hockey}{Hockey stick} (3 parameters: log(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0. \\
+	  &                     & 6: Beverton-Holt with flat-top beyond Bzero (2 parameters: log(R0) and steepness),\\
+	  &                     & 7: \hyperlink{Survivorship}{Survivorship function} (3 parameters: log(R0), $z_{frac}$, and $\beta$).  Suitable for sharks and low fecundity stocks to assure recruits are <= population production.\\
+      &                     & 8: \hyperlink{Shepherd}{Shepherd} (3 parameters: log(R0), steepness, and shape parameter, $c$).\\
+      & 					& 9(beta): \hyperlink{Shepherd2}{Shepherd re-parameterization} (3 parameters: log(R0), steepness, and shape parameter, $c$).\\
+      & 					& 10(beta): \hyperlink{Ricker2}{Ricker re-parameterization} (3 parameters: log(R0), steepness, and Ricker power, $\gamma$). This SRR is was added to version 3.30.11 and is in beta mode.\Bstrut\\
     \hline
 
     1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
@@ -917,6 +917,8 @@ The spawner-recruitment section starts by specification of the functional relati
 \end{longtable}
 
 The number of parameters needed by each relationship is stored internally.  In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS v.3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in v.3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This regime shift parameter can have blocks, environmental links or random deviations. 
+
+If a SS v.3.24 model implement the R1 offset approach this can be mimicked in v.3.30 by the SR regime parameter. For any given year, including startyr - 1, the R0 is replaced by R0*exp(SR\_regime[y]). So to mimic the R1\_offset, you need to put a block on SR\_regime for y = startyr - 1. But if SR\_regime has some change during your main time series, that change will be filtered through the stock-recruit relationship into an impact on the numbers at age for whatever years are impacted. This can also apply to the forecast. A block on SR\_regime is also easier than some of the old dummy environmental variables that were created in the past to adjust recruitment up and down for long periods.
 
 If the R0 or steepness parameters are time-varying, then SS will use the current year's parameters to calculate recruits as a function of the spawning biomass.  If the SR regime parameter is time-varying, then SS applies this offset after calculating recruits as function of spawning biomass.  The expected deviations can no longer be linked to "env": instead the environmental effect will be on the "regime". 
 
@@ -1152,7 +1154,7 @@ The steepness ($h$) of the spawner-recruit curve (defined as recruitment relativ
 	
 Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$>0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$=0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.
 	
-Code for the survival based recruitment can be found in Appendix C. \hyperlink{AppendixC}{\textit{Click here for more information.}}
+Code for the survival based recruitment can be found in \hyperlink{AppendixC}{Appendix C}.
 
 \myparagraph{Shepherd}
 %	\item[Shepherd]\hfil\\
@@ -1493,7 +1495,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	1 \Tstrut& 2 & Logistic selectivity.\\
 	2 \Tstrut& 8 & Discontinued: Double logistic with defined peak (uses IF joiners). Use pattern 8 instead.\\
 	3 \Tstrut& 6 & Discontinued \\
-	4 \Tstrut& 0 & Discontinued: Set size selectivity equal to female fecundity. Use special survey pattern 30 located in the index section within the data file instead.\\
+	4 \Tstrut& 0 & Discontinued: Set size selectivity equal to female fecundity. Use \hyperlink{SpecialSurvey}{special survey pattern 30} located in the index section within the data file instead.\\
 	5 \Tstrut& 2 & Mirror another selectivity. The two parameters select bin range.\\
 	6 \Tstrut& 2 + special value & Non-parametric \\
 	7 \Tstrut& 8 & Discontinued: Double logistic with defined peak, uses smooth joiners; special = 1 causes constant selectivity above Linf for morph 1.  Use pattern \#8.\\
@@ -1645,7 +1647,7 @@ In typical usage:
 		\item If dome-shaped selectivity is expected, then the parameters for older ages could have a range with the max set to 0.0 so they cannot increase further.
 		\item To keep selectivity at a particular age the same as selectivity at the next younger age, set its parameter value to 0.0 and not estimated.  This allows for all older ages to have the same selectivity.
 		\item 	To keep a constant rate of change in selectivity across a range of ages, use the -999 flag to keep the same rate of change in ln(selectivity) as for the previous age.
-		\item  Code for implementing random walk selectivity within SS can be found in Appendix C. \hyperlink{RandWalkSelex}{\textit{Click here for more information.}}
+		\item  Code for implementing random walk selectivity within SS can be found in \hyperlink{RandWalkSelex}{Appendix C}.
 	\end{itemize}
 %\end{description}
 
@@ -1775,7 +1777,7 @@ Notes:
 		\item Terminal nodes cannot be at the min or max population length bins.
 	\end{itemize}
 	
-Code for implementing cubic spline selectivity within SS can be found in Appendix C. \hyperlink{CubicSpline}{\textit{Click here for more information.}}
+Code for implementing cubic spline selectivity within SS can be found in \hyperlink{CubicSpline}{Appendix C}.
 
 	
 The figure below compares a 3 node and a 6 node cubic spline with a 2 parameter logistic function.  In fitting these functions, the 2 cubic spline approaches fit slightly better than the logistic, presumably because the data were slightly indicative of a small dome in selectivity.
@@ -2090,7 +2092,7 @@ If the Dirichlet multinomial error distribution was selected in the data file fo
 
 
 \subsubsection{Time-varying Options}
-The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the \hyperlink{TVpara}{\textit{Using Time-Varying Parameter Options section}}.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
+The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the \hyperlink{TVpara}{\textit{Using Time-Varying Parameter Options}}.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
 
 
 \begin{longtable}{p{0.8cm} p{0.8cm} p{1.1cm} p{1.0cm} p{0.8cm}p{1cm} p{1.2cm} p{6.5cm}}
@@ -2526,7 +2528,7 @@ The new available options for time-varying parameters in SS v3.30 are described 
 		\item 1 = multiplicative ($P(y)*=exp(dev(y)*dev_se$),
 		\item 2 = additive ($P(y)+=env(y)*dev_se$),
 		\item 3 = random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
-		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized accordign to a specified standard error (the approach in v.3.24).
+		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in v.3.24).
 		\item \hyperlink{DevLink}{\textit{Click here to see the code behind each of these options.}}
 	\end{itemize}
 	
@@ -2585,7 +2587,7 @@ Additional information regarding the options for applying blocks (element 13):
 		\end{itemize}
 \end{itemize}
 
-
+\hypertarget{PriorDescrip}{}
 \subsection{Parameter Priors}
 Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log-likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log-likelihood, so they would have no gradient in the log-likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
 
