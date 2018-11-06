@@ -433,9 +433,11 @@ The Schnute implementation of a 3-parameter growth function is invoked by enteri
 The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age AND the mortality rate of fish after they reach max age.  SS provides an option for the mortality rate to use in this calculation during the initial equilibrium year.  This must be specified by the user and should be reasonably close to M plus initial F.  In SS v.3.30, this uses the von Bertalanffy growth out to 3*nages and decays the numbers at age by exp(-value set here). For subsequent years of the time series, SS should update the size-at-maxage according to the weighted average mean size of fish already at max age and the size of fish just graduating into max age.  Unfortunately, this updating is only happening in years with time-varying growth.  Hope to fix that in the future.
 	
 \myparagraph{Age-specific K}
-%	\item[Age-specific K] - 
 This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex.  The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current aged's multiplier.  Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
-%\end{description}
+
+
+\myparagraph{Growth cessation}
+A growth cessation model was developed for the application to tropical tuna species \citep{maunder_growth_2018}. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.
 
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
@@ -459,10 +461,11 @@ This option creates age-specific K multipliers for each age of a user-specified 
 	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters.  Third parameter has null value of 1.0, \\
 	  & & 3 = von Bertalanffy with age-specific \textit{k} multipliers for specified range of ages,\\
 	  & & 4 = age specific K. Set base \textit{k} as \textit{k} for age = nages and working backwards and the age-specific \textit{k} = \textit{k} for the next older age * multiplier, \\
-	  & & 5 = age specific \textit{k}. Set base \textit{k} as \textit{k} for nages and work backwards and the age-specific \textit{k} = base \textit{k} * multiplier.\Bstrut \\
+	  & & 5 = age specific \textit{k}. Set base \textit{k} as \textit{k} for nages and work backwards and the age-specific \textit{k} = base \textit{k} * multiplier.\\
+	  & & 8 = growth cessation. Decreases the \textit{k} for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base \textit{k} parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which the parameter related to the maximum \textit{k}. \Bstrut \\
 	\hline
 
-	\Tstrut 1.66 & & \hyperlink{A1}{Growth Amin (A1)}: Reference age for first size-at-age parameter.\Bstrut\\
+	\Tstrut 1.66 & & \hyperlink{A1}{Growth Amin (A1)}: Reference age for first size-at-age (post-settlement) parameter.\Bstrut\\
 	\hline
 
 	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age parameter (999 to use as L infinity).\Bstrut\\
