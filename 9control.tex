@@ -1316,6 +1316,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\item 1 = simple Q, proportional assumption about Q: $y=q*x$.
 		\item 2 = mirror simple Q, 1 mirrored parameter.  
 		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage.  Assumes proportional with offset and power function: $y=qx^c$ where $q = exp(lnQ_base))$ thus the $c$ is not related to expected biomass but vulnerable biomass to Q.  Therefore, $c$ $<$ 0 leads to hyper-stability and $c > 0$ leads to hyper-depletion.
+		\item 4 = mirror Q with offset (2 parameter lines required). The mirrored Q with offset for with be reported as base Q + offset value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. See \hyperlink{MirrorQoffset}{mirrored Q with offset} below for example set up.
 		\item If the parameter is for an index of a dev vector (index units = 35), use this column to enter the index of the dev vector to which the index is related
 	\end{enumerate}
 	\item Extra input for link (i.e. mirror fleet)
@@ -1336,6 +1337,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	\begin{enumerate}
 		\item 0 = no float (parameter is estimated)
 		\item 1 = float (analytical solution is used, but parameter line still required)
+		\item Additional information regarding the use of and appropriate application of float in Q can be found in the \hyperlink{FloatQ}{Float Q} section below.
 	\end{enumerate}
 \end{enumerate}
 
@@ -1353,15 +1355,14 @@ For each fishery and survey with an index, enter a row with the entries as descr
 \end{longtable}
 
 
-\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{3cm}  p{2cm}  p{4cm} }
-	\multicolumn{7}{l}{A long parameter line is expected for each link parameter (i.e. Q) and for the}\\
+\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{1.5cm} p{1.5cm}  p{1.75cm}  p{4cm} }
 	\hline
-	LO \Tstrut & HI & INIT & PRIOR &  <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Block Fxn & Parameter Label\Bstrut\\
 	\hline
 	\endfirsthead
 
 	\hline
-	LO \Tstrut & HI & INIT & PRIOR & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> &Block Fxn & Parameter Label\Bstrut\\
 	\hline
 	\endhead
 
@@ -1369,21 +1370,75 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	\endfoot
 	\endlastfoot
 
-	-5 & 5   & -0.12 & 0 & \multicolumn{1}{c}{...} & 0  & \#Survey1 LnQ base\Tstrut\\
-	0  & 0.5 & 0.1   & 0 & \multicolumn{1}{c}{...} & 0  & \#Survey1 Extra SD\Bstrut\\
+	-5 & 5   & -0.12 & \multicolumn{1}{c}{...} & 1  & \multicolumn{1}{c}{...} & 0  & \#Survey1 LnQ base\Tstrut\\
+	0  & 0.5 & 0.1   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0  & \#Survey1 Extra SD\Bstrut\\
 	\hline
 \end{longtable}
 
 If the Q base parameter specifies that it is time-varying by the annual dev method, short parameter lines to specify the specifications of the deviation vector come after all the base Q parameters.
 
-Note: In 3.24 it was common to use the deviation approach and this deviation approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual deviations.  Also note that deviations in 3.24 were survey specific (so no parameter for years with no survey).  But in SS3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
+\hypertarget{MirrorQoffset}{}
+\subsubsection{Mirrored Q with offset}
+Below is an example setup for fleets with a mirrored Q and offset from another fleet:
+\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.3cm} p{2.3cm}}
+	\multicolumn{7}{l}{For a setup with a single survey, the Q setup matrix could be:}\\
+	\hline
+	Fleet \Tstrut & Link & Link & Extra  & Bias   &   & \\
+	Num.          & Type & Info & SD     & Adjust & Float  & Label\Bstrut\\
+	\hline
+	1 & 1 & 0 & 1 & 0 & 0 & \#Fleet 1  \Tstrut\\
+	2 & 4 & 2 & 0 & 0 & 0 & \#Fleet 2  \Tstrut\\
+	-9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \Bstrut\\
+	\hline
+\end{longtable}
+
+
+\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{1.5cm}  p{1.5cm} p{1.75cm}  p{4cm} }
+	\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e. Q) and for the}\\
+	\hline
+	LO \Tstrut & HI & INIT & <other entries> &  PHASE & <other entries> & Block Fxn & Parameter Label\Bstrut\\
+	\hline
+	\endfirsthead
+	
+	\hline
+	\endfoot
+	\endlastfoot
+	
+	-7 & 5   & 0.51 & \multicolumn{1}{c}{...} & 1  & \multicolumn{1}{c}{...} & 0  & \#Fleet 1 LnQ base\Tstrut\\
+	0  & 0.5 & 0.1  & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0  & \#Fleet 1 Extra SD\Tstrut\\
+	-7 & 5   & -6   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0  & \#Fleet 2 LnQ base\Bstrut\\
+	-8 & 5   & -7   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0  & \#Fleet 2 Mirror Q  offset\Bstrut\\
+	\hline
+\end{longtable}
+
+\hypertarget{FloatQ}{}
+\subsubsection{Float Q}
+The use and development of float in Q has evolved over the life of SS. The original difference in earlier versions of SS (early 3.24 versions and before) is that with Q "floated" the units of the survey or fishery CPUE are treated as dimensionless so the Q is adjusted within each model iteration to maintain a mean difference of 0.0 between observed and expected (usually in log space).  But with Q as a parameter one gets the ability to interpret the absolute scaling of Q and put a prior on it to help guide the model solution.  Also, with Q as a parameter the code allows for Q to be time-varying.
+
+Then midway through the evolution of the 3.24 code lineage a new Q option was introduced based on user recommendations.  This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
+
+Currently, in 3.30, that float with prior capability is fully embraced.  All fleets that have any survey or CPUE options need to have a catchability specification and get a base Q parameter in the list.  Any of these Q's can be either:
+
+\begin{itemize}
+	\item Fixed: by not floating and not estimating.
+
+	\item Floating: not estimated as an active parameter, set phase to negative, and not capable of being time-varying.  Can have a prior, or not.  Future versions of SS may allow Q to be time-varying and then rescaling that Q vector according to the float logic but this is not yet currently implemented.
+
+	\item Estimated as active parameter: so not floating. Can be time-varying and can have a prior.
+\end{itemize}
+
+Q relates the units of the survey or CPUE to the population abundance, not the population density per unit area.  But many surveys and most fishery CPUE is a proportional to mean fish density per unit area.  This does not have any impact in a one area model because the role of area is absorbed into the value of Q.  In a multi-area model, one may want to assert that the relative difference in CPUE between two areas is informative about the relative abundance between the areas.   However, CPUE is a measure of fish density per unit area, so one may want to multiply CPUE by area before putting the data into SS so that asserting the same Q for the two areas will be informative about relative abundance.
+
+In SS v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area.  The offset is a parameter and, hence, can be estimated and have a prior.  This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
+
+
+\subsubsection{Conversion issues between 3.24 and 3.30}
+In 3.24 it was common to use the deviation approach and this deviation approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual deviations.  Also note that deviations in 3.24 were survey specific (so no parameter for years with no survey).  But in SS3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention.  The four values read from each line are:
 
-%\begin{description}
 \myparagraph{Pattern}
-%	\item[Pattern]\hfill\\	
 Valid length selectivity pattern code.
 
 \begin{itemize}
