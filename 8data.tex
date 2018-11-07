@@ -64,7 +64,7 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 			\end{itemize}
 		\item Survey timing is now cruise-specific and specified in units of months (e.g. April 15 = 4.5).
 			\begin{itemize}
-				\item sstrans.exe will convert year, season in 3.24 format to year, real month in 3.30 format.
+				\item sstrans.exe will convert year, season in SS v.3.24 format to year, real month in SS v.3.30 format.
 			\end{itemize}
 		\item Survey integer season and spawn integer season assigned at runtime based on real month and season duration(s).
 		\item The closest subseason is calculated for each observation.
@@ -73,7 +73,7 @@ SS v.3.24 and all earlier versions effectively had two subseasons per season bec
 		\item Survey body weight and size composition is calculated using the nearest subseason.
 		\item Reproductive output now has specified spawn timing (in months fraction) and interpolates growth to that timing.
 		\item Survey numbers calculated at cruise survey timing using $e^{-z}$.
-		\item Continuous Z for entire season.  Same as applied in version 3.24.
+		\item Continuous Z for entire season.  Same as applied in version SS v.3.24.
 	\end{itemize}
 
 \subsection{Terminology}
@@ -138,7 +138,7 @@ Where the term “COND” appears in the value column of this documentation (it 
 \end{center}
 
 \subsubsection{Season Length and Time Steps}
-Time steps in SS v3.30 can have finer granularity compared to previous versions where season can be broken into subseason and the age-length key (ALK) can be calculated multiple times over the course of a year:
+Time steps in SS v.3.30 can have finer granularity compared to previous versions where season can be broken into subseason and the age-length key (ALK) can be calculated multiple times over the course of a year:
 \begin{center}
 	\begin{tabular}{| p{2.37cm}| p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  }
 		\hline
@@ -164,7 +164,7 @@ Quantites are calculated at the following times:
 
 
 \subsection{Fleet Definitions }
-\hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version 3.30 all fleets now have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions).  Available types are: catch fleet, bycatch only, or survey.  
+\hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (SS v.3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version SS v.3.30 all fleets now have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions).  Available types are: catch fleet, bycatch only, or survey.  
 
 \begin{center}
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{4cm} }
@@ -197,7 +197,7 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 \hypertarget{ObsTiming}{}
 \myparagraph{Timing}
 %  \item[Timing]\hfill\\
-   Timing for data observations has been revised in v3.30:
+   Timing for data observations has been revised in SS v.3.30:
 	  \begin{itemize}
 	  	\item Fishery = -1 treat as catch occurred over the whole season or a user can override this assumption by using the code 10XX (e.g 1007 would indicate that catch was removed mid-year in July). Fishery fleets can either have a -1 which means that CPUE and composition observations default to using the total seasonal catch-at-age  and midseason length-at-age, or they can have a timing value of 1 (actually any positive value) in which case the expected value for CPUE and composition observations will be sampled at the time indicated by the month value associated with the observation.  If the -1 code is entered here, then individual observations (e.g., compositional data) can override the midseason default by entering the month as 1000+month.  For example, 1004.5 would be entered for a mid-April observation.
 	  	\item Survey = 1 The fleet timing here for surveys is not used and only the month value with the observation is relevant (e.g., month specification in the indices of abundance or the month for composition data).  
@@ -214,12 +214,11 @@ An integer value indicating the area in which a fleet operates.
 	  	\item 1 = biomass (in metric tons),
 	  	\item 2 = numbers (thousands of fish).
 	  \end{itemize}   
-  See \hyperlink{UnitsOfMeasure}{\textit{Units of Measure}} for more information.
+  See \hyperlink{UnitsOfMeasure}{Units of Measure} for more information.
 
 \hypertarget{CatchMult}{}
 \myparagraph{Catch Multiplier}
-%  \item[\hypertarget{CatchMult}{Catch Multiplier}] \hfill\\
-  Invokes use of a catch multiplier, which is then entered as a parameter in the MG parameter section.  The estimated value or fixed value of the catch multiplier is multiplied by the estimated catch before being compared to the observed catch: 
+Invokes use of a catch multiplier, which is then entered as a parameter in the MG parameter section.  The estimated value or fixed value of the catch multiplier is multiplied by the estimated catch before being compared to the observed catch: 
 	  \begin{itemize}
 	  	\item 0 = No catch multiplier used,
 	  	\item 1 = Apply a catch multiplier which is defined as an estimable parameter in the control file after the cohort growth deviation in the biology parameter section. The model’s estimated retained catch will be multiplied by this factor before being compared to the observed retained catch.
@@ -227,7 +226,7 @@ An integer value indicating the area in which a fleet operates.
 %\end{description}
 
 \subsection{Optional Bycatch Fleets}
-The option to include bycatch fleets was introduced in Stock Synthesis version 3.30.10.  This is an optional input and if no bycatch is to be included in the catches this section can be ignored.\\
+The option to include bycatch fleets was introduced in SS v.3.30.10.  This is an optional input and if no bycatch is to be included in the catches this section can be ignored.\\
 
 \noindent If a fleet above was set as a bycatch fleet (fleet type = 2), the following line is required: 
 \begin{center}
@@ -288,7 +287,7 @@ This column is not yet used and is reserved for future features.
 
 In addition, it is possible to collapse the number of seasons.  So if a season value is greater than the N seasons for a particular model, that catch is added to the catch for N seasons.  This is generally to collapse a seasonal model into an annual model.  In a seasonal model, use of season = 0 will cause SS to distribute the input value of catch equally among the N seasons.  SS assumes that catch occurs continuously over seasons and hence is not specified as month in the catch data section.  However, all other data types will need to be specified by month.
 
-The new format for version 3.30 for a 2 season model with 2 fisheries looks like the table below.  The example is sorted by fleet, but the sort order does not matter.  In data.ss\_new, the sort order is fleet, year, season.
+The new format for version SS v.3.30 for a 2 season model with 2 fisheries looks like the table below.  The example is sorted by fleet, but the sort order does not matter.  In data.ss\_new, the sort order is fleet, year, season.
 
 \begin{center}
 	\begin{tabular}{p{3cm} p{3cm} p{3cm} p{3cm} p{2cm}}
@@ -365,7 +364,7 @@ Options:
 			    \item 1 = only R0 active in phase 1; then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters.  Essentially, this option allows SS to mimic DB-SRA,
 			    \item 2 = no phase adjustments, can be used when profiling on fixed R0.
 			\end{itemize}
-			\item 35 = survey of a deviation vector ($e(survey(y)) = f(parm\_dev(k,y))$), can be used for an environmental time-series with soft linkage to the index. The selected deviation vector is specified in Q section of the control file. The index of the dev vector to which the index is related is specified in the 2nd column of the Q setup table (see \hyperlink{Qsetup}{\textit{Catchability}}).
+			\item 35 = survey of a deviation vector ($e(survey(y)) = f(parm\_dev(k,y))$), can be used for an environmental time-series with soft linkage to the index. The selected deviation vector is specified in Q section of the control file. The index of the dev vector to which the index is related is specified in the 2nd column of the Q setup table (see \hyperlink{Qsetup}{Catchability}).
 		\end{itemize}
 	\end{itemize}
 
@@ -419,7 +418,7 @@ Indices with SD Report enabled will have the expected values for their historica
 		\item Duplicate survey observations are not allowed.
 		\item Observations can be entered in any order, except if the super-year feature is used.
 		\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID.  Previously the code for not using observations was to enter the observation itself as a negative value.  However, that old approach prevented use of a Z-score environmental index as a “survey”.  This approach is best for single or select years from an index rather than an approach to remove a whole index.  Removing a whole index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
-		\item Super-periods are turned on and then turned back off again by putting a negative sign on the season.  Previously, super-periods were started and stopped by entering -9999 and the -9998 in the SE field.  \hyperlink{SuperPeriod}{\textit{See the "Data Super-Period” section of this manual for more information}}.
+		\item Super-periods are turned on and then turned back off again by putting a negative sign on the season.  Previously, super-periods were started and stopped by entering -9999 and the -9998 in the SE field.  See the \hyperlink{SuperPeriod}{Data Super-Period} section of this manual for more information.
 		\item Research Note:  If the statistical analysis used to create the CPUE index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery’s size and age composition, then you may want to enter the CPUE as if it was a separate survey and with a selectivity that differs from the fishery’s estimated selectivity.  The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the CPUE should be derived through an area-weighted approach to better serve as a survey of stock abundance.
 	\end{itemize}
 %\end{description}
@@ -476,7 +475,7 @@ The four options for discard error are:
 	\item 0 = normal distribution, value of error in data file is interpreted as CV of the observation,
 	\item -1 = normal distribution, value of error in data file is interpreted as standard error of the observation,
 	\item -2 = lognormal distribution, value of error in data file is interpreted as standard error of the observation in log space, 
-	\item -3 = truncate normal distribution (new with 3.30, needs further testing), value of error in data file is interpreted as standard error of the observation.  This is a good option for low observed discard rates.
+	\item -3 = truncate normal distribution (new with SS v.3.30, needs further testing), value of error in data file is interpreted as standard error of the observation.  This is a good option for low observed discard rates.
 \end{itemize}
 
 \myparagraph{Discard Notes}
@@ -488,7 +487,7 @@ The four options for discard error are:
 	\item Zero (0.0) is a legitimate discard observation, unless lognormal error structure is used.
 	\item Duplicate discard observations are not allowed.
 	\item Observations can be entered in any order, except if the super-period feature is used. 
-	\item Note that in the control file you will enter information for retention such that 1-retention is the amount discarded.  All discard is assumed dead, unless you enter information for discard mortality.  Retention and discard mortality can be either size-based or age-based (new with v.3.30).
+	\item Note that in the control file you will enter information for retention such that 1-retention is the amount discarded.  All discard is assumed dead, unless you enter information for discard mortality.  Retention and discard mortality can be either size-based or age-based (new with SS v.3.30).
 \end{itemize}
 	
 \myparagraph{Cautionary Note}
@@ -648,7 +647,7 @@ Options:
 	\item 0 = Multinomial Error,
 	\item 1 = Dirichlet Multinomial Error.
 	\begin{itemize}
-		\item The Dirichlet Multinomial Error distribution requires the addition of a parameter lines for the natural log of the effective sample size multiplier ($\theta$) at the end of the selectivity parameter section in the control file. \hyperlink{Dirichletparameter}{\textit{Click here to see the parameter setup in the control file.}}
+		\item The Dirichlet Multinomial Error distribution requires the addition of a parameter lines for the natural log of the effective sample size multiplier ($\theta$) at the end of the selectivity parameter section in the control file. See the \hyperlink{Dirichletparameter}{Dirichlet parameter} in the control file for information regarding setup.
 		\item The Parameter Select option needs be used to specified which data sources should be weighted together or separate. 
 	\end{itemize}
 \end{itemize}
@@ -664,7 +663,7 @@ Value that indicates the groups of composition data for estimation of the Dirich
 
 \myparagraph{Minimum Sample Size}
 %	\item[Minimum Sample Size]\hfill\\
-The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. Stock Synthesis 3.24 has an implicit minimum sample size value of 1.
+The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. SS v.3.24 has an implicit minimum sample size value of 1.
 %\end{description}
 
 \subsection{Dirichlet Parameter Number and Effective Sample Sizes}
@@ -674,11 +673,11 @@ The Dirichlet estimates the effective sample size as $N_{eff}=\frac{1}{1+\theta}
 	
 This formula for effective sample size implies that, as the Stock Synthesis parameter log\_Theta goes to large values (i.e., 20), then  $N_{eff}$ will converge to the input sample size ($N_{input}$).  In this case, small changes in the value of the log\_Theta parameter has no action, and the derivative of the negative log-likelihood is zero with respect to the parameter, which means the Hessian will be singular and cannot be inverted. To avoid this non-invertible Hessian when the log\_Theta parameter becomes large, turn it off while fixing it at the high value. In summary, we recommend setting the upper bound for the Dirichlet multinomial parameter log\_Theta to a high value (i.e., 20-25), and then if any fleet has an estimate of log\_Theta $>$ 15 then turn that Dirichlet multinomial parameter off while starting it at the estimated high value.  This is equivalent to turning off down-weighting of fleets where evidence suggests that $N_{eff}$ = $N_{input}$.  
 	
-For additional information about the Dirichlet multinomial please see Thorson et al. 2017. Model-based estimates of effective sample size in stock assessment models using the Dirichlet multinomial distribution. Fisheries Research, 192: 84-93.
+For additional information about the Dirichlet multinomial please see \citet{thorson_model-based_2017}.
 
 \hypertarget{CompTiming}{}
 \subsection{Length Composition Data}
-Specify the length compostion data:
+Specify the length composition data:
 \begin{center}
 	\begin{tabular}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{5cm}}
 		\hline
@@ -728,7 +727,7 @@ Partition indicates samples from either discards,retained, or combined.
 \myparagraph{Note}	
 %\item[Note:]\
 %	\begin{itemize}
-Version 3.30 no longer requires that the number of length composition data lines be specified.  Entering -9999 at the end of the data matrix will indicate to the model the end of length composition lines to be read.
+SS v.3.30 no longer requires that the number of length composition data lines be specified.  Entering -9999 at the end of the data matrix will indicate to the model the end of length composition lines to be read.
 
 Each observation can be stored as one row for ease of data management in a spreadsheet and for sorting of the observations.  However, the 6 header values, the female vector and the male vector could each be on a separate line because ADMB reads values consecutively from the input file and will move to the next line as necessary to read additional values.
 

@@ -9,13 +9,13 @@ Assessment models are loosely coupled to other models. For example, an ocean-tem
 
 Stock Synthesis (SS) is an age- and size-structured assessment model in the class of models termed “integrated analysis models.” SS has a population sub-model that simulates a stock’s growth, movement, and mortality processes; an observation sub-model estimates expected values for various types of data; a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance; and a forecast sub-model projects needed management quantities.  SS outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (www.admb-project.org).  Windows, Linux, and iOS versions are available.  Output processing and associated tools are in R, and a graphical interface is in QT.  SS is available from NOAA’s VLAB. The rich feature set in SS allows it to be configured for a wide range of situations and it has become the basis for a large fraction of U.S. assessments and many other assessments around the world.  
 
-This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. A technical description of the model itself is in Methot and Wetzel (2013). The model and a graphical user interface are available from the NOAA VLAB at https://vlab.ncep.noaa.gov/group/stock-synthesis/home. The VLAB site also provides a user forum for posting Q\&A and for accessing various additional materials.  An output processor package, r4ss, in R is available for download from CRAN or GitHub. Additional information about the package can be located at github.com/r4ss/r4ss.
+This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. A technical description of the model itself is in \citet{methot_stock_2013}. The model and a graphical user interface are available from the NOAA VLAB at https://vlab.ncep.noaa.gov/group/stock-synthesis/home. The VLAB site also provides a user forum for posting Q\&A and for accessing various additional materials.  An output processor package, r4ss, in R is available for download from CRAN or GitHub. Additional information about the package can be located at github.com/r4ss/r4ss.
 
 Additional guidance for new users is available from the NOAA VLAB at https://vlab.ncep.noaa.gov/group/stock-synthesis/document-library.  The "Begin Here - Introduction to Stock Synthesis" folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.  
 %\end{sloppypar}
 	
-\section{New Features Available in Version 3.30}
-Stock Synthesis version v.3.30 was designed specifically to provided more precise temporal control of growth, expected values for data, and for recruitment.  In additional, a large number of new features that make substantial changes to the input formats have been introduced.  Two executables of SS are provided.  One, ss\_trans.exe, will read SS v.3.24 input files and produce SS v.3.30 formatted versions of those input files.  Nearly every feature in v.3.24 can be converted by this program.  The other executable, ss.exe, will then be your primary new assessment tool. Additional information on each new feature available by clicking on the item.
+\section{New Features Available in SS Version 3.30}
+Stock Synthesis version v.3.30 was designed specifically to provided more precise temporal control of growth, expected values for data, and for recruitment.  In additional, a large number of new features that make substantial changes to the input formats have been introduced.  Two executables of SS are provided.  One, ss\_trans.exe, will read SS v.3.24 input files and produce SS v.3.30 formatted versions of those input files.  Nearly every feature in SS v.3.24 can be converted by this program.  The other executable, ss.exe, will then be your primary new assessment tool. Additional information on each new feature available by clicking on the item.
 		
 \begin{center}
 	{\renewcommand{\arraystretch}{1.5}%
@@ -43,7 +43,7 @@ Stock Synthesis version v.3.30 was designed specifically to provided more precis
 			    Rather than specify the number of items to be read, now SS can figure it out on its own with lists terminated by -9999 in first field of the read vector \\
 		  
 		  & \hyperlink{SubSeas}{Internal sub-seasons} & 
-			    SS v3.24 inherently has 2 subseasons each season (begin and middle) at which the age-length-key (ALK) is calculated; now user specifies an even number of sub-seasons to use (2 to many) \\
+			    SS v.3.24 inherently has 2 subseasons each season (begin and middle) at which the age-length-key (ALK) is calculated; now user specifies an even number of sub-seasons to use (2 to many) \\
 
 		  & \hyperlink{ObsTiming}{Observation Timing} & 
 			    Timing of observations now is input as year, month where month is real; e.g. April 15 is 4.5; age-length-key (ALK) used for each observation is calculated to the nearest sub-season.  Old "survey\_timing" replaced by the month specific inputs.  Season is calculated at runtime from the input month and the input season durations. \\
@@ -52,7 +52,7 @@ Stock Synthesis version v.3.30 was designed specifically to provided more precis
 			    Smarter at when to re-calculate the age-length-key (ALK); trims tails of size-at-age so calculations avoid many inconsequential cells of the age-length matrix. ALK tail compression is specified in the starter file.\\
 		
 		  & \hyperlink{Convert} {Converter} & 
-			    Special version of SS, ss\_trans.exe, will read files in 3.24 format and write *.ss\_new files in 3.30 format.  This is the advised method for converting previous version files, but always do a side-by-side comparison.\\
+			    Special version of SS, ss\_trans.exe, will read files in SS v.3.24 format and write *.ss\_new files in SS v.3.30 format.  This is the advised method for converting previous version files, but always do a side-by-side comparison.\\
 
 		  & \hyperlink{WAAparm} {Empirical Weight-at-Age} & Implementing empirical weight-at-age is now specified separately in the control file rather than under the maturity options.\\
 
@@ -111,7 +111,7 @@ Stock Synthesis version v.3.30 was designed specifically to provided more precis
 				MGparms now have maturity, fecundity, sex ratio, and weight-length by growth pattern.\\
 				
 		    & \hyperlink{SexRatio}{Sex ratio} & 
-			    Change sex ratio at birth from a constant to a morph-specific MG parameter. This feature was not correctly implemented in versions of 3.30 earlier than 3.30.12. \\
+			    Change sex ratio at birth from a constant to a morph-specific MG parameter. This feature was not correctly implemented in SS v.3.30 earlier than SS v.3.30.12. \\
 
 		Statistical 
 			& \hyperlink{GcompVar}{Input variance adjuster} & 
@@ -173,7 +173,7 @@ The process of updating and adding new features within SS v.3.30 expose several 
 		\item warning.sso:  this file contains a list of warnings generated during program execution.
 		\item echoinput.sso:  this file is produced while reading the input files and includes an annotated echo of the input.  The sole purpose of this output file is debugging input errors.
 		\item Report.sso:  this file is the primary report file.
-		\item ss\_summary.sso: output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in version 3.30.08.03 and greater.
+		\item ss\_summary.sso: output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in SS v.3.30.08.03 and greater.
 		\item CompReport.sso:  observed and expected composition data in a list-based format
 		\item Forecast-report.sso:  output of management quantities and for forecasts
 		\item CumReport.sso:  this file contains a brief version of the run output, output is appended to current content of file so results of several runs can be collected together.  This is useful when a batch of runs is being processed.
@@ -181,7 +181,7 @@ The process of updating and adding new features within SS v.3.30 expose several 
 		\item ss.par: this file contains all estimated and fixed parameters from the model run. 
 		\item ss.std, ss.rep, ss.cor etc.  standard ADMB output files
 		\item checkup.sso:  contains details of selectivity parameters and resulting vectors.  This is written during the first call of the objective function.
-		\item Gradient.dat: new for SS3.30, this file shows parameter gradients at the end of the run.
+		\item Gradient.dat: new for SS v.3.30, this file shows parameter gradients at the end of the run.
 		\item rebuild.dat:  output formatted for direct input to Andre Punt's rebuilding analysis package.  Cumulative output is output to REBUILD.SS (useful when doing MCMC or profiles).
 		\item SIS\_table.sso:  output formatted for reading into the NMFS Species Information System.
 		\item Parmtrace.sso: parameter values at each iteration.
@@ -202,7 +202,7 @@ The process of updating and adding new features within SS v.3.30 expose several 
 				\item Parameter values are changed manually or using sliders, depending on the value of cell I5.
 			\end{enumerate}
 			\item It is recommend that users select plausible starting values for double-normal selectivity options, especially when estimating all 6 parameters
-			\item Please note that the XLS does NOT show the impact of setting parameters 5 or 6 to ''-999''.  In SS v3.30, this allows the the value of selectivity at the initial and final age or length to be determined by the shape of the double-normal arising from parameters 1-4, rather than forcing the selectivity at the intial and final age or length to be estimated separately using the value of parameters 5 and 6. 
+			\item Please note that the XLS does NOT show the impact of setting parameters 5 or 6 to ''-999''.  In SS v.3.30, this allows the the value of selectivity at the initial and final age or length to be determined by the shape of the double-normal arising from parameters 1-4, rather than forcing the selectivity at the intial and final age or length to be estimated separately using the value of parameters 5 and 6. 
 		\end{enumerate}
 		\item Selex17\_age\_randwalk.xls:
 		\begin{enumerate}

@@ -75,7 +75,7 @@ The primary role of the SS control file is to define the parameters to be used b
 
 Note that relative to SS v.3.24,  the order of Prior StDev and Prior Type have been switched and the Prior Type options have been renumbered.
 
-Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{\textit{Time-Varying Parameters}} section.
+Short parameter lines have only the above 7 elements.  The full parameter line syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  These are listed briefly below and described in more detail in the section time varying parameter options found in the \hyperlink{TVpara}{Time-Varying parameters} section.
 
 \begin{center}
 	\begin{tabular}{p{2cm} p{3cm} p{10cm}}
@@ -142,7 +142,7 @@ In most cases, the description in the Definition column is the same as the label
 \end{center}
 
 \subsubsection{Empirical Weight-at-Age}
-With version 3.04, SS added the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See the section on \hyperlink{WAA}{\textit{weight-at-age}} for additional information on file formatting for empirical weight-at-age.
+With version 3.04, SS added the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.  See the section on \hyperlink{WAA}{weight-at-age} for additional information on file formatting for empirical weight-at-age.
 
 
 \subsubsection{Recruitment Timing and Distribution}
@@ -221,7 +221,7 @@ The distribution of recruitment among these settlement events is controlled by r
 	%\multicolumn{2}{l}{Typical Value} & Description \Tstrut\Bstrut\\
 	%\hline		
 	1 \Tstrut & & Recruitment distribution method. This section controls which combinations of Growth Pattern x Area x Settlement will get a portion of the total recruitment coming from each spawning.  Options: \\
-	  & & 1 = use the 3.24 or earlier setup, \\
+	  & & 1 = use the SS v.3.24 or earlier setup, \\
 	  & & 2 = main effects for GP, settle timing, and area, \\
 	  & & 3 = each settle entity, \\
 	  & & 4=no parameters (only if Growth Pattern x Settlement x Area = 1). \Bstrut\\
@@ -238,7 +238,7 @@ The distribution of recruitment among these settlement events is controlled by r
 	0 \Tstrut & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1). \Bstrut\\
 
 	\hline
-	\multicolumn{2}{l}{1 5.5 1 0} \Tstrut & Recruitment assignment to grwoth pattern, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5). Note:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In 3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of 3.24 for testing purposes.
+	\multicolumn{2}{l}{1 5.5 1 0} \Tstrut & Recruitment assignment to grwoth pattern, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5). Note:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In SS v.3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of SS v.3.24 for testing purposes.
 	\Bstrut\\
 	\hline
 \end{longtable}
@@ -333,7 +333,7 @@ In SS v.3.30, several changes are introduced to the implementation of time-varyi
   \item	Time-varying parameters for biology, spawner-recruitment, catchability, and selectivity are implemented using the same approach and share code.
   \item The block feature that allowed input of one block parameter line and replication of that line by SS as often as needed has been replaced.  Now there is a complete time-varying parameter auto-generation capability.
   \item The logistic bound constraint is no longer implemented due to the challenges it created to interpreting parameter values.  Instead, the auto-generate feature now creates bounds on time-varying parameters for blocks such that the combination of a bounded  value of the time-varying parameter and the base parameter will not violate the base parameter bounds.
-  \item For more information on the implementation of time-varying parameters, see the \hyperlink{TVpara}{\textit{Using Time-varying Parameters}} section
+  \item For more information on the implementation of time-varying parameters, see the \hyperlink{TVpara}{Using Time-varying Parameters} section
 \end{itemize}	
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
@@ -354,7 +354,7 @@ In SS v.3.30, several changes are introduced to the implementation of time-varyi
 
 	1 & & Environmental/Block/Deviation adjust method for all time-vary parameters. \Tstrut\\
 	  & & 1 = warning relative to baseparameter bounds, \\
-	  & & 3 = no bound check). Note: logistic bound check form previous SS versions (e.g., 3.24) is no longer an option.\Bstrut\\
+	  & & 3 = no bound check). Note: logistic bound check form previous SS versions (e.g., SS v.3.24) is no longer an option.\Bstrut\\
 
 	\multicolumn{2}{l}{0 0 0 0 0} & Five values control auto-generation for: 1-biology, 2-spawnrecr, 3-catchability, 4-tag (future), 5-selectivity.\\
 	&			& The accepted values are:\Tstrut\\
@@ -428,7 +428,7 @@ If “Growth\_age\_for\_L2” is set equal to 999, then the size L2 is used as L
 %	\item[Schnute growth function] - 
 The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow type field.  Then a fourth parameter is read after reading the von Bertalanffy K parameter.  When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
 	
-\myparagraph{Mean sizea-at-maximum age}
+\myparagraph{Mean size-at-maximum age}
 %	\item[Mean size-at-maxage] - 
 The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age AND the mortality rate of fish after they reach max age.  SS provides an option for the mortality rate to use in this calculation during the initial equilibrium year.  This must be specified by the user and should be reasonably close to M plus initial F.  In SS v.3.30, this uses the von Bertalanffy growth out to 3*nages and decays the numbers at age by exp(-value set here). For subsequent years of the time series, SS should update the size-at-maxage according to the weighted average mean size of fish already at max age and the size of fish just graduating into max age.  Unfortunately, this updating is only happening in years with time-varying growth.  Hope to fix that in the future.
 	
@@ -462,18 +462,18 @@ A growth cessation model was developed for the application to tropical tuna spec
 	  & & 3 = von Bertalanffy with age-specific \textit{k} multipliers for specified range of ages,\\
 	  & & 4 = age specific K. Set base \textit{k} as \textit{k} for age = nages and working backwards and the age-specific \textit{k} = \textit{k} for the next older age * multiplier, \\
 	  & & 5 = age specific \textit{k}. Set base \textit{k} as \textit{k} for nages and work backwards and the age-specific \textit{k} = base \textit{k} * multiplier.\\
-	  & & 8 = growth cessation. Decreases the \textit{k} for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base \textit{k} parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which the parameter related to the maximum \textit{k}. \Bstrut \\
+	  & & 8 = growth cessation. Decreases the \textit{k} for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base \textit{k} parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut \\
 	\hline
 
-	\Tstrut 1.66 & & \hyperlink{A1}{Growth Amin (A1)}: Reference age for first size-at-age (post-settlement) parameter.\Bstrut\\
+	\Tstrut 1.66 & & Growth Amin (A1): Reference age for first size-at-age (post-settlement) parameter.\Bstrut\\
 	\hline
 
 	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age parameter (999 to use as L infinity).\Bstrut\\
 	\hline
 	
-	\Tstrut 0.20 & & Exponential decay for growth above maximum age (plus group: fixed at 0.20 in 3.24; should approximate initial Z).\\
+	\Tstrut 0.20 & & Exponential decay for growth above maximum age (plus group: fixed at 0.20 in SS v.3.24; should approximate initial Z).\\
 			     & & Alternative Options: \\
-			     & & -998 = Disable growth above maximum age (plus group) similar to earlier versions of SS (prior to SS v3.24),\\
+			     & & -998 = Disable growth above maximum age (plus group) similar to earlier versions of SS (prior to SS v.3.24),\\
 			     & & -999 = Replicate the simpler calculation done in SS v.3.24.\Bstrut\\
 	\hline
 	
@@ -486,7 +486,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	& 7 & Maximum age for age-specific \textit{k}\Bstrut\\
 	\hline
 
-	\Tstrut 0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.  \hyperlink{A1}{\textit{Click here for more information.}}\Bstrut\\
+	\Tstrut 0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.\Bstrut\\
 	\hline
 
 	1 & & CV Pattern \Tstrut\\
@@ -636,7 +636,7 @@ The last line in the mortality-growth parameter section allows the user to fix o
 As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
 
 \subsubsection{Read Biology Parameters}
-\hypertarget{MGorder}{Next}, SS reads the mortality-gowth (MG) parameters in generally the following order (may vary based on selected options):
+\hypertarget{MGorder}{Next}, SS reads the mortality-growth (MG) parameters in generally the following order (may vary based on selected options):
 
 
 \begin{longtable}{p{1cm} p{2.5cm} p{10cm}}
@@ -901,27 +901,27 @@ The spawner-recruitment section starts by specification of the functional relati
 
 	3 & Spawner-            & The options are: \Tstrut\\
 	  & Recruitment         & 1: null, \\
-	  & Relationship        & 2: Ricker (2 parameters: log(R0) and steepness), \\
-	  &                     & 3: standard Beverton-Holt (2 parameters: log(R0) and steepness), \\
-	  &                     & 4: ignore steepness and no bias adjustment.  Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates (2 parameters, but only uses the first one),\\
-	  &                     & 5: \hyperlink{Hockey}{Hockey stick} (3 parameters: log(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0. \\
-	  &                     & 6: Beverton-Holt with flat-top beyond Bzero (2 parameters: log(R0) and steepness),\\
-	  &                     & 7: \hyperlink{Survivorship}{Survivorship function} (3 parameters: log(R0), $z_{frac}$, and $\beta$).  Suitable for sharks and low fecundity stocks to assure recruits are <= population production.\\
-      &                     & 8: \hyperlink{Shepherd}{Shepherd} (3 parameters: log(R0), steepness, and shape parameter, $c$).\\
-      & 					& 9(beta): \hyperlink{Shepherd2}{Shepherd re-parameterization} (3 parameters: log(R0), steepness, and shape parameter, $c$).\\
-      & 					& 10(beta): \hyperlink{Ricker2}{Ricker re-parameterization} (3 parameters: log(R0), steepness, and Ricker power, $\gamma$). This SRR is was added to version 3.30.11 and is in beta mode.\Bstrut\\
+	  & Relationship        & 2: Ricker: 2 parameters: log(R0) and steepness, \\
+	  &                     & 3: Standard Beverton-Holt, 2 parameters: log(R0) and steepness, \\
+	  &                     & 4: Ignore Steepness and no bias adjustment.  Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates, 2 parameters, but only uses the first on),\\
+	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: log(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0. \\
+	  &                     & 6: Beverton-Holt with flat-top beyond Bzero, 2 parameters: log(R0) and steepness,\\
+	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: log(R0), $z_{frac}$, and $\beta$.  Suitable for sharks and low fecundity stocks to assure recruits are <= population production.\\
+      &                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: log(R0), steepness, and shape parameter, $c$.\\
+      & 					& 9 (beta): \hyperlink{Shepherd2}{Shepherd re-parameterization}: 3 parameters: log(R0), steepness, and shape parameter, $c$.\\
+      & 					& 10 (beta): \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: log(R0), steepness, and Ricker power, $\gamma$. This SRR is was added to version 3.30.11 and is in beta mode.\Bstrut\\
     \hline
 
     1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
       & 						& 0 = none \\
       &							& 1 = use steepness \\
-    0 &  Future Feature         & Reserved for the future option to make realized sigmaR a function of the stock-recruitment curve.\Bstrut\\ 
+    0 &  Future Feature         & Reserved for the future option to make realized $\sigma_R$ a function of the stock-recruitment curve.\Bstrut\\ 
     \hline
 \end{longtable}
 
 The number of parameters needed by each relationship is stored internally.  In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS v.3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in v.3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This regime shift parameter can have blocks, environmental links or random deviations. 
 
-If a SS v.3.24 model implement the R1 offset approach this can be mimicked in v.3.30 by the SR regime parameter. For any given year, including startyr - 1, the R0 is replaced by R0*exp(SR\_regime[y]). So to mimic the R1\_offset, you need to put a block on SR\_regime for y = startyr - 1. But if SR\_regime has some change during your main time series, that change will be filtered through the stock-recruit relationship into an impact on the numbers at age for whatever years are impacted. This can also apply to the forecast. A block on SR\_regime is also easier than some of the old dummy environmental variables that were created in the past to adjust recruitment up and down for long periods.
+If a SS v.3.24 model implement the R1 offset approach this can be mimicked in v.3.30 by the SR regime parameter. For any given year, including startyr - 1, the R0 is replaced by $R0*exp(SR Regime_y)$. So to mimic the R1\_offset, you need to put a block on SR\_regime for y = startyr - 1. But if SR\_regime has some change during your main time series, that change will be filtered through the stock-recruit relationship into an impact on the numbers at age for whatever years are impacted. This can also apply to the forecast. A block on SR\_regime is also easier than some of the old dummy environmental variables that were created in the past to adjust recruitment up and down for long periods.
 
 If the R0 or steepness parameters are time-varying, then SS will use the current year's parameters to calculate recruits as a function of the spawning biomass.  If the SR regime parameter is time-varying, then SS applies this offset after calculating recruits as function of spawning biomass.  The expected deviations can no longer be linked to "env": instead the environmental effect will be on the "regime". 
 
@@ -951,10 +951,10 @@ Read the required number of long parameter set-up lines (e.g. LO, HI, INIT, PRIO
 	& 3rd Parameter & Optional depending on which SRR function is used.\Bstrut\\
 	\hline
 
-	0.60 \Tstrut & sigma-R &  Standard deviation of log recruitment. This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of sigmaR must be selected to approximate the true average recruitment deviation.\Bstrut\\
+	0.60 \Tstrut & $\sigma_R$ &  Standard deviation of log recruitment. This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from log(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated.  Thus the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation.\Bstrut\\
 	\hline
 
-	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter.  It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier.\Bstrut\\
+	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter.  It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach.  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to cohort-growth deviation, it serves simply as a based for adding time-varying adjustments.  This concept is similar to the old environment effect on deviates feature in SS v.3.24 and earlier.\Bstrut\\
 	\hline
 
 	0 & Autocorrelation & Autocorrelation in recruitment.\Tstrut\Bstrut\\
@@ -981,7 +981,7 @@ Example set-up of the spawner-recruitment section:
 \begin{itemize}
 	\item 	The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviation.  However, not all of these options make sense for all parameters.  Before discussing these, another important change must be noted.
 	
-	\item The sigmaR and autocorrelation parameters can not be time-varying. 
+	\item The $\sigma_R$ and autocorrelation parameters can not be time-varying. 
 	
 	\item In SS v.3.24, the R0 and steepness parameter was used for both the virgin calculation and for the MSY (benchmark) calculations.  In SS v.3.30, these usages are more explicitly defined.  The value of R0 and steepness in the initial year is used for virgin and for calculation the denominator in depletion estimates.  The average value of R0 and steepness in the range of years specified as the benchmark years 9 and 10 (see forecast.ss) is used for MSY type calculations.  So, for example, a long-term climate effect could cause R0 to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
 	
@@ -997,7 +997,7 @@ Example set-up of the spawner-recruitment section:
 	
 	\item The order of time-vary parameters are; R0,  steepness, then regime shift.  The number of time-varying parameters from each of these can range from zero to many. 
 
-	\item Note that setting a block for just the initial equilibrium year is equivalent to R1\_offset.  If R1 offset is being used in 3.24, then sstrans.exe will automatically add a new block for the initial equilibrium year so that you can easily re-implement a R1 offset effect.
+	\item Note that setting a block for just the initial equilibrium year is equivalent to R1\_offset.  If R1 offset is being used in SS v.3.24, then sstrans.exe will automatically add a new block for the initial equilibrium year so that you can easily re-implement a R1 offset effect.
 \end{itemize}
 
 
@@ -1057,11 +1057,11 @@ Example set-up of the spawner-recruitment section:
 			&   & 1 = Default value. \\
 			&   & This lambda is for the log-likelihood of the forecast recruitment deviations that occur before endyr + 1.  Use a larger value here if solitary, noisy data at end of time series cause unruly recruitment deviation estimation.\\
 	
-	\Tstrut & 1956 & Last year wth no bias adjustment. \\
-			& 1970 & First year wth full bias adjustment. \\
-			& 2001 & Last year wth full bias adjustment. \\
+	\Tstrut & 1956 & Last year with no bias adjustment. \\
+			& 1970 & First year with full bias adjustment. \\
+			& 2001 & Last year with full bias adjustment. \\
 			& 2002 & First recent year with no bias adjustment. \\
-			&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum log-likelihood.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that SS will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: start year – 1000, start year – Nages, main recruitment deviation final year, end year + 1. \hyperlink{RecBias}{\textit{Click here for more information.}}.\\
+			&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum log-likelihood.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that SS will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: start year – 1000, start year – Nages, main recruitment deviation final year, end year + 1. See \hyperlink{RecBias}{Recruitment Likelihood with Bias Adjustment} for more information.\\
 	
 	\Tstrut & 0.85 & Max Bias Adjustment: \\
 			&      & Value for the maximum bias adjustment during the MLE mode. A value of -1 will set the bias adjustment to 1.0 for all years with estimated recruitment deviations. Likewise, all estimated recruitment deviations, even those within a ramped era, switch to maxbias=1.0 during MCMC.\\
@@ -1102,7 +1102,7 @@ The Beverton-Holt Stock Recruitment curve is calculated as:
 	\begin{equation}{R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
 	\end{equation}
 	
-where $R0$ is the unfished equilibrium recruitment, $SB0$ is the unfished equilibrium spawning biomass (corresponding to R0), $SB_y$ is the spawning biomass at the start of the spawning season during year y, h is the steepness parameter, by is the bias adjustment fraction applied during year y,   is the standard deviation among recruitment deviations in log space, and   is the lognormal recruitment deviation for year y.  The bias-adjustment factor (Methot and Taylor 2011) ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the   is near 0.0.
+where $R0$ is the unfished equilibrium recruitment, $SB0$ is the unfished equilibrium spawning biomass (corresponding to R0), $SB_y$ is the spawning biomass at the start of the spawning season during year y, h is the steepness parameter, by is the bias adjustment fraction applied during year y,   is the standard deviation among recruitment deviations in log space, and   is the lognormal recruitment deviation for year y.  The bias-adjustment factor \citep{methot_adjusting_2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the   is near 0.0.
 
 \myparagraph{Ricker}
 %	\item[Ricker]\hfil\\
@@ -1121,7 +1121,7 @@ where $R_{\text{min}}$ is the minimum recruitment level predicted at a spawning 
 \hypertarget{Survivorship}{}
 \myparagraph{Survivorship}
 %\item[Survivorship]\hfill\\	
-The survivorship stock recruitment relationship based on Taylor et al. 2013 is a stock-recruitment model that enables explicit modeling of survival between embryos and age 0 recruits, and allows the description of a wide rage of pre-recruit survival curves based.  The model is especially useful for low fecundity species that produce relatively few offspring per litter and exhibit a more direct connection between spawning output and recruitment than species generating millions of eggs.
+The survivorship stock recruitment relationship based on \citet{taylor_stockrecruitment_2013} is a stock-recruitment model that enables explicit modeling of survival between embryos and age 0 recruits, and allows the description of a wide rage of pre-recruit survival curves based.  The model is especially useful for low fecundity species that produce relatively few offspring per litter and exhibit a more direct connection between spawning output and recruitment than species generating millions of eggs.
 	
 Survival-based recruitment is constrained so that the recruitment rate cannot exceed fecundity. The relationship between survival and spawning output is based on parameters which are on a log scale. These are:
 	\begin{equation}
@@ -1172,7 +1172,7 @@ where c is the shape parameter for the stock recruitment curve, and $h_{adj}$ is
 
 \myparagraph{Shepherd Re-parameterization}	
 %\item[Shepherd re-parameterization]\hfil\\
-\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version (More details can be found in Punt and Cope, in press)
+\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_nodate}.
 	\begin{equation}
 		R_y = \frac{R_0SB_y}{SB_0}\bigg(\frac{5h(1-0.2^c)}{1-5h0.2^c+(5h-1)(SB_y/SB_0)^c}\bigg)
 	\end{equation}
@@ -1180,7 +1180,7 @@ where $c$ is the shape parameter for the stock recruitment curve.
 
 \myparagraph{Ricker Re-parameterization}
 %	\item[Ricker re-parameterization]\hfil\\
-\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version (More details can be found in Punt and Cope, in press)
+\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_nodate}.
 	\begin{equation}
 		R_y = R_0*(1-temp)*e^{ln(5h)(1-SB_y/SB_0)^{\gamma}/0.8^{\gamma}}
 	\end{equation}
@@ -1200,9 +1200,9 @@ Conceptually, SS treats the early, data-poor period, the main data-rich period, 
 
 \hypertarget{RecBias}{}
 \subsubsection{Recruitment Likelihood with Bias Adjustment}
-For each year in the total recruitment deviation time series (early, mid, late/forecast) the contribution of that year to the log-likelihood is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component. SigmaR may be estimable when there is good data to establish the time series of recruitment deviations, but see recent work (Thorson et al) on use of a superior approach.
+For each year in the total recruitment deviation time series (early, mid, late/forecast) the contribution of that year to the log-likelihood is equal to:  $dev^2/(2.0*sigmaR^2)+offset*log(sigmaR)$; where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component. $\sigma_R$ may be estimable when there is good data to establish the time series of recruitment deviations.%, but see recent work (Thorson et al) on use of a superior approach.
 
-The recruitment bias adjustment implemented in SS is based upon the work documented in Methot and Taylor (2011) and following the work of Maunder and Deriso (2003).  The concept is based upon the following logic.  SigmaR represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, sigmaR, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see equation below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches sigmaR.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach sigmaR and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
+The recruitment bias adjustment implemented in SS is based upon the work documented in \citet{methot_adjusting_2011} and following the work of \citet{maunder_estimation_2003}.  The concept is based upon the following logic.  $\sigma_R$ represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, $\sigma_R$, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate (see equation below).  Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches $\sigma_R$.  Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach $\sigma_R$ and the variance of each recruitment deviation will approach zero.  Perfect data will estimate the recruitment time series signal perfectly.  Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
 \begin{equation}
 	SE(\hat{r}_y)^2 + SD(\hat{r})^2=\Bigg( \bigg( \frac{1}{\sigma^2_d}+\frac{1}{\sigma^2_R}\bigg)^{-1/2}\Bigg)^2+\Bigg( \frac{\sigma^2_R}{(\sigma^2_R+\sigma^2_d)^{1/2}}\Bigg)^2=\sigma^2_R
 \end{equation}
@@ -1213,7 +1213,7 @@ The correct offset (bias adjustment) to apply to the expected value for recruitm
 	b_y=\frac{E\Big( SD(\hat{r}_y)\Big)^2}{\sigma^2_R}=1-\frac{SE(\hat{r}_y)^2}{\sigma^2_R}
 \end{equation}
 
-\noindent of the offset then depends upon the partitioning of sigmaR into between and within recruitment variability.  The most appropriate degree of bias adjustment can be approximated from the relationship among sigmaR, recruitment variability (the signal), and recruitment residual error.
+\noindent of the offset then depends upon the partitioning of $\sigma_R$ into between and within recruitment variability.  The most appropriate degree of bias adjustment can be approximated from the relationship among $\sigma_R$, recruitment variability (the signal), and recruitment residual error.
 
 \begin{center}
 	\includegraphics{10_bias}
@@ -1416,9 +1416,9 @@ Below is an example setup for fleets with a mirrored Q and offset from another f
 
 \hypertarget{FloatQ}{}
 \subsubsection{Float Q}
-The use and development of float in Q has evolved over the life of SS. The original difference in earlier versions of SS (early 3.24 versions and before) is that with Q "floated" the units of the survey or fishery CPUE are treated as dimensionless so the Q is adjusted within each model iteration to maintain a mean difference of 0.0 between observed and expected (usually in log space).  But with Q as a parameter one gets the ability to interpret the absolute scaling of Q and put a prior on it to help guide the model solution.  Also, with Q as a parameter the code allows for Q to be time-varying.
+The use and development of float in Q has evolved over the life of SS. The original difference in earlier versions of SS (early SS v.3.24 versions and before) is that with Q "floated" the units of the survey or fishery CPUE are treated as dimensionless so the Q is adjusted within each model iteration to maintain a mean difference of 0.0 between observed and expected (usually in log space).  But with Q as a parameter one gets the ability to interpret the absolute scaling of Q and put a prior on it to help guide the model solution.  Also, with Q as a parameter the code allows for Q to be time-varying.
 
-Then midway through the evolution of the 3.24 code lineage a new Q option was introduced based on user recommendations.  This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
+Then midway through the evolution of the SS v.3.24 code lineage a new Q option was introduced based on user recommendations.  This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
 
 Currently, in 3.30, that float with prior capability is fully embraced.  All fleets that have any survey or CPUE options need to have a catchability specification and get a base Q parameter in the list.  Any of these Q's can be either:
 
@@ -1435,8 +1435,8 @@ Q relates the units of the survey or CPUE to the population abundance, not the p
 In SS v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area.  The offset is a parameter and, hence, can be estimated and have a prior.  This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
 
 
-\subsubsection{Conversion issues between 3.24 and 3.30}
-In 3.24 it was common to use the deviation approach and this deviation approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS3.30 because true blocks can now be used, as well as env links and annual deviations.  Also note that deviations in 3.24 were survey specific (so no parameter for years with no survey).  But in SS3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
+\subsubsection{Conversion issues between SS v.3.24 and v.3.30}
+In SS v.3.24 it was common to use the deviation approach and this deviation approach in SS v.3.24 was implemented as if it was survey specific blocks.  In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q.  sstrans.exe cannot convert this, but an analogous approach is available in SS v.3.30 because true blocks can now be used, as well as env links and annual deviations.  Also note that deviations in SS v.3.24 were survey specific (so no parameter for years with no survey).  But in SS v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention.  The four values read from each line are:
@@ -1615,7 +1615,7 @@ The currently defined selectivity patterns, and corresponding required number of
 %\begin{description}
 \myparagraph{Special Selectivity Options}
 %	\item[Special Selectivity Options]\hfil\\
-Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{\textit{Index units}}).	
+Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{Index units}).	
 %\end{description}
 
 \subsubsection{Selectivity Pattern Details}
@@ -2150,7 +2150,7 @@ If the Dirichlet multinomial error distribution was selected in the data file fo
 
 
 \subsubsection{Time-varying Options}
-The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the \hyperlink{TVpara}{\textit{Using Time-Varying Parameter Options}}.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
+The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters.  These options are described below in the \hyperlink{TVpara}{Using Time-Varying Parameter Options}.  After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
 
 
 \begin{longtable}{p{0.8cm} p{0.8cm} p{1.1cm} p{1.0cm} p{0.8cm}p{1cm} p{1.2cm} p{6.5cm}}
@@ -2167,7 +2167,7 @@ The time-varying options for selectivity parameters are identical to the time-va
 
 
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity}
-A new experimental feature added within SS v. 3.30.03.02.  Earlier versions do not have this feature and hence this input is not expected.  This features allows for auto-correlation by age and/or time.  The age based random walk selectivity, pattern 17, should be selected to implement the semiparametric auto-regressive selectivity. 
+A new experimental feature added within SS v.3.30.03.02.  Earlier versions do not have this feature and hence this input is not expected.  This features allows for auto-correlation by age and/or time.  The age based random walk selectivity, pattern 17, should be selected to implement the semiparametric auto-regressive selectivity. 
 
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
@@ -2314,7 +2314,7 @@ The tagging reporting rate parameter is transformed within SS during estimation 
 
 \hypertarget{GcompVar}{}
 \subsection{Variance Adjustment Factors}
-When doing iterative reweighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
+When doing iterative re-weighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
 
 
 \begin{longtable}{p{3cm} p{3cm} p{2.5cm} p{6.25cm} }
@@ -2390,7 +2390,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 If the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the +log(stddev) term in the likelihood must be included.  Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
 %\end{description}
 
-The reading of the lambda values has been substantially altered with SS v3.30.  Instead of reading a matrix containing all the needed lambda values, SS now just reads those elements that will be given a value other than 1.0.  After reading the datafile, SS sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist.  So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS.  First read an integer for the number of changes.
+The reading of the lambda values has been substantially altered with SS v.3.30.  Instead of reading a matrix containing all the needed lambda values, SS now just reads those elements that will be given a value other than 1.0.  After reading the datafile, SS sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist.  So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS.  First read an integer for the number of changes.
 
 
 \begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
@@ -2526,8 +2526,8 @@ The approach to allowing parameters to have time-varying values has been complet
 \myparagraph{Time-Varying Parameter Change from Earlier SS Versions}
 In SS v.3.24, the group of biology parameters (termed MGparm) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient.  The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block.  The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks.  Then finally, the tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
 
-\myparagraph{Code Flow Version 3.30}
-In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v3.30.12) base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will autogenerate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
+\myparagraph{Code Flow Version SS v.3.30}
+In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v.3.30.12) base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will autogenerate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
 
 \myparagraph{Parameter Order}
 The order of parameters has changed and the re-ordering is handled by the sstrans.exe.  Previously, for each of mortality-growth and selectivity parameters all environmental link parameters were listed first, then block/trend parameters and then deviation parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
@@ -2549,11 +2549,11 @@ The order of parameters has changed and the re-ordering is handled by the sstran
  \end{center}
 
 \myparagraph{Link Functions} 
-The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$.  Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter.  Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function.  So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options.  But as v.3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
+The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$.  Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter.  Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function.  So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options.  But as SS v.3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
 
-The link specifications in SS v.3.30 has been updated from v.3.24.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the first environmental index to use specified by two additional. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
+The link specifications in SS v.3.30 has been updated from SS v.3.24.  Take special note of the environmental linkage specification where two bits of information are coded into one number.  The new specification has the environmental link function denoted by the first environmental index to use specified by two additional. (e.g. environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
 
-The new available options for time-varying parameters in SS v3.30 are described below:
+The new available options for time-varying parameters in SS v.3.30 are described below:
 \begin{itemize}
 	\item Environmental Link and  Variance - Element 8 in parameter setup
 		\begin{itemize}
@@ -2586,8 +2586,8 @@ The new available options for time-varying parameters in SS v3.30 are described 
 		\item 1 = multiplicative ($P(y)*=exp(dev(y)*dev_se$),
 		\item 2 = additive ($P(y)+=env(y)*dev_se$),
 		\item 3 = random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
-		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in v.3.24).
-		\item \hyperlink{DevLink}{\textit{Click here to see the code behind each of these options.}}
+		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in SS v.3.24).
+		\item See \hyperlink{DevLink}{Deviation Link} to see the code behind each of these options
 	\end{itemize}
 	
 	\item Deviation  Minimum Year - Element 10 in parameter setup
@@ -2653,7 +2653,7 @@ The options for parameter priors are as follows., described as a function of $Pv
 
 \myparagraph{Prior Types}
 
-Note that the numbering in SS version 3.30 is different from that used in 3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log-likelihood is provided below for each prior types, as a function of the following inputs:
+Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log-likelihood is provided below for each prior types, as a function of the following inputs:
 
 \begin{tabular}{ll}
   $p$       & The value of the parameter for which a prior is being calculated  \\
