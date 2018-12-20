@@ -88,7 +88,7 @@ Short parameter lines have only the above 7 elements.  The full parameter line s
 		11 \Tstrut & Dev max yr & Ending year for the deviation vector\\
 		12 \Tstrut & Dev Phase & Phase for estimation for elements in the deviation vector \\
 		13 \Tstrut & Block & Specify time block or trend to be applied \\
-		14 \Bstrut & Block Fxn & Function form for the block offset\\
+		14 \Bstrut & Block Function & Function form for the block offset\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -238,7 +238,7 @@ The distribution of recruitment among these settlement events is controlled by r
 	0 \Tstrut & & Year x Area x Settlement Event Interaction Requested (only for recruitment distribution method = 1). \Bstrut\\
 
 	\hline
-	\multicolumn{2}{l}{1 5.5 1 0} \Tstrut & Recruitment assignment to grwoth pattern, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5). Note:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In SS v.3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of SS v.3.24 for testing purposes.
+	\multicolumn{2}{l}{1 5.5 1 0} \Tstrut & Recruitment assignment to growth pattern, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5). Note:  Normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In SS v.3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of SS v.3.24 for testing purposes.
 	\Bstrut\\
 	\hline
 \end{longtable}
@@ -266,7 +266,7 @@ Here we define movement among the areas.  This is a box transfer with no explici
 	\multicolumn{3}{l}{COND:  only if areas > 1}\Tstrut\\ 
 	& 4   & Enter Number of movement definitions.\Tstrut\\		
 	\Tstrut & 1.0  & First age that moves. This value is a real number, not an integer, to allow for an in-year start to movement in a multi-season model.  It is the real age at the beginning of a season, even though movement does not occur until the end of the season. For example, in a  setup with two 6-month seasons a value of 0.5 will cause the age 0 fish to not move when they complete their first 6 month season of life, and then to move at the end of their second season because they start movement capability when they reach the age of 0.5 years (6 months). \\
-	\Tstrut & 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, morph, source area, destination age1, age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 controls specify the range over which the movement parameters are interpolated with movement costant below age1 and above age2.}}}\\
+	\Tstrut & 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, morph, source area, destination age1, age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 controls specify the range over which the movement parameters are interpolated with movement constant below age1 and above age2.}}}\\
 	& 1 1 2 1 4 10 &  \Tstrut\\
 	& 1 2 1 2 4 10 &  \\
 	& 1 2 2 1 4 10 &  \Bstrut\\
@@ -353,7 +353,7 @@ In SS v.3.30, several changes are introduced to the implementation of time-varyi
 	\endlastfoot
 
 	1 & & Environmental/Block/Deviation adjust method for all time-vary parameters. \Tstrut\\
-	  & & 1 = warning relative to baseparameter bounds, \\
+	  & & 1 = warning relative to base parameter bounds, \\
 	  & & 3 = no bound check). Note: logistic bound check form previous SS versions (e.g., SS v.3.24) is no longer an option.\Bstrut\\
 
 	\multicolumn{2}{l}{0 0 0 0 0} & Five values control auto-generation for: 1-biology, 2-spawnrecr, 3-catchability, 4-tag (future), 5-selectivity.\\
@@ -433,7 +433,7 @@ The Schnute implementation of a 3-parameter growth function is invoked by enteri
 The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age AND the mortality rate of fish after they reach max age.  SS provides an option for the mortality rate to use in this calculation during the initial equilibrium year.  This must be specified by the user and should be reasonably close to M plus initial F.  In SS v.3.30, this uses the von Bertalanffy growth out to 3*nages and decays the numbers at age by exp(-value set here). For subsequent years of the time series, SS should update the size-at-maxage according to the weighted average mean size of fish already at max age and the size of fish just graduating into max age.  Unfortunately, this updating is only happening in years with time-varying growth.  Hope to fix that in the future.
 	
 \myparagraph{Age-specific K}
-This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex.  The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current aged's multiplier.  Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
+This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex.  The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current age's multiplier.  Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters.  The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies.  This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
 
 \hypertarget{GrowthCessation}{}
 \myparagraph{Growth cessation}
@@ -531,7 +531,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\multicolumn{2}{r}{0 0.05 0.10 ...} & Vector of age-specific maturity or fecundity.  One row of length Nages + 1 for each female growth pattern. \Bstrut\\
 	\hline
 	
-	\Tstrut 1  & & First Mature Age: Overridden if maturity option is 3 or 4 or if empirical wtatage.ss is used, but still must exist here.  therwise, all ages below the first mature age will have maturity set to zero.\Bstrut\\
+	\Tstrut 1  & & First Mature Age: Overridden if maturity option is 3 or 4 or if empirical wtatage.ss is used, but still must exist here.  Otherwise, all ages below the first mature age will have maturity set to zero.\Bstrut\\
 	\hline	  
 
 	\Tstrut 1 & & Fecundity Option (irrelevant if maturity option is 4 or wtatage.ss is used):\\
@@ -620,8 +620,8 @@ C_{adj} = C_{exp} * c_{mult}
 These parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition). As of version 3.30.12, these parameters now have time-varying capability. Seven additional full parameter lines are required. The parameter lines specify:
 \begin{itemize}
 	\item age at which the estimated pattern begins (just linear below this age).  This is “start age”
-	\item bias at start age (as additive offset from unbiased age’)
-	\item bias at maxage (as additive offset from unbiased age’)
+	\item bias at start age (as additive offset from unbiased age')
+	\item bias at maxage (as additive offset from unbiased age')
 	\item power function coefficient for interpolating between those 2 values (value of 0.0 produces linear interpolation in the bias)
 	\item standard deviation at age
 	\item standard deviation at max age
@@ -660,7 +660,7 @@ As of v.3.30.12, this parameter now has time-varying capability similar to other
 	& natM & Natural mortality for female growth pattern 1, where the number of natural mortality parameters depends on the option selected.\\
 	& Lmin & Length at Amin (units in cm) for female, growth pattern 1. \\
 	& Lmax & Length at Amax (units in cm) for female, growth pattern 1. \\
-	& VBK & Von Bertanlaffy growth coefficient (units are per year) for females, growt pattern 1.\Bstrut\\
+	& VBK & Von Bertanlaffy growth coefficient (units are per year) for females, growth pattern 1.\Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND if growth type =2 } & \Tstrut\\
@@ -716,7 +716,7 @@ As of v.3.30.12, this parameter now has time-varying capability similar to other
 	\multicolumn{2}{l}{COND: GP > 1} \Tstrut & Repeat male parameters in the above order for growth pattern 2.\\
 	\hline
 
-	\multicolumn{2}{l}{COND: Hermaphrodism} \Tstrut & 3 parameters define a normal distribution for the transition rate of females to males (or vice versa).\\
+	\multicolumn{2}{l}{COND: Hermaphroditism} \Tstrut & 3 parameters define a normal distribution for the transition rate of females to males (or vice versa).\\
 	& Inflect Age & Hermaphrodite inflection age.\\
 	& StDev & Hermaphrodite standard deviation (in age) .\\
 	& Asmp Rate & Hermaphrodite asymptotic rate.\Bstrut\\
@@ -810,11 +810,11 @@ Any of the parameters defined above can be made time-varying through linkage to 
 
 When time-varying growth is used, there are some additional considerations to be aware of:
 \begin{itemize}
-	\item Growth deviations propagate into the forecast.  The user can select which growth parameters get used during the forecast by setting the end year of the last block.  If the last block ends in the model’s end year, then the growth parameters in effect during the forecast will revert to the “no-block” baseline level.  By setting the end year of the last block to end year (endyr) + 1, the model will continue the last block’s growth parameter levels throughout the forecast.
+	\item Growth deviations propagate into the forecast.  The user can select which growth parameters get used during the forecast by setting the end year of the last block.  If the last block ends in the model's end year, then the growth parameters in effect during the forecast will revert to the “no-block” baseline level.  By setting the end year of the last block to end year (endyr) + 1, the model will continue the last block's growth parameter levels throughout the forecast.
 	\item The equilibrium benchmark quantities (MSY, F40\%, etc.) previously used end year (endyr) body size-at-age, which is a disequilibrium vector.  There is a capability to specify a range of years over which to average the size-at-age used in the benchmark calculations.
 	\item An addition issue occurred in versions prior to 3.20.  Its description is retained here, but it was resolved with the growth code modification for version 3.20.
 	\begin{itemize}
-		\item Issue for versions prior to 3.20:  When the growth reference ages have A1>0 and A2<999, the effect of time-varying K has a non-intuitive aspect.  This occurs because the virtual size at age 0.0 and the actual Linf are calculated annually from the current L1, L2 and K parameters.  Because  these calculated quantities are outside the age range {A1, A2}, a reduction in K will cause an increase in the calculated size-at-age 0.0 that year.  So there is a ripple effect as the block’s  growth parameters affect the young cohorts in existence at the time of the change.  The workaround for this is to set A1=0 and A2=999.  However, this may create another incompatibility because the size-at-age 0.0 cannot be allowed to be negative and should not be allowed to be less than the size of the first population length bin.  Therefore, previous use of A1=2 might have implied a virtual size at age 0.0 that was negative (which is ok), but setting A1=0 does not allow the size at age=A1 to be negative.
+		\item Issue for versions prior to 3.20:  When the growth reference ages have A1>0 and A2<999, the effect of time-varying K has a non-intuitive aspect.  This occurs because the virtual size at age 0.0 and the actual Linf are calculated annually from the current L1, L2 and K parameters.  Because  these calculated quantities are outside the age range {A1, A2}, a reduction in K will cause an increase in the calculated size-at-age 0.0 that year.  So there is a ripple effect as the block's  growth parameters affect the young cohorts in existence at the time of the change.  The workaround for this is to set A1=0 and A2=999.  However, this may create another incompatibility because the size-at-age 0.0 cannot be allowed to be negative and should not be allowed to be less than the size of the first population length bin.  Therefore, previous use of A1=2 might have implied a virtual size at age 0.0 that was negative (which is ok), but setting A1=0 does not allow the size at age=A1 to be negative.
 	\end{itemize}
 \end{itemize}
 
@@ -919,7 +919,7 @@ The spawner-recruitment section starts by specification of the functional relati
     \hline
 \end{longtable}
 
-The number of parameters needed by each relationship is stored internally.  In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS v.3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in v.3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This regime shift parameter can have blocks, environmental links or random deviations. 
+The number of parameters needed by each relationship is stored internally.  In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v.3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters.  This generic time-varying approach replaces the SR envlink concept in SS v.3.24.  Also the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in v.3.30, the R1 offset parameter is replaced by a parameter termed "regime shift".  The SR regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This regime shift parameter can have blocks, environmental links or random deviations. 
 
 If a SS v.3.24 model implement the R1 offset approach this can be mimicked in v.3.30 by the SR regime parameter. For any given year, including startyr - 1, the R0 is replaced by $R0*exp(SR Regime_y)$. So to mimic the R1\_offset, you need to put a block on SR\_regime for y = startyr - 1. But if SR\_regime has some change during your main time series, that change will be filtered through the stock-recruit relationship into an impact on the numbers at age for whatever years are impacted. This can also apply to the forecast. A block on SR\_regime is also easier than some of the old dummy environmental variables that were created in the past to adjust recruitment up and down for long periods.
 
@@ -1241,8 +1241,8 @@ When SS is configured such that seasons are modeled as years, the concept of sea
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year.  These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series.  The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector.  If the number of estimated ages in the initial age composition is less than Nages, then the older ages will retain their equilibrium levels.  Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
 \subsection{Fishing Mortality Method}
-There are  three methods available for calculation of fishing mortality.  These are:  Pope’s approximation, continuous F with each F as a model parameter, and a hybrid method that does a Pope’s approximation to provide initial values for iterative adjustment of the continuous F values to closely approximate the observed catch.  With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters.  In a 2 fishery, low F case, the hybrid method is just as fast as the Pope approx. and produces identical result.  When F is very high, the problem becomes quite stiff for Pope’s and the hybrid method so convergence may slow.  It may  be better to use F option 2 (continuous F as full parameters) in these high F cases.  F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly.  For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.\\
-Option 1 (Pope’s approx) still exists, but it is recommended to switch to option 3.
+There are  three methods available for calculation of fishing mortality.  These are:  Pope's approximation, continuous F with each F as a model parameter, and a hybrid method that does a Pope's approximation to provide initial values for iterative adjustment of the continuous F values to closely approximate the observed catch.  With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters.  In a 2 fishery, low F case, the hybrid method is just as fast as the Pope approx. and produces identical result.  When F is very high, the problem becomes quite stiff for Pope's and the hybrid method so convergence may slow.  It may  be better to use F option 2 (continuous F as full parameters) in these high F cases.  F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly.  For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.\\
+Option 1 (Pope's approx) still exists, but it is recommended to switch to option 3.
 
 
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
@@ -1262,7 +1262,7 @@ Option 1 (Pope’s approx) still exists, but it is recommended to switch to opti
 	\endlastfoot
 
 	0.2 \Tstrut & & F ballpark\\
-	    & & This value is compared to the sum of the F’s for the specified year.  The sum is over all seasons and areas.  In older versions of SS, the lambda was automatically set to 0.0 in the final phase, the user now has control over whether to reduce the lambda in later phases (see the \hyperref{Lambdas}{Lambdas} below).\Bstrut\\
+	    & & This value is compared to the sum of the F's for the specified year.  The sum is over all seasons and areas.  In older versions of SS, the lambda was automatically set to 0.0 in the final phase, the user now has control over whether to reduce the \hyperlink{Lambdas}{lambda} in later phases.\Bstrut\\
    \hline
 
 	-1990\Tstrut & & F ballpark year\\
@@ -1283,7 +1283,7 @@ Option 1 (Pope’s approx) still exists, but it is recommended to switch to opti
    \hline
 
    \multicolumn{3}{l}{COND: F method = 2: }\Tstrut\\
-   & 0.10  1  1 & Inital F value, Phase, N F detail setup lines to read. Starting value for each F.  Initializing value for each F parameter.\\
+   & 0.10  1  1 & Initial F value, Phase, N F detail setup lines to read. Starting value for each F.  Initializing value for each F parameter.\\
    &  & For phases prior to the phase of the F value becoming active,  SS will use the hybrid option and the F values so calculated become the starting values for the F parameters when this phase is reached.\\		   
    \multicolumn{3}{l}{If F method = 2 and N for F detail is > 0}\Tstrut\\
    \multicolumn{2}{l}{1 1980 1 0.20 0.05 4} & fleet, year, season, F, SE, phase - these values override the catch se values in the data file and the overall starting F value and phase read just above.\Bstrut\\
@@ -1644,7 +1644,7 @@ Two parameters select the min and max bin number (not min max size) of the sourc
 %\begin{description}
 \myparagraph{Pattern 6 (size) - Non-parametric Selectivity}
 %	\item[Pattern 6 (size) - Non-parametric Selectivity]\hfil\\
-Non-parametric size selectivity uses a set of linear segments.  The first waypoint is at Length = p1 and the last waypoint is at Length = p2.  The total number of waypoints is specified by the value of the Special factor in the selectivity set-up, so the N intervals is one less than the number of waypoints.  Intermediate waypoints are located at equidistant intervals between p1 and p2.  Parameters 3 to N are the selectivity values at the waypoints, entered as logistic, e.g. $1/(1+exp(-x))$.  Ramps from –10 to p3 if L<p1.  Constant at pN if L>p2.  Note that prior to version 3.03 the waypoints were specified in terms of bin number, rather than length.
+Non-parametric size selectivity uses a set of linear segments.  The first way point is at Length = p1 and the last way point is at Length = p2.  The total number of way points is specified by the value of the Special factor in the selectivity set-up, so the N intervals is one less than the number of way points  Intermediate way points are located at equidistant intervals between p1 and p2.  Parameters 3 to N are the selectivity values at the way points, entered as logistic, e.g. $1/(1+exp(-x))$.  Ramps from 10cm to p3 if L<p1.  Constant at Np if L>p2.  Note that prior to version 3.03 the way points were specified in terms of bin number, rather than length.
 %\end{description}
 
 %\begin{description}
@@ -1652,8 +1652,8 @@ Non-parametric size selectivity uses a set of linear segments.  The first waypoi
 %	\item[Pattern 8 (size) and 18 (age) - Double Logistic]\hfil
 	\begin{itemize}
 		\item  p1 – PEAK:  size (age) for peak. Should be an integer and should be at bin boundary and not estimated.  But options 7 and 18 may allow estimation.
-		\item p2 – INIT:  selectivity at lengthbin=1 (minL) or age=0.
-		\item p3 – INIT:  selectivity at lengthbin=1 (minL) or age=0. A logit transform $(1/(1+exp(-x))$ is used so that the transformed value will be between 0 and 1.  So a p1 value of –1.1 will be transformed to 0.25 and used to set the selectivity equal to 0.5 at a size (age) equal to 0.25 of the way between minL and PEAK. 
+		\item p2 – INIT:  selectivity at length bin=1 (minL) or age=0.
+		\item p3 – INIT:  selectivity at length bin=1 (minL) or age=0. A logit transform $(1/(1+exp(-x))$ is used so that the transformed value will be between 0 and 1.  So a p1 value of –1.1 will be transformed to 0.25 and used to set the selectivity equal to 0.5 at a size (age) equal to 0.25 of the way between minL and PEAK. 
 		\item p4 – SLOPE1:  log(slope) of left side (ascending) selectivity.
 		\item p5 – FINAL:  logit transform for selectivity at maxL (or maxage).
 		\item p6 – INFL2:  logit transform for size(age) at right side selectivity equal to half way between PEAK+PEAKWIDTH and maxL (or max age).
@@ -1763,26 +1763,21 @@ Selectivity pattern 24, double normal, showing sub-functions and steep logistic 
 	\begin{center}
 		\includegraphics{DoubleNormal}
 	\end{center}
-%\end{description}
 
-%\begin{description}
 \myparagraph{Pattern 15 (age) - Mirror}
-%\item[Pattern 15 (age) - Mirror]\hfil\\
-No parameters.  Whole age range is mirrored from a user-specified fleet.
-%\end{description}
 
-%\begin{description}
+No parameters.  Whole age range is mirrored from a user-specified fleet.
+
 \myparagraph{Pattern 16 - Gaussian (similar to Coleraine)}
-%\item[Pattern 16 - Gaussian (similar to Coleraine)]\hfil
+
 	\begin{itemize}
 		\item p1 – age below which selectivity declines
 		\item p2 – scaling factor for decline
 	\end{itemize}
-%\end{description}
 
-%\begin{description}
+
 \myparagraph{Pattern 9 (size) and 19 (age) - Simple Double Logistic}
-%	\item[Pattern 9 (size) and 19 (age) - Simple Double Logistic]\hfil
+
 	\begin{itemize}
 		\item p1 – ascending inflection age/size
 		\item p2 – ascending slope
@@ -1881,9 +1876,7 @@ When the complete auto-generation is selected, the control.ss\_new would look li
 	\hline
 \end{longtable}
 
-%\end{description}
 
-%\begin{description}
 \myparagraph{Pattern 41 (age) - Random Walk with User-Defined Scaling}
 %	\item[Pattern 41 (age) - Random Walk with User-Defined Scaling]\hfil\\
 Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
@@ -1904,9 +1897,7 @@ Selectivity pattern 17 with two additional parameters. The two additional parame
 		\hline
 	\end{longtable}
 
-%\end{description}
 
-%\begin{description}
 \myparagraph{Pattern 42 (size and age) - Cubic Spline with User-Defined Scaling}
 %	\item[Pattern 42 (size and age) - Cubic Spline with User-Defined Scaling]\hfil\\
 Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
@@ -2092,9 +2083,9 @@ Discard mortality is calculated as:
 
 \subsubsection{Male Selectivity}
 There are two approaches to specifying sex specific selectivity.  One approach allows male selectivity to be specified as a fraction of female selectivity (or vice versa).  This first approach can be used for any selectivity pattern.  The other option allows for separate selectivity parameters for each sex plus an additional parameter to define the scaling of one sex’s peak selectivity relative to the other sex’s peak.  This second approach has only been implemented for a few selectivity patterns.\\
-\\
+
 Approach \#1:\\
-If the “domale” flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity.  The two sexes switch roles if the “domale” flag is set to 2.  Generally it is best to select the option so that the dependent sex has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0.  Sex specific selectivity is done the same way for all size and age selectivity options.
+If the "domale" flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity.  The two sexes switch roles if the "domale" flag is set to 2.  Generally it is best to select the option so that the dependent sex has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0.  Sex specific selectivity is done the same way for all size and age selectivity options.
 \begin{itemize}
 	\item P1 – size (age) at which a dogleg occurs (set to an integer at a bin boundary and do not estimate)
 	\item P2 – log(relative selectivity) at minL or age=0.  Typically this will be set to a value of 0.0 (for no offset) and not estimated.  It would be a rare circumstance in which the youngest/smallest fish had sex-specific selectivity.
@@ -2105,7 +2096,7 @@ If the “domale” flag is set to 1, then the selectivity parameters define fem
 For intermediate ages, the log values are linearly interpolated on size (age).
 
 If selectivity for the dependent sex is greater than the selectivity for the first sex (which always peaks at 1.0), then the male-female selectivity matrix is rescaled to have a maximum of 1.0.\\
-\\
+
 Approach \#2:\\
 A new sex selectivity option (3 or 4) has been implemented for size selectivity patterns 1 (logistic) and 23 and 24 (double normal) or age selectivity pattern 20 (double normal age).  Rather than calculate male selectivity as an offset from female selectivity, here the male selectivity is calculated by making the male parameters an offset from the female parameters (option 3), or females are offset from males with option 4.  The description below applies to option 3. If the size selectivity pattern is 1 (logistic), then read 3 parameters:
 \begin{itemize}
@@ -2497,7 +2488,7 @@ Where:
 	
 	\item Growth pattern:  growth pattern is the number of the growth pattern to be output. Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year.  Also, if growth parameters are not estimated, then standard deviation output of mean size-at-age is disabled. 
 	\begin{itemize}
-		\item postitive value = Growth pattern,
+		\item positive value = Growth pattern,
 		\item 0 =  No variance output for size-at-age.   
 	\end{itemize}
 
@@ -2529,7 +2520,7 @@ The approach to allowing parameters to have time-varying values has been complet
 In SS v.3.24, the group of biology parameters (termed MGparm) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient.  The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block.  The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks.  Then finally, the tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
 
 \myparagraph{Code Flow Version SS v.3.30}
-In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v.3.30.12) base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will autogenerate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
+In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v.3.30.12) base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.   As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter.  Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  “Create\_timevary” creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will auto-generate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specs) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
 
 \myparagraph{Parameter Order}
 The order of parameters has changed and the re-ordering is handled by the sstrans.exe.  Previously, for each of mortality-growth and selectivity parameters all environmental link parameters were listed first, then block/trend parameters and then deviation parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
@@ -2559,19 +2550,6 @@ The new available options for time-varying parameters in SS v.3.30 are described
 \begin{itemize}
 	\item Environmental Link and  Variance - Element 8 in parameter setup
 		\begin{itemize}
-		%	\item New approach to the coding of the link type (MGparm\_envtype) and environmental variable (MGparm\_envuse) being linked %to: %Parsing: Link = value / 100; Env\_var = value - Link*100
-		%	\begin{itemize}
-		%		\item 100 - 199  to indicate one parameter multiplicative link, with the environmental variable found by subtracting %100.  For example, a value of 102 would create a multiplicative linkage to environmental variable "2". %Link = 1: %Exponential environmental link ($P'=P*e^{L1*env}$)
-		%		\item 200 - 299  for one parameter additive linkage %Link = 2: Linear environmental link ($P'=P+L1*env$)
-		%		\item 400 - 499  for  2 parameter logistic function %Link = 3: Reserved for density dependence
-		%		\item etc. %Link = 4: Logistic MGparm environmental link ($P'=P*\frac{2}{1+e^-L1*(env-L2)}$)
-		%	\end{itemize}
-		%	\item where MGparm\_env is zero if no link else contains the parameter number of the first link parameter, MGparm\_envtype %identifies the form of the linkage, some of which take more than one link parameter, MGparm\_envuse identifies the ID of the %environmental time series being linked to the integer values of MGparm\_envtype are created when parsing the input:
-		%	\begin{itemize}
-		%		\item k=int(MGparm\_1(f,8)/100); 
-		%		\item find the link code from the value read from the parameter line: MGparm\_envtype(f)=k;
-		%		\item MGparm\_envuse(f)=MGparm\_1(f,8)-k*100;
-		%	\end{itemize}
 			\item env\_data is a dvar\_matrix populated with the read environmental data for columns 1-N\_envvariables and derived quantities mapped to columns -1 to -4 to density-dependence:
 			\begin{itemize}
 				\item -1;  for log(relative spawning biomass);
@@ -2690,13 +2668,13 @@ The symmetric beta is scaled between parameter bounds, imposing a larger penalty
 \item \textbf{Prior Type = 2 = Beta prior}  \\ 
 The definition of $\mu$ is consistent with CASAL's formulation with the $Bprior$ and $Aprior$ corresponding to the $m$ and $n$ parameters.
 	\begin{equation}
-		\mu = \frac{Prior-P_{min}}{P_{max}-P_{min}} \\
+		\mu = \frac{Prior-P_{min}}{P_{max}-P_{min}} 
         \end{equation}
 	\begin{equation}
-		\tau  = \frac{(Prior-P_{min})(P_{max}-Prior)}{Pr\_SD^2}-1\\
+		\tau  = \frac{(Prior-P_{min})(P_{max}-Prior)}{Pr\_SD^2}-1
         \end{equation}
 	\begin{equation}
-		Bprior  = \tau \cdot \mu\\
+		Bprior  = \tau \cdot \mu
         \end{equation}
 	\begin{equation}
                 Aprior = \tau (1-\mu)

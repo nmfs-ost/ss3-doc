@@ -60,7 +60,7 @@ The sequence of multiple forecast passes is as follows:
 			\item SubLoop = 2
 			\begin{enumerate}
 				\item R=f(SSB) with no deviations
-				\item F=Ftarget to get catc for each fleet in each season
+				\item F=Ftarget to get catch for each fleet in each season
 				\item Fixed input catch amounts replace catch from step 2
 				\item Catch adjustments (caps and allocations) applied on annual basis (after looping through seasons and and areas within this year). These adjustments utilize the logistic joiner approach common in SS so the overall results remain completely differentiable.
 				\item No implementation error
@@ -101,7 +101,8 @@ An example that illustrates the above process was conducted.  The situation was 
 \end{center}
 
 Correlation A2 shows a small positive correlation between the recruitment deviation in 2002 and the F in 2011.  This is probably due to the fact that a positive deviation in recruitment in 2002 will reduce the chances that the biomass in 2011 will be below the inflection point in the control rule.  This occurs because in calculating catch from F, the model effectively “knows” the future recruitments.  I predict that this B1 correlation would be near zero if there was no inflection in the control rule.
-Correlation A1 shows this turning into a negative correlation.  This is because the future catches are first calculated from equilibrium recruitment, then when random recruitments are implemented, a positive recruitment deviation will cause a negative deviation in the F needed to catch that now “fixed” amount of future catch.
+
+Correlation A1 shows this turning into a negative correlation.  This is because the future catches are first calculated from equilibrium recruitment, then when random recruitments are implemented, a positive recruitment deviation will cause a negative deviation in the F needed to catch that now "fixed" amount of future catch.
 
 Correlations B1 and B2 are in terms of absolute recruitment, not recruitment deviation.  Now overall model conditions that cause a higher absolute recruitment level will also result in a higher forecast level.  No surprise there, and the correlation is stronger when variance is based on catch is calculated from F (B2).
 
@@ -112,7 +113,7 @@ Correlation C2 shows a positive correlation between recruitment deviation in 200
 	\item More testing with high M, rapid turnover conditions
 	\item Testing without inflection in control rule
 	\item Consider separating implementation error into a pass \#4 so results will more clearly show effect of assessment uncertainty separate from implementation uncertainty
-	\item 	Consider adding a random “assessment” error which essentially is a random variable that scales population abundance before passing into the forecast stage.  Complication is figuring out how to link it to the correlated error in the benchmark quantities
+	\item 	Consider adding a random "assessment" error which essentially is a random variable that scales population abundance before passing into the forecast stage.  Complication is figuring out how to link it to the correlated error in the benchmark quantities
 	\item Because all of these calculations occur only in the sdphase or the mceval phase, it would be feasible for mceval calls to add an additional pass that is implemented many times and in which random forecast recruitment draws are made.
 	\item Factors like selectivity and fleet relative F levels are calculated as an average of these values during the time series.  This is internally consistent if these factors do not vary during the time series (although clearly this is a stiff model that will underestimate process variance).  However, if these factors do vary over time, then the average used for the forecast will under-represent the variance.  A better approach would be to set up the parameters of selectivity as a random process that extends throughout the forecast period, and to update estimated selectivity in each year of the forecast based upon the random realization of these parameters.
 \end{itemize}

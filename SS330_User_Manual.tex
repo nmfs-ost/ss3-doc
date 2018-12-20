@@ -24,7 +24,6 @@
 \usepackage{tocloft}
 \setlength{\cftsubsecnumwidth}{3em}
 \setlength{\cftsubsubsecnumwidth}{4em}
-\usepackage{hyperref}
 \usepackage{hypcap}
 \usepackage{amsmath}
 \usepackage{hyperref}
@@ -36,6 +35,7 @@
 \usepackage[T1]{fontenc}         	% controls font enconding
 \usepackage{sectsty}                % Allows for different fonts for header and body
 \usepackage[nottoc,numbib]{tocbibind}
+
 
 %sectsty commands
 % all section headers use the same sans serif family - roboto
@@ -72,11 +72,13 @@
 	pdffitwindow = false,       % window fit to page when opened
 	pdfstartview = {FitH},      % fits the width of the page to the window
 	pdfnewwindow = true,        % links in new window
-	colorlinks   = true,        % false: boxed links; true: colored links
+	colorlinks   = true,       % false: boxed links; true: colored links
+	linkbordercolor = black,    % the color of the link border color (colorlink =false)
 	linkcolor    = blue,        % color of internal links (change box color with linkbordercolor)
-	citecolor    = green,       % color of links to bibliography
+	citecolor    = black,       % color of links to bibliography
 	filecolor    = magenta,     % color of file links
-	urlcolor     = cyan         % color of external links
+	urlcolor     = cyan,        % color of external links
+	pdfborderstyle = {/S/U/W 1} % border style will be underline of width 1pt
 }
 
 \newcommand\Tstrut{\rule{0pt}{3.5ex}}       % "top" strut
@@ -125,7 +127,7 @@
 	\setcounter{secnumdepth}{0}
 	%\setcounter{page}{1}
 	\newpage
-	
+	\raggedright
 	% ====  List of figures ========================================================
 	\renewcommand{\headrulewidth}{0pt} % removes the top line across each page
 	%\listoffigures
