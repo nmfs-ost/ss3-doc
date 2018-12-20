@@ -415,17 +415,17 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 \end{longtable}
 
 \subsubsection{Growth}
-%\begin{description}
+
 \myparagraph{Timing}
-%	\item [Timing] - 
+ 
 When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin.  The fish then grow linearly until they reach a real age equal to the input value “growth\_age\_for\_L1” and have a size equal to the parameter value for L1.  As they age further, they grow according the selected growth equation.  The growth curve is calibrated to go through the size L2 when they reach the age “Growth\_age\_for\_L2”.
 	
 \myparagraph{Linf}
-%	\item  [Linf] - 
+
 If “Growth\_age\_for\_L2” is set equal to 999, then the size L2 is used as Linf.  If MGparm\_def option = 1 (direct estimate, not offsets), then setting a male growth or natural mortality parameter value to 0.0 and not estimating it will cause SS to use the corresponding female parameter value for the males. This check is done on a parameter, by parameter basis and is probably most useful for setting male L1 equal to female L1, then letting males and females have separate K and Linf parameters.
 	
 \myparagraph{Schnute growth function}
-%	\item[Schnute growth function] - 
+
 The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow type field.  Then a fourth parameter is read after reading the von Bertalanffy K parameter.  When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
 	
 \myparagraph{Mean size-at-maximum age}
@@ -489,7 +489,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\Tstrut 0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.\Bstrut\\
 	\hline
 
-	1 & & CV Pattern \Tstrut\\
+	1 & & CV Pattern (cannot be time-varying) \Tstrut\\
 	  & & 0: CV=f(LAA), so the 2 parameters are in terms of CV of the distribution of length-at-age and the interpolation between these 2 parameters is a function of mean length-at-age,\\
 	  & & 1: CV=f(A), so interpolation is a function of age,\\
 	  & & 2: SD=f(LAA), so parameters define the standard deviations of length-at-age and interpolation is a function of mean length-at-age,\\
@@ -1022,8 +1022,10 @@ Example set-up of the spawner-recruitment section:
 	1 \Tstrut & Do Recruitment Deviations & This selects the way in which recruitment deviations are coded:\\
 	  &  & 0: None (so all recruitments come from S-R curve),\\
 	  &  & 1: Deviation vector (previously the only option).  Here the deviations are encoded as a deviation vector, so ADMB enforces a sum-to-zero constraint.\\
-	  &  & 2: Simple deviations.  Here the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero sum. The difference in model performance between options (1) and (2) has not been fully explored to date.\\
-	  &  & 3: Deviation vector (added in v.3.30.13) where the estimated recruitment is equal to the R0 adjusted for blocks multiplied by a simple deviation vector of unconstrained deviations. The negative log-likelihood from the deviation vector is equal to the log of the estimated recruitment divided by the expected recruitment by year adjusted for the spawner-recruit curve, regimes, environmental parameters, and bias-adjustment. The negative log-likelihood between option 2 and 3 is approximately equal. \Bstrut\\
+	  &  & 2: Simple deviations.  Here the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero sum. ☺The difference in model performance between options (1) and (2) has not been fully explored to date.\\
+	  &  & 3: Deviation vector (added in v.3.30.13) where the estimated recruitment is equal to the R0 adjusted for blocks multiplied by a simple deviation vector of unconstrained deviations. The negative log-likelihood from the deviation vector is equal to the log of the estimated recruitment divided by the expected recruitment by year adjusted for the spawner-recruit curve, regimes, environmental parameters, and bias-adjustment. The negative log-likelihood between option 2 and 3 is approximately equal. \\
+	  & & 4: \\↑
+	  & & Note: As of version 3.30.13 there is now an option to retain the last deviation estimated and apply that value into the forecast period.  To specify this option add the value 2 before the deviation vector option (i.e., 21, 22, 23, or 24).\Bstrut\\
 	\hline
 
 	1971 \Tstrut & Main recruitment deviations begin year & If begin year is less than the model start year, then the early deviations are used to modify the initial age composition.   However, if set to be more than Nages before start year, it is changed to equal Nages before start year. \Bstrut\\
@@ -1096,7 +1098,7 @@ Example set-up of the spawner-recruitment section:
 \subsubsection{Spawner-Recruitment Function}
 The number of age-0 fish is related to spawning biomass according to a stock-recruitment relationship.  SS has the option of the Beverton-Holt, Ricker, Hockey-Stick, and a survival-based stock recruitment relationship.
 
-%\begin{description}
+
 \myparagraph{Beverton-Holt}
 %	\item[Beverton-Holt]\hfil\\
 The Beverton-Holt Stock Recruitment curve is calculated as:
