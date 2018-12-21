@@ -22,7 +22,7 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 \end{quote}
 
 
-Additional ADMB commands can follow the executable name, such as "–nohess" to avoid calculating the Hessian matrix. To see a full list of options, add “ -?” after the executable name (with a space in between).
+Additional ADMB commands can follow the executable name, such as "–nohess" to avoid calculating the Hessian matrix. To see a full list of options, add " -?" after the executable name (with a space in between).
 
 On all operating systems, a copy of the SS executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below. Editing the PATH is not covered here.
 
@@ -116,11 +116,11 @@ This example will run a profile on natural mortality and spawner-recruitment ste
 		& 0.40	\# value for second selected parameter when runnumber equals 3\\
 		& etc.;  make it as long as you like.\\
 	\end{longtable}
-%\end{center}
+
 
 Create a batch file that looks something like this.  Or make it more complicated as in the example above.
 
-%\setlength{\leftskip}{3cm}
+
 \begin{quote}
 \begin{verbatim}
 	del cumreport.sso
@@ -131,13 +131,12 @@ Create a batch file that looks something like this.  Or make it more complicated
 \end{verbatim}
 \end{quote}
 
-%\setlength{\leftskip}{0pt}
 
 Repeat as many times as you have set up conditions in the PROFILEVALUES.SS file.
-The summary results will all be collected in the cumreport.sso file.  Each step of the profile will have an unique Runnumber and its output will include the values of the natmort and steepness parameters for that run.
+The summary results will all be collected in the cumreport.sso file.  Each step of the profile will have an unique run number and its output will include the values of the natural mortality and steepness parameters for that run.
 
 \subsubsection{Re-Starting a Run}
-SS model runs can be restarted from a previously estimated set of parameter values.  In the starter.ss file, enter a value of 1 on the first numeric input line.  This will cause SS to read the file ss.par and use these parameter values in place of the initial values in the control file.  This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par.  The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted.  However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur.  Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed.  To achieve greater numerical accuracy, SS can also restart from ss.bar which is the binary version of ss.par.  In order to do this, the user must make the change described above to the starter.ss file and must also enter –binp ss.bar as one of the command line options.
+SS model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause SS to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted.  However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, SS can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter –binp ss.bar as one of the command line options.
 
 \subsection{Debugging Tips}
 When SS input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem.  Before trying the steps below, examine the ECHOINPUT.SSO file.  It is highly annotated, so you should be able to see if SS is interpreting your input files as you intended.
@@ -151,9 +150,9 @@ When SS input files are causing the program to crash or fail to produce sensible
 \end{enumerate}
 
 \subsection{Keyboard Tips}
-Typing “N” during a run will cause ADMB to immediately advance to the next phase of estimation.
+Typing "N" during a run will cause ADMB to immediately advance to the next phase of estimation.
 
-Typing “Q”  during a run will cause ADMB to immediately go to the final phase.  This bypasses estimation of the Hessian and will produce all of the SS outputs, which are coded in the FINAL\_SECTION.
+Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  This bypasses estimation of the Hessian and will produce all of the SS outputs, which are coded in the FINAL\_SECTION.
 
 \subsection{Running MCMC}
  Run SS v3.30

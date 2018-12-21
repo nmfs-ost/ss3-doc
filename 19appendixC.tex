@@ -3,16 +3,16 @@
 \label{sec:forecast}
 
 \subsection{Introduction}
-Version 3.20 of Stock Synthesis (SS) introduced substantial upgrades to the benchmark and forecast module.  The general intent was to make the forecast outputs more consistent with the requirement to set catch limits that have a known probability of exceeding the overfishing limit.  In addition, this upgrade addressed several inadequacies with the previous module, including:
+SS version 3.20 introduced substantial upgrades to the benchmark and forecast module.  The general intent was to make the forecast outputs more consistent with the requirement to set catch limits that have a known probability of exceeding the overfishing limit.  In addition, this upgrade addressed several inadequacies with the previous module, including:
 
 \begin{itemize}
 	\item The average selectivity and relative F was the same for the benchmark and the forecast calculations;
 	\item The biology-at-age in endyr+1 was used as the biology for the benchmark, but biology–at-age propagated forward in the forecast if there was time-varying growth;
-	\item The forecast module had a kluge approach to calculation of OFL conditioned on previously catching ABC;
+	\item The forecast module had a kluge approach to calculation of overfishing limit (OFL) conditioned on previously catching ABC;
 	\item The forecast module implementation of catch caps was incomplete and applied some caps on a seasonally, rather than the more logical annual basis;
 	\item The Fmult scalar for fishing intensity presented a confusing concept for many users;
 	\item No provision for specification of catch allocation among fleets;
-	\item The forecast allowed for a blend of fixed input catches and catches calculated from target F; this is not optimal for calculation of the variance of F conditioned on a catch policy that sets ACLs.
+	\item The forecast allowed for a blend of fixed input catches and catches calculated from target F; this is not optimal for calculation of the variance of F conditioned on a catch policy that sets annual catch limits (ACLs).
 \end{itemize}
 
 The V3.20 module addressed these issues by:
@@ -100,7 +100,7 @@ An example that illustrates the above process was conducted.  The situation was 
 	\end{longtable}
 \end{center}
 
-Correlation A2 shows a small positive correlation between the recruitment deviation in 2002 and the F in 2011.  This is probably due to the fact that a positive deviation in recruitment in 2002 will reduce the chances that the biomass in 2011 will be below the inflection point in the control rule.  This occurs because in calculating catch from F, the model effectively “knows” the future recruitments.  I predict that this B1 correlation would be near zero if there was no inflection in the control rule.
+Correlation A2 shows a small positive correlation between the recruitment deviation in 2002 and the F in 2011.  This is probably due to the fact that a positive deviation in recruitment in 2002 will reduce the chances that the biomass in 2011 will be below the inflection point in the control rule.  This occurs because in calculating catch from F, the model effectively "knows" the future recruitments.  I predict that this B1 correlation would be near zero if there was no inflection in the control rule.
 
 Correlation A1 shows this turning into a negative correlation.  This is because the future catches are first calculated from equilibrium recruitment, then when random recruitments are implemented, a positive recruitment deviation will cause a negative deviation in the F needed to catch that now "fixed" amount of future catch.
 
