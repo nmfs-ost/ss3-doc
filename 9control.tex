@@ -440,10 +440,10 @@ A growth cessation model was developed for the application to tropical tuna spec
 	1 & & Growth Model: \Tstrut\\
 	  & & 1 = von Bertalanffy (2 parameters),\\
 	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters.  Third parameter has null value of 1.0, \\
-	  & & 3 = von Bertalanffy with age-specific \textit{k} multipliers for specified range of ages,\\
-	  & & 4 = age specific K. Set base \textit{k} as \textit{k} for age = nages and working backwards and the age-specific \textit{k} = \textit{k} for the next older age * multiplier, \\
-	  & & 5 = age specific \textit{k}. Set base \textit{k} as \textit{k} for nages and work backwards and the age-specific \textit{k} = base \textit{k} * multiplier.\\
-	  & & 8 = growth cessation. Decreases the \textit{k} for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base \textit{k} parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut \\
+	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages,\\
+	  & & 4 = age specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier, \\
+	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier.\\
+	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut \\
 	\hline
 
 	\Tstrut 1.66 & & Growth Amin (A1): Reference age for first size-at-age (post-settlement) parameter.\Bstrut\\
@@ -461,10 +461,10 @@ A growth cessation model was developed for the application to tropical tuna spec
 	0   & & Placeholder for future growth feature. \Tstrut\Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND >= 3} & Growth option age-specific \textit{k} \Tstrut\\
+	\multicolumn{2}{l}{COND >= 3} & Growth option age-specific K \Tstrut\\
 	2 & & Number of \textit{(k)} multipliers to read\\
-	& 5 & Minimum age for age-specific \textit{k}\\
-	& 7 & Maximum age for age-specific \textit{k}\Bstrut\\
+	& 5 & Minimum age for age-specific K\\
+	& 7 & Maximum age for age-specific K\Bstrut\\
 	\hline
 
 	\Tstrut 0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.\Bstrut\\
@@ -645,11 +645,11 @@ As of v.3.30.12, this parameter now has time-varying capability similar to other
 	\multicolumn{2}{l}{COND if growth type =2 } & \Tstrut\\
 	& Richards Coefficient & Only include this parameter if Richards growth function is used.  If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy.\\
 
-	\multicolumn{2}{l}{COND if growth type >=3 } & Age-Specific \textit{k}\\
-	& \multicolumn{2}{l}{\textit{k} deviations for first age in range}\\
-	& \multicolumn{2}{l}{\textit{k} deviations for next age in range}\\
+	\multicolumn{2}{l}{COND if growth type >=3 } & Age-Specific K\\
+	& \multicolumn{2}{l}{K deviations for first age in range}\\
+	& \multicolumn{2}{l}{K deviations for next age in range}\\
 	& ... & \\
-	& \multicolumn{2}{l}{\textit{k} deviations for last age in range}\Bstrut\\
+	& \multicolumn{2}{l}{K deviations for last age in range}\Bstrut\\
 	\hline
 
     \Tstrut & CV young & Variability for size at age <= AFIX (units are fraction) for females, growth pattern 1.  Note that CV cannot vary over time, so do not set up env-link or a deviation vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
