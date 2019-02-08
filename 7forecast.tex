@@ -115,7 +115,9 @@ The term COND appears in the value column of this documentation (it does not act
    &  & \Bstrut\\
  
  \hline
- 0.75 \Tstrut & Control Rule Buffer & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Control rule F\textsubscript{target} as a fraction of selected F\textsubscript{MSY} proxy. Note, if using Pope's F, then this value will be applied to the catch rather than the F.  Model's that use either continuous F or the hybrid F will apply this value directly to the F.  Future versions will allow a user to specify whether the adjustment should be applied to either the catch or F independent of the fishing mortality method selected.}} \\ 
+ 0.75 \Tstrut & Control Rule Buffer (multiplier or -1) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Control rule F\textsubscript{target} as a fraction of selected F\textsubscript{MSY} proxy. A value of -1 will allow the user to input a forecast year specific control rule fraction. Note, if using Pope's F, then this value will be applied to the catch rather than the F.  Model's that use either continuous F or the hybrid F will apply this value directly to the F.  Future versions will allow a user to specify whether the adjustment should be applied to either the catch or F independent of the fishing mortality method selected.}} \\ 
+  & & \\
+  & & \\
   & & \\
   & & \\
   & & \\
@@ -124,17 +126,24 @@ The term COND appears in the value column of this documentation (it does not act
  \pagebreak %
  %\hline
  
+  \multicolumn{2}{l}{COND -1: Conditional input for annual control rule buffer} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Year and control rule buffer value. Can enter a value for each year, or starting sequence of years. The final control rule buffer value  will apply to all sequent forecast years.}} \Tstrut\\
+  \multicolumn{1}{r}{2019 0.8}  & &  \\
+  \multicolumn{1}{r}{2020 0.6}  & & \\ 
+  \multicolumn{1}{r}{2021 0.5}  & & \\ 
+  \multicolumn{1}{r}{-9999 0}   & & \Bstrut\\ 
+  
+ \hline
+
  3 \Tstrut & Number of forecast loops (1,2,3) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{SS sequentially goes through the forecast up to three times.  Maximum number of forecast loops: 1=OFL only, 2=ABC control rule, 3=set catches equal to control rule or input catch and redo forecast implementation error.}} \\
+ & & \\
  & & \\
  & & \Bstrut\Bstrut\\
  
  \hline  
  3 \Tstrut & \hyperlink{appendB}{First forecast loop with stochastic recruitment} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{If this is set to 1 or 2, then OFL and ABC will be as if there was perfect knowledge about recruitment deviations in the future.}} \\
    & & \\
-   & & \\
  
  \hline
- %\pagebreak
  0 \Tstrut & \hyperlink{ForeSpawn}{Forecast recruitment} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations).}} \\
     & 0 = spawner recruit curve & \\
     & 1 = value*(spawner recruit curve) & \\
@@ -147,15 +156,16 @@ The term COND appears in the value column of this documentation (it does not act
  & & \\
  & & \Bstrut\\
  
- \hline
+ %\hline
  0 \Tstrut & Forecast loop control \#5 & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Reserved for future model features.}} \Bstrut\\
  
  \hline
  2015 \Tstrut & First year for caps and allocations & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \Bstrut\\
 
- \pagebreak
- %\hline
+ %\pagebreak
+ \hline
  0 \Tstrut & Implementation Error & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The standard deviation of the log of the ratio between the realized catch and the target catch in the forecast. (set value >0.0 to cause implementation error deviations to be an estimated parameter that will add variance to forecast).}} \\
+   &   & \\
    &   & \\
    &   & \Bstrut\\
  
