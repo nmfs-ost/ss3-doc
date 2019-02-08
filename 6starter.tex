@@ -40,7 +40,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  control\textunderscore file.ctl &  & File name of the control file \Tstrut\\
    
  \hline		
- 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Don't use this if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file.  Values in ss.par can be edited, carefully. Do not run sstrans.exe from a ss.par from SS v.3.24.}}\Tstrut\\
+ 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Don't use this if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file.  Values in ss.par can be edited, carefully. Do not run ss\_trans.exe from a ss.par from SS v.3.24.}}\Tstrut\\
  & 0 = use values in control file; &  \\
  & 1 = use ss.par after reading setup in the control file & \\
 		
@@ -92,7 +92,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 
  
  \hline
- 1 & Data File Output & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{All output files are sequentially output to data.ss\_new and will need to be parsed by the user into separate data files. The output of the input data file makes no changes, so retains the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. The N obs values are adjusted accordingly.  At this time, the tag recapture data is not output to DATA.SS\textunderscore new.}}\Tstrut\\
+ 1 & Data File Output & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{All output files are sequentially output to data.ss\_new and will need to be parsed by the user into separate data files. The output of the input data file makes no changes, so retains the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. The N obs values are adjusted accordingly.  At this time, the tag recapture data is not output to data.ss\_new.}}\Tstrut\\
    & 0 = none & \\
    & 1 = output an annotated replicate of the input data file & \\
    & 2 = add a second data file containing the model's expected values with no added error & \\
@@ -219,11 +219,10 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
   & & \\
   & & \Bstrut\\
 
- 
  \hline
  \hypertarget{Convert}{3.30} & 3.30: Indicates that the control and data files are currently in SS v3.30 format. 
-	 & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The transition executable for SS v.3.30 will create converted files in the new format from previous versions (must be SS v.3.24) when 999 is given.  All ss\_new files are in the SS v.3.30 format, so starter.ss\_new has SS v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS v.3.30 cannot read a ss.par file produced by SS v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. Please see \hypertarget{ConvIssues}  {Converting Files from SS v.3.24} section for additional information on model features that may impede file conversion.}}\Tstrut\\
-     & \multirow{1}{1cm}[-0.1cm]{\parbox{7cm}{999: Indicates that the control and data file are in a previous SS v.3.24 version.  The sstrans.exe executable should be used which will convert the files to the new format in the control.ss\_new and data.ss\_new files.}}  & \\  
+	 & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The transition executable for SS v.3.30 will create converted files in the new format from previous versions (must be SS v.3.24) when 999 is given.  All ss\_new files are in the SS v.3.30 format, so starter.ss\_new has SS v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS v.3.30 cannot read a ss.par file produced by SS v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The \hypertarget{ConvIssues}  {Converting Files from SS v.3.24} section has additional information on model features that may impede file conversion.}}\Tstrut\\
+     & \multirow{1}{1cm}[-0.1cm]{\parbox{7cm}{999: Indicates that the control and data file are in a previous SS v.3.24 version.  The ss\_trans.exe executable should be used which will convert the files to the new format in the control.ss\_new and data.ss\_new files.}}  & \\  
      & & \\  
 	   & & \\
      & & \\
@@ -238,7 +237,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 \hypertarget{Jitter}{}
 The jitter function has been updated with SS v.3.30.  The following steps are now performed to determine the jittered starting parameter values:
 \begin{enumerate}
-	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.01\% and the pr(P\textsubscript{MAX}) = 99.9\%.
+	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
 	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution based on the pr(P\textsubscript{CURRENT}).
 	\item A random value is drawn, "\textit{J}", from the range of \textit{K}-jitter to \textit{K}+jitter with the constraint that it cannot be $<$0.1\% or $>$ 99.9\% of the distribution.
 	\item \textit{J} is a new cumulative normal probability value.

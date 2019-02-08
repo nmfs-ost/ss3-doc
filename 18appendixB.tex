@@ -1,6 +1,8 @@
-\section{Appendix B: Data Weighting }
+\section{Appendix B: Data Weighting}
+\label{sec:DataWeight}
+
 \begin{sloppypar}
-In 2015 there was a CAPAM workshop dedicated to data-weighting. Description of the workshop can be found at http://www.capamresearch.org/data-weighting/workshop. The presentations from the workshop are available through that website and many of them were included in a special issue of Fisheries Research a https://www.sciencedirect.com/journal/fisheries-research/vol/192.
+In 2015 there was a CAPAM workshop dedicated to data-weighting. Description of the workshop can be found at capamresearch.org/data-weighting/workshop. The presentations from the workshop are available through that website and many of them were included in a special issue of Fisheries Research a sciencedirect.com/journal/fisheries-research/vol/192.
 \end{sloppypar}
 
 Currently, there are three main methods for weighting length and data applied for U.S. West Coast assessments using Stock Synthesis.
@@ -10,21 +12,21 @@ Currently, there are three main methods for weighting length and data applied fo
 	
 	\item \textbf{Francis}: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method "TA1.8") \citep{francis_data_2011}
 	
-	\item \textbf{Dirichlet-Multinomial}: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term “Effective sample size” has a different interpretation than in the McAllister-Ianelli approach \citep{thorson_model-based_2017}.
+	\item \textbf{Dirichlet-Multinomial}: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term "Effective sample size" has a different interpretation than in the McAllister-Ianelli approach \citep{thorson_model-based_2017}.
 \end{enumerate}
 
 \subsection{Applying the methods}
 
 \subsubsection{McAllister-Ianelli}
-The “Length\_Comp\_Fit\_Summary” and “Age\_Comp\_Fit\_Summary” sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the r4ss package, these tables are returned by the \texttt{SS\_output} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
+The "Length\_Comp\_Fit\_Summary" and "Age\_Comp\_Fit\_Summary" sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the r4ss package, these tables are returned by the \texttt{SS\_output} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
 
 A convenient way to process these values into the format required by the control file is to use the function:
 
 \texttt{ SS\_tune\_comps(replist, option = "MI") }
 
-where the input “replist” is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called “suggested\_tuning.ss” to the directory where the model was run.
+where the input "replist" is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called "suggested\_tuning.ss" to the directory where the model was run.
 
-For models using SS version 3.30, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled “Input variance adjustments”, followed by the terminator line which indicates the end of the section. Here's an example of the first few rows of the table followed by the terminator line (not added by the function):
+For models using SS version 3.30, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled "Input variance adjustments", followed by the terminator line which indicates the end of the section. Here's an example of the first few rows of the table followed by the terminator line (not added by the function):
 
 \begin{center}
 	\includegraphics[scale = 0.6]{appendixB_sstune}\\
