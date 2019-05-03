@@ -1,14 +1,14 @@
 \section{Output Files}
 \subsection{Standard ADMB output files}
-Standard ADMB files are created by SS. These are:\\
+Standard ADMB files are created by SS. These are:
 
-SS.PAR – This file has the final parameter values.  They are listed in the order they are declared in SS.  This file can be read back into SS to restart a run with these values (see running SS on page \pageref{sec:RunningSS}).\\
+ss.par – This file has the final parameter values.  They are listed in the order they are declared in SS.  This file can be read back into SS to restart a run with these values (see running SS on page \pageref{sec:RunningSS}).
 
-SS.STD – This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run.  It also contains the derived quantities declared as sdreport variables.  All of this information is also report in the covar.sso.  Also, the parameter section of report.sso lists all the parameters with their SS generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.\\
+ss.std – This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run.  It also contains the derived quantities declared as standard deviation report variables.  All of this information is also report in the covar.sso.  Also, the parameter section of Report.sso lists all the parameters with their SS generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
 
-SS.REP – This report file is created between phases so, unlike report.sso, will be created even if the Hessian fails.  It does not contain as much output as shown in report.sso.\\
+ss.rep – This report file is created between phases so, unlike Report.sso, will be created even if the hessian fails. It does not contain as much output as shown in Report.sso.
 
-SS.COR – This is the standard ADMB report for parameter and sdreport correlations.  It is in matrix form and challenging to interpret.  This same information is reported in covar.sso.
+ss.cor – This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret.  This same information is reported in covar.sso.
 
 \subsection{SS Summary}
 The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place.  It is organized as a list.  At the top of the file are some descriptors, followed by the likelihoods for each component, then the parameters and their standard errors, then the derived quantities and their standard errors.  The total biomass, summary biomass, and catch were added to the quantities reported in this file in version 3.30.11 and later. This output was created to make it easy to compare the results between different versions of the executable, however, this file could be useful for numerous other uses. 
@@ -17,7 +17,7 @@ The ss\_summary.sso file (available for versions 3.30.08.03 and later) is design
 The SIS\_table.sso file contains model output formatted for reading into the NMFS Species Information System (SIS). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees and can be accessed as: https://www.st.nmfs.noaa.gov/sis/.
 
 \subsection{Derived Quantities}
-Before listing the derived quantities reported to the sdreport, there are a couple of topics that deserve further explanation.
+Before listing the derived quantities reported to the standard deviation report, there are a couple of topics that deserve further explanation.
 
 \hypertarget{VirginUnfished}{}
 \subsubsection{Virgin Spawning Biomass (B0) vs Unfished Spawning Biomass}
@@ -33,7 +33,7 @@ Virgin Spawning Biomass (B0) is used in four ways within SS:
 However, if there is time-varying biology, then the 4th usage can have a different B0 calculation compared to the other usages.
 
 \subsubsection{Metric for Fishing Mortality}
-A generic single metric of annual fishing mortality is difficult to define in a generalized model that admits multiple areas, multiple biological cohorts, dome-shaped selectivity in size and age for each of many fleets.  Several separate indices are provided and others could be calculated by a user from the detailed information in report.sso.
+A generic single metric of annual fishing mortality is difficult to define in a generalized model that admits multiple areas, multiple biological cohorts, dome-shaped selectivity in size and age for each of many fleets. Several separate indices are provided and others could be calculated by a user from the detailed information in Report.sso.
 
 \subsubsection{Equilibrium SPR}
 This index focuses on the effect of fishing on the spawning potential of the stock. It is calculated as the ratio of the equilibrium reproductive output per recruit that would occur with the current year's F intensities and biology, to the equilibrium reproductive output per recruit that would occur with the current year's biology and no fishing.  Thus it internalizes all seasonality, movement, weird selectivity patterns, and other factors. Because this index moves in the opposite direction than F intensity itself, it is usually reported as 1-SPR. A benefit of this index is that it is a direct measure of common proxies used for F\textsubscript{MSY}, such as F\textsubscript {40\%}. A shortcoming of this index is that it does not directly demonstrate the fraction of the stock that is caught each year. The SPR value is also calculated in the benchmarks (see below). The derived quantities report shows an annual SPR statistic.  The options, as specified in the starter.ss file, are:
@@ -238,30 +238,30 @@ none\\
 Data.ss\_new:  contains a user-specified number of data files, generated through a parametric bootstrap procedure, and written sequentially to this file.  These can be parsed into individual data files and re-run with the model.  The first output provides the unaltered input data file (with annotations added).  The second provides the expected values for only the data elements used in the model run.  The third and subsequent outputs provide parametric bootstraps around the expected values.
 
 \subsection{Forecast and Reference Points}
-FORECAST-REPORT.sso:  This file contains output of fishery reference points and forecasts.  It is designed to meet the needs of the Pacific Fishery Management Council's Groundfish Fishery Management Plan, but it should be quite feasible to develop other regionally specific variants of this output.
+Forecast-Repor.sso:  This file contains output of fishery reference points and forecasts.  It is designed to meet the needs of the Pacific Fishery Management Council's Groundfish Fishery Management Plan, but it should be quite feasible to develop other regionally specific variants of this output.
 
 The vector of forecast recruitment deviations is estimated during an additional model estimation phase.  This vector includes any years after the end of the recruitment deviation time series and before or at the end year. When this vector starts before the ending year of the time series, then the estimates of these recruitments will be influenced by the data in these final years. This is problematic, because the original reason for not estimating these recruitments at the end of the time series was the poor signal/noise ratio in the available data. It is not that these data are worse than data from earlier in the time series, but the low amount of data accumulated for each cohort allows an individual datum to dominate the model's fit. Thus, an additional control is provided so that forecast recruitment deviations during these years can receive an extra weighting in order to counter-balance the influence of noisy data at the end of the time series.
 
-An additional control is provided for the fraction of the log-bias adjustment to apply to the forecast recruitments. Recall that R is the expected mean level of recruitment for a particular year as specified by the spawner-recruitment curve and R' is the geometric mean recruitment level calculated by discounting R with the log-bias correction factor e-0.5s\^2. Thus a lognormal distribution of recruitment deviations centered on R' will produce a mean level of recruitment equal to R. During the modeled time series, the virgin recruitment level and any recruitments prior to the first year of recruitment deviations are set at the level of R, and the lognormal recruitment deviations are centered on the R' level.  For the forecast recruitments, the fraction control can be set to 1.0 so that 100\% of the log-bias correction is applied and the forecast recruitment deviations will be based on the R' level. This is certainly the configuration to use when the model is in MCMC mode. Setting the fraction to 0.0 during maximum likelihood forecasts would center the recruitment deviations, which all have a value of 0.0 in ML mode, on R. Thus would provide a mean forecast that would be more comparable to the mean of the ensemble of forecasts produced in MCMC mode.  Further work on this topic is underway.\\
+An additional control is provided for the fraction of the log-bias adjustment to apply to the forecast recruitments. Recall that R is the expected mean level of recruitment for a particular year as specified by the spawner-recruitment curve and R' is the geometric mean recruitment level calculated by discounting R with the log-bias correction factor $e-0.5s^2$. Thus a lognormal distribution of recruitment deviations centered on R' will produce a mean level of recruitment equal to R. During the modeled time series, the virgin recruitment level and any recruitments prior to the first year of recruitment deviations are set at the level of R, and the lognormal recruitment deviations are centered on the R' level.  For the forecast recruitments, the fraction control can be set to 1.0 so that 100\% of the log-bias correction is applied and the forecast recruitment deviations will be based on the R' level. This is certainly the configuration to use when the model is in MCMC mode. Setting the fraction to 0.0 during maximum likelihood forecasts would center the recruitment deviations, which all have a value of 0.0 in maximum likelihood mode, on R. Thus would provide a mean forecast that would be more comparable to the mean of the ensemble of forecasts produced in MCMC mode.  Further work on this topic is underway.
 
 Note:
 \begin{itemize}
-	\item Cohorts continue growing according to their specific growth parameters in the forecast period rather than staying static at the endyr values.
+	\item Cohorts continue growing according to their specific growth parameters in the forecast period rather than staying static at the end year values.
 	\item Environmental data entered for future years can be used to adjust expected recruitment levels.  However, environmental data will not affect growth or selectivity parameters in the forecast.
 \end{itemize}
 
 The top of this file shows the search for F\textsubscript {SPR}  and the search for F\textsubscript {MSY}  so the user can verify convergence. Note: if the STD file shows aberrant results, such as all the standard deviations being the same value for all recruitments, then check the F\textsubscript {MSY}  search for convergence. 
 
-The F\textsubscript {MSY} can be calculated, or set equal to one of the other F reference points per the selection made in STARTER.SS.
+The F\textsubscript {MSY} can be calculated, or set equal to one of the other F reference points per the selection made in starter.ss.
 
-The reference point output is shown int he table below: 
+The reference point output is shown in the the table below: 
 \begin{center}
 	\includegraphics{ManagementReport}
 \end{center}
 
 
 \begin{landscape}
-	The forecast is done once using the Target SPR and once using the adjustments specified in the 40:10 section of forecast.ss input.  Each section contains a time series of seasonal biomass and catch, followed by a time series of population numbers-at-age for each platoon.
+	The forecast is done once using the Target SPR and once using the adjustments specified in the 40:10 section of forecast.ss input. Each section contains a time series of seasonal biomass and catch, followed by a time series of population numbers-at-age for each platoon.
 	
 	\begin{center}
 		\includegraphics{Forecast}
@@ -270,18 +270,18 @@ The reference point output is shown int he table below:
 
 where:
 \begin{itemize}
-	\item 40:10 is the magnitude of the adjustment of harvest multiplier to implement the OY policy
-	\item bio-all is the biomass of all ages
-	\item bio-smry is the biomass for ages at or above the summary age
-	\item Spawnbio - is the female spawning output
-	\item Depletion is the spawnbio divided by the unfished spawnbio
-	\item Recruit-0 is the recruitment of age-o fish in this year
-	\item Dead\_cat\_B-1 is the total dead (retained plus dead discard) catch in MT for fleet 1
-	\item Retain\_B-1 is fleet 1's retained catch in MT
-	\item Equivalent catch in numbers is then reported.
+	\item 40:10 is the magnitude of the adjustment of harvest multiplier to implement the optimum yield policy;
+	\item bio-all is the biomass of all ages;
+	\item bio-smry is the biomass for ages at or above the summary age;
+	\item Spawnbio - is the female spawning output;
+	\item Depletion is the spawnbio divided by the unfished spawnbio;
+	\item Recruit-0 is the recruitment of age-o fish in this year;
+	\item Dead\_cat\_B-1 is the total dead (retained plus dead discard) catch in MT for fleet 1;
+	\item Retain\_B-1 is fleet 1's retained catch in MT;
+	\item Equivalent catch in numbers is then reported;
 	\item Hrate-1 is the harvest rate, as adjusted by the 40:10 policy.  The units will depend on the F method selected (Pope's method giving mid-year harvest rate or the continuous F.
 	\item Opt=C means that the rate was calculated from an input catch level (and crashed means that this caused an excessive harvest rate.
-	\item Opt=R means that the catch was calculated from the target harvest rate.
+	\item Opt=R means that the catch was calculated from the target harvest rate.; and
 	\item ABC is equal to the Total-Catch when the 40:10 option is not used (upper portion of table).  When the 40:10 is on (lower table), the ABC is the catch level corresponding to no 40:10 adjustment after accounting for catch in previous year's from the 40:10.
 \end{itemize}
 
@@ -314,7 +314,7 @@ The sections of the output file are:
 	\item SS version number with date compiled.  Time and date of model run.  This info appears at the top of all output files.
 	\item Comments
 		\begin{itemize}
-			\item 	Input file lines starting with \#C are echoed here
+			\item 	Input file lines starting with \#C are echoed here.
 		\end{itemize}
 	\item Keywords
 		\begin{itemize}
@@ -322,7 +322,7 @@ The sections of the output file are:
 		\end{itemize}
 	\item Fleet Names
 		\begin{itemize}
-			\item List of fishing fleet and survey names assigned in the data file
+			\item List of fishing fleet and survey names assigned in the data file.
 		\end{itemize}
 	\item Likelihood
 		\begin{itemize}
@@ -330,11 +330,11 @@ The sections of the output file are:
 		\end{itemize}
 	\item Input Variance Adjustments
 		\begin{itemize}
-			\item The matrix of input variance adjustments is output here because these values affect the logL calculations
+			\item The matrix of input variance adjustments is output here because these values affect the log likelihood calculations.
 		\end{itemize}
 	\item Parameters
 		\begin{itemize}
-			\item The parameters are listed here.  For the estimated parameters, the display shows: Num (count of parameters), Label (as internally generated by SS), Value, Active\_Cnt, Phase, Min, Max, Init, Prior, Prior\_type, Prior\_SD, Prior\_Like, Parm\_StD (standard deviation of parameter as calculated from inverse Hessian), Status (e.g. near bound), Pr\_atMin (value of prior penalty if parameter was near bound), and  Pr\_atMin.  The Active\_Cnt entry is a count of the parameters in the same order they appear in the ss.cor file.
+			\item The parameters are listed here.  For the estimated parameters, the display shows: Num (count of parameters), Label (as internally generated by SS), Value, Active\_Cnt, Phase, Min, Max, Init, Prior, Prior\_type, Prior\_SD, Prior\_Like, Parm\_StD (standard deviation of parameter as calculated from inverse Hessian), Status (e.g. near bound), and Pr\_atMin (value of prior penalty if parameter was near bound).  The Active\_Cnt entry is a count of the parameters in the same order they appear in the ss.cor file.
 		\end{itemize}
 	\item Derived Quantities
 		\begin{itemize}
@@ -347,34 +347,34 @@ The sections of the output file are:
 		\end{itemize}
 \end{itemize}
 
-Then the time series of output, with standard deviation of estimates, are produced with internally generated labels.  Note that these time series extend through the forecast era.  The order of the output is:  spawning biomass, recruitment, SPRratio, Fratio, Bratio, management quantities, forecast catch (as a target level), forecast catch as a limit level (OFL), Selex\_std, Grow\_std, NatAge\_std.  For the three "ratio" quantities, there is an additional column of output showing a Z-score calculation of the probability that the ratio differs from 1.0.  The "management quantities" section is designed to meet the terms of reference for west coast groundfish assessments; other formats could be made available upon request.  The std quantities at the end are set up according to specifications at the end of the control input file.  In some cases, a user may specify that no derived quantity output of a certain type be produced.  In those cases, SS substitutes a repeat output of the virgin spawning biomass so that vectors of null length are not created.
+Then the time series of output, with standard deviation of estimates, are produced with internally generated labels.  Note that these time series extend through the forecast era.  The order of the output is: spawning biomass, recruitment, SPRratio, Fratio, Bratio, management quantities, forecast catch (as a target level), forecast catch as a limit level (OFL), Selex\_std, Grow\_std, NatAge\_std.  For the three "ratio" quantities, there is an additional column of output showing a Z-score calculation of the probability that the ratio differs from 1.0. The "management quantities" section is designed to meet the terms of reference for west coast groundfish assessments; other formats could be made available upon request. The standard deviation quantities at the end are set up according to specifications at the end of the control input file. In some cases, a user may specify that no derived quantity output of a certain type be produced. In those cases, SS substitutes a repeat output of the virgin spawning biomass so that vectors of null length are not created.
 
-ADMB NOTE:  while vectors of null length are very useful for controlling optional model inputs, they cannot be used with current version of ADMB for sdreport quantities.
+ADMB note, while vectors of null length are very useful for controlling optional model inputs, they cannot be used with current version of ADMB for sdreport quantities.
 
 \begin{itemize}
-	\item MGparm by year after adjustments
+	\item Mortality-growth parameter by year after adjustments
 	\begin{itemize}
 		\item This block shows the time series of mortality-growth parameters by year after adjustment by environmental links, blocks and deviations.
 	\end{itemize}
-	\item SELparm (size) by year after adjustments
+	\item Selectivity parameters (size) by year after adjustments
 	\begin{itemize}
 		\item This block shows the size selectivity parameters, after adjustment, for each year in which a change occurs.
 	\end{itemize}
-	\item SELparm (age) by year after adjustments
+	\item Selectivity parameters (age) by year after adjustments
 	\begin{itemize}
 		\item This block shows the age selectivity parameters, after adjustment, for each year in which a change occurs.
 	\end{itemize}
 	\item Recruitment Distribution
 	\begin{itemize}
-		\item This block shows the distribution of recruitment across growth patterns, genders, birth seasons, and areas in the endyr of the model.
+		\item This block shows the distribution of recruitment across growth patterns, genders, birth seasons, and areas in the end year of the model.
 	\end{itemize}
 	\item Platoon Indexing
 	\begin{itemize}
-		\item This block shows the internal index values for various quantities.  It can be a useful reference for complex model setups. The vocabulary is: Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index. If recruitment occurs in multiple seasons, then birth season is the index for that factor.  The index labeled "Platoon" is used as a continuous index across all the other factor-specific indices. If sub-platoons are used, they are nested within the Bio\_Pattern x Sex x Birth Season platoon. However, some of the output tables use the column label "platoon" as a continuous index across platoons and sub-platoons. Note that there is no index here for area. Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
+		\item This block shows the internal index values for various quantities.  It can be a useful reference for complex model setups. The vocabulary is: Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index. If recruitment occurs in multiple seasons, then birth season is the index for that factor. The index labeled "Platoon" is used as a continuous index across all the other factor-specific indices. If sub-platoons are used, they are nested within the Bio\_Pattern x Sex x Birth Season platoon. However, some of the output tables use the column label "platoon" as a continuous index across platoons and sub-platoons. Note that there is no index here for area. Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
 	\end{itemize}
-	\item Size Freq Translation
+	\item Size Frequency Translation
 	\begin{itemize}
-		\item If the generalize size frequency approach is used, this block shows the translation probabilities between population length bins and the units of the defined size frequency method.  If the method uses body weight as the accumulator, then output is in corresponding units.
+		\item If the generalized size frequency approach is used, this block shows the translation probabilities between population length bins and the units of the defined size frequency method.  If the method uses body weight as the accumulator, then output is in corresponding units.
 	\end{itemize}
 	\item Movement
 	\begin{itemize}
@@ -386,7 +386,7 @@ ADMB NOTE:  while vectors of null length are very useful for controlling optiona
 	\end{itemize}
 	\item Index 2
 	\begin{itemize}
-		\item This section reports the observed and expected values for each index. All are reported in one list with index number included as a selection field. At the bottom of this section, the root mean squared error of the fit to each index is compared to the mean input error level to assist the user in gaging the goodness-of-fit and potentially adjusting the input level of imprecision.
+		\item This section reports the observed and expected values for each index. All are reported in one list with index number included as a selection field. At the bottom of this section, the root mean squared error of the fit to each index is compared to the mean input error level to assist the user in gauging the goodness-of-fit and potentially adjusting the input level of imprecision.
 	\end{itemize}
 	\item Index 3
 	\begin{itemize}

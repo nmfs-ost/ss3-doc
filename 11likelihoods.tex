@@ -6,7 +6,7 @@ The objective function $L$ is the weighted sum of the individual components inde
 	L = \sum_{i=1}^{I}\sum_{f=1}^{A_f}\omega_{i,f} L_{i,f}+\omega_R L_R + \sum_{\theta}^{}\omega_\theta L_\theta + \sum_{P}^{}\omega_P L_P
 \end{equation}
 
-where $L$ is the total objective function, $i$ is the index of the objective function component, $L_{i,f}$ is the objective function for data kind $i$ for the fishery/survey $f$, and $\omega_{i,f}$ is a weighting factor for each objective function component.
+where $L$ is the total objective function, $i$ is the index of the objective function component, $A_f$ is the number of fleets, $L_{i,f}$ is the objective function for data kind $i$ for the fishery/survey $f$, $\omega_{i,f}$ is a weighting factor for each objective function component, $\omega$ is the parameter priors, and $P$ is the random parameter deviations.
 
 The components of the objective function based on the model set-up and data are: 
 
@@ -19,19 +19,20 @@ The components of the objective function based on the model set-up and data are:
 	$i$ & fishery/survey $f$ & Mean body weight        & normal \Tstrut\\
 	$i$ & fishery/survey $f$ & Length composition      & multinomial or log-gamma\Tstrut\\
 	$i$ & fishery/survey $f$ & Age composition         & multinomial or log-gamma\Tstrut\\
+	$i$ & fishery/survey $f$ & Dirichlet data weighting& gamma\Tstrut\\
 	$i$ & fishery/survey $f$ & Mean size-at-age        & normal \Tstrut\\
 	$i$ & fishery/survey $f$ & Tag-recapture 1         & multinomial \Tstrut\\
 	$i$ & fishery/survey $f$ & Tag-recapture 2         & negative binomial\Tstrut\\
 	$i$ & fishery $f$        & Initial equilibrium catch & normal \Tstrut\\
 	$R$ & 					 & Recruitment deviations  & lognormal \Tstrut\\
-	$P$ & 					 & Random parameter devs   & normal \Tstrut\\
+	$P$ & 					 & Random parameter devs.  & normal \Tstrut\\
 	$\theta$ & 				 & Parameter priors	       & user choice\Tstrut\\
 	$F_B$ & 				 & F ballpark penalty	   &  \Tstrut\\
 	$C_P$ &				     & Crash penalty           &  \Tstrut\Bstrut\\
 	\hline
 \end{longtable}
 
-Full description of likelihood distributions by source will be added in the future.
+%Full description of likelihood distributions by source will be added in the future.
 
 %\subsection{CPUE or abundance index}
 

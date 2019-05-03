@@ -12,7 +12,6 @@ Running the executable on from the DOS command line in Windows simply require ty
 \end{quote}
 
 
-
 On Mac and Linux computers, the executable name must be preceded by a period and slash (unless it's location has been added to the user's PATH):
 
 \begin{quote}
@@ -58,7 +57,9 @@ An easy way to start a command line in your current directory (SS\_runs) is to c
 	\begin{verbatim}
 	> %CURRDIR%
 	\end{verbatim}
-\end{quote} 
+\end{quote}
+
+An alternative shortcut is to have the executable within the model folder then use Ctrl+Shift+Right Click and then select either "Open powershell window here" or "Open command window here", depending upon your computer.  From the command window the executable name can be typed along with additional inputs (e.g., -nohess) and the model run.  If using the powershell type cmd and then hit enter prior to calling the model (ss). 
 
 
 \subsubsection{Simple Batch}
@@ -101,8 +102,12 @@ This second example processes 25 dat files from a different directory, each time
 
 
 
-\subsubsection{Batch Using PROFILEVALUES.SS}
-This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to –9999.  Edit STARTER.SS to refer to this control file and the appropriate data file.
+\subsubsection{Running Parameter Profiles}
+Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood.  There are two ways this can be done.
+
+The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output.  The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found on page \pageref{r4ss}. 
+
+The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to –9999.  Edit STARTER.SS to refer to this control file and the appropriate data file.
 
 %\begin{center}
 	\begin{longtable}{p{0.5cm} p{16cm}}		
@@ -116,7 +121,6 @@ This example will run a profile on natural mortality and spawner-recruitment ste
 		& 0.40	\# value for second selected parameter when runnumber equals 3\\
 		& etc.;  make it as long as you like.\\
 	\end{longtable}
-
 
 Create a batch file that looks something like this.  Or make it more complicated as in the example above.
 
@@ -139,14 +143,13 @@ The summary results will all be collected in the cumreport.sso file.  Each step 
 SS model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause SS to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted.  However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, SS can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter –binp ss.bar as one of the command line options.
 
 \subsection{Debugging Tips}
-When SS input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem.  Before trying the steps below, examine the ECHOINPUT.SSO file.  It is highly annotated, so you should be able to see if SS is interpreting your input files as you intended.
+When SS input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem.  Before trying the steps below, examine the echoinput.sso file.  It is highly annotated, so you should be able to see if SS is interpreting your input files as you intended.  Additionally, users should check the warning.sso file when attempting to debug a non-running model.
 
 \begin{enumerate}
-	\item Set the turn\_off\_phase switch to 0 in the STARTER.SS file.  This will cause the mode to not attempt to adjust any parameters and simply converges a dummy parameter.  It will still produce a REPORT.SSO file, which can be examined to see what has been calculated from the initial parameter values.
-	\item Turn the verbosity level to 2 in the STARTER.SS file.  This will cause the program to display the value of each likelihood component to the screen on each iteration.  So it the program is creating an illegal computation (e.g. divide by zero), it may show you which likelihood component contains the problematic calculation.  If the program is producing a REPORT.SSO file, you may then see which observation is causing the illegal calculation.
+	\item Set the turn\_off\_phase switch to 0 in the starter.ss file.  This will cause the mode to not attempt to adjust any parameters and simply converges a dummy parameter.  It will still produce a Report.sso file, which can be examined to see what has been calculated from the initial parameter values.
+	\item Turn the verbosity level to 2 in the starter.ss file.  This will cause the program to display the value of each likelihood component to the screen on each iteration.  So it the program is creating an illegal computation (e.g. divide by zero), it may show you which likelihood component contains the problematic calculation.  If the program is producing a Report.sso file, you may then see which observation is causing the illegal calculation.
 	\item Run the program with the command ss >>SSpipe.txt.  This will cause all screen display to go to the specified text file (note, delete this file before running because it will be appended to).  Examination of this file will show detailed statements produced during the reading and preprocessing of input files.
-	\item CHECKUP.SSO:  This file can be written during the first iteration of the program.  It contains details of selectivity and other calculations as an aid to debugging model problems. 
-	\item If SS fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the –nohess option so you can view the report.sso to attempt to diagnose the problem.
+	\item If SS fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the –nohess option so you can view the Report.sso to attempt to diagnose the problem.
 \end{enumerate}
 
 \subsection{Keyboard Tips}
@@ -157,20 +160,20 @@ Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  
 \subsection{Running MCMC}
  Run SS v3.30
  \begin{itemize}
- 	\item This gives maximum posterior density estimates, report file, Hessian matrix and the .cor file
- 	\item (Recommended) Look for parameters stuck on bounds which will degrade efficiency of MCMC implementation
- 	\item (Recommended) Look for very high correlations that may degrade the efficiency of MCMC implementation
+ 	\item This gives maximum posterior density estimates, report file, Hessian matrix and the .cor file.
+ 	\item Look for parameters stuck on bounds which will degrade efficiency of MCMC implementation.
+ 	%\item Look for very high correlations that may degrade the efficiency of MCMC implementation.
  \end{itemize}
  
 \noindent Run SS v.3.30 with arguments -mcmc xxxx -mcsave yyyy
  \begin{itemize}
- 	\item Where: xxxx is the number of iterations for the chain, and yyyy is the thinning interval (1000 is a good place to start)
- 	\item MCMC chain starts at the MPD values
+ 	\item Where: xxxx is the number of iterations for the chain, and yyyy is the thinning interval (1000 is a good place to start).
+ 	\item MCMC chain starts at the MPD values.
  	\item (Recommended) Remove existing .psv files in run directory to generate a new chain.
- 	\item (Recommended) Set DOS run detail switch in starter file to 0; reporting to screen will dramatically slow MCMC progress
- 	\item (Optional) Add -nohess to use the existing Hessian file without re-estimating
+ 	\item (Recommended) Set DOS run detail switch in starter file to 0; reporting to screen will dramatically slow MCMC progress.
+ 	\item (Optional) Add -nohess to use the existing Hessian file without re-estimating.
  	\item (Optional) To start the MCMC chain from specific values change the par file; run the model with estimation, adjust the par file to the values that the chain should start from, change within the starter file for the model to begin from the par file, and call the MCMC function using ss –mcmc xxxx – mcsave yyyy -nohess –noest.
- 	\item (Optional) Add -noest -nohess and modify starter file so that run will now start from the converged (or modified) parameter estimates in "ss.par"
+ 	\item (Optional) Add -noest -nohess and modify starter file so that run will now start from the converged (or modified) parameter estimates in "ss.par".
  \end{itemize}
 	
 \noindent Run SS v3.30 with argument -mceval
@@ -186,6 +189,5 @@ Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  
 	\item This restarts and extends an uninterrupted chain previously completed (note that any intermediate runs without the -mcr command in the same directory will break this option).
 \end{itemize}
 
-\noindent NOTES:\\
-When SS switches to MCMC or MCEVAL mode, it sets all the bias adjustment factors to 1.0 for any years with recruitment deviations defined.  SS does not create a report file after completing MCMC because it would show values based on the last MCMC step.
+Note: when SS switches to MCMC or MCEVAL mode, it sets all the bias adjustment factors to 1.0 for any years with recruitment deviations defined.  SS does not create a report file after completing MCMC because it would show values based on the last MCMC step.
 
