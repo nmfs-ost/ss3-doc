@@ -1972,16 +1972,23 @@ An example specification and setup for this selectivity option where selectivity
 	\end{longtable}
 
 \subsubsection{Retention}
-Retention is defined as a logistic function of size.  It does not apply to surveys.  Four parameters (for asymptotic retention) or seven parameters (for dome-shaped retention) are used:
+Retention is defined as a logistic function of size or age.  It does not apply to surveys.  Four parameters (for asymptotic retention) or seven parameters (for dome-shaped retention) are used:
 \begin{itemize}
-	\item p1 – ascending inflection
-	\item p2 – ascending slope
-	\item p3 – maximum retention, often a time-varying quantity to match the observed amount of discard
-	\item p4 – male offset to ascending inflection (arithmetic, not multiplicative)
-	\item p5 – descending inflection
-	\item p6 – descending slope
-	\item p7 – male offset to descending inflection (arithmetic, not multiplicative)
+	\item Asymptotic (4 parameters):
+	\begin{itemize}
+		\item p1 – ascending inflection,
+		\item p2 – ascending slope,
+		\item p3 – maximum retention controlling the height of the asymptote (smaller values result in lower asymptotes), often a time-varying quantity to match the observed amount of discard,
+		\item p4 – male offset to ascending inflection (arithmetic, not multiplicative),
+	\end{itemize}
+	\item Dome-shaped (add the following 3 parameters):
+	\begin{itemize}
+		\item p5 – descending inflection,
+		\item p6 – descending slope, and
+		\item p7 – male offset to descending inflection (arithmetic, not multiplicative).
+	\end{itemize}
 \end{itemize}
+
 \begin{equation}
 	\text{Retention} = \left(\frac{P3}{1 + e^{\frac{-(L-(P1+P4*male))}{P2}}}\right)*\left(1 - \frac{1}{1 + e^{\frac{-(L-(P5+P7*male))}{P6}}}\right)
 \end{equation}
