@@ -200,7 +200,7 @@ The term COND appears in the value column of this documentation (it does not act
    &  &  Ex: \# Fleet 1  Fleet 2  Survey X (rows are seasons) \Bstrut\\ 
 
   \hline
-  1 50 & Maximum total catch by fleet & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter fleet number and its max. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
+  1 50 & Maximum total forecast catch by fleet (in units specified above total catch/numbers, retained catch/numbers) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter fleet number and its maximum value. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
   -9999 -1 & & \Bstrut\\
   \hline
   
@@ -211,13 +211,14 @@ The term COND appears in the value column of this documentation (it does not act
   1 1  & Fleet assignment to allocation group & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter list of fleet number and its allocation group number if it is in a group. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
   -9999 -1  & &  \Bstrut\\ 
     
-  \hline 
+  \pagebreak
+  %\hline 
   \multicolumn{2}{l}{COND: if N allocation groups is >0 } & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{ Enter a year and the allocation fraction to each group for that year.  SS will fill those values to the end of the forecast, then read another year from this list.  Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0.}} \Tstrut \\
   \multicolumn{1}{r}{2002 1}  & Allocation to each group for each year of the forecast & \\
   \multicolumn{1}{r}{-9999 1} & & \Bstrut\\
   
-  \pagebreak
-  %\hline
+  
+  \hline
     -1 & Basis for forecast catch: & \Tstrut\\
     & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below; & \\
     & 2 = Dead catch (retained + discarded); & \\
@@ -228,12 +229,12 @@ The term COND appears in the value column of this documentation (it does not act
   \multicolumn{1}{l}{COND: == -1 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch} \Tstrut\\
   \multicolumn{1}{r}{2012 1 1 1200 2}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
   \multicolumn{1}{r}{2013 1 1 1400 3}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
-  \multicolumn{1}{r}{-9999 1 1 0000 2}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
+  \multicolumn{1}{r}{-9999 0 0 0 0}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
   \\
   \multicolumn{1}{l}{COND: > 0 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\Tstrut\\
   \multicolumn{1}{r}{2012  1 1 1200}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value}  \\
   \multicolumn{1}{r}{2013  1 1 1200}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value}  \\
-  \multicolumn{1}{r}{-9999 1 1 0000}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
+  \multicolumn{1}{r}{-9999 0 0 0}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
   
   \hline
   999 & End of Input & \Bstrut\\
