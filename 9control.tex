@@ -588,13 +588,13 @@ These parameter lines are entered directly after the weight-at-length parameters
 
 
 \subsubsection{Catch Multiplier}
-These  parameter lines are only included in the control file if the catch multiplier field in the data file is set to 1 for a fleet:
+These  parameter lines are only included in the control file if the catch multiplier field in the data file is set to 1 for a fleet. The model expected catch $C_{exp}$ by fleet is estimated by:
 
 \begin{equation}
-C_{adj} = C_{exp} * c_{mult}
+C_{exp} =  \frac{C_{obs}}{c_{mult}}
 \end{equation}
 
-\noindent where $C_{exp}$ is the expected catch from the fishing mortality and $c_{mult}$ is the catch multiplier. It has year-specific, not season-specific, time-varying capabilities.  In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{adj}$ before being compared to the observed retained catch, so $C_{adj}$ value of 1.1 means that the observed catch is 10\% greater than modeled catch.
+where $C_{obs}$ is the input catch by fleet (observed catch) within the data file and $c_{mult}$ is the estimated (or fixed) catch multiplier. It has year-specific, not season-specific, time-varying capabilities.  In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{obs}$ before being compared to the observed retained catch as modified by the $c_{mult}$.  
 
 \subsubsection{Ageing Error Parameters}
 These parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition). As of version 3.30.12, these parameters now have time-varying capability. Seven additional full parameter lines are required. The parameter lines specify:
