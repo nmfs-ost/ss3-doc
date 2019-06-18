@@ -1,21 +1,21 @@
 
 \section{Introduction}\label{sec:intro}
 
-Fish population (aka "stock")  assessment models determine the impact of past fishing on the historical and current abundance of the population, evaluate sustainable rates of removals (catch), and project future levels of catch that will implement risk-averse catch rules.  These catch rules are codified in regional Fishery Management Plans according to requirements of the Sustainable Fisheries Act.  In the U.S., approximately 500 federally managed fish and shellfish populations are under approximately 50 Fishery Management Plans.  About 200 of these populations are assessed according to a prioritized schedule for their current status each year, but many minor species have never been quantitatively assessed.  Although the pace is slower than weather forecasting, fish stock assessments are operational models for fisheries management.
+Fish population (aka "stock")  assessment models determine the impact of past fishing on the historical and current abundance of the population, evaluate sustainable rates of removals (catch), and project future levels of catch reflecting one or more risk-averse catch rules.  These catch rules are codified in regional Fishery Management Plans according to requirements of the Sustainable Fisheries Act.  In the U.S., approximately 500 federally managed fish and shellfish populations are managed under approximately 50 Fishery Management Plans.  About 200 of these populations are assessed each year, based on a prioritized schedule for their current status. Despite this, many minor species have never been quantitatively assessed.  Although the pace is slower than that for weather forecasting, fish stock assessments are operational models for fisheries management.
 
-Assessment models typically assimilate several decades of annual catch, data on fish abundance from diverse surveys and fishery sources, and biological information regarding fish body size and the proportions at age.  A suite of models is available depending on the degree of data availability and unique characteristics of the fish population or its fishery.  Where feasible, environmental time series are used as indicators of changes in population or observation processes, especially to improve the accuracy of the projections of abundance and sustainable catch into the future.  Such linkages are based principally on correlations given the challenge of conducting field observations on an appropriate scale.  The frontier of model development is in the rapid estimation of parameters to include random temporal effects, in the simultaneous modeling of a suite of interacting species, and in the explicit treatment of the spatial distribution of the population.
+Assessment models typically assimilate annual catches, data on fish abundance from diverse surveys and fishery sources, and biological information regarding fish body size and proportions at age.  A suite of models is available depending on the degree of data availability and unique characteristics of the fish population or its fishery.  Where feasible, environmental time series are used as indicators of changes in population or observation processes, especially to improve the accuracy of the projections of abundance and sustainable catch into the future.  Such linkages are based principally on correlations given the challenge of conducting field observations on an appropriate scale.  The frontier of model development is in the rapid estimation of parameters to include random temporal effects, in the simultaneous modeling of a suite of interacting species, and in the explicit treatment of the spatial distribution of the population.
 
 Assessment models are loosely coupled to other models. For example, an ocean-temperature or circulation model or benthic-habitat map may be directly included in the pre-processing of the fish abundance survey.  A time series of a derived ocean factor, like the North Atlantic Oscillation, can be included as an indicator of a change in a population process.  Output of a multi-decadal time series of derived fish abundance can be an input to ecosystem and economic models to better understand cumulative impacts and benefits. 
 
-Stock Synthesis (SS) is an age- and size-structured assessment model in the class of models termed integrated analysis models. SS has a population sub-model that simulates a stock's growth, movement, and mortality processes, an observation sub-model estimates expected values for various types of data, a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance, and a forecast sub-model projects needed management quantities.  SS outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (www.admb-project.org).  Windows, Linux, and iOS versions are available.  Output processing and associated tools are in R, and a graphical interface is in QT.  SS is available from NOAA’s VLAB. The rich feature set in SS allows it to be configured for a wide range of situations and it has become the basis for a large fraction of U.S. assessments and many other assessments around the world.  
+Stock Synthesis (SS) is an age- and size-structured assessment model in the class of models termed integrated analysis models. SS has a population sub-model that simulates a stock's growth, maturity, fecundity, recruitment, movement, and mortality processes, an observation sub-model estimates expected values for various types of data, a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance, and a forecast sub-model projects needed management quantities.  SS outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (www.admb-project.org).  Windows, Linux, and iOS versions are available.  Output processing and associated tools are in R, and a graphical interface is in QT.  SS is available from NOAA’s VLAB. The rich feature set in SS allows it to be configured for a wide range of situations.  SS has become the basis for a large fraction of U.S. assessments and many other assessments around the world.  
 
-This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. A technical description of the model itself is in \citet{methot_stock_2013}. The model and a graphical user interface are available from the NOAA VLAB at vlab.ncep.noaa.gov/group/stock-synthesis/home. The VLAB site also provides a user forum for posting questions and for accessing various additional materials.  An output processor package, r4ss, in R is available for download from CRAN or GitHub. Additional information about the package can be located at github.com/r4ss/r4ss.
+This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. An overview and technical description of the model itself is in \citet{methot_stock_2013}. However, SS has continued to evolve and grow since the publication in 2013, with this manual reflecting the most up to date information regarding SS.  The model and a graphical user interface are available from the NOAA VLAB at vlab.ncep.noaa.gov/group/stock-synthesis/home. The VLAB site also provides a user forum for posting questions and for accessing various additional materials.  An output processor package, r4ss, in R is available for download from CRAN or GitHub. Additional information about the package can be located at github.com/r4ss/r4ss.
 
 Additional guidance for new users is available from the NOAA VLAB at vlab.ncep.noaa.gov/group/stock-synthesis/document-library.  The "Begin Here - Introduction to Stock Synthesis" folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.  
 
 	
 \section{New Features Available in SS Version 3.30}
-Stock Synthesis version v.3.30 was designed specifically to provided more precise temporal control of growth, expected values for data, and for recruitment.  In additional, a large number of new features that make substantial changes to the input formats have been introduced.  Two executables of SS are provided.  One, ss\_trans.exe, will read SS v.3.24 input files and produce SS v.3.30 formatted versions of those input files.  Nearly every feature in SS v.3.24 can be converted by this program.  The other executable, ss.exe, will then be your primary new assessment tool. Additional information on each new feature is available by clicking on the item.
+Stock Synthesis version v.3.30 was designed specifically to provide more precise control in modeling temporal changes in biology, expected values for data, and for recruitment.  In addition, a large number of new features that make substantial changes to the input formats have been introduced.  Two executables of SS are provided.  One, ss\_trans.exe, will read SS v.3.24 input files and produce SS v.3.30 formatted versions of those input files.  Nearly every feature in SS v.3.24 can be converted by this program.  The other executable, ss.exe, is the primary new assessment tool. Additional information on each new feature is available by clicking on the item.
 		
 \begin{center}
 	{\renewcommand{\arraystretch}{1.5}%
@@ -37,7 +37,7 @@ Stock Synthesis version v.3.30 was designed specifically to provided more precis
 		
 		General & 
 			\hyperlink{GenericFleets}{Generic Fleets} & 
-				Fleet specification section of data file has substantially changed and now includes fleet type, fishery fleets, bycatch fleets, surveys, and someday predators can be specified in any order.\\
+				Fleet specification section of data file has substantially changed and now includes specific fleet type; fishery fleets, bycatch fleets, and surveys which can be specified in any order.\\
 
 		  & \hyperlink{ListBased}{List-oriented inputs} & 
 			    Older versions of SS (3.24 and earlier) required users to specify the number of items to be read, now SS can determine the number of lines to read through the application of a terminator line using -9999 in first field of the read vector. \\
@@ -92,10 +92,10 @@ Stock Synthesis version v.3.30 was designed specifically to provided more precis
 
 		Recruitment
 			& \hyperlink{Shepherd}{Shepherd SRR} & 
-				A 3-parameter Shepherd stock-recruitment curve is now an option.\\
+				The traditional 3-parameter Shepherd stock-recruitment curve is now an option.\\
 
 			& \hyperlink{Shepherd2}{Shepherd SRR re-parameterization} & 
-				A 3-parameter Shepherd stock-recruitment curve is now an option in SS v.3.30.11 and higher.\\
+				A re-parameterized 3-parameter Shepherd stock-recruitment curve, distinct from the traditional parameterization, is now an option in SS v.3.30.11 and higher.\\
 			
 			& \hyperlink{Ricker2}{Ricker SRR re-parameterization} & 
 				A 3-parameter Ricker stock-recruitment curve is now an option in SS v.3.30.11 and higher.\\
@@ -105,7 +105,7 @@ Stock Synthesis version v.3.30 was designed specifically to provided more precis
 
 		Benchmark 
 			& Global MSY &  
-				Global MSY based on knife edge age selection; also do calculation with single age selection. The global MSY value will automatically be included in the report file.\\
+				Global MSY based on knife-edged age selection; also do calculation with single age selection. The global MSY value will automatically be included in the report file.\\
 		
 			& Mean recruitment distribution & 
 				In multi-area model, can now specify range of years to use for the average recruitment distribution for forecasting. This feature is not yet implemented. \\
@@ -138,7 +138,7 @@ Stock Synthesis version v.3.30 was designed specifically to provided more precis
 			& \hyperlink{paraOrder}{Parameter order} & The prior standard deviation column for all parameter lines has been moved before the prior type column.  This modification improves formatting output between integer and decimal inputs.\\ 
 
 			& Density dependence & 
-				Beginning of year summary biomass and the recruitment deviation parameters are mapped to the "environmental" matrix so that parameters can be density-dependent.\\
+				Beginning of year summary biomass and the recruitment deviation parameters are mapped to the "environmental" matrix so that parameters can be density-dependent based on environmental factors.\\
 				
 			& \hyperlink{tvOrder}{Re-order} & 
 				Pay attention to the new order of the time-varying adjustments to parameters (block/trend, then environmental, then deviations). \\
@@ -231,11 +231,11 @@ The process of updating and adding new features within SS v.3.30 exposed several
 		\end{enumerate}
 		\item SS\_330\_Data\_Input.xls:
 		\begin{enumerate}
-			\item Shows how to setup an example data input for SS.
+			\item Shows how to setup an example data input file for SS.
 		\end{enumerate}
 		\item SS\_330\_Starter\&Forecast.xls:
 		\begin{enumerate}
-			\item Shows how to setup an example data input for SS.
+			\item Shows how to setup an example starter and forecast input files for SS.
 		\end{enumerate}
 		%\item Growth\_Comparison.xls: 
 		%\begin{enumerate}
@@ -256,5 +256,5 @@ The process of updating and adding new features within SS v.3.30 exposed several
 \section{Starting SS}
 SS is typically run through the command line interface, although it can also be called from another program, R, the SS-GUI or a script file (such as a DOS batch file). SS is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS will run much slower on computers with inadequate memory. See the Running SS section on page \pageref{sec:RunningSS} for additional notes on methods of running SS.
 
-Communication with the program is through text files.  When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS is being run.  The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page \pageref{FileOrganization}.  The names of the control and data files must match the names specified in the starter.ss file.  File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to get a model setup correctly.  Output from SS is as text files containing specific keywords.  Output processing programs, such as the SS GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.
+Communication with the program is through text files.  When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS is being run.  The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page \pageref{FileOrganization}.  The names of the control and data files must match the names specified in the starter.ss file.  File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to setup a model correctly.  Output from SS consists of text files containing specific keywords.  Output processing programs, such as the SS GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.
 
