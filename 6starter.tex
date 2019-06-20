@@ -1,7 +1,7 @@
 
 \section{Starter File}
 
-SS begins by reading the file starter.ss.  Its format and content is as follows.  Note that the term COND in the Typical Value column means that the existence of input shown there is conditional on a value specified earlier in the file.  Omit or comment out these entries if the appropriate condition has not been selected.
+SS begins by reading the file starter.ss. The term COND appears in the "Typical Value" column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
 {
 \setlength\extrarowheight{4pt}
@@ -40,7 +40,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  control\textunderscore file.ctl &  & File name of the control file \Tstrut\\
    
  \hline		
- 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Don't use this if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file.  Values in ss.par can be edited, carefully. Do not run ss\_trans.exe from a ss.par from SS v.3.24.}}\Tstrut\\
+ 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file.  Values in ss.par can be edited, carefully. Do not run ss\_trans.exe from a ss.par from SS v.3.24.}}\Tstrut\\
  & 0 = use values in control file; and&  \\
  & 1 = use ss.par after reading setup in the control file. & \\
 		
@@ -78,7 +78,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
    & 2 = full.  &  \\
 	 
  \hline
- 1 & Full Priors: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Turning on this option causes all prior values to be calculated.  With this option off, the total log likelihood, which includes the log likelihood for priors, would change between model phases as more parameters became active.}} \Tstrut\\
+ 1 & Full Priors: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Turning this option on (1) adds the log likelihood contribution from all prior values for fixed and estimated parameters to the total negative log likelihood.  With this option off (0), the total negative log likelihood will include the log likelihood for priors for only estimated parameters.}} \Tstrut\\
    & 0 = only calculate priors for active parameters; and &	\\
    & 1 = calculate priors for all parameters that have a defined prior. & \\
 	     
@@ -112,7 +112,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  200 & MCMC thin interval & Number of iterations to remove between the main period of the MCMC run. \Tstrut\\
 	   
  %\hline 
- 0.0 & \hyperlink{Jitter}{Jitter:} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The jitter function has been revised with SS v.3.30.  Starting values are now jittered based on a normal distribution based on the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%. A positive value here will add a small random jitter to the initial parameter values.  When using the jitter option, care should be given when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.}}\Tstrut\\ 
+ 0.0 & \hyperlink{Jitter}{Jitter:} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The jitter function has been revised with SS v.3.30.  Starting values are now jittered based on a normal distribution with the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%. A positive value here will add a small random jitter to the initial parameter values.  When using the jitter option, care should be given when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.}}\Tstrut\\ 
 	 & 0 = no jitter done to starting values; and & \\
 	 & >0 starting values will vary with larger jitter values resulting in larger changes from the parameter values in the control or par file. & \\
 	 & & \\
@@ -164,13 +164,13 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
  %\pagebreak
  1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in SSB.  The calculated values are reported to the SD report.}}\Tstrut\\
    & 0 = skip; & \\
-   & 1 = X*SB0; & \\
-   & 2 = X*SB\textsubscript{MSY}; & \\
-   & 3 = X*SB\textsubscript{styr}; and & \\
-   & 4 = X*SB\textsubscript{endyr}. & \\
+   & 1 = X*SB0; & Relative to unfished spawning biomass.\\
+   & 2 = X*SB\textsubscript{MSY}; & Relative to spawning biomass that achieves MSY.\\
+   & 3 = X*SB\textsubscript{styr}; and & Relative to initial spawning biomass.\\
+   & 4 = X*SB\textsubscript{endyr}. & Relative to spawning biomass in the model end year.\\
   
  \hline
- 0.40 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SSB\textsubscript{y}/(0.40*SSB0).\Tstrut\\
+ 1 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SSB\textsubscript{y}/(X*SSB0).\Tstrut\\
 
  \hline
  %\pagebreak
@@ -202,7 +202,7 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
   
  \hline
  %\pagebreak
- \multicolumn{2}{l}{COND: If F std reporting > 4 } & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.}} \Tstrut\\
+ \multicolumn{2}{l}{COND: If F std reporting $\geq$ 4 } & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.}} \Tstrut\\
 
  \multicolumn{1}{r}{13 17}  & Age range if F std reporting = 4. & \Tstrut\\
 
@@ -251,8 +251,8 @@ SS begins by reading the file starter.ss.  Its format and content is as follows.
 The jitter function has been updated with SS v.3.30.  The following steps are now performed to determine the jittered starting parameter values:
 \begin{enumerate}
 	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
-	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution based on the pr(P\textsubscript{CURRENT}).
-	\item A random value is drawn, "\textit{J}", from the range of \textit{K}-jitter to \textit{K}+jitter with the constraint that it cannot be $<$0.1\% or $>$ 99.9\% of the distribution.
+	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
+	\item A random value is drawn, "\textit{J}", from the range of \textit{K}-jitter to \textit{K}+jitter with the constraint that \textit{J} cannot be $<$0.1\% or $>$ 99.9\% of the distribution.
 	\item \textit{J} is a new cumulative normal probability value.
 	\item Calculate a new parameter value, P\textsubscript{JITTERED}, such that pr(P\textsubscript{JITTERED}) = \textit{J}.
 \end{enumerate}
@@ -261,7 +261,7 @@ In SS, the jitter fraction defines a uniform distribution in cumulative normal s
 
 Therefore sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, CV (= sigma/original initial value) may be a better measure. 
 
-If the original initial value is at or near the middle of the min-max range, then for each 0.1 of jitter, the range of jitters extends about 0.25 sigmas to either side of the original value, and the average absolute jitter is about half that.  For values far from the middle of the min-max range, the resulting jitter is skewed in parameter space, and may hit the bound, invoking the resetting mentioned above. 
+If the original initial value is at or near the middle of the min-max range, then for each 0.1 of jitter, the range of jitters extends about 0.25 sigmas to either side of the original value (though as the total jitter increases the relationship varies more than this), and the average absolute jitter is about half of that.  For values far from the middle of the min-max range, the resulting jitter is skewed in parameter space, and may hit the bound, invoking the resetting mentioned above. 
 
 To evaluate the jittering, the bounds, and the original initial values, a jitter\_info table is available from r4ss, including sigma, CV and InitLocation columns (the latter referring to location within the cumulative normal – too close to 0 or 1 indicates a potential issue).
 
