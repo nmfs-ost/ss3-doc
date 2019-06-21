@@ -37,13 +37,13 @@ The normal units of measure are as follows:
 	\begin{itemize}
 		\item Spawning:
 		\begin{itemize}
-			\item Restricted to happening once per year at a specified date (in real months).
+			\item Restricted to happening once per year at a specified date (in real months). To create multiple spawning events per year, the way to do this is to change the definition of a year (e.g. call a 6 month period a "year" when there are two spawning events about 6 months apart) which you can do by having the total duration of the seasons be less than 1 year. 
 		\end{itemize}
 		
 		\item Recruitment:   
 		\begin{itemize}
 			\item Occurs at specified recruitment events that occur at user-specified dates (in real months).
-			\item There can be one to many recruitment events; each producing a platoon as a portion of the total recruitment.
+			\item There can be one to many recruitment events across a year; each producing a platoon as a portion of the total recruitment.
 			\item A settlement platoon enters the model at age 0 if settlement is between the time of spawning and the end of the year; it enters at age 1 if settlement is after the first of the year; these ages at settlement can be overridden in the settlement setup.
 		\end{itemize}
 		
@@ -66,7 +66,8 @@ Seasonal quantities in the model are calculated and treated in the following met
 	 	\item Catch and discard amounts are per season and F is calculated per season.
 	 	\item The year can have just one annual season, or be subdivided into seasons of unequal length.
 	 	\item Season duration is input in real months and is converted into fractions of an annum.  Annual rate values are multiplied by the per annum season duration.
-	 	\item If the sum of the input season durations is not close to 12.0, then the input durations is divided by 12.  This allows for a special situation in which the year could be only 0.25 in duration (e.g., seasons as years) so that spawning and time-varying parameters can occur more frequently.	 	
+	 	\item If the sum of the input season durations do not equal 12.0, then the input durations are divided by the total duration input to rescale season duration to equal 1.0.  
+	 	\item Allows for a special situation in which the year could be only 0.25 in duration (e.g., seasons as years) so that spawning and time-varying parameters can occur more frequently.	 	
 	 \end{itemize}
 
 \subsubsection{Subseasons and Timing of Events}
@@ -106,8 +107,7 @@ Time steps in SS v.3.30 now can be broken into subseason and the ALK can be calc
 	\end{itemize}
 
 \subsection{Terminology}
-Where the term COND appears in the value column of this documentation (it does not actually appear in the data file), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the data.ss\_new file.
-
+The term COND appears in the "Typical Value" column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
 \subsection{Model Dimensions}
 \begin{center}
@@ -132,7 +132,7 @@ Where the term COND appears in the value column of this documentation (it does n
 		1 & Number of seasons per year \Tstrut\Bstrut\\
 
 		\hline
-		12 & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Vector with the number of months in each season.  These do not need to be integers.  Note:  If the sum of this vector is close to 12.0, then it is rescaled to sum to 1.0 so that season duration is a fraction of a year.  But if the sum is not close to 12.0, then the entered values are simply divided by 12.  So with one season per year and 3 months per season, the calculated season duration will be 0.25, which allows a quarterly model to be run as if quarters are years.  All rates in SS are  calculated by season (growth, mortality, etc.) using annual rates and season duration.}} \Tstrut\\
+		12 & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Vector with the number of months in each season.  These do not need to be integers.  Note:  If the sum of this vector is close to 12.0, then it is rescaled to sum to 1.0 so that season duration is a fraction of a year.  If the sum is not equal to 12.0, then the entered values are summed and rescaled to 1.  So, with one season per year and 3 months per season, the calculated season duration will be 0.25, which allows a quarterly model to be run as if quarters are years.  All rates in SS are  calculated by season (growth, mortality, etc.) using annual rates and season duration.}} \Tstrut\\
 		& \\
 		& \\
 		& \\
@@ -215,8 +215,8 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 \myparagraph{Timing}
    Timing for data observations has been revised in SS v.3.30:
 	  \begin{itemize}
-	  	\item Fishery = -1 treat as catch occurred over the whole season or a user can override this assumption by using the code 10XX (e.g 1007 would indicate that catch was removed mid-year in July). Fishery fleets can either have a -1 which means that CPUE and composition observations default to using the total seasonal catch-at-age  and midseason length-at-age, or they can have a timing value of 1 (actually any positive value) in which case the expected value for CPUE and composition observations will be sampled at the time indicated by the month value associated with the observation.  If the -1 code is entered here, then individual observations (e.g., compositional data) can override the midseason default by entering the month as 1000+month.  For example, 1004.5 would be entered for a mid-April observation.
-	  	\item Survey = 1 The fleet timing here for surveys is not used and only the month value with the observation is relevant (e.g., month specification in the indices of abundance or the month for composition data).  
+	  	\item Fishery = -1 catch is treated as if it occurred over the whole season. A user can override this assumption for specific data observations (e.g., length or age) by specifying a month.  
+	  	\item Survey = 1 The fleet timing here for surveys is not used and only the month value associated with each observation is relevant (e.g., month specification in the indices of abundance or the month for composition data).  
 	  \end{itemize}	  
 	  
 \myparagraph{Area}
@@ -232,11 +232,13 @@ An integer value indicating the area in which a fleet operates.
 
 \hypertarget{CatchMult}{}
 \myparagraph{Catch Multiplier}
-Invokes use of a catch multiplier, which is then entered as a parameter in the MG parameter section.  The estimated value or fixed value of the catch multiplier is multiplied by the estimated catch before being compared to the observed catch: 
+Invokes use of a catch multiplier, which is then entered as a parameter in the mortality-growth parameter section.  The estimated value or fixed value of the catch multiplier is used to adjust the observed catch:
 	  \begin{itemize}
 	  	\item 0 = No catch multiplier used; and
 	  	\item 1 = Apply a catch multiplier which is defined as an estimable parameter in the control file after the cohort growth deviation in the biology parameter section. The model's estimated retained catch will be multiplied by this factor before being compared to the observed retained catch.
-	  \end{itemize}  
+	  \end{itemize} 
+	  
+A catch multiplier can be useful when trying to explore historical unrecorded catches or ongoing illegal and unregulated catches.  The catch multiplier is a full parameter line in the control file and has the ability to be time-varying.  
 
 \subsection{Optional Bycatch Fleets}
 The option to include bycatch fleets was introduced in SS v.3.30.10.  This is an optional input and if no bycatch is to be included in to the catches this section can be ignored.\\
@@ -285,7 +287,9 @@ The specified F or last year for the bycatch fleet.
 This column is not yet used and is reserved for future features.
 
 \subsection{Catch}
-\hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year, season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   Only positive catches need to be entered, so there is no need for records for the survey fleets.  To include an equilibrium catch value the year should be noted as -999 and this is now season specific .  \hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g., catch, length- and age-composition data), the control file (e.g., lambdas), and the forecast file (e.g., total catch by fleet, total catch by area, allocation groups, forecasted catch).
+\hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year and season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   Only positive catches need to be entered, so there is no need for records corresponding to all years and fleets.  To include an equilibrium catch value the year should be noted as -999 and this is now fleet and season specific.  
+
+\hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g., catch, length- and age-composition data), the control file (e.g., lambdas), and the forecast file (e.g., total catch by fleet, total catch by area, allocation groups, forecasted catch).
 
 In addition, it is possible to collapse the number of seasons.  So, if a season value is greater than the number of seasons for a particular model, that catch is added to the catch for the final season.  This is one way to easily collapse a seasonal model into an annual model.  The alternative option is to the use of season = 0.  This will cause SS to distribute the input value of catch equally among the number of seasons.  SS assumes that catch occurs continuously over seasons and hence is not specified as month in the catch data section.  However, all other data types will need to be specified by month.
 
@@ -314,19 +318,20 @@ The new format for version SS v.3.30 for a 2 season model with 2 fisheries looks
 
 \begin{itemize}
 	\item Catch can be in terms of biomass or numbers for each fleet, but cannot be mixed within a fleet.
-	\item Catch is retained catch. If there is discard also, then it is handled in the discard section below.  This is the recommended setup which results in a model estimated retention curve based upon the discard data (specifically discard composition data).  However, there may be instances where the data do not support estimation of retention curves.  In these instances catches can be specified as all dead (retained + discard estimates).
+	\item Catch is retained catch (aka landings). If there is discard also, then it is handled in the discard section below.  This is the recommended setup which results in a model estimated retention curve based upon the discard data (specifically discard composition data).  However, there may be instances where the data do not support estimation of retention curves.  In these instances catches can be specified as all dead (retained + discard estimates).
+	\item If there are challenges to estimating discards within the model, catches can be input as total dead without the use of discard data and retention curves.
 	\item If there is reason to believe that the retained catch values underestimate the true catch, then it is possible in the retention parameter set up to create the ability for the model to estimate the degree of unrecorded catch.  However, this is better handled with the new catch multiplier option.
 \end{itemize}
 
 \subsubsection{Bycatch}
 Bycatch fleets have an F and hence impose mortality and catch fish.  All this catch is discarded.  There must be a value entered for retained catch so that SS knows to calculate an F for that season, but this catch amount is ignored in the log likelihood.  The amount of discarded catch can be entered as a discard observation(s).  Bycatch fleets have selectivity, which must be specified or estimated if observations of the size or age composition of the discards is entered.
 \begin{itemize}
-	\item There is no retained catch amount to match and hence, the F for bycatch only fleets must be implement a continuous F method  (F\_method = 2).
+	\item There is no retained catch amount to match and hence, the F for bycatch only fleets must be implemented with the continuous F method  (F\_method = 2).
 	\item  MSY and yield per recruit are calculated in terms of dead catch, and they currently include catch from bycatch fleets.  The search for F\textsubscript{MSY} scales the bycatch F along with the F for the fleets that retain catch.   
 \end{itemize}
 
 \subsection{Indices}
-Indices are data that are compared to aggregate quantities in the model.  Typically the index is a measure of fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model.  The first section of the "Indices" setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
+Indices are data that are compared to aggregate quantities in the model.  Typically the index is a measure of selected fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model.  The first section of the "Indices" setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
 
 \begin{center}
 	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{6cm}}
@@ -353,9 +358,9 @@ The options for units for input data are:
 		\begin{itemize}
 			\item Note the F option can only be used for a fishing fleet and not for a survey, even if the survey selectivity is mirrored to a fishing fleet.  The values of these effort data are interpreted as proportional to the level of the fishery F values.  No adjustment is made for differentiating between continuous F values versus exploitation rate values coming from Pope's approximation.  A normal error structure is recommended so that the input effort data are compared directly to the model's calculated F, rather than to log(F).  The resultant proportionality constant has units of 1/Q where Q is the catchability coefficient. 	
 		\end{itemize}
-		\item \hypertarget{SpecialSurvey}{>=30} special survey types.  These options bypass the calculation of survey selectivity so no selectivity parameters should be entered and especially not estimated.  The expected values for these types are:
+		\item \hypertarget{SpecialSurvey}{>=30} special survey types.  These options bypass the calculation of survey selectivity so no selectivity parameters should be entered.  The expected values for these types are:
 		\begin{itemize}
-			\item 30 = spawning biomass (e.g., for an egg and larvae survey);
+			\item 30 = spawning biomass/output (e.g., for an egg and larvae survey);
 			\item 31 = exp(recruitment deviation), useful for environmental index affecting recruitment;
 			\item 32 = spawning biomass * exp(recruitment deviation), for a pre-recruit survey occurring before density-dependence;
 			\item 33 = recruitment, age-0 recruits;
@@ -418,7 +423,7 @@ Indices with SD Report enabled will have the expected values for their historica
 		\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID.  Previously the code for not using observations was to enter the observation itself as a negative value.  However, that old approach prevented use of a Z-score environmental index as a “survey”.  This approach is best for single or select years from an index rather than an approach to remove a whole index.  Removing a whole index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
 		\item Observations can be entered in any order, except if the super-year feature is used.
 		\item Super-periods are turned on and then turned back off again by putting a negative sign on the season.  Previously, super-periods were started and stopped by entering -9999 and the -9998 in the SE field.  See the \hyperlink{SuperPeriod}{Data Super-Period} section of this manual for more information.
-		\item Research Note: If the statistical analysis used to create the CPUE index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery's size and age composition, then you may want to enter the CPUE as if it was a separate survey and with a selectivity that differs from the fishery's estimated selectivity.  The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the CPUE should be derived through an area-weighted approach to better serve as a survey of stock abundance.
+		\item If the statistical analysis used to create the CPUE index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery's size and age composition, then you may want to enter the CPUE as if it was a separate survey and with a selectivity that differs from the fishery's estimated selectivity.  The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the CPUE should be derived through an area-weighted approach to better serve as a survey of stock abundance.
 	\end{itemize}
 
 \subsection{Discard}
@@ -555,11 +560,11 @@ First read a single value to select one of three population length bin methods, 
 \myparagraph{Notes}
 There are some items for users to consider when setting up population length bins:
 \begin{itemize}
-	\item For option 2, bin width should be a factor of min size and max size.  For options 2 and 3, the population length bins must not be wider than the length data bins, but the boundaries of the bins do not have to align.  The transition matrix between population and data length bins is output to echoinput.sso.
+	\item For option 2, bin width should be a factor of min size and max size.  For options 2 and 3, the data length bins must not be wider than the population length bins and the boundaries of the bins do not have to align.  The transition matrix between population and data length bins is output to echoinput.sso.
 	
 	\item The mean size at settlement (virtual recruitment age) is set equal to the min size of the first population length bin.
 	
-	\item When using more, finer population length bins, SS will create smoother length selectivity curves and smoother length distributions in the age-length key, but run slower (more calculations to do).
+	\item When using more, finer population length bins, SS will create smoother length selectivity curves and smoother length distributions in the age-length key, but run more slowly (more calculations to do).
 	
 	\item The mean weight-at-length, maturity-at-length and size-selectivity are based on the mid-length of the population bins.  So these quantities will be rougher approximations if broad bins are defined.
 	
@@ -567,7 +572,7 @@ There are some items for users to consider when setting up population length bin
 	
 	\item While exploring the performance of models with finer bin structure, a potentially pathological situation has been identified.  When the bin structure is coarse (note that some applications have used 10 cm bin widths for the largest fish), it is possible for a selectivity slope parameter or a retention parameter to become so steep that all of the action occurs within the range of a single size bin.  In this case, the model will see zero gradient of the log likelihood with respect to that parameter and convergence will be hampered.
 	
-	\item  A value read near the end of the starter.ss file defines the degree of tail compression used for the age-length key, called ALK tolerance.  If this is set to 0.0, then no compression is used and all cells of the age-length key are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age.  With tail compression of, say 0.0001, SS will at the beginning of each phase calculate the min and max length bin to process for each age of each morphs ALK and compress accordingly.  Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%.  Large values of ALK tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence.  The user is encouraged to explore this feature.
+	\item  A value read near the end of the starter.ss file defines the degree of tail compression used for the age-length key, called ALK tolerance.  If this is set to 0.0, then no compression is used and all cells of the age-length key are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age.  With tail compression of, say 0.0001, SS will at the beginning of each phase calculate the min and max length bin to process for each age of each morphs ALK and compress accordingly.  Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%.  Large values of ALK tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence.  It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time.  The user is encouraged to explore this feature.
 \end{itemize}
 
 

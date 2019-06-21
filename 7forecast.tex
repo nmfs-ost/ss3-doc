@@ -1,9 +1,7 @@
 \section{Forecast File}
 The specification of options for forecasts is contained in the mandatory input file named forecast.ss.  For additional detail on the forecast file see Appendix C on page \pageref{sec:forecast}.
 
-
-\subsection{Terminology}
-The term COND appears in the value column of this documentation (it does not actually appear in the forecast file), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the forecast.ss\_new file.
+The term COND appears in the "Typical Value" column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
 \begin{landscape}
 	
@@ -38,7 +36,7 @@ The term COND appears in the value column of this documentation (it does not act
    & 2 = calculate F\textsubscript{SPR}, F\textsubscript{MSY}, F\textsubscript{0.10}. & \Bstrut\\ 
    
  \hline
- 1 & MSY Method: &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Specifies basis for F\textsubscript{MSY}.}}\Tstrut\\
+ 1 & MSY Method: &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Specifies basis for calculating a single population level F\textsubscript{MSY} value.}}\Tstrut\\
    & 1 = F\textsubscript{SPR} as proxy; & \\
    & 2 = calculate F\textsubscript{MSY}; & \\
    & 3 = F\textsubscript{Btarget} as proxy or F\textsubscript{0.10; and}& \\
@@ -56,7 +54,7 @@ The term COND appears in the value column of this documentation (it does not act
       & & \Bstrut\\
   
  \hline
- 0 0 0 0 0 0 0 0 0 0 & Benchmark Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Requires 10 values, (1,2) beginning and ending years for biology (e.g., growth, natural mortality, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) stock-recruitment parameters for averaging years in calculating benchmark quantities.}} \Tstrut\\
+ 0 0 0 0 0 0 0 0 0 0 & Benchmark Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Requires 10 values, beginning and ending years for (1,2) biology (e.g., growth, natural mortality, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) stock-recruitment parameters for averaging years in calculating benchmark quantities.}} \Tstrut\\
   & -999: start year; & \\
   & >0:   absolute year; and & \\
   & <= 0: year relative to end year. & \\
@@ -70,7 +68,7 @@ The term COND appears in the value column of this documentation (it does not act
     
   %\pagebreak
   \hline
-  2 & Forecast: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ This input is required but is ignored if benchmarks are turned off.  If F\textsubscript{MSY} is selected, it uses whatever proxy, e.g. F\textsubscript{SPR} or F\textsubscript{BTGT} is selected in the benchmark section.}} \Tstrut\\
+  2 & Forecast: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ This input is required but is ignored if benchmarks are turned off.  This determines how forecast catches are calculated and removed from the population which is separate from the "MSY Method" above. If F\textsubscript{MSY} is selected, it uses whatever proxy (e.g., F\textsubscript{SPR} or F\textsubscript{BTGT}) is selected in the "MSY Method" row.}} \Tstrut\\
     & 0 = none (no forecast years); & \\
     & 1 = use F\textsubscript{SPR}; & \\
     & 2 = use F\textsubscript{MSY}; & \\
@@ -83,7 +81,8 @@ The term COND appears in the value column of this documentation (it does not act
      & & \Bstrut\\
      
   \hline
-  1 & F scalar & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar).}}\Tstrut\Bstrut\\
+  1 & F scalar & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar), but is a required line in the forecast file.}}\Tstrut\Bstrut\\
+  & & \\
   
   \hline
   0 0 0 0 0 0 & Forecast Years: &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Requires 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts.  In future, hope to allow random effects to propagate into forecast. Please note, relative F for bycatch only fleets is scaled just like other fleets.  More options for this in future.}}\Tstrut\\
@@ -93,7 +92,7 @@ The term COND appears in the value column of this documentation (it does not act
 
  \pagebreak   
  %\hline   
- 0 & Forecast Selectivity Option: & Determines the selectivity used in the forecast years. \Tstrut\\
+ 0 & Forecast Selectivity Option: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Determines the selectivity used in the forecast years. Selecting 1 will allow for application of time-varying selectivity parameters (e.g., random walk) to continue into the forecast period.}}\Tstrut\\
    & 0 = forecast selectivity is mean from year range; and & \\
    & 1 = forecast selectivity from annual time-varying parameters. & \Bstrut\\
 
@@ -188,16 +187,17 @@ The term COND appears in the value column of this documentation (it does not act
    & 2 = read season(row) x fleet (column) set below. & \Bstrut\\
 
  \hline 
- 2 & Basis for maximum forecast catch: &  \Tstrut\\
+ 2 & Basis for maximum forecast catch: &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The maximum basis for forecasted catch will be implemented for the for the "First year for caps and allocations" selected above. The maximum catch (biomass or numbers) by fleet is specified below on the "Maximum total forecast catch by fleet" line.}}\Tstrut\\
    & 2 = total catch biomass; & \\
    & 3 = retained catch biomass; & \\
    & 5 = total catch numbers; and & \\
    & 6 = retained total numbers. & \Bstrut\\
     
  \hline 
- \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F} \Tstrut\\
- \multicolumn{1}{r}{0.1 0.8 0.1}  & Fleet allocation by relative F fraction & The fraction of the forecast F value.  For a multiple area model user must define a fraction for each fleet and each area.  The total fractions must sum to one over all fleets and areas. Starting in version 3.30 this now also includes surveys which are treated similar to fleets.\\
-   &  &  Ex: \# Fleet 1  Fleet 2  Survey X (rows are seasons) \Bstrut\\ 
+ \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F (Enter: Season, Fleet, Relative F)} \Tstrut\\
+ \multicolumn{1}{r}{1 1 0.6}  & Fleet allocation by relative F fraction. & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The fraction of the forecast F value.  For a multiple area model user must define a fraction for each fleet and each area.  The total fractions must sum to one over all fleets and areas.}}\\
+ \multicolumn{1}{r}{1 2 0.4}  &  & \\
+ \multicolumn{1}{r}{-9999 0 0}  & Terminator line &   \Bstrut\\ 
 
   \hline
   1 50 & Maximum total forecast catch by fleet (in units specified above total catch/numbers, retained catch/numbers) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter fleet number and its maximum value. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
@@ -219,7 +219,7 @@ The term COND appears in the value column of this documentation (it does not act
   
   
   \hline
-    -1 & Basis for forecast catch: & \Tstrut\\
+    -1 & Basis for forecast catch: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{ The dead or retained value in the forecast catch inputs will be interpreted in terms of numbers or biomass based on the units of the input catch for each fleet. }}\Tstrut\\
     & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below; & \\
     & 2 = Dead catch (retained + discarded); & \\
     & 3 = Retained catch; and & \\
@@ -246,16 +246,16 @@ The term COND appears in the value column of this documentation (it does not act
 \subsection{Benchmark Calculations}
 This feature of SS is designed to calculate an equilibrium fishing rate intended to serve as a proxy for the fishing rate that would provide maximum sustainable yield (MSY).  Then in the forecast module these fishing rates can be used in the projections.
 
-Four reference points can be calculated by SS:
+Four reference points can be calculated by SS.  The first of which is the estimate of F\textsubscript{MSY} within the model, while the others use proxies or an alternative estimated point.
 
 \begin{itemize}
-	\item F\textsubscript{MSY}: Search for the F that produces maximum equilibrium (e.g. dead catch), or set F\textsubscript{MSY} equal to one of the other three options.
+	\item F\textsubscript{MSY}: Search for the F that produces maximum equilibrium (e.g. dead catch).
 	
 	\item F\textsubscript{SPR}: Search for the F that produces spawning biomass per recruit this is a specific fraction, termed SPR\textsubscript{target}, of spawning biomass per recruit under unfished conditions. Note that this is in relative terms so it does not take into account the spawner-recruit relationship.
 	
 	\item F\textsubscript{Btarget}: Search for the F that produces an absolute spawning biomass that is a specified fraction, termed relative biomass target, of the unfished spawning biomass. Note that this is in absolute terms so takes into account the spawner-recruit relationship. 
 	
-	\item F\textsubscript{0.10}: Search for the F that produces a slope in yield per recruit, dY/dF, that is 10\% of the slope at the origin. Note that this option is mutually exclusive with F\textsubscript{Btarget}. Only one will be calculated and the one that is calculated can serve as the proxy for F\textsubscript{MSY} and forecasting.
+	\item F\textsubscript{0.10}: Search for the F that produces a slope in yield per recruit, dY/dF, that is 10\% of the slope at the origin. Note that with SS, this option is mutually exclusive with F\textsubscript{Btarget}. Only one will be calculated and the one that is calculated can serve as the proxy for F\textsubscript{MSY} and forecasting.
 \end{itemize}
 
 \myparagraph{Estimation}
