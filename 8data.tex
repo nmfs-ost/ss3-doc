@@ -550,8 +550,8 @@ First read a single value to select one of three population length bin methods, 
 		\multicolumn{3}{l}{The number of bins is then calculated from: (max Lread - min Lread)/(bin width) + 1}\Bstrut\\
 		\hline
 		3 & \multicolumn{2}{l}{Read 1 value for number of bins, and then read vector of bin boundaries} \Tstrut\\
-		\multirow{2}{2cm}[-0.1cm]{} & 25 & Number of population length bins to be read\\ 
-									& 26 28 30 ... & Vector containing lower edge of each population size bin \Bstrut\\
+		\multirow{2}{2cm}[-0.1cm]{} & 37 & Number of population length bins to be read\\ 
+									& 10 12 14  ... 82 & Vector containing lower edge of each population size bin \Bstrut\\
 
 		\hline									  
 	\end{tabular}	
@@ -647,14 +647,17 @@ For additional information about the Dirichlet multinomial please see \citet{tho
 \subsection{Length Composition Data}
 Composition data within SS can be entered as proportions, numbers, or values of observations by length bin based on data expansions.  
 
+The data bins do not need to cover all observed lengths.  The selection of data bin structure should be based on the observed distribution of lengths and the assumed growth curve. If growth asymptotes at larger lengths, having additional length bins across these sizes may not contribute information to the model and may slow model run time.  Additionally, the lower length bin selection should be selected such that, depending on the size selection, to allow for information on smaller fish and possible patterns in recruitment. While set separately users should ensure that the length and age bins align.  It is recommended to explore multiple configurations of length and age bins to determine the impact of this choice on model estimation.
+
 Specify the length composition data as:
 \begin{center}
 	\begin{tabular}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{5cm}}
 		\hline
-		\multicolumn{2}{l}{30} & \multicolumn{5}{l}{Number of length bins for data}\Tstrut\Bstrut\\
+		\multicolumn{2}{l}{28} & \multicolumn{5}{l}{Number of length bins for data}\Tstrut\Bstrut\\
 		\hline
-		\multicolumn{2}{l}{26 28 30 ... 88 90} &  \multicolumn{5}{l}{Vector of length bins associated with the length data}\Tstrut\Bstrut\\
+		\multicolumn{2}{l}{26 28 30 ... 80} &  \multicolumn{5}{l}{Vector of length bins associated with the length data. }\Tstrut\Bstrut\\
 		\hline
+		\multicolumn{7}{l}{The above data bins will combine 0-26 cm fish, >26 - 28 cm, ..., and 80+ cm fish.} \\
 		\\
 		\multicolumn{7}{l}{Example of a single length composition observation:} \\
 		\hline
@@ -689,10 +692,12 @@ Partition indicates samples from either discards,retained, or combined.
 \myparagraph{Excluding Data}	
 	\begin{itemize}
 		\item If the value of year is negative, then that observation is not transferred into the working array. This feature is the easiest way to include observations in a data file but not to use them in a particular model scenario.
-		\item If the value of fleet is negative, then the observation is processed and its expected value and log likelihood are calculated, but this log likelihood is not included in the total log likelihood. This feature allows the user to see the fit to a provisional observation without having that observation affect the model.
+		\item If the value of fleet in the length or age composition observed data line is negative, then the observation is processed and its expected value and log likelihood are calculated, but this log likelihood is not included in the total log likelihood. This feature allows the user to see the fit to a provisional observation without having that observation affect the model.
 	\end{itemize}
 
-\myparagraph{Note}	
+\myparagraph{Note}
+ When processing data to be input into SS, all observed fish of sizes smaller than the first bin should be added to the first bin and all observed fish larger than the last bin should be condensed into the last bin.	
+
 SS  no longer requires that the number of length composition data lines be specified.  Entering -9999 at the end of the data matrix will indicate to the model the end of length composition lines to be read.
 
 Each observation can be stored as one row for ease of data management in a spreadsheet and for sorting of the observations.  However, the 6 header values, the female vector and the male vector could each be on a separate line because ADMB reads values consecutively from the input file and will move to the next line as necessary to read additional values.
@@ -725,23 +730,31 @@ The bins are in terms of observed age (here age) and entered as the lower edge o
 Here, the capability to create a distribution of age (e.g., age with possible bias and imprecision) from true age is created. One or many age error definitions can be created.  For each, there is input of a vector of mean age and standard deviation of age. For one definition, the input vectors can be replaced by vectors created from estimable parameters. In the future, capability to read a full age – age matrix could be created. The dimension of the ageing error matrix requires the column length match the population maximum age specified at the top of the data file. However, the maximum age for binning of age data may be lower that the population maximum age.  
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{3cm} p{3cm} }
+	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{3.5cm} p{2.5cm} }
 		\hline
 		\multicolumn{1}{l}{2} & \multicolumn{5}{l}{Number of ageing error matrices to generate}\Tstrut\Bstrut\\
+		\hline\\
+		\multicolumn{6}{l}{Example with no bias and very little uncertainty at age:}\Tstrut\Bstrut\\
 		\hline
 		Age-0 & Age-1 & Age-2  &  ... & Max Age & \Tstrut\Bstrut\\
 		\hline
 		-1 & -1 & -1  & ... & -1  & \#Mean Age\Tstrut\\
 		0.001 & 0.001 & 0.001 & ... & 0.001 & \#SD\Bstrut\\
+		\hline\\
+		\multicolumn{6}{l}{Example with no bias and some uncertainty at age:}\Tstrut\Bstrut\\
 		\hline
-		0.5 & 1.5 & 2.3 & ... & Max Age + 0.5 & \#Mean Age\Tstrut\\
+		0.5 & 1.5 & 2.5 & ... & Max Age + 0.5 & \#Mean Age\Tstrut\\
+		0.5 & 0.65 & 0.67 & ... & 4.3 & \#SD Age\Bstrut\\
+		\hline\\
+		\multicolumn{6}{l}{Example with bias and uncertainty at age:}\Tstrut\Bstrut\\
+		\hline
+		0.5 & 1.4 & 2.3 & ... & Max Age + Age Bias & \#Mean Age\Tstrut\\
 		0.5 & 0.65 & 0.67 & ... & 4.3 & \#SD Age\Bstrut\\
 		\hline
 	\end{tabular}
 \end{center}
-The above table shows the values for the first 3 ages for each of two age transition definitions: the first defines a matrix with no bias and negligible imprecision and the second shows a small negative bias beginning at age 2.
 
-In principle, one could have year or laboratory specific matrices for ageing error. For each matrix, enter a vector with mean age for each true age; if there is no ageing bias, then set age equal to true age + 0.5.  Alternatively, -1 value for mean age means to set it equal to true age plus 0.5.  The addition of +0.5 is needed so that fish will get assigned to the intended integer age. The length of the input vector is equal to the population maximum age plus one (0-max age), with the first entry being for age 0 fish and the last for fish of population maximum age. The following line is a a vector with the standard deviation of age for each true age.
+In principle, one could have year or laboratory specific matrices for ageing error. For each matrix, enter a vector with mean age for each true age; if there is no ageing bias, then set age equal to true age + 0.5.  Alternatively, -1 value for mean age means to set it equal to true age plus 0.5.  The addition of +0.5 is needed so that fish will get assigned to the intended integer age. The length of the input vector is equal to the population maximum age plus one (0-max age), with the first entry being for age 0 fish and the last for fish of population maximum age. The following line is a a vector with the standard deviation of age for each true age with a normal distribution assumption.
 
 SS is able to create one ageing error matrix from parameters, rather than from an input vector.  The range of conditions in which this new feature will perform well has not been evaluated, so it should be considered as a preliminary implementation and subject to modification. To invoke this option, for the selected ageing error vector, set the standard deviation of ageing error to a negative value for age 0.  This will cause creation of an ageing error matrix from parameters and any age or size-at-age data that specify use of this age error pattern will use this matrix. Then in the control file, add a full parameter line below the cohort growth deviation parameter (or the movement parameter lines if used) in the mortality growth parameter section.  These parameters are described in the control file section of this manual.
 
@@ -826,7 +839,7 @@ SS also accepts input of mean length-at-age or mean body weight-at-age.  This is
 		\hline
 		1989  & 7 & 1 & 3 & 0 & 1 & 999 & <Mean Size values> & <Sample Sizes> \Tstrut\\
 		...   &   &   &   &   &   &   &  & \\
-		-9999 & 0 & 0 & 0 & 0 & 0 & 0 &  & \Bstrut\\
+		-9999 & 0 & 0 & 0 & 0 & 0 & 0 &  0 0 0 0 0 0 0 & 0 0 0 0 0 0 0 \Bstrut\\
 		\hline
 	\end{tabular}
 \end{center}
@@ -834,13 +847,19 @@ SS also accepts input of mean length-at-age or mean body weight-at-age.  This is
 
 \myparagraph{Note}
 	\begin{itemize}
-		\item Negatively valued mean size entries with be ignored in fitting.
-		\item A number of fish value of 0 will cause mean size value to be ignored in fitting.
-		\item Negative value for year causes observation to not be included in the working matrix.
+		\item Negatively valued mean size entries with be ignored in fitting. This
+		feature allows the user to see the fit to a provisional observation without having that
+		observation affect the model.
+		\item A number of fish value of 0 will cause mean size value to be ignored in fitting. This
+		feature allows the user to see the fit to a provisional observation without having that
+		observation affect the model.
+		\item Negative value for year causes observation to not be included in the working matrix. This feature is the easiest way to include observations in a data file but not to use them in a
+		particular model scenario.
 		\item Each sexes' data vector and N fish vector has length equal to the number of age bins.
-		\item The "Ignore" column is not used (set aside for future options) but still needs to have default values in that column. 
+		\item The "Ignore" column is not used (set aside for future options) but still needs to have default values in that column (any value). 
 		\item Where age data are being entered as conditional age-at-length and growth parameters are being estimated, it may be useful to include a mean length-at-age vector with nil emphasis to provide another view on the model's estimates.
-		\item An experiment that may be of interest might be to take the body weight-at-age data and enter it to SS as empirical body weight-at-true age in the wtatage.ss file, and to contrast results to entering the same body weight-at-age data here and to attempt to estimate growth parameters, potentially time-varying, that match these body weight data.		
+		\item An experiment that may be of interest might be to take the body weight-at-age data and enter it to SS as empirical body weight-at-true age in the wtatage.ss file, and to contrast results to entering the same body weight-at-age data here and to attempt to estimate growth parameters, potentially time-varying, that match these body weight data.
+		\item If using mean size-at-age data, please see the \hyperlink{SaAlambda}{lambda usage notes} regarding issues for model fitting depending upon other data within the model.  		
 	\end{itemize}
 
 \subsection{Environmental Data}
@@ -868,7 +887,7 @@ SS accepts input of time series of environmental data.  Parameters can be made t
 		\item Any years for which environmental data are not read are assigned a value of 0.0.
 		\item It is permissible to include a year that is one year before the start year in order to assign environmental conditions for the initial equilibrium year.  But this works only for recruitment parameters, not biology or selectivity parameters.
 		\item Environmental data can be read for up to 100 years after the end year of the model. Then, if the recruitment-environment link has been activated, the future recruitments will be influenced by any future environmental data. This could be used to create a future "regime shift" by setting historical values of the relevant environmental variable equal to zero and future values equal to 1, in which case the magnitude of the regime shift would be dictated by the value of the environmental linkage parameter. Note that only future recruitment and growth can be modified by the environmental inputs; there are no options to allow environmentally-linked selectivity in the forecast years.
-		\item Note that some model derived quantities like summary biomass and recruitment deviation are assigned to some negative valued environmental variables. This is a stepping stone towards creating ability for parameters to be density-dependent.
+		\item Note that some model derived quantities like summary biomass and recruitment deviation are assigned to some \hyperlink{EnvVar}{negative valued environmental variables}. This is a stepping stone towards creating ability for parameters to be density-dependent. 
 	\end{itemize}
 
 \subsection{Generalized Size Composition Data}
@@ -880,13 +899,18 @@ A flexible feature with SS is a generalized approach to size composition informa
 	\item Each method has "scale" so the bins can be in terms of weight or length (including ability to convert bin definitions in pounds or inches to kg or cm). 
 	\item The composition data is input as females then males, just like all other composition data in SS. So, in a two-sex model, the new composition data can be combined sex, single sex, or both sex.
 	\item If a retention function has been defined, then the new composition data can be from the combined discard + retained, discard only or retained only.
+	\item There are two options for treating fish that in population size bins that are smaller than the smallest size frequency bin.
+	\begin{itemize}
+		\item Option 1: By default, these fish are excluded (unlike length composition data where the small fish are automatically accumulated up into the first bin.
+		\item Option 2: If the first size bin is given as a negative value, then, accumulation is turned on and the negative of the entered value is used as the lower edge of the first size bin.
+	\end{itemize}
 \end{itemize}
 
 \begin{center}
 	\begin{tabular}{p{1.4cm} p{0.5cm} p{13 cm}}
 		\multicolumn{3}{l}{Example entry:}\\
 		\hline
-		0 &  & N of size frequency methods \Tstrut\Bstrut\\
+		2 &  & N of size frequency methods, if this value is 0, then omit all entries below. \Tstrut\Bstrut\\
 		\hline
 		\multicolumn{3}{l}{COND > 0 }  \Tstrut\\
 		\multicolumn{2}{r}{25 15} & Nbins per method\\
@@ -910,27 +934,12 @@ A flexible feature with SS is a generalized approach to size composition informa
 	\end{tabular}
 \end{center}
 
-\myparagraph{Note}
-	\begin{itemize}
-		\item There is no tail compression for generalized size frequency data.
-		\item Super-period capability is enabled in same way as for length and age composition data.
-		\item There are two options for treating fish that in population size bins that are smaller than the smallest size frequency bin.
-		\begin{itemize}
-			\item Option 1: By default, these fish are excluded (unlike length composition data where the small fish are automatically accumulated up into the first bin.
-			\item Option 2: If the first size bin is given a negative value, then:  accumulation is turned on and the negative of the entered value is used as the lower edge of the first size bin;
-		\end{itemize}
-		\item By choosing units=2 and scale=3, the size composition method can be nearly identical to the length composition method if the bins are set identically;
-		\item Bin boundaries can be real numbers so obviously do not have to align with population length bin boundaries, SS interpolates as necessary;
-		\item Size bins cannot be defined to be narrower than the population binwidth; an untrapped error will occur;
-		\item Because the transition matrix can depend upon weight-at-length, it is calculated internally for each sex and for each season because weight-at-length can differ between sexes and can vary seasonally.
-	\end{itemize}
-
-An example observation is below.  Note that its format is identical to the length composition data, including sex and partition options, except for the addition of the first column to indicate the size frequency method.
+An example observation is below.  Note that the format is identical to the length composition data, including sex and partition options, except for the addition of the first column to indicate the size frequency method.
 
 \begin{center}
 	\begin{tabular}{p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{5cm}}
 		\hline
-		 & & & & & & Sample & <composition \Tstrut\\
+		& & & & & & Sample & <composition \Tstrut\\
 		Method & Year & Month & Fleet & Sex & Part & Size & females then males>\Bstrut\\
 		\hline
 		1 & 1975 & 1 & 1 & 3 & 0 & 43 & <data> \Tstrut\\
@@ -941,14 +950,24 @@ An example observation is below.  Note that its format is identical to the lengt
 	\end{tabular}
 \end{center}
 
+\myparagraph{Note}
+	\begin{itemize}
+		\item There is no tail compression for generalized size frequency data.
+		\item Super-period capability is enabled in same way as for length and age composition data.
+		\item By choosing units=2 and scale=3, the size composition method can be nearly identical to the length composition method if the bins are set identically.
+		\item Bin boundaries can be real numbers so obviously do not have to align with population length bin boundaries. SS interpolates as necessary.
+		\item Size bins cannot be defined to be narrower than the population binwidth; an untrapped error will occur.
+		\item Because the transition matrix can depend upon weight-at-length, it is calculated internally for each sex and for each season because weight-at-length can differ between sexes and can vary seasonally.
+	\end{itemize}
+
 \subsection{Tag-Recapture Data}
-An ability to analyze tag-recapture data is available with SS.  Each released tag group is characterized by an area, time, sex and age at release.  Each recapture event is characterized by a time and fleet.  Because SS fleets each operate in only one area, it is not necessary to record the area of recapture.  Inside the model, the tagged cohort is apportioned across all growth patterns in that area at that time (with options to apportion to only one sex or to both).  The tag cohort combined with the growth pattern then behaves according to the movement and mortality of that growth pattern.  The number of tagged fish is modeled as a negligible fraction of the total population.  This means that a tagging event does not move fish from an untagged group to a tagged group.  Instead it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality.  The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice. By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are considered to be released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
+The ability to analyze tag-recapture data is available with SS.  Each released tag group is characterized by an area, time, sex and age at release. Each recapture event is characterized by a time and fleet. SS fleets each operate in only one area, hence, it is not necessary to record the area of recapture. Inside the model, the tagged cohort is apportioned across all growth patterns in that area at that time (with options to apportion to only one sex or to both). The tag cohort combined with the growth pattern then behaves according to the movement and mortality of that growth pattern. The number of tagged fish is modeled as a negligible fraction of the total population. This means that a tagging event does not move fish from an untagged group to a tagged group. Instead, it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality. The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice. By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are considered to be released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
 
 \begin{center}
 	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3cm}}
 		\multicolumn{9}{l}{Example set-up for tagging data:}\\
 		\hline
-		1 & & \multicolumn{7}{l}{Do tags - if this value is 0, then omit all entries below} \Tstrut\Bstrut\\
+		1 & & \multicolumn{7}{l}{Do tags - if this value is 0, then omit all entries below.} \Tstrut\Bstrut\\
 		\hline
 		\multicolumn{9}{l}{COND = 1 All subsequent tag-recapture entries must be omitted if "Do Tags" = 0} \Tstrut\\
 
@@ -985,7 +1004,7 @@ An ability to analyze tag-recapture data is available with SS.  Each released ta
 
 \myparagraph{Note}
 	\begin{itemize}
-		\item The release data must be enter in tag group order.
+		\item The release data must be entered in tag group order.
 		\item <tfill> values are place holders and are replaced by program generated values for model time.
 		\item Analysis of the tag-recapture data has one negative log likelihood component for the distribution of recaptures across areas and another negative log likelihood component for the decay of tag recaptures from a group over time, hence informative about mortality.  More on this is in the control file.
 	\end{itemize}
