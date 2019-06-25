@@ -1010,13 +1010,13 @@ The ability to analyze tag-recapture data is available with SS.  Each released t
 	\end{itemize}
 
 \subsection{Stock Composition Data}
-It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks. These data could come from genetics, otolith microchemistry, tags or other means.  The growth pattern feature in SS allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas. SS now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns. In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
+It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks. These data could come from genetics, otolith microchemistry, tags, or other means.  The growth pattern feature in SS allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas. SS now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns. In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
 
 \begin{center}
 	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3.5cm}}
 		\multicolumn{9}{l}{Stock composition data can be entered in SS as follows:}\\
 		\hline
-		1 &  \multicolumn{8}{l}{Do morphcomp (if zero, then do not enter any further input below)}\Tstrut\Bstrut\\
+		1 &  \multicolumn{8}{l}{Do morphcomp, if zero, then do not enter any further input below.}\Tstrut\Bstrut\\
 		\hline
 		\multicolumn{9}{l}{COND = 1}\Tstrut\\ 
 		& 3 & \multicolumn{7}{l}{Number of observations}\Bstrut\\
@@ -1042,13 +1042,13 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 		\item Note that there is a specific value of minimum compression to add to all values of observed and expected.
 	\end{itemize}
 
-\subsection{Selectivity Empirical Data}
-It is sometimes possible to conduct field experiments or other studies to provide direct information about the selectivity of a particular length or age relative to the length or age that has peak selectivity, or to have a prior for selectivity that is more easily stated than a prior on a highly transformed selectivity parameter.  This section provides a way to input data that would be compared to the specified derived value for selectivity.  This is a placeholder at this time and will be fully implemented soon.
+\subsection{Selectivity Empirical Data (future feature)}
+It is sometimes possible to conduct field experiments or other studies to provide direct information about the selectivity of a particular length or age relative to the length or age that has peak selectivity, or to have a prior for selectivity that is more easily stated than a prior on a highly transformed selectivity parameter.  This section provides a way to input data that would be compared to the specified derived value for selectivity.  This is a placeholder at this time, required to include in the data file and will be fully implemented soon.
 
 \begin{center}
 	\begin{tabular}{p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
-		\multicolumn{9}{l}{Selectivity data is  a under development future option that is not yet implemented. The input line }\\
-		\multicolumn{9}{l}{still must be specified in SS as follows:}\\
+		\multicolumn{9}{l}{Selectivity data feature is under development for a future option and is not yet implemented.  }\\
+		\multicolumn{9}{l}{The input line still must be specified in SS as follows:}\\
 		\hline
 		0 &  \multicolumn{8}{l}{Do data read for selectivity (future option)}\Tstrut\Bstrut\\
         \hline
@@ -1074,13 +1074,15 @@ Data that are to be included in the calculations of expected values, but exclude
 
 \hypertarget{SuperPeriod}{}
 \subsection{Data Super-Periods}
-The super-period capability allows the user to introduce data that represent a blend across a set of time steps and to cause the model to create an expected value for this observation that uses the same set of time steps. The option is available for all types of data and a similar syntax is used. Super-periods are started with a negative value for month, and then stopped with a negative value for month, placeholder observations within the super-period are designated with a negative fleet field. The standard error or input sample size field is now used for weighting of the expected values. An error message is generated if the super-period does not contain exactly one observation with a positive fleet field.
+The super-period capability allows the user to introduce data that represent a blend across a set of time steps and to cause the model to create an expected value for this observation that uses the same set of time steps. The option is available for all types of data and a similar syntax is used. 
 
 All super-period observations must be contiguous in the data file. All but one of the observations in the sequence will have a negative value for fleet ID so the data associated with these dummy observations will be ignored. The observed values must be combined outside of the model and then inserted into the data file for the one observation with a positive fleet number.
 
-An expected value for the observation will be computed for each selected time period within in the super-period.  The expected values are weighted according to the values entered in the standard error (or input sample size) field for all observations expect the single observation holding the combined data.  The expected value for that year gets a relative weight of 1.0.  So in the example below, the relative weights are: 1982, 1.0 (fixed); 1983, 0.85; 1985, 0.4; 1986, 0.4.  These weights are summed and rescaled to sum to 1.0, and are output in the echoinput.sso file.
+Super-periods are started with a negative value for month, and then stopped with a negative value for month,  observations within the super-period are designated with a negative fleet field. The standard error or input sample size field is now used for weighting of the expected values. An error message is generated if the super-period does not contain one observation with a positive fleet field.
 
-Not all time steps within the extent of a super-period need be included. For example, in a 3 season model a super-period could be set up to combine information from season 2 across 3 years, e.g., skip over the season 1 and season 2 for the purposes of calculating the expected value for the super-period. The key is to create a dummy observation (negative fleet value) for all time steps, except 1, that will be included in the super-period and to include one real observation (positive fleet value; which contains the real combined data from all the specified time steps).
+An expected value for the observation will be computed for each selected time period within the super-period.  The expected values are weighted according to the values entered in the standard error (or input sample size) field for all observations except the single observation holding the combined data.  The expected value for that year gets a relative weight of 1.0.  So in the example below, the relative weights are: 1982, 1.0 (fixed); 1983, 0.85; 1985, 0.4; 1986, 0.4.  These weights are summed and rescaled to sum to 1.0, and are output in the echoinput.sso file.
+
+Not all time steps within the extent of a super-period need be included. For example, in a three season model, a super-period could be set up to combine information from season 2 across 3 years, e.g., skip over the season 1 and season 3 for the purposes of calculating the expected value for the super-period. The key is to create a dummy observation (negative fleet value) for all time steps, except 1, that will be included in the super-period and to include one real observation (positive fleet value; which contains the real combined data from all the specified time steps).
 
 \begin{center}
 	\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{9cm}}
