@@ -56,8 +56,8 @@ The primary role of the SS control file is to define the parameters to be used b
 		\hline
 		1 & LO & Minimum value for the parameter\Tstrut\\
 		2 & HI & Maximum value for the parameter\Tstrut\\
-		3 \Tstrut & INIT & Initial value for the parameter.  If the ss.par file is read, it overwrites these INIT values.\\
-		4 \Tstrut & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta).\\
+		3 \Tstrut & INIT & Initial value for the parameter. If the phase (described below) for the parameter is negative the parameter is fixed at this value. If the ss.par file is read, it overwrites these INIT values.\\
+		4 \Tstrut & PRIOR & Expected value for the parameter.  This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta). If the selected prior type (described below) is lognormal, this value is entered in log space. \\
 		5 \Tstrut & PRIOR SD & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0.\\
 		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE}  & 0 = none, \\
 		& & 1 = symmetric beta; \\
@@ -80,11 +80,11 @@ The primary role of the SS control file is to define the parameters to be used b
 
 Note that relative to SS v.3.24,  the order of PRIOR SD and PRIOR TYPE have been switched and the PRIOR TYPE options have been renumbered.
 
-The full parameter line (14 in length) syntax for the mortality-growth, spawn-recruitment, selectivity, and Q sections provides additional controls to give the parameter time-varying properties.  Short parameter lines, the first 7 elements, are used for any time-varying parameter.  Additional information regard time-varying parameters is available in the \hyperlink{TVpara}{Using Time-Varying Parameters} section.
+The full parameter line (14 in length) syntax for the mortality-growth, spawn-recruitment, catchability, and selectivity sections provides additional controls to give the parameter time-varying properties.  If a parameter (in a full 14 in length parameter line) is set up to be time-varying (i.e., parameter time blocks, annual deviations), short parameter lines, the first 7 elements, are required to be specified immediately after the main parameter block (i.e., mortality-growth parameter section).  Additional information regard time-varying parameters and how to implement them in SS is available in the \hyperlink{TVpara}{Using Time-Varying Parameters} section.
 
 
 \subsection{Terminology}
-Where the term COND appears in the value column of this documentation (it does not actually appear in the control file), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the Definition column is the same as the label output to the control.ss\_new file.
+The term COND appears in the "Typical Value" column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
 \subsection{Beginning of Control File Inputs}
 \begin{center}
