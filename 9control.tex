@@ -80,7 +80,7 @@ The primary role of the SS control file is to define the parameters to be used b
 
 Note that relative to SS v.3.24,  the order of PRIOR SD and PRIOR TYPE have been switched and the PRIOR TYPE options have been renumbered.
 
-The full parameter line (14 in length) syntax for the mortality-growth, spawn-recruitment, catchability, and selectivity sections provides additional controls to give the parameter time-varying properties.  If a parameter (in a full 14 in length parameter line) is set up to be time-varying (i.e., parameter time blocks, annual deviations), short parameter lines, the first 7 elements, are required to be specified immediately after the main parameter block (i.e., mortality-growth parameter section).  Additional information regard time-varying parameters and how to implement them in SS is available in the \hyperlink{TVpara}{Using Time-Varying Parameters} section.
+The full parameter line (14 in length) syntax for the mortality-growth, spawn-recruitment, catchability, and selectivity sections provides additional controls to give the parameter time-varying properties.  If a parameter (a full parameter line of length 14) is set up to be time-varying (i.e., parameter time blocks, annual deviations), short parameter lines, the first 7 elements, are required to be specified immediately after the main parameter block (i.e., mortality-growth parameter section).  Additional information regard time-varying parameters and how to implement them in SS is available in the \hyperlink{TVpara}{Using Time-Varying Parameters} section.
 
 
 \subsection{Terminology}
@@ -107,24 +107,25 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 		\multicolumn{2}{l}{\#C comment }\Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
 		\hline
 
-		0 & & 0 = do not read the wtatage.ss file; \Tstrut\\
-		  & & 1 = read the wtatage.ss file, also read and use the growth parameters; and \\
-		  & & 2 = Future option to read the wtatage.ss file, then omit reading and using growth parameters and all length-based data.\Bstrut\\
+		0 & & 0 = Do not read the weight-at-age (wtatage.ss) file; \Tstrut\\
+		  & & 1 = Read the weight-at-age (wtatage.ss) file, also read and use the growth parameters; and \\
+		  & & 2 = Future option to read the weight-at-age (wtatage.ss) file, then omit reading and using growth parameters and all length-based data.\\
+		  & & Additional information on the weight-at-age file and the expected formatting can be found \hyperlink{WAA}{in the Empirical Weight-at-Age section}.\Bstrut\\
 
 		%\hline
 		\pagebreak
-		2 & & Number (N) of growth patterns (GP), also referred to as morphs:\Tstrut\\
-		& & These are collections of fish with unique biological characteristics (growth, mortality, weight-length, reproduction). The GP x Sex x Settlement Events constitute unique morphs that are tracked in SS. They are assigned these characteristics at birth and retain them throughout their lifetime. At recruitment, morph members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing morph to recruit predominately in a southern areas and a slow-growing morph to a northern area. The natural mortality and growth parameters are specified for each growth pattern in the mortality-growth parameter section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N.\Bstrut\\
+		1 & & Number (N) of growth patterns (GP), also referred to as morphs:\Tstrut\\
+		& & These are collections of fish with unique biological characteristics (growth, mortality, weight-length, reproduction). The GP x Sex x Settlement Events constitute unique growth patterns that are tracked in SS. They are assigned these characteristics at birth and retain them throughout their lifetime. At recruitment, growth pattern members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing growth pattern to recruit predominately in a southern areas and a slow-growing growth pattern to a northern area. The natural mortality and growth parameters are specified for each growth pattern in the mortality-growth parameter section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N in a two sex model.\Bstrut\\
 
 		\hline
-		3 & & Number of platoons within a growth pattern/morph:\Tstrut\\
-		& & This allows exploration of size-dependent survivorship. A value of 1 will not create additional platoons.  Odd-numbered values of 3 - 5 will break the overall morph into that number of platoons.  More platoons slows model execution, so values above 5 not advised.  The fraction of each morph assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for that Growth Pattern x Sex. \Bstrut\\
+		1 & & Number of platoons within a growth pattern/morph:\Tstrut\\
+		& & This allows exploration of size-dependent survivorship. A value of 1 will not create additional platoons.  Odd-numbered values (i.e., 3, 5) will break the overall morph into that number of platoons creating a smaller, larger, and mean growth platoon.  The higher the number of platoons the slower SS will run, so values above 5 not advised.  The fraction of each morph assigned to each platoon is custom-input or designated to be a normal approximation.  When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age.  This is used to partition the total growth variability.  For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for that Growth Pattern x Sex. \Bstrut\\
 
 		\multicolumn{2}{l}{COND > 1}& \multicolumn{1}{l}{\parbox{12cm}{Following 2 lines are conditional on N platoons > 1.}} \Tstrut\Bstrut\\
 
 		& 0.7 & Platoon between/within standard deviation ratio. Ratio of the amount of variability in length-at-age between platoons to within platoons.\Bstrut\\
 
-		& 0.2 0.6 0.2 & Distribution among platoons. Enter custom vector or enter -1 to first value of vector to get a normal approximation: (0.15, 0.70, 0.15) for 3 platoons, (0.031, 0.237, 0.464, 0.237, 0.031) for 5 platoons.\Bstrut\\
+		& 0.2 0.6 0.2 & Distribution among platoons. Enter either a custom vector or enter a vector of length N with the first value of -1 to get a normal approximation: (0.15, 0.70, 0.15) for 3 platoons, or 5 platoons (0.031, 0.237, 0.464, 0.237, 0.031).\Bstrut\\
 		\hline
 	\end{longtable}
 \end{center}
@@ -133,9 +134,9 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 With version 3.04, SS added the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. The values are read from a separate file named, wtatage.ss. This file is only required to exist if this option is selected.  See the section on \hyperlink{WAA}{weight-at-age} for additional information on file formatting for empirical weight-at-age.
 
 \subsubsection{Recruitment Timing and Distribution}
-In older versions of SS one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produces one annual total recruitment value and this annual recruitment was distributed among seasons, areas, and growth types according to other model parameters.\\ 
+In older versions of SS one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produced one annual total recruitment value. The annual recruitment value was then distributed among seasons, areas, and growth types according to other model parameters.
 
-In SS v.3.30, more control of the seasonal timing is provided and there now is an explicit time delta between spawning and recruitment. Spawning still occurs just once per year, but its timing can be at any specified time, not just the beginning of a season.  Recruitment of the progeny from an annual spawning enter the population in one or more settlement events.  
+In SS v.3.30, more control of the seasonal timing is provided and there now is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve but its timing can be at any specified time, not just the beginning of a season.  Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement event, at some point after spawning as defined by the user.  
 
 \begin{center}
 	\begin{tabular}{p{3cm} p{2cm} p{2cm} p{7cm}}
@@ -162,7 +163,7 @@ Details regarding recruitment timing and settlement:
 		\item Growth and natural mortality of the platoon begins at time of settlement, which is its real age 0.0 for growth; but pre-settlement fish exist from the beginning of the season of settlement, so can be caught if selected.
 		\item Age at recruitment now user-controlled (should be 0 if in year of spawning).
 		\item All fish become integer age 1 (for age determination) on their first January 1st.
-		\item Recruitment can occur >12 months after spawning.		
+		\item Recruitment can occur >12 months after spawning which is achieved by setting the settlement age to a value greater than 1.0.		
 	\end{itemize}
 
 The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each growth pattern, then for each area, then for each settlement. All of these are required, but only those growth pattern x area x settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation. For the recruitment apportionment, the parameter values are the natural log of apportionment weight. The sum of all apportionment weights is calculated for each growth pattern x area x settlements that have been designated to receive recruits in the recruitment design matrix. Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. These distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular growth pattern, area, or settlement can change from year to year. 
@@ -173,11 +174,11 @@ The distribution of recruitment among these settlement events is controlled by r
 		\begin{equation}
 		\text{apportionment}_i = \frac{e^{p_i}}{\sum_{j=1}^{N}e^{p_i}}
 		\end{equation}
-		\item Set the value for one of these parameters to 0.0 and not estimate it so that other parameters will be estimated relative to its fixed value.
+		\item Set the value for one of these parameters, $p_i$, to 0.0 and not estimate it so that other parameters will be estimated (if not fixed) relative to its fixed value.
 		\item Give the estimated parameters a min-max of something like -5 and 5, so they have a good range relative to the base parameter.
 		\item In order to get a different distribution of recruitments in different years, you will need to make at least one of the recruitment distribution parameters time-varying.
-		\item In a seasonal model, all cohorts graduate to the age of 1 when they first reach January 1, even if the seasonal structure of the model has them being born in the late fall. In general, this means that SS operates under the assumption that all age data have been adjusted so that fish are age 0 at the time of spawning and all fish graduate to the next age on January 1. This can be problematic if the ageing structures deposit a ring at another time of year. Consequently, you may need to add or subtract a year to some of your age data to make it conform to the SS structure, or you may need to define the SS calendar year to start at the beginning of the season at which ring deposition occurs. Talk with your ageing lab about their criteria for seasonal ring deposition.
-		\item Seasonal recruitment is coded to work smoothly with growth. If the recruitment occurring in each season is assigned the same growth pattern, then each seasonal cohort’s growth trajectory is simply shifted along the age/time axis. At the end of the year, the early born cohorts will be larger, but all are growing with the same growth parameters so all will converge in size as they approach their common maximum length.
+		\item In a seasonal model, all cohorts graduate to the age of 1 when they first reach January 1, even if the seasonal structure of the model has them being spawned in the late fall. In general, this means that SS operates under the assumption that all age data have been adjusted so that fish are age 0 at the time of spawning and all fish graduate to the next age on January 1. This can be problematic if the ageing structures deposit a ring at another time of year. Consequently, you may need to add or subtract a year to some of your age data to make it conform to the SS structure, or more ideally you may need to define the SS calendar year to start at the beginning of the season at which ring deposition occurs. Talk with your ageing lab about their criteria for seasonal ring deposition.
+		\item Seasonal recruitment is coded to work smoothly with growth. If the recruitment occurring in each season is assigned the same growth pattern, then each seasonal cohort’s growth trajectory is simply shifted along the age/time axis. At the end of the year, the early born cohorts will be larger, but all are growing with the same growth parameters, so all will converge in size as they approach their common maximum length (e.g., no seasonal effects on growth).
 		\item At the time of settlement, fish are assigned a size equal to the lower edge of the first population size bin and they grow linearly until they reach the age A1. SS generates a warning if the first population length bin is greater than 10 cm as this seems an unreasonably large value for a larval fish.  A1 is in terms of real age elapsed since birth. All fish advance to the next integer age on January 1, regardless of birth season. For example, consider a 2 season model with some recruitment in each season and with each season's recruits coming from the same GP.  At the end of the first year, the early born fish will be larger but both of the seasonal cohorts will advance to an integer age of 1 on Jan 1 of the next year.  The full growth curve is still calculated below A1, but the size-at-age used by SS is the linear replacement. Because the linear growth trajectory can never go negative, there is no need for the additive constant to the standard deviation (necessary for the growth model used in SS2 V1.x), but the option to add a constant has been retained in the model.
 	\end{itemize}
 	
@@ -199,13 +200,13 @@ The distribution of recruitment among these settlement events is controlled by r
 	\endlastfoot
 	
 	1 \Tstrut & & Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning.  Options: \\
-	  & & 1 = use the SS v.3.24 or earlier setup; \\
+	  & & 1 = no longer available (used the SS v.3.24 or earlier setup); \\
 	  & & 2 = main effects for growth pattern, settle timing, and area; \\
 	  & & 3 = each settle entity; and \\
-	  & & 4 = no parameters (only if growth pattern x settlement x area = 1). \Bstrut\\
+	  & & 4 = none, no parameters (only if growth pattern x settlement x area = 1). \Bstrut\\
 
 	\hline
-	1 & & Spawner-Recruitment, options: \Tstrut\\
+	1 & & Spawner-Recruitment (not implement yet, but required), options: \Tstrut\\
 	  & & 1 = global; and \\
 	  & & 2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing).\Bstrut\\
 
@@ -213,10 +214,10 @@ The distribution of recruitment among these settlement events is controlled by r
 	1 \Tstrut & & Number of recruitment settlement assignments.  Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.\Bstrut\\
 
 	\hline
-	0 \Tstrut & & Year x area x settlement event interaction (only for recruitment distribution method = 1). \Bstrut\\
+	0 \Tstrut & & Future feature, not implement yet but required. \Bstrut\\
 
 	\hline
-	\multicolumn{2}{l}{1 5.5 1 0} \Tstrut & Recruitment assignment to growth pattern, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5). Note that normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  In SS v.3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of SS v.3.24 for testing purposes.
+	\multicolumn{2}{l}{1 5.5 1 0} \Tstrut & Recruitment assignment to growth pattern, month, area, and age (for each settlement event).  Here settlement is set to mid-May (month 5.5). Note that normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning.  %In SS v.3.24, settlement always happened at age 0 even if in following year.  That is illogical, but this age option allows replication of SS v.3.24 for testing purposes.
 	\Bstrut\\
 	\hline
 \end{longtable}
@@ -245,7 +246,7 @@ Here the movement of fish between areas are defined.  This is a box transfer wit
 	& 4   & Enter Number of movement definitions.\Tstrut\\		
 	\Tstrut & 1.0  & First age that moves. This value is a real number, not an integer, to allow for an in-year start to movement in a multi-season model.  It is the real age at the beginning of a season, even though movement does not occur until the end of the season. For example, in a  setup with two 6-month seasons a value of 0.5 will cause the age 0 fish to not move when they complete their first 6 month season of life, and then to move at the end of their second season because they start movement capability when they reach the age of 0.5 years (6 months). \\
 	\pagebreak
-	\Tstrut & 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, growth pattern, source area, destination age1, age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 controls specify the range over which the movement parameters are interpolated with movement constant below age1 and above age2.}}}\\
+	\Tstrut & 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, growth pattern, source area, destination, age1, and age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 specify the range over which the movement parameters are interpolated with movement constant below age1 and above age2.}}}\\
 	& 1 1 2 1 4 10 &  \Tstrut\\
 	& 1 2 1 2 4 10 &  \\
 	& 1 2 2 1 4 10 &  \Bstrut\\
@@ -256,7 +257,7 @@ Here the movement of fish between areas are defined.  This is a box transfer wit
 Two parameters will be entered later for each growth pattern, area pair, and season.   
 \begin{itemize}
 	\item Movement is constant at the first parameter (P1) below the specified minimum age for movement change, constant at the second parameter (P2) above maximum age for movement change, and linearly interpolated for intermediate ages.
-	\item For each source area the implicit movement parameter value is 0.0, but this default value is replaced if the stay movement is selected to have an explicit pair of parameter (e.g., specify movement rate for area 1 to area 1).
+	\item For each source area, the implicit movement parameter value is 0.0. However, this default value is replaced if the stay movement is selected to have an explicit pair of parameters (e.g., specify movement rate for area 1 to area 1).
 	\item The parameter is exponentiated so that a movement parameter value of 0 becomes 1.0.
 	\item For each source area, all movement rates are then summed and divided by this sum so that 100\% of the fish are accounted for in the movement calculations.
 	\begin{equation}
