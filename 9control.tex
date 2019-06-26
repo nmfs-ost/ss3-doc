@@ -243,13 +243,14 @@ Here the movement of fish between areas are defined.  This is a box transfer wit
 	\endlastfoot
 	
 	\multicolumn{3}{l}{COND:  only if areas > 1}\Tstrut\\ 
-	& 4   & Enter Number of movement definitions.\Tstrut\\		
+	& 2   & Enter Number of movement definitions.\Tstrut\\		
 	\Tstrut & 1.0  & First age that moves. This value is a real number, not an integer, to allow for an in-year start to movement in a multi-season model.  It is the real age at the beginning of a season, even though movement does not occur until the end of the season. For example, in a  setup with two 6-month seasons a value of 0.5 will cause the age 0 fish to not move when they complete their first 6 month season of life, and then to move at the end of their second season because they start movement capability when they reach the age of 0.5 years (6 months). \\
 	\pagebreak
-	\Tstrut & 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{The four requested movement definitions appear here.  Each definition specifies: season, growth pattern, source area, destination, age1, and age2. The rate of movement will be controlled by the movement parameters later.  Here the age1 and age2 specify the range over which the movement parameters are interpolated with movement constant below age1 and above age2.}}}\\
-	& 1 1 2 1 4 10 &  \Tstrut\\
-	& 1 2 1 2 4 10 &  \\
+	\Tstrut & 1 1 1 2 4 10 & \multicolumn{1}{l}{\multirow{5}{6cm}{\parbox{12cm}{Movement definitions: season, growth pattern, source area, destination, age1, and age2. The example shown here has 1 growth patterns and 2 areas with fish moving between the two areas. The rate of movement will be controlled by the movement parameters later defined in the mortality-growth parameter section.  Here the age1 and age2 specify the range over which the movement parameters are interpolated with movement constant below age1 and above age2.}}}\\
 	& 1 2 2 1 4 10 &  \Bstrut\\
+	\\
+	\\
+	\\
 	\\ 
 	\hline
 	\end{longtable}
@@ -257,7 +258,7 @@ Here the movement of fish between areas are defined.  This is a box transfer wit
 Two parameters will be entered later for each growth pattern, area pair, and season.   
 \begin{itemize}
 	\item Movement is constant at the first parameter (P1) below the specified minimum age for movement change, constant at the second parameter (P2) above maximum age for movement change, and linearly interpolated for intermediate ages.
-	\item For each source area, the implicit movement parameter value is 0.0. However, this default value is replaced if the stay movement is selected to have an explicit pair of parameters (e.g., specify movement rate for area 1 to area 1).
+	\item For each source area, the implicit movement parameter value is 0.0 (movement within a single area). However, this default value can be replaced if the stay movement is selected to have an explicit pair of parameters (e.g., specify movement rate for area 1 to area 1) and will require additional parameter lines.
 	\item The parameter is exponentiated so that a movement parameter value of 0 becomes 1.0.
 	\item For each source area, all movement rates are then summed and divided by this sum so that 100\% of the fish are accounted for in the movement calculations.
 	\begin{equation}
@@ -268,7 +269,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 \end{itemize}
 
 
-\subsubsection{Time Blocks}
+\subsubsection{Time Blocks and Time-varying Parameter Controls}
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 		\hline
@@ -301,9 +302,8 @@ When using time blocks, it is important to consider which parameters will affect
 	\item Replacement-Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter.   In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log likelihood, so model convergence and variance estimation could be affected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
 \end{enumerate}
 
-Regardless of the block set-up approach, special consideration should be given regarding which parameter values are should be applied during forecast years. The model will default to use all base parameter values during the forecast period. However, there are controls in the forecast file which allow the user to specify specific parameter years to be applied during the forecast period for selectivity, relative F, and recruitment.  
+Regardless of the block set-up approach, special consideration should be given regarding which parameter values are applied during forecast years. The model will default to use all base parameter values during the forecast period. However, there are controls in the forecast file which allow the user to specify specific parameter years to be applied during the forecast period for selectivity, relative F, and recruitment.  
 
-\subsubsection{Time-varying Parameter Controls}
 In SS v.3.30, several changes are introduced to the implementation of time-varying parameters:
 
 \begin{itemize}
@@ -312,6 +312,10 @@ In SS v.3.30, several changes are introduced to the implementation of time-varyi
   \item The logistic bound constraint is no longer implemented due to the challenges it created to interpreting parameter values. Instead, the auto-generate feature now creates bounds on time-varying parameters for blocks such that the combination of a bounded  value of the time-varying parameter and the base parameter will not violate the base parameter bounds.
   \item For more information on the implementation of time-varying parameters, see the \hyperlink{TVpara}{Using Time-Varying Parameters} section
 \end{itemize}	
+
+\subsubsection{Auto-generation}
+Auto-generation is a useful way to automatically have SS create the required short time-varying parameter lines which will be written in the control.ss\_new file. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The control.ss\_new file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file.  Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
+
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 	\hline
@@ -329,14 +333,15 @@ In SS v.3.30, several changes are introduced to the implementation of time-varyi
 
 	\endlastfoot
 
-	1 & & Environmental/Block/Deviation adjust method for all time-vary parameters. \Tstrut\\
+	1 & & Environmental/Block/Deviation adjust method for all time-varying parameters. \Tstrut\\
 	  & & 1 = warning relative to base parameter bounds; and \\
 	  & & 3 = no bound check. Logistic bound check form from previous SS versions (e.g., SS v.3.24) is no longer an option.\Bstrut\\
 
-	\multicolumn{2}{l}{0 0 0 0 0} & Autogeneration: five values control auto-generation for: 1-biology, 2-spawn-recruitment, 3-catchability, 4-tag (future), and 5-selectivity. The accepted values are:\\
-	&           & 0 = auto-generate all time-varying parameters;\\
-	& 			& 1 = read each time-varying parameter line; and\\
-	&			& 2 = read each line and auto-generate if read value for parameter min = -12345. \Bstrut\\
+	\multicolumn{2}{l}{1 1 1 1 1} & Auto-generation of time-varying parameter lines. Five values control auto-generation for parameter block sections: 1-biology, 2-spawn-recruitment, 3-catchability, 4-tag (future), and 5-selectivity.\\
+	& 			& The accepted values are:\\
+	&           & 0 = auto-generate all time-varying parameters (no time-varying parameters are expected);\\
+	& 			& 1 = read each time-varying parameter line as exists in the control file; and\\
+	&			& 2 = read each line and auto-generate if read if the time-varying parameter value for LO = -12345. Useful to generate reasonable starting values.  \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -399,7 +404,7 @@ When fish recruit at the real age of 0.0 at settlement, they have body size equa
 If “Growth at age for L2” is set equal to 999, then the size at the L2 parameter is used as Linf. 
 	
 \myparagraph{Schnute growth function}
-The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the grow type field.  Then a fourth parameter is read after reading the von Bertalanffy growth coefficient parameter (K). When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
+The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the growth type field.  Then a fourth parameter is read after reading the von Bertalanffy growth coefficient parameter (K). When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced in SS, it required that A0 be set to 0.0.
 	
 \myparagraph{Mean size-at-maximum age}
 The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. SS provides an option for the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In SS v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, SS should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age.  Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in a the future version.
@@ -413,6 +418,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+	\multicolumn{3}{l}{Example growth specifications:} \Tstrut\Bstrut\\
 	\hline	
 	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
 	\hline
@@ -433,7 +439,9 @@ A growth cessation model was developed for the application to tropical tuna spec
 	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters.  Third parameter has null value of 1.0; \\
 	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages,\\
 	  & & 4 = age specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier; \\
-	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier; and\\
+	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier; \\
+	  & & 6 = not implemented; \\
+	  & & 7 = not implemented; and \\
 	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut \\
 	\hline
 
@@ -491,20 +499,20 @@ A growth cessation model was developed for the application to tropical tuna spec
 	2 & & Maturity Option: \Tstrut\\
 	  & & 1 = length logistic;\\
 	  & & 2 = age logistic;\\
-	  & & 3 = read age-maturity for each female growth pattern;\\
-	  & & 4 = read an empirical age-maturity vector for all ages;\\
+	  & & 3 = read maturity-at-age for each female growth pattern;\\
+	  & & 4 = read a fecundity x maturity-at-age vector for all ages;\\
 	  & & 5 = disabled; and \\
 	  & & 6 = read vector of length-based maturity values.\\
-	  & & Note: need to read 2 parameters even if option 3 or 4 is selected.\Bstrut \\
+	  & & Note: need to read 2 parameter lines (maturity at 50\% and maturity slope) even if option 3 or 4 is selected.\Bstrut \\
 	\hline
 
 	\multicolumn{2}{l}{COND = 3 or 4} & Maturity Option\Tstrut\\
-	\multicolumn{2}{r}{0 0.05 0.10 ...} & Vector of age-specific maturity or fecundity.  One row of length Nages + 1 for each female growth pattern. \Bstrut\\
+	\multicolumn{2}{r}{0 0.05 0.10 ...} & Vector of age-specific maturity or fecundity.  One row of length Nages + 1 based on the maximum population age for each female growth pattern. \Bstrut\\
 	\multicolumn{2}{l}{COND = 6} & Maturity Option\Tstrut\\
-	\multicolumn{2}{r}{0 0.05 0.10 ...} & Vector of length-specific maturity or fecundity.  One row of length equal to the number of population length bins (defined in the data file) for each female growth pattern. \Bstrut\\
+	\multicolumn{2}{r}{0 0.05 0.10 ...} & Vector of length-specific maturity or fecundity, based on the population length bins.  One row of length equal to the number of population length bins (defined in the data file) for each female growth pattern. \Bstrut\\
 	\hline
 	
-	\Tstrut 1  & & First Mature Age: Overridden if maturity option is 3 or 4 or if empirical wtatage.ss is used, but still must exist here.  Otherwise, all ages below the first mature age will have maturity set to zero.\Bstrut\\
+	\Tstrut 1  & & First Mature Age: all ages below the first mature age will have maturity set to zero. This value is overridden if maturity option is 3 or 4 or if empirical weight-at-age (wtatage.ss) is used, but still must exist here.  \Bstrut\\
 	\hline	  
 
 	\Tstrut 1 & & Fecundity Option (irrelevant if maturity option is 4 or wtatage.ss is used):\\
@@ -604,7 +612,7 @@ These parameters are only included in the control file if one of the ageing erro
 	\item Bias at start age (as additive offset from unbiased age).
 	\item Bias at maximum (as additive offset from unbiased age).
 	\item Power function coefficient for interpolating between those 2 values (value of 0.0 produces linear interpolation in the bias).
-	\item Standard deviation at age.
+	\item Standard deviation at start age.
 	\item Standard deviation at max age.
 	\item Power function coefficient for interpolating between those 2 values.
 \end{enumerate}
@@ -612,7 +620,7 @@ These parameters are only included in the control file if one of the ageing erro
 \noindent Code for implementing vectors of mean age and standard deviation of age within SS can be located in \hyperlink{AgeingError}{the appendix} on page \pageref{sec:codeappendix}.
 
 \subsubsection{Sex ratio}
-The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish.  The parameter is specified in the fraction of female fish. The default option is a sex ratio of 0.50 with this parameter not being estimated. Estimation of the sex ratio is a new feature within SS and should be done with care with the user checking that the answer is reflective of the data. As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
+The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish at recruitment.  The parameter is specified in the fraction of female fish. The default option is a sex ratio of 0.50 with this parameter not being estimated. Estimation of the sex ratio is a new feature within SS and should be done with care with the user checking that the answer is reflective of the data. As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
 
 \subsubsection{Read Biology Parameters}
 \hypertarget{MGorder}{Next}, SS reads the mortality-growth (MG) parameters in generally the following order (may vary based on selected options):
@@ -644,10 +652,7 @@ The last line in the mortality-growth parameter section allows the user to fix o
 	& Richards Coefficient & Only include this parameter if Richards growth function is used.  If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to von Bertalanffy.\\
 
 	\multicolumn{2}{l}{COND if growth type >=3 } & Age-Specific K\\
-	& \multicolumn{2}{l}{K deviations for first age in range;}\\
-	& \multicolumn{2}{l}{K deviations for next age in range;}\\
-	& ... & \\
-	& \multicolumn{2}{l}{K deviations for last age in range.}\Bstrut\\
+	& \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the ages specified above.}\Bstrut\\
 	\hline
 
     \Tstrut & CV young & Variability for size at age <= Amin for females, growth pattern 1.  Note that CV cannot vary over time, so do not set up env-link or a deviation vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
