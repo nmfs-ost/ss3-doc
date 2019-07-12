@@ -258,7 +258,13 @@ Here the movement of fish between areas are defined.  This is a box transfer wit
 Two parameters will be entered later for each growth pattern, area pair, and season.   
 \begin{itemize}
 	\item Movement is constant at the first parameter (P1) below the specified minimum age for movement change, constant at the second parameter (P2) above maximum age for movement change, and linearly interpolated for intermediate ages.
+	\item A movement rate parameter can be set to use the same value as the corresponding parameter for the first defined movement pattern by entering a parameter value of -9999 and a negative phase value.
 	\item For each source area, the implicit movement parameter value is 0.0 (movement within a single area). However, this default value can be replaced if the stay movement is selected to have an explicit pair of parameters (e.g., specify movement rate for area 1 to area 1) and will require additional parameter lines.
+	\item A constant movement rate across all ages can be accomplished by either:
+	\begin{itemize}
+		\item Setting both movement ages to 0, not estimating the first movement parameter, and using a second movement parameter to cover all ages from 0 to the maximum number of ages.
+		\item Setting movement ages to any value, estimating the first movement parameter, and setting the second movement parameter to have a value of -9998 with a negative phase.
+	\end{itemize} 
 	\item The parameter is exponentiated so that a movement parameter value of 0 becomes 1.0.
 	\item For each source area, all movement rates are then summed and divided by this sum so that 100\% of the fish are accounted for in the movement calculations.
 	\begin{equation}
@@ -2196,7 +2202,8 @@ Specify if tagging data are being used:
 	\multicolumn{3}{l}{Typical Value} &  \multicolumn{4}{l}{Description and Options}\Tstrut\Bstrut\\
 	\hline
 	\multicolumn{3}{l}{1} &  \multicolumn{4}{l}{Tagging Data Present:} \Tstrut\\
-	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{0 = No tagging data; and} \\
+	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{0 = No tagging data, or if tagging data is present in the data file, a value of 0} \\
+	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{ here will auto-generate the tag parameter section in the control.ss\_new file.; and}\\
 	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{1 = Read following lines of tagging data.} \Bstrut\\
 
 
@@ -2235,6 +2242,20 @@ The tagging reporting rate parameter is transformed within SS during estimation 
 \begin{equation}
 	\text{Tagging Reporting Rate} = \frac{e^{\text{input parameter}}}{1+e^{\text{input parameter}}}
 \end{equation}
+
+Currently, tag parameters cannot be time-varying.
+
+A shortcoming, present in SS versions prior to 3.30.14, was identified in the recapture calculations when using Pope's F Method and multiple seasons. The internal calculations were corrected in version 3.30.14. Now the Z-at-age is applied internally for calculations of fishing pressure on the population when using  the Pope calculations.
+
+\myparagraph{Mirroring of Tagging Parameters}
+In version 3.30.14 the ability to mirror the tagging parameters from another tag group or fleet.  With this approach, the user can get away with just one parameter value for each of the five parameter types and everything else mirrored (but still needing a line of input in the parameter file). This new feature is evoked through the phase input in the tagging parameter section.  The options now are:
+\begin{itemize}
+	\item No mirroring among tag groups or fleets: phase > -1000,
+	\item Mirror a lower (already specified) tag group or fleet: phase = -1000 and set parameter same as next lower Tag Group or fleet,
+	\item Mirror a lower (already specified) tag group of fleet X: phase = -100x set parameter same as Tag Group or fleet where x is the fleet number to mirror to (i.e., if you would like to mirror fleet 1 then the phase should -1001).
+\end{itemize}
+
+
 
 \hypertarget{GcompVar}{}
 \subsection{Variance Adjustment Factors}
