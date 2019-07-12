@@ -656,13 +656,13 @@ The last line in the mortality-growth parameter section allows the user to fix o
 	\hline
 
     \Tstrut & CV young & Variability for size at age <= Amin for females, growth pattern 1.  Note that CV cannot vary over time, so do not set up env-link or a deviation vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
-	& CV old & Variability for size at age >= Amax for females, growth pattern 1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of mortality-growht parameter as offset. The CV value cannot vary over time.\Bstrut\\
+	& CV old & Variability for size at age >= Amax for females, growth pattern 1. For intermediate ages, do a linear interpolation of CV on means size-at-age.  Note that the units for CV will depend on the CV pattern and the value of mortality-growth parameter as offset. The CV value cannot vary over time.\Bstrut\\
 	\hline
 
 	\Tstrut & WtLen scale & Coefficient to convert length in cm to weight in kg for females.\\
 	& WtLen exp & Exponent in to convert length to weight for females.\\
-	& Mat-50 & Maturity logistic inflection (in cm or years) where female maturity-at-length (or age) is a logistic function: $M_{l} = 1/(1+exp(\alpha*(l_{a} - \beta)))$. The $\alpha$ is the slope, $l_{a}$ is the size-at-age, and $\beta$ is the inflection of the maturity curve. \\ 
-	& Mat-slope & Logistic slope (must have negative value). \\
+	& Mat-50\% & Maturity logistic inflection (in cm or years) where female maturity-at-length (or age) is a logistic function: $M_{l} = 1/(1+exp(\alpha*(l_{a} - \beta)))$. The $\alpha$ is the slope, $l_{a}$ is the size-at-age, and $\beta$ is the inflection of the maturity curve. Value ignored for maturity option 3, 4, and 6. \\ 
+	& Mat-slope & Logistic slope (must have negative value). Value ignored for maturity option 3, 4, and 6.\\
 	& Eggs-alpha & Two fecundity parameters; usage depends on the selected fecundity option.  Must be included here even if vector is read in the control section above.\\
 	& Eggs-beta & \Bstrut\\
 	\hline
@@ -680,10 +680,7 @@ The last line in the mortality-growth parameter section allows the user to fix o
 	\multicolumn{2}{l}{COND if growth type = 2 } & \Tstrut\\
 	& Richards Coefficient & Only include this parameter if Richards growth function is used.  If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy.\\
 	\multicolumn{2}{l}{COND if growth type = 3 } & Age-Specific K \\
-	& \multicolumn{2}{l}{K deviations for first age in range;}\\
-	& \multicolumn{2}{l}{K deviations for next age in range;}\\
-	& ... & \\
-	& \multicolumn{2}{l}{K deviations for last age in range.}\Bstrut\\
+	& \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the ages specified above.}\Bstrut\\
 	\hline
 
 	\Tstrut & CV young & Variability for size at age <= Amin for males, GP1.  Note that CV cannot vary over time, so do not set up env-link or a deviation vector.  Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
@@ -707,8 +704,8 @@ The last line in the mortality-growth parameter section allows the user to fix o
 	\multicolumn{2}{l}{ Method = 2 or 3} \Tstrut & \\
 	& & \\
 	\multicolumn{2}{l}{Recruitment Dist. GP} \Tstrut & Recruitment apportionment by growth pattern, if multiple growth patterns, multiple entries required.\\
-	\multicolumn{2}{l}{Recruitment Dist. Area} & Recruitment apportionment by area, if multiple areas, multiple entries required\\
-	\multicolumn{2}{l}{Recruitment Dist. Season} & Recruitment apportionment by season, if multiple seasons, multiple entries required\Bstrut\\
+	\multicolumn{2}{l}{Recruitment Dist. Area} & Recruitment apportionment by area, if multiple areas, multiple entries required.\\
+	\multicolumn{2}{l}{Recruitment Dist. Month} & Recruitment apportionment by month, if multiple months, multiple entries required.\Bstrut\\
 	\hline
 
 	\multicolumn{3}{l}{COND:  If recruitment distribution interaction = 1 (on).} \Tstrut \\
