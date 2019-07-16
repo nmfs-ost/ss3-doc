@@ -34,8 +34,8 @@ getNewVal <- function(Pval, n = 1, jitter = 0.1, temp = NULL){
 
   zjitter <- qnorm(kjitter) #inv_cumd_norm(kjitter);
   NewVal <- (Psigma * zjitter) + Pmean
-  NewVal[kjitter < 0.0001] <- Pmin+0.1*(Pval-Pmin)
-  NewVal[kjitter > 0.9999] <- Pmax-0.1*(Pmax-Pval)
+  NewVal[kjitter < 0.001] <- Pmin+0.1*(Pval-Pmin)
+  NewVal[kjitter > 0.999] <- Pmax-0.1*(Pmax-Pval)
 
   return(data.frame(zval = zval, kval = kval,
                     temp = temp,
@@ -59,7 +59,7 @@ png(file.path(SS_documentation.dir, '/images/jitter_illustration.png'),
     width = 6, height = 5, res = 300, units = 'in', pointsize = 10)
 par(mar=c(4,4,1,1))
 plot(0,
-     xlim = c(0.5,5), ylim = c(-0.2, 1),
+     xlim = c(0.3,5.2), ylim = c(-0.2, 1),
      type='n', xlab = "Parameter space", ylab = "Transformed space",
      las = 1, axes=FALSE)
 lines(Pval.vec, kval.vec, lwd = 3, las = 1)
@@ -81,6 +81,8 @@ text(x = 0.75, y = NewVal.info$kval,
      col='gray50', pos=4)
 text(x = 2.8, y = -0.1,
      labels = "Distribution of \nnew initial values", col='gray50', pos=4)
+text(x = 0.2, y = -0.12,
+     labels = "Values < 0\nmapped\ninside bound", col='gray50', pos=4)
 arrows(x0 = Pval1, y0 = NewVal.info$kjitter,
        x1 = NewVal.info$NewVal, y1 = NewVal.info$kjitter,
        length = 0.1, col=2, lwd=2)
@@ -89,6 +91,7 @@ axis(1, at = c(1, Pval1, 5),
      padj = 0.5)
 axis(1, at = NewVal.info$NewVal,
      labels = "New\ninit",
+     col.axis = 'red',
      padj = 0.5)
 axis(2, las = 1)
 
@@ -117,8 +120,9 @@ dev.off()
 ## FUNCTION dvariable Check_Parm(const int iparm, const int& PrPH, const double& Pmin, const double& Pmax, const int& Prtype, const double& Pr, const double& Psd, const double& jitter, const prevariable& Pval)
 ##   {
 ##     RETURN_ARRAYS_INCREMENT();
-##     const dvariable zmin = inv_cumd_norm(0.001);    // z value for Pmin
-##     const dvariable zmax = inv_cumd_norm(0.999);    // z value for Pmax
+##     const double bound=0.001;
+##     const dvariable zmin = inv_cumd_norm(bound);    // z value for Pmin
+##     const dvariable zmax = inv_cumd_norm((1.0-bound));    // z value for Pmax
 ##     const dvariable Pmean = (Pmin + Pmax) / 2.0;
 ##     dvariable NewVal;
 ##     // dvariable temp;
@@ -149,17 +153,17 @@ dev.off()
 ##           N_warn++;
 ##           cout<<" EXIT - see warning "<<endl;
 ##           warning<<" in Check_Parm jitter:  Psigma < 0.00001 "<<Psigma<<endl;
-##           cout<<" fatal error, see warning"<<endl; exit(1);
+##           cout<<" fatal error in jitter, see warning"<<endl; exit(1);
 ##       }
-##       zval = (Pval - Pmean) / Psigma;
+##       zval = (Pval - Pmean) / Psigma;  //  current parm value converted to zscore
 ##       kval = cumd_norm(zval);
 ##       temp=randu(radm);
 ##       kjitter = kval + (jitter * ((2.00 * temp) - 1.));  // kjitter is between kval - jitter and kval + jitter
-##       if (kjitter < 0.0001)
+##       if (kjitter < bound)
 ##       {
 ##           NewVal=Pmin+0.1*(Pval-Pmin);
 ##       }
-##       else if (kjitter > 0.9999)
+##       else if (kjitter > (1.0-bound))
 ##       {
 ##           NewVal=Pmax-0.1*(Pmax-Pval);
 ##       }
