@@ -258,10 +258,12 @@ The jitter function has been updated with SS v.3.30.  The following steps are no
 	\item Calculate a new parameter value, P\textsubscript{JITTERED}, such that pr(P\textsubscript{JITTERED}) = \textit{J}.
 \end{enumerate}
 
+
 \begin{center}
-  \includegraphics{jitter_illustration}\\
-  Illustration of the jitter algorithm
+	\includegraphics[scale = 0.75]{jitter_illustration}\\
+	Illustration of the jitter algorithm
 \end{center}
+
 
 In SS, the jitter fraction defines a uniform distribution in cumulative normal space +/- the jitter fraction from the initial value (in cumulative normal space). The normal distribution for each parameter, for this purpose, is defined such that the minimum bound is at 0.001, and the maximum at 0.999 of the cumulative distribution. If the jitter faction and original initial value are such that a portion of the uniform distribution goes beyond 0.001 or 0.999 of the cumulative normal, the new value is set to one-tenth of the way from the bound to the original initial value. 
 
@@ -272,4 +274,5 @@ If the original initial value is at or near the middle of the min-max range, the
 To evaluate the jittering, the bounds, and the original initial values, a jitter\_info table is available from r4ss, including sigma, CV and InitLocation columns (the latter referring to location within the cumulative normal – too close to 0 or 1 indicates a potential issue).
 
 Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid unreasonable values (a warning is produced to indicate this).
+
 
