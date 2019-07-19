@@ -31,7 +31,7 @@ By the end of using this guide, you should be able to:
 
 # How to create new SS models
 
-There are many potential workflows for developing a new SS model, but a common technique is to start with an existing model and change it in a piecewise fashion. The basic technique is:
+There are many potential workflows for developing a new SS model, but a common technique is to start with an existing model and change it in a piece-wise fashion. The basic technique is:
 
 1. Find an existing working model (perhaps one of the SS example models available in the [SS Document Library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library) or perhaps a model more similar in form to the model you plan to create).
 2. Edit portions of the model and try running as you go to check that your inputs can be read correctly by SS and make logical sense (tip: set ```maxphase = 0``` in the starter file and option ```-nohess``` to reduce run time with each iteration of checking inputs).
@@ -39,7 +39,7 @@ There are many potential workflows for developing a new SS model, but a common t
 Some commonly used tools for editing the SS input files are:
 
 1. **Stock Synthesis Interface (SSI; the SS GUI)**. SSI is available publicly in the [Stock Synthesis Vlab document library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library). The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI.
-2. **Your favorite text editor**. Defining a custom syntax highlighting scheme for SS files can make it easier to distinguish comments from input values while you are directly editing model files. You can use any text editor, although some commonly used ones include Atom, Emacs, Notepad++, and Sublime Text.
+2. **Your favorite text editor**.
 3. **The ```SS_read*``` and ```SS_write*``` functions in the R package [r4ss](https://github.com/r4ss/r4ss)**. These functions allow you to read in SS input files to R, manipulate them from within R, then write them out to a file.
 
 # Guidance on model specification
@@ -55,8 +55,9 @@ For additional help with model specification, please post your issue on the vlab
 Phases are used within ADMB to tell the program in what order the parameters should be estimated. For more details about phases in ADMB beyond what is provided here, see the [ADMB user manual](http://www.admb-project.org/docs/manuals/). ADMB phases can be specified for parameters in SS.
 
 A **negative phase** indicates that the parameter is not estimated, but specified. Note that all negative phases are equivalent; i.e., there is no difference in how parameters with phases -1 and -99 are dealt with. The exceptions are:
+
  +  -9999, which is a special value within SS (see the profilevalues.ss section of the SS user manual).
- + Values less than -999 for parameters in the tagging section of the control file.
+ + Values more negative than -999 for parameters in the tagging section of the control file.
 
 A **positive phase** indicates that the parameter will be estimated. Parameters with a lower positive phase will be estimated before those with a higher positive phase. Which phase should you put an estimated parameter in? While there is variability among analysts and models in how phasing is used, in general, parameters with low positive phases should be for values which define the scale of the population (i.e., *R0*, natural mortality, steepness, selectivity slope). Parameters for fine-tuning fits to the data are often estimated in later phases (i.e., catchability, growth, and recruitment deviation parameters). Many models use positive phases from about 1 to 5, although it is possible to use higher phasing values.
 
@@ -66,18 +67,15 @@ The most useful tools for debugging SS issues are the SS output files **echoinpu
  
 # Visualizing results
 
-Visualization is helpful as you iteratively develop your model and for presentation of final model results. The output of an SS model can be read into one of these visualization tools:
-
-- [r4ss](https://github.com/r4ss/r4ss). See the r4ss vignette available in the r4ss repository for usage.
-- The excel viewer, SS_Output-330.xslm (find it in the [Helper Spreadsheets folder](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337?_com_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt_redirect=https%3A%2F%2Fvlab.ncep.noaa.gov%3A443%2Fweb%2Fstock-synthesis%2Fdocument-library%3Fp_p_id%3Dcom_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview) of the [Vlab SS Document Library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library)).
+Visualization is helpful as you iteratively develop your model and for presentation of final model results. The output of an SS model can be read into [r4ss](https://github.com/r4ss/r4ss) or the excel viewer, SS_Output-330.xslm (find it in the [Helper Spreadsheets folder](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337?_com_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt_redirect=https%3A%2F%2Fvlab.ncep.noaa.gov%3A443%2Fweb%2Fstock-synthesis%2Fdocument-library%3Fp_p_id%3Dcom_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview) of the [Vlab SS Document Library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library)).
 
 # Proposed workflow for arriving at a "final" model
 
-It's important to remember that arriving at a model takes time, so you should plan on making small revisions, reruning the model, and looking at how the model has changed. Typically, many intermediate model runs are required before you reach a final model. Keep notes inside of the run folder or elsewhere regarding the run specific changes. Below, we provide some suggestions on the steps to take as you iterate toward your "final" model.
+It's important to remember that arriving at a model takes time! You should plan on making small revisions, rerunning the model, and looking at how the model has changed with each small revision. Typically, many intermediate model runs are required before you reach a final model. Keep notes inside of the run folder or elsewhere regarding the run specific changes. Below, we provide some suggestions on the steps to take as you iterate toward your "final" model.
 
 ## 1. First runs without estimation
 
-First, you want to check that SS is able to read your input files in the way you intended. To do a run without estimation, set change maxphase to 0 in **starter.ss** and run your model with ADMB option `-nohess`. Examine **warning.sso**, **echoinput.sso**, and the **.ss_new files**  produced during this run without estimation to see how SS interpreted your input files and if it was as you intended. 
+First, you want to check that SS is able to read your input files in the way you intended. To do a run without estimation, set change max phase to 0 in **starter.ss** and run your model with ADMB option `-nohess`. Examine **warning.sso**, **echoinput.sso**, and the **.ss_new files**  produced during this run without estimation to see how SS interpreted your input files and if it was as you intended. 
 
 After you have verified that SS is reading your input correctly, you can also consider adjustment to selectivity, growth, and recruitment parameters at this stage. 
 
@@ -106,7 +104,7 @@ In this section, we have listed some common problems that you may encounter and 
 
 ## If the residuals have substantial patterns
 
-It is often difficult to pinpoint the cause of residuals that have substantial patterns, but two potential reasons this could happen are unrealistic starting values or poor model specification. If you have residuals with substantial pattern, you can try to change the starting values and see if the parameters move away from their starting values. If a parameter is not moving from the starting value, there may not be enough information to determine its value and it may be necessary to fix the value in the model.  If the parameter does move with different starting values, it is possible that the starting value used before was not reasonable and changing the startig value may fix the issue.
+It is often difficult to pinpoint the cause of residuals that have substantial patterns, but two potential reasons this could happen are unrealistic starting values or poor model specification. If you have residuals with substantial pattern, you can try changing the starting values. If a parameter is not moving from the starting value, there may not be enough information to determine its value and it may be necessary to fix the value in the model.  If the parameter does move with different starting values, it is possible that the starting value used before was not reasonable and thus changing the starting value to a reasonable value fixes the issue.
 
 ## If SS runs, but there is a large gradient at the end
 
@@ -122,14 +120,14 @@ The hessian information is reported in the **Report.sso** file, so go to this se
 
 # Advanced ADMB run options (MCMC, adnuts)
 
-SS models are typically run using maximum likelihood estimation (MLE), but it is possible to run SS models using Markov Chain Monte Carlo (MCMC). MCMC is outside the scope of this document, but below are some resources to check out in case you are interested in pursuing it futher:
+SS models are typically run using maximum likelihood estimation (MLE), but it is possible to run SS models using Markov Chain Monte Carlo (MCMC). MCMC is outside the scope of this document, but below are some resources to check out in case you are interested in pursuing it further:
 
 1. See the [ADMB user manual](http://www.admb-project.org/docs/manuals/) for more information on using MCMC in ADMB and the section on Running MCMC in the SS user manual for more specific information on running MCMC in SS.
 2. See the [adnuts repository](https://github.com/colemonnahan/adnuts) for more information on using the No-U-Turn sampler (NUTS) in ADMB and [this article by Monnahan et al. (2019)](https://doi.org/10.1093/icesjms/fsz059) to better understand the benefits of using NUTS for assessment models.
 
 # Some questions to consider during model development
 
-There are a lot of elements to consider in an SS model. Below are some questions and checks that experienced SS users have used to check that their model makes sense throughout the iterative model development process.
+There are many elements to consider in an SS model. Below are some questions and considerations that experienced SS users have used to check that their model makes sense throughout the iterative model development process.
 
 ## Does my model model make sense?
 + Does the biology make sense? Selectivity? 
@@ -140,12 +138,12 @@ There are a lot of elements to consider in an SS model. Below are some questions
 ## Does my model  model fit well?
 
 + The `r4ss::SS_output()` function prints some very useful diagnostics to the R console window, including a list of the estimated parameters, the estimated value, whether the parameter is hitting a bound, the gradient, and the prior type. Use this (or other SS output files) to answer:
+
   + Did the parameter move from the initial value?
   + Is the parameter hitting a bound?
   + Is the parameter gradient low?
  
-+ Below the parameter estimates that `r4ss::SS_output()` prints to the console, there is a specific section that highlights the parameters with the highest model gradient. Examining this list might indicate parameters that may need to be fixed due to lack of information in the data.  For example, there may be selectivity parameters included in the list where small changes in the parameter value do not change the model results (or the form of the selectivity).  
-
++ Below the parameter estimates that `r4ss::SS_output()` prints to the console, there is a specific section that highlights the parameters with the highest model gradients. Examining this list might indicate which (if any) parameters may need to be fixed due to lack of information in the data.  For example, there may be selectivity parameters included in the list where small changes in the parameter value do not change the model results (or the form of the selectivity).  
 
 ## Does my data weighting make sense?
 
