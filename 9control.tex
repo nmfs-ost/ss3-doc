@@ -648,7 +648,12 @@ The last line in the mortality-growth parameter section allows the user to fix o
 	\endlastfoot
 
 	\multicolumn{2}{l}{Females}\Tstrut & Female natural mortality and growth parameters in the following order by growth pattern.\\
-	& natM & Natural mortality for female growth pattern 1, where the number of natural mortality parameters depends on the option selected.\\
+	& M & Natural mortality for female growth pattern 1, where the number of natural mortality parameters depends on the option selected.\Bstrut\\
+	\hline
+	\multicolumn{2}{l}{COND if M option = 1 } & \Tstrut\\
+	& N breakpoints & N-1 parameter lines as an exponential offsets from the previous reference age.\Bstrut\\
+	\hline
+
 	& Lmin & Length at Amin (units in cm) for female, growth pattern 1. \\
 	& Lmax & Length at Amax (units in cm) for female, growth pattern 1. \\
 	& VBK & von Bertanlaffy growth coefficient (units are per year) for females, growth pattern 1.\Bstrut\\
@@ -677,10 +682,15 @@ The last line in the mortality-growth parameter section allows the user to fix o
 	\hline
 
 	\multicolumn{2}{l}{Males} \Tstrut & Male natural mortality and growth parameters in the following order by growth pattern. \Bstrut\\
-	& natM & Natural mortality for male GP1, where the number of natural mortality parameters depends on the option selected.\\
-	& Lmin & Length at Amin (units in cm) for male, GP1\\
-	& Lmax & Length at Amax (units in cm) for male, GP1\ \\
-	& VBK &  von Bertanlaffy growth coefficient (units are per year) for males, growth pattern1.\Bstrut\\
+	& M & Natural mortality for male GP1, where the number of natural mortality parameters depends on the option selected. \Bstrut\\
+	\hline
+	\multicolumn{2}{l}{COND if M option = 1 } & \Tstrut\\
+	& N breakpoints & N-1 parameter lines as an exponential offsets from the previous reference age.\Bstrut\\
+	\hline
+		
+	& Lmin & Length at Amin (units in cm) for male, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same Lmin as the female parameter value.\\
+	& Lmax & Length at Amax (units in cm) for male, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same Lmax as the female parameter value.\ \\
+	& VBK &  von Bertanlaffy growth coefficient (units are per year) for males, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same k as the female parameter value.\Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND if growth type = 2 } & \Tstrut\\
@@ -714,9 +724,9 @@ The last line in the mortality-growth parameter section allows the user to fix o
 	\multicolumn{2}{l}{Recruitment Dist. Month} & Recruitment apportionment by month, if multiple months, multiple entries required.\Bstrut\\
 	\hline
 
-	\multicolumn{3}{l}{COND:  If recruitment distribution interaction = 1 (on).} \Tstrut \\
-	& N patterns x N areas x N seasons & Note that the order of recruitment distribution parameters has areas then seasons for main effect, and seasons then areas for interactions.\Bstrut\\
-	\hline
+	%\multicolumn{3}{l}{COND:  If recruitment distribution interaction = 1 (on).} \Tstrut \\
+	%& N patterns x N areas x N seasons & Note that the order of recruitment distribution parameters %has areas then seasons for main effect, and seasons then areas for interactions.\Bstrut\\
+	%\hline
 
 	\multicolumn{2}{l}{Cohort growth deviation} \Tstrut & Set equal to 1.0 and do not estimate; it is deviations from this base that matter.\Bstrut\\
 	\hline
@@ -729,7 +739,7 @@ The last line in the mortality-growth parameter section allows the user to fix o
 	& Catch Multiplier & For each fleet selected for this option in the data file.\\
 	\hline
 
-	\multicolumn{2}{l}{Fraction female}\Tstrut & \hypertarget{SexRatio}{Fraction} female by growth pattern, if multiple growth patterns, multiple entries required.\Bstrut\\
+	\multicolumn{2}{l}{Fraction female}\Tstrut & \hypertarget{SexRatio}{Fraction} female at the time of recruitment by growth pattern, if multiple growth patterns, multiple entries required.\Bstrut\\
 	\hline
 \end{longtable}
 
@@ -790,7 +800,7 @@ Parameters marked with COND are conditional on selecting that feature:
 \end{longtable}
 
 \myparagraph{Setting Male Parameters Equal to Females}
-SS allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (L1), maximum length (L2), coefficient at younger ages (CV1), coefficient at older ages (CV2)and the growth coefficient (K).  If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the  corresponding female parameter value for the males. 
+SS allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2)and the growth coefficient (K).  If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the  corresponding female parameter value for the males. 
 
 
 \hypertarget{tvOrder}{}
@@ -834,7 +844,7 @@ When time-varying growth is used, there are some additional considerations to be
 
 
 \subsubsection{Seasonal Biology Parameters}
-Seasonal effects are available for weight-length parameters and for the growth K. Seasonality is not needed for the maturity and fecundity parameters because spawning is only defined to occur in one season.  Seasonality on the minimum length parameter (L1) may be implemented at a later date. The seasonal parameter values adjust the base parameter value for that season.
+Seasonal effects are available for weight-length parameters, maturity, fecundity, and for the growth parameter K.  The seasonal parameter values adjust the base parameter value for that season.
 \begin{equation}
 P'=P*exp(\text{seas\_value})
 \end{equation}
@@ -895,8 +905,8 @@ The spawner-recruitment section starts by specification of the functional relati
 	  &                     & 6: Beverton-Holt with flat-top beyond Bzero, 2 parameters: ln(R0) and steepness;\\
 	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: ln(R0), $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are <= population production;\\
       &                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: ln(R0), steepness, and shape parameter, $c$;\\
-      & 					& 9 (beta): \hyperlink{Shepherd2}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$; and\\
-      & 					& 10 (beta): \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: ln(R0), steepness, and Ricker power, $\gamma$. This stock recruitment relationship is was added to version 3.30.11 and is in beta mode.\Bstrut\\
+      & 					& 9: \hyperlink{Shepherd2}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to version 3.30.11 and is in beta mode); and\\
+      & 					& 10: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: ln(R0), steepness, and Ricker power, $\gamma$ (added to version 3.30.11 and is in beta mode).\Bstrut\\
     \hline
 
     1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
@@ -1224,7 +1234,7 @@ When SS is configured such that seasons are modeled as years, the concept of sea
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year. These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series. The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector. If the number of estimated ages in the initial age composition is less than maximum age, then the older ages will retain their equilibrium levels. Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
 \subsection{Fishing Mortality Method}
-There are  three methods available for calculation of fishing mortality: Pope's approximation, Baranov's continuous F with each F as a model parameter, and a hybrid F method that does a Pope's approximation to provide initial values for iterative adjustment of the Baranov continuous F values to closely approximate the observed catch.  It is recommended in most cases to use the hybrid F approah. With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters. In a 2 fishery, low F case, the hybrid method is just as fast as the Pope approximation and produces identical result.  However, when F is very high, the problem becomes quite stiff for Pope's and the hybrid method so convergence may slow. It may  be better to use F option 2 (continuous F as full parameters) in these high F cases. F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly. For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values by specifying the phase under the conditional input for F method = 2. 
+There are  three methods available for calculation of fishing mortality: Pope's approximation, Baranov's continuous F with each F as a model parameter, and a hybrid F method that does a Pope's approximation to provide initial values for iterative adjustment of the Baranov continuous F values to closely approximate the observed catch.  It is recommended in most cases to use the hybrid F approach. With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters. In a 2 fishery, low F case, the hybrid method is just as fast as the Pope approximation and produces identical result.  However, when F is very high, the problem becomes quite stiff for Pope's and the hybrid method so convergence may slow. It may  be better to use F option 2 (continuous F as full parameters) in these high F cases. F as parameter is also preferred for situations where catch is known imprecisely and you are willing to accept a solution in which the final F values do not reproduce the input catch levels exactly. For the F as parameter approach, there is an option to do early phases using hybrid, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values by specifying the phase under the conditional input for F method = 2. 
 
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	\multicolumn{3}{l}{Control file continued:}\\
@@ -1451,8 +1461,9 @@ Specify the size/age selectivity pattern. See the \hyperlink{SelexPattern}{Selec
 \begin{itemize}
 	\item Option = 0: no discarding by fleet.
 	\item Option = 1: program will read 4 retention parameters after reading the specified number of selectivity parameters and all discarded fish are assumed dead.  
-	\item Option 2: program will read 4 retention parameters and 4 discard mortality parameters.  
-	\item Option 3: no additional parameters are read and all fish are assumed discarded and dead. If the value is 4, then the program will read 7 retention parameters (for dome-shaped retention) and 4 discard mortality parameters.  
+	\item Option = 2: program will read 4 retention parameters and 4 discard mortality parameters.  
+	\item Option = 3: no additional parameters are read and all fish are assumed discarded and dead.
+	\item Option = 4: program will read 7 retention parameters for dome-shaped retention and 4 discard mortality parameters.  
 	\item Option = negative fleet number: will mirror the retention and discard mortality pattern of the lower numbered fleet.
 \end{itemize}
 
@@ -1480,6 +1491,8 @@ Read the required number of parameter setup lines as specified by the definition
 	\item Male offsets for size selectivity for fishery 1 (if offsets used);
 	\item <repeat for additional fleets and surveys>;
 	\item Age selectivity for fishery 1;
+	\item Retention for fishery 1 (if discard specified);
+	\item Discard Mortality for fishery 1 (if discard specified);
 	\item Male offsets for age selectivity for fishery 1 (if offsets used); and
 	\item <repeat for additional fleets and surveys>.
 \end{enumerate}
@@ -1618,7 +1631,7 @@ where $L_l$ is the length bin.  If age based selectivity is selected then the le
 \end{itemize}
 
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
-Two parameters select the min and max bin number (not min max size) of the source pattern.  If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value <=0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The source pattern must have a lower type number.
+Two parameters select the min and max bin number (not min max size) of the source selectivity pattern.  If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value <=0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
 
 
 \myparagraph{Pattern 6 (size) - Non-parametric Selectivity}
@@ -1727,7 +1740,7 @@ Selectivity pattern 24, double normal, showing sub-functions and steep logistic 
 	\end{center}
 
 \myparagraph{Pattern 15 (age) - Mirror}
-No parameters.  Whole age range is mirrored from a user-specified fleet.
+No parameters.  Whole age range is mirrored from another fleet. The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
 
 \myparagraph{Pattern 16 - Gaussian (similar to Coleraine)}
 	\begin{itemize}
@@ -2085,16 +2098,16 @@ If the Dirichlet multinomial error distribution was selected in the data file fo
 The time-varying options for selectivity parameters are identical to the time-varying options for biology parameters. These options are described below in the \hyperlink{TVpara}{Using Time-Varying Parameter Options}. After reading the selectivity parameters, which will include possible instructions to create environmental link, blocks, or deviation vectors, then read the following section.  Note that all inputs in this section are conditional (COND) on entries in the selectivity parameter section.  So if no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
 
 
-\begin{longtable}{p{0.8cm} p{0.8cm} p{1.1cm} p{1.0cm} p{0.8cm}p{1cm} p{1.2cm} p{6.5cm}}
-	\multicolumn{8}{l}{Example short parameter lines for selectivity time-varying parameters:}\\
-	\hline
-	\Tstrut& &  &  & PR & PRIOR  & &  \\
-	LO & HI & INIT & PRIOR & SD & TYPE & PHASE & Label \Bstrut\\
-	\hline
-	0.01 & 2.0 & 0.58 & 0.58 &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_se\Tstrut\\
-	1    & 80  & 70   & 70   &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_autocorr\Bstrut\\
-	\hline
-\end{longtable}
+%\begin{longtable}{p{0.8cm} p{0.8cm} p{1.1cm} p{1.0cm} p{0.8cm}p{1cm} p{1.2cm} p{6.5cm}}
+%	\multicolumn{8}{l}{Example short parameter lines for selectivity time-varying parameters:}\\
+%	\hline
+%	\Tstrut& &  &  & PR & PRIOR  & &  \\
+%	LO & HI & INIT & PRIOR & SD & TYPE & PHASE & Label \Bstrut\\
+%	\hline
+%	0.01 & 2.0 & 0.58 & 0.58 &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_se\Tstrut\\
+%	1    & 80  & 70   & 70   &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_autocorr\Bstrut\\
+%	\hline
+%\end{longtable}
 
 
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity}
@@ -2228,9 +2241,9 @@ Specify if tagging data are being used:
 	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic1\\
 	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic2\\
 	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic3\\
-	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss over dispersion1\\
-	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss over dispersion2\\
-	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss over dispersion3\\
+	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdispersion1\\
+	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdispersion2\\
+	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdispersion3\\
 	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG report fleet1\\
 	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG report fleet2\\
 	 -4 &  0 & 0 & 0 & \multicolumn{1}{c}{...} & 0 & \#TG report decay1\\
@@ -2277,7 +2290,7 @@ When doing iterative re-weighting of the input variance factors, it is convenien
 
 
 \myparagraph{Additive Survey CV - Factor 1}
-The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey).  The variance adjustment is added directly to this standard deviation. Set to 0.0 for no effect. Negative values are OK, but will crash if adjusted value becomes negative.
+The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey). The variance adjustment is added directly to this standard deviation. Set to 0.0 for no effect. Negative values are OK, but will crash if adjusted value becomes negative.
 
 \myparagraph{Additive Discard - Factor 2}	
 The input variance is the CV of the observation. Because this will cause observations of near zero discard to appear overly precise, the variance adjustment is added to the discard standard deviation, not to the CV. Set to 0.0 for no effect.
@@ -2460,7 +2473,7 @@ The approach to allowing parameters to have time-varying values has been complet
 In SS v.3.24, the group of biology parameters (termed mortality-growth parameters) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient. The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block. The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks. Then finally, the tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
 
 \myparagraph{Code Flow Version SS v.3.30}
-In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v.3.30.12) base parameters all will use long parameter lines and will invoke blocks, trends, environmental linkages, and random deviations using identical syntax.  As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter. Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  "Create\_timevary" creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will auto-generate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specification) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
+In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v.3.30.12) base parameters all use long parameter lines and invoke blocks, trends, environmental linkages, and random deviations using identical syntax.  As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter. Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  "Create\_timevary" creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will auto-generate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specification) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
 
 \myparagraph{Parameter Order}
 The order of parameters has changed and the re-ordering is handled by the transition executable (sstrans.exe).  Previously, for each of mortality-growth and selectivity parameters all environmental link parameters were listed first, then block/trend parameters and then deviation parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
@@ -2570,7 +2583,7 @@ Additional information regarding the options for applying blocks (element 13):
 \subsection{Parameter Priors}
 Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
 
-The options for parameter priors are as follows., described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. Finally, $Pconst$ is a small constant, currently hardwired at 0.0001. The Prior Likelihoods below represent the negative log likelihood in all cases.
+The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. Finally, $Pconst$ is a small constant, currently hardwired at 0.0001. The Prior Likelihoods below represent the negative log likelihood in all cases.
 
 \myparagraph{Prior Types}
 Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
