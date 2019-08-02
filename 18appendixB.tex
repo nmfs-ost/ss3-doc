@@ -26,20 +26,22 @@ A convenient way to process these values into the format required by the control
 
 where the input "replist" is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called "suggested\_tuning.ss" to the directory where the model was run.
 
-For models using SS version 3.30, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled "Input variance adjustments", followed by the terminator line which indicates the end of the section. Here's an example of the first few rows of the table followed by the terminator line (not added by the function):
+For models using SS version 3.30, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled "Input variance adjustments", followed by the terminator line which indicates the end of the section. 
 
-\begin{center}
-	\includegraphics[scale = 0.6]{appendixB_sstune}\\
-\end{center}
+%Here's an example of the first few rows of the table followed by the terminator line (not added by the function):
+
+%\begin{center}
+%	\includegraphics[scale = 0.6]{appendixB_sstune}\\
+%\end{center}
 
 Also see the help page for the r4ss function \texttt{SS\_varadjust} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
 
-If the tuning has been implemented, the green lines in the figure below would intersect at a point which is on the black 1-to-1 diagonal line in this figure created by the r4ss function \texttt{SS\_plots}.
+If the tuning has been implemented, the green lines in the figure below would approximately intersect at a point which is on the black 1-to-1 diagonal line in this figure created by the r4ss function \texttt{SS\_plots}.
 
 \begin{center}
-	\includegraphics[scale = 0.25]{appendixB_McAllister_Ianelli}\\
+	\includegraphics[scale = 0.5]{appendixB_McAllister_Ianelli}\\
 \end{center}
-\figurename{ B.1.N vs. EffN comparison, Length composition data as plotted by r4ss.}
+\figurename{ B.1. Input N vs. Effective N comparison, Length composition data as plotted by r4ss.}
 
 There are a couple of challenges posed by the McAllister-Ianelli data-weighting approach:
 \begin{enumerate}
@@ -57,9 +59,9 @@ Implementation: recommended adjustments are calculated by the r4ss functions \te
 The figure below shows the estimated 95\% intervals around the observed mean length by year based on the input sample size (thick lines) and the increase in that uncertainty which would occur if the sample sizes were adjusted according to the proposed multiplier.
 
 \begin{center}
-	\includegraphics[scale = 0.25]{appendixB_Francis}\\
+	\includegraphics[scale = 0.10]{appendixB_Francis}\\
 \end{center}
-\figurename{ B.2.Mean length for Fleet1 with 95\% confidence intervals based on current samples sizes. Francis data weighting method TA1.8: thinner intervals (with capped ends) show result of further adjusting sample sizes based on suggested multiplier (with 95\% interval) for len data from Fleet1: 0.2739 (0.1661-0.6305)}
+\figurename{ B.2. Mean length for Fleet1 with 95\% confidence intervals based on current samples sizes. Francis data weighting method TA1.8: thinner intervals (with capped ends) show result of further adjusting sample sizes based on suggested multiplier (with 95\% interval) for len data from Fleet1: 0.2739 (0.1661-0.6305)}
 
 There are a several of challenges posed by the Francis data-weighting approach:
 \begin{enumerate}
@@ -113,11 +115,11 @@ The ratio shown in the final column is the estimated multiplier which can be com
 
 If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that the model is trying to tune the sample size as high as possible. In this case, the $ln(\theta)$ parameters should be fixed at a high value, like the upper bound of 20, which will result in 100\% weight being applied to the input sample sizes. An alternative would be to manually change the input sample sizes to a higher value so that the estimated weighting will be less than 100%.
 
-There is also information about this result produced in the plots created by the \texttt{SS\_plots} function:
+%There is also information about this result produced in the plots created by the \texttt{SS\_plots} function:
 
-\begin{center}
-	\includegraphics[scale = 1]{appendixB_DM}\\
-\end{center}
+%\begin{center}
+%	\includegraphics[scale = 1]{appendixB_DM}\\
+%\end{center}
 
 There are a several of challenges posed by the Dirichlet-Multinomial data-weighting approach:
 \begin{enumerate}

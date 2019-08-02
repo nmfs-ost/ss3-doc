@@ -1795,7 +1795,7 @@ Notes:
 		\item Terminal nodes cannot be at the min or max population length bins.
 	\end{itemize}
 	
-Code for implementing cubic spline selectivity within SS can be found in \hyperlink{CubicSpline}{the appendix} on page \pageref{sec:codeappendix}.
+Code for implementing cubic spline selectivity within SS can be found in \hyperlink{CubicSpline}{Code Examples in the appendix}.
 
 The figure below compares a 3 node and a 6 node cubic spline with a 2 parameter logistic function.  In fitting these functions, the 2 cubic spline approaches fit slightly better than the logistic, presumably because the data were slightly indicative of a small dome in selectivity.
 	\begin{center}
@@ -2037,10 +2037,10 @@ Discard mortality is calculated as:
 	\text{Discard Mortality} = \left(1 - \frac{1-P3}{1+e^{\frac{-(L-(P1+P4*male))}{P2}}}\right)
 \end{equation}
 
-\subsubsection{Male Selectivity}
+\subsubsection{Sex-Specific Selectivity}
 There are two approaches to specifying sex specific selectivity.  One approach allows male selectivity to be specified as a fraction of female selectivity (or vice versa).  This first approach can be used for any selectivity pattern.  The other option allows for separate selectivity parameters for each sex plus an additional parameter to define the scaling of one sex’s peak selectivity relative to the other sex’s peak.  This second approach has only been implemented for a few selectivity patterns.
 
-\myparagraph{Approach \#1:}
+\myparagraph{Male Selectivity as a Fraction of Female Selectivity (or vice versa):}
 If the "domale" flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity.  The two sexes switch roles if the "domale" flag is set to 2.  Generally it is best to select the option so that the dependent sex has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0. Sex specific selectivity is done the same way for all size and age selectivity options.
 \begin{itemize}
 	\item p1 – size (age) at which a dogleg occurs (set to an integer at a bin boundary and do not estimate).
@@ -2053,7 +2053,7 @@ For intermediate ages, the natural log values are linearly interpolated on size 
 
 If selectivity for the dependent sex is greater than the selectivity for the first sex (which always peaks at 1.0), then the male-female selectivity matrix is rescaled to have a maximum of 1.0.
 
-\myparagraph{Approach \#2:}
+\myparagraph{Male Selectivity Estimated as Offsets from Female Selectivity (or vice versa):}
 A new sex selectivity option (3 or 4) has been implemented for size selectivity patterns 1 (logistic) and 23 and 24 (double normal) or age selectivity pattern 20 (double normal age).  Rather than calculate male selectivity as an offset from female selectivity, here the male selectivity is calculated by making the male parameters an offset from the female parameters (option 3), or females are offset from males with option 4.  The description below applies to option 3. If the size selectivity pattern is 1 (logistic), then read 3 parameters:
 \begin{itemize}
 	\item male parameter 1 is added to the first selectivity parameter (inflection)
@@ -2210,13 +2210,13 @@ Third, extract the estimated selectivity deviation samples from the previous ste
 Specify if tagging data are being used:
 
 
-\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{2.9cm}  p{1.5cm}  p{4.5cm} }
+\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{2.9cm}  p{1.25cm}  p{4.25cm} }
 	\hline
 	\multicolumn{3}{l}{Typical Value} &  \multicolumn{4}{l}{Description and Options}\Tstrut\Bstrut\\
 	\hline
 	\multicolumn{3}{l}{1} &  \multicolumn{4}{l}{Tagging Data Present:} \Tstrut\\
 	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{0 = No tagging data, or if tagging data is present in the data file, a value of 0} \\
-	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{ here will auto-generate the tag parameter section in the control.ss\_new file.; and}\\
+	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{ here will auto-generate the tag parameter section in the control.ss\_new file.}\\
 	\multicolumn{3}{l}{}  &  \multicolumn{4}{l}{1 = Read following lines of tagging data.} \Bstrut\\
 
 
@@ -2236,20 +2236,23 @@ Specify if tagging data are being used:
 	\endlastfoot
 
 	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss init 1\Tstrut\\
-	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss init 2\\
-	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss init 3\\
-	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic1\\
-	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic2\\
-	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic3\\
-	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdispersion1\\
-	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdispersion2\\
-	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdispersion3\\
-	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG report fleet1\\
-	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG report fleet2\\
-	 -4 &  0 & 0 & 0 & \multicolumn{1}{c}{...} & 0 & \#TG report decay1\\
-	 -4 &  0 & 0 & 0 & \multicolumn{1}{c}{...} & 0 & \#TG report decay2\Bstrut\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG loss chronic 1\\
+	  1 & 10 & 2 & 2 & \multicolumn{1}{c}{...} & 0 & \#TG loss overdispersion 1\\
+	-10 & 10 & 9 & 9 & \multicolumn{1}{c}{...} & 0 & \#TG report fleet 1\\
+	 -4 &  0 & 0 & 0 & \multicolumn{1}{c}{...} & 0 & \#TG report decay 1\Bstrut\\
 	 \hline
 \end{longtable}
+
+If there are multiple tagging groups or multiple fleets reporting tagged fish the additional needed parameter lines should be entered in order for each parameter type (i.e, TG loss init 1, TG loss init 2, TG loss chronic 1, TG loss chronic 2,..., TG report decay 1, TG report decay 2). 
+
+The parameters are defined as:
+\begin{itemize}
+	\item Tag group loss init: the tag loss rate immediately following tagging.
+	\item Tag group loss chronic: the long term tag loss rate.
+	\item Tag group loss overdispersion: 
+	\item Tag group report fleet: the reporting rate of tags for a specific fleet.
+	\item Tag group report decay: the long-term reporting rate of tags for a specific fleet.
+\end{itemize}
 
 The tagging reporting rate parameter is transformed within SS during estimation to maintain a positive value and is reported according to the transformation:
 \begin{equation}
@@ -2290,7 +2293,7 @@ When doing iterative re-weighting of the input variance factors, it is convenien
 
 
 \myparagraph{Additive Survey CV - Factor 1}
-The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey). The variance adjustment is added directly to this standard deviation. Set to 0.0 for no effect. Negative values are OK, but will crash if adjusted value becomes negative.
+The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey). The variance adjustment is added directly to this standard deviation. Set to 0.0 for no effect. Negative values are OK, but will crash if adjusted standard deviation value becomes negative.
 
 \myparagraph{Additive Discard - Factor 2}	
 The input variance is the CV of the observation. Because this will cause observations of near zero discard to appear overly precise, the variance adjustment is added to the discard standard deviation, not to the CV. Set to 0.0 for no effect.
@@ -2583,7 +2586,7 @@ Additional information regarding the options for applying blocks (element 13):
 \subsection{Parameter Priors}
 Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
 
-The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. Finally, $Pconst$ is a small constant, currently hardwired at 0.0001. The Prior Likelihoods below represent the negative log likelihood in all cases.
+The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. The Prior Likelihoods below represent the negative log likelihood in all cases.
 
 \myparagraph{Prior Types}
 Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
@@ -2614,7 +2617,7 @@ The symmetric beta is scaled between parameter bounds, imposing a larger penalty
 	\end{equation}
 
 	\begin{center}
-			\includegraphics{Beta}\\
+			\includegraphics[scale = 0.75]{SymetricBeta}\\
 			Prior distributions for the symmetric beta distribution.
 	\end{center}
 
@@ -2654,13 +2657,13 @@ Note that this is undefined for $p <= 0$ so the lower bound on the parameter mus
 	\end{equation}
 
 \item \textbf{Prior Type 4 = Lognormal prior with bias correction} \\ 
-This option is thanks to Larry Jacobson. Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0.
+This option allows the prior mean value to be entered as the ln(mean). Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0.
 	\begin{equation}
 	\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(p)-Prior + \frac{1}{2}{Pr\_SD}^2}{Pr\_SD}\right)^2
 	\end{equation}
 
 \item \textbf{Prior Type 5 = Gamma prior} \\ 
-This option is thanks to Larry Jacobson. The lower bound should be 0 or greater.
+The lower bound should be 0 or greater.
 	\begin{equation}
           scale = \frac{{Pr\_SD}^2}{Prior}
 	\end{equation}
