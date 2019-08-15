@@ -240,22 +240,30 @@ Invokes use of a catch multiplier, which is then entered as a parameter in the m
 	  
 A catch multiplier can be useful when trying to explore historical unrecorded catches or ongoing illegal and unregulated catches.  The catch multiplier is a full parameter line in the control file and has the ability to be time-varying.  
 
-\subsection{Optional Bycatch Fleets}
-The option to include bycatch fleets was introduced in SS v.3.30.10.  This is an optional input and if no bycatch is to be included in to the catches this section can be ignored.\\
+\subsection{Bycatch Fleets}
+The option to include bycatch fleets was introduced in SS v.3.30.10.  This is an optional input and if no bycatch is to be included in to the catches this section can be ignored.
+
+A fishing fleet is designated as a bycatch fleet by indicating that its fleet type is 2.  A bycatch fleet creates a fishing mortality, same as a fleet of type 1, but a bycatch fleet has all catch discarded so the input value for retained catch is ignored.  However, an input value for retained catch is still needed to indicate that the bycatch fleet was active in that year and season.  A catch multiplier cannot be used with bycatch fleets because catch multiplier works on retained catch.  SS will expect that the retention function for this fleet will be set in the selectivity section to type 3, indicating that all selected catch is discarded dead.  It is necessary to specify a selectivity pattern for the bycatch fleet and, due to generally lack of data, to externally derive values for the parameters of this selectivity.
+
+All catch from a bycatch fleet is discarded, so one option to use a discard fleet is to enter annual values for the amount (not proportion) that is discarded in each time step.  However, it is uncommon to have such data for all years.  An alternative approach that has been used principally in the U.S. Gulf of Mexico is to input a time series of effort data for this fleet in the survey section (e.g.,  effort is a "survey" of F, for example, the shrimp trawl fleet in the Gulf of Mexico catches and discards small finfish and an effort time series is available for this fleet) and to input in the discard data section an observation for the average discard over time using the super year approach.  Another use of bycatch fleet is to use it to estimate effect of an external source of mortality, such as a red tide event.  In this usage there may be no data on the magnitude of the discards and SS will then rely solely on the contrast in other data to attempt to estimate the magnitude of the red tide kill that occurred. The benefit of doing this as a bycatch fleet, and not a block on natural mortality, is that the selectivity of the effect can be specified. 
+
+Bycatch fleets are not expected to be under the same type of fishery management controls as the retained catch fleets included in the model.  This means that when SS enters into the reference point equilibrium calculations, it would be incorrect to have SS re-scale the magnitude of the F for the bycatch fleet as it searches for the F that produces, for example, F35\%.  Related issues apply to the forecast.  Consequently, a separate set of controls is provided for bycatch fleets (defined below).  Input is required for each fleet designated as fleet type = 2.
 
 \noindent If a fleet above was set as a bycatch fleet (fleet type = 2), the following line is required: 
 \begin{center}
-	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} }
+	\begin{tabular}{p{2.25cm} p{2.65cm} p{2.25cm} p{2.5cm} p{2.5cm} p{2cm} }
 
-		\multicolumn{6}{l}{Optional inputs that define bycatch fleet:}\\
+		\multicolumn{6}{l}{Bycatch fleet input controls:}\\
 		\hline
-		Fleet & Include &  & F or  & F or  &  \Tstrut\\
-		Index & in MSY & Fmult & First Year & Last Year & Not used \Bstrut\\			
+		a: 			   & b:  			  & c:    & d:     & e:    & f: \Tstrut\\
+		 Fleet Index   & Include in MSY   & Fmult & F or First Year & F or Last Year & Not used \Bstrut\\			
 		\hline
-		1 & 1  & 1 & 1982 & 2010 & 999 \Tstrut\Bstrut\\
+		2 & 2  & 3 & 1982 & 2010 & 0 \Tstrut\Bstrut\\
 		\hline		
 	\end{tabular}
 \end{center}
+
+The above example set-up defines one fleet (fleet number 2) as a bycatch fleet with the dead catch from this fleet to not be included in the search for MSY (b: Include in MSY = 2). The level of F from the bycatch fleet in reference point and forecast is set to the mean (c: Fmult = 3) of the estimated F for the range of years from 1982-2010.  
 
 
 \myparagraph{Fleet Index}
@@ -273,8 +281,8 @@ The options are:
 The options are:  
   \begin{itemize}
   	\item 1 = F multiplier scales with other fleets;
-  	\item 2 = bycatch F constant at input value; and
-  	\item 3 = bycatch F from range of years.
+  	\item 2 = bycatch F constant at input value in column d; and
+  	\item 3 = bycatch F from range of years input in columns d and e.
   \end{itemize}
 
 \myparagraph{F or First Year}  
