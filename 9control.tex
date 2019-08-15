@@ -626,7 +626,9 @@ These parameters are only included in the control file if one of the ageing erro
 \noindent Code for implementing vectors of mean age and standard deviation of age within SS can be located in \hyperlink{AgeingError}{the appendix} on page \pageref{sec:codeappendix}.
 
 \subsubsection{Sex ratio}
-The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish at recruitment.  The parameter is specified in the fraction of female fish. The default option is a sex ratio of 0.50 with this parameter not being estimated. Estimation of the sex ratio is a new feature within SS and should be done with care with the user checking that the answer is reflective of the data. As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
+The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish at recruitment.  The parameter is specified in the fraction of female fish and is applied at settlement. The default option is a sex ratio of 0.50 with this parameter not being estimated.  Any composition data input as type = 3, both sexes, will be informative to the sex ratio because SS scales females and males together, not separately, for this data type input. Estimation of the sex ratio is a new feature within SS and should be done with care with the user checking that the answer is reflective of the data.
+
+As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
 
 \subsubsection{Read Biology Parameters}
 \hypertarget{MGorder}{Next}, SS reads the mortality-growth (MG) parameters in generally the following order (may vary based on selected options):
@@ -2102,7 +2104,6 @@ The time-varying options for selectivity parameters are identical to the time-va
 %	\multicolumn{8}{l}{Example short parameter lines for selectivity time-varying parameters:}\\
 %	\hline
 %	\Tstrut& &  &  & PR & PRIOR  & &  \\
-%	LO & HI & INIT & PRIOR & SD & TYPE & PHASE & Label \Bstrut\\
 %	\hline
 %	0.01 & 2.0 & 0.58 & 0.58 &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_se\Tstrut\\
 %	1    & 80  & 70   & 70   &  0.5  & 4 & -5 & \#AgeSel\_P4\_Fishery\_dev\_autocorr\Bstrut\\
