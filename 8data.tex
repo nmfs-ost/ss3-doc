@@ -1015,6 +1015,7 @@ The ability to analyze tag-recapture data is available with SS.  Each released t
 		\item The release data must be entered in tag group order.
 		\item <tfill> values are place holders and are replaced by program generated values for model time.
 		\item Analysis of the tag-recapture data has one negative log likelihood component for the distribution of recaptures across areas and another negative log likelihood component for the decay of tag recaptures from a group over time, hence informative about mortality.  More on this is in the control file.
+		\item Warning for earlier versions of SS: A shortcoming in the recapture calculations when also using Pope's F approach was identified and corrected in version 3.30.14.
 	\end{itemize}
 
 \subsection{Stock (Morph) Composition Data}
@@ -1033,7 +1034,7 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 		\hline
 		& 0.0001 & \multicolumn{6}{l}{Minimum Compression}\Tstrut\Bstrut\\
 		\hline
-		& Year & Month & Type & Part & Nsamp & \multicolumn{2}{l}{Data Vector} \Tstrut\Bstrut\\
+		& Year & Month & Fleet & Null & Nsamp & \multicolumn{2}{l}{Data by N Morphs} \Tstrut\Bstrut\\
 		\hline
 		& 1980 & 1 & 1 & 0 & 36 & 0.4 & 0.6 \Tstrut\\
 		& 1981 & 1 & 1 & 0 & 40 & 0.44 & 0.54 \\
@@ -1045,9 +1046,11 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 \myparagraph{Note}
 	\begin{itemize}
 		\item The number of stocks entered with these data must match the number of growth patterns (morphs) in the control file.
+		\item Each data line for unique observations should enter data for morph 1 first followed sequentially for each morph included in the model.
 		\item The expected value is combined across sexes. The entered data values will be normalized to sum to one within SS.
-		\item The "partition" flag is included here in the data, but cannot be used because the expected value is calculated before the catch is partitioned into discard and retained components. Currently, this value must be set to 0 (combined discard and retained fish).
+		\item The "null" flag is included here in the data input section and is a reserved spot for future features. 
 		\item Note that there is a specific value of minimum compression to add to all values of observed and expected.
+		\item Warning for earlier versions of SS: A flaw was identified in the calculation of accumulation by morph. This has been corrected in version 3.30.14.  Older versions were incorrectly calculating the catch by morph using the expectation around age-at-length which already was accounting for the accumulation by morph.   
 	\end{itemize}
 
 \subsection{Selectivity Empirical Data (future feature)}
