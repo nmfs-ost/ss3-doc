@@ -1306,12 +1306,33 @@ Read a short parameter setup line for each fishery.  The parameters are the fish
 
 In SS3.30, the initial equilibrium year has explicit seasons, so the needed initial F values will also be by season.  Initial F values are only needed for fleet/seasons that have catch.  So, if no fleet/season combo has catch, then no parameters are needed.
 
-It is possible to use the initial F method to achieve an estimate of the initial equilibrium Z in cases where the initial equilibrium catch is unknown.  To do this:
-\begin{itemize}
-	\item Include a positive value for the initial equilibrium catch.
-	\item Set the lambda for the log likelihood for initial equilibrium catch to a nil value (hence causing SS to ignore the lack of fit to the input catch level.
-	\item Allow the initial F parameter to be estimated.  It will be influenced by the early age and size comps which should have some information about the early levels of Z.
-\end{itemize}
+It is possible to use the initial F method to achieve an estimate of the initial equilibrium Z in cases where the initial equilibrium catch is unknown.  To do this requires 2 changes to the input files:
+\begin{enumerate}
+	\item Data File: Include a positive value for the initial equilibrium catch for at least one fleet, often with a higher standard error depending upon the situation.
+%	\item Control File: Set the lambda in the for the log likelihood for initial equilibrium catch to a nil value (hence causing SS to ignore the lack of fit to the input catch level).
+	\item Control File: Add an initial F parameter line (short parameter line) for each fleet and season with initial equilibrium catch to be estimated immediately after the Fishing Mortality set-up.  It will be influenced by the early age and size comps which should have some information about the early levels of Z.
+\end{enumerate}
+
+\begin{longtable}{p{1.3cm} p{1.3cm} p{1.3cm} p{1.3cm} p{1.5cm} p{1.5cm} p{1.4cm} p{2.3cm}}
+	\multicolumn{8}{l}{An example setup with a single fishery fleet with initial equilibrium catches:}\\
+	\hline
+	0.1 & \multicolumn{7}{l}{\# F ballpark}\Tstrut\Bstrut\\
+	\hline
+	-2001 & \multicolumn{7}{l}{\# F ballpark year (negative value to disable)}\Tstrut\Bstrut\\
+	\hline
+	3 & \multicolumn{7}{l}{\# F method: 1=Pope; 2=Baranov; 3=Hybrid}\Tstrut\Bstrut\\
+	\hline
+	3 & \multicolumn{7}{l}{\# Maximum F value}\Tstrut\Bstrut\\
+	\hline
+	4 & \multicolumn{7}{l}{\# Number of iterations for tuning F in hybrid method}\Tstrut\Bstrut\\
+	\hline
+	\multicolumn{8}{l}{\# Initial F parameters}\Tstrut\Bstrut\\
+	LO & HI & INIT & Prior & Pr. SD & Pr. Type & Phase & Label \Bstrut\\
+	\hline
+	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF Fleet 1\Tstrut\Bstrut\\
+	\hline
+\end{longtable}
+
 
 \hypertarget{Qsetup}{}
 \subsection{Catchability}
