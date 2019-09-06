@@ -169,18 +169,6 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 	\end{longtable}
 \end{center}
 
-%\subsubsection{Season Length and Time Steps}
-%Quantities are calculated at the following times:	
-%\begin{itemize}
-%	\item Continuous Z for entire season.
-%	\item Even number (min = 2) of subseasons per season (regardless of season duration).
-%	\item Fishery body weight uses mid subseason ALK.
-%	\item Spawning biomass has specified spawn\_timing (in months fraction); uses closest ALK to that timing.
-%	\item Survey timing is now observation-specific and specified in units of months.fraction (e.g., Apr 15 = 4.5).
-%	\item Survey season and spawn season assigned at runtime based on month and on season duration(s).
-%	\item Survey body weight and length composition uses closest ALK to survey timing. 
-%	\item Survey numbers calculated at survey timing using $e^{-Z}$.		
-%\end{itemize} 
 
 \subsection{Fleet Definitions }
 \hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (SS v.3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version SS v.3.30 all fleets now have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions).  Available types are; catch fleet, bycatch only fleet, or survey.  
@@ -206,7 +194,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 Define the fleet type (e.g., fishery fleet, survey fleet):
 	  \begin{itemize}
 	  	\item 1 = fleet with input catches;
-	  	\item 2 = bycatch fleet (all catch discarded);
+	  	\item 2 = bycatch fleet (all catch discarded) and invoke extra input for treatment in equilibrium and forecast;
 	  	\item 3 = survey: assumes no catch removals even if associated catches are specified below.  If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in Timing); and 
 	  	\item 4 = ignored (not yet implemented).
 	  \end{itemize}
@@ -294,6 +282,33 @@ The specified F or last year for the bycatch fleet.
 \myparagraph{Not Used}  
 This column is not yet used and is reserved for future features.
 
+\myparagraph{Bycatch Fleet Usage Instructions}
+When implementing a bycatch fleet, changes to both the data and control file are needed.  
+
+The needed changes to the data file are:
+
+\begin{enumerate}
+	\item Fleet type – set to value of 2.
+	\item Set bycatch fleet controls per information above.
+	\item Catch input – you must enter a positive value for catch in each year/season that you want a bycatch calculated.  The entered value of catch will be ignored by SS, it is just a placeholder to invoke creating an F.
+	\begin{enumerate}
+		\item Initial equilibrium – you may want to enter the bycatch amount as retained catch for the initial equilibrium year because there is no option to enter initial equilibrium discard in the discard section.
+	\end{enumerate}	
+	\item Discard input – It is useful, but not absolutely necessary, to enter the amount of discard to assist SS in estimating the F for the bycatch fleet.
+	\item Survey input - It is useful, but not absolutely necessary, to enter the effort time series by the bycatch fleet to assist SS in estimating the annual changes in F for the bycatch fleet.
+\end{enumerate}
+
+The needed changes to the control file are:
+
+\begin{enumerate}
+	\item The F method must be set to 2 in order for SS to estimate F with having information on retained catch.
+	\item Selectivity – 
+	\begin{enumerate}
+		\item A selectivity pattern must be specified and fixed (or estimated if composition data is provided).
+		\item The discard column of selectivity input must be set to a value of 3 to cause all catch to be discarded.
+	\end{enumerate}	
+\end{enumerate}
+
 \subsection{Catch}
 \hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year and season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   Only positive catches need to be entered, so there is no need for records corresponding to all years and fleets.  To include an equilibrium catch value the year should be noted as -999 and this is now fleet and season specific.  
 
@@ -331,12 +346,12 @@ The new format for version SS v.3.30 for a 2 season model with 2 fisheries looks
 	\item If there is reason to believe that the retained catch values underestimate the true catch, then it is possible in the retention parameter set up to create the ability for the model to estimate the degree of unrecorded catch.  However, this is better handled with the new catch multiplier option.
 \end{itemize}
 
-\subsubsection{Bycatch}
-Bycatch fleets have an F and hence impose mortality and catch fish.  All this catch is discarded.  There must be a value entered for retained catch so that SS knows to calculate an F for that season, but this catch amount is ignored in the log likelihood.  The amount of discarded catch can be entered as a discard observation(s).  Bycatch fleets have selectivity, which must be specified or estimated if observations of the size or age composition of the discards is entered.
-\begin{itemize}
-	\item There is no retained catch amount to match and hence, the F for bycatch only fleets must be implemented with the continuous F method  (F\_method = 2).
-	\item  MSY and yield per recruit are calculated in terms of dead catch, and they currently include catch from bycatch fleets.  The search for F\textsubscript{MSY} scales the bycatch F along with the F for the fleets that retain catch.   
-\end{itemize}
+%\subsubsection{Bycatch}
+%Bycatch fleets have an F and hence impose mortality and catch fish.  All this catch is discarded.  There must be a value entered for retained catch so that SS knows to calculate an F for that season, but this catch amount is ignored in the log likelihood.  The amount of discarded catch can be entered as a discard observation(s).  Bycatch fleets have selectivity, which must be specified or estimated if observations of the size or age composition of the discards is entered.
+%\begin{itemize}
+%	\item There is no retained catch amount to match and hence, the F for bycatch only fleets must be implemented with the continuous F method  (F\_method = 2).
+%	\item  MSY and yield per recruit are calculated in terms of dead catch, and they currently include catch from bycatch fleets.  The search for F\textsubscript{MSY} scales the bycatch F along with the F for the fleets that retain catch.   
+%\end{itemize}
 
 \subsection{Indices}
 Indices are data that are compared to aggregate quantities in the model.  Typically the index is a measure of selected fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model.  The first section of the "Indices" setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
