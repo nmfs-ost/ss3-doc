@@ -282,7 +282,7 @@ The specified F or last year for the bycatch fleet.
 \myparagraph{Not Used}  
 This column is not yet used and is reserved for future features.
 
-\myparagraph{Bycatch Fleet Usage Instructions}
+\myparagraph{Bycatch Fleet Usage Instructions and Warnings}
 When implementing a bycatch fleet, changes to both the data and control file are needed.  
 
 The needed changes to the data file are:
@@ -308,6 +308,8 @@ The needed changes to the control file are:
 		\item The discard column of selectivity input must be set to a value of 3 to cause all catch to be discarded.
 	\end{enumerate}	
 \end{enumerate}
+
+In version 3.30.14 it was identified that there can be an interaction between the use of bycatch fleets and the search for the $F_{0.1}$ reference point which may results in the search failing.  Changes to the search feature were implemented to make the search more robust, however, issue may still be encountered. In these instances it is recommended to not select the $F_{0.1}$ reference point calculation in the forecast file.
 
 \subsection{Catch}
 \hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model.  The format for the catches is year and season that the catch will be attributed to, fleet, a catch value, and a year specific catch standard error.   Only positive catches need to be entered, so there is no need for records corresponding to all years and fleets.  To include an equilibrium catch value the year should be noted as -999 and this is now fleet and season specific.  
@@ -841,7 +843,9 @@ As with the length composition data, a negative year value causes the observatio
 
 
 \subsection{Conditional Age-at-Length}
-Use of conditional age-at-length will greatly increase the total number of age composition observations and associated model run time, but it is a superior approach for several reasons.  First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information.  Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age.  Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
+Use of conditional age-at-length will greatly increase the total number of age composition observations and associated model run time, but there can be several advantages to inputting ages in this fashion.  First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information.  Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age.  Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
+
+However, simulation research has shown that the use of conditional age-at-length data can result in biased growth estimates in the presence of unaccounted for age-based movement when length-based selectivity is assumed \citep{lee_effects_2017}, when other age-based processes (e.g., mortality) are not accounted for \citep{lee_use_2019}, or based on the age sampling protocol \citep{piner_evaluation_2016}.  Understanding how data are collected (e.g., random, length-conditioned samples) and the biology of the stock is important when using conditional age-at-length data for a fleet.   
 
 In a two sex model, it is best to enter these conditional age-at-length data as single sex observations (sex = 1 for females and = 2 for males), rather than as joint sex observations (sex = 3).  Inputting joint sex observations comes with a more rigid assumption about sex ratios within each length bin. Using separate vectors for each sex allows 100\% of the expected composition to be fit to 100\% observations within each sex, whereas with the sex = 3 option, you would have a bad fit if the sex ratio were out of balance with the model expectation, even if the observed proportion at age within each sex exactly matched the model expectation for that age.  Additionally, inputting the conditional age-at-length data as single sex observations isolates the age composition data from any sex selectivity as well.
 
