@@ -26,17 +26,22 @@ By the end of using this guide, you should:
 3. Understand which tools are available to work with SS models
 4. Troubleshoot basic problems associated with running an SS model
 
+```{r, echo = FALSE, out.width = "450px", fig.cap="SS input and output files, and associated tools. Note that some tools are used with both input and output model files."}
+knitr::include_graphics("images/SS_tools_files.png")
+```
+
 # Stock Synthesis file structures and tools
 
-SS uses text input files and produces text output files. In this section, the SS input and output files are described, as are tools that can be used with these files. See how they relate in Figure \ref{fig:tools}.
+SS uses text input files and produces text output files. In this section, the SS input and output files are described, as are tools that can be used with these files. See how they relate in Figure 1.
+
 
 ## SS files: Required inputs
 
 Four required input files are read by the SS executable. Throughout this document, we will refer to the SS executable as ss.exe. Keep in mind that the Linux and Mac versions of SS have no file extension, and the executable could be renamed to something else. These input files are:
 
  1. **starter.ss:** Required file containing file names of the data file and the control file plus other run controls. Must be named starter.ss.
- 2. **Data file:** File containing model dimensions and the data. The data file can have any name, as specified in the starter file, but typically ends in .ss or .dat.
- 3. **Control file:** File containing set-up for the parameters. The control file can have any name, as specified in the starter file, but typically ends in .ss or .ctl.
+ 2. **data file:** File containing model dimensions and the data. The data file can have any name, as specified in the starter file, but typically ends in .ss or .dat.
+ 3. **control file:** File containing set-up for the parameters. The control file can have any name, as specified in the starter file, but typically ends in .ss or .ctl.
  4. **forecast.ss:** File containing specifications for reference points and forecasts. Must be named forecast.ss.
  
 ## SS files: Optional inputs
@@ -45,8 +50,6 @@ The two optional input files for SS are:
 
  1. **ss.par:** A text file with one line per parameter where order matters that could be created from a previous model run. This file is read in to overwrite the initial parameter values in the control file. The option to use the ss.par file or the control file for initial parameter values is selected in starter.ss.
  2. **wtatage.ss:** File containing empirical input of body weight by fleet and population and empirical fecundity-at-age. The option to use the wtatage.ss file is selected in a line of the control file.
-
-![SS input and output files, and associated tools. Note that some tools are used with both input and output model files. \label{fig:tools}](images/SS_tools_files.png)
 
 ## SS output files
 
@@ -118,7 +121,7 @@ SS always opens and reads files in the same order (starter.ss,  data file, forec
 
 After reading, SS proceeds immediately to pre-processing the data and creating internal parameter labels. As SS executes, it writes checks to echoinput.sso and warnings to warnings.sso.
 
-SS next goes to the procedure section where iterative parameter changes are made by ADMB to minimize the negative log likelihood. When ADMB achieves convergence, control passes to the sd_phase for calculation of parameter variance (unless `–nohess` option is specified).  After the sd_phase, SS proceeds to the benchmark and forecast code section and then to final reporting. Output files containing results are written to the directory.
+SS next goes to the procedure section where iterative parameter changes are made by ADMB to minimize the negative log likelihood. When ADMB achieves convergence, control passes to the sd_phase for calculation of parameter variance (unless `–nohess` option is specified; See [command line options](#options)). After the sd_phase, SS proceeds to the benchmark and forecast code section and then to final reporting. Output files containing results are written to the directory.
 
 When the run completes, SS shows `!! Run has completed !!` and the number of warnings:
 
@@ -179,9 +182,9 @@ Running SS from within R may be desirable for setting up simulations where many 
 
 # Options for running SS
 
-## Command line options
+## Command line options {#options}
 
-ADMB options can be added to the run when calling the executable from the command line. The most commonly used options are:
+ADMB options can be added to the run when calling the SS executable from the command line. The most commonly used options are:
 
  + Skip standard errors (for quicker  results or to get Report.sso if the hessian does not invert): `ss -nohess`
  + To run without estimating anything (in theory): `ss -noest`. This will speed up your run by not optimizing, but some estimation (i.e., some parameters move away from their starting values) does seem to occur even with this option in SS. If you really want to run SS with no estimation, you should change the max phase in the starter.ss file to 0 and run the exe with the `–nohess` option.
