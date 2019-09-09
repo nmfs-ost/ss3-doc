@@ -73,7 +73,7 @@ Visualization is helpful as you iteratively develop your model and for presentat
 
 It's important to remember that arriving at a model takes time! You should plan on making small revisions, rerunning the model, and looking at how the model has changed with each small revision. Typically, many intermediate model runs are required before you reach a final model. Keep notes inside of the run folder or elsewhere regarding the run specific changes. Below, we provide some suggestions on the steps to take as you iterate toward your "final" model.
 
-## 1. First runs without estimation
+## First runs without estimation
 
 First, you want to check that SS is able to read your input files in the way you intended. To do a run without estimation, set change max phase to 0 in **starter.ss** and run your model with ADMB option `-nohess`. Examine **warning.sso**, **echoinput.sso**, and the **.ss_new files**  produced during this run without estimation to see how SS interpreted your input files and if it was as you intended. 
 
@@ -84,11 +84,11 @@ After you have verified that SS is reading your input correctly, you can also co
 
 <!-- *TODO: Add more details about lnR0 - explain why this needs to be done more fully and how to modify the depletion fleet controls.* -->
 
-## 2. Runs estimating some parameters
+## Runs estimating some parameters
 
 Try changing max phase to be greater than 0 (perhaps 2 or 3) to estimate some but not all parameters. Run the model with `-nohess` to reduce run time. During this stage of model runs, you should try to adjust the model to resolve all major patterns in the residuals. This may include considering and making changes to the model structure.
 
-## 3. Runs estimating all parameters
+## Runs estimating all parameters
 
 Once all major patterns in the residuals have been resolved, try estimating all parameters in the model. Change max phase to include all of your model phases (i.e., equal to or higher than the highest phase specified in your model). You'll want to do multiple runs for different model refinement purposes at this time:
 
