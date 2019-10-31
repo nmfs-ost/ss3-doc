@@ -391,12 +391,14 @@ The options for units for input data are:
 			\item 33 = recruitment, age-0 recruits;
 			\item 34 = depletion (spawning biomass/virgin spawning biomass);
 			\begin{itemize}
-				\item Special survey option 34 automatically adjusts phases of parameters.  There are options for additional control over this in the control file Q setup section under the link information column where:
+				\item Special survey option 34 automatically adjusts phases of parameters.  To use the depletion survey approach, the user will need to make the following revisions to the SS data file: 1) add a new survey fleet, 2) define the survey type as option 34, 3) add two depletion survey data points, and initial unfished set equal to 1 for an unfished modeled year and one for a later year with the depletion estimates, 4) set the input CV value for each survey data point to a low value (e.g., 0.0001) to force the model to fit these data, and in the control file 5) add the survey to the control file in the Q set-up and selectivity sections. 
+				\item There are options for additional control over this in the control file Q setup section under the "link information" column where:
 				\begin{itemize}
 				    \item 0 = add 1 to phases of all parameters. Only R0 active in new phase 1. Mimics the default option of previous model versions;
 				    \item 1 = only R0 active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters.  Essentially, this option allows SS to mimic DB-SRA; and
 				    \item 2 = no phase adjustments, can be used when profiling on fixed R0.
 				\end{itemize}
+				\item Warning: the depletion survey approach has not been tested on multiple area models.  This approach may present challenges depending upon the dynamics within each area.
 			\end{itemize}
 			\item 35 = survey of a deviation vector ($e(survey(y)) = f(parm\_dev(k,y))$), can be used for an environmental time-series with soft linkage to the index. The selected deviation vector is specified in Q section of the control file. The index of the deviation vector to which the index is related is specified in the 2nd column of the Q setup table (see \hyperlink{Qsetup}{Catchability}).
 		\end{itemize}
