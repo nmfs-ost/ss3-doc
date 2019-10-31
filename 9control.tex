@@ -1187,14 +1187,14 @@ where c is the shape parameter for the stock recruitment curve, and $h_{adj}$ is
 	\end{equation}
 
 \myparagraph{Shepherd Re-parameterization}	
-\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_2017}.
+\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_2019}.
 	\begin{equation}
 		R_y = \frac{R_0SB_y}{SB_0}\bigg(\frac{5h(1-0.2^c)}{1-5h0.2^c+(5h-1)(SB_y/SB_0)^c}\bigg)
 	\end{equation}
 where $c$ is the shape parameter for the stock recruitment curve.
 
 \myparagraph{Ricker Re-parameterization}
-\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_2017}.
+\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_2019}.
 	\begin{equation}
 		R_y = R_0*(1-temp)*e^{ln(5h)(1-SB_y/SB_0)^{\gamma}/0.8^{\gamma}}
 	\end{equation}
@@ -2153,8 +2153,9 @@ The time-varying options for selectivity parameters are identical to the time-va
 
 
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity}
-A new experimental feature added within SS v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected. This features allows for auto-correlation by age and/or time.  The age based random walk selectivity, pattern 17, should be selected to implement the semiparametric auto-regressive selectivity. 
+A new experimental feature added within SS v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu_new_2019}. Unlike other options for time-varying selectivity in SS, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
 
+When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic, exponential logistic, or double normal would be a better choices. This option has not yet been explored adequately to provide guidance on best practices.
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
 		
@@ -2170,7 +2171,7 @@ A new experimental feature added within SS v.3.30.03.02. Earlier versions do not
 	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\Bstrut\\
 	\hline
-	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 1980   & 2007\Tstrut\Bstrut\\
+	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0\Tstrut\Bstrut\\
 	\hline
 	\\
 	
@@ -2195,7 +2196,7 @@ Parameter Definitions:
 	\item Ymax: Last year with deviations.
 	\item Amin: First integer age (or population length bin index) with deviations.
 	\item Amax: Last integer age (or population length bin index) with deviations.
-	\item Sigma Amax: Not currently implemented. It is recommended to set the Sigma Amax equal to the Amin value. In future, Sigma Amax will be set to last age (or population length bin index) for which a separate sigma should be read.
+	\item Sigma Amax: the last age (or population length bin index) for which a separate sigma should be read. For simplicity, it is easiest to set Sigma Amax equal to the Amin value which requires only a single sigma line (otherwise N = Sigma Amax - Amin input lines are required for the sigma parameters).
 	\item Use Rho: Use autocorrelation parameters.
 	\item Len(1) / Age(2): 1 or 2 to specify whether the deviations should be applied to length- or age-based selectivity.
 	\item Phase: Phase to begin estimation of the deviation parameters.
@@ -2229,7 +2230,7 @@ where $\epsilon$ is the two-dimensional deviation matrix and $\sigma_s^2\mathbf{
 	\end{equation} 
 
 \myparagraph{Using the Two-Dimensional Autoregressive Selectivity}
-First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
+Note, \citet{xu_new_2019} has additional information on tuning the 2D AR selectivity parameters. First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
 
 	\begin{equation}
 		\sigma_s^2=SD(\epsilon)^2+\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2
