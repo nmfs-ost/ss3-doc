@@ -457,16 +457,16 @@ A growth cessation model was developed for the application to tropical tuna spec
 	1 & & Growth Model: \Tstrut\\
 	  & & 1 = von Bertalanffy (2 parameters);\\
 	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters.  Third parameter has null value of 1.0; \\
-	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages,\\
-	  & & 4 = age specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier; \\
-	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier; \\
+	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature;\\
+	  & & 4 = age specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
+	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 6 = not implemented; \\
 	  & & 7 = not implemented; and \\
 	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut \\
 	\hline
 
 	\Tstrut 1.66 & & Growth Amin (A1): Reference age for first size-at-age (post-settlement) parameter.\Bstrut\\
-	\hline
+	%\hline
 
 	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age parameter (999 to use as L infinity).\Bstrut\\
 	\hline
@@ -479,10 +479,16 @@ A growth cessation model was developed for the application to tropical tuna spec
 	0   & & Placeholder for future growth feature. \Tstrut\Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND >= 3} & Growth option age-specific K \Tstrut\\
+	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K \Tstrut\\
 	2 & & Number of K multipliers to read;\\
 	& 5 & Minimum age for age-specific K; and\\
 	& 7 & Maximum age for age-specific K.\Bstrut\\
+	
+	\multicolumn{2}{l}{COND = 4 or 5} & Growth model: age-specific K \Tstrut\\
+	2 & & Number of K multipliers to read;\\
+  	  & 7 & Maximum age for age-specific K;\\
+	  & 6 & Second age for age-specific K; and\\
+	  & 5 & Minimum age for age-specific K.\Bstrut\\
 	\hline
 
 	\Tstrut 0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0.\Bstrut\\
