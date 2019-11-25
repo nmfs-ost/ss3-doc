@@ -100,7 +100,32 @@ This second example processes 25 dat files from a different directory, each time
 	\end{verbatim}
 \end{quote}
 
+\subsubsection{Running Without Estimation}
+There may be time when users will want to run the model without parameter estimation. There are two suggested alternative approaches to do this with SS and ADMB.  
 
+The first approach requires the user to change the maximum phase value in the starter.ss file to 0 then running the model via the command widow as without calculating the hessian:
+
+\begin{quote}
+	\begin{verbatim}
+	ss -nohess
+	\end{verbatim}
+\end{quote}
+
+The second approach is done all through the command window using the following commands:
+
+\begin{quote}
+	\begin{verbatim}
+	ss -maxfn 0 -phase 50 -nohess
+	\end{verbatim}
+\end{quote}
+
+where maxfun specifies the number of function calls and phase is the maximum phase for the model to start estimation where the number should be greater than the maximum phase for estimating parameters within the model. 
+
+However, the approaches above differ in subtle ways. First, if the maximum phase is set to 0 in the starter file the total likelihood will differ by a small amount (0.25 likelihood units) compared to the second approach which set the maxfun and phase in the command window. This small difference is due a dummy parameter which is evaluated by the objective function when maximum phase in the starter is set to 0, resulting in a small contribution to the total likelihood of 0.25.  However, all other likelihood components should not change.  
+
+The second difference between the two no estimation approaches is the reported number of "Active\_count" of parameters in the Report file. If the command line approach is used then the active number of parameters will equal the number of parameters with positive phases, but because the model is starter in a phase greater than the maximum phase in the model, these parameters do not move from the initial values in the control file (or the par file).  The first approach where the maximum phase is changed in the starter file will report the number of "Active\_count" parameters as 0.  
+
+The final thing to consider when running a model without estimation is whether you are starting from the par file.  If you start from the par file (specified in the starter file: 1=use ss.par) then all parameters, including parameter deviations, will be fixed at the estimated values.  However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
 
 \subsubsection{Running Parameter Profiles}
 Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood.  There are two ways this can be done.
