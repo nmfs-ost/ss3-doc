@@ -1754,9 +1754,9 @@ In typical usage:
 		\item p4 – downslope:  ln(variance) on descending side.
 	\end{itemize}
 
-\myparagraph{Pattern 23 (size) and 24 (size) - Double Normal Selectivity}	
+\myparagraph{Pattern 23 (size), 24 (size), and 20 (age) - Double Normal Selectivity}	
 	\begin{itemize}
-		\item p1 – peak: beginning size for the plateau (in cm).
+		\item p1 – peak: beginning size (or age) for the plateau (in cm or year).
 		\item p2 – top: width of plateau, as logistic between peak and maximum length (or age).
 		\item p3 – ascending width:  parameter value is ln(width).
 		\item p4 – descending width:  parameter value is ln(width).
@@ -1782,10 +1782,10 @@ Selectivity pattern 24, double normal, showing sub-functions and steep logistic 
 		\includegraphics{DoubleNormal}
 	\end{center}
 
-\myparagraph{Pattern 15 (age) - Mirror}
+\myparagraph{Pattern 15 (size or age) - Mirror}
 No parameters.  Whole age range is mirrored from another fleet. The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
 
-\myparagraph{Pattern 16 - Gaussian (similar to Coleraine)}
+\myparagraph{Pattern 16 (age) - Gaussian (similar to Coleraine)}
 	\begin{itemize}
 		\item p1 – age below which selectivity declines
 		\item p2 – scaling factor for decline
@@ -1817,7 +1817,7 @@ A value of 1.0e-6 is added to the selectivity for all ages, even those below the
 		\includegraphics{ExpLogistic}
 	\end{center}
 
-\myparagraph{Pattern 27 (size and age)- Cubic Spline}
+\myparagraph{Pattern 27 (size or age)- Cubic Spline}
 This selectivity pattern uses the ADMB implementation of the cubic spline function. This function requires input of the number of nodes, the positions of those nodes, the parameter values at those nodes, and the slope of the function at the first and last node. In SS, the number of nodes is specified in the "special" column of the selectivity set-up.  The pattern number 27 is used to invoke cubic spline for size selectivity and for age selectivity; the input syntax is identical.
 	
 For a 3 node setup, the SS input parameters would be:
@@ -1904,7 +1904,7 @@ Selectivity pattern 17 with two additional parameters. The two additional parame
 	\end{longtable}
 
 
-\myparagraph{Pattern 42 (size and age) - Cubic Spline with User-Defined Scaling}
+\myparagraph{Pattern 42 (size or age) - Cubic Spline with User-Defined Scaling}
 Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.9cm}  p{4.2cm}}
