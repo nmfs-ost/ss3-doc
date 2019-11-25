@@ -111,7 +111,35 @@ Cum\_Report.sso: contains a brief version of the run output, which is appended t
 
 
 \subsection{Bootstrap Data Files}
-Data.ss\_new:  contains a user-specified number of data files, generated through a parametric bootstrap procedure, and written sequentially to this file.  These can be parsed into individual data files and re-run with the model.  The first output provides the unaltered input data file (with annotations added).  The second provides the expected values for only the data elements used in the model run.  The third and subsequent outputs provide parametric bootstraps around the expected values.
+It is possible to create bootstrap data files for SS where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. The number of bootstrap data files to create is specified in the starter file where a value of 3 or greater will create a single bootstrap data file in the data.ss\_new file. The first output provides the unaltered input data file (with annotations added).  The second provides the expected values for only the data elements used in the model run.  The third and subsequent outputs provide parametric bootstraps around the expected values. The bootstrap data file can be parsed using r4ss function SS\_splitdat into individual data files and re-run with the model.
+
+The bootstrapping procedure within SS is done via the following steps:
+
+\begin{itemize}
+	\item Expected values of all input data are calculated (these are also used in the likelihood which compares observed to expected values for all data). The calculation of these expected values is described in detail under the "Observation Model" section of the appendix to \citet{methot_stock_2013}. \
+	
+	\item Parametric bootstrap data are calculated for each observation by sampling from a probability distribution corresponding to the likelihood for that data type using the expected values noted above. Examples of how this happens include the following:
+	
+	\begin{itemize}
+		\item Indices of abundance are sampled from the distribution used in the estimation model (as set in the “Errtype” column of the index configuration, most commonly lognormal but could be normal or T-distribution). The variability of the distribution from which the random sample is drawn is based on the combination of the input uncertainty and any estimated "Extra SD" parameter and any "add\_to\_survey\_CV" value included under the input variance adjustments factors.
+		
+		\item Length and age compositions are sampled from multinomial distributions with expected proportions in each bin based on the expected values and sample size equal to the adjusted input sample size (input sample size multiplied by any inputs for "mult\_by\_lencomp\_N" or "mult\_by\_agecomp\_N" under the input variance adjustments factors).
+		
+		\item Discard data (fractions or absolute amounts) are generated from the chosen distribution (T-distribution, normal, log-normal, truncated-normal).
+		
+		\item Tagging data is generated using a negative binomial distribution to get the total number of recaptures for each tag group and a multinomial distribution to allocate those recaptures among fleets.
+	\end{itemize}
+\end{itemize}
+
+Given this, there are some assumptions implicit in the bootstrapping procedure (as implemented as of v.3.30.14) that users should be aware of:
+
+\begin{itemize}
+	\item This procedure is strictly an observation error approach (i.e., process error in recruitment or any other time-varying parameter is not added). For simulation analyses, a common approach has been to input a new time series of recruitment deviations for each bootstrap data set.
+	
+	\item The sample size for conditional age-at-length data matches the inputs for each length bin. If stratified sampling is used, this may be appropriate, but if the ages represent a random subset of the selected population, this may result in less variability than if the associated length distribution were resampled.
+	
+	\item Currently, the aging error matrix is multiplied by the expected distribution of proportions at age, while the more correct order of operations would be to sample true ages, and then sample the observed age including aging error (it is possible these are mathematically identical).
+\end{itemize}
 
 \subsection{Forecast and Reference Points (Forecast-report.sso)}
 The Forecast-report file contains output of fishery reference points and forecasts.  It is designed to meet the needs of the Pacific Fishery Management Council's Groundfish Fishery Management Plan, but it should be quite feasible to develop other regionally specific variants of this output.
