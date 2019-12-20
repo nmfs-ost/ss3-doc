@@ -845,14 +845,31 @@ As with the length composition data, a negative year value causes the observatio
 
 
 \subsection{Conditional Age-at-Length}
-Use of conditional age-at-length will greatly increase the total number of age composition observations and associated model run time, but there can be several advantages to inputting ages in this fashion.  First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information.  Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age.  Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
+Use of conditional age-at-length will greatly increase the total number of age composition observations and associated model run time but there can be several advantages to inputting ages in this fashion.  First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information.  Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age. Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
 
 However, simulation research has shown that the use of conditional age-at-length data can result in biased growth estimates in the presence of unaccounted for age-based movement when length-based selectivity is assumed \citep{lee_effects_2017}, when other age-based processes (e.g., mortality) are not accounted for \citep{lee_use_2019}, or based on the age sampling protocol \citep{piner_evaluation_2016}.  Understanding how data are collected (e.g., random, length-conditioned samples) and the biology of the stock is important when using conditional age-at-length data for a fleet.   
 
-In a two sex model, it is best to enter these conditional age-at-length data as single sex observations (sex = 1 for females and = 2 for males), rather than as joint sex observations (sex = 3).  Inputting joint sex observations comes with a more rigid assumption about sex ratios within each length bin. Using separate vectors for each sex allows 100\% of the expected composition to be fit to 100\% observations within each sex, whereas with the sex = 3 option, you would have a bad fit if the sex ratio were out of balance with the model expectation, even if the observed proportion at age within each sex exactly matched the model expectation for that age.  Additionally, inputting the conditional age-at-length data as single sex observations isolates the age composition data from any sex selectivity as well.
+In a two sex model, it is best to enter these conditional age-at-length data as single sex observations (sex = 1 for females and = 2 for males), rather than as joint sex observations (sex = 3). Inputting joint sex observations comes with a more rigid assumption about sex ratios within each length bin. Using separate vectors for each sex allows 100\% of the expected composition to be fit to 100\% observations within each sex, whereas with the sex = 3 option, you would have a bad fit if the sex ratio were out of balance with the model expectation, even if the observed proportion at age within each sex exactly matched the model expectation for that age.  Additionally, inputting the conditional age-at-length data as single sex observations isolates the age composition data from any sex selectivity as well.
 
-When Lbin\_lo and Lbin\_hi are used to select a subset of the total size range, the expected value for these age data is calculated within that specified size range, so age is conditional on length.
+Conditional age-at-length data are entered within the age composition data section and can be mixed with marginal age observations for other fleets of other years within a fleet. To treat age data as conditional on length, Lbin\_lo and Lbin\_hi are used to select a subset of the total size range. This is different than setting Lbin\_lo and Lbin\_hi both to -1 to select the entire size 
+range, which treats the data entered on this line within the age composition data section as marginal age
+composition data. 
 
+\begin{tabular}{p{0.9cm} p{1cm} p{0.9cm} p{0.9cm} p{1.5cm} p{0.9cm} p{0.9cm} p{0.9cm} p{1cm} p{2.4cm}}
+	\multicolumn{10}{l}{ }\\
+	\multicolumn{10}{l}{An example conditional age-at-length composition observations:}\\
+	\hline
+	Year & Month & Fleet & Sex & Partition & Age Err & Lbin lo & Lbin hi & Nsamp & Data Vector \Tstrut\\
+	\hline
+	1987 & 1 & 1 & 1 & 0 & 2 & 10 & 10 & 18 & <data values>\Tstrut\\
+	1987 & 1 & 1 & 1 & 0 & 2 & 12 & 12 & 24 & <data values>\Tstrut\\
+	1987 & 1 & 1 & 1 & 0 & 2 & 14 & 14 & 16 & <data values>\Tstrut\\
+	1987 & 1 & 1 & 1 & 0 & 2 & 16 & 16 & 30 & <data values>\Tstrut\\
+	-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\Bstrut\\
+	\hline
+\end{tabular}
+
+In this example observation, the age data is treated as on being conditional on the 2 cm length bins of 10-11.99, 12-13.99, 14-15.99, and 16-17.99cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.
 
 \subsection{Mean Length or Body Weight-at-Age}
 SS also accepts input of mean length-at-age or mean body weight-at-age.  This is done in terms of observed age, not true age, to take into account the effects of ageing imprecision on expected mean size-at-age.  If the value of the Age Error column is positive, then the observation is interpreted as mean length-at-age.  If the value of the Age Error column is negative, then the observation is interpreted as mean body weight-at-age and the abs(Age Error) is used as Age Error.
