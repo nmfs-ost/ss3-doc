@@ -1514,16 +1514,18 @@ Specify the size/age selectivity pattern. See the \hyperlink{SelexPattern}{Selec
 Male specific selectivity options:
 \begin{itemize}
 	\item Option = 0: no male specific selectivity parameters required. Male and female selectivity will be the same.
-	\item Option = 1: program will read 4 additional parameters to define the male selectivity relative to the female selectivity.  Anytime the male selectivity is caused to be greater than 1.0; the entire male/female matrix of selectivity values is scaled by the max so that the realized max is 1.0.  Hopefully this does not cause gradient problems.  
+	\item Option = 1: program will read 4 additional parameters to define the male selectivity relative to the female selectivity. Anytime the male selectivity is caused to be greater than 1.0; the entire male/female matrix of selectivity values is scaled by the max so that the realized max is 1.0. Note, this may cause gradient problems.  
 	\item Option 2: main selectivity parameters define male selectivity and female selectivity is estimated as an offset from male selectivity.  This alternative is preferable if female selectivity is less than male selectivity.  
 	\item Option 3: only available if the selectivity pattern is 1, 20, or 24 and it causes the male selectivity parameters to be offset from the female parameters, rather than the male selectivity being an offset from the female selectivity.
 \end{itemize}
 
 \myparagraph{Special}
-Special (0/value): This value is used in different ways depending on the context.  If the selectivity type is to mirror another selectivity type, then put the index of that source fleet or survey here.  It must refer to a lower numbered fleet/survey.  If the selectivity type is 6 (linear segment), then put the number of segments here.  If the selectivity type is 7, then put a 1 here to keep selectivity constant above the mean average size for old fish of morph 1.
+Special (0/value): This value is used in different ways depending on the context.  If the selectivity type is to mirror another selectivity type, then put the index of that source fleet or survey here. It must refer to a lower numbered fleet/survey. If the selectivity type is 6 (linear segment), then put the number of segments here. If the selectivity type is 7, then put a 1 here to keep selectivity constant above the mean average size for old fish of morph 1.
 
 \myparagraph{Age Selectivity}
 For each fleet and survey, read a definition line for age selectivity. The 4 values to be read are the same as for the size-selectivity. 
+
+The selectivity of age 0 fish should be carefully considered when selecting the age selectivity form. Most selectivity curves will allow for selection of age 0 fish (e.g., logistic age-selectivity). However, it is fairly common for the age bins to routinely starts at age 1 (specified in the data file). This means that any age 0 fish that get caught are pooled up into the age 1' bin which this will have a detrimental effect on fitting age-composition data. SS v.3.30.15 has added additional user control to deal with this issue. In order to prevent selection of age 0 fish the selectivity pattern type now can be specified as > 1XX where XX is the selectivity pattern.  As example, if selectivity is age-logistic and selectivity for age 0 fish should equal 0 the selectivity pattern would be specified as 111 (the regular age-logistic selectivity pattern is option 11).
 
 \subsubsection{Reading the Selectivity and Retention Parameters}
 Read the required number of parameter setup lines as specified by the definition lines above.  The complete order of the parameter setup lines is:
