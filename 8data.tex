@@ -483,6 +483,8 @@ If discard is being used, the input syntax is:
 		\hline
 	\end{tabular}
 \end{center}
+
+Note that although the user must specify a month for the discard data, the unit for discard data is in terms of a season rather than a specific month. So, if using a seasonal model, the input month values must corresponding to some time during the correct season. The actual value will not matter because the discard amount is calculated for the entirety of the season.
 	
 \myparagraph{Discard Units}
 The options are:
@@ -504,7 +506,6 @@ The four options for discard error are:
 
 \myparagraph{Discard Notes}
 \begin{itemize}
-	\item Since discard refers to catch, its time units are in seasons, not months.
 	\item Year values that are before start year or after end year are excluded from model, so the easiest way to include provisional data in a data file is to put a negative sign on its year value.
 	\item Negative value for fleet causes it to be included in the calculation of expected values, but excluded from the log likelihood.
 	\item Zero (0.0) is a legitimate discard observation, unless lognormal error structure is used.
