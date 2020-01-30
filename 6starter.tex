@@ -223,23 +223,32 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
   & 2 = expanded output; and &  \\		 
   & 3 = make output subdirectory for each MCMC vector. &  \\
   & & \\
-  & & \\		 
+  & & \\  		 
   
   \hline
   \hypertarget{ALK}{0} & Age-length-key (ALK) tolerance level, 0 >= values required & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Value of 0 will not apply any compression.  Values > 0 (e.g. 0.0001) will apply compression to the ALK which will increase the speed of calculations.  The size of this value will impact the run time of your model, but one should be careful to ensure that the value used does not appreciably impact the estimated quantities relative to no compression of the ALK.  The suggested value if applied is 0.0001.}} \Tstrut\\ 
   & & \\
   & & \\
   & & \Bstrut\\
-
- \hline
- \hypertarget{Convert}{3.30} & 3.30: Indicates that the control and data files are currently in SS v3.30 format. 
-	 & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The transition executable for SS v.3.30 will create converted files in the new format from previous versions (must be SS v.3.24) when 999 is given.  All ss\_new files are in the SS v.3.30 format, so starter.ss\_new has SS v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS v.3.30 cannot read a ss.par file produced by SS v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The \hypertarget{ConvIssues}  {Converting Files from SS v.3.24} section has additional information on model features that may impede file conversion.}}\Tstrut\\
-     & \multirow{1}{1cm}[-0.1cm]{\parbox{7cm}{999: Indicates that the control and data file are in a previous SS v.3.24 version.  The ss\_trans.exe executable should be used which will convert the files to the new format in the control.ss\_new and data.ss\_new files.}}  & \\  
+  
+  \hline  
+  \multicolumn{2}{l}{COND: Seed Value}& \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This is an optional input value which allows for the specification of a random number seed value.  If you do not with to specify a seed, skip this input line and end the reading of the starter file with the check value (3.30). }} \Tstrut\\
+  & & \\ 
+  & & \\
+  \multicolumn{1}{r}{123} & Set seed value: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to 3.30.15.}}\\ 
+  & & \Tstrut\\
+  
+  \pagebreak
+ %\hline
+ \hypertarget{Convert}{3.30} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{ A value of 3.30 indicates that the control and data files are currently in SS v3.30 format and a value of 999 indicates that the control and data file are in a previous SS v.3.24 version. The ss\_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss\_new and data.ss\_new files.  All ss\_new files are in the SS v.3.30 format, so starter.ss\_new has SS v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS v.3.30 cannot read a ss.par file produced by SS v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The \hypertarget{ConvIssues}  {Converting Files from SS v.3.24} section has additional information on model features that may impede file conversion.}}\Tstrut\\
      & & \\  
-	   & & \\
+     & & \\  
+	 & & \\
      & & \\
    	 & & \\
-
+     & & \\  
+     & & \\  
+     & & \\       
 \end{longtable}
 \end{landscape}
 }
