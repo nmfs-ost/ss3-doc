@@ -161,6 +161,7 @@ The process of updating and adding new features within SS v.3.30 exposed several
 	\item SS v.3.24 had a lower bound of 1 when adjusting annual sample size (Nsamp) downward for composition data (length and age).  The variance adjustment factors specified in the control file are multiplied across all annual sample size values for each data source (fleet and composition type).  The issue with the lower bound of 1 resulted in sample size adjustment not being constant across small and large sample size years, possibly resulting in smaller samples have higher impact than may be desired.  SS v3.30 has reduced this lower bound to a value of 0.001 but has retained user control over this value within the data file ("minsamplesize" column in the Composition Data Structure matrix at the top of the length and age data sections) to allow comparison with older model versions. 
 \end{enumerate}
 
+\pagebreak
 		
 \section{File Organization}\label{FileOrganization}		
 	\subsection{Input Files}
@@ -252,9 +253,12 @@ The process of updating and adding new features within SS v.3.30 exposed several
 		%	\item Excel file to explore SS movement parameterization.
 		%\end{enumerate}
 	\end{enumerate}
+
+\pagebreak
 		
 \section{Starting SS}
 SS is typically run through the command line interface, although it can also be called from another program, R, the SS-GUI or a script file (such as a DOS batch file). SS is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS will run much slower on computers with inadequate memory. See the Running SS section on page \pageref{sec:RunningSS} for additional notes on methods of running SS.
 
 Communication with the program is through text files.  When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS is being run.  The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page \pageref{FileOrganization}.  The names of the control and data files must match the names specified in the starter.ss file.  File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to setup a model correctly.  Output from SS consists of text files containing specific keywords.  Output processing programs, such as the SS GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.
 
+\pagebreak
