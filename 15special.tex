@@ -1,7 +1,229 @@
 \section{Detailed SS Processes Information}
 
+\hypertarget{TVpara}{}
+\subsection{Using Time-Varying Parameters}
+The approach to allowing parameters to have time-varying values has been completely overhauled in the transition from SS v.3.24 to SS v.3.30.  Fortunately, the transition executable (sstrans.exe) will do the conversion for you, but you should review the new control file closely before simply running with it, especially for time-varying catchability parameters.
+
+\myparagraph{Time-Varying Parameter Change from Earlier SS Versions}
+In SS v.3.24, the group of biology parameters (termed mortality-growth parameters) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient. The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block. The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks. Then finally, the tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
+
+\myparagraph{Code Flow Version SS v.3.30}
+In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v.3.30.12) base parameters all use long parameter lines and invoke blocks, trends, environmental linkages, and random deviations using identical syntax.  As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter. Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  "Create\_timevary" creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will auto-generate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specification) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
+
+\myparagraph{Parameter Order}
+The order of parameters has changed and the re-ordering is handled by the transition executable (sstrans.exe).  Previously, for each of mortality-growth and selectivity parameters all environmental link parameters were listed first, then block/trend parameters and then deviation parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
+
+\begin{center}
+	\begin{longtable}{p{5cm} p{10cm}}
+		\hline
+		MG base parameter 3 & Block parameter 3-1\Tstrut\\
+		& Block parameter 3-2\\
+		& Environmental link parameter 3-1\\
+		& Deviation se parameter 3 \\
+		& Deviation rho parameter 3 \Bstrut\\
+		MG base parameter 7 & Block parameter 7-1 \\
+		& Deviation se parameter 7 \\
+		& Deviation rho parameter 7 \Bstrut\\
+		\hline	 	                    
+		
+	\end{longtable}
+\end{center}
+
+\myparagraph{Link Functions} 
+The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$. Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter. Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function. So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options. But as SS v.3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
+
+The link specifications in SS v.3.30 has been updated from SS v.3.24. Take special note of the environmental linkage specification where two bits of information are coded into one number. The new specification has the environmental link function denoted by the first environmental index to use specified by two additional. (e.g., environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
+
+\hypertarget{EnvVar}{The} new available options for time-varying parameters in SS v.3.30 are described below:
+\begin{itemize}
+	\item Environmental Link and  Variance - Element 8 in parameter setup
+	\begin{itemize}
+		\item env\_data is a dvar\_matrix populated with the read environmental data for columns 1-N environmental variables and derived quantities mapped to columns -1 to -4 to density-dependence:
+		\begin{itemize}
+			\item -1;  for ln(relative spawning biomass);
+			\item -2;  for recruitment deviation;
+			\item -3;  for ln(relative summary biomass) (e.g., current year summary biomass divided by the unfished summary biomass);
+			\item -4;  for ln(relative summary numbers).
+		\end{itemize}
+		\item So, environmental input 103 would use link type 1 and apply it to environmental data column 3 and environmental input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass).
+		\item These four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any oder of operations rule. 
+	\end{itemize}
+	
+	\item Deviation Link - Element 9 in parameter setup
+	\begin{itemize}
+		\item 1 = multiplicative ($P_y*=exp(\text{dev}_y*\text{dev}_{se}$),
+		\item 2 = additive ($P_y+=\text{env}_y*\text{dev}_{se}$),
+		\item 3 = random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
+		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in SS v.3.24).
+		\item The option of applying the final model year deviation value into the forecast period was added in v. 3.30.13.  This new option is specified by selecting the appropriate deviation link option (1, 2, 3, or 4) and appending a 2 at the front (21, 22, 23, or 24) which will use the final year deviation value for all forecast years. 
+		\item See \hyperlink{DevLink}{Deviation Link} to see the code behind each of these options
+	\end{itemize}
+	
+	\item Deviation  Minimum Year - Element 10 in parameter setup
+	\begin{itemize}
+		\item Year for deviations to start for parameter
+	\end{itemize}
+	
+	\item Deviation  Maximum Year - Element 11 in parameter setup
+	\begin{itemize}
+		\item Year for deviations to end for parameter
+	\end{itemize}
+	
+	\item Deviation Phase - Element 12 in parameter setup
+	\begin{itemize}
+		\item integer, this available element in the long parameter line is now a deviation vector specific phase control
+	\end{itemize}
+	
+	\item Blocks - Element 13 in parameter setup. Currently, there are four options for applying blocks:
+	\begin{itemize}
+		\item >0: block index for parameter.
+		\item -1: trend with final as offset from base parameter and offset values is in natural log space, also inflection year is in natural log space and the offset from ln(0.5). No additional parameter lines are required.  Three parameters will be estimated; end trend parameter value logistic offset, inflection year logistic offset, and slope.
+		\item -2: trend with final as standalone value. No additional parameter lines are required. Three parameters will be estimated; end trend parameter value, inflection year, and slope.
+		\item -3 end value is a fraction of base parameter maximum - minimum; inflection year is fraction of end year - start year. No additional parameter lines are required. Three parameters will be estimated; end trend parameter value as a fraction, inflection year as a fraction, and slope.
+		%\item <= -4: cycle with on parameter per season
+	\end{itemize}
+	
+	\item Block Functional Form: Element 14 in parameter setup
+	\begin{itemize}
+		\item 0: multiplicative ($P_{y} = P_{base}*exp(tv\_para)$),
+		\item 1: additive ($P_{y} = P_{base} + tv\_para$),
+		\item 2: replace ($P_{y} = tv\_para$),
+		\item 3: random walk across blocks ($P_{block} = P_{block,-1} + tv\_para$),
+		\item 4: mean reverting random walk
+	\end{itemize}
+\end{itemize}
+
+\myparagraph{Block Trends}
+Additional information regarding the options for applying blocks (element 13):
+\begin{itemize} 
+	\item -1: Trend bounded by base parameter minimum maximum and parameters in transformed units (use with caution),
+	\begin{itemize}
+		\item Logistic approach to trend as offset from base parameter
+		\item Transform the base parameter from the MG parameter section:
+		\begin{equation}
+			temp = -0.5*ln\Bigg(\frac{MGparm_1(j,2)-MGparm_1(j,1)+0.0000002}{MGparm(j)-MGparm_1(j,1)+0.0000001}-1\Bigg)
+		\end{equation}
+		\item Add the offset. Note, that offset values in in the transform space.
+		\begin{equation}
+			temp += MGparm(k+1)
+		\end{equation}
+		\item Back transform
+		\begin{equation}
+			temp1 = MGparm_1(j,1)+\frac{MGparm_1(j,2)-MGparm_1(j,1)}{1+e^{-2*temp}}
+		\end{equation}			
+	\end{itemize}
+\end{itemize}
+
+
+\hypertarget{PriorDescrip}{}
+\subsection{Parameter Priors}
+Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
+
+The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. The Prior Likelihoods below represent the negative log likelihood in all cases.
+
+\myparagraph{Prior Types}
+Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
+
+\begin{tabular}{ll}
+	$p$       & The value of the parameter for which a prior is being calculated  \\
+	$P_{min}$  & The lower bound of the parameter (1st column in control file)     \\
+	$P_{max}$  & The upper bound of the parameter (2nd column in control file)     \\
+	$Prior$   & The input value for the PRIOR input (4th column in control file)  \\
+	$Pr\_SD$  & The input value for the PR\_SD input (5th column in control file) \\
+\end{tabular}
+
+\begin{itemize}
+	\item  \textbf{Prior Type = 0 = No prior applied} \\ 
+	In a Bayesian context this is equivalent to a uniform prior between the parameter bounds.
+	
+	\item  \textbf{Prior Type = 1 = Symmetric beta prior} \\ 
+	The symmetric beta is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior. The PRIOR input is ignored for this prior type.
+	\begin{equation}  
+		\mu = -Pr\_SD \cdot ln\left(\frac{P_{max}+P_{min}}{2} - P_{min} \right) - Pr\_SD \cdot ln(0.5)
+	\end{equation}
+	
+	\begin{equation}
+		\begin{split}
+			\text{Prior Likelihood} = & -\mu - Pr\_SD \cdot ln\left(p-P_{min}+0.0001\right) \\
+			& - Pr\_SD \cdot ln\left(1-\frac{p-P_{min}-0.0001}{P_{max}-P_{min}}\right)
+		\end{split}
+	\end{equation}
+
+	\begin{figure}
+	\begin{center}
+		\includegraphics[scale = 0.75]{SymetricBeta}\\
+	\end{center}
+	\caption{Prior distributions for the symmetric beta distribution.}
+	\end{figure}	
+
+	
+	\item \textbf{Prior Type = 2 = Beta prior}  \\ 
+	The definition of $\mu$ is consistent with CASAL's formulation with the $Bprior$ and $Aprior$ corresponding to the $m$ and $n$ parameters.
+	\begin{equation}
+		\mu = \frac{Prior-P_{min}}{P_{max}-P_{min}} 
+	\end{equation}
+	\begin{equation}
+		\tau  = \frac{(Prior-P_{min})(P_{max}-Prior)}{Pr\_SD^2}-1
+	\end{equation}
+	\begin{equation}
+		Bprior  = \tau \cdot \mu
+	\end{equation}
+	\begin{equation}
+		Aprior = \tau (1-\mu)
+	\end{equation}
+	
+	\begin{equation}
+		\begin{split}
+			\text{Prior Likelihood} = & (1 - Bprior) \cdot ln(0.0001 + p - P_{min}) \\
+			& + (1 - Aprior) \cdot ln(0.0001 + P_{max} - p) \\
+			& - (1 - Bprior) \cdot ln(0.0001 + Prior - P_{min}) \\
+			& - (1 - Aprior) \cdot ln(0.0001 + P_{max} - Prior)
+		\end{split}
+	\end{equation}
+
+	\begin{figure}
+	\begin{center}
+		\includegraphics{BetaComparison}\\
+	\end{center}
+	\caption{Comparison of the symmetric beta and the beta prior functions.}
+	\end{figure}	
+
+	
+	\item \textbf{Prior Type 3 = Lognormal prior} \\ 
+	Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0. The prior value is input into the parameter line in natural log space while the initial parameter value is defined in normal space (e.g. INIT = 0.20, PRIOR = -1.609438).
+	\begin{equation}
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(p)-Prior}{Pr\_SD}\right)^2
+	\end{equation}
+	
+	\item \textbf{Prior Type 4 = Lognormal prior with bias correction} \\ 
+	This option allows the prior mean value to be entered as the ln(mean). Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0.
+	\begin{equation}
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(p)-Prior + \frac{1}{2}{Pr\_SD}^2}{Pr\_SD}\right)^2
+	\end{equation}
+	
+	\item \textbf{Prior Type 5 = Gamma prior} \\ 
+	The lower bound should be 0 or greater.
+	\begin{equation}
+		scale = \frac{{Pr\_SD}^2}{Prior}
+	\end{equation}
+	\begin{equation}
+		shape = \frac{Prior}{scale}
+	\end{equation}
+	\begin{equation}
+		\text{Prior Likelihood} = -shape \cdot ln(scale) - ln\big(\Gamma(shape)\big) + (shape - 1) \cdot ln(p) - \frac{p}{scale}
+	\end{equation}
+	
+	\item \textbf{Prior Type 6 = Normal prior} \\ 
+	Note that this function is independent of the parameter bounds.
+	\begin{equation}
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{p - Prior}{Pr\_SD}\right)^2
+	\end{equation}
+\end{itemize}
+
 %=========Data Weighting
 \input{_forecast_module}
+
+
 
 \pagebreak
 

@@ -1,12 +1,20 @@
 \subsection{Recruitment Variability and Bias Correction }
+\hypertarget{BiasCorrect}{}
 
 Recruitments in SS are defined as lognormal deviates around a log-bias adjusted spawner-recruitment curve.  The magnitude of the log-bias adjustment is calculated from the level of $\sigma_R$ , which is the standard deviation of the recruitment deviations (in log-space).  There are 5 segments of the time series in which to consider the effect of the log-bias adjustment: virgin; initial equilibrium; early data-poor period; data-rich period; very-recent/forecast. The choice of break points between these segments need not correspond directly with the settings for the bias adjustment, although some alignment might be desired. \citet{methot_adjusting_2011} provide more detailed discussion of the bias adjustment than what is provided below but do not address the separation of time periods into separate segments. The approach is illustrated with figures associated the assessment for darkblotched rockfish \citep{gertseva_status_2013}.
 
+\begin{figure}
+	
 \includegraphics{appendixA_recruits}\\
-\figurename{ A.1. Spawner-recruitment relationship for darkblotched rockfish \citep{gertseva_status_2013}. Red points represent estimated recruitments, the solid black line is the stock-recruit relationship and the green line represents the adjustment to this relationship after adjustment to account for the lognormal distribution associated with each year. The "+" symbol labeled 1915 near the right side represents both the virgin and initial equilibrium of the model. The numerous red points close to the initial conditions correspond to the early years of the model with low harvest rates.}
+\caption{ Spawner-recruitment relationship for darkblotched rockfish \citep{gertseva_status_2013}. Red points represent estimated recruitments, the solid black line is the stock-recruit relationship and the green line represents the adjustment to this relationship after adjustment to account for the lognormal distribution associated with each year. The "+" symbol labeled 1915 near the right side represents both the virgin and initial equilibrium of the model. The numerous red points close to the initial conditions correspond to the early years of the model with low harvest rates.}
+\label{fig:recruits}	
+\end{figure}
 
+\begin{figure}[h]
 \includegraphics{appendixA_logdevs}\\
-\figurename{ A.2. Timeseries of log recruitment deviations for darkblotched rockfish with 95\% uncertainty intervals. The start year of the model is 1915, but recruitment deviations are estimates starting in 1870. The 45 deviation estimates for 1870–1914 inform the age structure used in the start year. The black color for the years 1960–2011 indicates the "main" recruitment deviation vector, while the blue color for the years 1870–1959 and 2012–2024 indicates the "early" and "late/forecast" recruitment deviation vectors, respectively. }
+\caption{ Timeseries of log recruitment deviations for darkblotched rockfish with 95\% uncertainty intervals. The start year of the model is 1915, but recruitment deviations are estimates starting in 1870. The 45 deviation estimates for 1870–1914 inform the age structure used in the start year. The black color for the years 1960–2011 indicates the "main" recruitment deviation vector, while the blue color for the years 1870–1959 and 2012–2024 indicates the "early" and "late/forecast" recruitment deviation vectors, respectively.}
+\label{fig:recdevs}
+\end{figure}
 
 \myparagraph{Virgin Biomass}
 The R0 level of recruitment is a parameter of the spawner-recruitment curve.  This recruitment and the corresponding spawning biomass are expected to represent the long-term arithmetic mean.
@@ -27,14 +35,24 @@ Here the length and or age data inform the model on the year-to-year level of re
 \myparagraph{Recent Years/Forecast}
 Here the situation is very similar to the early time period in that there are no data to inform the model about the year-to-year pattern in recruitment fluctuations so all deviations will be pulled to a zero level in the maximum posterior density.  The structure of SS creates no sharp dividing line between the estimation period and the forecast period.  In many cases one or more recruitments at the end of the time series will lack appreciable signal in the data and should therefore be treated as forecast recruit deviations.  To the degree that some variability is observed in these recruitments, partial or full bias correction may be desirable for these deviations separate from the purely forecast deviations, there is therefore an additional control for the level of bias correction applied to forecast deviations occurring prior to end year + 1.
 
-\includegraphics{appendixA_asymerror}\\
-\figurename{ A.3. Timeseries of standard error estimates for the log recruitment deviations for darkblotched rockfish with 95\% uncertainty intervals. As in Figure A.2, the black color indicates the main recruitment period. This period with lower standard error is associated with higher variability among deviations (Figure A.2). The red line at 0.75 indicates the  $\sigma_R$ value in this model.}
+\begin{figure}[h]
+	\includegraphics{appendixA_asymerror}\\
+	\caption{ Timeseries of standard error estimates for the log recruitment deviations for darkblotched rockfish with 95\% uncertainty intervals. As in Figure \ref{fig:recdevs}, the black color indicates the main recruitment period. This period with lower standard error is associated with higher variability among deviations (Figure \ref{fig:recdevs}). The red line at 0.75 indicates the  $\sigma_R$ value in this model.}
+	\label{fig:recSE}
+\end{figure}
 
-\includegraphics{appendixA_biasadj}\\
-\figurename{ A.4. Transformation of the standard error estimates (shown in Figure A.3) for darkblotched rockfish following the approach suggested by \citet{methot_adjusting_2011}. These values were used to set the 5 values controlling the degree of bias adjustment (as a fraction of  $\sigma_R/2$) to account for differences in the mean and median of the lognormal distribution from which the recruitment deviations are drawn. The red line indicates a bias adjustment of 0 up to the  1960.75, ramping up to a maximum adjustment level of 0.877 for the period 1990.4–2008.98,and reducing back to 0 starting in 2013.08. Note that these values controlling the bias adjustment need not be integer year values. Also the break points in the bias adjustment function need not match the break points between early, main, and late/forecast recruitment deviation vectors (indicated by blue and black colors in Figures A.2 and A.3). The blue line indicates a functional form that minimizes the sum of squared differences between the bias adjustment function and the transformed standard error values. The subtle differences between red and blue lines are unlikely to have any appreciable effect on the model results.}
 
-\includegraphics{appendixA_depl}\\
-\figurename{ A.5. Comparison of timeseries of spawning depletion for darkblotched rockfish models with early recruitment deviations (starting in 1870) and without early deviations (only main recruitment deviations starting in 1960). The point estimates are similar, but the 95\% uncertainty intervals are substantially different. With no recruitment deviations for the early period, the estimates of spawning depletion in the early years are very precise and uncertainty increases as the stock moves into the data rich period. In contrast, the addition of the early recruitment deviations results in a large uncertainty in spawning depletion for the early years and an increase in precision as the stock moves into the data rich period. In this application, the uncertainty associated with the recent years is independent of the assumptions about early recruitments.}
+\begin{figure}[h]
+	\includegraphics{appendixA_biasadj}\\
+	\caption{ Transformation of the standard error estimates (shown in Figure \ref{fig:recSE}) for darkblotched rockfish following the approach suggested by \citet{methot_adjusting_2011}. These values were used to set the 5 values controlling the degree of bias adjustment (as a fraction of  $\sigma_R/2$) to account for differences in the mean and median of the lognormal distribution from which the recruitment deviations are drawn. The red line indicates a bias adjustment of 0 up to the  1960.75, ramping up to a maximum adjustment level of 0.877 for the period 1990.4–2008.98,and reducing back to 0 starting in 2013.08. Note that these values controlling the bias adjustment need not be integer year values. Also the break points in the bias adjustment function need not match the break points between early, main, and late/forecast recruitment deviation vectors (indicated by blue and black colors in Figures \ref{fig:recdevs} and \ref{fig:recSE}). The blue line indicates a functional form that minimizes the sum of squared differences between the bias adjustment function and the transformed standard error values. The subtle differences between red and blue lines are unlikely to have any appreciable effect on the model results.}
+	\label{fig:ramp}
+\end{figure}
+
+
+\begin{figure}[h]
+	\includegraphics{appendixA_depl}\\
+	\caption{ Comparison of timeseries of spawning depletion for darkblotched rockfish models with early recruitment deviations (starting in 1870) and without early deviations (only main recruitment deviations starting in 1960). The point estimates are similar, but the 95\% uncertainty intervals are substantially different. With no recruitment deviations for the early period, the estimates of spawning depletion in the early years are very precise and uncertainty increases as the stock moves into the data rich period. In contrast, the addition of the early recruitment deviations results in a large uncertainty in spawning depletion for the early years and an increase in precision as the stock moves into the data rich period. In this application, the uncertainty associated with the recent years is independent of the assumptions about early recruitments.}
+\end{figure}
 
 \myparagraph{Issues with Including Environmental Effects}
 The expected level of recruitment is a function of spawning biomass, an environmental time series, and a log-bias adjustment.
