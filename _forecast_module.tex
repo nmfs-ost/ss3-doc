@@ -1,5 +1,5 @@
 \hypertarget{appendB}{}
-\subsection{Forecast Module}
+\subsection{Forecast Module: Benchmark and Forecasting Calculations}
 \label{sec:forecast}
 
 SS version 3.20 introduced substantial upgrades to the benchmark and forecast module.  The general intent was to make the forecast outputs more consistent with the requirement to set catch limits that have a known probability of exceeding the overfishing limit.  In addition, this upgrade addressed several inadequacies with the previous module, including:
@@ -7,7 +7,7 @@ SS version 3.20 introduced substantial upgrades to the benchmark and forecast mo
 \begin{itemize}
 	\item The average selectivity and relative F was the same for the benchmark and the forecast calculations;
 	\item The biology-at-age in endyr+1 was used as the biology for the benchmark, but biology–at-age propagated forward in the forecast if there was time-varying growth;
-	\item The forecast module had a kluge approach to calculation of overfishing limit (OFL) conditioned on previously catching ABC;
+	\item The forecast module had a inefficient approach to calculation of overfishing limit (OFL) conditioned on previously catching ABC;
 	\item The forecast module implementation of catch caps was incomplete and applied some caps on a seasonally, rather than the more logical annual basis;
 	\item The Fmult scalar for fishing intensity presented a confusing concept for many users;
 	\item No provision for specification of catch allocation among fleets;
@@ -113,7 +113,7 @@ Correlation C2 shows a positive correlation between recruitment deviation in 200
 	\item Testing without inflection in control rule
 	\item Consider separating implementation error into a pass \#4 so results will more clearly show effect of assessment uncertainty separate from implementation uncertainty
 	\item 	Consider adding a random "assessment" error which essentially is a random variable that scales population abundance before passing into the forecast stage.  Complication is figuring out how to link it to the correlated error in the benchmark quantities
-	\item Because all of these calculations occur only in the sdphase or the mceval phase, it would be feasible for mceval calls to add an additional pass that is implemented many times and in which random forecast recruitment draws are made.
+	\item Because all of these calculations occur only in the standard deviation phase (sdphase) or the MCMC evaluation (mceval) phase, it would be feasible for mceval calls to add an additional pass that is implemented many times and in which random forecast recruitment draws are made.
 	\item Factors like selectivity and fleet relative F levels are calculated as an average of these values during the time series.  This is internally consistent if these factors do not vary during the time series (although clearly this is a stiff model that will underestimate process variance).  However, if these factors do vary over time, then the average used for the forecast will under-represent the variance.  A better approach would be to set up the parameters of selectivity as a random process that extends throughout the forecast period, and to update estimated selectivity in each year of the forecast based upon the random realization of these parameters.
 \end{itemize}
 
