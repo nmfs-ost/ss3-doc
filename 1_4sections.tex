@@ -13,154 +13,6 @@ This manual provides a guide for using SS. The guide contains a description of t
 
 Additional guidance for new users is available from the NOAA VLAB at vlab.ncep.noaa.gov/group/stock-synthesis/document-library.  The "Begin Here - Introduction to Stock Synthesis" folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.  
 
-	
-\section{New Features Available in SS Version 3.30}
-Stock Synthesis version v.3.30 was designed specifically to provide more precise control in modeling temporal changes in biology, expected values for data, and for recruitment.  In addition, a large number of new features that make substantial changes to the input formats have been introduced.  Two executables of SS are provided.  One, ss\_trans.exe, will read SS v.3.24 input files and produce SS v.3.30 formatted versions of those input files.  Nearly every feature in SS v.3.24 can be converted by this program.  The other executable, ss.exe, is the primary new assessment tool. Additional information on each new feature is available by clicking on the item.
-		
-\begin{center}
-	{\renewcommand{\arraystretch}{1.5}%
-	\begin{longtable}{p{2cm} p{3cm} p{10cm}}
-		\hline
-		Category & Item & Description\\
-		\hline
-		\endfirsthead
-		\hline
-		\toprule
-		Category & Item & Description\\
-		\hline
-		\endhead
-
-		\hline
-		\endfoot
-
-		\endlastfoot
-		
-		General & 
-			\hyperlink{GenericFleets}{Generic Fleets} & 
-				Fleet specification section of data file has substantially changed and now includes specific fleet type; fishery fleets, bycatch fleets, and surveys which can be specified in any order.\\
-
-		  & \hyperlink{ListBased}{List-oriented inputs} & 
-			    Older versions of SS (3.24 and earlier) required users to specify the number of items to be read, now SS can determine the number of lines to read through the application of a terminator line using -9999 in first field of the read vector. \\
-		  
-		  & \hyperlink{SubSeas}{Internal sub-seasons} & 
-			    SS v.3.24 inherently has 2 subseasons within each season (begin and middle) at which the age-length-key is calculated; now user specifies an even number of sub-seasons to use (2 to many). \\
-
-		  & \hyperlink{ObsTiming}{Observation Timing} & 
-			    Timing of observations now is input as year and month (e.g., April 15 is 4.5). The age-length-key used for each observation is calculated to the nearest sub-season month.  Old "survey\_timing" replaced by the month specific inputs.  Season is calculated at runtime from the input month and the input season durations. \\
-
-		  & \hyperlink{ALK}{Speed} & 
-			    Smarter at when to re-calculate the age-length-key; trims tails of size-at-age so calculations avoid many inconsequential cells of the age-length matrix. Age-length-key tail compression is specified in the starter file.\\
-		
-		  & \hyperlink{Convert} {Converter} & 
-			    Special version of SS, ss\_trans.exe, will read files in SS v.3.24 format and write *.ss\_new files in SS v.3.30 format.  This is the advised method for converting previous version files, but always do a side-by-side comparison.\\
-
-		  & \hyperlink{WAAparm} {Empirical Weight-at-Age} & Implementing empirical weight-at-age is now specified separately in the control file rather than under the maturity options.\\
-
-		  & \hyperlink{Priors}{Prior Type} & Change in the prior numbering for parameters.  Now, 0 indicates no prior, and 6 indicates a normal distribution prior.\\
-
-		Fishery and Catch & 
-			\hyperlink{CatchMult}{Catch multiplier} & 
-				Each fishing fleet's catch can now have a catchability (Q) that is a parameter in the mortality-growth parameter section.\\
-				
-			& \hyperlink{CatchFormat}{Catch input} & 
-				Catch input now as list:  year, season, fleet, amount, standard error. \\
-				
-			& \hyperlink{CompTiming}{Observations} & 
-				Fishery composition observations can be related to season long catch-at-age, or to a month-specific timing.\\
-		
-			& \hyperlink{DomeRetention}{Retention} & 
-				Option for dome-shaped retention function and for age-based retention. \\
-
-		Selectivity 
-			& Scaling Options & 	
-				New non-parametric selectivity types that are scaled by the raw values at particular ages, rather than the max age.\\
-			& \hyperlink{2DAR}{Two-Dimensional Autoregressive Selectivity} &
-				Implementation of two-dimensional autoregressive selectivity implemented in SS v.3.30.10.\\
-
-		Survey
-			& \hyperlink{SpecialSurvey}{Special Survey Types} & 
-				Special selectivity options (type 30 or $>$) are no longer specified within the control file.  Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units". \\  
-
-			& \hyperlink{Qsetup}{Link functions} & 
-				Q\_power is now one of several, and growing, set of link functions for catchability. \\
-				
-			& \hyperlink{Qsetup}{Catchability setup reorganization} & 
-				Major reorganization of catchability (Q) setup, including the link specification. \\
-			
-			& \multicolumn{1}{l}{\hyperlink{Qsetup}{Q as a parameter}} & 
-				Each survey now must have a Q parameter and its value still can float (as old option 5).\\
-
-		Recruitment
-			& \hyperlink{Shepherd}{Shepherd SRR} & 
-				The traditional 3-parameter Shepherd stock-recruitment curve is now an option.\\
-
-			& \hyperlink{Shepherd2}{Shepherd SRR re-parameterization} & 
-				A re-parameterized 3-parameter Shepherd stock-recruitment curve, distinct from the traditional parameterization, is now an option in SS v.3.30.11 and higher.\\
-			
-			& \hyperlink{Ricker2}{Ricker SRR re-parameterization} & 
-				A 3-parameter Ricker stock-recruitment curve is now an option in SS v.3.30.11 and higher.\\
-
-			& \hyperlink{RecrTiming}{Recruitment timing} & 
-				Replace "birthseason" with "settlement event" that has explicit timing offset from spawning. Month of spawning and each settlement event must be specified and need not be at beginning of a season.\\
-
-		Benchmark 
-			& Global MSY &  
-				Global MSY based on knife-edged age selection; also do calculation with single age selection. The global MSY value will automatically be included in the report file.\\
-		
-			& Mean recruitment distribution & 
-				In multi-area model, can now specify range of years to use for the average recruitment distribution for forecasting. This feature is not yet implemented. \\
-
-		Forecast & 
-			Process error & 
-				Propagate random walk in mortality growth parameters, catchability, and selectivity into forecast. Specifying the end year for process error in the forecast period will implement this option.  This option has only been partial implemented at this junction and will be completed in later versions.\\
-
-		Biology 
-			& \hyperlink{MGorder}{Parameter order} & 
-				Mortality growth parameters now have maturity, fecundity, sex ratio, and weight-length by growth pattern.\\
-				
-		    & \hyperlink{SexRatio}{Sex ratio} & 
-			    Change sex ratio at birth from a constant to a morph-specific mortality growth parameter. This feature was not correctly implemented in SS v.3.30 earlier than v.3.30.12. \\
-
-		    & \hyperlink{GrowthCessation}{Growth cessation} & 
-		    New growth option which allows for growth cessation, implemented in SS v.3.30.13. \\
-
-		Statistical 
-			& \hyperlink{GcompVar}{Input variance adjuster} & 
-				Added variance adjustment factor for generalized size comp. \\
-			
-			& Deviation vectors & 
-				Variance of deviation vectors is now specified with 2 parameters for standard error and auto-correlation (rho), so can be estimated.\\
-				
-			& \hyperlink{Dirichlet}{Dirichlet multinomial} & 
-				Dirichlet multinomial now a fleet-specific option; takes one parameter per fleet. \\
-
-		Parameters 
-			& \hyperlink{paraOrder}{Parameter order} & The prior standard deviation column for all parameter lines has been moved before the prior type column.  This modification improves formatting output between integer and decimal inputs.\\ 
-
-			& Density dependence & 
-				Beginning of year summary biomass and the recruitment deviation parameters are mapped to the "environmental" matrix so that parameters can be density-dependent based on environmental factors.\\
-				
-			& \hyperlink{tvOrder}{Re-order} & 
-				Pay attention to the new order of the time-varying adjustments to parameters (block/trend, then environmental, then deviations). \\
-			
-			& \hyperlink{time-vary}{Time-varying parameters} & 
-				Long parameter lines for spawner-recruit relationship (SRR), catchability (Q), and tag parameters and complete re-vamp of the way that time-varying parameters are implemented for SRR and Q.  Now shares same internal code as mortality-growth and selectivity parameters for time-varying capabilities.\\
-
-		 Software version control
-			 & Version numbering	& The implementation of as new version control has changed how executable versions will be specified.  The executable releases are now named SS3.3x.xx.xx representing, in order; major features, minor features, and code fixes. \\
-		 \hline
-	\end{longtable}}
-\end{center}
-		
-\subsection{SS v.3.24 Issues Detected}
-The process of updating and adding new features within SS v.3.30 exposed several issues with the previous version that have been corrected:
-\begin{enumerate}
-	\item Recruitment timing in multi-season models: When spawning occurred in a late season one year and recruits occurred at beginning of a season the next year, the recruits were starting at age-0, which was illogical.  SS v.3.30 corrects this so that recruits are age-0 only if recruiting at or between the time of spawning and the end of the year, and recruits after January 1st start at age-0.  A manual option in the control file allows users to attempt to replicate the SS v.3.24 protocol.
-	\item Lorenzen $M$ and time-varying growth interaction: There needs to be a revision to SS v.3.30 so that growth can be updated each season prior to calculating Lorenzen $M$.
-	\item Length at maximum age: SS v.3.24 intended to decay numbers at the maximum length over-time at $M + F$ decreasing the abundance of fish implicitly older than the maximum age (agemax).  However, this decay was only implemented in years for which time-varying growth was updated.  
-	\item SS v.3.24 had a lower bound of 1 when adjusting annual sample size (Nsamp) downward for composition data (length and age).  The variance adjustment factors specified in the control file are multiplied across all annual sample size values for each data source (fleet and composition type).  The issue with the lower bound of 1 resulted in sample size adjustment not being constant across small and large sample size years, possibly resulting in smaller samples have higher impact than may be desired.  SS v3.30 has reduced this lower bound to a value of 0.001 but has retained user control over this value within the data file ("minsamplesize" column in the Composition Data Structure matrix at the top of the length and age data sections) to allow comparison with older model versions. 
-\end{enumerate}
-
 \pagebreak
 		
 \section{File Organization}\label{FileOrganization}		
@@ -205,27 +57,6 @@ The process of updating and adding new features within SS v.3.30 exposed several
 	These files are additional files (e.g. excel files) which allow for exploration or understanding of specific parameterization which can assist in selecting appropriate starting values.  These files are available for download from the Vlab website. 
 	\begin{enumerate}
 		\item SS3-OUTPUT.xls: Excel file with macros to read report.sso and display results.
-		%\item Selex24\_dbl\_normal.xls:
-		%\begin{enumerate}
-		%	\item This excel file is used to show the shape of a double normal selectivity (option number 20 for age-based and 24 for length-based selectivity) given user-selected parameter values.
-		%	\item Instructions are noted in the excel file but, to summarize
-		%	\begin{enumerate}
-		%		\item Users should only change entries in a yellow box. 
-		%		\item Parameter values are changed manually or using sliders, depending on the value of cell I5.
-		%	\end{enumerate}
-		%	\item It is recommend that users select plausible starting values for double-normal selectivity options, especially when estimating all 6 parameters
-		%	\item Please note that the excel file does NOT show the impact of setting parameters 5 or 6 to -999.  In SS v.3.30, this allows the value of selectivity at the initial and final age or length to be determined by the shape of the double-normal arising from parameters 1-4, rather than forcing the selectivity at the initial and final age or length to be estimated separately using the value of parameters 5 and 6. 
-		%\end{enumerate}
-		%\item Selex17\_age\_randwalk.xls:
-		%\begin{enumerate}
-		%	\item This excel file is used to show the shape of age-based selectivity arising from option 17 given user-selected parameter values.
-		%	\item Users should only change entries in the yellow box.
-		%	\item The red box is the maximum cumulative value, which is subtracted from all cumulative values.  This is then exponentiated to yield the estimated selectivity curve.  Positive values yield increasing selectivity and negative values yield decreasing selectivity.
-		%\end{enumerate}
-		%\item Prior\_Tester.xls:
-		%\begin{enumerate}
-		%	\item The 'compare' tab of this spreadsheet shows how the various options for defining parameter priors work.
-		%\end{enumerate}
 		\item SS\_330\_Control\_Setup.xls:
 		\begin{enumerate}
 			\item Shows how to setup an example control file for SS.
@@ -238,20 +69,7 @@ The process of updating and adding new features within SS v.3.30 exposed several
 		\begin{enumerate}
 			\item Shows how to setup an example starter and forecast input files for SS.
 		\end{enumerate}
-		%\item Growth\_Comparison.xls: 
-		%\begin{enumerate}
-		%	\item Excel file to test parameterization between the growth curve options within SS.
-		%	\item Instructions are noted in the excel file but, to summarize:
-		%	\begin{enumerate}
-		%		\item Users should only change entries in a yellow box.  
-		%		\item Entries in a red box are used internally, and can be compared with other parameterizations, but should not be changed.
-		%	\end{enumerate}
-		%	\item The SS-VB is identical to the standard von Bertanlanffy growth curve, but uses a parameterization where length is estimated at pre-defined ages, rather than A=0 and A=Inf.  The Schnute- Richards is identical to the Richards-Maunder, but similarly uses the parameterization with length at pre-defined ages.  The Richards coefficient controls curvature, and if the curvature coefficient = 1, it reverts to the standard von Bertanlanffy growth curve. 
-		%\end{enumerate}
-		%\item Movement.xls:
-		%\begin{enumerate}
-		%	\item Excel file to explore SS movement parameterization.
-		%\end{enumerate}
+
 	\end{enumerate}
 
 \pagebreak
