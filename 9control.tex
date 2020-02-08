@@ -130,13 +130,13 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 	\end{longtable}
 \end{center}
 
-\subsubsection{Empirical Weight-at-Age}
-With version 3.04, SS added the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. The values are read from a separate file named, wtatage.ss. This file is only required to exist if this option is selected.  See the section on \hyperlink{WAA}{weight-at-age} for additional information on file formatting for empirical weight-at-age.
+\subsubsection{Weight-at-Age}
+SS added the capability to read empirical body weight-at-age for the population and each fleet, starting in version 3.04, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. The values are read from a separate file named, wtatage.ss. This file is only required to exist if this option is selected.  See the \hyperlink{WAA}{Empirical Weight-at-Age} section for additional information on file formatting for empirical weight-at-age.
 
 \subsubsection{Settlement Timing for Recruits and Distribution}
 In older versions of SS one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produced one annual total recruitment value. The annual recruitment value was then distributed among seasons, areas, and growth types according to other model parameters.
 
-In SS v.3.30, more control of the seasonal timing is provided and there now is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve but its timing can be at any specified time, not just the beginning of a season.  Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.  
+Additional control of the seasonal timing was added in SS v.3.30 and now there now is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve but its timing can be at any specified time, not just the beginning of a season.  Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.  
 
 	
 \begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11cm}}
@@ -550,6 +550,8 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\hline
 \end{longtable}
 
+\pagebreak
+
 \subsubsection{Hermaphroditism}
 
 \begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
@@ -595,6 +597,7 @@ The hermaphroditism option requires three full parameter lines in the mortality 
 \end{enumerate}
 These parameter lines are entered directly after the weight-at-length parameters for males.
 
+\pagebreak
 
 \subsubsection{Parameter offset method}
 
@@ -643,7 +646,7 @@ These parameters are only included in the control file if one of the ageing erro
 	\item Power function coefficient for interpolating between those 2 values.
 \end{enumerate}
 
-\noindent Code for implementing vectors of mean age and standard deviation of age within SS can be located in \hyperlink{AgeingError}{the code examples} on page \pageref{sec:codeappendix}.
+\noindent Code for implementing vectors of mean age and standard deviation of age within SS can be located in the \hyperlink{AgeingError}{code examples}.
 
 \subsubsection{Sex ratio}
 The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish at recruitment.  The parameter is specified in the fraction of female fish and is applied at settlement. The default option is a sex ratio of 0.50 with this parameter not being estimated.  Any composition data input as type = 3, both sexes, will be informative to the sex ratio because SS scales females and males together, not separately, for this data type input. Estimation of the sex ratio is a new feature within SS and should be done with care with the user checking that the answer is reflective of the data.
@@ -925,8 +928,8 @@ The spawner-recruitment section starts by specification of the functional relati
 	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: ln(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0; \\
 	  &                     & 6: Beverton-Holt with flat-top beyond Bzero, 2 parameters: ln(R0) and steepness;\\
 	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: ln(R0), $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are <= population production;\\
-      &                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: ln(R0), steepness, and shape parameter, $c$;\\
-      %& 					& 9: \hyperlink{Shepherd2}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to version 3.30.11 and is in beta mode); and\\
+      %&                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: ln(R0), steepness, and shape parameter, $c$;\\
+      & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to version 3.30.11 and is in beta mode); and\\
       & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: ln(R0), steepness, and Ricker power, $\gamma$ (added to version 3.30.11 and is in beta mode).\Bstrut\\
     \hline
 
@@ -1184,6 +1187,8 @@ where c is the shape parameter for the stock recruitment curve, and $h_{adj}$ is
 	\begin{equation}
 		h_{adj}=0.2+\bigg(\frac{h-0.2}{0.8}\bigg)\bigg(\frac{1}{5*0.2^c}-0.2\bigg)
 	\end{equation}
+
+More details can be found in \citet{punt_extending_2019}.
 
 %\myparagraph{Shepherd Re-parameterization}	
 %\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_2019}.
@@ -1661,6 +1666,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \myparagraph{Special Selectivity Options}
 Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{Index units}).	
 
+\pagebreak
 
 \subsubsection{Selectivity Pattern Details}
 \myparagraph{Pattern 1 (size) and 12 (age) - Simple Logistic}
@@ -2392,6 +2398,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 	\hline
 \end{tabular}
 
+\pagebreak
 
 \myparagraph{Lambda Usage Notes}
 \hypertarget{SaAlambda}{If} the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stddev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
@@ -2431,7 +2438,7 @@ The reading of the lambda values has been substantially altered with SS v.3.30. 
 	\end{longtable}
 \end{center}
 
-
+\pagebreak
 
 \subsection{Controls for Variance of Derived Quantities}
 Additional standard deviation reported may be selected:
