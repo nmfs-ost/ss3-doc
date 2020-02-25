@@ -978,8 +978,8 @@ The spawner-recruitment section starts by specification of the functional relati
 	\endlastfoot
 
 	3 & Spawner-            & The options are: \Tstrut\\
-	  & Recruitment         & 2: Ricker: 2 parameters: ln(R0) and steepness (h); \\
-	  & Relationship        & 3: Standard Beverton-Holt, 2 parameters: ln(R0) and steepness; \\
+	  & Recruitment         & 2: \hyperlink{Ricker}{Ricker}: 2 parameters: ln(R0) and steepness (h); \\
+	  & Relationship        & 3: \hyperlink{BH}{Standard Beverton-Holt}, 2 parameters: ln(R0) and steepness; \\
 	  &                     & 4: Ignore steepness and no bias adjustment. Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates, 2 parameters, but only uses the first one;\\
 	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: ln(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin SSB at which inflection occurs, and the R level at SSB=0.0; \\
 	  &                     & 6: Beverton-Holt with flat-top beyond Bzero, 2 parameters: ln(R0) and steepness;\\
@@ -999,6 +999,7 @@ The spawner-recruitment section starts by specification of the functional relati
 \subsubsection{Spawner-Recruitment Functions}
 The number of age-0 fish is related to spawning biomass according to a stock-recruitment relationship.  SS has the option of the Beverton-Holt, Ricker, Hockey-Stick, and a survival-based stock recruitment relationship.
 
+\hypertarget{BH}{}
 \myparagraph{Beverton-Holt}
 The Beverton-Holt Stock Recruitment curve is calculated as:
 \begin{equation}{R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
@@ -1006,6 +1007,7 @@ The Beverton-Holt Stock Recruitment curve is calculated as:
 
 where $R0$ is the unfished equilibrium recruitment, $SB0$ is the unfished equilibrium spawning biomass (corresponding to R0), $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, is the standard deviation among recruitment deviations in natural log space, and is the lognormal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot_adjusting_2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
 
+\hypertarget{Ricker}{}
 \myparagraph{Ricker}
 The Ricker Stock Recruitment curve is calculated as:
 \begin{equation}{R_y = \frac{R_0SB_y}{SB_0}e^{h(1-SB_y/SB_0)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
