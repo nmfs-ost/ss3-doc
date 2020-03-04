@@ -2387,66 +2387,106 @@ Additional standard deviation reported may be selected:
 	\endfirsthead
 
 
-	\multicolumn{3}{l}{1} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
+	\multicolumn{3}{l}{0} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
 	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read values below; and}\Bstrut\\
 	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size,numbers, and }\Bstrut\\
 	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality.}\Bstrut\\
+	\hline
 
 \end{longtable}
 
+COND = 1 or 2: Read the following lines (split into 3 rows for readability):
+\begin{itemize}
+	\item 4 values related to selectivity:
+	\begin{enumerate}
+		\item fleet number (or 0 if not used),
+		\item type of selectivity to report: 1 = length, 2 = age, or 3 = combined (age with length),
+		\item year, and
+		\item number of bins to report, list entered below (note - combined will report in age bins).
+	\end{enumerate}	
+	\item 2 values related to growth:
+	\begin{enumerate}
+		\item growth pattern (or 0 if not used), and
+		\item number of ages for reporting: list entered below (note - each sex will be reported).
+	\end{enumerate}	
+	\item 3 values related to numbers-at-age:
+	\begin{enumerate}
+		\item area (enter -1 for sum of all areas), or 0 for not used,
+		\item year, and
+		\item number of ages to report, list entered below (note - each sex will be reported and summed across growth patterns).
+	\end{enumerate}
+\end{itemize}
 
-%	\hline
-%	\multicolumn{9}{l}{COND = 1 or 2: Read the following lines (split into 3 rows for readability):}\Bstrut\\
-%	\hline
-%	&\multicolumn{8}{l}{4 values related to selectivity:}\Bstrut\\ 
-%	&&\multicolumn{7}{l}{(1) fleet number (or 0 if not used), }\Bstrut\\
-%	&&\multicolumn{7}{l}{(2) type of selectivity to report: 1 = length, 2 = age, or 3 = combined (age with l%ength),}\Bstrut\\
-%	&&\multicolumn{7}{l}{(3) year, and}\Bstrut\\
-%	&&\multicolumn{7}{l}{(4) number of bins to report, list entered below (note - combined will report in age}\Bstrut\\ 
-%	&&\multicolumn{7}{l}{bins).}\Bstrut\\
-	
-%	&\multicolumn{8}{l}{2 values related to growth:}\Bstrut\\ 
-%	&&\multicolumn{7}{l}{(1) growth pattern (or 0 if not used), and }\Bstrut\\
-%	&&\multicolumn{7}{l}{(2) number of ages for reporting: list entered below (note - each sex will be reported).}\Bstrut\\
-	
-%	&\multicolumn{8}{l}{3 values related to numbers-at-age:}\Bstrut\\ 
-%	&&\multicolumn{7}{l}{(1) area (enter -1 for sum of all areas), or 0 for not used, }\Bstrut\\
-%	&&\multicolumn{7}{l}{(2) year, and }\Bstrut\\
-%	&&\multicolumn{7}{l}{(3) number of ages to report, list entered below (note - each sex will be reported and}\Bstrut\\
-%	&&\multicolumn{7}{l}{summed across growth patterns).}\Bstrut\\
-%	\hline
-	
-%	\multicolumn{9}{l}{COND = 2:}\Bstrut\\
-%	\hline
-%	&\multicolumn{8}{l}{2 additional values related to natural mortality-at-age:}\Bstrut\\ 
-%	&&\multicolumn{7}{l}{(1) growth pattern (or 0 for not used), and }\Bstrut\\
-%	&&\multicolumn{7}{l}{(2) number of ages for reporting, list entered below (note - each sex will be reported). }\Bstrut\\
+COND = 2, enter the above quantities plus:  
+\begin{itemize}
+	\item 2 additional values related to natural mortality-at-age:
+	\begin{enumerate}
+		\item growth pattern (or 0 for not used), and
+		\item number of ages for reporting, list entered below (note - each sex will be reported).
+	\end{enumerate}
+\end{itemize}
+
+Depending upon the entered options above subsequent conditional inputs may be need.
+\begin{itemize}
+	\item COND if selectivity specs number of bins to report > 0:
+		\begin{itemize}
+			\item Vector of bin indexes or -1 in first bin will overwrite entered vector with auto-generated list to cover logical range
+	\end{itemize}
+	\item COND if growth specs number of bins to report > 0 and empirical weight at age not used:
+		\begin{itemize}
+			\item … as for selectivity bins
+		\end{itemize}
+	\item COND if numbers-at-age specs number of ages > 0:
+		\begin{itemize}
+			\item … as for selectivity bins
+		\end{itemize}
+	\item COND == 2 and mortality-at-age specs number of ages > 0:
+		\begin{itemize}
+			\item … as for selectivity bins
+		\end{itemize}
+\end{itemize}
+
+
 		
 \begin{longtable}{p{1.1cm} p{1.4cm} p{1.2cm} p{1.2cm} p{1.3cm} p{1.6cm} p{1.4cm} p{1.4cm} p{1.4cm}}
 	
 	\hline
-	\multicolumn{3}{l}{Typical Value} & \multicolumn{6}{l}{Description and Options}\Tstrut\Bstrut\\
+	\multicolumn{9}{l}{Example Input:}\Tstrut\Bstrut\\
 	\hline
-	\endfirsthead
+	
+	\multicolumn{3}{l}{1} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read values below; and}\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size,numbers, and }\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality.}\Bstrut\\
+	\hline
+	
+	\multicolumn{4}{l}{ 1 1 -1 5} & \multicolumn{5}{l}{\# Selectivity} \Bstrut\\
+	\multicolumn{4}{l}{ 1 5}      & \multicolumn{5}{l}{\# Growth} \Bstrut\\
+	\multicolumn{4}{l}{1 -1 5}    & \multicolumn{5}{l}{\# Numbers-at-age} \Bstrut\\
+
+	\multicolumn{4}{l}{5 15 25 35 43} & \multicolumn{5}{l}{\# Vector with selectivity std bins (-1 in first bin to self-generate)}\Bstrut\\
+	\multicolumn{4}{l}{1 2 14 26 40}  & \multicolumn{5}{l}{\# Vector with growth std ages picks (-1 in first bin to self-generate)}\Bstrut\\
+	\multicolumn{4}{l}{1 2 14 26 40}  & \multicolumn{5}{l}{\# Vector with numbers-at-age std ages (-1 in first bin to self-generate)}\Bstrut\\
+	 
 		
-	\Tstrut Selex Type & Len/Age /Both & Year & Nselex Bins & Growth Pattern & N Growth Ages & NatAge Area & NatAge year  & N Natage\Bstrut\\
-	\hline
-	1 & 1 & -1 & 5 & 1 & 5 & 1 & -1 & 5\Tstrut\Bstrut\\ 
+	%\Tstrut Selex Type & Len/Age /Both & Year & Nselex Bins & Growth Pattern & N Growth Ages & NatAge Area & NatAge year  & N Natage\Bstrut\\
+	%\hline
+	%1 & 1 & -1 & 5 & 1 & 5 & 1 & -1 & 5\Tstrut\Bstrut\\ 
 	
-	\hline
-	\multicolumn{9}{l}{Vector (length of 5) with selectivity std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
-	\hline
-	5 & 15 & 25 & 35 & 43 & & & & \Tstrut\Bstrut\\
+	%\hline
+	%\multicolumn{9}{l}{Vector (length of 5) with selectivity std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
+	%\hline
+	%5 & 15 & 25 & 35 & 43 & & & & \Tstrut\Bstrut\\
 	
-	\hline
-	\multicolumn{9}{l}{Vector (length of 5) with growth std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
-	\hline	
-	1 & 2 & 14 & 26 & 40 & & & & \Tstrut\Bstrut\\	
+	%\hline
+	%\multicolumn{9}{l}{Vector (length of 5) with growth std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
+	%\hline	
+	%1 & 2 & 14 & 26 & 40 & & & & \Tstrut\Bstrut\\	
 	
-	\hline
-	\multicolumn{9}{l}{Vector (length of 5) with NatAge std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
-	\hline	
-	1 & 2 & 14 & 26 & 40 & & & & \Tstrut\Bstrut\\
+	%\hline
+	%\multicolumn{9}{l}{Vector (length of 5) with NatAge std bin picks (-1 in first bin to self-generate).} \Tstrut\Bstrut\\
+	%\hline	
+	%1 & 2 & 14 & 26 & 40 & & & & \Tstrut\Bstrut\\
 	
 	\hline
 	\bfseries{999} & \multicolumn{8}{l}{\#End of the control file input}\Tstrut\Bstrut\\
@@ -2455,52 +2495,52 @@ Additional standard deviation reported may be selected:
 
 
 
-Where:
-\begin{itemize}
-	\item Selex Type:  The index of the fleet to be output. 
-	\begin{itemize} 
-		\item 0 = No selectivity variance output; and
-		\item 1 = Selectivity variance output.
-	\end{itemize} 
+%Where:
+%\begin{itemize}
+%	\item Selex Type:  The index of the fleet to be output. 
+%	\begin{itemize} 
+%		\item 0 = No selectivity variance output; and
+%		\item 1 = Selectivity variance output.
+%	\end{itemize} 
 	
-	\item Len/Age/Both:  
-	\begin{itemize}
-		\item 1 = Select length selectivity; 
-		\item 2 = Select age selectivity; and
-		\item 3 = Both length and age selectivity.
-	\end{itemize} 
+%	\item Len/Age/Both:  
+%	\begin{itemize}
+%		\item 1 = Select length selectivity; 
+%		\item 2 = Select age selectivity; and
+%		\item 3 = Both length and age selectivity.
+%	\end{itemize} 
 	
-	\item Year:  
-	\begin{itemize}
-		\item year = Enter a value for the selected year; and
-		\item -1  = To get the selectivity in the end year.
-	\end{itemize} 
+%	\item Year:  
+%	\begin{itemize}
+%		\item year = Enter a value for the selected year; and
+%		\item -1  = To get the selectivity in the end year.
+%	\end{itemize} 
 
-	\item 	N Selex bins: enter the number of bins for which selectivity will be output. This number controls the number of items to be read below, even if the Selex Type is set to zero. In other words, the read occurs even if the effect of the read is disabled. 
+%	\item 	N Selex bins: enter the number of bins for which selectivity will be output. This number controls the number of items to be read below, even if the Selex Type is set to zero. In other words, the read occurs even if the effect of the read is disabled. 
 	
-	\item Growth pattern: growth pattern is the number of the growth pattern to be output. Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year. Also, if growth parameters are not estimated, then standard deviation output of mean size-at-age is disabled. 
-	\begin{itemize}
-		\item positive value = Growth pattern,
-		\item 0 =  No variance output for size-at-age.   
-	\end{itemize}
+%	\item Growth pattern: growth pattern is the number of the growth pattern to be output. Note that in a multiple season model, SS will output the size-at-age for the last birth season that gets any recruits within the year. Also, if growth parameters are not estimated, then standard deviation output of mean size-at-age is disabled. 
+%	\begin{itemize}
+%		\item positive value = Growth pattern,
+%		\item 0 =  No variance output for size-at-age.   
+%	\end{itemize}
 
-	\item 	N growth bins:  Number of ages for which size-at-age variance is requested.  This number controls the number of items to be read below, even if the growth pattern selection is set to zero.   In other words, the read occurs even if the effect of the read is disabled.
+%	\item 	N growth bins:  Number of ages for which size-at-age variance is requested.  This number controls the number of items to be read below, even if the growth pattern selection is set to zero.   In other words, the read occurs even if the effect of the read is disabled.
 	
-	\item 	Area for Natage: specifies the area for which output of numbers at age is requested. 
-	\begin{itemize}
-		\item positive value = area to output;
-		\item 0 = Disables this output; and
-		\item -1 = Requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each sex.
-	\end{itemize}
+%	\item 	Area for Natage: specifies the area for which output of numbers at age is requested. 
+%	\begin{itemize}
+%		\item positive value = area to output;
+%		\item 0 = Disables this output; and
+%		\item -1 = Requests that numbers-at-age be summed across all areas.  In all cases, numbers-at-age is summed across all growth patterns and platoons and output for each sex.
+%	\end{itemize}
 
-	\item 	NatAge Year:  specifies the year for which numbers-at-age are output.  
-	\begin{itemize}
-		\item year = The year to output; and
-		\item -1 = Requests output for year equal to end year + 1, hence the year that starts the forecast period.
-	\end{itemize}
+%	\item 	NatAge Year:  specifies the year for which numbers-at-age are output.  
+%	\begin{itemize}
+%		\item year = The year to output; and
+%		\item -1 = Requests output for year equal to end year + 1, hence the year that starts the forecast period.
+%	\end{itemize}
 
-	\item N Natage bins: as with the N growth bins.
-\end{itemize}
+%	\item N Natage bins: as with the N growth bins.
+%\end{itemize}
 
 
 
