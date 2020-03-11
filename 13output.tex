@@ -1,4 +1,5 @@
 \section{Output Files}
+
 \subsection{Standard ADMB output files}
 Standard ADMB files are created by SS. These are:
 
@@ -14,14 +15,14 @@ ss.cor – This is the standard ADMB report for parameter and standard deviation
 The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place.  It is organized as a list.  At the top of the file are some descriptors, followed by the likelihoods for each component, then the parameters and their standard errors, then the derived quantities and their standard errors.  The total biomass, summary biomass, and catch were added to the quantities reported in this file in version 3.30.11 and later. This output was created to make it easy to compare the results between different versions of the executable, however, this file could be useful for numerous other uses. 
 
 \subsection{SIS table}
-The SIS\_table.sso file contains model output formatted for reading into the NMFS Species Information System (SIS). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees and can be accessed as: https://www.st.nmfs.noaa.gov/sis/.
+The SIS\_table.sso file contains model output formatted for reading into the NMFS Species Information System (\href{https://www.st.nmfs.noaa.gov/sis/}{SIS}). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees.
 
 \subsection{Derived Quantities}
 Before listing the derived quantities reported to the standard deviation report, there are a couple of topics that deserve further explanation.
 
 \hypertarget{VirginUnfished}{}
-\subsubsection{Virgin Spawning Biomass (B0) vs Unfished Spawning Biomass}
-Unfished is the condition for which reference points (benchmark) are calculated.  Virgin Spawning Biomass (B0) is the initial condition on which the start of the time-series depends.If biology or SR parameters are time-varying, then the benchmark year input in the forecast file tells SS which years to average in order to calculate "unfished". In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as "unfished" for clarity.  Note that if ln(R0) is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SPB\_virgin and spawning biomass unfished is denoted as SPB\_unf in the report file.
+\subsubsection{Virgin Spawning Biomass vs Unfished Spawning Biomass}
+Unfished is the condition for which reference points (benchmark) are calculated.  Virgin Spawning Biomass (B0) is the initial condition on which the start of the time-series depends.If biology or spawner-recruitment parameters are time-varying, then the benchmark year input in the forecast file tells SS which years to average in order to calculate "unfished". In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as "unfished" for clarity.  Note that if ln(R0) is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SPB\_virgin and spawning biomass unfished is denoted as SPB\_unf in the report file.
 
 Virgin Spawning Biomass (B0) is used in four ways within SS:
 \begin{enumerate}
@@ -381,3 +382,5 @@ ADMB note, while vectors of null length are very useful for controlling optional
 		\item This section is reported to a separate file, compreport.sso, and contains the length composition, age composition, and mean size-at-age observed and expected values.  It is arranged in a database format, rather than an array of vectors.  Software to filter the output allows display of subsets of the database.
 	\end{itemize}
 \end{itemize}
+
+\pagebreak

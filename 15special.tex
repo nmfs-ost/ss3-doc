@@ -1,4 +1,120 @@
-\section{Special Set-ups}
+\section{Advanced SS Configuration Settings and Advice}
+
+\hypertarget{TVpara}{}
+\subsection{Using Time-Varying Parameters}
+The approach to allowing parameters to have time-varying values has been completely overhauled in the transition from SS v.3.24 to SS v.3.30.  Fortunately, the transition executable (sstrans.exe) will do the conversion for you, but you should review the new control file closely before simply running with it, especially for time-varying catchability parameters.
+
+\myparagraph{Time-Varying Parameter Change from Earlier SS Versions}
+In SS v.3.24, the group of biology parameters (termed mortality-growth parameters) and the selectivity parameters used the same long parameter line approach, but it was implemented with entirely different code, and hence was inefficient. The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block. The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks. Then finally, the tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.  The situation was begging for a more modular approach.
+
+\myparagraph{Code Flow Version SS v.3.30}
+In SS v.3.30, mortality-growth, selectivity, stock recruitment relationship, catchability, and tag (soon but not as of v.3.30.12) base parameters all use long parameter lines and invoke blocks, trends, environmental linkages, and random deviations using identical syntax.  As SS v.3.30 executes the SS\_readcontrol code, it calls a function in SS\_global called “create\_timevary” whenever a base parameter has any one of the 4 types of time-varying options.  In fact, block/trend, env and devs all can be applied to the same base parameter. Only blocks and trends are mutually exclusive, but any combined effect could be used together judiciously.  "Create\_timevary" creates all needed information to describe and index a list of time varying parameter specifications.  in fact, if the auto-generation switch has been set to zero, then you will omit all of the needed parameters for implementing the time-varying effect and SS will auto-generate and use the needed parameters and write them out in the control.ss\_new file. Then as SS gets into iterative parameter updating it starts by calling a function in SS\_timevaryparm that processes each time-varying parameter specification (each of which can contain any combination of block/trend, env and dev specification) and creates a time-series of the parameter value that are used as SS subsequently loops through the years.
+
+\myparagraph{Parameter Order}
+The order of parameters has changed and the re-ordering is handled by the transition executable (sstrans.exe).  Previously, for each of mortality-growth and selectivity parameters all environmental link parameters were listed first, then block/trend parameters and then deviation parameters.  In SS v.3.30, these parameters are re-organized such that all parameters that affect a base parameter are clustered together with block/trend first, then environmental, then deviation.  So, if mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
+
+\begin{center}
+	\begin{longtable}{p{5cm} p{10cm}}
+		\hline
+		MG base parameter 3 & Block parameter 3-1\Tstrut\\
+		& Block parameter 3-2\\
+		& Environmental link parameter 3-1\\
+		& Deviation se parameter 3 \\
+		& Deviation rho parameter 3 \Bstrut\\
+		MG base parameter 7 & Block parameter 7-1 \\
+		& Deviation se parameter 7 \\
+		& Deviation rho parameter 7 \Bstrut\\
+		\hline	 	                    
+		
+	\end{longtable}
+\end{center}
+
+\myparagraph{Link Functions} 
+The functional form by which a time-varying parameter, Q, changes a base parameter, P, is a link function:  $P’_y=f(P,Q)$. Typically, this is additive or multiplicative function, but the parameter mirroring feature is essentially a link that takes no parameter. Another type of link in SS is between a model state variable, such as available biomass, and the expected value for a survey.  Typically, this is a simple proportional link taking one parameter, q, but the q power feature is essentially a 2 parameter link function. So, a parameter link function can change q over time, and a survey link function then uses the annual value of q to link the annual value of a state variable to the expected value for a survey.  In SS v.3.24, various usages of positive and negative codes and other conventions were used to invoke additive vs multiplication links and other options. But as SS v.3.30 builds capability to allow an environment index to be a “survey” of a parameter deviation, we need a larger family of link functions such as logistic and even dome-shaped.
+
+The link specifications in SS v.3.30 has been updated from SS v.3.24. Take special note of the environmental linkage specification where two bits of information are coded into one number. The new specification has the environmental link function denoted by the first environmental index to use specified by two additional. (e.g., environmental link specification of 204 is parsed by SS to use link type 2 using environmental variable 4).
+
+\input{tv_parameter_description}
+
+\myparagraph{Block Trends}
+Additional information regarding the options for applying blocks (element 13):
+\begin{itemize} 
+	\item -1: Trend bounded by base parameter minimum maximum and parameters in transformed units (use with caution),
+	\begin{itemize}
+		\item Logistic approach to trend as offset from base parameter
+		\item Transform the base parameter from the MG parameter section:
+		\begin{equation}
+			temp = -0.5*ln\Bigg(\frac{MGparm_1(j,2)-MGparm_1(j,1)+0.0000002}{MGparm(j)-MGparm_1(j,1)+0.0000001}-1\Bigg)
+		\end{equation}
+		\item Add the offset. Note, that offset values in in the transform space.
+		\begin{equation}
+			temp += MGparm(k+1)
+		\end{equation}
+		\item Back transform
+		\begin{equation}
+			temp1 = MGparm_1(j,1)+\frac{MGparm_1(j,2)-MGparm_1(j,1)}{1+e^{-2*temp}}
+		\end{equation}			
+	\end{itemize}
+\end{itemize}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\hypertarget{2DAR}{}
+\subsection{Parameterizing the Two-Dimensional Autoregressive Selectivity}
+When the two-dimensional autoregressive selectivity feature is turned on for a fleet, the selectivity is calculated as a product of the assumed selectivity pattern and a non-parametric deviation term deviating from this assumed pattern:
+
+\begin{equation}
+\hat{S}_{a,t} = S_aexp^{\epsilon_{a,t}}
+\end{equation}
+
+where $S_a$ is specified in the corresponding age/length selectivity types section and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2D AR1) process:
+
+\begin{equation}
+vec(\epsilon) \sim MVN(\mathbf{0},\sigma_s^2\mathbf{R_{total}})
+\end{equation}
+
+where $\epsilon$ is the two-dimensional deviation matrix and $\sigma_s^2\mathbf{R_{total}}$ is the covariance matrix for the 2D AR1 process. More specifically, $\sigma_s^2$ quantifies the variance in selectivity deviations and $\mathbf{R_{total}}$ is equal to the kronecker product ($\otimes$) of the two correlation matrices for the among-age and among-year AR1 processes:
+
+\begin{equation}
+\mathbf{R_{total}}=\mathbf{R}\otimes\mathbf{\tilde{R}}
+\end{equation}
+
+\begin{equation}
+\mathbf{R}_{a,\tilde{a}}=\rho_a^{|a-\tilde{a}|}
+\end{equation}
+
+\begin{equation}
+\mathbf{\tilde{R}}_{t,\tilde{t}}=\rho_t^{|t-\tilde{t}|}
+\end{equation}
+
+where $\rho_a$ and $\rho_t$ are the among age and among year AR1 coefficients, respectively. When both of them are zero, $\mathbf{R}$ and $\mathbf{\tilde{R}}$ are two identity matrices and their Kronecker product, $\mathbf{R_{total}}$, is also an identity matrix. In this case selectivity deviations are essentially identical and mutually independent:
+
+\begin{equation}
+\epsilon_{a,t}\sim N(0,\sigma_s^2)
+\end{equation} 
+
+\myparagraph{Using the Two-Dimensional Autoregressive Selectivity}
+Note, \citet{xu_new_2019} has additional information on tuning the 2D AR selectivity parameters. First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
+
+\begin{equation}
+\sigma_s^2=SD(\epsilon)^2+\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2
+\end{equation}
+
+The minimal and maximal ages/lengths and years for the 2D AR1 process can be freely specified by users in the control file. However, we recommend specifying the minimal and maximal ages and years to cover the relatively "data-rich" age/length and year ranges only. Particularly we introduce: 
+
+\begin{equation}
+b=1-\frac{\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2}{\sigma_s^2}
+\end{equation}
+
+as a measure of how rich the composition data is regarding estimating selectivity deviations. We also recommend using the Dirichlet-Multinomial method to "weight" the corresponding composition data while $\sigma_s$ is interactively tuned in this step.
+
+Second, fix $\sigma_s$ at the value iteratively tuned in the previous step and estimate $\epsilon_{a,t}$. Plot both Pearson residuals and $\epsilon_{a,t}$ out on the age-year surface to check their 2D dimensions. If their distributions seems to be not random but rather be autocorrelated (deviation estimates have the same sign several ages and/or years in a row), users should consider estimating and then including the autocorrelations in $\epsilon_{a,t}$.
+
+Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, SS should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the  autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Continuous seasonal recruitment}
 It is awkward in SS to set up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year.  Consequently, some users have attempted to setup SS so that each quarter appears as a year.  They have set up all the data and parameters to treat quarters as if they were years (i.e., each still has a duration of 1.0 time step).  This can work, but requires that all rate parameters be re-scaled to be correct for the quarters being treated as years.
@@ -16,6 +132,155 @@ Another option is available.  If there is one season per year and the season dur
 	\item Edit any age selectivity parameters that refer to age to now refer to quarter age.
 	\item If there needs to be some degree of seasonality to recruitment or some parameter, then you could create a cyclic pattern in the environmental input and make recruitment or some other parameter a function of this cyclic pattern.
 \end{itemize}
-	
+
 A good test showing comparability of the 3 approaches to setting up a quarterly model should be done.
 
+\pagebreak
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Detailed Information on SS Processes}
+
+The processes and calculations with SS can be complex and not transparent based on the model input files. Here additional information is provided to users to assist in understanding some of these processes.
+
+\subsection{Jitter}
+\hypertarget{Jitter}{}
+The jitter function has been updated with SS v.3.30.  The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
+\begin{enumerate}
+	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
+	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
+	\item A random value is drawn, "\textit{J}", from the range of \textit{K}-jitter to \textit{K}+jitter.
+	\item Any value which falls outside the 0-1 range (in the cumulative normal space) is mapped back from the bound to a point one-tenth of the way from the bound to the initial value.
+	\item \textit{J} is a new cumulative normal probability value.
+	\item Calculate a new parameter value, P\textsubscript{JITTERED}, such that pr(P\textsubscript{JITTERED}) = \textit{J}.
+\end{enumerate}
+
+\begin{figure}[h]
+	\begin{center}
+		\includegraphics[scale = 0.75]{jitter_illustration}\\
+		\caption{Illustration of the jitter algorithm}
+		\label{fig:jitter}
+	\end{center}
+\end{figure}
+
+In SS, the jitter fraction defines a uniform distribution in cumulative normal space +/- the jitter fraction from the initial value (in cumulative normal space). The normal distribution for each parameter, for this purpose, is defined such that the minimum bound is at 0.001, and the maximum at 0.999 of the cumulative distribution. If the jitter faction and original initial value are such that a portion of the uniform distribution goes beyond 0.001 or 0.999 of the cumulative normal, the new value is set to one-tenth of the way from the bound to the original initial value. 
+
+Therefore sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, CV (= sigma/original initial value) may be a better measure. 
+
+If the original initial value is at or near the middle of the min-max range, then for each 0.1 of jitter, the range of jitters extends about 0.25 sigmas to either side of the original value (though as the total jitter increases the relationship varies more than this), and the average absolute jitter is about half of that.  For values far from the middle of the min-max range, the resulting jitter is skewed in parameter space, and may hit the bound, invoking the resetting mentioned above. 
+
+To evaluate the jittering, the bounds, and the original initial values, a jitter\_info table is available from r4ss, including sigma, CV and InitLocation columns (the latter referring to location within the cumulative normal – too close to 0 or 1 indicates a potential issue).
+
+Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid unreasonable values (a warning is produced to indicate this).
+
+\hypertarget{PriorDescrip}{}
+\subsection{Parameter Priors}
+Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
+
+The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. The Prior Likelihoods below represent the negative log likelihood in all cases.
+
+\myparagraph{Prior Types}
+Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
+
+\begin{tabular}{ll}
+	$p$       & The value of the parameter for which a prior is being calculated  \\
+	$P_{min}$  & The lower bound of the parameter (1st column in control file)     \\
+	$P_{max}$  & The upper bound of the parameter (2nd column in control file)     \\
+	$Prior$   & The input value for the PRIOR input (4th column in control file)  \\
+	$Pr\_SD$  & The input value for the PR\_SD input (5th column in control file) \\
+\end{tabular}
+
+\begin{itemize}
+	\item  \textbf{Prior Type = 0 = No prior applied} \\ 
+	In a Bayesian context this is equivalent to a uniform prior between the parameter bounds.
+	
+	\item  \textbf{Prior Type = 1 = Symmetric beta prior} \\ 
+	The symmetric beta is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior. The PRIOR input is ignored for this prior type.
+	\begin{equation}  
+		\mu = -Pr\_SD \cdot ln\left(\frac{P_{max}+P_{min}}{2} - P_{min} \right) - Pr\_SD \cdot ln(0.5)
+	\end{equation}
+	
+	\begin{equation}
+		\begin{split}
+			\text{Prior Likelihood} = & -\mu - Pr\_SD \cdot ln\left(p-P_{min}+0.0001\right) \\
+			& - Pr\_SD \cdot ln\left(1-\frac{p-P_{min}-0.0001}{P_{max}-P_{min}}\right)
+		\end{split}
+	\end{equation}
+
+	\begin{figure}[h]
+	\begin{center}
+		\includegraphics[scale = 0.6]{SymetricBeta}\\
+	\end{center}
+	\caption{Prior distributions for the symmetric beta distribution.}
+	\end{figure}	
+
+	
+	\item \textbf{Prior Type = 2 = Beta prior}  \\ 
+	The definition of $\mu$ is consistent with CASAL's formulation with the $Bprior$ and $Aprior$ corresponding to the $m$ and $n$ parameters.
+	\begin{equation}
+		\mu = \frac{Prior-P_{min}}{P_{max}-P_{min}} 
+	\end{equation}
+	\begin{equation}
+		\tau  = \frac{(Prior-P_{min})(P_{max}-Prior)}{Pr\_SD^2}-1
+	\end{equation}
+	\begin{equation}
+		Bprior  = \tau \cdot \mu
+	\end{equation}
+	\begin{equation}
+		Aprior = \tau (1-\mu)
+	\end{equation}
+	
+	\begin{equation}
+		\begin{split}
+			\text{Prior Likelihood} = & (1 - Bprior) \cdot ln(0.0001 + p - P_{min}) \\
+			& + (1 - Aprior) \cdot ln(0.0001 + P_{max} - p) \\
+			& - (1 - Bprior) \cdot ln(0.0001 + Prior - P_{min}) \\
+			& - (1 - Aprior) \cdot ln(0.0001 + P_{max} - Prior)
+		\end{split}
+	\end{equation}
+
+	\begin{figure}[h]
+	\begin{center}
+		\includegraphics[scale = 0.9]{BetaComparison}\\
+	\end{center}
+	\caption{Comparison of the symmetric beta and the beta prior functions.}
+	\end{figure}	
+
+	
+	\item \textbf{Prior Type 3 = Lognormal prior} \\ 
+	Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0. The prior value is input into the parameter line in natural log space while the initial parameter value is defined in normal space (e.g. INIT = 0.20, PRIOR = -1.609438).
+	\begin{equation}
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(p)-Prior}{Pr\_SD}\right)^2
+	\end{equation}
+	
+	\item \textbf{Prior Type 4 = Lognormal prior with bias correction} \\ 
+	This option allows the prior mean value to be entered as the ln(mean). Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0.
+	\begin{equation}
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(p)-Prior + \frac{1}{2}{Pr\_SD}^2}{Pr\_SD}\right)^2
+	\end{equation}
+	
+	\item \textbf{Prior Type 5 = Gamma prior} \\ 
+	The lower bound should be 0 or greater.
+	\begin{equation}
+		scale = \frac{{Pr\_SD}^2}{Prior}
+	\end{equation}
+	\begin{equation}
+		shape = \frac{Prior}{scale}
+	\end{equation}
+	\begin{equation}
+		\text{Prior Likelihood} = -shape \cdot ln(scale) - ln\big(\Gamma(shape)\big) + (shape - 1) \cdot ln(p) - \frac{p}{scale}
+	\end{equation}
+	
+	\item \textbf{Prior Type 6 = Normal prior} \\ 
+	Note that this function is independent of the parameter bounds.
+	\begin{equation}
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{p - Prior}{Pr\_SD}\right)^2
+	\end{equation}
+\end{itemize}
+
+%=========Data Weighting
+\input{_forecast_module}
+
+
+\pagebreak

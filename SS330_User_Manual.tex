@@ -5,7 +5,8 @@
 \usepackage[margin=1in, includefoot]{geometry}
 \usepackage{graphicx} %allows for impage import
 \graphicspath{{images/}}
-\usepackage[hidelinks]{hyper ref} % Allows for clickable links
+%\usepackage[hidelinks]{hyper ref} % Allows for clickable links
+\usepackage{hyper ref}
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage[T1]{fontenc}
@@ -27,6 +28,7 @@
 \usepackage{hypcap}
 \usepackage{amsmath}
 \usepackage{hyperref}
+%\usepackage[pdfborderstyle={/S/U/W 1}]{hyperref}
 \usepackage{float}
 \usepackage{fancyhdr}
 \usepackage[parfill]{parskip}
@@ -37,10 +39,10 @@
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage[all]{nowidow}		    % Widow Control
 
-% Set widow and club penalties
-\widowpenalty 10000
-\clubpenalty 10000
 
+% Set widow and club penalties
+\widowpenalty=100000
+\clubpenalty=100000
 
 %sectsty commands
 % all section headers use the same sans serif family - roboto
@@ -73,6 +75,12 @@
 \hyphenpenalty=10000
 \hbadness=10000
 
+%\hypersetup{%
+%	colorlinks=false,% hyperlinks will be black
+%	linkbordercolor=red,% hyperlink borders will be red
+%	pdfborderstyle={/S/U/W 1}% border style will be underline of width 1pt
+%}
+
 %%The following sets up how the pdf displays links and functions in Acrobat.
 \hypersetup{
 	bookmarks    = true,        % show bookmarks bar?
@@ -81,13 +89,13 @@
 	pdfmenubar   = true,        % show Acrobat's menu?
 	pdffitwindow = false,       % window fit to page when opened
 	pdfstartview = {FitH},      % fits the width of the page to the window
-	pdfnewwindow = true,        % links in new window
-	colorlinks   = true,       % false: boxed links; true: colored links
+	pdfnewwindow = false,        % links in new window
+	colorlinks   = false,       % false: boxed links; true: colored links
 	linkbordercolor = black,    % the color of the link border color (colorlink =false)
 	linkcolor    = blue,        % color of internal links (change box color with linkbordercolor)
-	citecolor    = black,       % color of links to bibliography
-	filecolor    = magenta,     % color of file links
-	urlcolor     = cyan,        % color of external links
+	citecolor    = blue,       % color of links to bibliography
+	filecolor    = blue,     % color of file links
+	urlcolor     = blue,        % color of external links
 	pdfborderstyle = {/S/U/W 1} % border style will be underline of width 1pt
 }
 
@@ -169,8 +177,12 @@
 	\input{14r4ss}	
 	%========= Section 15: Special Set-ups
 	\input{15special}
-	%========= Section 16: Change Log
-	\input{16changelog}	
+	%========= Section 16: Essays
+	\input{16essays}
+	%========= Section 17: Code Examples
+	\input{17code_examples}	
+	%========= Section 18: Change Log
+	% S\input{18changelog}	
 	%========= Reference Section
 	\newpage
 	\bibliography{SS}
@@ -179,13 +191,13 @@
 		
 	% Appendices ===================================
 	%========= Section 17: Appendix A: Recruitment 
-	\input{17appendixA}	
+	%\input{17appendixA}	
 	%========= Section 18: Appendix B: Data Weighting
-	\input{18appendixB}	
+	%\input{18appendixB}	
 	%========= Section 19: Appendix C: Forecast Module
-	\input{19appendixC}	
+	%\input{19appendixC}	
 	%========= Section 20: Appendix D: Code Examples
-	\input{20appendixD}	
+	%\input{20appendixD}	
 	%========= Section 21: Appendix E: In process and wish list
 	%\input{21appendixE}
 	%========= Section 22: Appendix F: Input files

@@ -232,11 +232,11 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
   & & \Bstrut\\
   
   \hline  
-  \multicolumn{2}{l}{COND: Seed Value}& \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This is an optional input value which allows for the specification of a random number seed value.  If you do not with to specify a seed, skip this input line and end the reading of the starter file with the check value (3.30). }} \Tstrut\\
+  \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)}& \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to 3.30.15. This is an optional input value which allows for the specification of a random number seed value.  If you do not want to specify a seed, skip this input line and end the reading of the starter file with the check value (3.30). }} \Tstrut\\
   & & \\ 
   & & \\
-  \multicolumn{1}{r}{123} & Set seed value: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to 3.30.15.}}\\ 
-  & & \Tstrut\\
+  & & \\ 
+  & & \\
   
   \pagebreak
  %\hline
@@ -254,33 +254,8 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
 }
 \restoregeometry
 
-\subsection{Jitter}
-\hypertarget{Jitter}{}
-The jitter function has been updated with SS v.3.30.  The following steps are now performed to determine the jittered starting parameter values (illustrated in the figure below):
-\begin{enumerate}
-	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
-	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
-	\item A random value is drawn, "\textit{J}", from the range of \textit{K}-jitter to \textit{K}+jitter.
-        \item Any value which falls outside the 0-1 range (in the cumulative normal space) is mapped back from the bound to a point one-tenth of the way from the bound to the initial value.
-	\item \textit{J} is a new cumulative normal probability value.
-	\item Calculate a new parameter value, P\textsubscript{JITTERED}, such that pr(P\textsubscript{JITTERED}) = \textit{J}.
-\end{enumerate}
 
 
-\begin{center}
-	\includegraphics[scale = 0.75]{jitter_illustration}\\
-	Illustration of the jitter algorithm
-\end{center}
 
 
-In SS, the jitter fraction defines a uniform distribution in cumulative normal space +/- the jitter fraction from the initial value (in cumulative normal space). The normal distribution for each parameter, for this purpose, is defined such that the minimum bound is at 0.001, and the maximum at 0.999 of the cumulative distribution. If the jitter faction and original initial value are such that a portion of the uniform distribution goes beyond 0.001 or 0.999 of the cumulative normal, the new value is set to one-tenth of the way from the bound to the original initial value. 
-
-Therefore sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, CV (= sigma/original initial value) may be a better measure. 
-
-If the original initial value is at or near the middle of the min-max range, then for each 0.1 of jitter, the range of jitters extends about 0.25 sigmas to either side of the original value (though as the total jitter increases the relationship varies more than this), and the average absolute jitter is about half of that.  For values far from the middle of the min-max range, the resulting jitter is skewed in parameter space, and may hit the bound, invoking the resetting mentioned above. 
-
-To evaluate the jittering, the bounds, and the original initial values, a jitter\_info table is available from r4ss, including sigma, CV and InitLocation columns (the latter referring to location within the cumulative normal – too close to 0 or 1 indicates a potential issue).
-
-Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid unreasonable values (a warning is produced to indicate this).
-
-
+\pagebreak
