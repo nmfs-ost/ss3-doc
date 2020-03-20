@@ -1762,7 +1762,7 @@ In typical usage:
 		\item p2 – top: width of plateau, as logistic between peak and maximum length (or age).
 		\item p3 – ascending width:  parameter value is ln(width).
 		\item p4 – descending width:  parameter value is ln(width).
-		\item p5 – initial:selectivity at first bin, as logistic between 0 and 1.
+		\item p5 – initial: selectivity at first bin, as logistic between 0 and 1.
 		\item p6 – final: selectivity at last bin, as logistic between 0 and 1 (for pattern 24). For pattern 23 age selectivity at last bin, as absolute value, so can be > 1.0. Warning: do not allow this value to go above 1.0 if the F\_method uses Pope’s approximation. It can above 1.0 when F is in exponential form.  When this parameter is above 1.0, the overall selectivity pattern will have an intermediate plateau at 1.0 (according to peak and top), then will ascend further to the final value.
 	\end{itemize}
 	
@@ -1779,15 +1779,15 @@ Notes for Double Normal Selectivity:
 			\item <-1000:  set selectivity constant for bins greater than bin number =  -1000 – value.
 		\end{itemize}
 	\end{itemize}
-Selectivity pattern 24, double normal, showing sub-functions and steep logistic joiners:
+%Selectivity pattern 24, double normal, showing sub-functions and steep logistic joiners:
 
-\begin{figure}
-	\begin{center}
-		\includegraphics{DoubleNormal}
-	\end{center}
-	\caption{Contribution from each parameter in the overall shape of the double normal selectivity curve.}
-	\label{fig:doublenormal}
-\end{figure}
+%\begin{figure}
+%	\begin{center}
+%		\includegraphics{DoubleNormal}
+%	\end{center}
+%	\caption{Contribution from each parameter in the overall shape of the double normal selectivity curve.}
+%	\label{fig:doublenormal}
+%\end{figure}
 
 \myparagraph{Pattern 15 (size or age) - Mirror}
 No parameters.  Whole age range is mirrored from another fleet. The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
@@ -1820,13 +1820,13 @@ A value of 1.0e-6 is added to the selectivity for all ages, even those below the
 	\frac{e^{p3*p1(p2'-size)}}{1-p3(1-e^{p1(p2'-size)})}
 	\end{equation}
 
-\begin{figure}
-	\begin{center}
-		\includegraphics{ExpLogistic}
-	\end{center}
-	\caption{Example form of the exponential logistic selectivity with p1 = 0.30, p2 = 0.50, and p3 = 0.02.}
-	\label{fig:explogistic}
-\end{figure}
+%\begin{figure}
+%	\begin{center}
+%		\includegraphics{ExpLogistic}
+%	\end{center}
+%	\caption{Example form of the exponential logistic selectivity with p1 = 0.30, p2 = 0.50, and p3 = 0.02.}
+%	\label{fig:explogistic}
+%\end{figure}
 
 \myparagraph{Pattern 27 (size or age)- Cubic Spline}
 This selectivity pattern uses the ADMB implementation of the cubic spline function. This function requires input of the number of nodes, the positions of those nodes, the parameter values at those nodes, and the slope of the function at the first and last node. In SS, the number of nodes is specified in the "special" column of the selectivity set-up.  The pattern number 27 is used to invoke cubic spline for size selectivity and for age selectivity; the input syntax is identical.
@@ -1851,13 +1851,13 @@ Notes:
 	
 Code for implementing cubic spline selectivity within SS can be found in \hyperlink{CubicSpline}{code examples}.
 
-\begin{figure}
-	\begin{center}
-		\includegraphics{CubicSpline}
-	\end{center}
-	\caption{Comparison between a 3 node and a 6 node cubic spline with a 2 parameter logistic function.  In fitting these functions, the 2 cubic spline approaches fit slightly better than the logistic, presumably because the data were slightly indicative of a small dome in selectivity.}
-	\label{fig:cubicspline}
-\end{figure}
+%\begin{figure}
+%	\begin{center}
+%		\includegraphics{CubicSpline}
+%	\end{center}
+%	\caption{Comparison between a 3 node and a 6 node cubic spline with a 2 parameter logistic function.  In fitting these functions, the 2 cubic spline approaches fit slightly better than the logistic, presumably because the data were slightly indicative of a small dome in selectivity.}
+%	\label{fig:cubicspline}
+%\end{figure}
 
 	
 Auto-Generation of Cubic Spline Control File Set-Up: A New SS feature pioneered with the cubic spline function is a capability to produce more specific parameter labels and to auto-generate selectivity parameter setup.  The auto-generation feature is controlled by the first selectivity parameter value for each fleet that is specified to use the cubic spline.  There are 3 possible values for this setup parameter:
