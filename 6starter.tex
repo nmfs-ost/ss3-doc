@@ -185,12 +185,12 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
   
  %\pagebreak
  \hline 
- 4 & F std report value: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In addition to SPR, an additional proxy for annual F can be specified here.  As with SPR, the selected quantity will be calculated annually and in the benchmarks section.  The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector.  Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas.  But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring.  Option 3 is a simple sum of the full F’s by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age.  Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below).  The F is calculated as Z-M where Z and M are each calculated an ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}}\Tstrut\\
+ 4 & Annual F units: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In addition to SPR, an additional proxy for annual F can be specified here.  As with SPR, the selected quantity will be calculated annually and in the benchmarks section.  The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector.  Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas.  But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring.  Option 3 is a simple sum of the full F’s by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age.  Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below).  The F is calculated as Z-M where Z and M are each calculated an ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}}\Tstrut\\
    & 0 = skip; & \\
    & 1 = exploitation rate in biomass; & \\
    & 2 = exploitation rate in numbers; & \\
 
-   & 3 = sum(full F's by fleet); & \\
+   & 3 = sum(apical F's by fleet); & \\
    & 4 = population F for range of ages; and & \\
    & 5 = unweighted average F for range of ages. & \\
    & & \\
@@ -203,17 +203,17 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
  %\pagebreak
  \multicolumn{2}{l}{COND: If F std reporting $\geq$ 4 } & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.}} \Tstrut\\
 
- \multicolumn{1}{r}{13 17}  & Age range if F std reporting = 4. & \Tstrut\\
+ \multicolumn{1}{r}{3 7}  & Age range if F std reporting = 4. & \Tstrut\\
 
  \hline
  %\pagebreak
  1 & F report basis: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the denominator to use when reporting the F std report values.  Note that order of these options differs from the biomass report basis options.}}\Tstrut\\
    & 0 = not relative, report raw values; & \\
-   & 1 = use F std value corresponding to SPR\textsubscript{target}; & \\
-   & 2 = use F std value corresponding to F\textsubscript{MSY}; and & \\
+   & 1 = use F std value relative to SPR\textsubscript{target}; & \\
+   & 2 = use F std value relative to F\textsubscript{MSY}; and & \\
  
   \pagebreak
-   & 3 = use F std value corresponding to F\textsubscript{Btarget}. & \Tstrut\\
+   & 3 = use F std value relative to F\textsubscript{Btarget}. & \Tstrut\\
 
   \hline
   %\pagebreak
