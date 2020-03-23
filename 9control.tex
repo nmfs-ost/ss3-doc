@@ -1354,9 +1354,15 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\item 4 = mirror Q with offset (2 parameter lines required). The mirrored Q with offset for with be reported as base Q + offset value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. See \hyperlink{MirrorQoffset}{mirrored Q with offset} below for example set up.
 		\item If the parameter is for an index of a deviation vector (index units = 35), use this column to enter the index of the deviation vector to which the index is related.
 	\end{enumerate}
-	\item Extra input for link (i.e., mirror fleet)
+	\item Extra input for link information (i.e., mirror fleet)
 	\begin{enumerate}
 		\item >0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number)
+		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
+		\begin{itemize}
+			\item 0 = add 1 to phases of all parameters. Only R0 active in new phase 1. Mimics the default option of previous model versions;
+			\item 1 = only R0 active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters.  Essentially, this option allows SS to mimic DB-SRA; and
+			\item 2 = no phase adjustments, can be used when profiling on fixed R0.
+		\end{itemize}
 	\end{enumerate}
 	\item Do extra standard error
 	\begin{enumerate}
