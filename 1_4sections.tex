@@ -1,155 +1,19 @@
 
 \section{Introduction}\label{sec:intro}
-%\begin{sloppypar}
-Fish population (aka “stock”)  assessment models determine the impact of past fishing on the historical and current abundance of the population, evaluate sustainable rates of removals (catch), and project future levels of catch that will implement risk-averse catch rules.  These catch rules are codified in regional Fishery Management Plans according to requirements of the Sustainable Fisheries Act.  In the U.S., ~500 federally managed fish and shellfish populations are under ~50 Fishery Management Plans.  About 200 of these populations are assessed according to a prioritized schedule for their current status each year, but many minor species have never been quantitatively assessed.  Although the pace is slower than weather forecasting, fish stock assessments are operational models for fisheries management.
 
-Assessment models typically assimilate several decades of annual catch, data on fish abundance from diverse surveys and fishery sources, and biological information regarding fish body size and the proportions at age.  A suite of models is available depending on the degree of data availability and unique characteristics of the fish population or its fishery.  Where feasible, environmental time series are used as indicators of changes in population or observation processes, especially to improve the accuracy of the projections of abundance and sustainable catch into the future.  Such linkages are based principally on correlations given the challenge of conducting field observations on an appropriate scale.  The frontier of model development is in the rapid estimation of parameters to include random temporal effects, in the simultaneous modeling of a suite of interacting species, and in the explicit treatment of the spatial distribution of the population.
+Fish population (aka "stock")  assessment models determine the impact of past fishing on the historical and current abundance of the population, evaluate sustainable rates of removals (catch), and project future levels of catch reflecting one or more risk-averse catch rules.  These catch rules are codified in regional Fishery Management Plans according to requirements of the Sustainable Fisheries Act.  In the U.S., approximately 500 federally managed fish and shellfish populations are managed under approximately 50 Fishery Management Plans.  About 200 of these populations are assessed each year, based on a prioritized schedule for their current status. Despite this, many minor species have never been quantitatively assessed.  Although the pace is slower than that for weather forecasting, fish stock assessments are operational models for fisheries management.
+
+Assessment models typically assimilate annual catches, data on fish abundance from diverse surveys and fishery sources, and biological information regarding fish body size and proportions at age.  A suite of models is available depending on the degree of data availability and unique characteristics of the fish population or its fishery.  Where feasible, environmental time series are used as indicators of changes in population or observation processes, especially to improve the accuracy of the projections of abundance and sustainable catch into the future.  Such linkages are based principally on correlations given the challenge of conducting field observations on an appropriate scale.  The frontier of model development is in the rapid estimation of parameters to include random temporal effects, in the simultaneous modeling of a suite of interacting species, and in the explicit treatment of the spatial distribution of the population.
 
 Assessment models are loosely coupled to other models. For example, an ocean-temperature or circulation model or benthic-habitat map may be directly included in the pre-processing of the fish abundance survey.  A time series of a derived ocean factor, like the North Atlantic Oscillation, can be included as an indicator of a change in a population process.  Output of a multi-decadal time series of derived fish abundance can be an input to ecosystem and economic models to better understand cumulative impacts and benefits. 
 
-Stock Synthesis (SS) is an age- and size-structured assessment model in the class of models termed “integrated analysis models.” SS has a population sub-model that simulates a stock’s growth, movement, and mortality processes; an observation sub-model estimates expected values for various types of data; a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance; and a forecast sub-model projects needed management quantities.  SS outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (www.admb-project.org).  Windows, Linux, and iOS versions are available.  Output processing and associated tools are in R, and a graphical interface is in QT.  SS is available from NOAA’s VLAB. The rich feature set in SS allows it to be configured for a wide range of situations and it has become the basis for a large fraction of U.S. assessments and many other assessments around the world.  
+Stock Synthesis (SS) is an age- and size-structured assessment model in the class of models termed integrated analysis models. SS has a population sub-model that simulates a stock's growth, maturity, fecundity, recruitment, movement, and mortality processes, an observation sub-model estimates expected values for various types of data, a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance, and a forecast sub-model projects needed management quantities.  SS outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (\href{http://www.admb-project.org}{admb}).  Windows, Linux, and iOS versions are available.  Output processing and associated tools are in R, and a graphical interface is in QT.  SS is available from NOAA’s VLAB. The rich feature set in SS allows it to be configured for a wide range of situations.  SS has become the basis for a large fraction of U.S. assessments and many other assessments around the world.  
 
-This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. A technical description of the model itself is in Methot and Wetzel (2013). The model and a graphical user interface are available from the NOAA VLAB at https://vlab.ncep.noaa.gov/group/stock-synthesis/home. The VLAB site also provides a user forum for posting Q\&A and for accessing various additional materials.  An output processor package, r4ss, in R is available for download from CRAN or GitHub. Additional information about the package can be located at github.com/r4ss/r4ss.
+This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. An overview and technical description of the model itself is in \citet{methot_stock_2013}. However, SS has continued to evolve and grow since the publication in 2013, with this manual reflecting the most up to date information regarding SS.  The model and a graphical user interface are available from the NOAA \href{https://vlab.ncep.noaa.gov/group/stock-synthesis/home}{VLAB}. The VLAB site also provides a user forum for posting questions and for accessing various additional materials.  An output processor package, r4ss, in R is available for download from CRAN or \href{https://github.com/r4ss/r4ss}{GitHub}.
 
-Additional guidance for new users is available from the NOAA VLAB at https://vlab.ncep.noaa.gov/group/stock-synthesis/document-library.  The "Begin Here - Introduction to Stock Synthesis" folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.  
-%\end{sloppypar}
-	
-\section{New Features Available in Version 3.30}
-Stock Synthesis version v.3.30 was designed specifically to provided more precise temporal control of growth, expected values for data, and for recruitment.  In additional, a large number of new features that make substantial changes to the input formats have been introduced.  Two executables of SS are provided.  One, ss\_trans.exe, will read SS v.3.24 input files and produce SS v.3.30 formatted versions of those input files.  Nearly every feature in v.3.24 can be converted by this program.  The other executable, ss.exe, will then be your primary new assessment tool. Additional information on each new feature available by clicking on the item.
-		
-\begin{center}
-	{\renewcommand{\arraystretch}{1.5}%
-	\begin{longtable}{p{2cm} p{3cm} p{10cm}}
-		\hline
-		Category & Item & Description\\
-		\hline
-		\endfirsthead
-		\hline
-		\toprule
-		Category & Item & Description\\
-		\hline
-		\endhead
+Additional guidance for new users can be found in the SS \href{https://vlab.ncep.noaa.gov/group/stock-synthesis/document-library}{document library} within the NOAA VLAB website.  The "Begin Here - Introduction to Stock Synthesis" folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.  
 
-		\hline
-		\endfoot
-
-		\endlastfoot
-		
-		General & 
-			\hyperlink{GenericFleets}{Generic Fleets} & 
-				Fleet specification section of data file is much changed and now includes fleet type, so fishery fleets, bycatch fleets, surveys, and someday predators are specified in any order\\
-
-		  & \hyperlink{ListBased}{List-oriented inputs} & 
-			    Rather than specify the number of items to be read, now SS can figure it out on its own with lists terminated by -9999 in first field of the read vector \\
-		  
-		  & \hyperlink{SubSeas}{Internal sub-seasons} & 
-			    SS v3.24 inherently has 2 subseasons each season (begin and middle) at which the age-length-key (ALK) is calculated; now user specifies an even number of sub-seasons to use (2 to many) \\
-
-		  & \hyperlink{ObsTiming}{Observation Timing} & 
-			    Timing of observations now is input as year, month where month is real; e.g. April 15 is 4.5; age-length-key (ALK) used for each observation is calculated to the nearest sub-season.  Old "survey\_timing" replaced by the month specific inputs.  Season is calculated at runtime from the input month and the input season durations. \\
-
-		  & \hyperlink{ALK}{Speed} & 
-			    Smarter at when to re-calculate the age-length-key (ALK); trims tails of size-at-age so calculations avoid many inconsequential cells of the age-length matrix. ALK tail compression is specified in the starter file.\\
-		
-		  & \hyperlink{Convert} {Converter} & 
-			    Special version of SS, ss\_trans.exe, will read files in 3.24 format and write *.ss\_new files in 3.30 format.  This is the advised method for converting previous version files, but always do a side-by-side comparison.\\
-
-		  & \hyperlink{WAAparm} {Empirical Weight-at-Age} & Implementing empirical weight-at-age is now specified separately in the control file rather than under the maturity options.\\
-
-		  & \hyperlink{Priors}{Prior Type} & Change in the prior numbering for parameters.  Now, 0 indicates no prior, and 6 indicates a normal distribution prior.\\
-
-		Fishery and Catch & 
-			\hyperlink{CatchMult}{Catch multiplier} & 
-				Each fishing fleet's catch can now have a "q" that is a parameter in the MGparm section.\\
-				
-			& \hyperlink{CatchFormat}{Catch input} & 
-				Catch input now as list:  yr, seas, fleet, amount, se. \\
-				
-			& \hyperlink{CompTiming}{Observations} & 
-				Fishery composition observations can be related to season long catch-at-age, or to a month-specific timing.\\
-		
-			& \hyperlink{DomeRetention}{Retention} & 
-				Option for dome-shaped retention function and for age-based retention. \\
-
-		Selectivity 
-			& Scaling Options & 	
-				A new non-parametric selectivity types that are scaled by the raw values at particular ages, rather than the max age.\\
-
-		Survey
-			& \hyperlink{SpecialSurvey}{Special Survey Types} & 
-				Special selectivity options (type 30 or $>$) are no longer specified within the control file.  Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units". \\  
-
-			& \hyperlink{Qsetup}{Link functions} & 
-				Q\_power is now one of several, and growing, set of link functions. \\
-				
-			& \hyperlink{Qsetup}{Catchability setup reorganization} & 
-				Major reorganization of catchability (Q) setup, including the link specification. \\
-			
-			& \multicolumn{1}{l}{\hyperlink{Qsetup}{Q as a parameter}} & 
-				Each survey now must have a Q parameter and its value still can float (as old option 5).\\
-
-		Recruitment
-			& \hyperlink{Shepherd}{Shepherd SRR} & 
-				A 3-parameter Shepherd stock-recruitment curve is now an option.\\
-			%\\
-			& \hyperlink{RecrTiming}{Recruitment timing} & 
-				Replace "birthseason" with "settlement event" that has explicit timing offset from spawning.  Month of spawning and each settlement event must be specified and need not be at beginning of a season.\\
-
-		Benchmark 
-			& Global MSY &  
-				Global MSY based on knife edge age selection; also do calculation with single age selection. The global MSY value will automatically be included in the report file.\\
-		
-			& Mean recruitment distribution & 
-				In multi-area model, can now specify range of years to use for the average recruitment distribution for forecasting. This feature is not yet implemented. \\
-
-		Forecast & 
-			Process error & 
-				Propagate random walk in MGparms, catchability, and selectivity into forecast. Specifying the end year for process error in the forecast period will implement this option.  This option has only been partial implemented at this junction and will be completed in later versions.\\
-
-		Biology 
-			& \hyperlink{MGorder}{Parameter order} & 
-				MGparms now have maturity, fecundity, sex ratio, and weight-length by growth pattern.\\
-				
-		    & \hyperlink{SexRatio}{Sex ratio} & 
-			    Change sex ratio at birth from a constant to a morph-specific MG parameter. This feature was not correctly implemented in versions of 3.30 earlier than 3.30.12. \\
-
-		Statistical 
-			& \hyperlink{GcompVar}{Input variance adjuster} & 
-				Added variance adjustment factor for generalized size comp. \\
-			
-			& Deviation vectors & 
-				Variance of deviation vectors is now specified with 2 parameters for standard error and auto-correlation (rho), so can be estimated.\\
-				
-			& \hyperlink{Dirichlet}{Dirichlet multinomial} & 
-				Dirichlet multinomial now a fleet-specific option; takes one parameter per fleet. \\
-
-		Parameters 
-			& \hyperlink{paraOrder}{Parameter order} & The prior standard deviation column for all parameter lines has been moved before the prior type column.  This modification improves formatting output between integer and decimal inputs.\\ 
-
-			& Density dependence & 
-				Beginning of year summary biomass and the recruitment deviation parameters are mapped to the "environmental" matrix so that parameters can be density-dependent.\\
-				
-			& \hyperlink{tvOrder}{Re-order} & 
-				Pay attention to the new order of the time-varying adjustments to parameters (block/trend, then environmental, then deviations). \\
-			
-			& \hyperlink{time-vary}{Time-varying parameters} & 
-				Long parameter lines for spawner-recruit relationship (SRR), catchability (Q), and tag parameters and complete re-vamp of the way that time-varying parameters are implemented for SRR and Q.  Now shares same internal code as mortality-growth and selectivity parameters for time-varying capabilities.\\
-
-		 Software version control
-			 & Version numbering	& The implementation of as new version control has changed how executable versions will be specified.  The executable releases are now named SS3.3x.xx.xx representing, in order; major features, minor features, and code fixes. \\
-		 \hline
-	\end{longtable}}
-\end{center}
-		
-\subsection{SS v.3.24 Issues Detected}
-The process of updating and adding new features within SS v.3.30 expose several issues with the previous version that have been corrected:
-\begin{enumerate}
-	\item Recruitment timing in multi-season models: When spawning occurred in a late season one year and recruits occurred at beginning of a season the next year, the recruits were starting at age-0, which was illogical.  SS v.3.30 corrects this so that recruits are age-0 only if recruiting at or between the time of spawning and the end of the year, and recruits after January 1st start at age-0.  A manual option allows users to attempt to replicate the SS v.3.24 protocol.
-	\item Lorenzen $M$ and time-varying growth interaction: There needs to be a revision to SS v.3.30 so that growth can be updated each season prior to calculating Lorenzen $M$.
-	\item Length at maximum age: SS v.3.24 intended to decay this length over-time at $M + F$ decreased the abundance of fish implicitly older than the maximum age (agemax).  However, this decay was only implemented in years for which time-varying growth was updated.  This will go on the the SS v.3.30 future features wishlist.
-	\item SS v.3.24 had a lower bound of 1 when adjusting annual sample size (Nsamp) downward for composition data (length and age).  The variance adjustment factors in the specified in the control file are multiplied across all annual sample size values for each data source (fleet and composition type).  The issue with the lower bound of 1 resulted in sample size adjustment not being constant across small and large sample size years, possibly resulting in smaller samples have higher impact than may be desired.  SS v3.30 has reduced this lower bound to a value of 0.001 but has retained user control over this value within the data file ("minsamplesize" column in the Composition Data Structure matrix at the top of the length and age data sections) to allow comparison with older model versions. 
-\end{enumerate}
-
+\pagebreak
 		
 \section{File Organization}\label{FileOrganization}		
 	\subsection{Input Files}
@@ -160,90 +24,59 @@ The process of updating and adding new features within SS v.3.30 expose several 
 		\item forecast.ss: file containing specifications for reference points and forecasts (required) 
 		\item ss.par: previously created parameter file that can be read to overwrite the initial parameter values in the control file (optional)
 		\item wtatage.ss: file containing empirical input of body weight by fleet and population and empirical fecundity-at-age (optional)
-		\item runnumber.ss: file containing a single number used as runnumber in output to CumReport.sso and in the processing of profilevalues.ss (optional)
+		\item runnumber.ss: file containing a single number used as run number in output to CumReport.sso and in the processing of profilevalues.ss (optional)
 		\item profilevalues.ss: file contain special conditions for batch file processing (optional)
 	\end{enumerate}
 	
 	\subsection{Output Files}
 	\begin{enumerate}
-		\item data.ss\textunderscore new:  contains a user-specified number of datafiles, generated through a parametric bootstrap procedure, and written sequentially to this file
-		\item control.ss\textunderscore new:  updated version of the control file with final parameter values replacing the Init parameter values.
-		\item starter.ss\textunderscore new:  new version of the starter file with annotations
-		\item Forecast.ss\textunderscore new:  new version of the forecast file with annotations.
-		\item warning.sso:  this file contains a list of warnings generated during program execution.
-		\item echoinput.sso:  this file is produced while reading the input files and includes an annotated echo of the input.  The sole purpose of this output file is debugging input errors.
-		\item Report.sso:  this file is the primary report file.
-		\item ss\_summary.sso: output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in version 3.30.08.03 and greater.
-		\item CompReport.sso:  observed and expected composition data in a list-based format
-		\item Forecast-report.sso:  output of management quantities and for forecasts
-		\item CumReport.sso:  this file contains a brief version of the run output, output is appended to current content of file so results of several runs can be collected together.  This is useful when a batch of runs is being processed.
-		\item Covar.sso:  this file replaces the standard ADMB ss.cor with an output of the parameter and derived quantity correlations in database format
-		\item ss.par: this file contains all estimated and fixed parameters from the model run. 
-		\item ss.std, ss.rep, ss.cor etc.  standard ADMB output files
-		\item checkup.sso:  contains details of selectivity parameters and resulting vectors.  This is written during the first call of the objective function.
-		\item Gradient.dat: new for SS3.30, this file shows parameter gradients at the end of the run.
-		\item rebuild.dat:  output formatted for direct input to Andre Punt's rebuilding analysis package.  Cumulative output is output to REBUILD.SS (useful when doing MCMC or profiles).
-		\item SIS\_table.sso:  output formatted for reading into the NMFS Species Information System.
-		\item Parmtrace.sso: parameter values at each iteration.
-		\item posteriors.sso, derived\_posteriors.sso, posterior\_vectors.sso: files associated with MCMC.
+		\item data.ss\textunderscore new: Contains a user-specified number of datafiles, generated through a parametric bootstrap procedure, and written sequentially to this file.
+		\item control.ss\textunderscore new: Updated version of the control file with final parameter values replacing the initial parameter values.
+		\item starter.ss\textunderscore new: New version of the starter file with annotations.
+		\item Forecast.ss\textunderscore new: New version of the forecast file with annotations.
+		\item warning.sso: This file contains a list of warnings generated during program execution.
+		\item echoinput.sso: This file is produced while reading the input files and includes an annotated echo of the input. The sole purpose of this output file is debugging input errors.
+		\item Report.sso: This file is the primary report file.
+		\item ss\_summary.sso: Output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in SS v.3.30.08.03 and greater.
+		\item CompReport.sso: Observed and expected composition data in a list-based format.
+		\item Forecast-report.sso: Output of management quantities and for forecasts.
+		\item CumReport.sso: This file contains a brief version of the run output, output is appended to current content of file so results of several runs can be collected together.  This is useful when a batch of runs is being processed.
+		\item Covar.sso: This file replaces the standard ADMB ss.cor with an output of the parameter and derived quantity correlations in database format.
+		\item ss.par: This file contains all estimated and fixed parameters from the model run. 
+		\item ss.std, ss.rep, ss.cor etc.:  Standard ADMB output files.
+		\item checkup.sso: Contains details of selectivity parameters and resulting vectors.  This is written during the first call of the objective function.
+		\item Gradient.dat: New for SS v.3.30, this file shows parameter gradients at the end of the run.
+		\item rebuild.dat: Output formatted for direct input to Andre Punt's rebuilding analysis package.  Cumulative output is output to REBUILD.SS (useful when doing MCMC or profiles).
+		\item SIS\_table.sso: Output formatted for reading into the NMFS Species Information System.
+		\item Parmtrace.sso: Parameter values at each iteration.
+		\item posteriors.sso, derived\_posteriors.sso, posterior\_vectors.sso: Files associated with MCMC.
 	\end{enumerate}
 
 	
 	\subsection{Auxiliary Files}
-	These files are additional files (e.g. excel files) which allow for exploration or understanding of specific parameterization which can assist in selecting appropriate starting values.  These files are available for download from the VLAB website. 
+	These files are additional files (e.g. excel files) which allow for exploration or understanding of specific parameterization which can assist in selecting appropriate starting values.  These files are available for download from the Vlab website. 
 	\begin{enumerate}
-		\item SS3-OUTPUT.xls:   Excel file with macros to read report.sso and display results.
-		\item Selex24\_dbl\_normal.xls:
-		\begin{enumerate}
-			\item This excel file is used to show the shape of a double normal selectivity (option number 20 for age-based and 24 for length-based selectivity) given user-selected parameter values.
-			\item Instructions are noted in the XLS file but, to summarize
-			\begin{enumerate}
-				\item Users should only change entries in a yellow box. 
-				\item Parameter values are changed manually or using sliders, depending on the value of cell I5.
-			\end{enumerate}
-			\item It is recommend that users select plausible starting values for double-normal selectivity options, especially when estimating all 6 parameters
-			\item Please note that the XLS does NOT show the impact of setting parameters 5 or 6 to ''-999''.  In SS v3.30, this allows the the value of selectivity at the initial and final age or length to be determined by the shape of the double-normal arising from parameters 1-4, rather than forcing the selectivity at the intial and final age or length to be estimated separately using the value of parameters 5 and 6. 
-		\end{enumerate}
-		\item Selex17\_age\_randwalk.xls:
-		\begin{enumerate}
-			\item This excel file is used to show the shape of age-based selectivity arising from option 17 given user-selected parameter values
-			\item Users should only change entries in the yellow box.
-			\item The red box is the maximum cumulative value, which is subtracted from all cumulative values.  This is then exponentiated to yield the estimated selectivity curve.  Positive values yield increasing selectivity and negative values yield decreasing selectivity.
-		\end{enumerate}
-		\item Prior\_Tester.xls:
-		\begin{enumerate}
-			\item The 'compare' tab of this spreadsheet shows how the various options for defining parameter priors work
-		\end{enumerate}
+		\item SS3-OUTPUT.xls: Excel file with macros to read report.sso and display results.
 		\item SS\_330\_Control\_Setup.xls:
 		\begin{enumerate}
-			\item Shows how to setup an example control file for SS
+			\item Shows how to setup an example control file for SS.
 		\end{enumerate}
 		\item SS\_330\_Data\_Input.xls:
 		\begin{enumerate}
-			\item Shows how to setup an example data input for SS
+			\item Shows how to setup an example data input file for SS.
 		\end{enumerate}
 		\item SS\_330\_Starter\&Forecast.xls:
 		\begin{enumerate}
-			\item Shows how to setup an example data input for SS
+			\item Shows how to setup an example starter and forecast input files for SS.
 		\end{enumerate}
-		\item Growth\_Comparison.xls: 
-		\begin{enumerate}
-			\item Excel file to test parameterization between the growth curve options within SS.
-			\item Instructions are noted in the XLS file but, to summarize
-			\begin{enumerate}
-				\item Users should only change entries in a yellow box.  
-				\item Entries in a red box are used internally, and can be compared with other parameterizations, but should not be changed.
-			\end{enumerate}
-			\item The SS-VB is identical to the standard VB, but uses a parameterization where length is estimated at pre-defined ages, rather than A=0 and A=Inf.  The Schnute- Richards is identical to the Richards-Maunder, but similarly uses the parameterization with length at pre-defined ages.  The Richards coefficient controls curvature, and if the curvature coefficient = 1, it reverts to the standard VB curve. 
-		\end{enumerate}
-		\item Movement.xls:
-		\begin{enumerate}
-			\item Excel file to explore SS movement parameterization
-		\end{enumerate}
+
 	\end{enumerate}
+
+\pagebreak
 		
 \section{Starting SS}
-SS is typically run through the command line interface although it can also be called from another program such as R or the SS-GUI or a script file (such as a DOS batch file). SS is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS will run much slower on computers with inadequate memory. See the section \ref{RunningSS} for additional notes on methods of running SS.
+SS is typically run through the command line interface, although it can also be called from another program, R, the SS-GUI or a script file (such as a DOS batch file). SS is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS will run much slower on computers with inadequate memory. See the Running SS section on page \pageref{sec:RunningSS} for additional notes on methods of running SS.
 
-Communication with the program is through text files.  When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS is being run.  The file starter.ss contains required input information plus references to other required input files, as described in section \ref{FileOrganization}.  The names of the control and data files must match the names specified in the starter.ss file.  File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to get a model setup correctly.  Output from SS is as text files containing specific keywords.  Output processing programs, such as the SS GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.
+Communication with the program is through text files.  When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS is being run.  The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page \pageref{FileOrganization}.  The names of the control and data files must match the names specified in the starter.ss file.  File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to setup a model correctly.  Output from SS consists of text files containing specific keywords.  Output processing programs, such as the SS GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.
 
+\pagebreak

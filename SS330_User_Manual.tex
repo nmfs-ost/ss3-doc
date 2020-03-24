@@ -1,11 +1,12 @@
 % Preamble =========================================================================================
 \documentclass[12pt]{article}
-
+\usepackage{natbib}
 \usepackage{lipsum, multicol}
 \usepackage[margin=1in, includefoot]{geometry}
 \usepackage{graphicx} %allows for impage import
 \graphicspath{{images/}}
-\usepackage[hidelinks]{hyper ref} % Allows for clickable links
+%\usepackage[hidelinks]{hyper ref} % Allows for clickable links
+\usepackage{hyper ref}
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage[T1]{fontenc}
@@ -24,10 +25,10 @@
 \usepackage{tocloft}
 \setlength{\cftsubsecnumwidth}{3em}
 \setlength{\cftsubsubsecnumwidth}{4em}
-\usepackage{hyperref}
 \usepackage{hypcap}
 \usepackage{amsmath}
 \usepackage{hyperref}
+%\usepackage[pdfborderstyle={/S/U/W 1}]{hyperref}
 \usepackage{float}
 \usepackage{fancyhdr}
 \usepackage[parfill]{parskip}
@@ -35,23 +36,35 @@
 \usepackage{crimson}              	% serif font
 \usepackage[T1]{fontenc}         	% controls font enconding
 \usepackage{sectsty}                % Allows for different fonts for header and body
+\usepackage[nottoc,numbib]{tocbibind}
+\usepackage[all]{nowidow}		    % Widow Control
+
+
+% Set widow and club penalties
+\widowpenalty=100000
+\clubpenalty=100000
 
 %sectsty commands
 % all section headers use the same sans serif family - roboto
+%\allsectionsfont{\sffamily\selectfont\roboto\mdseries\bfseries}
 \allsectionsfont{\sffamily\selectfont\roboto\mdseries\bfseries}
 % Set size and color of section header AL's H1
+%\sectionfont{\LARGE\nohang\centering\roboto\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 \sectionfont{\LARGE\nohang\centering\roboto\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 % Set size and color of subsection header AL's H2
+%\subsectionfont{\fontsize{18pt}{20pt}\selectfont\roboto\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 \subsectionfont{\fontsize{18pt}{20pt}\selectfont\roboto\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 % Set size and color of subsubsection header AL's H3
 \subsubsectionfont{\hspace{0pt}\nohang\fontsize{16pt}{18pt}\selectfont\roboto\raggedright\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 % Set size and color of paragraph header AL's H4
+%\paragraphfont{\fontsize{14pt}{16pt}\selectfont\robotocondensed\fontseries{bl}\selectfont\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 \paragraphfont{\fontsize{14pt}{16pt}\selectfont\robotocondensed\fontseries{bl}\selectfont\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
+\newcolumntype{R}{>{\raggedright\arraybackslash}p{3cm}}
 
 %\definecolor{lightgray}{gray}{0.92}
-
-\pagestyle{fancy}
 \fancyhead{}
+\pagestyle{fancy}
+
 \parskip = 12pt				% space between paragraphs
 \setlength{\extrarowheight}{1.5pt}
 \setlength{\arraycolsep}{1.5pt}
@@ -62,6 +75,12 @@
 \hyphenpenalty=10000
 \hbadness=10000
 
+%\hypersetup{%
+%	colorlinks=false,% hyperlinks will be black
+%	linkbordercolor=red,% hyperlink borders will be red
+%	pdfborderstyle={/S/U/W 1}% border style will be underline of width 1pt
+%}
+
 %%The following sets up how the pdf displays links and functions in Acrobat.
 \hypersetup{
 	bookmarks    = true,        % show bookmarks bar?
@@ -70,12 +89,14 @@
 	pdfmenubar   = true,        % show Acrobat's menu?
 	pdffitwindow = false,       % window fit to page when opened
 	pdfstartview = {FitH},      % fits the width of the page to the window
-	pdfnewwindow = true,        % links in new window
-	colorlinks   = true,        % false: boxed links; true: colored links
+	pdfnewwindow = false,        % links in new window
+	colorlinks   = false,       % false: boxed links; true: colored links
+	linkbordercolor = black,    % the color of the link border color (colorlink =false)
 	linkcolor    = blue,        % color of internal links (change box color with linkbordercolor)
-	citecolor    = green,       % color of links to bibliography
-	filecolor    = magenta,     % color of file links
-	urlcolor     = cyan         % color of external links
+	citecolor    = blue,       % color of links to bibliography
+	filecolor    = blue,     % color of file links
+	urlcolor     = blue,        % color of external links
+	pdfborderstyle = {/S/U/W 1} % border style will be underline of width 1pt
 }
 
 \newcommand\Tstrut{\rule{0pt}{3.5ex}}       % "top" strut
@@ -97,9 +118,9 @@
   	\selectfont%
 }%
 \xpretocmd{\maketitle}{\TitlePageFont}{}{}
-\title{\textcolor[cmyk]{1.00,0.83,0.41,0.36}{Stock Synthesis User Manual\\ Version 3.30.12}}
-\author{Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor\\\\\\NOAA Fisheries\\Seattle, WA}
-\date{August 16, 2018}
+\title{\textcolor[cmyk]{1.00,0.83,0.41,0.36}{Stock Synthesis User Manual\\ Version 3.30.14}}
+\author{Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, and Kathryn Doering\\\\\\NOAA Fisheries\\Seattle, WA}
+\date{January 30, 2020}
 
 \begin{document}
 	% ====== Title Page ===================================================
@@ -124,7 +145,7 @@
 	\setcounter{secnumdepth}{0}
 	%\setcounter{page}{1}
 	\newpage
-	
+	\raggedright
 	% ====  List of figures ========================================================
 	\renewcommand{\headrulewidth}{0pt} % removes the top line across each page
 	%\listoffigures
@@ -156,22 +177,32 @@
 	\input{14r4ss}	
 	%========= Section 15: Special Set-ups
 	\input{15special}
-	%========= Section 16: Change Log
-	\input{16changelog}	
-	%========= Section 17: Appendix A: Recruitment 
-	\input{17appendixA}	
-	%========= Section 18: Appendix B: Data Weighting
-	\input{18appendixB}	
-	%========= Section 19: Appendix C: Forecast Module
-	\input{19appendixC}	
-	%========= Section 20: Appendix D: Code Examples
-	\input{20appendixD}	
-	%========= Section 21: Appendix E: In process and wish list
-	\input{21appendixE}
-	%========= Section 22: Appendix F: Input files
-	\input{22appendixF}		
+	%========= Section 16: Essays
+	\input{16essays}
+	%========= Section 17: Code Examples
+	\input{17code_examples}	
+	%========= Section 18: Change Log
+	% S\input{18changelog}	
 	%========= Reference Section
-	%\input{references}	
+	\newpage
+	\bibliography{SS}
+	\bibliographystyle{JournalBiblio/cjfas}
+	\newpage	
+		
+	% Appendices ===================================
+	%========= Section 17: Appendix A: Recruitment 
+	%\input{17appendixA}	
+	%========= Section 18: Appendix B: Data Weighting
+	%\input{18appendixB}	
+	%========= Section 19: Appendix C: Forecast Module
+	%\input{19appendixC}	
+	%========= Section 20: Appendix D: Code Examples
+	%\input{20appendixD}	
+	%========= Section 21: Appendix E: In process and wish list
+	%\input{21appendixE}
+	%========= Section 22: Appendix F: Input files
+	%\input{22appendixF}		
+
 		
 \end{document}
 

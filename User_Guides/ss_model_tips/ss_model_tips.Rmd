@@ -1,0 +1,163 @@
+---
+title: "Developing your first Stock Synthesis (SS) model"
+author: "SS Development Team"
+output:
+  pdf_document:
+    number_sections: true
+urlcolor: blue
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+<!-- YAML options to include if generating pdf: -->
+<!--   pdf_document: -->
+<!--     number_sections: true -->
+<!-- urlcolor: blue -->
+
+# Scope
+<!-- This is a comment, feel free to add your own throughout! -->
+This document is intended to teach users how to develop a Stock Synthesis model. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS model, but that this is the first or one of the first SS models that they are developing.
+
+If you are a new SS user who is not yet comfortable running an SS model, we suggest trying to run an example working model using advice in the **Getting Started** document before attempting to develop and run your own model as outlined here.
+
+By the end of using this guide, you should be able to:
+
+1. Develop your own SS model development workflow based on the tools and methods suggested 
+2. Find information on the required inputs for different model specifications
+3. Understand how to use phases within an SS model
+4. Debug basic issues with input in Stock Synthesis models and identify when there are more advanced model problems
+
+# How to create new SS models
+
+There are many potential workflows for developing a new SS model, but a common technique is to start with an existing model and change it in a piece-wise fashion. The basic technique is:
+
+1. Find an existing working model (perhaps one of the SS example models available in the [SS Document Library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library) or perhaps a model more similar in form to the model you plan to create).
+2. Edit portions of the model and try running as you go to check that your inputs can be read correctly by SS and make logical sense (tip: set ```maxphase = 0``` in the starter file and option ```-nohess``` to reduce run time with each iteration of checking inputs).
+
+Some commonly used tools for editing the SS input files are:
+
+1. **Stock Synthesis Interface (SSI; the SS GUI)**. SSI is available publicly in the [Stock Synthesis Vlab document library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library). The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI.
+2. **Your favorite text editor**.
+3. **The ```SS_read*``` and ```SS_write*``` functions in the R package [r4ss](https://github.com/r4ss/r4ss)**. These functions allow you to read in SS input files to R, manipulate them from within R, then write them out to a file.
+
+# Guidance on model specification
+
+The [SS user manual](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132?_com_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt_redirect=https%3A%2F%2Fvlab.ncep.noaa.gov%3A443%2Fweb%2Fstock-synthesis%2Fdocument-library%2F-%2Fdocument_library%2F0LmuycloZeIt%2Fview%2F1933976%3F_com_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt_redirect%3Dhttps%253A%252F%252Fvlab.ncep.noaa.gov%253A443%252Fweb%252Fstock-synthesis%252Fdocument-library%253Fp_p_id%253Dcom_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt%2526p_p_lifecycle%253D0%2526p_p_state%253Dnormal%2526p_p_mode%253Dview) and the [helper spreadsheets](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337?_com_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt_redirect=https%3A%2F%2Fvlab.ncep.noaa.gov%3A443%2Fweb%2Fstock-synthesis%2Fdocument-library%3Fp_p_id%3Dcom_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview) can be used as guides to help you edit your model. The SSI can also help guide you through changes in model inputs required as you select different SS model options.
+
+If you are unsure if you got the setup right (e.g., adding the correct number of parameter lines for a chosen catchability setup), try running the model with ```maxphase = 0``` in the starter file and ADMB option ```-nohess```. If the model run completes, you can compare the **control.ss_new** file and the first data set in **data.ss_new** to your SS input files to make sure SS interpreted your values in the way you intended. If the run exits before completion, you can look at **warning.sso** and **echoinput.sso** for clues as to what was wrong with your setup.
+
+For additional help with model specification, please post your issue on the vlab [forums](https://vlab.ncep.noaa.gov/group/stock-synthesis/discussions-forums-) (for registered SS users) or send an email to the SS team at NMFS.Stock.Synthesis@noaa.gov.
+
+# Phases in SS and ADMB
+
+Phases are used within ADMB to tell the program in what order the parameters should be estimated. For more details about phases in ADMB beyond what is provided here, see the [ADMB user manual](http://www.admb-project.org/docs/manuals/). ADMB phases can be specified for parameters in SS.
+
+A **negative phase** indicates that the parameter is not estimated, but specified. Note that all negative phases are equivalent; i.e., there is no difference in how parameters with phases -1 and -99 are dealt with. The exceptions are:
+
+ +  -9999, which is a special value within SS (see the profilevalues.ss section of the SS user manual).
+ + Values more negative than -999 for parameters in the tagging section of the control file.
+
+A **positive phase** indicates that the parameter will be estimated. Parameters with a lower positive phase will be estimated before those with a higher positive phase. Which phase should you put an estimated parameter in? While there is variability among analysts and models in how phasing is used, in general, parameters with low positive phases should be for values which define the scale of the population (i.e., *R0*, natural mortality, steepness, selectivity slope). Parameters for fine-tuning fits to the data are often estimated in later phases (i.e., catchability, growth, and recruitment deviation parameters). Many models use positive phases from about 1 to 5, although it is possible to use higher phasing values.
+
+# Basic debugging: use **echoinput.sso** and **warning.sso**
+
+The most useful tools for debugging SS issues are the SS output files **echoinput.sso** and **warning.sso**. As SS runs, it writes back to **echoinput.sso**. When SS exits without finishing, looking at the last contents written to **echoinput.sso** and comparing it with your input files can provide clues as to where (and possibly why) the run failed. Note that SS reads inputs in order and will read them incorrectly if the wrong number of inputs is provided.  Any warnings generated during the run are written to **warning.sso**. The **warnings.sso** file should always be examined at the end of the run, even if the run was successful.
+ 
+# Visualizing results
+
+Visualization is helpful as you iteratively develop your model and for presentation of final model results. The output of an SS model can be read into [r4ss](https://github.com/r4ss/r4ss) or the excel viewer, SS_Output-330.xslm (find it in the [Helper Spreadsheets folder](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337?_com_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt_redirect=https%3A%2F%2Fvlab.ncep.noaa.gov%3A443%2Fweb%2Fstock-synthesis%2Fdocument-library%3Fp_p_id%3Dcom_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt%26p_p_lifecycle%3D0%26p_p_state%3Dnormal%26p_p_mode%3Dview) of the [Vlab SS Document Library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library)).
+
+# Proposed workflow for arriving at a "final" model
+
+It's important to remember that arriving at a model takes time! You should plan on making small revisions, rerunning the model, and looking at how the model has changed with each small revision. Typically, many intermediate model runs are required before you reach a final model. Keep notes inside of the run folder or elsewhere regarding the run specific changes. Below, we provide some suggestions on the steps to take as you iterate toward your "final" model.
+
+## First runs without estimation
+
+First, you want to check that SS is able to read your input files in the way you intended. To do a run without estimation, set change max phase to 0 in **starter.ss** and run your model with ADMB option `-nohess`. Examine **warning.sso**, **echoinput.sso**, and the **.ss_new files**  produced during this run without estimation to see how SS interpreted your input files and if it was as you intended. 
+
+After you have verified that SS is reading your input correctly, you can also consider adjustment to selectivity, growth, and recruitment parameters at this stage. 
+
+<!-- Probably too many details, but could add to this section: -->
+<!-- *In particular, you can check that lnR0 is large enough to support the catch time series. If it is not, it should be adjusted. Note that the depletion fleet controls can be used as an automated approach for this issue.* -->
+
+<!-- *TODO: Add more details about lnR0 - explain why this needs to be done more fully and how to modify the depletion fleet controls.* -->
+
+## Runs estimating some parameters
+
+Try changing max phase to be greater than 0 (perhaps 2 or 3) to estimate some but not all parameters. Run the model with `-nohess` to reduce run time. During this stage of model runs, you should try to adjust the model to resolve all major patterns in the residuals. This may include considering and making changes to the model structure.
+
+## Runs estimating all parameters
+
+Once all major patterns in the residuals have been resolved, try estimating all parameters in the model. Change max phase to include all of your model phases (i.e., equal to or higher than the highest phase specified in your model). You'll want to do multiple runs for different model refinement purposes at this time:
+
+1. Do one or more run(s) with the hessian estimated to get variance of the recruitment deviations and then use this vector of variances to adjust the bias adjustment ramp (see the [SS User Manual](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132?_com_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt_redirect=https%3A%2F%2Fvlab.ncep.noaa.gov%3A443%2Fweb%2Fstock-synthesis%2Fdocument-library%2F-%2Fdocument_library%2F0LmuycloZeIt%2Fview%2F1933976%3F_com_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt_redirect%3Dhttps%253A%252F%252Fvlab.ncep.noaa.gov%253A443%252Fweb%252Fstock-synthesis%252Fdocument-library%253Fp_p_id%253Dcom_liferay_document_library_web_portlet_DLPortlet_INSTANCE_0LmuycloZeIt%2526p_p_lifecycle%253D0%2526p_p_state%253Dnormal%2526p_p_mode%253Dview) for additional details).
+2. Do runs with or without estimating the hessian to tune the data weightings.
+3. Run the model multiple times and jitter the starting values (option to jitter is selected in `starter.ss`). This runs the model with new starting parameter values to determine if a better model fit is possible using different starting values.
+
+After these runs, your model should be fine-tuned and ready for final runs.
+
+# Advanced debugging
+
+In this section, we have listed some common problems that you may encounter and some techniques to resolving them within your model.
+
+## If the residuals have substantial patterns
+
+It is often difficult to pinpoint the cause of residuals that have substantial patterns, but two potential reasons this could happen are unrealistic starting values or poor model specification. If you have residuals with substantial pattern, you can try changing the starting values. If a parameter is not moving from the starting value, there may not be enough information to determine its value and it may be necessary to fix the value in the model.  If the parameter does move with different starting values, it is possible that the starting value used before was not reasonable and thus changing the starting value to a reasonable value fixes the issue.
+
+## If SS runs, but there is a large gradient at the end
+
+Large gradients are usually reported in **warnings.sso** file, so this problem should be clear when examining the file after a model run. If this is the case, try the following
+
+
+ + Examine **Report.sso** for parameters that are on or near bounds, as these may be the parameters that are causing issues. It depends on the value, but you can consider changing your bounds or the parameters, depending on what seems most plausible given your model.
+ + Examine residuals to identify if there is overall poor lack-of-fit. This may indicate that the ADMB algorithm failed to find the global minimum. Try alternative starting values to attempt to solve this problem. However, it is also possible that there is large disagreement between your model structure and your model file, in which case you may want to reconsider the model specification - perhaps there is an alternative model structure that makes more sense for the population.
+ 
+## If the hessian does not invert
+
+The hessian information is reported in the **Report.sso** file, so go to this section to confirm if this is an issue. This is a difficult issue to solve, but considering alternative models may be necessary if the hessian will not invert.
+
+# Advanced ADMB run options (MCMC, adnuts)
+
+SS models are typically run using maximum likelihood estimation (MLE), but it is possible to run SS models using Markov Chain Monte Carlo (MCMC). MCMC is outside the scope of this document, but below are some resources to check out in case you are interested in pursuing it further:
+
+1. See the [ADMB user manual](http://www.admb-project.org/docs/manuals/) for more information on using MCMC in ADMB and the section on Running MCMC in the SS user manual for more specific information on running MCMC in SS.
+2. See the [adnuts repository](https://github.com/colemonnahan/adnuts) for more information on using the No-U-Turn sampler (NUTS) in ADMB and [this article by Monnahan et al. (2019)](https://doi.org/10.1093/icesjms/fsz059) to better understand the benefits of using NUTS for assessment models.
+
+# Some questions to consider during model development
+
+There are many elements to consider in an SS model. Below are some questions and considerations that experienced SS users have used to check that their model makes sense throughout the iterative model development process.
+
+## Does my model model make sense?
++ Does the biology make sense? Selectivity? 
++ Is the model fitting the indices? Length and age data? 
++ What is the pattern in recruitment? 
++ Does the prior type match what I thought I was specifying?  
+
+## Does my model  model fit well?
+
++ The `r4ss::SS_output()` function prints some very useful diagnostics to the R console window, including a list of the estimated parameters, the estimated value, whether the parameter is hitting a bound, the gradient, and the prior type. Use this (or other SS output files) to answer:
+
+  + Did the parameter move from the initial value?
+  + Is the parameter hitting a bound?
+  + Is the parameter gradient low?
+ 
++ Below the parameter estimates that `r4ss::SS_output()` prints to the console, there is a specific section that highlights the parameters with the highest model gradients. Examining this list might indicate which (if any) parameters may need to be fixed due to lack of information in the data.  For example, there may be selectivity parameters included in the list where small changes in the parameter value do not change the model results (or the form of the selectivity).  
+
+## Does my data weighting make sense?
+
+The `r4ss::SS_output()` function prints information on tuning to the R console. This includes tuning information for length and age data that can be used for data weighting when using McAllister Ianelli weighting (i.e., weighting by the harmonic mean).  The `r4ss::SS_plots()` function creates mean length and ages figures with captions showing the recommended Francis weights for each data source. Even if you are using an alternative data weighting approach (i.e., Francis, Dirichlet, or other), it is always good practice to explore an alternative approach and see how data weighting changes the model.  
+
+## Did I fix variation in recruitment correctly?
+
+Check the the sigmaR (i.e., recruitment devs standard deviation) information. The sigmaR parameter is typically fixed within the model, so if it is not fixed within your model, you should consider whether or not this makes sense for the population and given the quality and quantity of data.
+
+For a fixed value of sigmaR, a section of the output will provide diagnostics to determine if the fixed sigmaR value is capturing the estimated variations in recruitment. The `r4ss::SS_output()` function will print a recommended value based on the variation in the estimated recruitment deviations that you may want to consider using.
+
+# Where to get additional help
+
++ Registered users of the SS community on vlab can post questions to the [forums](https://vlab.ncep.noaa.gov/group/stock-synthesis/discussions-forums-) 
++ Anyone can send an emails to the SS team at NMFS.Stock.Synthesis@noaa.gov for assistance.
+
+

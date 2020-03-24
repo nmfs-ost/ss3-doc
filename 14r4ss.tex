@@ -1,9 +1,9 @@
-%\section{Using R To View Model Output}
+
 \section{Using R To View Model Output (r4ss)}\label{r4ss}
 
-A collection of functions developed as a package, \texttt{r4ss}, for the statistical software R has been created to explore SS model output.  The functions include tools for summarizing and plotting results, manipulating files, visualizing model parameterizations, and various other tasks.  Currently, information on the code, including installation instructions, can be found at https://github.com/r4ss/r4ss.  The software package is under constant development to maintain compatibility with new versions of SS and to improve functionality.
+A collection of functions developed as a package, \texttt{r4ss}, for the statistical software R has been created to explore SS model output.  The functions include tools for summarizing and plotting results, manipulating files, visualizing model parameterizations, and various other tasks.  Currently, information on the code, including installation instructions, can be found on \href{https://github.com/r4ss/r4ss}{Github}.  The software package is under constant development to maintain compatibility with new versions of SS and to improve functionality.
 
-Two of the most commonly used functions for model diagnostics are SS\_output and SS\_plots.  After running a model using SS, the report can be read into R by the SS\_output function which stores quantities in a list with named objects.  This list can then be passed to the SS\_plots function which creates a series of over 100 plots that are useful to visualize output such as model fit to the data and time series of quantities of interest.
+Two of the most commonly used functions for model diagnostics are \texttt{SS\_output} and \texttt{SS\_plots}.  After running a model using SS, the report can be read into R by the \texttt{SS\_output} function which stores quantities in a list with named objects.  This list can then be passed to the \texttt{SS\_plots} function which creates a series of over 100 plots that are useful to visualize output such as model fit to the data and time series of quantities of interest.
 
 The latest \texttt{r4ss} version on CRAN can be installed using a command like:
 
@@ -23,7 +23,7 @@ However, more frequent enhancements and bug fixes are posted to the GitHub proje
 	\end{verbatim}
 \end{quote}
 
-Note: \texttt{devtools} will give this message: \textit{"WARNING: Rtools is required to build R packages, but is not currently installed."} However, \texttt{Rtools} is NOT required for installing \texttt{r4ss} via \texttt{devtools}, so ignore this warning.
+Note: \texttt{devtools} will give this message: \textit{"WARNING: Rtools is required to build R packages, but is not currently installed."}. However, \texttt{Rtools} is not required for installing \texttt{r4ss} via \texttt{devtools}, so ignore this warning.
 
 Once you have installed the \texttt{r4ss} package, it can be loaded in the regular manner:
 
@@ -44,20 +44,22 @@ The results from a model run can be read in and plots created using the followin
 	\end{verbatim}
 \end{quote}
 
+The \texttt{SS\_output()} function reads the Report file and stores this information in a list. The function by default will print select items to the screen that can be useful for evaluating a model (e.g., likelihood, estimated parameter with warnings if they hit bounds, parameters with high gradients). This list created by \texttt{SS\_output()} can be passed to other functions in the \texttt{r4ss} package to allow visualization of results.
+%\pagebreak
+%Example of the data displayed used by the SS\_output function:
+%\begin{center}
+%		\includegraphics{r4ss_output}
+%\end{center}
 
-\pagebreak
-Example of the data displayed used by the SS\_output function:
-\begin{center}
-		\includegraphics{r4ss_output}
-\end{center}
+%\pagebreak
+The \texttt{SS\_plots()} function will create plots from the list created by the \texttt{SS\_output()} function that can be used to visualize model results.  The plots by default will be written inside a "plots" folder inside the folder with the model files read by the \texttt{SS\_output()} function.  Additionally, an html file is written which allows for visualization of all plots created.   
 
-\pagebreak
-Example of the plots created using the SS\_plots function:
-\begin{center}
-	\includegraphics{r4ss_plots}
-\end{center}
+%Example of the plots created using the SS\_plots function:
+%\begin{center}
+%	\includegraphics{r4ss_plots}
+%\end{center}
 
-\pagebreak
+%\pagebreak
 The functions included in r4ss ranging from general use to functions developed for specific model applications:
 \begin{center}
 	\begin{longtable}{p{4.5cm} p{10.52cm}}
@@ -162,3 +164,5 @@ The functions included in r4ss ranging from general use to functions developed f
 		\hline
 	\end{longtable}
 \end{center}
+
+\pagebreak

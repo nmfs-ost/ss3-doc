@@ -1,14 +1,14 @@
 \section{Forecast File}
-The specification of options for forecasts is contained in the mandatory input file named forecast.ss.  For additional detail on the forecast file see Appendix B.
+The specification of options for forecasts is contained in the mandatory input file named forecast.ss.  Additional details on the forecast module process are provided on page \pageref{sec:forecast}.
 
+The term COND appears in the "Typical Value" column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
-\subsection{Terminology}
-Where the term “COND” appears in the value column of this documentation (it does not actually appear in the forecast file), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the forecast.ss\_new file.
 
 \begin{landscape}
 	
-  \centerline{\large{\textbf{FORECAST.SS}}} 
-	\vspace{0.10in}
+\subsection{Forecast File Options (forecast.ss)}	
+  %\centerline{\large{\textbf{FORECAST.SS}}} 
+	%\vspace{0.10in}
   {
   \setlength\extrarowheight{4pt}	
   \begin{longtable}{p{3.2cm} p{7cm} p{10.8cm}} 
@@ -32,17 +32,17 @@ Where the term “COND” appears in the value column of this documentation (it 
 		\endlastfoot
 		
 
- 1 & \hyperlink{Benchmark}{Benchmarks/Reference Points} & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SS checks for consistency of the Forecast specification and the benchmark specification.  It will turn benchmarks on if necessary and report a warning.}}\Tstrut\\
-   & 0 = omit & \\
-   & 1 = calculate F\textsubscript{SPR}, F\textsubscript{Btarget}, and F\textsubscript{MSY} & \\
-   & 2 = calculate F\textsubscript{SPR}, F\textsubscript{Btarget}, F\textsubscript{MSY}, F\textsubscript{0.10} & \Bstrut\\ 
+ 1 & \hyperlink{Benchmark}{Benchmarks/Reference Points:} & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SS checks for consistency of the Forecast specification and the benchmark specification.  It will turn benchmarks on if necessary and report a warning.}}\Tstrut\\
+   & 0 = omit; & \\
+   & 1 = calculate F\textsubscript{SPR}, F\textsubscript{Btarget}, and F\textsubscript{MSY}; and & \\
+   & 2 = calculate F\textsubscript{SPR}, F\textsubscript{MSY}, F\textsubscript{0.10}. & \Bstrut\\ 
    
  \hline
- 1 & MSY Method &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Specifies basis for F\textsubscript{MSY}.}}\Tstrut\\
-   & 1 = F\textsubscript{SPR} as proxy & \\
-   & 2 = calculate F\textsubscript{MSY} & \\
-   & 3 = F\textsubscript{Btarget} as proxy or F\textsubscript{0.10}& \\
-   & 4 = F\textsubscript{end year} as proxy & \Bstrut\\
+ 1 & MSY Method: &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Specifies basis for calculating a single population level F\textsubscript{MSY} value.}}\Tstrut\\
+   & 1 = F\textsubscript{SPR} as proxy; & \\
+   & 2 = calculate F\textsubscript{MSY}; & \\
+   & 3 = F\textsubscript{Btarget} as proxy or F\textsubscript{0.10; and}& \\
+   & 4 = F\textsubscript{end year} as proxy. & \Bstrut\\
 
 
  \hline
@@ -56,145 +56,154 @@ Where the term “COND” appears in the value column of this documentation (it 
       & & \Bstrut\\
   
  \hline
- 0 0 0 0 0 0 0 0 0 0 & Benchmark Years & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Requires 10 values, (1,2) beginning and ending years for biology (growth, natmort, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) SRparms for averaging years in calculating benchmark quantities}} \Tstrut\\
-  & -999: start year & \\
-  & >0:   absolute year & \\
-  & <= 0: year relative to end year & \\
+ 0 0 0 0 0 0 0 0 0 0 & Benchmark Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Requires 10 values, beginning and ending years for (1,2) biology (e.g., growth, natural mortality, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) stock-recruitment parameters for averaging years in calculating benchmark quantities.}} \Tstrut\\
+  & -999: start year; & \\
+  & >0:   absolute year; and & \\
+  & <= 0: year relative to end year. & \\
 
 
   \pagebreak
   %\hline
-  1 & Benchmark Relative F Basis &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Does not affect year range for selectivity and biology.}} \Tstrut\\
-    & 1 = use year range & \\
-    & 2 = set range for relF same as forecast below & \\
+  1 & Benchmark Relative F Basis: &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ The specification does not affect year range for selectivity and biology.}} \Tstrut\\
+    & 1 = use year range; and & \\
+    & 2 = set range for relF same as forecast below. & \\
     
   %\pagebreak
   \hline
-  2 & Forecast & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ This input is required but is ignored if benchmarks are turned off.  If F\textsubscript{MSY} is selected, it uses whatever proxy, e.g. F\textsubscript{SPR} or F\textsubscript{BTGT} is selected in the benchmark section.}} \Tstrut\\
-    & 0 = none (no forecast years) & \\
-    & 1 = use F\textsubscript{SPR} & \\
-    & 2 = use F\textsubscript{MSY} & \\
-    & 3 = use F\textsubscript{Btarget} or F\textsubscript{0.10} & \\
-    & 4 = set to average F scalar for the forecast relative F years below & \\
-    & 5 = input annual F scalar & \Bstrut\\
+  2 & Forecast: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ This input is required but is ignored if benchmarks are turned off.  This determines how forecast catches are calculated and removed from the population which is separate from the "MSY Method" above. If F\textsubscript{MSY} is selected, it uses whatever proxy (e.g., F\textsubscript{SPR} or F\textsubscript{BTGT}) is selected in the "MSY Method" row.}} \Tstrut\\
+    & -1 = none, no forecast years; & \\
+    & 0 = simple, single forecast year calculated; & \\
+    & 1 = use F\textsubscript{SPR}; & \\
+    & 2 = use F\textsubscript{MSY}; & \\
+    & 3 = use F\textsubscript{Btarget} or F\textsubscript{0.10}; & \\
+    & 4 = set to average F scalar for the forecast relative F years below; and & \\
+    & 5 = input annual F scalar. & \Bstrut\\
     
   \hline
-  10 & N forecast years (must be >= 1) &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ At least one forecast year now required which differs from version 3.24 that allowed zero forecast years.}} \Tstrut\\
+  10 & N forecast years (must be >= 1) &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ At least one forecast year now required which differs from SS v.3.24 that allowed zero forecast years.}} \Tstrut\\
      & & \Bstrut\\
      
   \hline
-  1 & F scalar & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar).}}\Tstrut\Bstrut\\
+  1 & F scalar & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar), but is a required line in the forecast file.}}\Tstrut\Bstrut\\
+  & & \\
   
   \hline
-  0 0 0 0 0 0 & Forecast Years &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Requires 6 values:  beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts.  In future, hope to allow random effects to propagate into forecast.  \\NOTE:  Relative F for bycatch only fleets is scaled just like other fleets.  More options for this in future.}}\Tstrut\\
-    & >0 = absolute year & \\
-    & <= 0 = year relative to end year & \\
-    & & \\ 
+  0 0 0 0 0 0 & Forecast Years: &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Requires 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts.  In future, hope to allow random effects to propagate into forecast. Please note, relative F for bycatch only fleets is scaled just like other fleets.  More options for this in future.}}\Tstrut\\
+    & >0 = absolute year; and & \\
+    & <= 0 = year relative to end year. & \\
     & & \Bstrut\\  
 
  \pagebreak   
  %\hline   
- 0 & Forecast Selectivity Option & Determines the selectivity used in the forecast years. \Tstrut\\
-   & 0 = forecast selectivity is mean from year range & \\
-   & 1 = forecast selectivity from annual time-varying parameters & \Bstrut\\
+ 0 & Forecast Selectivity Option: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Determines the selectivity used in the forecast years. Selecting 1 will allow for application of time-varying selectivity parameters (e.g., random walk) to continue into the forecast period.}}\Tstrut\\
+   & 0 = forecast selectivity is mean from year range; and & \\
+   & 1 = forecast selectivity from annual time-varying parameters. & \Bstrut\\
 
  %\pagebreak
  \hline   
- 1 & Control Rule & \Tstrut\\
-   & 1 = catch as function of SSB, buffer on F & \\
-   & 2 = F as function of SSB, buffer on F & \\
-   & 3 = catch as function of SSB, buffer on catch & \\
-   & 4 = F is a function of SSB, buffer on catch & \Bstrut\\
+ 1 & Control Rule: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Used to apply reductions ("buffer") to either the catch or F based on the control rule during the forecast period.}} \Tstrut\\
+   & 1 = catch as function of SSB, buffer on F; & \\
+   & 2 = F as function of SSB, buffer on F; & \\
+   & 3 = catch as function of SSB, buffer on catch; and & \\
+   & 4 = F is a function of SSB, buffer on catch. & \Bstrut\\
  \hline
  
- 0.40 \Tstrut & Control Rule Upper Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) above which F is constant at control rule F\textsubscript{target}.}} \\
+ 0.40 \Tstrut & Control Rule Upper Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Relative biomass level to unfished biomass above which F is constant at control rule F\textsubscript{target}.}} \\
    &  & \Bstrut\\
  
  \hline
- 0.10 \Tstrut & Control Rule Lower Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Biomass level (as a fraction of SSB\textsubscript{0}) below which F is set to 0.}} \\
+ 0.10 \Tstrut & Control Rule Lower Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Relative biomass level to unfished biomass below which F is set to 0 (management threshold).}} \\
    &  & \Bstrut\\
  
  \hline
- 0.75 \Tstrut & Control Rule Buffer & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Control rule F\textsubscript{target} as a fraction of selected F\textsubscript{MSY} proxy. Note, if using Pope's F, then this value will be applied to the catch rather than the F.  Model's that use either continuous F or the hybrid F will apply this value directly to the F.  Future versions will allow a user to specify whether the adjustment should be applied to either the catch or F independent of the fishing mortality method selected.}} \\ 
-  & & \\
-  & & \\
+ 0.75 \Tstrut & Control Rule Buffer (multiplier or -1) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Control rule catch or F\textsubscript{target} as a fraction of selected catch or F\textsubscript{MSY} proxy. A value of -1 will allow the user to input a forecast year specific control rule fraction (added in v. 3.30.13).}} \\ 
   & & \\
   & & \Bstrut\\
  
  \pagebreak %
  %\hline
  
- 3 \Tstrut & Number of forecast loops (1,2,3) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{SS sequentially goes through the forecast up to three times.  Maximum number of forecast loops: 1=OFL only, 2=ABC control rule, 3=set catches equal to control rule or input catch and redo forecast implementation error.}} \\
+  \multicolumn{2}{l}{COND -1: Conditional input for annual control rule buffer} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Year and control rule buffer value. Can enter a value for each year, or starting sequence of years. The final control rule buffer value  will apply to all sequent forecast years.}} \Tstrut\\
+  \multicolumn{1}{r}{2019 0.8}  & &  \\
+  \multicolumn{1}{r}{2020 0.6}  & & \\ 
+  \multicolumn{1}{r}{2021 0.5}  & & \\ 
+  \multicolumn{1}{r}{-9999 0}   & & \Bstrut\\ 
+  
+ \hline
+
+ 3 \Tstrut & Number of forecast loops (1,2,3) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{SS sequentially goes through the forecast up to three times.  Maximum number of forecast loops: 1=OFL only, 2=ABC control rule and buffers, 3=set catches equal to control rule or input catch and redo forecast implementation error.}} \\
+ & & \\
  & & \\
  & & \Bstrut\Bstrut\\
  
  \hline  
- 3 \Tstrut & \hyperlink{appendB}{First forecast loop with stochastic recruitment} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{If this is set to 1 or 2, then OFL and ABC will be as if there was perfect knowledge about recruitment deviations in the future.}} \\
-   & & \\
+ 3 \Tstrut & \hyperlink{appendB}{First forecast loop with stochastic recruitment} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{If this is set to 1 or 2, then OFL and ABC will be calculated as if there was perfect knowledge about recruitment deviations in the future.}} \\
    & & \\
  
  \hline
- %\pagebreak
- 0 \Tstrut & \hyperlink{ForeSpawn}{Forecast recruitment} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations).}} \\
-    & 0 = spawner recruit curve & \\
-    & 1 = value*(spawner recruit curve) & \\
-    & 2 = value*(virgin recruitment) & \\
-    & 3 = recent mean from year range above & \\
+ 0 \Tstrut & \hyperlink{ForeSpawn}{Forecast recruitment:} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations). Need to set phase to -1 in control to get constant recruitment in MCMC.}} \\
+    & 0 = spawner recruit curve; & \\
+    & 1 = value*(spawner recruit curve); & \\
+    & 2 = value*(virgin recruitment); and & \\
+    & 3 = recent mean from year range above. & \\
+    & & \\
     & & \\
      
  \hline
- 1 \Tstrut & Scaler or N years recent main recruitments to average & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{This input depends upon option selected directly above.  If option 1 or 2 selected this value should be a scalar value to be applied to recruitment. If option 3 is selected above this should be input as the number of years to average recruitment.}} \\
+ 1 \Tstrut & Scalar or number of years of recent main recruitments to average. & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{This input depends upon option selected directly above.  If option 1 or 2 selected this value should be a scalar value to be applied to recruitment. If option 3 is selected above this should be input as the number of years to average recruitment.}} \\
  & & \\
- & & \Bstrut\\
+ & & \\
  
- \hline
- 0 \Tstrut & Forecast loop control \#5 & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Reserved for future model features.}} \Bstrut\\
+ %\hline
+ 0 & Forecast loop control \#5 & Reserved for future model features. \Bstrut\\
  
  \hline
  2015 \Tstrut & First year for caps and allocations & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \Bstrut\\
 
- \pagebreak
- %\hline
- 0 \Tstrut & Implementation Error & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The standard deviation of the log of the ratio between the realized catch and the target catch in the forecast. (set value >0.0 to cause implementation error devs to be an estimated parameter that will add variance to forecast).}} \\
+ %\pagebreak
+ \hline
+ 0 \Tstrut & Implementation Error & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The standard deviation of the log of the ratio between the realized catch and the target catch in the forecast. (set value >0.0 to cause implementation error deviations to be an estimated parameter that will add variance to forecast).}} \\
+   &   & \\
    &   & \\
    &   & \Bstrut\\
  
  %\pagebreak
  \hline
- 0 \Tstrut & Rebuilder &\multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Creates a rebuild.dat file to be used for West Coast groundfish rebuilder program.}} \\
-   & 0 = omit West Coast rebuilder output & \\
-   & 1 = do West Coast rebuilder output & \Bstrut\\
+ 0 \Tstrut & Rebuilder: &\multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Creates a rebuild.dat file to be used for U.S. West Coast groundfish rebuilder program.}} \\
+   & 0 = omit U.S. West Coast rebuilder output; and & \\
+   & 1 = do U.S. West Coast rebuilder output. & \Bstrut\\
    
  \hline
- 2004 & Rebuilder catch (Year Declared) & \Tstrut\\
-      & >0 = year first catch should be set to zero & \\
-      & -1 = set to 1999 & \Bstrut\\
+ 2004 & Rebuilder catch (Year Declared): & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Input line is required even if Rebuilder = 0, specified in the line above.}} \Tstrut\\
+      & >0 = year first catch should be set to zero; and & \\
+      & -1 = set to 1999. & \Bstrut\\
       
  \hline
  %\pagebreak
- 2004 & Rebuilder start year (Year Initial) & \Tstrut\\
-      & >0 = year for current age structure & \\
-      & -1 = set to end year +1 & \Bstrut\\
+ 2004 & Rebuilder start year (Year Initial): & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Input line is required even if Rebuilder = 0, specified two line above.}} \Tstrut\\
+      & >0 = year for current age structure; and & \\
+      & -1 = set to end year +1. & \Bstrut\\
     
  \hline
- 1 & Fleet Relative F & \Tstrut\\
-   & 1 = use first-last allocation year & \\
-   & 2 = read season(row) x fleet (column) set below & \Bstrut\\
+ 1 & Fleet Relative F: & \Tstrut\\
+   & 1 = use first-last allocation year; and & \\
+   & 2 = read season(row) x fleet (column) set below. & \Bstrut\\
 
  \hline 
- 2 & Basis for maximum forecast catch &  \Tstrut\\
-   & 2 = total catch biomass & \\
-   & 3 = retained catch biomass & \\
-   & 5 = total catch numbers & \\
-   & 6 = retained total numbers & \Bstrut\\
+ 2 & Basis for maximum forecast catch: &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The maximum basis for forecasted catch will be implemented for the for the "First year for caps and allocations" selected above. The maximum catch (biomass or numbers) by fleet is specified below on the "Maximum total forecast catch by fleet" line.}}\Tstrut\\
+   & 2 = total catch biomass; & \\
+   & 3 = retained catch biomass; & \\
+   & 5 = total catch numbers; and & \\
+   & 6 = retained total numbers. & \Bstrut\\
     
  \hline 
- \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F} \Tstrut\\
- \multicolumn{1}{r}{0.1 0.8 0.1}  & Fleet allocation by relative F fraction & The fraction of the forecast F value.  For a multiple area model user must define a fraction for each fleet and each area.  The total fractions must sum to one over all fleets and areas.  Starting in version 3.3 this now also includes surveys which are treated similar to fleets.\\
-   &  &  Ex: \# Fleet 1  Fleet 2  Survey X (rows are seasons) \Bstrut\\ 
+ \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F (Enter: Season, Fleet, Relative F)} \Tstrut\\
+ \multicolumn{1}{r}{1 1 0.6}  & Fleet allocation by relative F fraction. & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The fraction of the forecast F value.  For a multiple area model user must define a fraction for each fleet and each area.  The total fractions must sum to one over all fleets and areas.}}\\
+ \multicolumn{1}{r}{1 2 0.4}  &  & \\
+ \multicolumn{1}{r}{-9999 0 0}  & Terminator line &   \Bstrut\\ 
 
   \hline
-  1 50 & Maximum total catch by fleet & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter fleet number and its max. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
+  1 50 & Maximum total forecast catch by fleet (in units specified above total catch/numbers, retained catch/numbers) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter fleet number and its maximum value. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
   -9999 -1 & & \Bstrut\\
   \hline
   
@@ -203,31 +212,32 @@ Where the term “COND” appears in the value column of this documentation (it 
      
   \hline
   1 1  & Fleet assignment to allocation group & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Enter list of fleet number and its allocation group number if it is in a group. Last line of the entry must have fleet number = -9999.}} \Tstrut\\
-  -9999 -1  & &  \\ \Bstrut\\ 
+  -9999 -1  & &  \Bstrut\\ 
     
-  \hline
-  \multicolumn{3}{l}{COND: if N allocation groups is >0 } \Tstrut\\
-  \multicolumn{1}{r}{2002 1}  & Allocation to each group for each year of the forecast & Enter a year and the allocation fraction to each group for that year.  SS will fill those values to the end of the forecast, then read another year from this list.  Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0. \\
+  \pagebreak
+  %\hline 
+  \multicolumn{2}{l}{COND: if N allocation groups is >0 } & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{ Enter a year and the allocation fraction to each group for that year.  SS will fill those values to the end of the forecast, then read another year from this list.  Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0.}} \Tstrut \\
+  \multicolumn{1}{r}{2002 1}  & Allocation to each group for each year of the forecast & \\
   \multicolumn{1}{r}{-9999 1} & & \Bstrut\\
   
-  \pagebreak
-  %\hline
-    -1 & Basis for forecast catch & \Tstrut\\
-    & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below. & \\
-    & 2 = Dead catch & \\
-    & 3 = Retained catch & \\
-    & 99 = Input harvest rate (F) & \Bstrut\\
+  
+  \hline
+    -1 & Basis for forecast catch: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{ The dead or retained value in the forecast catch inputs will be interpreted in terms of numbers or biomass based on the units of the input catch for each fleet. }}\Tstrut\\
+    & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below; & \\
+    & 2 = Dead catch (retained + discarded); & \\
+    & 3 = Retained catch; and & \\
+    & 99 = Input apical F (the apical F value for the model years can be found in the EXPLOITATION section in the Report file). & \Bstrut\\
     
   \hline
   \multicolumn{1}{l}{COND: == -1 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch} \Tstrut\\
   \multicolumn{1}{r}{2012 1 1 1200 2}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
   \multicolumn{1}{r}{2013 1 1 1400 3}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis}  \\
-  \multicolumn{1}{r}{-9999 1 1 0000 2}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
+  \multicolumn{1}{r}{-9999 0 0 0 0}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
   \\
   \multicolumn{1}{l}{COND: > 0 }& \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch }\Tstrut\\
   \multicolumn{1}{r}{2012  1 1 1200}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value}  \\
   \multicolumn{1}{r}{2013  1 1 1200}  & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value}  \\
-  \multicolumn{1}{r}{-9999 1 1 0000}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
+  \multicolumn{1}{r}{-9999 0 0 0}  & \multicolumn{2}{l}{Indicates end of inputted catches to read}  \Bstrut\\
   
   \hline
   999 & End of Input & \Bstrut\\
@@ -238,13 +248,17 @@ Where the term “COND” appears in the value column of this documentation (it 
 \hypertarget{Benchmark}{}
 \subsection{Benchmark Calculations}
 This feature of SS is designed to calculate an equilibrium fishing rate intended to serve as a proxy for the fishing rate that would provide maximum sustainable yield (MSY).  Then in the forecast module these fishing rates can be used in the projections.
-\\\\
-Four reference points can be calculated by SS:
+
+Four reference points can be calculated by SS.  The first of which is the estimate of F\textsubscript{MSY} within the model, while the others use proxies or an alternative estimated point.
+
 \begin{itemize}
-	\item F\textsubscript{MSY}: Search for the F that produces maximum equilibrium (e.g. dead catch), or set F\textsubscript{MSY} equal to one of the other three options
+	\item F\textsubscript{MSY}: Search for the F that produces maximum equilibrium (e.g. dead catch).
+	
 	\item F\textsubscript{SPR}: Search for the F that produces spawning biomass per recruit this is a specific fraction, termed SPR\textsubscript{target}, of spawning biomass per recruit under unfished conditions. Note that this is in relative terms so it does not take into account the spawner-recruit relationship.
+	
 	\item F\textsubscript{Btarget}: Search for the F that produces an absolute spawning biomass that is a specified fraction, termed relative biomass target, of the unfished spawning biomass. Note that this is in absolute terms so takes into account the spawner-recruit relationship. 
-	\item F\textsubscript{0.10}: Search for the F that produces a slope in yield per recruit, dY/dF, that is 10\% of the slope at the origin. Note that this option is mutually exclusive with F\textsubscript{Btarget}. Only one will be calculated and the one that is calculated can serve as the proxy for F\textsubscript{MSY} and forecasting.
+	
+	\item F\textsubscript{0.10}: Search for the F that produces a slope in yield per recruit, dY/dF, that is 10\% of the slope at the origin. Note that with SS, this option is mutually exclusive with F\textsubscript{Btarget}. Only one will be calculated and the one that is calculated can serve as the proxy for F\textsubscript{MSY} and forecasting.
 \end{itemize}
 
 \myparagraph{Estimation}
@@ -253,26 +267,34 @@ Each of the potential reference points is calculated by searching across a range
 \myparagraph{Calculations}
 The calculation of equilibrium biomass and catch uses the same code that is used to calculate the virgin conditions and the initial equilibrium conditions.  This equilibrium calculation code takes into account all morph, timing, biology, selectivity, and movement conditions as they apply while doing the time series calculations.  You can verify this by running SS to calculate F\textsubscript{MSY} then hardwire initial F to equal this value, use the F\_method approach 2 so each annual F is equal to F\textsubscript{MSY} and then set forecast F to be the same F\textsubscript{MSY}.  Then run SS without estimation and no recruitment deviations.  You should see that the population has an initial equilibrium abundance equal to B\textsubscript{MSY} and stays at this level during the time series and forecast.
 
+\pagebreak
 \myparagraph{Catch Units}
-For each fleet, SS always calculates catch in terms of biomass (mt) and numbers (1000s) for encountered (selected) catch, dead catch, and retained catch.  These three categories differ only when some fleets have discarding or are designated as a bycatch fleet.  SS uses total dead catch biomass as the quantity that is principally reported and the quantity that is optimized when searching for F\textsubscript{MSY}.  The quantity “dead catch” may occasionally be referred to as “yield”.
+For each fleet, SS always calculates catch in terms of biomass (mt) and numbers (1000s) for encountered (selected) catch, dead catch, and retained catch.  These three categories differ only when some fleets have discarding or are designated as a bycatch fleet.  SS uses total dead catch biomass as the quantity that is principally reported and the quantity that is optimized when searching for F\textsubscript{MSY}.  The quantity "dead catch" may occasionally be referred to as "yield".
 
 \myparagraph{Biomass Units}
-The principle measure of fish abundance, for the purpose of reference point calculation, is female reproductive output.  This is referred to as SSB (spawning stock biomass) and sometimes just “B” because the typical user settings have one unit of reproductive output (fecundity) per kg of mature female biomass.  So when the output label says B\textsubscript{MSY}, this is actually the female reproductive output at the proxy for F\textsubscript{MSY}.
+The principle measure of fish abundance, for the purpose of reference point calculation, is female reproductive output.  This is referred to as SSB (spawning stock biomass) and sometimes just "B" because the typical user settings have one unit of reproductive output (fecundity) per kg of mature female biomass.  So when the output label says B\textsubscript{MSY}, this is actually the female reproductive output at the proxy for F\textsubscript{MSY}.
 
 \myparagraph{Fleet Allocation}
 An important concept for the reference point calculation is the allocation of fishing rate among fleets.  Internally, this is Bmark\_relF($f,s$) and it is the fraction of the F multiplier assigned to each fleet, $f$ and season, $s$.  The value, F\_multiplier * Bmark\_relF($f,s$), is the F level for a particular fleet in a particular season and for the age that has a selectivity of 1.0.  Other ages will have different F values according to their selectivity.
+
 \begin{itemize}
 	\item The Bmark\_relF values can be calculated by SS from a range of years specified in the input for Benchmark Years or it can be set to be the same as the Forecast\_RelF, which in turn can be based on a range of years or can be input as a set of fixed values.
-	\item Note that for Bycatch Fleets, the F’s calculated by application of Bmark\_relF for a bycatch fleet can be overridden by a F value calculated from a range of years or a fixed F value that is input by the user.  If such an override is selected for a bycatch fleet, that F value is not adjusted by changes to the F multiplier.  This allows the user to treat a bycatch fleet as a constant background F while the optimal F for other fleets is sought.  Also for bycatch fleets, there is user control for whether or not the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for F\textsubscript{MSY}.
+	
+	\item Note that for Bycatch Fleets, the F's calculated by application of Bmark\_relF for a bycatch fleet can be overridden by a F value calculated from a range of years or a fixed F value that is input by the user.  If such an override is selected for a bycatch fleet, that F value is not adjusted by changes to the F multiplier.  This allows the user to treat a bycatch fleet as a constant background F while the optimal F for other fleets is sought.  Also for bycatch fleets, there is user control for whether or not the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for F\textsubscript{MSY}.
 \end{itemize}
 
 \myparagraph{Virgin vs. Unfished}
-The concept of unfished spawning biomass, SSB\_unf, is important to the reference points calculations.  Unfished spawning biomass can be potentially different than virgin spawning biomass, SSB\_virgin.  
+The concept of unfished spawning biomass, SSB\_unf, is important to the reference points calculations.  Unfished spawning biomass can be potentially different than virgin spawning biomass, SSB\_virgin.
+  
 \begin{itemize}
 	\item Virgin spawning biomass is calculated from the parameter values associated with the start year of the model configuration and it serves as the basis from which the population model starts and the basis for calculation of stock depletion.
+	
 	\item Unfished spawning biomass can be calculated for any year or range of years, so can change over time as R0, steepness, or biological parameters change.
-	\item In the reference points calculation, the Benchmark Years input specifies the range of time over which various quantities are averaged to calculate the reference points.  For biology, selectivity, F’s, and movement the values being averaged are the year-specific derived quantities.  But for the SRparms (R0 and steepness), the parameter values themselves are averaged over time.
-	\item During the time series or forecast, the current year’s unfished spawning output (SSB\_unf) is used as the basis for the spawner-recruitment curve against which deviations from the spawner-recruitment curve are applied.  So if R0 is made time-varying, then the spawner-recruit curve itself is changed.  However, if the regime shift parameter is time-varying, then this is an offset from the spawner-recruitment curve and not a change in the curve itself.  So changes in R0 will change year-specific reference points and change the expected value for annual recruitments, but changes in regime shift parameter only change the expected value for annual recruitments.
+	
+	\item In the reference points calculation, the Benchmark Years input specifies the range of time over which various quantities are averaged to calculate the reference points.  For biology, selectivity, F's, and movement the values being averaged are the year-specific derived quantities.  But for the stock-recruitment parameters (R0 and steepness), the parameter values themselves are averaged over time.
+	
+	\item During the time series or forecast, the current year's unfished spawning output (SSB\_unf) is used as the basis for the spawner-recruitment curve against which deviations from the spawner-recruitment curve are applied.  So, if R0 is made time-varying, then the spawner-recruit curve itself is changed.  However, if the regime shift parameter is time-varying, then this is an offset from the spawner-recruitment curve and not a change in the curve itself.  Changes in R0 will change year-specific reference points and change the expected value for annual recruitments, but changes in regime shift parameter only change the expected value for annual recruitments.
+	
 	\item In reporting the time series of depletion level, the denominator can be based on virgin spawning output (SSB\_virgin) or B\textsubscript{MSY}.  Note that B\textsubscript{MSY} is based on unfished spawning output (SSB\_unf) for the specified range of Benchmark years, not on SSB\_virgin.
 \end{itemize}
 
@@ -280,24 +302,27 @@ The concept of unfished spawning biomass, SSB\_unf, is important to the referenc
 \hypertarget{ForeSpawn}{}
 \subsection{Forecast Recruitment Adjustment}
 Recruitment during the forecast years sometimes needs to be set at a level other than that determined by the spawner-recruitment curve.  One way to do this is by an environmental or block effect on the regime shift parameter.  A more straightforward approach is now provided by the special forecast recruitment feature described here. There are 4 options provided for this feature.  These are:
+
 \begin{itemize}
-	\item 0 = Do nothing. This is the default and will invoke no special treatment for the forecast recruitments.
-	\item 1 = Multiplier on spawner-recruitment:  The expected recruitment from the SRR is multiplied by this factor.
+	\item 0 = Do nothing: this is the default and will invoke no special treatment for the forecast recruitments.
+	\item 1 = Multiplier on spawner-recruitment: the expected recruitment from the stock recruitment relationship is multiplied by this factor.
 	\begin{itemize}
-		\item This is a multiplier, so null effect comes from a value of 1.0;
-		\item The order of operations is to apply the SRR, then the regime effect, then this special forecast effect, then bias adjustment, then the deviations;
+		\item This is a multiplier, so null effect comes from a value of 1.0.
+		\item The order of operations is to apply the SRR, then the regime effect, then this special forecast effect, then bias adjustment, then the deviations.
 		\item In the spawner recruit output of the report.sso there are 4 recruitment values stored.
 	\end{itemize}
-	\item 2 = Multiplier on virgin recruitment:  The virgin recruitment is multiplied by this factor.
+	\item 2 = Multiplier on virgin recruitment: The virgin recruitment is multiplied by this factor.
 	\begin{itemize}
-		\item This is a multiplier, so null effect comes from a value of 1.0;
-		\item The order of operations is to apply any environmental or block effects to R0, then apply the special forecast effect, then bias adjustment, then the deviations;
+		\item This is a multiplier, so null effect comes from a value of 1.0.
+		\item The order of operations is to apply any environmental or block effects to R0, then apply the special forecast effect, then bias adjustment, then the deviations.
 		\item Note that environmental or block effects on R0 are rare and are different than environment or block effects on the regime parameter.
 	\end{itemize}
-	\item 3 = Mean recent recruitment: calculate the mean recruitment and use it.
+	\item 3 = Mean recent recruitment: calculate the mean recruitment and use it during the forecast period.
 	\begin{itemize}
 		\item Note that bias adjustment is not applied to this mean because the values going into the mean have already been bias adjusted.
 	\end{itemize}
 \end{itemize}
 
-This feature affects the expected recruitment in all years after the last year of the main recruitment deviations.  This means that if the last year of main recruitment deviations is before end year, then the last few recruitments, termed “late”, are also affected by this forecast option.  For example, option 3 would allow you to set the last 2 years of the time series and all forecast years to have recruitment equal to the mean recruitment for the last 10 years of the main recruitment era.
+This feature affects the expected recruitment in all years after the last year of the main recruitment deviations.  This means that if the last year of main recruitment deviations is before end year, then the last few recruitments, termed "late", are also affected by this forecast option.  For example, option 3 would allow you to set the last 2 years of the time series and all forecast years to have recruitment equal to the mean recruitment for the last 10 years of the main recruitment era.
+
+\pagebreak
