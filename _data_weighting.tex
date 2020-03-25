@@ -109,9 +109,11 @@ Add parameter lines to the control file:
 	\item Add as many parameter lines as the maximum numbers in the ParmSelect column. The new parameter lines go after the main selectivity parameters but before any time-varying selectivity parameters
 	
 	\item Jim Thorson initially recommended bounds of -5 to 20, with a starting value of 0
-	(which corresponds to a weight of about 50\% of the input sample size). However, parameter estimates above 5 are associated with 99-100\% weight with little information in the likelihood about the parameter value. Therefore, an upper bound of 5 may help identify cases that otherwise would have convergence issues.
+    (which corresponds to a weight of about 50\% of the input sample size). However, parameter estimates above 5 are associated with 99-100\% weight with little information in the likelihood about the parameter value. Therefore, an upper bound of 5 may help identify cases that otherwise would have convergence issues.
+
+  \item In consultation with Jim Thorson, Ian Taylor proposed a normal $N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to counteract the effect of the logistic transformation between this parameter and the data weighting. The 1.813 value was calculated as the standard deviation of the distribution of $log(\theta)$ values derived from starting with a uniform distribution on the weights, $weight = \theta/(1+\theta) ~ U(0,1)$, and solving for $log(\theta)$. This prior was applied to the 2020 Pacific Hake stock assessment \citep{grandin_hake_2020} and led to better MCMC convergence with relatively little impact on the maximum likelihood estimates.
 	
-	\item Example parameter lines are below: 
+	\item Example parameter lines are below (note that the labels have changed in SS version 3.30.15 from \texttt{ln(EffN\_mult)} to \texttt{ln(DM\_parm)}.: 
 		\begin{center}
 			\includegraphics[scale = 0.70]{appendixB_DM_parameters}\\
 		\end{center}
@@ -137,9 +139,9 @@ If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that t
 
 There are a several of challenges posed by the Dirichlet-Multinomial data-weighting approach:
 \begin{enumerate}
-	\item Not yet widely used so little guidance is available.
+	\item Not yet widely used so limited guidance is available.
 	
 	\item Does not allow weights above 100\% (by design) so it is not yet clear how best to deal with the situation when the estimated weight is close to 100\%.
 	
-	\item Parameterization has potential to cause convergence issues or inefficient MCMC sampling when weights are close to 100\% (Jim Thorson has proposed a prior distribution that may help with this, but has not yet been tested).
+	\item Parameterization has potential to cause convergence issues or inefficient MCMC sampling when weights are close to 100\% if no prior is applied as discussed above.
 \end{enumerate}
