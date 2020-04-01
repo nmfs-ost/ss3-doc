@@ -4,7 +4,7 @@
 \subsection{Empirical Weight-at-Age (wtatage.ss)}
 SS has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity.  Selection of this option is done by setting an explicit switch near the top of the control file.  The values are read from a separate file named, wtatage.ss.  This file is only required to exist if this option is selected.
 
-The first value read is a single integer for the maximum age used in reading this file. So if the maximum age is 40, there will be 41 columns of weight-at-age entries to read, with the first column being for age 0. If the number of ages specified in this table is greater than maximum age in the model, the extra weight-at-age values are ignored. If the number of ages in this table is less than maximum age in the model, the weight-at-age for the number of ages in the file is filled in for all unread ages out to maximum age.
+The first value read is a single integer for the maximum age used in reading this file. So if the maximum age is 40, there will be 41 columns of weight-at-age entries to read, with the first column being for age 0. If the number of ages specified in this table is greater than maximum age in the model, the extra weight-at-age values are ignored. If the number of ages in this table is less than maximum age in the model, the weight-at-age data for the number of ages in the file is filled in for all unread ages out to maximum age.
 
 The format of this input file is:
 
@@ -27,11 +27,11 @@ The format of this input file is:
 where:
 
 \begin{itemize}
-	\item Fleet = -2 is age-specific fecundity*maturity*weight-at-age, so time-varying fecundity is possible to implement.
-	\item Fleet = -1 is population wt-at-age at middle of the season.N
-	\item Fleet = 0 is population wt-at-age at the beginning of the season.
-	\item There must be an entry for fecundity*maturity, population wt-at-age at the middle of the season, population wt-at-age at the beginning of the season, and wt-at-age for each fleet (even if these vectors are identical in some cases).
-	\item Fleets that do not use biomass do not need to have wt-at-age assigned.
+	\item Fleet = -2 is age-specific fecundity (e.g., fecundity-scalar*maturity*weight-at-age), so time-varying fecundity is possible to implement.
+	\item Fleet = -1 is population weight-at-age at middle of the season.
+	\item Fleet = 0 is population weight-at-age at the beginning of the season.
+	\item There must be an entry for fecundity, population weight-at-age at the middle of the season, population weight-at-age at the beginning of the season, and weight-at-age for each fleet (even if these vectors are identical in some cases).
+	\item Fleets that do not use biomass do not need to have weight-at-age assigned.
 	\item Growth pattern and birth season probably will never be used, but are included for completeness.
 	\item A negative value for year will fill the table from that year through the ending year of the forecast, overwriting anything that has already been read for those years.
 	\item Judicious use of negative years in the right order will allow user to enter blocks without having to enter a row of info for each year
@@ -43,11 +43,11 @@ where:
 
 \myparagraph{Caveats}
 		 \begin{itemize}
-			\item SS will still calculate growth curves from the input parameters and can still calculate size-selectivity and can still examine size composition data.
+			\item SS will still calculate growth curves from the input parameters and can still calculate size-selectivity and can still examine size-composition data.
 			\item However, there is no calculation of weight-at-age from the growth input, so there is no way to compare the input weight-at-age from the weight-at-age derived from the growth parameters.
 			\item If weight-at-age is read and size-selectivity is used, a warning is generated.
 			\item If weight-at-age is read and discard/retention is invoked, then a warning is generated because of untested consequences for the body weight of discarded fish.
-			\item Age 0 fish seem to need to have weight=0 for spawning biomass calculation (code -2).
+			\item Age-0 fish seem to need to have weight=0 for spawning biomass calculation (code -2).
 		\end{itemize}
 
 \myparagraph{User Testing}
