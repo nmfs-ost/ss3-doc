@@ -42,17 +42,17 @@ Additional information regarding the options for applying blocks (element 13):
 	\item -1: Trend bounded by base parameter minimum maximum and parameters in transformed units (use with caution),
 	\begin{itemize}
 		\item Logistic approach to trend as offset from base parameter
-		\item Transform the base parameter from the MG parameter section:
+		\item Transform the base parameter from the parameter section:
 		\begin{equation}
-			temp = -0.5*ln\Bigg(\frac{MGparm_1(j,2)-MGparm_1(j,1)+0.0000002}{MGparm(j)-MGparm_1(j,1)+0.0000001}-1\Bigg)
+			\text{temp} = -0.5*ln\Bigg(\frac{\text{Parm}_{p,LB}-\text{p,Parm}_{UB}+0.0000002}{\text{Parm}_p-\text{Parm}_{p,LB}+0.0000001}-1\Bigg)
 		\end{equation}
 		\item Add the offset. Note, that offset values in in the transform space.
-		\begin{equation}
-			temp += MGparm(k+1)
-		\end{equation}
+		%\begin{equation}
+		%	\text{temp2} = \sum_{p=1}^{P}\text{TV parameter}{p}MGparm(k+1)
+		%\end{equation}
 		\item Back transform
 		\begin{equation}
-			temp1 = MGparm_1(j,1)+\frac{MGparm_1(j,2)-MGparm_1(j,1)}{1+e^{-2*temp}}
+			\text{temp1} = \text{Parm}_{p,LB}+\frac{\text{Parm}_{p,UB}-\text{Parm}_{p,LB}}{1+e^{-2*\text{temp}}}
 		\end{equation}			
 	\end{itemize}
 \end{itemize}
@@ -97,7 +97,7 @@ where $\rho_a$ and $\rho_t$ are the among age and among year AR1 coefficients, r
 Note, \citet{xu_new_2019} has additional information on tuning the 2D AR selectivity parameters. First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
 
 \begin{equation}
-\sigma_s^2=SD(\epsilon)^2+\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2
+\sigma_s^2=SD(\epsilon)^2+\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t_{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2
 \end{equation}
 
 The minimal and maximal ages/lengths and years for the 2D AR1 process can be freely specified by users in the control file. However, we recommend specifying the minimal and maximal ages and years to cover the relatively "data-rich" age/length and year ranges only. Particularly we introduce: 
@@ -184,11 +184,13 @@ The options for parameter priors are described as a function of $Pval$, the valu
 Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
 
 \begin{tabular}{ll}
-	$p$       & The value of the parameter for which a prior is being calculated  \\
-	$P_{min}$  & The lower bound of the parameter (1st column in control file)     \\
-	$P_{max}$  & The upper bound of the parameter (2nd column in control file)     \\
-	$Prior$   & The input value for the PRIOR input (4th column in control file)  \\
-	$Pr\_SD$  & The input value for the PR\_SD input (5th column in control file) \\
+	$P_\text{init}$ & The value of the parameter for which a prior is being calculated where init can either be\\
+	                & the initial un-estimated value or the estimated value (3rd column in control or \\
+	                & control.ss\_new file)       \\
+	$P_\text{LB}$   & The lower bound of the parameter (1st column in control file)     \\
+	$P_\text{UB}$   & The upper bound of the parameter (2nd column in control file)     \\
+	$P_\text{PR}$   & The input value for the prior input (4th column in control file)  \\
+	$P_\text{PRSD}$ & The standard deviation input value for the prior (5th column in control file) \\
 \end{tabular}
 
 \begin{itemize}
@@ -196,15 +198,15 @@ Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (w
 	In a Bayesian context this is equivalent to a uniform prior between the parameter bounds.
 	
 	\item  \textbf{Prior Type = 1 = Symmetric beta prior} \\ 
-	The symmetric beta is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior. The PRIOR input is ignored for this prior type.
-	\begin{equation}  
-		\mu = -Pr\_SD \cdot ln\left(\frac{P_{max}+P_{min}}{2} - P_{min} \right) - Pr\_SD \cdot ln(0.5)
+	The symmetric beta is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior. The prior input is ignored for this prior type.
+	\begin{equation} 
+		\mu = -P_\text{PRSD} \cdot ln\left(\frac{P_\text{UB}+P_\text{LB}}{2} - P_\text{LB} \right) - P_\text{PRSD} \cdot ln(0.5)
 	\end{equation}
 	
 	\begin{equation}
 		\begin{split}
-			\text{Prior Likelihood} = & -\mu - Pr\_SD \cdot ln\left(p-P_{min}+0.0001\right) \\
-			& - Pr\_SD \cdot ln\left(1-\frac{p-P_{min}-0.0001}{P_{max}-P_{min}}\right)
+			\text{Prior Likelihood} = & -\mu -P_\text{PRSD} \cdot ln\left(P_\text{init}-P_\text{LB}+0.0001\right) \\
+			& - P_\text{PRSD} \cdot ln\left(1-\frac{P_\text{init}-P_\text{LB}-0.0001}{P_\text{UB}-P_\text{LB}}\right)
 		\end{split}
 	\end{equation}
 
@@ -217,26 +219,26 @@ Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (w
 
 	
 	\item \textbf{Prior Type = 2 = Beta prior}  \\ 
-	The definition of $\mu$ is consistent with CASAL's formulation with the $Bprior$ and $Aprior$ corresponding to the $m$ and $n$ parameters.
+	The definition of $\mu$ is consistent with CASAL's formulation with the $\beta_\text{PR}$ and $\alpha_\text{PR}$ corresponding to the $m$ and $n$ parameters.
 	\begin{equation}
-		\mu = \frac{Prior-P_{min}}{P_{max}-P_{min}} 
+		\mu = \frac{P_\text{PR}-P_\text{LB}}{P_\text{UB}-P_\text{LB}} 
 	\end{equation}
 	\begin{equation}
-		\tau  = \frac{(Prior-P_{min})(P_{max}-Prior)}{Pr\_SD^2}-1
+		\tau  = \frac{(P_\text{PR}-P_\text{LB})(P_\text{UB}-P_\text{PR})}{P_\text{PRSD}^2}-1
 	\end{equation}
 	\begin{equation}
-		Bprior  = \tau \cdot \mu
+		\beta_\text{PR}  = \tau \cdot \mu
 	\end{equation}
 	\begin{equation}
-		Aprior = \tau (1-\mu)
+		\alpha_\text{PR} = \tau (1-\mu)
 	\end{equation}
 	
 	\begin{equation}
 		\begin{split}
-			\text{Prior Likelihood} = & (1 - Bprior) \cdot ln(0.0001 + p - P_{min}) \\
-			& + (1 - Aprior) \cdot ln(0.0001 + P_{max} - p) \\
-			& - (1 - Bprior) \cdot ln(0.0001 + Prior - P_{min}) \\
-			& - (1 - Aprior) \cdot ln(0.0001 + P_{max} - Prior)
+			\text{Prior Likelihood} = & (1 - \beta_\text{PR}) \cdot ln(0.0001 + P_\text{init} - P_\text{LB}) \\
+			& + (1 - \alpha_\text{PR}) \cdot ln(0.0001 + P_\text{UB} - P_\text{init}) \\
+			& - (1 - \beta_\text{PR}) \cdot ln(0.0001 + P_\text{PR} - P_\text{LB}) \\
+			& - (1 - \alpha_\text{PR}) \cdot ln(0.0001 + P_\text{UB} - P_\text{PR})
 		\end{split}
 	\end{equation}
 
@@ -249,33 +251,33 @@ Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (w
 
 	
 	\item \textbf{Prior Type 3 = Lognormal prior} \\ 
-	Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0. The prior value is input into the parameter line in natural log space while the initial parameter value is defined in normal space (e.g. INIT = 0.20, PRIOR = -1.609438).
+	Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0. The prior value is input into the parameter line in natural log space while the initial parameter value is defined in normal space (e.g., init = 0.20, prior = -1.609438).
 	\begin{equation}
-		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(p)-Prior}{Pr\_SD}\right)^2
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(P_\text{init})-P_\text{PR}}{P_\text{PRSD}}\right)^2
 	\end{equation}
 	
 	\item \textbf{Prior Type 4 = Lognormal prior with bias correction} \\ 
 	This option allows the prior mean value to be entered as the ln(mean). Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0.
 	\begin{equation}
-		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(p)-Prior + \frac{1}{2}{Pr\_SD}^2}{Pr\_SD}\right)^2
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(P_\text{init})-P_\text{PR} + \frac{1}{2}{P_\text{PRSD}}^2}{P_\text{PRSD}}\right)^2
 	\end{equation}
 	
 	\item \textbf{Prior Type 5 = Gamma prior} \\ 
 	The lower bound should be 0 or greater.
 	\begin{equation}
-		scale = \frac{{Pr\_SD}^2}{Prior}
+		\text{scale} = \frac{{P_\text{PRSD}}^2}{P_\text{PR}}
 	\end{equation}
 	\begin{equation}
-		shape = \frac{Prior}{scale}
+		\text{shape} = \frac{P_\text{PR}}{\text{scale}}
 	\end{equation}
 	\begin{equation}
-		\text{Prior Likelihood} = -shape \cdot ln(scale) - ln\big(\Gamma(shape)\big) + (shape - 1) \cdot ln(p) - \frac{p}{scale}
+		\text{Prior Likelihood} = -\text{shape} \cdot ln(\text{scale}) - ln\big(\Gamma(\text{shape})\big) + (\text{shape} - 1) \cdot ln(P_\text{init}) - \frac{P_\text{init}}{\text{scale}}
 	\end{equation}
 	
 	\item \textbf{Prior Type 6 = Normal prior} \\ 
 	Note that this function is independent of the parameter bounds.
 	\begin{equation}
-		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{p - Prior}{Pr\_SD}\right)^2
+		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{P_\text{init} - P_\text{PR}}{P_\text{PRSD}}\right)^2
 	\end{equation}
 \end{itemize}
 

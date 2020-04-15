@@ -1707,8 +1707,8 @@ Users are discouraged from using the double logistic selectivity. The double nor
 Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age.  When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. SS calculates the age-based selectivity as where $a = 1$ to $a = Amax + 1$:
 	\begin{equation}
 		 \begin{split}
-		 temp = 9 - max(p(a))\\
-		S_a = \frac{1}{1+exp(-(p(a+1) + temp))}
+		 temp = 9 - max(p_a)\\
+		S_a = \frac{1}{1+exp(-(p_{a+1} + temp))}
 		\end{split}
 	\end{equation}	
 
@@ -1721,7 +1721,7 @@ The selectivity at age $a$ is computed as
 	\end{equation}
 where
 	\begin{equation}
-	S'_a = \sum_{i = A_{\text{min}}}^a p_i
+	S'_a = \sum_{i = a_{\text{min}}}^A p_i
 	\end{equation}
 and 
 	\begin{equation}
@@ -1822,8 +1822,14 @@ A value of 1.0e-6 is added to the selectivity for all ages, even those below the
 		\item p2 – peak, as fraction of way between min size and max size.  Parameter min value:  0.01; max:  0.99; reasonable start value: 0.5.
 		\item p3 – descending rate, min: 0.001, max: 0.5, reasonable start value:  0.01.  A value of 0.001 provides a nearly asymptotic curve. Values above 0.2 provide strongly dome-shaped function in which the p3 and p1 parameters interact strongly.
 	\end{itemize}
+
+The exponential logistic selectivity is calculated as:
 	\begin{equation}
-	\frac{e^{p3*p1(p2'-size)}}{1-p3(1-e^{p1(p2'-size)})}
+	peak = \text{min}(L_l) + p2(\text{max}(L_l) - \text{min}(L_l) )
+	\end{equation}
+where $L_l$ is the length bins at bin $l$ (if age-based substitute with age bins) and:
+	\begin{equation}
+	S_l = \frac{e^{p3*p1(peak-L_l)}}{1-p3(1-e^{p1(peak- L_l)})}
 	\end{equation}
 
 %\begin{figure}
@@ -2078,7 +2084,7 @@ Retention is defined as a logistic function of size or age.  It does not apply t
 \end{itemize}
 
 \begin{equation}
-	\text{Retention} = \left(\frac{P3}{1 + e^{\frac{-(L-(P1+P4*male))}{P2}}}\right)*\left(1 - \frac{1}{1 + e^{\frac{-(L-(P5+P7*male))}{P6}}}\right)
+	\text{Retention}_l = \left(\frac{P3}{1 + e^{\frac{-(L_l-(P1+P4*male))}{P2}}}\right)*\left(1 - \frac{1}{1 + e^{\frac{-(L_l-(P5+P7*male))}{P6}}}\right)
 \end{equation}
 
 \subsubsection{Discard Mortality}
@@ -2098,7 +2104,7 @@ Four parameters are used:
 
 Discard mortality is calculated as:
 \begin{equation}
-	\text{Discard Mortality} = \left(1 - \frac{1-P3}{1+e^{\frac{-(L-(P1+P4*male))}{P2}}}\right)
+	\text{Discard Mortality}_l = 1 - \frac{1-P3}{1+e^{\frac{-(L_l-(P1+P4*male))}{P2}}}
 \end{equation}
 
 \subsubsection{Sex-Specific Selectivity}
