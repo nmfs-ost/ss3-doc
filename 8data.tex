@@ -915,23 +915,29 @@ SS also accepts input of mean length-at-age or mean body weight-at-age.  This is
 	\end{itemize}
 
 \subsection{Environmental Data}
-SS accepts input of time series of environmental data.  Parameters can be made to be time-varying by making them a function of one of these environmental time series.
+SS accepts input of time series of environmental data.  Parameters can be made to be time-varying by making them a function of one of these environmental time series. In v. 3.30.16 the option to specify the centering of environmental data by either using the mean of the by mean and the z-score. 
 
 \begin{center}
 	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{7.5cm}}
 		\multicolumn{4}{l}{Parameter values can be a function of an environmental data series: }\\
 		\hline
 		1 & \multicolumn{3}{l}{Number of environmental variables}\Tstrut\Bstrut\\
+		\multicolumn{4}{l}{ The environmental data can be centered by subtracting the mean and dividing by stdev (z-score, -1) or }\\
+		\multicolumn{4}{l}{ by subtracting the mean fo the environmental variable (-2) based on the year column value. }\\
 		\hline
 		\multicolumn{4}{l}{COND > 0  Example of 2 environmental observations:} \Tstrut\\
 		  & Year & Variable & Value \Bstrut\\
 		\hline
 		  & 1990 & 1 & 0.10 \Tstrut\\
 		  & 1991 & 1 & 0.15 \\
+		  & -1   & 1 & 1 \\
+		  & -2   & 2 & 1 \\
 		  & -9999 & 0 & 0 \Bstrut\\
 		\hline
 	\end{tabular}
 \end{center}
+
+The final two lines in the example above indicate in that variable series 1 will be centered by subtracting the mean and dividing by the standard deviation (indicated by the -1 value in the year column). The environmental variable series 2 will be centered by subtracting the mean of the time series (indicated by the -2 value in the year column).  The input in the "value" column for both of the final two lines specifying the centering of the time series is ignored by the model.
 
 
 \myparagraph{Note}
