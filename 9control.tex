@@ -1742,15 +1742,15 @@ In typical usage:
 		\item  Code for implementing random walk selectivity within SS can be found in \hyperlink{RandWalkSelex}{the code example} section.
 	\end{itemize}
 
-\myparagraph{Pattern 9 (size) and 19 (age) - Simple Double Logistic with no defined peak}
-	\begin{itemize}
-		\item p1 - inflection1:  ascending inflection size (in cm).
-		\item p2 – slope1:  ascending slope.
-		\item p3 – inflection2:  descending inflection size (in cm).
-		\item p4 – slope2:  descending slope.
-		\item p5 – first bin: bin number for the first bin with non-zero selectivity (must be an integer bin number, not a size).
-		\item p6 – offset:  enter 0 if p3 is independent of p1; enter 1 if p3 is an offset from p1.
-	\end{itemize}
+%\myparagraph{Pattern 9 (size) and 19 (age) - Simple Double Logistic with no defined peak}
+%	\begin{itemize}
+%		\item p1 - inflection1:  ascending inflection size (in cm).
+%		\item p2 – slope1:  ascending slope.
+%		\item p3 – inflection2:  descending inflection size (in cm).
+%		\item p4 – slope2:  descending slope.
+%		\item p5 – first bin: bin number for the first bin with non-zero selectivity (must be an integer bin number, not a size).
+%		\item p6 – offset:  enter 0 if p3 is independent of p1; enter 1 if p3 is an offset from p1.
+%	\end{itemize}
 
 \myparagraph{Pattern 22 (size) - Double Normal with Plateau}
 	\begin{itemize}
@@ -1805,16 +1805,17 @@ No parameters.  Whole age range is mirrored from another fleet. The mirrored sel
 
 \myparagraph{Pattern 9 (size) and 19 (age) - Simple Double Logistic}
 	\begin{itemize}
-		\item p1 – ascending inflection age/size
-		\item p2 – ascending slope
-		\item p3 – descending inflection age/size
-		\item p4 – descending slope
-		\item p5 – age or size at first selection; this is a specification parameter, so must not be estimated.  Enter integer that is age for pattern 19 and is bin number for pattern 9
+		\item p1 – ascending inflection age/size (in cm).
+		\item p2 – ascending slope. 
+		\item p3 – descending inflection age/size (in cm).
+		\item p4 – descending slope.
+		\item p5 – age or size at first selection; this is a specification parameter, so must not be estimated.  Enter integer that is age for pattern 19 and is bin number for pattern 9.
 		\item p6 – (0/1)  where a value of 0 causes the descending inflection to be a standalone parameter, and a value of 1 causes the descending inflection to be interpreted as an offset from the ascending inflection.  This is a specification parameter, so must not be estimated.
 	\end{itemize}
 A value of 1.0e-6 is added to the selectivity for all ages, even those below the minimum age.
 
 \myparagraph{Pattern 25 (size) and 26 (age) - Exponential logistic}
+The exponential logistic included within SS is based on the exponential logistic selectivity detailed by \citet{thompson_confounding_1994}, however, the parameterization within SS differs.  Explorations using this selectivity form has shown that the estimation of p1 can be highly unstable.  Users are strongly encourage to use the double normal selectivity rather than the exponential logistic selectivity.
 	\begin{itemize}
 		\item p1 – ascending rate, min: 0.02, max: 1.0, reasonable start value: 0.1.
 		\item p2 – peak, as fraction of way between min size and max size.  Parameter min value:  0.01; max:  0.99; reasonable start value: 0.5.
