@@ -5,25 +5,25 @@ A collection of functions developed as a package, \texttt{r4ss}, for the statist
 
 Two of the most commonly used functions for model diagnostics are \texttt{SS\_output} and \texttt{SS\_plots}.  After running a model using SS, the report can be read into R by the \texttt{SS\_output} function which stores quantities in a list with named objects.  This list can then be passed to the \texttt{SS\_plots} function which creates a series of over 100 plots that are useful to visualize output such as model fit to the data and time series of quantities of interest.
 
-The latest \texttt{r4ss} version on CRAN can be installed using a command like:
+The latest version of \texttt{r4ss} can be installed directly from GitHub at any time via the \texttt{remotes} package in R with the following commands:
 
 \begin{quote}
 	\begin{verbatim}
-	> install.packages("r4ss")
+	> install.packages("remotes")
+	> remotes::install_github("r4ss/r4ss")
 	\end{verbatim}
 \end{quote}
 
+%This installs the main branch of the package from \href{https://github.com/r4ss/r4ss}{Github} which is a well tested version that should work across multiple versions of SS.  
 
-However, more frequent enhancements and bug fixes are posted to the GitHub project.  The latest version of \texttt{r4ss} can be installed directly from GitHub at any time via the \texttt{devtools} package in R with the following commands:
+%The package undergoes continuous development in a separate location where new techniques for visualizing data and outputs along with code changes/corrections to align with new impending releases versions of SS. The development branch can be installed using the following R commands:
 
-\begin{quote}
-	\begin{verbatim}
-	> install.packages("devtools")
-	> devtools::install_github("r4ss/r4ss")
-	\end{verbatim}
-\end{quote}
-
-Note: \texttt{devtools} will give this message: \textit{"WARNING: Rtools is required to build R packages, but is not currently installed."}. However, \texttt{Rtools} is not required for installing \texttt{r4ss} via \texttt{devtools}, so ignore this warning.
+%\begin{quote}
+%	\begin{verbatim}
+%	> install.packages("remotes")
+%	> remotes::install_github("r4ss/r4ss", ref = "development")
+%	\end{verbatim}
+%\end{quote}
 
 Once you have installed the \texttt{r4ss} package, it can be loaded in the regular manner:
 
@@ -33,8 +33,7 @@ Once you have installed the \texttt{r4ss} package, it can be loaded in the regul
 	\end{verbatim}
 \end{quote}
 
-
-The results from a model run can be read in and plots created using the following commands:
+Two of the most commonly used functions for model diagnostics are \texttt{SS\_output} and \texttt{SS\_plots}. After running a model using SS, the output files including Report.sso can be read into R by the \texttt{SS\_output} function which stores quantities in a list with named objects.  This list can then be passed to the \texttt{SS\_plots} function, which creates a series of over 100 plots that are useful to visualize output such as model fits to the data. Here is an example call:
 
 \begin{quote}
 	\begin{verbatim}
@@ -43,24 +42,9 @@ The results from a model run can be read in and plots created using the followin
 	> SS_plots(base.model)
 	\end{verbatim}
 \end{quote}
-
-The \texttt{SS\_output()} function reads the Report file and stores this information in a list. The function by default will print select items to the screen that can be useful for evaluating a model (e.g., likelihood, estimated parameter with warnings if they hit bounds, parameters with high gradients). This list created by \texttt{SS\_output()} can be passed to other functions in the \texttt{r4ss} package to allow visualization of results.
-%\pagebreak
-%Example of the data displayed used by the SS\_output function:
-%\begin{center}
-%		\includegraphics{r4ss_output}
-%\end{center}
-
-%\pagebreak
-The \texttt{SS\_plots()} function will create plots from the list created by the \texttt{SS\_output()} function that can be used to visualize model results.  The plots by default will be written inside a "plots" folder inside the folder with the model files read by the \texttt{SS\_output()} function.  Additionally, an html file is written which allows for visualization of all plots created.   
-
-%Example of the plots created using the SS\_plots function:
-%\begin{center}
-%	\includegraphics{r4ss_plots}
-%\end{center}
-
-%\pagebreak
-The functions included in r4ss ranging from general use to functions developed for specific model applications:
+  
+\pagebreak
+The functions included in r4ss range from general use to functions developed for specific model applications:
 \begin{center}
 	\begin{longtable}{p{4.5cm} p{10.52cm}}
 		\hline
@@ -70,7 +54,7 @@ The functions included in r4ss ranging from general use to functions developed f
 		SS\_plots  \Tstrut& Plot many quantities related to output from Stock Synthesis\\
 		\hline
 		
-		\multicolumn{2}{l}{Plot functions called by SS\_plots:} \Tstrut\Bstrut\\
+		\multicolumn{2}{l}{Individual plotting functions called by SS\_plots:} \Tstrut\Bstrut\\
 		\hline
 		SSplotBiology \Tstrut& Plot biology related quantities from Stock Synthesis model output, including mean weight, maturity, fecundity, and spawning output. \\
 		SSplotCatch   \Tstrut & Plot catch related quantities \\
@@ -94,34 +78,24 @@ The functions included in r4ss ranging from general use to functions developed f
 		SSplotTimeseries \Tstrut& Plot time series data \\
 		SSplotYield   \Tstrut& Plot yield and surplus production \\
 		SS\_html \Tstrut& Create HTML files to view figures in browser \\
-		SS\_fitbiasramp \Tstrut& Estimate bias adjustment for recruitment deviates \Bstrut\\
 		\hline
 	
-		\multicolumn{2}{l}{Model Comparisons and other diagnostics:} \Tstrut\Bstrut\\
+		\multicolumn{2}{l}{Model comparisons and other diagnostics:} \Tstrut\Bstrut\\
 		\hline
+		SSsummarize   \Tstrut & Function to read output from multiple SS models\\
+		SStableComparison \Tstrut & Make table comparing quantities across models\\
+		SSplotComparison \Tstrut & Plot output from multiple SS models \\
 		SSplotPars    \Tstrut & Plot distributions of priors, posteriors, and estimates \\
+		SS\_profile \Tstrut & Run likelihood parameter profiles \\
 		SSplotProfile \Tstrut & Plot likelihood profile results \\
 		PinerPlot     \Tstrut & Plot fleet-specific contributions to likelihood profile \\
+		SS\_RunJitter \Tstrut & Run multiple model jitters to determine best model fit \\
+		SS\_doRetro \Tstrut & Run retrospective analysis \\
+		SSmohnsrho \Tstrut & Calculate Mohn's Rho values\\
 		SSplotRetroRecruits \Tstrut & Make retrospective pattern of recruitment estimates (a.k.a. squid plot) as seen in Pacific hake assessments\Bstrut \\
+		SS\_fitbiasramp \Tstrut& Estimate bias adjustment for recruitment deviates \Bstrut\\
 		\hline
 		
-		\multicolumn{2}{l}{Functions related to MCMC diagnostics:}\Tstrut\Bstrut\\
-		\hline
-		mcmc\_nuisance \Tstrut & Summarize nuisance MCMC output \\
-		mcmc\_out      \Tstrut & Summarize, analyze, and plot key MCMC output \\
-		SSgetMCMC      \Tstrut & Read MCMC output \\
-		SSplotMCMC\_ExtraSelex \Tstrut & Plot uncertainty around chosen selectivity ogive from MCMC \Bstrut\\
-		\hline
-		
-		\multicolumn{2}{l}{Interactive tools for exploring functional forms:} \Tstrut\Bstrut\\
-		\hline
-		movepars    \Tstrut  & Explore movement parameterization \\
-		selfit      \Tstrut  & A function to visualize parameterization of double normal and double logistic selectivity in SS \\
-		selfit\_spline \Tstrut & Visualize parameterization of cubic spline selectivity in SS \\
-		sel\_line   \Tstrut & A function for drawing selectivity curves\Bstrut \\
-		\hline
-
-
 		\multicolumn{2}{l}{File manipulation for inputs:}\Tstrut\Bstrut\\
 		\hline
 		SS\_readdat  \Tstrut & Read data file \\
@@ -137,31 +111,47 @@ The functions included in r4ss ranging from general use to functions developed f
 		SS\_profile      \Tstrut & Run a likelihood profile in SS (incomplete) \\
 		NegLogInt\_Fn     \Tstrut& Calculated variances of time-varying parameters using SS implementation of the Laplace Approximation \Bstrut\\
 		\hline
-
+		
 		\multicolumn{2}{l}{File manipulations for outputs:}\Tstrut\Bstrut\\
 		\hline
 		SS\_recdevs  \Tstrut & Insert a vector of recruitment deviations into the control file \\
 		SS\_splitdat \Tstrut & Split apart bootstrap data to make input file \Bstrut\\
 		\hline
-
-		\multicolumn{2}{l}{Minor plotting functions:}\Tstrut\Bstrut\\
-		\hline
-		bubble3         \Tstrut & Create a bubble plot \\
-		make\_multifig  \Tstrut & Create multi-figure plots \\
-		Make\_multifig\_sexratio \Tstrut & Create multi-figure plots of sex ratios \\
-		plotCI          \Tstrut & Plot points with confidence intervals \\
-		rich\_colors\_short \Tstrut & Make a vector of colors \\
-		stackpoly       \Tstrut & Plot stacked polygons \\
-		mountains       \Tstrut & Make shaded polygons with a mountain-like appearance \Bstrut\\
 		
+		\multicolumn{2}{l}{Functions related to MCMC diagnostics:}\Tstrut\Bstrut\\
 		\hline
-		\multicolumn{2}{l}{Really specialized functions:} \Tstrut\Bstrut\\
+		SSgetMCMC      \Tstrut & Read MCMC output \\
+		SSplotMCMC\_ExtraSelex \Tstrut & Plot uncertainty around chosen selectivity ogive from MCMC \\
+		mcmc.nuisance \Tstrut & Summarize nuisance MCMC output \\
+		mcmc.out      \Tstrut & Summarize, analyze, and plot key MCMC output \Bstrut\\
 		\hline
-		DoProjectPlots \Tstrut & Make plots from Rebuilder program \\
-		IOTCmove       \Tstrut & Make a map of movement for a 5-area Indian Ocean model \\
-		SSFishGraph    \Tstrut & A function for converting SS output to the format used by FishGraph \\
-		TSCplot        \Tstrut & Create a plot for the TSC report \Bstrut\\
-		\hline
+				
+%		\multicolumn{2}{l}{Interactive tools for exploring functional forms:} \Tstrut\Bstrut\\
+%		\hline
+%		movepars    \Tstrut  & Explore movement parameterization \\
+%		selfit      \Tstrut  & A function to visualize parameterization of double normal and double logistic selectivity in SS \\
+%		selfit\_spline \Tstrut & Visualize parameterization of cubic spline selectivity in SS \\
+%		sel\_line   \Tstrut & A function for drawing selectivity curves\Bstrut \\
+%		\hline
+%
+%		\multicolumn{2}{l}{Minor plotting functions:}\Tstrut\Bstrut\\
+%		\hline
+%		bubble3         \Tstrut & Create a bubble plot \\
+%		make\_multifig  \Tstrut & Create multi-figure plots \\
+%		Make\_multifig\_sexratio \Tstrut & Create multi-figure plots of sex ratios \\
+%		plotCI          \Tstrut & Plot points with confidence intervals \\
+%		rich\_colors\_short \Tstrut & Make a vector of colors \\
+%		stackpoly       \Tstrut & Plot stacked polygons \\
+%		mountains       \Tstrut & Make shaded polygons with a mountain-like appearance \Bstrut\\
+		
+%		\hline
+%		\multicolumn{2}{l}{Really specialized functions:} \Tstrut\Bstrut\\
+%		\hline
+%		DoProjectPlots \Tstrut & Make plots from Rebuilder program \\
+%		IOTCmove       \Tstrut & Make a map of movement for a 5-area Indian Ocean model \\
+%		SSFishGraph    \Tstrut & A function for converting SS output to the format used by FishGraph \\
+%		TSCplot        \Tstrut & Create a plot for the TSC report \Bstrut\\
+%		\hline
 	\end{longtable}
 \end{center}
 
