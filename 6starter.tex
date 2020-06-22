@@ -52,19 +52,19 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
 		  
  \hline
  1 & Detailed age-structure report: & \multirow{1}{1cm}[-0.15cm]{\parbox{12.5cm}{Option 0 will forgo the writing of the Report file, but the ss\_summary file will be written that has minimal derived and estimated quantities. This is a useful option for some data-limited assessment approaches (e.g., XSSS or SSS). Option 1 will write out the full Report file. Option 2 will write out select items in the Report file and will omit some more detailed sections (e.g., numbers-at-age).}} \Tstrut\\
-   & 0 = minimal (no Report file); & \\
+   & 0 = minimal output for data-limited methods; & \\
    & 1 = include all output (with wtatage.ss\_new); &  \\
-   & 2 = brief output;  and &  \\	
-   & 3 = custom reports & \\
+   & 2 = brief output, no growth;  and &  \\	
+   & 3 = custom output & \\
  \pagebreak
  
- \multicolumn{2}{l}{COND: Detailed age-structure report = 3 } & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Custom report options: -100 to start with minimal; -101 to start with all; -number to remove, +number to add, -999 to end. The reporting numbers for each item that can be selected or omitted are shown in the Report file next to each section key word.}} \Tstrut\\
-  & \multicolumn{1}{l}{-100} & \\
-  & \multicolumn{1}{l}{  -5}   & \\
-  & \multicolumn{1}{l}{   9}   & \\
-  & \multicolumn{1}{l}{  11}   & \\
-  & \multicolumn{1}{l}{  15}   & \\
-  & \multicolumn{1}{l}{-999} & \\
+ \multicolumn{2}{l}{COND: Detailed age-structure report = 3 } & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Custom report options: -100 start with minimal; -101 start with all; -number to remove, +number to add, -999 to end. The \hyperlink{custom}{reporting numbers} for each item that can be selected or omitted are shown in the Report file next to each section key word.}} \Tstrut\\
+ \multicolumn{1}{r}{-100} & & \\
+ \multicolumn{1}{r}{  -5} & & \\
+ \multicolumn{1}{r}{   9} & & \\
+ \multicolumn{1}{r}{  11} & & \\
+ \multicolumn{1}{r}{  15} & & \\
+ \multicolumn{1}{r}{-999} & & \\
 		 
  \hline
  0 & Write 1st iteration details: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This output is largely unformatted and undocumented and is mostly used by the developer. }} \Tstrut\\
@@ -78,7 +78,8 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
    & 2 = write good iterations and all parameters; & \\
    & 3 = write every iteration and all parameters; and & \\
    & 4 = write every iteration and active parameters. &  \\
-   
+ 
+  \pagebreak  
  \hline
  1 & Cumulative Report: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Controls reporting to the file Cumreport.sso.
  		This cumulative report is most useful when accumulating summary information from likelihood profiles or when simply accumulating a record of all model runs within the current subdirectory}}\Tstrut\\
@@ -91,8 +92,7 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
    & 0 = only calculate priors for active parameters; and &	\\
    & 1 = calculate priors for all parameters that have a defined prior. & \\
 	     
- %\hline
- \pagebreak
+ \hline
  1 & Soft Bounds: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This option creates a weak symmetric beta penalty for the selectivity parameters.  This becomes important when estimating selectivity functions in which the values of some parameters cause other parameters to have negligible gradients, or when bounds have been set too widely such that a parameter drifts into a region in which it has negligible gradient.  The soft bound creates a weak penalty to move parameters away from the bounds.}} \Tstrut\\
    & 0 = omit; and & \\
    & 1 = use. & \\
@@ -108,7 +108,8 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
    & 2 = add a second data file containing the model's expected values with no added error; and & \\
    & 3+ = add N-2 parametric bootstrap data files. & \\
 
- \hline
+ %\hline
+ \pagebreak
  8 & Turn off estimation: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The 0 option is useful for (1) quickly reading in a messy set of input files and producing the annotated control.ss\_new and data.ss\_new files, or (2) examining model output based solely on input parameter values.  Similarly, the value option allows examination of model output after completing a specified phase.  Also see usage note for restarting from a specified phase.}}\Tstrut\\
    & -1 = exit after reading input files; & \\
    & 0 = exit after one call to the calculation routines and production of sso and ss\_new files; and & \\
@@ -138,7 +139,7 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
     & -2 = end annual SD report in last forecast year; and & \\
     & <value> = end SD report in this year. & \\
 	   
- \hline
+ %\hline
  2 & Extra SD Report Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In a long time series application, the model variance calculations will be smaller and faster if not all years are included in the SD reporting.  For example, the annual SD reporting could start in 1960 and the extra option could select reporting in each decade before then.}}\Tstrut\\
    & 0 = none; and & \\
    & <value> = number of years to read. &  \\
@@ -153,8 +154,8 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
  \multicolumn{1}{r}{1940 1950} & \multirow{1}{1cm}[-0.25cm]{\parbox{19.5cm}{Vector of years for additional SD reporting. The number of years need to equal the value specified in the above line (Extra SD Reporting). }} \Tstrut\\
  & & \\
 
- \pagebreak 
- %\hline
+ 
+ \hline
  0.0001 & Final convergence & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This is a reasonable default value for the change in log likelihood denoting convergence.  For applications with much data and thus a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence}}\Tstrut\\
         & & \\
         & & \\
@@ -187,8 +188,6 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
    & 0 = skip; & \\
    & 1 = use 1-SPR\textsubscript{target}; & \\
    & 2 = use 1-SPR at MSY; & \Tstrut\\
- 
- \pagebreak
    & 3 = use 1-SPR at B\textsubscript{target}; and & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Denominator in a ratio with the annual value of (1 – SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}}\Tstrut\\
    & 4 = no denominator, so report actual 1-SPR values. & \\
   
@@ -245,8 +244,8 @@ SS begins by reading the file starter.ss. The term COND appears in the "Typical 
   & & \\ 
   & & \\
   
-  \pagebreak
- %\hline
+ % \pagebreak
+ \hline
  \hypertarget{Convert}{3.30} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{ A value of 3.30 indicates that the control and data files are currently in SS v3.30 format and a value of 999 indicates that the control and data file are in a previous SS v.3.24 version. The ss\_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss\_new and data.ss\_new files.  All ss\_new files are in the SS v.3.30 format, so starter.ss\_new has SS v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS v.3.30 cannot read a ss.par file produced by SS v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The \hypertarget{ConvIssues}  {Converting Files from SS v.3.24} section has additional information on model features that may impede file conversion.}}\Tstrut\\
      & & \\  
      & & \\  
