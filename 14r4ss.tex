@@ -37,13 +37,12 @@ Two of the most commonly used functions for model diagnostics are \texttt{SS\_ou
 
 \begin{quote}
 	\begin{verbatim}
-	> setwd("C:\directory where model was run")
-	> base.model = SS_output(getwd())
+	> base.model = SS_output("C:/myfiles/mymodels/myrun")
 	> SS_plots(base.model)
 	\end{verbatim}
 \end{quote}
   
-\pagebreak
+%\pagebreak
 The functions included in r4ss range from general use to functions developed for specific model applications:
 \begin{center}
 	\begin{longtable}{p{4.5cm} p{10.52cm}}
@@ -54,31 +53,31 @@ The functions included in r4ss range from general use to functions developed for
 		SS\_plots  \Tstrut& Plot many quantities related to output from Stock Synthesis\\
 		\hline
 		
-		\multicolumn{2}{l}{Individual plotting functions called by SS\_plots:} \Tstrut\Bstrut\\
-		\hline
-		SSplotBiology \Tstrut& Plot biology related quantities from Stock Synthesis model output, including mean weight, maturity, fecundity, and spawning output. \\
-		SSplotCatch   \Tstrut & Plot catch related quantities \\
-		SSplotCohorts \Tstrut & Plot cumulative catch by cohort \\
-		SSplotComps   \Tstrut & Plot composition data and fits \\
-		SSplotData    \Tstrut & Timeline of presence/absence data by type, year, and fleet \\
-		SSplotDiscard \Tstrut & Plot fit to discard fraction \\
-		SSplotIndices \Tstrut & Plot indices of abundance and associated quantities \\
-		SSplotMnwt    \Tstrut & Plot mean weight data and fits \\
-		SSplotMovementMap \Tstrut & Show movement rates on a map \\
-		SSplotMovementRates \Tstrut & Show movement rates on a map \\
-		SSplotNumbers \Tstrut& Plot numbers-at-age related data and fits \\
-		SSplotRecdevs \Tstrut& Plot recruitment deviations \\
-		SSplotRecdist \Tstrut& Plot of recruitment distribution among areas and seasons \\
-		SSplotSelex   \Tstrut& Plot selectivity \\
-		SSplotSexRatio \Tstrut& Plot sex ratios \\
-		SSplotSummaryF \Tstrut& Plot time series summary of F (or harvest rate) \\
-		SSplotSpawnrecruit \Tstrut& Plot spawner-recruit curve \\
-		SSplotSPR     \Tstrut& Plot SPR quantities \\
-		SSplotTags    \Tstrut& Plot tagging data and fits \\
-		SSplotTimeseries \Tstrut& Plot time series data \\
-		SSplotYield   \Tstrut& Plot yield and surplus production \\
-		SS\_html \Tstrut& Create HTML files to view figures in browser \\
-		\hline
+%		\multicolumn{2}{l}{Individual plotting functions called by SS\_plots:} \Tstrut\Bstrut\\
+%		\hline
+%		SSplotBiology \Tstrut& Plot biology related quantities from Stock Synthesis model output, including mean weight, maturity, fecundity, and spawning output. \\
+%		SSplotCatch   \Tstrut & Plot catch related quantities \\
+%		SSplotCohorts \Tstrut & Plot cumulative catch by cohort \\
+%		SSplotComps   \Tstrut & Plot composition data and fits \\
+%		SSplotData    \Tstrut & Timeline of presence/absence data by type, year, and fleet \\
+%		SSplotDiscard \Tstrut & Plot fit to discard fraction \\
+%		SSplotIndices \Tstrut & Plot indices of abundance and associated quantities \\
+%		SSplotMnwt    \Tstrut & Plot mean weight data and fits \\
+%		SSplotMovementMap \Tstrut & Show movement rates on a map \\
+%		SSplotMovementRates \Tstrut & Show movement rates on a map \\
+%		SSplotNumbers \Tstrut& Plot numbers-at-age related data and fits \\
+%		SSplotRecdevs \Tstrut& Plot recruitment deviations \\
+%		SSplotRecdist \Tstrut& Plot of recruitment distribution among areas and seasons \\
+%		SSplotSelex   \Tstrut& Plot selectivity \\
+%		SSplotSexRatio \Tstrut& Plot sex ratios \\
+%		SSplotSummaryF \Tstrut& Plot time series summary of F (or harvest rate) \\
+%		SSplotSpawnrecruit \Tstrut& Plot spawner-recruit curve \\
+%		SSplotSPR     \Tstrut& Plot SPR quantities \\
+%		SSplotTags    \Tstrut& Plot tagging data and fits \\
+%		SSplotTimeseries \Tstrut& Plot time series data \\
+%		SSplotYield   \Tstrut& Plot yield and surplus production \\
+%		SS\_html \Tstrut& Create HTML files to view figures in browser \\
+%		\hline
 	
 		\multicolumn{2}{l}{Model comparisons and other diagnostics:} \Tstrut\Bstrut\\
 		\hline
@@ -99,11 +98,15 @@ The functions included in r4ss range from general use to functions developed for
 		\multicolumn{2}{l}{File manipulation for inputs:}\Tstrut\Bstrut\\
 		\hline
 		SS\_readdat  \Tstrut & Read data file \\
+		SS\_readctl \Tstrut & Read  control file \\
 		SS\_readforecast \Tstrut & Read forecast file \\
 		SS\_readstarter  \Tstrut & Read starter file \\
+		SS\_readwtatage \Tstrut & Read weight-at-age file \\
 		SS\_writedat  \Tstrut & Write data file \\
+		SS\_writectl \Tstrut & Write control file \\
 		SS\_writeforecast \Tstrut & Write forecast file \\
-		SS\_writestarter  \Tstrut & Write starter file \\\Tstrut 
+		SS\_writestarter  \Tstrut & Write starter file \\
+		SS\_writewtatage \Tstrut & Write weight-at-age file \\
 		SS\_makedatlist   \Tstrut & Make a list for SS data \\
 		SS\_parlines    \Tstrut & Get parameter lines from SS control file \\
 		SS\_changepars  \Tstrut  & Change parameters in the control file \\
@@ -118,13 +121,13 @@ The functions included in r4ss range from general use to functions developed for
 		SS\_splitdat \Tstrut & Split apart bootstrap data to make input file \Bstrut\\
 		\hline
 		
-		\multicolumn{2}{l}{Functions related to MCMC diagnostics:}\Tstrut\Bstrut\\
-		\hline
-		SSgetMCMC      \Tstrut & Read MCMC output \\
-		SSplotMCMC\_ExtraSelex \Tstrut & Plot uncertainty around chosen selectivity ogive from MCMC \\
-		mcmc.nuisance \Tstrut & Summarize nuisance MCMC output \\
-		mcmc.out      \Tstrut & Summarize, analyze, and plot key MCMC output \Bstrut\\
-		\hline
+%		\multicolumn{2}{l}{Functions related to MCMC diagnostics:}\Tstrut\Bstrut\\
+%		\hline
+%		SSgetMCMC      \Tstrut & Read MCMC output \\
+%		SSplotMCMC\_ExtraSelex \Tstrut & Plot uncertainty around chosen selectivity ogive from MCMC \\
+%		mcmc.nuisance \Tstrut & Summarize nuisance MCMC output \\
+%		mcmc.out      \Tstrut & Summarize, analyze, and plot key MCMC output \Bstrut\\
+%		\hline
 				
 %		\multicolumn{2}{l}{Interactive tools for exploring functional forms:} \Tstrut\Bstrut\\
 %		\hline
