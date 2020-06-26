@@ -25,6 +25,7 @@ Additional ADMB commands can follow the executable name, such as "–nohess" to 
 
 On all operating systems, a copy of the SS executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below. Editing the PATH is not covered here.
 
+Often there is a need to run the model with no estimation.  Additional information regarding alternative methods to run SS without estimating parameters, see \hyperlink{NoEst}{below}. 
 
 \subsubsection{Example of DOS batch input file}
 One file management approach is to put ss.exe in its own folder (example:  C:\textbackslash SS\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS\_runs).  Then a DOS batch file in the SS\_runs folder can be run at the command line to start ss.exe.  All output will appear in SS\_runs folder.
@@ -100,6 +101,7 @@ This second example processes 25 dat files from a different directory, each time
 	\end{verbatim}
 \end{quote}
 
+\hypertarget{NoEst}{}
 \subsubsection{Running Without Estimation}
 There may be time when users will want to run the model without parameter estimation. The ADMB command -noest will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS and ADMB.  
 
@@ -198,7 +200,7 @@ Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  
  	\item Recommended: Set DOS run detail switch in starter file to 0; reporting to screen will dramatically slow MCMC progress.
  	\item Optional: Add -nohess to use the existing Hessian file without re-estimating.
  	\item Optional: To start the MCMC chain from specific values change the par file; run the model with estimation, adjust the par file to the values that the chain should start from, change within the starter file for the model to begin from the par file, and call the MCMC function using ss –mcmc xxxx – mcsave yyyy -nohess –noest.
- 	\item Optional: Add -noest -nohess and modify starter file so that run will now start from the converged (or modified) parameter estimates in "ss.par".
+ 	\item Optional: Add -nohess and modify starter file so that run will now start from the converged (or modified) parameter estimates in "ss.par".
  \end{itemize}
 	
 \noindent Run SS v3.30 with argument -mceval
