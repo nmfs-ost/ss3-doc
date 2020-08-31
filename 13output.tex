@@ -255,7 +255,7 @@ The top of the Forecast-report file shows the search for F\textsubscript {SPR}  
 %\end{center}
 
 \subsection{Main Output File, Report.sso}
-This is the primary output file.  Its major sections are listed below.  
+This is the primary output file.  Its major sections (as of SS version 3.30.16) are listed below.  
 
 The sections of the output file are:
 \begin{itemize}
@@ -268,9 +268,9 @@ The sections of the output file are:
 		\begin{itemize}
 			\item List of keywords used in searching for output sections.
 		\end{itemize}
-	\item Fleet Names
+	\item Definitions
 		\begin{itemize}
-			\item List of fishing fleet and survey names assigned in the data file.
+			\item List of definitions (e.g., fleet names, model start year) assigned in the data and control files.
 		\end{itemize}
 	\item Likelihood
 		\begin{itemize}
@@ -279,6 +279,10 @@ The sections of the output file are:
 	\item Input Variance Adjustments
 		\begin{itemize}
 			\item The matrix of input variance adjustments is output here because these values affect the log likelihood calculations.
+		\end{itemize}
+	\item{Parm deviations detail}
+	    \begin{itemize}
+		    \item Details about parameter deviations, if used in the model. Will be missing if no parameter devs were used.
 		\end{itemize}
 	\item Parameters
 		\begin{itemize}
@@ -297,12 +301,10 @@ The sections of the output file are:
 
 Then the time series of output, with standard deviation of estimates, are produced with internally generated labels.  Note that these time series extend through the forecast era.  The order of the output is: spawning biomass, recruitment, SPRratio, Fratio, Bratio, management quantities, forecast catch (as a target level), forecast catch as a limit level (OFL), Selex\_std, Grow\_std, NatAge\_std.  For the three "ratio" quantities, there is an additional column of output showing a Z-score calculation of the probability that the ratio differs from 1.0. The "management quantities" section is designed to meet the terms of reference for west coast groundfish assessments; other formats could be made available upon request. The standard deviation quantities at the end are set up according to specifications at the end of the control input file. In some cases, a user may specify that no derived quantity output of a certain type be produced. In those cases, SS substitutes a repeat output of the virgin spawning biomass so that vectors of null length are not created.
 
-ADMB note, while vectors of null length are very useful for controlling optional model inputs, they cannot be used with current version of ADMB for sdreport quantities.
-
 \begin{itemize}
-	\item Mortality-growth parameter by year after adjustments
+	\item Mortality and growth parameters by year after adjustments
 	\begin{itemize}
-		\item This block shows the time series of mortality-growth parameters by year after adjustment by environmental links, blocks and deviations.
+		\item This block shows the time series of mortality and growth parameters by year after adjustments by environmental links, blocks and deviations.
 	\end{itemize}
 	\item Selectivity parameters (size) by year after adjustments
 	\begin{itemize}
@@ -314,9 +316,9 @@ ADMB note, while vectors of null length are very useful for controlling optional
 	\end{itemize}
 	\item Recruitment Distribution
 	\begin{itemize}
-		\item This block shows the distribution of recruitment across growth patterns, genders, birth seasons, and areas in the end year of the model.
+		\item This block shows the distribution of recruitment across growth patterns, sexes, birth seasons, and areas in the end year of the model.
 	\end{itemize}
-	\item Platoon Indexing
+	\item Growth Morph Indexing
 	\begin{itemize}
 		\item This block shows the internal index values for various quantities.  It can be a useful reference for complex model setups. The vocabulary is: Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index. If recruitment occurs in multiple seasons, then birth season is the index for that factor. The index labeled "Platoon" is used as a continuous index across all the other factor-specific indices. If sub-platoons are used, they are nested within the Bio\_Pattern x Sex x Birth Season platoon. However, some of the output tables use the column label "platoon" as a continuous index across platoons and sub-platoons. Note that there is no index here for area. Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
 	\end{itemize}
@@ -332,6 +334,22 @@ ADMB note, while vectors of null length are very useful for controlling optional
 	\begin{itemize}
 		\item This block shows the time series of the selected F\_std unit and the F multiplier for each fleet in terms of harvest rate (if Pope's approximation is used) or fully selected F.
 	\end{itemize}
+	\item Catch
+	\item Time Series
+	\item SPR Series
+	\item Kobe Plot
+	\begin{itemize}
+	    \item Reports output in a table needed to create a Kobe Plot.
+    \end{itemize}
+	\item Spawn Recruit Parameters and Table
+	\begin{itemize}
+	    \item Extensive information on Spawn-recruit parameter values and derived quantities.
+	\end{itemize}
+	\item Spawn Recruit Curve
+		\begin{itemize}
+	    \item A table containing information to recreate the spawn-recruit curve. 
+	\end{itemize}
+	\item Index 1
 	\item Index 2
 	\begin{itemize}
 		\item This section reports the observed and expected values for each index. All are reported in one list with index number included as a selection field. At the bottom of this section, the root mean squared error of the fit to each index is compared to the mean input error level to assist the user in gauging the goodness-of-fit and potentially adjusting the input level of imprecision.
@@ -340,7 +358,8 @@ ADMB note, while vectors of null length are very useful for controlling optional
 	\begin{itemize}
 		\item This section shows the parameter number assigned to each parameter used in this section.
 	\end{itemize}
-	\item Discard
+	\item Discard Specification
+	\item Discard Output
 	\begin{itemize}
 		\item This is the list of observed and expected values for the amount (or fraction) discard.
 	\end{itemize}
@@ -360,6 +379,7 @@ ADMB note, while vectors of null length are very useful for controlling optional
 	\begin{itemize}
 		\item This has the same format as the length composition section and is used for the generalized size composition summary.
 	\end{itemize}
+	\item Overall Comps
 	\item Len Selex
 	\begin{itemize}
 		\item Here is the length selectivity and other length specific quantities for each fishery and survey.
@@ -372,26 +392,34 @@ ADMB note, while vectors of null length are very useful for controlling optional
 	\begin{itemize}
 		\item The input values of environmental data are echoed here. In the future, the summary biomass in the previous year will be mirrored into environmental column –2 and that the age zero recruitment deviation into environmental column –1. Once so mirrored, they may enable density-dependent effects on model parameters.
 	\end{itemize}
+	\item Tag Recapture Information
 	\item Numbers at Age
 	\begin{itemize}
 		\item The output (in thousands of fish) is shown for each cohort tracked in the model.
 	\end{itemize}
+	\item Biomass at Age
 	\item Numbers at Length
 	\begin{itemize}
 		\item The output is shown for each cohort tracked in the model.
 	\end{itemize}
+	\item Biomass at Length
+	\item F at Age
 	\item Catch at Age
 	\begin{itemize}
 		\item The output is shown for each fleet.  It is not necessary to show by area because each fleet operates in only one area.
 	\end{itemize}
+	\item Discard at Age
 	\item Biology
 	\begin{itemize}
 		\item The first biology section shows the length-specific quantities in the ending year of the time series only. The derived quantity spawn is the product of female body weight, maturity and fecundity per weight. The second section shows natural mortality.
 	\end{itemize}
+	\item Natural Mortality
+	\item Age-specific K
 	\item Growth Parameters
 	\begin{itemize}
 		\item This section shows the growth parameters, and associated derived quantities, for each year in which a change is estimated.
 	\end{itemize}
+	\item Seasonal Effects
 	\item Biology at Age
 	\begin{itemize}
 		\item This section shows derived size-at-age and other quantities. It is the basis for the Bio report page of the Excel output processor.
@@ -412,18 +440,17 @@ ADMB note, while vectors of null length are very useful for controlling optional
 	\begin{itemize}
 		\item This is the calculated distribution of observed ages for each true age for each of the defined ageing keys.
 	\end{itemize}
+	\item Composition Database
+	\begin{itemize}
+		\item Contains the length composition, age composition, and mean size-at-age observed and expected values.  It is arranged in a database format, rather than an array of vectors.
+	\end{itemize}
 	\item Selectivity Database
 	\begin{itemize}
 		\item This section contains the selectivities organized as a database, rather than as a set of vectors.
 	\end{itemize}
-	\item Spawning Biomass Report 2, etc.
-	\begin{itemize}
-		\item The section shows annual total spawning biomass, then numbers-at-age at the beginning of each year for each Bio\_Pattern and Sex as summed over sub-platoons and areas.  Then Z-at-age is reported simply as $ln(N_{t+1,a+1} N_{t,a})$.  Then the Report\_1 section loops back through the time series with all F values set to zero so that a dynamic Bzero, N-at-age, and M-at-age can be reported.  The difference between Report\_1 and Report\_2 can be used to create an aggregate F-at-age.
-	\end{itemize}
-	\item Composition Database
-	\begin{itemize}
-		\item This section is reported to a separate file, compreport.sso, and contains the length composition, age composition, and mean size-at-age observed and expected values.  It is arranged in a database format, rather than an array of vectors.  Software to filter the output allows display of subsets of the database.
-	\end{itemize}
+	\item SPR/YPR Profile
+	\item Global MSY Report
+	\item Dynamic Bzero Report
 \end{itemize}
 
 \pagebreak
