@@ -1614,6 +1614,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	7 \Tstrut& 8 & Discontinued: Double logistic with defined peak, uses smooth joiners; special = 1 causes constant selectivity above Linf for morph 1.  Use pattern 8.\\
 	8 \Tstrut& 8 & Double logistic, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1.  \\
 	9 \Tstrut& 6 & Simple double logistic with no defined peak.\\
+	11 \Tstrut& 2 & Selectivity = 1.0 for a specified length-bin range.\\
 	15 \Tstrut& 0 & Mirror another selectivity (same as for age selectivity).\\
 	21 \Tstrut& 2  & Non-parametric size selectivity\\
 	22 \Tstrut& 4 & Double normal; similar to CASAL.\\
@@ -1699,7 +1700,24 @@ Users are discouraged from using the double logistic selectivity. The double nor
 		\item p7 – slop2: ln(slope) of right side (descending) selectivity.
 		\item p8 – peak width: width of flattop.
 	\end{itemize}
+	
+\myparagraph{Pattern 11 (size or age) - Selectivity = 1.0 for range}
+Length- or age-selectivity can be set equal to 1.0 for a range of lengths or ages.  If the selectivity is length-based the input parameters should match the population length bin number that will have selectivity = 1.0. A simple example how this works in SS is as follows:
 
+\begin{longtable}{p{4cm} p{0.9cm} p{0.9cm} p{0.9cm}  p{0.9cm}  p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm}}
+	\hline	
+	Population Length Bin \# \Tstrut &  1 &  2 &  3 &  4 &  5 &  6 &  7 &  8 \\
+	Population Length (cm)       & 10 & 12 & 14 & 16 & 18 & 20 & 22 & 24 \Bstrut\\
+	\hline
+\end{longtable} 
+
+\begin{itemize}
+	\item p1 The first length-bin to set selectivity equal to 1.0. Using the above bin structure if p1 = 3 then selectivity = 1.0 mid-bin length of 15 cm.
+	\item p2 The final length-bin to set selectivity equal to 1.0. Using the above bin structure if p2 = 7 then selectivity = 1.0 mid-bin length of 23 cm.
+	\item All length bins before and after p1 and p2 will be set near zero (1e-010).
+\end{itemize}
+
+The age-selectivity approach follows that detailed above for length-selectivity but is more intuitive since parameter p1 and p2 is set in terms of population age. 
 
 \myparagraph{Pattern 14 (age) - Revise Age}
 Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age.  When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. SS calculates the age-based selectivity as where $a = 1$ to $a = Amax + 1$:
