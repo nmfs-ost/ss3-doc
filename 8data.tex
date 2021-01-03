@@ -644,11 +644,15 @@ This option allows for the compression of length or age bins beyond a specific l
 \myparagraph{Composition Error Distribution}	
 The options are:
 \begin{itemize}
-	\item 0 = Multinomial Error; and
-	\item 1 = Dirichlet Multinomial Error.
+	\item 0 = Multinomial Error;
+	\item 1 = Dirichlet Multinomial Error (linear); and
 	\begin{itemize}
 		\item The Dirichlet Multinomial Error distribution requires the addition of a parameter lines for the natural log of the effective sample size multiplier ($\theta$) at the end of the selectivity parameter section in the control file. See the \hyperlink{Dirichletparameter}{Dirichlet parameter} in the control file for information regarding setup.
 		\item The Parameter Select option needs be used to specify which data sources should be weighted together or separate. 
+	\end{itemize}
+	\item 2 = Dirichlet Multinomial Error (saturation).
+	\begin{itemize}
+		\item This parameterization of the Dirichlet Multinomial Error has not been tested and should use of this option should be done with caution. The Dirichlet Multinomial Error data weighting approach will calculate the effective sample size based on equation 12 from \citet{thorson_model-based_2017} where the estimated parameter will now be in terms of \beta. The application of this method should follow the same steps detailed above for option 1. 
 	\end{itemize}
 \end{itemize}
 
