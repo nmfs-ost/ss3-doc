@@ -2101,8 +2101,9 @@ Retention is defined as a logistic function of size or age.  It does not apply t
 \end{itemize}
 
 \begin{equation}
-	\text{Retention}_l = \left(\frac{P3}{1 + e^{\frac{-(L_l-(P1+P4*male))}{P2}}}\right)*\left(1 - \frac{1}{1 + e^{\frac{-(L_l-(P5+P7*male))}{P6}}}\right)
+	\text{Retention}_l = \left(\frac{P3'}{1 + e^{\frac{-(L_l-(P1+P4*male))}{P2}}}\right)*\left(1 - \frac{1}{1 + e^{\frac{-(L_l-(P5+P7*male))}{P6}}}\right)
 \end{equation}
+where $P3' = 1/(1+e^{-P3})$ is the asymptotic retention calculated from the $P3$ parameter which is in logit space.
 
 \subsubsection{Discard Mortality}
 Discard mortality is defined as a logistic function of size such that mortality declines from 1.0 to an asymptotic level as fish get larger.  It does not apply to surveys and it does not affect the calculation of expected values for discard data.   It is applied so that the total mortality rate is:
