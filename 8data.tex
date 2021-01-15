@@ -604,7 +604,7 @@ There are some items for users to consider when setting up population length bin
 \end{itemize}
 
 
-\myparagraph{Length Composition Data Structure}
+\subsection{Length Composition Data Structure}
 \begin{tabular}{p{2cm} p{13cm}}
 		\multicolumn{2}{l}{Enter a code to indicate whether or not length composition data will be used:\Tstrut\Bstrut}\\
 		\hline	
@@ -627,7 +627,7 @@ If the value 0 is entered, then skip all length related inputs below and skip to
 		\hline
 \end{tabular}
 
-\pagebreak
+%\pagebreak
 
 \myparagraph{Minimum Tail Compression}
 Compress tails of composition until observed proportion is greater than this value; negative value causes no compression; Advise using no compression if data are very sparse, and especially if the set-up is using age composition within length bins because of the sparseness of these data.
@@ -652,11 +652,11 @@ The options are:
 	\end{itemize}
 	\item 2 = Dirichlet Multinomial Error (saturation).
 	\begin{itemize}
-		\item This parameterization of the Dirichlet Multinomial Error has not been tested, so this option should be used with caution. The Dirichlet Multinomial Error data weighting approach will calculate the effective sample size based on equation 12 from \citet{thorson_model-based_2017} where the estimated parameter will now be in terms of \beta. The application of this method should follow the same steps detailed above for option 1. 
+		\item This parameterization of the Dirichlet-multinomial Error has not been tested, so this option should be used with caution. The Dirichlet Multinomial Error data weighting approach will calculate the effective sample size based on equation 12 from \citet{thorson_model-based_2017} where the estimated parameter will now be in terms of $\beta$. The application of this method should follow the same steps detailed above for option 1. 
 	\end{itemize}
 \end{itemize}
 
-\pagebreak
+%\pagebreak
 
 \myparagraph{Dirichlet Parameter Select}	
 Value that indicates the groups of composition data for estimation of the Dirichlet parameter for weighting composition data.
@@ -669,14 +669,14 @@ Value that indicates the groups of composition data for estimation of the Dirich
 \myparagraph{Minimum Sample Size}
 The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. SS v.3.24 had an implicit minimum sample size value of 1.
 
-\subsection{Dirichlet Parameter Number and Effective Sample Sizes}
-If the Dirichlet multinomial error distribution is selected, indicate here which of a list of Dirichlet multinomial parameters will be used for this fleet.  So each fleet could use a unique Dirichlet multinomial parameter, or all could share the same, or any combination of unique and shared.  The requested number of Dirichlet multinomial parameters are specified as parameter lines in the control file immediately after the selectivity parameter section. Please note that age-compositions Dirichlet multinomial parameters are continued after length-compositions, so a model with one fleet and both data types would presumably require two new Dirichlet multinomial parameters.  	
+\myparagraph{Additional information on Dirichlet Parameter Number and Effective Sample Sizes}
+If the Dirichlet-multinomial error distribution is selected, indicate here which of a list of Dirichlet-multinomial parameters will be used for this fleet.  So each fleet could use a unique Dirichlet-multinomial parameter, or all could share the same, or any combination of unique and shared.  The requested number of Dirichlet-multinomial parameters are specified as parameter lines in the control file immediately after the selectivity parameter section. Please note that age-compositions Dirichlet-multinomial parameters are continued after length-compositions, so a model with one fleet and both data types would presumably require two new Dirichlet-multinomial parameters.  	
 	
-The Dirichlet estimates the effective sample size as $N_{eff}=\frac{1}{1+\theta}+\frac{N\theta}{1+\theta}$ where $\theta$ is the estimated parameter and $N$ is the input sample size.  Stock Synthesis estimates the log of the Dirichlet multinomial parameter such that $\hat{\theta}_{\text{fishery}} = e^{-0.6072} = 0.54$ where assuming $N=100$ for the fishery would result in an effective sample size equal to 35.7.
+The Dirichlet estimates the effective sample size as $N_{eff}=\frac{1}{1+\theta}+\frac{N\theta}{1+\theta}$ where $\theta$ is the estimated parameter and $N$ is the input sample size.  Stock Synthesis estimates the log of the Dirichlet-multinomial parameter such that $\hat{\theta}_{\text{fishery}} = e^{-0.6072} = 0.54$ where assuming $N=100$ for the fishery would result in an effective sample size equal to 35.7.
 	
 This formula for effective sample size implies that, as the Stock Synthesis parameter ln(DM\_theta) goes to large values (i.e., 20), then the adjusted sample size will converge to the input sample size.  In this case, small changes in the value of the ln(DM\_theta) parameter has no action, and the derivative of the negative log-likelihood is zero with respect to the parameter, which means the Hessian will be singular and cannot be inverted. To avoid this non-invertible Hessian when the ln(DM\_theta) parameter becomes large, turn it off while fixing it at the high value. This is equivalent to turning off down-weighting of fleets where evidence suggests that the input sample sizes are reasonable.
 	
-For additional information about the Dirichlet multinomial please see \citet{thorson_model-based_2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
+For additional information about the Dirichlet-multinomial please see \citet{thorson_model-based_2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
 
 \hypertarget{CompTiming}{}
 \subsection{Length Composition Data}

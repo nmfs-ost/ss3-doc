@@ -94,11 +94,15 @@ Change the choice of likelihood and set parameter choices in the data file:
 	\item In the specification of the length and/or age data, change "CompError" column in age and length comp specifications from 0 to 1 and "ParmSelect" from 0 to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length.
 	
 	\item Resulting input should look similar to:
-	\begin{center}
-		\includegraphics[scale = 0.75]{appendixB_DM_setup}\\
-	\end{center}
-	
-	\item The ParmSelect column can also have repeated values so that multiple fleets share the same log(theta) parameter.
+\begin{small}
+\begin{verbatim}
+#_mintail addtocomp combM+F CompressBins CompError ParmSelect minsamplesize   
+-1        0.001     0       0            1         1          0.001 #_fleet:1
+-1        0.001     0       0            1         2          0.001 #_fleet:2
+\end{verbatim}
+\end{small}
+
+	\item The ParmSelect column can also have repeated values so that multiple fleets share the same log(Theta) parameter.
 	
 	\item If you have both length and age data, the ParmSelect should have separate numbers for each, e.g. 1 and 2 for the length comps and 3 and 4 for the age comps for the same two fleets.
 	
@@ -112,21 +116,33 @@ Add parameter lines to the control file:
 	\item Jim Thorson initially recommended bounds of -5 to 20, with a starting value of 0
     (which corresponds to a weight of about 50\% of the input sample size). However, parameter estimates above 5 are associated with 99-100\% weight with little information in the likelihood about the parameter value. Therefore, an upper bound of 5 may help identify cases that otherwise would have convergence issues.
 
-  \item In consultation with Jim Thorson, Ian Taylor proposed a normal $N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to counteract the effect of the logistic transformation between this parameter and the data weighting. The 1.813 value was calculated as the standard deviation of the distribution of $log(\theta)$ values derived from starting with a uniform distribution on the weights, $weight = \theta/(1+\theta) ~ U(0,1)$, and solving for $log(\theta)$. This prior was applied to the 2020 Pacific Hake stock assessment \citep{grandin_status_2020} and led to better MCMC convergence with relatively little impact on the maximum likelihood estimates.
+  \item In consultation with Jim Thorson, Ian Taylor proposed a normal $N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to counteract the effect of the logistic transformation between this parameter and the data weighting. The 1.813 value was calculated as the standard deviation of the distribution of $log(\theta)$ values derived from starting with a uniform distribution on the weights, weight = $\theta/(1+\theta) \sim U(0,1)$, and solving for $log(\theta)$. This prior was applied to the 2020 Pacific Hake stock assessment \citep{grandin_status_2020} and led to better MCMC convergence with relatively little impact on the maximum likelihood estimates.
 	
-	\item Example parameter lines are below (note that the labels have changed in SS version 3.30.15 from \texttt{ln(EffN\_mult)} to \texttt{ln(DM\_parm)}.: 
-		\begin{center}
-			\includegraphics[scale = 0.70]{appendixB_DM_parameters}\\
-		\end{center}
+	\item Example parameter lines are below (columns 8-14 not shown): 
+    \begin{small}
+      % minipage to stop page break that was falling within these lines
+      \begin{minipage}{\linewidth} 
+\begin{verbatim}
+  #_LO  HI  INIT  PRIOR PR_SD PR_type PHASE ... # Parm_name
+  -5    20  0     0     1.813 6       2     ... # ln(DM_theta)_1
+  -5    20  0     0     1.813 6       2     ... # ln(DM_theta)_2
+\end{verbatim}
+      \end{minipage}
+    \end{small}
 	
 	\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In 3.24 this means setting the values to 1, in SS version 3.30, you can simply delete or comment-out the rows with the adjustments.
 \end{itemize}
 
 The \texttt{SS\_output} function in r4ss returns table like the following:
+\begin{small}
+\begin{verbatim}
+  $Dirichlet_Multinomial_pars
+                     Value Phase Min Max     Theta Theta/(1+Theta)
+  ln(DM_theta)_1 -0.164022     2  -5  20 0.8487233       0.4590862
+  ln(DM_theta)_2  2.246280     2  -5  20 9.4525070       0.9043292
+\end{verbatim}
+\end{small}
 
-\begin{center}
-	\includegraphics[scale = 1]{appendixB_DM_output}\\
-\end{center}
 
 The ratio shown in the final column is the estimated multiplier which can be compared to the sample size adjustment estimated in the other tuning methods above (the New\_Var\_adj column in the table produced by the \texttt{SS\_tune\_comps} function in r4ss).
 
@@ -138,10 +154,8 @@ If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that t
 %	\includegraphics[scale = 1]{appendixB_DM}\\
 %\end{center}
 
-There are a several of challenges posed by the Dirichlet-Multinomial data-weighting approach:
+There are a few challenges posed by the Dirichlet-Multinomial data-weighting approach:
 \begin{enumerate}
-	\item Not yet widely used so limited guidance is available.
-	
 	\item Does not allow weights above 100\% (by design) so it is not yet clear how best to deal with the situation when the estimated weight is close to 100\%.
 	
 	\item Parameterization has potential to cause convergence issues or inefficient MCMC sampling when weights are close to 100\% if no prior is applied as discussed above.
