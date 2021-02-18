@@ -1533,7 +1533,7 @@ Male specific selectivity options:
 \end{itemize}
 
 \myparagraph{Special}
-Special (0/value): This value is used in different ways depending on the context.  If the selectivity type is to mirror another selectivity type, then put the index of that source fleet or survey here. It must refer to a lower numbered fleet/survey. If the selectivity type is 6 (linear segment), then put the number of segments here. If the selectivity type is 7, then put a 1 here to keep selectivity constant above the mean average size for old fish of morph 1.
+Special (0/value): This value is used in different ways depending on the context.  If the selectivity type is to mirror another selectivity type, then put the index of that source fleet or survey here. It must refer to a lower numbered fleet/survey. If the selectivity type is 6 (linear segment), then put the number of segments here. If the selectivity type is 7, then put a 1 here to keep selectivity constant above the mean average size for old fish of morph 1. If selectivity type is 27 (cubic spline), then put the number of nodes (knots) here.
 
 \myparagraph{Age Selectivity}
 For each fleet and survey, read a definition line for age selectivity. The 4 values to be read are the same as for the size-selectivity. 
@@ -1830,6 +1830,26 @@ No parameters.  Whole age range is mirrored from another fleet. The mirrored sel
 
 
 \myparagraph{Pattern 9 (size) and 19 (age) - Simple Double Logistic}
+
+This pattern has 4 parameters and 2 fixed input values.
+
+The shape of the selectivity is provided by the function (here in terms of age $a$ but similarly applicable to length bin $l$)
+  \begin{equation}
+    S'_a =  
+    \begin{cases}
+      \hfil 0 & \text{if $a < p_5$,} \\
+      \left( \frac{1}{\exp\left(-p_2 \left( a - p_1 \right) \right) } \right)
+      \left(1 - \frac{1}{\exp\left(-p_4 \left( a - [p_6 p_1 - p_3]\right) \right) } \right)
+      & \text{if $a \geq p_5$.}
+    \end{cases}
+  \end{equation}
+
+  which is then rescaled by first adding a small constant to all values and then rescaling to have a maximum of 1.0:
+  \begin{equation}
+    S_a = (S'_a + 0.000001) / \max_{a'}\{S'_a + 0.000001\}
+  \end{equation}
+
+  where
 	\begin{itemize}
 		\item p1 – ascending inflection age/size (in cm).
 		\item p2 – ascending slope. 
@@ -1838,7 +1858,6 @@ No parameters.  Whole age range is mirrored from another fleet. The mirrored sel
 		\item p5 – age or size at first selection; this is a specification parameter, so must not be estimated.  Enter integer that is age for pattern 19 and is bin number for pattern 9.
 		\item p6 – (0/1)  where a value of 0 causes the descending inflection to be a standalone parameter, and a value of 1 causes the descending inflection to be interpreted as an offset from the ascending inflection.  This is a specification parameter, so must not be estimated.
 	\end{itemize}
-A value of 1.0e-6 is added to the selectivity for all ages, even those below the minimum age.
 
 \myparagraph{Pattern 25 (size) and 26 (age) - Exponential logistic}
 The exponential logistic included within SS is based on the exponential logistic selectivity detailed by \citet{thompson_confounding_1994}, however, the parameterization within SS differs.  Explorations using this selectivity form has shown that the estimation of p1 can be highly unstable.  Users are strongly encourage to use the double normal selectivity rather than the exponential logistic selectivity.
