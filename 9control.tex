@@ -314,7 +314,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12cm}[-0.10cm]{Beginning and ending years for blocks in design 3.}\Bstrut\\
 		\hline
 \end{longtable}	
-
+\hypertarget{autogen}{}
 \subsubsection{Auto-generation}
 Auto-generation is a useful way to automatically have SS create the required short time-varying parameter lines which will be written in the control.ss\_new file. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The control.ss\_new file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file.  Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
 
@@ -812,20 +812,9 @@ SS allows a short-cut for males to use the same parameter values as female fish 
 
 \hypertarget{tvOrder}{}
 \subsubsection{Time-Varying Parameter Specification and Setup}
-Any of the parameters defined above can be made time-varying through linkage to an environmental data series, through time blocks or trend, or by setting up annual deviations. The basic options for making biology, spawner-recruitment, catchability, and selectivity parameters change over time is detailed here. A more detailed in depth description is available in the \hyperlink{TVpara}{Using Time-Varying Parameter} section.  After SS reads the parameter line section, which include options to create environmental link, blocks, or deviation vectors, if time-varying parameters are specified then SS expects to read the time-varying short parameter lines. Time-varying parameters are an optional input and if no parameters are specified to have time-varying properties, this omitted from the control file.
+Any of the parameters defined above can be made time-varying through linkage to an environmental data series, through time blocks or trend, or by setting up annual deviations. The basic options for making biology, spawner-recruitment, catchability, and selectivity parameters change over time is detailed here. A more detailed description is available in the \hyperlink{TVpara}{Using Time-Varying Parameter} section.  After SS reads the long parameter line section, which include options to create environmental link, blocks, or deviation vectors, if time-varying parameters are specified, then SS expects to read the time-varying short parameter lines (unless \hyperlink{autogen}{autogeneration} is used). Time-varying parameters are an optional input.
 
-Special consideration should be given regarding which parameter values are applied during forecast years. The model will default to use all base parameter values during the forecast period. However, there are controls in the forecast file which allow the user to specify specific parameter years to be applied during the forecast period for selectivity, relative F, and recruitment.  
-
-%In SS v.3.30, several changes are introduced to the implementation of time-varying parameters:
-
-%\begin{itemize}
-%	\item Time-varying parameters for biology, spawner-recruitment, catchability, and selectivity are implemented using the same approach and share code.
-%	\item The block feature that allowed input of one block parameter line and replication of that line by SS as often as needed has been replaced.  Now there is a complete time-varying parameter auto-generation capability.
-%	\item The logistic bound constraint is no longer implemented due to the challenges it created to interpreting parameter values. Instead, the auto-generate feature now creates bounds on time-varying parameters for blocks such that the combination of a bounded  value of the time-varying parameter and the base parameter will not violate the base parameter bounds.
-%	\item For more information on the implementation of time-varying parameters, see the \hyperlink{TVpara}{Using Time-Varying Parameters} section
-%\end{itemize}
-
-\input{tv_parameter_description}	
+Special consideration should be given regarding which parameter values are applied during forecast years. The model will default to use all base parameter values during the forecast period. However, the user can specify through the forecast file which years of selectivity, relative F, and recruitment should be used during the forecast period. 
 
 When using time-varying parameters through the application of time-blocks (specified using element 13 and 14), it is important to consider which parameters will affect which years of the time series. There are three main situations:
 \begin{enumerate}
@@ -834,7 +823,7 @@ When using time-varying parameters through the application of time-blocks (speci
 	\item Replacement-Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter. In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log likelihood, so model convergence and variance estimation could be affected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
 \end{enumerate}
 
-If a time-varying parameter line is specified requiring an additional parameter a short parameter line will need to be created following the main parameter block section. An example short parameter block would consist of the following: 
+If a time-varying parameter line is specified requiring an additional parameter, a short parameter line will need to be created following the main parameter block section. An example short parameter block would consist of the following: 
 \begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
 	\hline
 	   &    &      & Prior &  Prior & Prior & & \Tstrut\\
@@ -862,7 +851,7 @@ If a time-varying parameter line is specified requiring an additional parameter 
 When time-varying growth is used, there are some additional considerations to be aware of:
 \begin{itemize}
 	\item Growth deviations propagate into the forecast. The user can select which growth parameters get used during the forecast by setting the end year of the last block. If the last block ends in the model's end year, then the growth parameters in effect during the forecast will revert to the "no-block" baseline level.  By setting the end year of the last block to end year (endyr) + 1, the model will continue the last block's growth parameter levels throughout the forecast.
-	\item The equilibrium benchmark quantities (MSY, F40\%, etc.) previously used end year (endyr) body size-at-age, which is a disequilibrium vector. There is a capability to specify a range of years over which to average the size-at-age used in the benchmark calculations.
+	\item The equilibrium benchmark quantities (MSY, F40\%, etc.) previously used end year (endyr) body size-at-age, which is a disequilibrium vector. Through the forecast file, it is possible to specify a range of years over which to average the size-at-age used in the benchmark calculations.
 \end{itemize}
 
 \subsubsection{Seasonal Biology Parameters}
