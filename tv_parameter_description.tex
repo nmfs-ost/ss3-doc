@@ -4,29 +4,54 @@ Selecting time-varying properties for a parameter is specified using element 8 -
 \hypertarget{EnvVar}{}
 \begin{itemize}
 
-\item Environmental Link and  Variance (element 8)
+\item Environmental Link and variable (env\_var\&link; element 8)
 	\begin{itemize}
-		\item The environmental link and variance (env\_var\&link) matrix is populated with the read environmental data for columns 1-N environmental variables. Alternatively, the environmental link can be linked to derived quantities mapped to columns -1 to -4 where each value corresponds to the following quantities:
+	   \item The environmental link and variable input is two inputs specified in one three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass).
+	   \item The link function options for  the environmental link and variable input are:
+	   \begin{itemize}
+	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
+		   \item 2 = linear offset: $P_{y} = P_{base} + P_{t}E_{y}$
+		   \item 3 = Bounded replacement: $P_{y} = min(P_{base}) + \frac{max(P_{base})-min(P_{base})}{1+e^{Pt*Ey+ln((P_{base}-min(P_{base})+0.0000001)/(max(P_{basey)-P_{base}+0.0000001))}}$
+		   \item 4 = Logistic: $P_{y} = P_{base}\frac{2}{1+e^{-P_{t2}(E_{y}-P_{t1})}}$
+	    \end{itemize}
+		where:
+	   \begin{itemize}
+	       \item $P_{y}$ = Final parameter value in year $y$
+           \item $P_{base}$ = Base parameter value in year $y$
+           \item $P_{t}$ = Time-varying parameter value
+           \item $P_{t1}$ = First of 2 time-varying parameters (offset)
+           \item $P_{t2}$ = Second of 2 time-varying parameters (slope)
+           \item $E_{y}$ = Environmental index value in year $y$
+           \item $min(P_{base})$ = the min parameter bound of base parameter
+           \item $max(P_{base})$ = the max parameter bound of base parameter
+        \end{itemize}
+		\item The options for the variable to link the parameter to are the environmental parameters as specified in the environmental data of the data file. Alternatively, the environmental link can be linked to derived quantities mapped to columns -1 to -4 where each value corresponds to the following quantities:
 		\begin{itemize}
 			\item -1;  for ln(relative spawning biomass);
 			\item -2;  for recruitment deviation;
 			\item -3;  for ln(relative summary biomass) (e.g., current year summary biomass divided by the unfished summary biomass);
 			\item -4;  for ln(relative summary numbers).
 		\end{itemize}
-		\item So, environmental input 103 would use link type 1 (specified in element 9) and apply it to environmental data column 3 and environmental input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass).
-		\item These four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any oder of operations rule. 
+		\item These four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any order of operations rules.
 	\end{itemize}
 	
-\item Deviation Link (element 9)
+\item Deviation Link (element 9). Link options for parameter deviations are:
 	\begin{itemize}
-		\item 1 = multiplicative ($P_y*=exp(\text{dev}_y*\text{dev}_{se}$),
-		\item 2 = additive ($P_y+=\text{env}_y*\text{dev}_{se}$),
+		\item 1 = multiplicative: $P_y = P_{base}e^{\text{dev}_y*\text{dev}_{se}}$,
+		\item 2 = additive $P_y = P_{base} + \text{dev}_y*\text{dev}_{se}$,
 		\item 3 = random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
 		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in SS v.3.24).
 		\item 5 = zero reverting random walk with rho and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16).
+		\item 6 = mean reverting random walk with penalty to keep rmse near 1.0
 		\item The option of applying the final model year deviation value into the forecast period was added in v. 3.30.13.  This new option is specified by selecting the appropriate deviation link option (1, 2, 3, or 4) and appending a 2 at the front (21, 22, 23, or 24) which will use the final year deviation value for all forecast years. 
 	\end{itemize}
-	
+	where: 
+	\begin{itemize}
+	     \item $P_{y}$ = Final parameter value in year $y$
+         \item $P_{base}$ = Base parameter value in year $y$
+		 \item $\text{dev}_y$ is the deviation in year $y$
+		 \item $\text{dev}_{se}$ is the standard error of the deviation in year $y$
+	\end{itemize}
 \item Deviation  Minimum Year (element 10)
 	\begin{itemize}
 		\item Year for deviations to start for parameter
@@ -52,10 +77,15 @@ Selecting time-varying properties for a parameter is specified using element 8 -
 	
 \item Block Functional Form (element 14)
 	\begin{itemize}
-		\item 0: multiplicative parameter ($P_{y} = P_{base}*exp(tv\_para)$),
-		\item 1: additive parameter ($P_{y} = P_{base} + tv\_para$),
-		\item 2: replace parameter ($P_{y} = tv\_para$),
-		\item 3: random walk across blocks ($P_{block} = P_{block,-1} + tv\_para$),
+		\item 0: multiplicative parameter ($P_{y} = P_{base}*e^{P_t}$),
+		\item 1: additive parameter ($P_{y} = P_{base} + P_t$),
+		\item 2: replace parameter ($P_{y} = P_t$),
+		\item 3: random walk across blocks ($P_{block} = P_{block,-1} + P_t$),
 		\item 4: mean reverting random walk
 	\end{itemize}
+	where:
+	\begin{itemize}
+        \item $P_{y}$ = Final parameter value in year $y$
+        \item $P_{base}$ = Base parameter value in year $y$
+		\item $P_{t}$ = Time-varying parameter value
 \end{itemize}
