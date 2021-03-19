@@ -2217,8 +2217,8 @@ For additional information about the Dirichlet-multinomial please see \citet{tho
 The setup required for specifying time-varying options across parameter sections within SS (i.e., biology, recruitment, catchability, or selectivity) is the same and the basic description can be \hyperlink{tvOrder}{found above}. If time-varying selectivity parameters are invoked, short parameter lines are required to be read following the standard selectivity parameter section. If no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
 
 
-\subsubsection{Two-Dimensional Auto-Regressive Selectivity}
-A new experimental feature added within SS v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu_new_2019}. Unlike other options for time-varying selectivity in SS, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
+\subsubsection{Two-Dimensional Auto-Regressive Selectivity (Semi-parametric selectivity)}
+An experimental feature added within SS v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu_new_2019}. Unlike other options for time-varying selectivity in SS, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
 
 When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic, exponential logistic, or double normal would be a better choices. This option has not yet been explored adequately to provide guidance on best practices.
 
@@ -2236,7 +2236,8 @@ When using this option for age-based selectivity, if there are not too many ages
 	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\Bstrut\\
 	\hline
-	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0\Tstrut\Bstrut\\
+	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0\Tstrut\\
+	   2    & 1990 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0 \Bstrut\\
 	\hline
 	\\
 	
@@ -2245,9 +2246,12 @@ When using this option for age-based selectivity, if there are not too many ages
 	     &    &      &       & PRIOR & PRIOR &       &     & & & \Tstrut\\
 	LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL}\Bstrut\\
 	\hline
-	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex}\Tstrut\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year}\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age}\Bstrut\\
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1}\Tstrut\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1}\\
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 2}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 2}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 2}\Bstrut\\
 	\multicolumn{11}{l}{\#Terminator line of 11 in length indicates the end of parameter input lines}\\
 	-9999 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
 	\hline
