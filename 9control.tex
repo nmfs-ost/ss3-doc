@@ -1649,7 +1649,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	14 \Tstrut& nages + 1 & Separate parameter for each age (empirical), value at age is $\frac{1}{1+exp(-x)}$. \\
 	15 \Tstrut& 0 & Mirror another age-specific selectivity pattern.\\
 	16 \Tstrut& 2 & Coleraine single Gaussian.\\
-	17 \Tstrut& nages + 1 & Empirical as a random walk from previous age . \\
+	17 \Tstrut& nages + 1 or special + 1 & Empirical as a random walk from previous age. \\
 	18 \Tstrut& 8 & Double logistic, with defined peak, uses smooth joiners.  \\
 	19 \Tstrut& 6 & Simple double logistic with no defined peak.\\
 	20 \Tstrut& 6 & Double normal with defined initial and final level.  Recommended option. \\
@@ -1663,7 +1663,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{longtable}
 
 \myparagraph{Special Selectivity Options}
-Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{Index units}).	
+Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{Index units}).
 
 \subsubsection{Selectivity Pattern Details}
 \myparagraph{Pattern 1 (size) and 12 (age) - Simple Logistic}
@@ -1745,6 +1745,8 @@ Selectivity is fixed at $S_a = 0$ for $a < A_{\text{min}}$.
 This formulation has the properties that the maximum selectivity equals 1, positive values of $p_a$ are associated with increasing selectivity between ages $a-1$ and $a$, and negative values are associated with decreasing selectivity between those ages and $p_a = 0$ gives constant selectivity.
 	
 The condition that maximum selectivity equals 1 results in one fewer degree of freedom than the number of estimated $p_a$. Therefore, at least one parameter should be fixed at an arbitrary value, typically $p_{A_{\text{min}}}=0$.
+
+The number of parameters lines required to the control file for pattern 17 is nages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to nages.Input to the special column  is used to reduce the number of parameters lines needed (selectivity is constant above the age represented by the last parameter value read when using special). 
 	
 In typical usage:
 	\begin{itemize}
