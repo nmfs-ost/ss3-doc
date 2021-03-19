@@ -175,9 +175,10 @@ The bootstrapping procedure within SS is done via the following steps:
 	\end{itemize}
 \end{itemize}
 
-Given this, there are some assumptions implicit in the bootstrapping procedure (as implemented as of v.3.30.14) that users should be aware of:
+Given this, there are some assumptions implicit in the bootstrapping procedure (as implemented as of v.3.30.17) that users should be aware of:
 
 \begin{itemize}
+
 	\item This procedure is strictly an observation error approach (i.e., process error in recruitment or any other time-varying parameter is not added). For simulation analyses, a common approach has been to input a new time series of recruitment deviations for each bootstrap data set.
 	
 	\item The sample size for conditional age-at-length data matches the inputs for each length bin. If stratified sampling is used, this may be appropriate, but if the ages represent a random subset of the selected population, this may result in less variability than if the associated length distribution were resampled.
@@ -185,6 +186,9 @@ Given this, there are some assumptions implicit in the bootstrapping procedure (
 	\item Currently, the aging error matrix is multiplied by the expected distribution of proportions at age, while the more correct order of operations would be to sample true ages, and then sample the observed age including aging error (it is possible these are mathematically identical).
 	
 	\item Often there is need to explore the removal (not include in the model fitting) of specific years in a data set which can be done by specifying a negative fleet number. If bootstrapping a data file, note that specifying a negative fleet in the data inputs for indices, length composition, or age composition will include the "observation" in the model (hence generating predicted values and bootstrap data sets for the data), but not in the negative log likelihood. The "observation values" used with negative fleet do not influence the predicted values, except when using tail compression with length or age composition. Non-zero values greater than the minimum tail compression should be used for the observation values when tail compression is being used, as using zeros or values smaller than the minimum tail compression can cause the predicted values to be reported as zero and shift predictions to other bins.
+	
+	\item As of SS v. 3.30.15, age and length composition data that use the Dirichlet-Multinomial distribution in the model are generated using the Dirichlet-Multinomial in bootstrap data sets.
+	
 \end{itemize}
 
 \subsection{Forecast and Reference Points (Forecast-report.sso)}
