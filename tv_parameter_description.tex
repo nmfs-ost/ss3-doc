@@ -1,12 +1,15 @@
-\myparagraph{Specification of Time-Varying Parameters in Long Parameter Lines} 
-Selecting time-varying properties for a parameter is specified using element 8 - 14 in the long parameter line setup.  Each element and the options for selection are as described here:
+\subsubsection{Specification of Time-Varying Parameters} 
+
+\myparagraph{Specification of Time-Varying Parameters in Long Parameter Lines
+
+Time-varying specifications for a parameter are controlled using element 8 - 14 in the \hyperlink{paraOrder}{long parameter line setup}. Each element and the options for selection related to time-varying parameters are as described below.
 
 \hypertarget{EnvVar}{}
 \begin{itemize}
 
 \item Environmental Link and variable (env\_var\&link; element 8)
 	\begin{itemize}
-	   \item The environmental link and variable input is two inputs specified in one three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass).
+	   \item The environmental link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass).
 	   \item The link function options for  the environmental link and variable input are:
 	   \begin{itemize}
 	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
@@ -25,7 +28,7 @@ Selecting time-varying properties for a parameter is specified using element 8 -
            \item $min(P_{base})$ = the min parameter bound of base parameter
            \item $max(P_{base})$ = the max parameter bound of base parameter
         \end{itemize}
-		\item The options for the variable to link the parameter to are the environmental parameters as specified in the environmental data of the data file. Alternatively, the environmental link can be linked to derived quantities mapped to columns -1 to -4 where each value corresponds to the following quantities:
+		\item The options for the variable to link the parameter to are the environmental parameters as specified in the environmental data of the data file. Alternatively, the parameter can be linked to derived quantities mapped to columns -1 to -4 where each value corresponds to the following quantities:
 		\begin{itemize}
 			\item -1;  for ln(relative spawning biomass);
 			\item -2;  for recruitment deviation;
@@ -35,7 +38,7 @@ Selecting time-varying properties for a parameter is specified using element 8 -
 		\item These four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any order of operations rules.
 	\end{itemize}
 	
-\item Deviation Link (element 9). Link options for parameter deviations are:
+\item Deviation Link (element 9). This must be specified if using parameter deviations, but otherwise should be left as 0. Link options for parameter deviations are:
 	\begin{itemize}
 		\item 1 = multiplicative: $P_y = P_{base}e^{\text{dev}_y*\text{dev}_{se}}$,
 		\item 2 = additive $P_y = P_{base} + \text{dev}_y*\text{dev}_{se}$,
@@ -52,22 +55,22 @@ Selecting time-varying properties for a parameter is specified using element 8 -
 		 \item $\text{dev}_y$ is the deviation in year $y$
 		 \item $\text{dev}_{se}$ is the standard error of the deviation in year $y$
 	\end{itemize}
-\item Deviation  Minimum Year (element 10)
+\item Deviation Minimum Year (element 10)
 	\begin{itemize}
-		\item Year for deviations to start for parameter
+		\item Year for deviations to start for parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
 	\end{itemize}
 	
 \item Deviation  Maximum Year (element 11)
 	\begin{itemize}
-		\item Year for deviations to end for parameter
+		\item Year for deviations to end for parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
 	\end{itemize}
 	
 \item Deviation Phase (element 12)
 	\begin{itemize}
-		\item integer, this available element in the long parameter line is now a deviation vector specific phase control
+		\item integer, the phase in which the deviations for the parameter should be estimated. This must be specified if using parameter deviations, but otherwise should be left as 0.
 	\end{itemize}
 	
-\item Blocks (element 13)
+\item Time Blocks and Trends (element 13). Time blocks and trends are controlled using the same input locations within the long parameter line.If neither are used, this should be left as 0.
 	\begin{itemize}
 		\item >0: time block index for parameter.
 		\item -1: trend with final as offset from base parameter and offset values is in natural log space, also inflection year is in natural log space and the offset from ln(0.5). No additional parameter lines are required.  Three parameters will be estimated; end trend parameter value logistic offset, inflection year logistic offset, and slope.
@@ -75,7 +78,7 @@ Selecting time-varying properties for a parameter is specified using element 8 -
 		\item -3 end value is a fraction of base parameter maximum - minimum; inflection year is fraction of end year - start year. No additional parameter lines are required. Three parameters will be estimated; end trend parameter value as a fraction, inflection year as a fraction, and slope.
 	\end{itemize}
 	
-\item Block Functional Form (element 14)
+\item Time Block Functional Form (element 14). leave as 0, unless time blocks are used.
 	\begin{itemize}
 		\item 0: multiplicative parameter ($P_{y} = P_{base}*e^{P_t}$),
 		\item 1: additive parameter ($P_{y} = P_{base} + P_t$),
@@ -88,4 +91,86 @@ Selecting time-varying properties for a parameter is specified using element 8 -
         \item $P_{y}$ = Final parameter value in year $y$
         \item $P_{base}$ = Base parameter value in year $y$
 		\item $P_{t}$ = Time-varying parameter value
+     \end{itemize}
+	 Some common situations of using time blocks: 
+	 \begin{enumerate}
+	\item Offset approach: One or more time blocks are created and cover all or a subset of the years.  Each block gets a parameter that is used as an offset from the base parameter.  In this situation you typically will allow SS to estimate the base parameter and each of the offset parameters.  In years not covered by blocks, the base parameter alone is used.  However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all the years be covered by blocks when doing offsets, or to fix the base parameter value at a reasonable level when doing offsets for all years.	
+	\item Replacement approach: Option A: Here time blocks are created which cover a subset of the years.  The base parameter is used in the non-block years and the value of that base parameter is replaced by the block parameter in each respective block.  In this situation, you typically allow SS to estimate the base parameter and each of the block parameters.	
+	\item Replacement-Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter. In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log likelihood, so model convergence and variance estimation could be affected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
+    \end{enumerate}
 \end{itemize}
+
+
+%KD note: I think this is too much detail , but maybe the eqns should be added to the trend info above?
+
+%\myparagraph{Block Trends}
+
+%Additional information regarding the options for applying blocks (element 13):
+%\begin{itemize} 
+%	\item -1: Trend bounded by base parameter minimum maximum and parameters in transformed units (use with caution),
+%	\begin{itemize}
+%		\item Logistic approach to trend as offset from base parameter
+%		\item Transform the base parameter from the parameter section:
+%		\begin{equation}
+%			\text{temp} = -0.5*ln\Bigg(\frac{\text{Parm}_{p,LB}-\text{p,Parm}_{UB}+0.0000002}{\text{Parm}_p-\text{Parm}_{p,LB}+0.0000001}-1\Bigg)
+		%\end{equation}
+		%\item Add the offset. Note, that offset values in in the transform space.
+		%\begin{equation}
+		%	\text{temp2} = \sum_{p=1}^{P}\text{TV parameter}{p}MGparm(k+1)
+		%\end{equation}
+		%\item Back transform
+		%\begin{equation}
+	%		\text{temp1} = \text{Parm}_{p,LB}+\frac{\text{Parm}_{p,UB}-\text{Parm}_{p,LB}}{1+e^{-2*\text{temp}}}
+		%\end{equation}			
+	%\end{itemize}
+%\end{itemize}
+	 
+
+\myparagraph{Specification of Time-Varying Parameters in Short Parameter Lines}
+
+If a time-varying specification set up in the long parameter lines for a particluar sections requires additional parameters, short parameter lines will need to be created following all the long parameter lines (unless \hyperlink{autogen}{autogeneration} is used). The number of lines added depends on the time-varying parameter specification. Note that trends do not require any additional short parameter lines.
+
+For example, if two parameters were specified to have environmental linkages in the MG parameter section, below the MG parameters would be two parameter lines (when not autogenerating these lines), which is an environmental linkage parameter for each time-varying base parameter:
+\begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
+	\hline
+	   &    &      & Prior &  Prior & Prior & & \Tstrut\\
+	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
+	\hline
+	\endfirsthead
+	
+	\hline
+	   &    &      & Prior &  Prior & Prior &  & \Tstrut\\
+	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
+	\hline
+	\endhead
+	
+	\endfoot
+	
+	\endlastfoot
+	
+	\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \Tstrut\\
+	-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add\Tstrut\\
+	-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add\Bstrut\\
+	\hline
+\end{longtable}
+
+ In SS v.3.30, the time-varying input short parameter lines are re-organized such that all parameters that affect a base parameter are clustered together with time blocks first, then environmental linkages, then parameter deviations. For example, if the mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
+
+\begin{center}
+	\begin{longtable}{p{5cm} p{10cm}}
+		\hline
+		MG base parameter 3 & Block parameter 3-1\Tstrut\\
+		& Block parameter 3-2\\
+		& Environmental link parameter 3-1\\
+		& Deviation se parameter 3 \\
+		& Deviation rho parameter 3 \Bstrut\\
+		MG base parameter 7 & Block parameter 7-1 \\
+		& Deviation se parameter 7 \\
+		& Deviation rho parameter 7 \Bstrut\\
+		\hline	 	                    
+		
+	\end{longtable}
+\end{center}
+
+
+%TODO: add a table with descriptions of what each of these time varying short parameters are and whether they are expected to be estimated or fixed?
