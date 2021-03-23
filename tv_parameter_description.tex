@@ -1,6 +1,6 @@
 \subsubsection{Specification of Time-Varying Parameters} 
 
-\myparagraph{Specification of Time-Varying Parameters in Long Parameter Lines
+\myparagraph{Specification of Time-Varying Parameters in Long Parameter Lines}
 
 Time-varying specifications for a parameter are controlled using element 8 - 14 in the \hyperlink{paraOrder}{long parameter line setup}. Each element and the options for selection related to time-varying parameters are as described below.
 
@@ -8,15 +8,16 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 \begin{itemize}
 
 \item Environmental Link and variable (env\_var\&link; element 8)
+
 	\begin{itemize}
 	   \item The environmental link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass).
 	   \item The link function options for  the environmental link and variable input are:
 	   \begin{itemize}
 	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
 		   \item 2 = linear offset: $P_{y} = P_{base} + P_{t}E_{y}$
-		   \item 3 = Bounded replacement: $P_{y} = min(P_{base}) + \frac{max(P_{base})-min(P_{base})}{1+e^{Pt*Ey+ln((P_{base}-min(P_{base})+0.0000001)/(max(P_{basey)-P_{base}+0.0000001))}}$
+		   \item 3 = Bounded replacement: %$P_{y} = min(P_{base})+\frac{max(P_{base})-min(P_{base})}{1+e^{Pt*Ey+ln((P_{base} -min(P_{base})+0.0000001)/(max(P_{basey)-P_{base}+0.0000001))}}$
 		   \item 4 = Logistic: $P_{y} = P_{base}\frac{2}{1+e^{-P_{t2}(E_{y}-P_{t1})}}$
-	    \end{itemize}
+	   \end{itemize}
 		where:
 	   \begin{itemize}
 	       \item $P_{y}$ = Final parameter value in year $y$
@@ -93,15 +94,13 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 		\item $P_{t}$ = Time-varying parameter value
      \end{itemize}
 	 Some common situations of using time blocks: 
-	 \begin{enumerate}
-	\item Offset approach: One or more time blocks are created and cover all or a subset of the years.  Each block gets a parameter that is used as an offset from the base parameter.  In this situation you typically will allow SS to estimate the base parameter and each of the offset parameters.  In years not covered by blocks, the base parameter alone is used.  However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all the years be covered by blocks when doing offsets, or to fix the base parameter value at a reasonable level when doing offsets for all years.	
-	\item Replacement approach: Option A: Here time blocks are created which cover a subset of the years.  The base parameter is used in the non-block years and the value of that base parameter is replaced by the block parameter in each respective block.  In this situation, you typically allow SS to estimate the base parameter and each of the block parameters.	
-	\item Replacement-Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter. In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log likelihood, so model convergence and variance estimation could be affected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
-    \end{enumerate}
+	 \begin{itemize}
+		\item Offset approach: One or more time blocks are created and cover all or a subset of the years.  Each block gets a parameter that is used as an offset from the base parameter.  In this situation you typically will allow SS to estimate the base parameter and each of the offset parameters.  In years not covered by blocks, the base parameter alone is used.  However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all the years be covered by blocks when doing offsets, or to fix the base parameter value at a reasonable level when doing offsets for all years.	
+		\item Replacement approach: Option A: Here time blocks are created which cover a subset of the years.  The base parameter is used in the non-block years and the value of that base parameter is replaced by the block parameter in each respective block.  In this situation, you typically allow SS to estimate the base parameter and each of the block parameters.	
+		\item Replacement-Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter. In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log likelihood, so model convergence and variance estimation could be affected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
+    \end{itemize}
 \end{itemize}
 
-
-%KD note: I think this is too much detail , but maybe the eqns should be added to the trend info above?
 
 %\myparagraph{Block Trends}
 
@@ -126,9 +125,9 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 %\end{itemize}
 	 
 
-\myparagraph{Specification of Time-Varying Parameters in Short Parameter Lines}
+%\myparagraph{Specification of Time-Varying Parameters in Short Parameter Lines}
 
-If a time-varying specification set up in the long parameter lines for a particluar sections requires additional parameters, short parameter lines will need to be created following all the long parameter lines (unless \hyperlink{autogen}{autogeneration} is used). The number of lines added depends on the time-varying parameter specification. Note that trends do not require any additional short parameter lines.
+If a time-varying specification set up in the long parameter lines for a particular sections requires additional parameters, short parameter lines will need to be created following all the long parameter lines (unless \hyperlink{autogen}{autogeneration} is used). The number of lines added depends on the time-varying parameter specification. Note that trends do not require any additional short parameter lines.
 
 For example, if two parameters were specified to have environmental linkages in the MG parameter section, below the MG parameters would be two parameter lines (when not autogenerating these lines), which is an environmental linkage parameter for each time-varying base parameter:
 \begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
@@ -173,4 +172,3 @@ For example, if two parameters were specified to have environmental linkages in 
 \end{center}
 
 
-%TODO: add a table with descriptions of what each of these time varying short parameters are and whether they are expected to be estimated or fixed?
