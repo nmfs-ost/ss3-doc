@@ -566,10 +566,9 @@ A growth cessation model was developed for the application to tropical tuna spec
 	&    & -1 to do transition at the end of each season (after mortality and before movement); and\\
 	&    & <positive integer> to select just one season.\\
     &	 & If fractional part included (optional), indicates first age that transitions (otherwise, age 1 assumed). \\
-	\\
 	& 0.5 & Include males in spawning biomass;  \\
 	&    & 0 = no males in spawning biomass; \\
-	&    & >0 & <1 = fraction of male biomass to include in spawning biomass; and \\
+	& >0  &   <1 = fraction of male biomass to include in spawning biomass; and \\
 	&    & 1 = simple addition of males to females. \Bstrut\\
 	\hline
 \end{longtable}
@@ -1416,7 +1415,7 @@ Q relates the units of the survey or CPUE to the population abundance, not the p
 
 In SS v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area. The offset is a parameter and, hence, can be estimated and have a prior. This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
 
-\subsubsection{\subsubsection{Catchabilty Time-Varying Parameters}
+\subsubsection{Catchabilty Time-Varying Parameters}
 Time-Varying catchability can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
 \subsubsection{Q Conversion Issues Between SS v.3.24 and v.3.30}
@@ -1509,14 +1508,14 @@ Read the required number of parameter setup lines as specified by the definition
 		
 	19    & 80   & 53.5 & 50  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p1 fishery 1\Tstrut\\
 	0.01  & 60   & 18.9 & 15  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p2 fishery 1 \\
-	20    & 70   & 38.6 & 40  & \multicolumn{1}{c}{...}  & 0   & \#Retain_L_infl_fishery 1\\
-	0.1   & 10   & 6.5  & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain_L_width_fishery 1\\
-	0.001 & 1    & 0.98 & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain_L_asymptote_logit_fishery 1\\
-	-10   & 10   & 1    & 0   & \multicolumn{1}{c}{...}  & 0   & \#Retain_L_maleoffset_fishery 1\\
-	0.1   & 1    & 0.6  & 0.6 & \multicolumn{1}{c}{...}  & 0   & \#DiscMort_L_infl_fishery 1\\
-	-2    & 2    & 0    & 0   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort_L_width_fishery 1\\
-	20    & 70   & 40   & 40  & \multicolumn{1}{c}{...}  & 0   & \#DiscMort_L_level_old_fishery 1\\
-	0.1   & 10   & 1    & 1   & \multicolumn{1}{c}{...}  & 0   & \#DiscMortt_L_male_offset_fishery 1\\
+	20    & 70   & 38.6 & 40  & \multicolumn{1}{c}{...}  & 0   & \#Retain\_L\_infl\_fishery 1\\
+	0.1   & 10   & 6.5  & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain\_L\_width\_fishery 1\\
+	0.001 & 1    & 0.98 & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain\_L\_asymptote\_logit\_fishery 1\\
+	-10   & 10   & 1    & 0   & \multicolumn{1}{c}{...}  & 0   & \#Retain\_L\_maleoffset\_fishery 1\\
+	0.1   & 1    & 0.6  & 0.6 & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_infl\_fishery 1\\
+	-2    & 2    & 0    & 0   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_width\_fishery 1\\
+	20    & 70   & 40   & 40  & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_level\_old\_fishery 1\\
+	0.1   & 10   & 1    & 1   & \multicolumn{1}{c}{...}  & 0   & \#DiscMortt\_L\_male\_offset\_fishery 1\\
 	19    & 80   & 53.5 & 50  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p1 survey 1\\
 	0.01  & 60   & 18.9 & 15  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p2 survey 1 \\
 	0     & 40   & 0    & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p1 fishery 1\\
@@ -1775,7 +1774,8 @@ No parameters.  Whole age range is mirrored from another fleet. The mirrored sel
 This pattern has 4 parameters and 2 fixed input values.
 
 The shape of the selectivity is provided by the function (here in terms of age $a$ but similarly applicable to length bin $l$)
-  \begin{equation}
+
+\begin{equation}
     S'_a =  
     \begin{cases}
       \hfil 0 & \text{if $a < p_5$,} \\
@@ -1783,12 +1783,13 @@ The shape of the selectivity is provided by the function (here in terms of age $
       \left(1 - \frac{1}{\exp\left(-p_4 \left( a - [p_6 p_1 - p_3]\right) \right) } \right)
       & \text{if $a \geq p_5$.}
     \end{cases}
-  \end{equation}
+ \end{equation}
 
-  which is then rescaled by first adding a small constant to all values and then rescaling to have a maximum of 1.0:
-  \begin{equation}
+ which is then rescaled by first adding a small constant to all values and then rescaling to have a maximum of 1.0:
+ 
+ \begin{equation}
     S_a = (S'_a + 0.000001) / \max_{a'}\{S'_a + 0.000001\}
-  \end{equation}
+ \end{equation}
 
   where
 	\begin{itemize}
