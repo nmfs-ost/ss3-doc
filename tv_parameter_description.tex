@@ -15,7 +15,7 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 	   \begin{itemize}
 	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
 		   \item 2 = linear offset: $P_{y} = P_{base} + P_{t}E_{y}$
-		   \item 3 = Bounded replacement: %$P_{y} = min(P_{base})+\frac{max(P_{base})-min(P_{base})}{1+e^{Pt*Ey+ln((P_{base} -min(P_{base})+0.0000001)/(max(P_{basey)-P_{base}+0.0000001))}}$
+		   \item 3 = Bounded replacement: $P_{y} = min(P_{base})+\frac{max(P_{base})-min(P_{base})}{1+e^{P_tE_y+ln((P_{base}-min(P_{base})+0.0000001)/(max(P_{base})-P_{base}+0.0000001))}}$
 		   \item 4 = Logistic: $P_{y} = P_{base}\frac{2}{1+e^{-P_{t2}(E_{y}-P_{t1})}}$
 	   \end{itemize}
 		where:
@@ -42,7 +42,7 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 \item Deviation Link (element 9). This must be specified if using parameter deviations, but otherwise should be left as 0. Link options for parameter deviations are:
 	\begin{itemize}
 		\item 1 = multiplicative: $P_y = P_{base}e^{\text{dev}_y*\text{dev}_{se}}$,
-		\item 2 = additive $P_y = P_{base} + \text{dev}_y*\text{dev}_{se}$,
+		\item 2 = additive: $P_y = P_{base} + \text{dev}_y*\text{dev}_{se}$,
 		\item 3 = random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
 		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in SS v.3.24).
 		\item 5 = zero reverting random walk with rho and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16).
