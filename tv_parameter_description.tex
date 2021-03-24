@@ -1,8 +1,6 @@
-\subsubsection{Specification of Time-Varying Parameters} 
+\subsubsection{Specification of Time-Varying Parameters: Long Parameter lines} 
 
-\myparagraph{Specification of Time-Varying Parameters in Long Parameter Lines}
-
-Time-varying specifications for a parameter are controlled using element 8 - 14 in the \hyperlink{paraOrder}{long parameter line setup}. Each element and the options for selection related to time-varying parameters are as described below.
+Time-varying specifications for a parameter are invoked elements 8 - 14 in the \hyperlink{paraOrder}{long parameter line setup}. Each element and the options for selection related to time-varying parameters are as described below.
 
 \hypertarget{EnvVar}{}
 \begin{itemize}
@@ -11,7 +9,7 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 
 	\begin{itemize}
 	   \item The environmental link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass).
-	   \item The link function options for  the environmental link and variable input are:
+	   \item The link function options (hundreds place) for the env\_var\&link input are:
 	   \begin{itemize}
 	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
 		   \item 2 = linear offset: $P_{y} = P_{base} + P_{t}E_{y}$
@@ -20,23 +18,23 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 	   \end{itemize}
 		where:
 	   \begin{itemize}
-	       \item $P_{y}$ = Final parameter value in year $y$
-           \item $P_{base}$ = Base parameter value in year $y$
+	       \item $P_{y}$ = Parameter value in year $y$
+           \item $P_{base}$ = Base parameter value
            \item $P_{t}$ = Time-varying parameter value
            \item $P_{t1}$ = First of 2 time-varying parameters (offset)
            \item $P_{t2}$ = Second of 2 time-varying parameters (slope)
-           \item $E_{y}$ = Environmental index value in year $y$
-           \item $min(P_{base})$ = the min parameter bound of base parameter
-           \item $max(P_{base})$ = the max parameter bound of base parameter
+           \item $E_{y}$ = Environmental index value or derived quantity value in year $y$
+           \item $min(P_{base})$ = the minimum parameter bound of base parameter
+           \item $max(P_{base})$ = the maximum parameter bound of base parameter
         \end{itemize}
-		\item The options for the variable to link the parameter to are the environmental parameters as specified in the environmental data of the data file. Alternatively, the parameter can be linked to derived quantities mapped to columns -1 to -4 where each value corresponds to the following quantities:
+		\item The variable options (tens and ones place, or $E_{y}$) for the env\_var\&link input are 1) a positive integer from 1 to 99 referencing a user input index time-series located in the \hyperlink{env-dat}{environmental data section} of the data file, or 2) a negative value of -1 to -4 where the index is represented by one of the following model-derived quantities:
 		\begin{itemize}
 			\item -1;  for ln(relative spawning biomass);
 			\item -2;  for recruitment deviation;
 			\item -3;  for ln(relative summary biomass) (e.g., current year summary biomass divided by the unfished summary biomass);
 			\item -4;  for ln(relative summary numbers).
 		\end{itemize}
-		\item These four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any order of operations rules.
+		\item The four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any order of operations rules.
 	\end{itemize}
 	
 \item Deviation Link (element 9). This must be specified if using parameter deviations, but otherwise should be left as 0. Link options for parameter deviations are:
@@ -51,10 +49,10 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 	\end{itemize}
 	where: 
 	\begin{itemize}
-	     \item $P_{y}$ = Final parameter value in year $y$
-         \item $P_{base}$ = Base parameter value in year $y$
+	     \item $P_{y}$ = Parameter value in year $y$
+         \item $P_{base}$ = Base parameter value
 		 \item $\text{dev}_y$ is the deviation in year $y$
-		 \item $\text{dev}_{se}$ is the standard error of the deviation in year $y$
+		 \item $\text{dev}_{se}$ is the standard error of the deviation
 	\end{itemize}
 \item Deviation Minimum Year (element 10)
 	\begin{itemize}
@@ -73,10 +71,11 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 	
 \item Time Blocks and Trends (element 13). Time blocks and trends are controlled using the same input locations within the long parameter line.If neither are used, this should be left as 0.
 	\begin{itemize}
+	%look at parameterization of trend options in order to write a better description.
 		\item >0: time block index for parameter.
-		\item -1: trend with final as offset from base parameter and offset values is in natural log space, also inflection year is in natural log space and the offset from ln(0.5). No additional parameter lines are required.  Three parameters will be estimated; end trend parameter value logistic offset, inflection year logistic offset, and slope.
-		\item -2: trend with final as standalone value. No additional parameter lines are required. Three parameters will be estimated; end trend parameter value, inflection year, and slope.
-		\item -3 end value is a fraction of base parameter maximum - minimum; inflection year is fraction of end year - start year. No additional parameter lines are required. Three parameters will be estimated; end trend parameter value as a fraction, inflection year as a fraction, and slope.
+		\item -1: trend with final as offset from base parameter and offset values is in natural log space, also inflection year is in natural log space and the offset from ln(0.5). Three parameters will be estimated; end trend parameter value logistic offset, inflection year logistic offset, and slope.
+		\item -2: trend with final as standalone value. Three parameters will be estimated; end trend parameter value, inflection year, and slope.
+		\item -3 end value is a fraction of base parameter maximum - minimum; inflection year is fraction of end year - start year. Three parameters will be estimated; end trend parameter value as a fraction, inflection year as a fraction, and slope.
 	\end{itemize}
 	
 \item Time Block Functional Form (element 14). leave as 0, unless time blocks are used.
@@ -124,10 +123,9 @@ Time-varying specifications for a parameter are controlled using element 8 - 14 
 	%\end{itemize}
 %\end{itemize}
 	 
+\subsubsection{Specification of Time-Varying Parameters: Short Parameter lines} 
 
-%\myparagraph{Specification of Time-Varying Parameters in Short Parameter Lines}
-
-If a time-varying specification set up in the long parameter lines for a particular sections requires additional parameters, short parameter lines will need to be created following all the long parameter lines (unless \hyperlink{autogen}{autogeneration} is used). The number of lines added depends on the time-varying parameter specification. Note that trends do not require any additional short parameter lines.
+If a time-varying specification set up in the long parameter lines for a particular sections requires additional parameters, short parameter lines will need to be created following all the long parameter lines (unless \hyperlink{autogen}{autogeneration} is used, which creates short parameter lines upon running that model that are output in control.ss_new). The number of lines added depends on the time-varying parameter specification.
 
 For example, if two parameters were specified to have environmental linkages in the MG parameter section, below the MG parameters would be two parameter lines (when not autogenerating these lines), which is an environmental linkage parameter for each time-varying base parameter:
 \begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
