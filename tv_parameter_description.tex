@@ -41,7 +41,7 @@ Time-varying specifications for a parameter are invoked elements 8 - 14 in the \
 	\begin{itemize}
 		\item 1 = multiplicative: $P_y = P_{base}e^{\text{dev}_y*\text{dev}_{se}}$,
 		\item 2 = additive: $P_y = P_{base} + \text{dev}_y*\text{dev}_{se}$,
-		\item 3 = random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
+		\item 3 = random walk. random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
 		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in SS v.3.24).
 		\item 5 = zero reverting random walk with rho and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16).
 		\item 6 = mean reverting random walk with penalty to keep rmse near 1.0
@@ -73,9 +73,9 @@ Time-varying specifications for a parameter are invoked elements 8 - 14 in the \
 	\begin{itemize}
 	%look at parameterization of trend options in order to write a better description.
 		\item >0: time block index for parameter.
-		\item -1: trend with final as offset from base parameter and offset values is in natural log space, also inflection year is in natural log space and the offset from ln(0.5). Three parameters will be estimated; end trend parameter value logistic offset, inflection year logistic offset, and slope.
-		\item -2: trend with final as standalone value. Three parameters will be estimated; end trend parameter value, inflection year, and slope.
-		\item -3 end value is a fraction of base parameter maximum - minimum; inflection year is fraction of end year - start year. Three parameters will be estimated; end trend parameter value as a fraction, inflection year as a fraction, and slope.
+		\item -1: Offset option. Three parameters are estimated: end trend parameter value logistic offset, inflection year logistic offset, and slope. Trend with final parameter value and year as offset from base parameter/base year. Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Slope is directly specified.
+		\item -2: Direct input option. Three parameters are estimated: end trend parameter value, inflection year, and slope. Trend with final parameter value and year directly input. Slope is directly input.
+		\item -3: Fractional option. Three parameters will be estimated: end trend parameter value as a fraction of base parameter maximum - minimum, inflection year as a fraction of end year - start year, and slope. Slope is directly input.
 	\end{itemize}
 	
 \item Time Block Functional Form (element 14). leave as 0, unless time blocks are used.
@@ -169,4 +169,12 @@ For example, if two parameters were specified to have environmental linkages in 
 	\end{longtable}
 \end{center}
 
+The number of short parameter lines for each time-varying setup selected depends on the selection options. The autogen feature can be used to figure out which parameter lines are needed. The short parameter lines needed are:
+
+\begin{itemize}
+    \item Environmental Linkages: Requires 1 short parameter line, except for option 4, which requires 2 short parameter lines.
+    \item Parameter deviations: Requires 2 short parameter lines, one for the standard error, followed by one for rho. Rho is required input, but only used with random walk options.
+    \item Time Blocks: One parameter for each time block set up in the pattern.
+    \item Trends: Requires 3 parameter lines. The interpretation of the parameters differs by the trend option selected.
+\end{itemize}
 
