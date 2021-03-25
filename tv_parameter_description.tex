@@ -70,12 +70,12 @@ Time-varying specifications for a parameter are invoked elements 8 - 14 in the \
 		%is there a recommended phase to use if wanting to estimate devs?
 	\end{itemize}
 	
-\item Use Time Blocks or Trends (element 13). Time blocks and trends are both specified using this input. If neither are used, this should be left as 0.
+\item Use Time Blocks or Trends (element 13). Time blocks and trends are both specified using this input. If neither are used, this should be left as 0. For trend options, the cumulative normal distribution function is used in all cases, but the parameterization differs.
 	\begin{itemize}
 		\item >0: time block index for parameter.
-		\item -1: Offset option. Three parameters are estimated: end trend parameter value logistic offset, inflection year logistic offset, and slope. Trend with final parameter value and year as offset from base parameter/base year. Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Slope is directly specified.
-		\item -2: Direct input option. Three parameters are estimated: end trend parameter value, inflection year, and slope. Trend with final parameter value and year directly input. Slope is directly input.
-		\item -3: Fractional option. Three parameters will be estimated: end trend parameter value as a fraction of base parameter maximum - minimum, inflection year as a fraction of end year - start year, and slope. Slope is directly input.
+		\item -1: Offset option. Three parameters are estimated: end trend parameter value logistic offset, inflection year logistic offset, and width (i.e., the standard deviation of the cumulative normal function). Trend with final parameter value and year as offset from base parameter/base year. Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Width is directly specified.
+		\item -2: Direct input option. Three parameters are estimated: end trend parameter value, inflection year, and width (i.e., the standard deviation of the cumulative normal function). Trend with final parameter value and year directly input. Width is directly input.
+		\item -3: Fractional option. Three parameters will be estimated: end trend parameter value as a fraction of base parameter maximum - minimum, inflection year as a fraction of end year - start year, and width (i.e., the standard deviation of the cumulative normal function). Width is directly input.
 	\end{itemize}
 	
 \item Time Block Functional Form (element 14). Leave as 0, unless time blocks are used.
@@ -171,7 +171,7 @@ The number of short parameter lines for each time-varying setup selected depends
     \item Environmental Linkages: Requires 1 short parameter line ($P_{t}$), except for option 4, which requires 2 short parameter lines ($P_{t1}$ and $P_{t2}$).
     \item Parameter deviations: Requires 2 short parameter lines, one for the standard error ($\text{dev}_{se}$), followed by one for rho. Rho is required input, but only used with random walk options (Rho can be set at 1 for a random walk with no drift or >1 for a random walk with drift).
     \item Time Blocks: One parameter for each time block ($P_{t}$) set up in the pattern.
-    \item Trends: Requires 3 parameter lines. The interpretation of the parameters differs by the trend option selected, but in general they are a parameter for the final parameter value, a parameter for the inflection point year, and a parameter for the slope.
+    \item Trends: Requires 3 parameter lines. The interpretation of the parameters differs by the trend option selected, but in general they are a parameter for the final parameter value, a parameter for the inflection point year, and a parameter for the width.
 \end{itemize}
 
 \subsubsection{Example timevarying parameter setups}
@@ -195,7 +195,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
   \end{itemize}
 \myparagraph{Trends}
   \begin{itemize}
-    \item Suppose natural mortality was thought to increase gradually from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the "use block" column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for M could look like:
+    \item Suppose natural mortality was thought to increase from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the "use block" column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for M could look like:
 	\begin{center}
 	\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{3cm}  p{2cm}  p{3.5cm}  }
 		
@@ -206,7 +206,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 		\hline
 	\end{longtable}
     \end{center}
-	Three short parameter lines are then expected after the mortality-growth long parameter lines, one for the final value, one for the inflection year and one for the slope. The final value could be fixed by using 0.2 as the final value on the short parameter line and a negative phase value. The inflection year could be fixed at 2005 by inputting 2005 for the inflection year in the short parameter line with a negative phase. Finally, the slope value could be estimated with a positive phase, starting at 0.01. The short parameter lines could look like:
+	Three short parameter lines are then expected after the mortality-growth long parameter lines, one for the final value, one for the inflection year and one for the width. The final value could be fixed by using 0.2 as the final value on the short parameter line and a negative phase value. The inflection year could be fixed at 2005 by inputting 2005 for the inflection year in the short parameter line with a negative phase. Finally, the width value (i.e., standard deviation of the cumulative normal distribution) could be set at 3 years. The short parameter lines could look like:
 	begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
 	\hline
 	   &    &      & Prior &  Prior & Prior & & \Tstrut\\
@@ -227,7 +227,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 	\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \Tstrut\\
 	0.001 & 4    & 0.2  & 0 & 0.01 & 0 & -1 &\#M\_TrendFinal\Tstrut\\
 	1999  & 2011 & 2005 & 0 & 0.01 & 0 & -1 &\#M\_TrendInfl\Bstrut\\
-	-99   & 99  & 0.01 & 0 & 0.01 & 0  &  1 &\#M\_TrendWidth_yrs\Bstrut\\
+	-99   & 99   & 3    & 0 & 0.01 & 0 & -1 &\#M\_TrendWidth_yrs\Bstrut\\
 	\hline
     \end{longtable}
 \end{itemize}
