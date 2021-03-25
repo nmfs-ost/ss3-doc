@@ -29,10 +29,10 @@ Time-varying specifications for a parameter are invoked elements 8 - 14 in the \
         \end{itemize}
 		\item The variable options (tens and ones place, or $E_{y}$) for the env\_var\&link input are 1) a positive integer from 1 to 99 referencing a user input index time-series located in the \hyperlink{env-dat}{environmental data section} of the data file, or 2) a negative value of -1 to -4 where the index is represented by one of the following model-derived quantities:
 		\begin{itemize}
-			\item -1;  for ln(relative spawning biomass);
-			\item -2;  for recruitment deviation;
-			\item -3;  for ln(relative summary biomass) (e.g., current year summary biomass divided by the unfished summary biomass);
-			\item -4;  for ln(relative summary numbers).
+			\item -1;  for ln(relative spawning biomass)
+			\item -2;  for recruitment deviation
+			\item -3;  for ln(relative summary biomass) (e.g., current year summary biomass divided by the unfished summary biomass)
+			\item -4;  for ln(relative summary numbers)
 		\end{itemize}
 		\item The four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any order of operations rules.
 	\end{itemize}
@@ -41,11 +41,11 @@ Time-varying specifications for a parameter are invoked elements 8 - 14 in the \
 	\begin{itemize}
 		\item 1 = multiplicative: $P_y = P_{base}e^{\text{dev}_y*\text{dev}_{se}}$,
 		\item 2 = additive: $P_y = P_{base} + \text{dev}_y*\text{dev}_{se}$,
-		\item 3 = random walk. random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used,
-		\item 4 = zero reverting random walk with rho. The deviation parameter is now multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in SS v.3.24).
-		\item 5 = zero reverting random walk with rho and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16).
+		\item 3 = random walk. random walk options are now implemented by using rho in the objective function. SS now expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used
+		\item 4 = zero reverting random walk with rho. The deviation parameter is multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in SS v.3.24)
+		\item 5 = zero reverting random walk with rho and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16)
 		\item 6 = mean reverting random walk with penalty to keep rmse near 1.0
-		\item The option of applying the final model year deviation value into the forecast period was added in v. 3.30.13.  This new option is specified by selecting the appropriate deviation link option (1, 2, 3, or 4) and appending a 2 at the front (21, 22, 23, or 24) which will use the final year deviation value for all forecast years. 
+		\item The option of applying the final model year deviation value into the forecast period was added in v. 3.30.13.  This new option is specified by selecting the appropriate deviation link option (1, 2, 3, or 4) and appending a 2 at the front (21, 22, 23, or 24) which will use the final year deviation value for all forecast years
 	\end{itemize}
 	where: 
 	\begin{itemize}
@@ -56,52 +56,48 @@ Time-varying specifications for a parameter are invoked elements 8 - 14 in the \
 	\end{itemize}
 \item Deviation Minimum Year (element 10)
 	\begin{itemize}
-		\item Year for deviations to start for parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
+		\item Year deviations start for parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
 	\end{itemize}
 	
 \item Deviation  Maximum Year (element 11)
 	\begin{itemize}
-		\item Year for deviations to end for parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
+		\item Year deviations end for parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
 	\end{itemize}
 	
 \item Deviation Phase (element 12)
 	\begin{itemize}
 		\item integer, the phase in which the deviations for the parameter should be estimated. This must be specified if using parameter deviations, but otherwise should be left as 0.
+		%is there a recommended phase to use if wanting to estimate devs?
 	\end{itemize}
 	
-\item Time Blocks and Trends (element 13). Time blocks and trends are controlled using the same input locations within the long parameter line.If neither are used, this should be left as 0.
+\item Use Time Blocks or Trends (element 13). Time blocks and trends are both specified using this input. If neither are used, this should be left as 0.
 	\begin{itemize}
-	%look at parameterization of trend options in order to write a better description.
 		\item >0: time block index for parameter.
 		\item -1: Offset option. Three parameters are estimated: end trend parameter value logistic offset, inflection year logistic offset, and slope. Trend with final parameter value and year as offset from base parameter/base year. Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Slope is directly specified.
 		\item -2: Direct input option. Three parameters are estimated: end trend parameter value, inflection year, and slope. Trend with final parameter value and year directly input. Slope is directly input.
 		\item -3: Fractional option. Three parameters will be estimated: end trend parameter value as a fraction of base parameter maximum - minimum, inflection year as a fraction of end year - start year, and slope. Slope is directly input.
 	\end{itemize}
 	
-\item Time Block Functional Form (element 14). leave as 0, unless time blocks are used.
+\item Time Block Functional Form (element 14). Leave as 0, unless time blocks are used.
 	\begin{itemize}
-		\item 0: multiplicative parameter ($P_{y} = P_{base}*e^{P_t}$),
-		\item 1: additive parameter ($P_{y} = P_{base} + P_t$),
-		\item 2: replace parameter ($P_{y} = P_t$),
-		\item 3: random walk across blocks ($P_{block} = P_{block,-1} + P_t$),
+		\item 0: multiplicative parameter ($P_{block} = P_{base}*e^{P_t}$)
+		\item 1: additive parameter ($P_{block} = P_{base} + P_t$)
+		\item 2: replace parameter ($P_{block} = P_t$)
+		\item 3: random walk across blocks ($P_{block} = P_{block,-1} + P_t$)
 		\item 4: mean reverting random walk
 	\end{itemize}
 	where:
 	\begin{itemize}
-        \item $P_{y}$ = Final parameter value in year $y$
-        \item $P_{base}$ = Base parameter value in year $y$
-		\item $P_{t}$ = Time-varying parameter value
+        \item $P_{block}$ = Final parameter value in time block $block$
+        \item $P_{base}$ = Base parameter value
+		\item $P_{t}$ = Time-varying parameter value for a time block
+		\item $P_{block,-1}$ = Final parameter value in the previous time block
      \end{itemize}
-	 Some common situations of using time blocks: 
-	 \begin{itemize}
-		\item Offset approach: One or more time blocks are created and cover all or a subset of the years.  Each block gets a parameter that is used as an offset from the base parameter.  In this situation you typically will allow SS to estimate the base parameter and each of the offset parameters.  In years not covered by blocks, the base parameter alone is used.  However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all the years be covered by blocks when doing offsets, or to fix the base parameter value at a reasonable level when doing offsets for all years.	
-		\item Replacement approach: Option A: Here time blocks are created which cover a subset of the years.  The base parameter is used in the non-block years and the value of that base parameter is replaced by the block parameter in each respective block.  In this situation, you typically allow SS to estimate the base parameter and each of the block parameters.	
-		\item Replacement-Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter. In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log likelihood, so model convergence and variance estimation could be affected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
-    \end{itemize}
 \end{itemize}
 
 
 %\myparagraph{Block Trends}
+%Note: the below equations just show the parameterization for option 1 of the block trends. I'm not sure how helpful this is, as it is written as C++ code. To make more useful, it should be rewritten as a mathematical equation.
 
 %Additional information regarding the options for applying blocks (element 13):
 %\begin{itemize} 
@@ -125,7 +121,7 @@ Time-varying specifications for a parameter are invoked elements 8 - 14 in the \
 	 
 \subsubsection{Specification of Time-Varying Parameters: Short Parameter lines} 
 
-If a time-varying specification set up in the long parameter lines for a particular sections requires additional parameters, short parameter lines will need to be created following all the long parameter lines (unless \hyperlink{autogen}{autogeneration} is used, which creates short parameter lines upon running that model that are output in control.ss_new). The number of lines added depends on the time-varying parameter specification.
+If a time-varying specification set up in the long parameter lines for a particular sections requires additional parameters, short parameter lines need to be created following all the long parameter lines (unless \hyperlink{autogen}{autogeneration} is used, which creates short parameter lines upon running that model that are output in control.ss_new). The number of lines added depends on the time-varying parameter specification.
 
 For example, if two parameters were specified to have environmental linkages in the MG parameter section, below the MG parameters would be two parameter lines (when not autogenerating these lines), which is an environmental linkage parameter for each time-varying base parameter:
 \begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
@@ -151,7 +147,7 @@ For example, if two parameters were specified to have environmental linkages in 
 	\hline
 \end{longtable}
 
- In SS v.3.30, the time-varying input short parameter lines are re-organized such that all parameters that affect a base parameter are clustered together with time blocks first, then environmental linkages, then parameter deviations. For example, if the mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
+ In SS v.3.30, the time-varying input short parameter lines are re-organized such that all parameters that affect a base parameter are clustered together with time blocks (or trend) first, then environmental linkages, then parameter deviations. For example, if the mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
 
 \begin{center}
 	\begin{longtable}{p{5cm} p{10cm}}
@@ -169,12 +165,70 @@ For example, if two parameters were specified to have environmental linkages in 
 	\end{longtable}
 \end{center}
 
-The number of short parameter lines for each time-varying setup selected depends on the selection options. The autogen feature can be used to figure out which parameter lines are needed. The short parameter lines needed are:
+The number of short parameter lines for each time-varying setup selected depends on the selection options. The autogen feature can be used to figure out which parameter lines are needed. The short parameter lines needed for different time-varying options are:
 
 \begin{itemize}
-    \item Environmental Linkages: Requires 1 short parameter line, except for option 4, which requires 2 short parameter lines.
-    \item Parameter deviations: Requires 2 short parameter lines, one for the standard error, followed by one for rho. Rho is required input, but only used with random walk options.
-    \item Time Blocks: One parameter for each time block set up in the pattern.
-    \item Trends: Requires 3 parameter lines. The interpretation of the parameters differs by the trend option selected.
+    \item Environmental Linkages: Requires 1 short parameter line ($P_{t}$), except for option 4, which requires 2 short parameter lines ($P_{t1}$ and $P_{t2}$).
+    \item Parameter deviations: Requires 2 short parameter lines, one for the standard error ($\text{dev}_{se}$), followed by one for rho. Rho is required input, but only used with random walk options (Rho can be set at 1 for a random walk with no drift or >1 for a random walk with drift).
+    \item Time Blocks: One parameter for each time block ($P_{t}$) set up in the pattern.
+    \item Trends: Requires 3 parameter lines. The interpretation of the parameters differs by the trend option selected, but in general they are a parameter for the final parameter value, a parameter for the inflection point year, and a parameter for the slope.
+\end{itemize}
+
+\subsubsection{Example timevarying parameter setups}
+
+The time-varying parameter options in Stock Synthesis are flexible. Below are some example setups that illustrate how the time-varying options could be used in a model, although there are many more possible setups.
+
+\myparagraph{Environmental linkages}
+  \begin{itemize}
+    \item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as parameter number 1, the growth parameter K (if using a von Bertalanfy growth equation) could be linked to this data by using the code "201" into the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line will be required after the "MG parameter" long parameter lines section.
+    \item Suppose selectivity is thought to shift depending on the population size; in this case, assume smaller fish are selected when there are lower population numbers. The selectivity parameter could be made time-varying using the code "-104" in the env\_var\&link option, which assumes a exponential scalar link between the base selectivity parameter and the time varying parameter value. One additional parameter line will be specified at the end of the selectivity long parameter lines section.
+  \end{itemize}
+\myparagraph{Parameter Deviations
+  \begin{itemize}
+    \item Suppose a selectivity parameter is thought to drift every year during 2000-2010 in a model. This could be represented using a random walk link option available within the parameter deviations options. To implement this, the user could input 3 into the "dev link" input on the long parameter line for the selectivity paramter, and then input values 2000 and 2010 for "dev min yr" and "dev max yr", respectively. The dev phase could be set to 3. With this setup, 2 additional short parameter lines would be expected, one for the standard error and one for rho. Both of these will be used since a random walk option is selected. To use a random walk without drift, rho is set at 1 with a negative phase.
+  \end{itemize}
+\myparagraph{Time Blocks}
+  \begin{itemize}
+    \item Offset approach: One or more time blocks are created and cover all or a subset of the years. Each block gets a parameter that is used as an offset from the base parameter (time block functional form 1). In this situation, typically the base parameter and each of the offset parameters are estimated. In years not covered by blocks, the base parameter alone is used.  However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all years covered by blocks, or to fix the base parameter value at a reasonable level when doing offsets for all years.	
+	\item Replacement approach, Option A: Here time blocks are created which cover a subset of the years.  The base parameter is used in the non-block years and the value of that base parameter is replaced by the block parameter in each respective block (time block functional form 2). In this situation, typically the base parameter and each of the block parameters are estimated.	
+	\item Replacement approach, Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter (time block functional form 2). In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log likelihood, so model convergence and variance estimation could be affected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
+  \end{itemize}
+\myparagraph{Trends}
+  \begin{itemize}
+    \item Suppose natural mortality was thought to increase gradually from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the "use block" column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for M could look like:
+	\begin{center}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{3cm}  p{2cm}  p{3.5cm}  }
+		
+		\hline
+		LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Use_Block & Block Fxn & Parameter Label\Bstrut\\
+		\hline
+		0          & 4 & 0.1 &  \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & -2 & 0 & \#M \Bstrut\\
+		\hline
+	\end{longtable}
+    \end{center}
+	Three short parameter lines are then expected after the mortality-growth long parameter lines, one for the final value, one for the inflection year and one for the slope. The final value could be fixed by using 0.2 as the final value on the short parameter line and a negative phase value. The inflection year could be fixed at 2005 by inputting 2005 for the inflection year in the short parameter line with a negative phase. Finally, the slope value could be estimated with a positive phase, starting at 0.01. The short parameter lines could look like:
+	begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
+	\hline
+	   &    &      & Prior &  Prior & Prior & & \Tstrut\\
+	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
+	\hline
+	\endfirsthead
+	
+	\hline
+	   &    &      & Prior &  Prior & Prior &  & \Tstrut\\
+	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
+	\hline
+	\endhead
+	
+	\endfoot
+	
+	\endlastfoot
+	
+	\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \Tstrut\\
+	0.001 & 4    & 0.2  & 0 & 0.01 & 0 & -1 &\#M\_TrendFinal\Tstrut\\
+	1999  & 2011 & 2005 & 0 & 0.01 & 0 & -1 &\#M\_TrendInfl\Bstrut\\
+	-99   & 99  & 0.01 & 0 & 0.01 & 0  &  1 &\#M\_TrendWidth_yrs\Bstrut\\
+	\hline
+    \end{longtable}
 \end{itemize}
 
