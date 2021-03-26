@@ -18,6 +18,7 @@ Environmental linkages, parameter deviations, and either time blocks or trends c
 
 \input{tv_parameter_description}
 
+
 \hypertarget{tvgrowth}{}
 \subsubsection{Time-Varying Growth Considerations}
 When time-varying growth is used, there are some additional considerations to be aware of:
@@ -124,7 +125,6 @@ as a measure of how rich the composition data is regarding estimating selectivit
 Second, fix $\sigma_s$ at the value iteratively tuned in the previous step and estimate $\epsilon_{a,t}$. Plot both Pearson residuals and $\epsilon_{a,t}$ out on the age-year surface to check their 2D dimensions. If their distributions seems to be not random but rather be autocorrelated (deviation estimates have the same sign several ages and/or years in a row), users should consider estimating and then including the autocorrelations in $\epsilon_{a,t}$.
 
 Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, SS should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the  autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
