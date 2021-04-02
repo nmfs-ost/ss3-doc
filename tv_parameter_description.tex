@@ -41,25 +41,25 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 	\begin{itemize}
 		\item 1 = multiplicative: $P_y = P_{base,y}e^{\text{dev}_y*\text{dev}_{se}}$,
 		\item 2 = additive: $P_y = P_{base,y} + \text{dev}_y*\text{dev}_{se}$,
-		\item 3 = random walk. Random walk options are implemented by using rho in the objective function. $P_y = P_{base,y} + \sum_{n=1}^{y} \text{dev}_n*\text{dev}_{se}$
-		\item 4 = mean reverting random walk with rho.
-		begin{itemize}
+		\item 3 = random walk. Random walk options are implemented by using $\rho$ in the objective function. $P_y = P_{base,y} + \sum_{n=1}^{y} \text{dev}_n*\text{dev}_{se}$
+		\item 4 = mean reverting random walk with $\rho$.
+		\begin{itemize}
 		    \item $X_1 = \text{dev}_1*\text{dev}_{se}$
 			\item $P_1 = P_{base,y} + X_1$
 			\item $X_y = \rho*X_{y-1} + \text{dev}_y*\text{dev}_{se}$
 			\item $P_y = P_{base,y} + X_y$
-		end{itemize}
-		\item 5 = mean reverting random walk with rho and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16)
-	    begin{itemize}
+		\end{itemize}
+		\item 5 = mean reverting random walk with $\rho$ and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16)
+	    \begin{itemize}
 		    \item $X_1 = \text{dev}_1*\text{dev}_{se}$
 			\item $R = P_{max} - P_{min}$
-			\item $Y_1 = ln(\frac{P_{base,y}} - P_{min} + \text{nil}}{P_{max} - P_{base,y} + nil})$
+			\item $Y_1 = ln(\frac{P_{base,y} - P_{min} + \text{nil}}{P_{max} - P_{base,y} + nil})$
 			\item $P_1 = P_{min} + \frac{R}{1 + e^{-Y_1 - X_1 }}$. For the first year.
 			\item $X_y = \rho*X_{y-1} + \text{dev}_y*\text{dev}_{se}$ 
-			\item $Y_y = ln(\frac{P_{base,y} - P_{min} + nil}{P_{max} + P_{base,y} + nil)$
+			\item $Y_y = ln(\frac{P_{base,y} - P_{min} + nil}{P_{max} + P_{base,y} + nil})$
 			\item $P_1 = P_{min} + \frac{R}{1 + e^{-Y_y - X_y }}$. For years after the first year.
-		end{itemize}
-		\item 6 = mean reverting random walk with penalty to keep RMSE near 1.0. Same as case 4, but with penalty applied.
+		\end{itemize}
+		\item 6 = mean reverting random walk with penalty to keep the root mean squared error (RMSE) near 1.0. Same as case 4, but with penalty applied.
 		\item The option of extending the final model year deviation value subsequent years (i.e., into the forecast period) was added in v. 3.30.13.  This new option is specified by selecting the appropriate deviation link option (1, 2, 3, or 4) and appending a 2 at the front (21, 22, 23, or 24) which will use the final year deviation value for all forecast years
 	\end{itemize}
 	where: 
@@ -155,10 +155,10 @@ In SS 3.30, the time-varying input short parameter lines are organized such that
  		& Block parameter 3-2\\
  		& Environmental link parameter 3-1\\
  		& Deviation se parameter 3 \\
- 		& Deviation rho parameter 3 \Bstrut\\
+ 		& Deviation $\rho$ parameter 3 \Bstrut\\
  		MG base parameter 7 & Block parameter 7-1 \\
  		& Deviation se parameter 7 \\
- 		& Deviation rho parameter 7 \Bstrut\\
+ 		& Deviation $\rho$ parameter 7 \Bstrut\\
  		\hline	 	                    		
  	\end{longtable}
  \end{center}
@@ -166,7 +166,7 @@ In SS 3.30, the time-varying input short parameter lines are organized such that
 The number of short parameter lines for each time-varying setup selected depends on the selection options. The \hyperlink{autogen}{autogeneration} feature can be used to figure out which parameter lines are needed. The short parameter lines needed for different time-varying options are:
 \begin{itemize}
 	\item Environmental Linkages: Requires 1 short parameter line ($P_{t}$), except for link option 4, which requires 2 short parameter lines ($P_{t1}$ and $P_{t2}$).
-	\item Parameter deviations: Requires 2 short parameter lines, one for the standard error ($\text{dev}_{se}$), followed by one for rho. Rho is required input, but only used with random walk options (Rho can be set at 1 for a random walk with no drift or >1 for a random walk with drift).
+	\item Parameter deviations: Requires 2 short parameter lines, one for the standard error ($\text{dev}_{se}$), followed by one for $\rho$. Note that an input for $\rho$ is required but only used with random walk options. For the random walk options, $\rho$ can be set at 1 for a random walk with no drift or >1 for a random walk with drift.
 	\item Time Blocks: One parameter for each time block ($P_{t}$) set up in the pattern.
 	\item Trends: Requires 3 parameter lines. The interpretation of the parameters differs by the trend option selected, but in general they are a parameter for the final parameter value, a parameter for the inflection point year, and a parameter for the width (i.e., the standard deviation).
 \end{itemize}
@@ -185,7 +185,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 \myparagraph{Parameter Deviations}
 
 \begin{itemize}
-	\item Suppose a selectivity parameter is thought to drift every year during 2000-2010. This could be represented using a random walk link option available within the parameter deviations options. To implement this, the user could input 3 into the "dev link" input on the long parameter line for the selectivity parameter, and then input values 2000 and 2010 for "dev min yr" and "dev max yr", respectively. The dev phase could be set to 3. With this setup, 2 additional short parameter lines would be expected, one for the standard error and one for rho. Both of these will be used since a random walk option is selected. To use a random walk without drift, rho is set at 1 with a negative phase.
+	\item Suppose a selectivity parameter is thought to drift every year during 2000-2010. This could be represented using a random walk link option available within the parameter deviations options. To implement this, the user could input 3 into the "dev link" input on the long parameter line for the selectivity parameter, and then input values 2000 and 2010 for "dev min yr" and "dev max yr", respectively. The dev phase could be set to 3. With this setup, 2 additional short parameter lines would be expected, one for the standard error and one for $\rho$. Both of these will be used since a random walk option is selected. To use a random walk without drift, $\rho$ is set at 1 with a negative phase.
 \end{itemize}
 
 \myparagraph{Time Blocks}
