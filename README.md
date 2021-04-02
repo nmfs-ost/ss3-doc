@@ -13,6 +13,8 @@ The documentation includes:
 
 PDF versions of the user manual are available in the [ss manuals folder on the vlab website](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132), as well as in the [archive of manuals subfolder](https://github.com/nmfs-stock-synthesis/ss-documentation/tree/main/Archive%20of%20Manuals).
 
+The [contributing guide](https://github.com/nmfs-stock-synthesis/ss-documentation/blob/main/CONTRIBUTING.md) contains information on [how to compile locally or with github actions](https://github.com/nmfs-stock-synthesis/ss-documentation/blob/main/CONTRIBUTING.md#compiling-the-stock-synthesis-manual).
+
 ## How can I report bugs or suggest changes to the manual, helper spreadsheets, or guides?
 
 Please open an [issue](https://github.com/nmfs-stock-synthesis/ss-documentation/issues) or submit a [pull request](https://github.com/nmfs-stock-synthesis/ss-documentation/pulls).
