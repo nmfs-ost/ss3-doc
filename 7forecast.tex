@@ -6,6 +6,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 
 \begin{landscape}
 	
+\hypertarget{fore-specify}{}
 \subsection{Forecast File Options (forecast.ss)}	
   %\centerline{\large{\textbf{FORECAST.SS}}} 
 	%\vspace{0.10in}
@@ -89,7 +90,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
   
   \hline
   0 0 0 0 0 0 & Forecast Years: &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Requires 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts.  In future, hope to allow random effects to propagate into forecast. Please note, relative F for bycatch only fleets is scaled just like other fleets.  More options for this in future.}}\Tstrut\\
-    & >0 = absolute year; and & \\
+    & -999 = start year; & \\
+	& >0 = absolute year; and & \\
     & <= 0 = year relative to end year. & \\
     & & \Bstrut\\  
 
@@ -102,6 +104,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  %\pagebreak
  \hline   
  1 & Control Rule: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Used to apply reductions ("buffer") to either the catch or F based on the control rule during the forecast period.}} \Tstrut\\
+   & 0 = none (additional control rule inputs will be ignored); & \\
    & 1 = catch as function of SSB, buffer on F; & \\
    & 2 = F as function of SSB, buffer on F; & \\
    & 3 = catch as function of SSB, buffer on catch; and & \\

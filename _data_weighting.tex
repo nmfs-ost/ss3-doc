@@ -91,7 +91,7 @@ There are a several of challenges posed by the Francis data-weighting approach:
 Change the choice of likelihood and set parameter choices in the data file:
 
 \begin{itemize}
-	\item In the specification of the length and/or age data, change "CompError" column in age and length comp specifications from 0 to 1 and "ParmSelect" from 0 to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length.
+	\item In the specification of the length and/or age data, change "CompError" column in age and length comp specifications from 0 to 1 and "ParmSelect" from 0 to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. Note that there cannot be any skipped values from 1 to N, otherwise SS will exit on error while reading the input files.
 	
 	\item Resulting input should look similar to:
 \begin{small}
@@ -147,6 +147,8 @@ The \texttt{SS\_output} function in r4ss returns table like the following:
 The ratio shown in the final column is the estimated multiplier which can be compared to the sample size adjustment estimated in the other tuning methods above (the New\_Var\_adj column in the table produced by the \texttt{SS\_tune\_comps} function in r4ss).
 
 If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that the model is trying to tune the sample size as high as possible. In this case, the $ln(\theta)$ parameters should be fixed at a high value, like the upper bound of 20, which will result in 100\% weight being applied to the input sample sizes. An alternative would be to manually change the input sample sizes to a higher value so that the estimated weighting will be less than 100%.
+
+Note that a constant of integration was added to the diricihlet-multinomila likelihood equation in SS v. 3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versons of SS.
 
 %There is also information about this result produced in the plots created by the \texttt{SS\_plots} function:
 

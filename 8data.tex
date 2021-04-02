@@ -203,8 +203,12 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 \myparagraph{Timing}
    Timing for data observations has been revised in SS v.3.30:
 	  \begin{itemize}
-	  	\item Fishery = -1 catch is treated as if it occurred over the whole season. A user can override this assumption for specific data observations (e.g., length or age) by specifying a month.  
-	  	\item Survey = 1 The fleet timing here for surveys is not used and only the month value associated with each observation is relevant (e.g., month specification in the indices of abundance or the month for composition data).  
+	  	\item Fishery options:
+		\begin{itemize}
+		    \item -1: catch is treated as if it occurred over the whole season. Stock Synthesis may change the CPUE data to occure in the middle of the season if it is specified otherwise. A user can override this assumption for specific data observations (e.g., length or age) by specifying a month. This option works well for fisheries where fishing is spread throughout the year.
+			\item 1: The fleet timing is not used and only the month value associated with each observation is relevent. This option works well for pulse fisheries that occurs over a small subset of months.
+		\end{itemize}
+	  	\item Survey option, 1: The fleet timingmis not used and only the month value associated with each observation is relevant (e.g., month specification in the indices of abundance or the month for composition data). This input should always be used for surveys.
 	  \end{itemize}	  
 	  
 \myparagraph{Area}
@@ -663,7 +667,7 @@ Value that indicates the groups of composition data for estimation of the Dirich
 
 \begin{itemize}
 	\item 0 = Default; and
-	\item 1-N = Only used for the Dirichlet option. Set to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. That is, if you have 3 fleets with length data, but only 2 also have age data, you would have values 1 to 3 in the length comp setup and 4 to 5 in the age comp setup. You can also have a data weight that is shared across fleets by repeating values in Parameter Select.
+	\item 1-N = Only used for the Dirichlet option. Set to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. That is, if you have 3 fleets with length data, but only 2 also have age data, you would have values 1 to 3 in the length comp setup and 4 to 5 in the age comp setup. You can also have a data weight that is shared across fleets by repeating values in Parameter Select. Note that there can be no skipped numbers in the sequence from 1 to N, otherwise SS will exit on error when reading in the input files.
 \end{itemize}	
 
 \myparagraph{Minimum Sample Size}
@@ -918,6 +922,7 @@ SS also accepts input of mean length-at-age or mean body weight-at-age.  This is
 		\item If using mean size-at-age data, please see the \hyperlink{SaAlambda}{lambda usage notes} regarding issues for model fitting depending upon other data within the model.  		
 	\end{itemize}
 
+\hypertarget{env-dat}{}
 \subsection{Environmental Data}
 SS accepts input of time series of environmental data.  Parameters can be made to be time-varying by making them a function of one of these environmental time series. In v. 3.30.16 the option to specify the centering of environmental data by either using the mean of the by mean and the z-score. 
 

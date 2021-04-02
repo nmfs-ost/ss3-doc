@@ -211,6 +211,7 @@ Details regarding settlement of recruits and  timing:
 
 The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each growth pattern, then for each area, then for each settlement. All of these are required, but only those growth pattern x area x settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation. For the recruitment apportionment, the parameter values are the natural log of apportionment weight. The sum of all apportionment weights is calculated for each growth pattern x area x settlements that have been designated to receive recruits in the recruitment design matrix. Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. These distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular growth pattern, area, or settlement can change from year to year. 
 
+\hypertarget{recdist}{}
 \myparagraph{Recruitment Distribution and Parameters}
 SS apportions recruits according to:
 
@@ -290,6 +291,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 
 
 \subsubsection{Time Blocks}
+\hypertarget{timeblocks}{}
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
 		\hline
@@ -314,7 +316,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12cm}[-0.10cm]{Beginning and ending years for blocks in design 3.}\Bstrut\\
 		\hline
 \end{longtable}	
-
+\hypertarget{autogen}{}
 \subsubsection{Auto-generation}
 Auto-generation is a useful way to automatically have SS create the required short time-varying parameter lines which will be written in the control.ss\_new file. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The control.ss\_new file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file.  Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
 
@@ -561,12 +563,13 @@ A growth cessation model was developed for the application to tropical tuna spec
 
 	\multicolumn{2}{l}{COND = 1 or} \Tstrut & \\
 	\multicolumn{2}{l}{COND = -1}  & Read 2 lines below if hermaphroditism is selected. Slso read 3 parameters after reading the male (option 1) or female (option -1) weight-length parameter.\Bstrut\\
-	& -1 & Hermaphroditism Season: \\
+	& -1.2 & Hermaphroditism Season: \\
 	&    & -1 to do transition at the end of each season (after mortality and before movement); and\\
 	&    & <positive integer> to select just one season.\\
-	\\
-	& 1  & Include males or females, dependent upon sex change direction, in spawning biomass;  \\
-	&    & 0 = no males or females, dependent upon sex change direction, in spawning biomass; and \\
+    &	 & If fractional part included (optional), indicates first age that transitions (otherwise, age 1 assumed). \\
+	& 0.5 & Include males in spawning biomass;  \\
+	&    & 0 = no males in spawning biomass; \\
+	& >0  &   <1 = fraction of male biomass to include in spawning biomass; and \\
 	&    & 1 = simple addition of males to females. \Bstrut\\
 	\hline
 \end{longtable}
@@ -723,14 +726,21 @@ As of v.3.30.12, this parameter now has time-varying capability similar to other
 	& Asmp Rate & Hermaphrodite asymptotic rate.\Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND: Recruitment Distribution } \Tstrut & 3 parameters lines defining recruitment distribution.\\
-	\multicolumn{2}{l}{ Method = 2 or 3} \Tstrut & \\
+	\multicolumn{2}{l}{COND: Recruitment Distribution } \Tstrut & 3 parameters lines defining recruitment distribution. See \hyperlink{recdist}{Recruitment Distribution and Parameters} for more details about recruitment apportionment parameterization. \\
+	\multicolumn{2}{l}{ Method = 2 } \Tstrut & \\
 	& & \\
 	\multicolumn{2}{l}{Recruitment Dist. GP} \Tstrut & Recruitment apportionment by growth pattern, if multiple growth patterns, multiple entries required.\\
 	\multicolumn{2}{l}{Recruitment Dist. Area} & Recruitment apportionment by area, if multiple areas, multiple entries required.\\
 	\multicolumn{2}{l}{Recruitment Dist. Month} & Recruitment apportionment by month, if multiple months, multiple entries required.\Bstrut\\
 	\hline
 
+	\multicolumn{2}{l}{COND: Recruitment Distribution } \Tstrut & 1 parameter line for each settlement event defining the distribution of recruitment among them. See \hyperlink{recdist}{Recruitment Distribution and Parameters} for more details about recruitment apportionment parameterization. \\
+	\multicolumn{2}{l}{ Method = 3 } \Tstrut & \\
+	& & \\
+	\multicolumn{2}{l}{Recruitment Dist. 1} \Tstrut & Recruitment apportionment parameter for the 1st settlement event.\\
+	\multicolumn{2}{l}{Recruitment Dist. 2} & Recruitment apportionment parameter for the 2nd settlement event.\Bstrut\\
+	\hline
+	
 	%\multicolumn{3}{l}{COND:  If recruitment distribution interaction = 1 (on).} \Tstrut \\
 	%& N patterns x N areas x N seasons & Note that the order of recruitment distribution parameters %has areas then seasons for main effect, and seasons then areas for interactions.\Bstrut\\
 	%\hline
@@ -809,68 +819,14 @@ Parameters marked with COND are conditional on selecting that feature:
 \myparagraph{Setting Male Parameters Equal to Females}
 SS allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2), and the growth coefficient (K).  If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the  corresponding female parameter value for the males. 
 
-
-\hypertarget{tvOrder}{}
-\subsubsection{Time-Varying Parameter Specification and Setup}
-Any of the parameters defined above can be made time-varying through linkage to an environmental data series, through time blocks or trend, or by setting up annual deviations. The basic options for making biology, spawner-recruitment, catchability, and selectivity parameters change over time is detailed here. A more detailed in depth description is available in the \hyperlink{TVpara}{Using Time-Varying Parameter} section.  After SS reads the parameter line section, which include options to create environmental link, blocks, or deviation vectors, if time-varying parameters are specified then SS expects to read the time-varying short parameter lines. Time-varying parameters are an optional input and if no parameters are specified to have time-varying properties, this omitted from the control file.
-
-Special consideration should be given regarding which parameter values are applied during forecast years. The model will default to use all base parameter values during the forecast period. However, there are controls in the forecast file which allow the user to specify specific parameter years to be applied during the forecast period for selectivity, relative F, and recruitment.  
-
-%In SS v.3.30, several changes are introduced to the implementation of time-varying parameters:
-
-%\begin{itemize}
-%	\item Time-varying parameters for biology, spawner-recruitment, catchability, and selectivity are implemented using the same approach and share code.
-%	\item The block feature that allowed input of one block parameter line and replication of that line by SS as often as needed has been replaced.  Now there is a complete time-varying parameter auto-generation capability.
-%	\item The logistic bound constraint is no longer implemented due to the challenges it created to interpreting parameter values. Instead, the auto-generate feature now creates bounds on time-varying parameters for blocks such that the combination of a bounded  value of the time-varying parameter and the base parameter will not violate the base parameter bounds.
-%	\item For more information on the implementation of time-varying parameters, see the \hyperlink{TVpara}{Using Time-Varying Parameters} section
-%\end{itemize}
-
-\input{tv_parameter_description}	
-
-When using time-varying parameters through the application of time-blocks (specified using element 13 and 14), it is important to consider which parameters will affect which years of the time series. There are three main situations:
-\begin{enumerate}
-	\item Offset approach: One or more time blocks are created and cover all or a subset of the years.  Each block gets a parameter that is used as an offset from the base parameter.  In this situation you typically will allow SS to estimate the base parameter and each of the offset parameters.  In years not covered by blocks, the base parameter alone is used.  However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all the years be covered by blocks when doing offsets, or to fix the base parameter value at a reasonable level when doing offsets for all years.	
-	\item Replacement approach: Option A: Here time blocks are created which cover a subset of the years.  The base parameter is used in the non-block years and the value of that base parameter is replaced by the block parameter in each respective block.  In this situation, you typically allow SS to estimate the base parameter and each of the block parameters.	
-	\item Replacement-Option B: Here replacement time blocks are created for all the years.  In this case the base parameter is simply a placeholder that is always replaced by a block parameter. In this situation, do not allow SS to estimate the base parameter and only estimate the corresponding block replacement parameters, otherwise, the search algorithm will be attempting to estimate parameters that do not contribute to the log likelihood, so model convergence and variance estimation could be affected.  Note however, that the minimum and maximum for the base parameter are used as checks on the minimum and maximum of the blocks.
-\end{enumerate}
-
-If a time-varying parameter line is specified requiring an additional parameter a short parameter line will need to be created following the main parameter block section. An example short parameter block would consist of the following: 
-\begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
-	\hline
-	   &    &      & Prior &  Prior & Prior & & \Tstrut\\
-	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
-	\hline
-	\endfirsthead
-	
-	\hline
-	   &    &      & Prior &  Prior & Prior &  & \Tstrut\\
-	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
-	\hline
-	\endhead
-	
-	\endfoot
-	
-	\endlastfoot
-	
-	\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \Tstrut\\
-	-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add\Tstrut\\
-	-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add\Bstrut\\
-	\hline
-\end{longtable}
-
-\subsubsection{Time-Varying Growth Considerations}
-When time-varying growth is used, there are some additional considerations to be aware of:
-\begin{itemize}
-	\item Growth deviations propagate into the forecast. The user can select which growth parameters get used during the forecast by setting the end year of the last block. If the last block ends in the model's end year, then the growth parameters in effect during the forecast will revert to the "no-block" baseline level.  By setting the end year of the last block to end year (endyr) + 1, the model will continue the last block's growth parameter levels throughout the forecast.
-	\item The equilibrium benchmark quantities (MSY, F40\%, etc.) previously used end year (endyr) body size-at-age, which is a disequilibrium vector. There is a capability to specify a range of years over which to average the size-at-age used in the benchmark calculations.
-\end{itemize}
+\subsubsection{Time-varying Parameters}
+Please see \hyperlink{tvOrder}{the Time-Varying Parameter Specification and Setup section} for details on how to set up time varying parameters. In short, additional short parameter lines will be needed after the long parameter lines. There are some \hyperlink{tvgrowth}{additional considerations} for time-varying growth.
 
 \subsubsection{Seasonal Biology Parameters}
 Seasonal effects are available for weight-length parameters, maturity, fecundity, and for the growth parameter K.  The seasonal parameter values adjust the base parameter value for that season.
 \begin{equation}
 P'=P*exp(\text{seas\_value})
 \end{equation}
-
 
 \begin{longtable}{p{1cm} p{4cm} p{10cm}}
 	\multicolumn{3}{l}{Control file continued:}\\
@@ -897,7 +853,6 @@ P'=P*exp(\text{seas\_value})
 	\hline
 
 \end{longtable}
-
 
 \hypertarget{SRR}{} 
 \subsection{Spawner-Recruitment}
@@ -1091,28 +1046,10 @@ Example set-up of the spawner-recruitment section:
 	\end{longtable}
 \end{center}
 
-The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviation.  Details on how to specify time-varying parameters can be found in the \hyperlink{(tvOrder)}{Time-Varying Parameter Specification and Setup} section. However, not all of these options make sense for all parameters and the following items should be considered:
+\subsubsection{Spawner-Recruitment Time-Varying Parameters}
 
-\begin{itemize}
-	
-	\item The $\sigma_R$ and autocorrelation parameters can not be time-varying. 
-	
-	\item The internal estimation of the autocorrelation parameter has been performance tested \citep{johnson_can_2016} and was determined to not be well estimated internally. An external estimation for selecting an autocorrelation value is currently recommended. 
-		
-	\item In SS v.3.24, the R0 and steepness parameters were used for both the virgin calculation and for the MSY (benchmark) calculations. In SS v.3.30, these usages are more explicitly defined. The value of R0 and steepness in the initial year are used for virgin and for calculation the denominator in depletion estimates. The average value of R0 and steepness in the range of years specified as the benchmark years 9 and 10 (see forecast.ss) is used for MSY type calculations. So, for example, a long-term climate effect could cause R0 to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
-	
-	\item The regime shift parameter line allows for multi-year or environmentally driven deviations from R0 without changing R0 itself. Then the recruitment deviations are annual deviations from the current regime and these recruitment deviations can have autocorrelation. This option should be used judiciously because the same algebraic effect on the calculated recruitment can be achieved by different combinations of spawner-recruit parameter options.
+The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviations.  Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section. However, not all of these options make sense for all parameters; please see additional details in the section on \hyperlink{tv-sr}{Time-Varying Stock-Recruitment Considerations}.
 
-	\item Preliminary recommendation: Use block, trend or environmental effects on R0 only for very long-term and highly persistent effects; use time-vary effects on regime shift for transitory, but multi-year deviations from R0.	
-
-	\item Note that setting a block for just the initial equilibrium year is equivalent to R1\_offset. If R1 offset is being used in SS v.3.24, then sstrans.exe will automatically add a new block for the initial equilibrium year so that you can easily re-implement a R1 offset effect.
-\end{itemize}
-
-In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v.3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters. This generic time-varying approach replaces the spawner recruit envlink concept in SS v.3.24.  Also, the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in v.3.30, the R1 offset parameter is replaced by a parameter termed "regime shift". The spawner recruit regime parameter is intended to have a base value of 0.0 and not be estimated.  Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This regime shift parameter can have blocks, environmental links or random deviations. 
-
-If a SS v.3.24 model implemented the R1 offset approach this can be mimicked in v.3.30 by the stock recruit regime parameter. For any given year, including startyr - 1, the R0 is replaced by $R0*exp(\mathrm{SR\_Regime}_y)$. So to mimic the R1\_offset, you need to put a block on SR\_regime for y = startyr - 1. But if SR\_regime has some change during your main time series, that change will be filtered through the stock-recruit relationship into an impact on the numbers at age for whatever years are impacted. This can also apply to the forecast. A block on SR\_regime is also easier than some of the old dummy environmental variables that were created in the past to adjust recruitment up and down for long periods.
-
-If the R0 or steepness parameters are time-varying, then SS will use the current year's parameters to calculate recruits as a function of the spawning biomass. If the spawner recruit regime parameter is time-varying, then SS applies this offset after calculating recruits as function of spawning biomass.  The expected deviations can no longer be linked to "env": instead the environmental effect will be on the "regime". 
 
 \subsubsection{Recruitment Deviation Setup}
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
@@ -1479,6 +1416,8 @@ Q relates the units of the survey or CPUE to the population abundance, not the p
 
 In SS v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area. The offset is a parameter and, hence, can be estimated and have a prior. This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
 
+\subsubsection{Catchabilty Time-Varying Parameters}
+Time-Varying catchability can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
 \subsubsection{Q Conversion Issues Between SS v.3.24 and v.3.30}
 In SS v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey.  In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q.  The transition executable (sstrans.exe) cannot convert this, but an analogous approach is available in SS v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in SS v.3.24 were survey specific (so no parameter for years with no survey). In SS v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
@@ -1570,14 +1509,14 @@ Read the required number of parameter setup lines as specified by the definition
 		
 	19    & 80   & 53.5 & 50  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p1 fishery 1\Tstrut\\
 	0.01  & 60   & 18.9 & 15  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p2 fishery 1 \\
-	20    & 70   & 38.6 & 40  & \multicolumn{1}{c}{...}  & 0   & \#Retain p1 fishery 1\\
-	0.1   & 10   & 6.5  & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain p2 fishery 1\\
-	0.001 & 1    & 0.98 & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain p3 fishery 1\\
-	-10   & 10   & 1    & 0   & \multicolumn{1}{c}{...}  & 0   & \#Retain p4 fishery 1\\
-	0.1   & 1    & 0.6  & 0.6 & \multicolumn{1}{c}{...}  & 0   & \#DiscMort p1 fishery 1\\
-	-2    & 2    & 0    & 0   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort p2 fishery 1\\
-	20    & 70   & 40   & 40  & \multicolumn{1}{c}{...}  & 0   & \#DiscMort p3 fishery 1\\
-	0.1   & 10   & 1    & 1   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort p4 fishery 1\\
+	20    & 70   & 38.6 & 40  & \multicolumn{1}{c}{...}  & 0   & \#Retain\_L\_infl\_fishery 1\\
+	0.1   & 10   & 6.5  & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain\_L\_width\_fishery 1\\
+	0.001 & 1    & 0.98 & 1   & \multicolumn{1}{c}{...}  & 0   & \#Retain\_L\_asymptote\_logit\_fishery 1\\
+	-10   & 10   & 1    & 0   & \multicolumn{1}{c}{...}  & 0   & \#Retain\_L\_maleoffset\_fishery 1\\
+	0.1   & 1    & 0.6  & 0.6 & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_infl\_fishery 1\\
+	-2    & 2    & 0    & 0   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_width\_fishery 1\\
+	20    & 70   & 40   & 40  & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_level\_old\_fishery 1\\
+	0.1   & 10   & 1    & 1   & \multicolumn{1}{c}{...}  & 0   & \#DiscMortt\_L\_male\_offset\_fishery 1\\
 	19    & 80   & 53.5 & 50  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p1 survey 1\\
 	0.01  & 60   & 18.9 & 15  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p2 survey 1 \\
 	0     & 40   & 0    & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p1 fishery 1\\
@@ -1660,7 +1599,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	14 \Tstrut& nages + 1 & Separate parameter for each age (empirical), value at age is $\frac{1}{1+exp(-x)}$. \\
 	15 \Tstrut& 0 & Mirror another age-specific selectivity pattern.\\
 	16 \Tstrut& 2 & Coleraine single Gaussian.\\
-	17 \Tstrut& nages + 1 & Empirical as a random walk from previous age . \\
+	17 \Tstrut& nages + 1 or special + 1 & Empirical as a random walk from previous age. \\
 	18 \Tstrut& 8 & Double logistic, with defined peak, uses smooth joiners.  \\
 	19 \Tstrut& 6 & Simple double logistic with no defined peak.\\
 	20 \Tstrut& 6 & Double normal with defined initial and final level.  Recommended option. \\
@@ -1674,7 +1613,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{longtable}
 
 \myparagraph{Special Selectivity Options}
-Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{Index units}).	
+Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{Index units}).
 
 \subsubsection{Selectivity Pattern Details}
 \myparagraph{Pattern 1 (size) and 12 (age) - Simple Logistic}
@@ -1756,6 +1695,8 @@ Selectivity is fixed at $S_a = 0$ for $a < A_{\text{min}}$.
 This formulation has the properties that the maximum selectivity equals 1, positive values of $p_a$ are associated with increasing selectivity between ages $a-1$ and $a$, and negative values are associated with decreasing selectivity between those ages and $p_a = 0$ gives constant selectivity.
 	
 The condition that maximum selectivity equals 1 results in one fewer degree of freedom than the number of estimated $p_a$. Therefore, at least one parameter should be fixed at an arbitrary value, typically $p_{A_{\text{min}}}=0$.
+
+The number of parameters lines required to the control file for pattern 17 is nages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to nages.Input to the special column  is used to reduce the number of parameters lines needed (selectivity is constant above the age represented by the last parameter value read when using special). 
 	
 In typical usage:
 	\begin{itemize}
@@ -1834,7 +1775,8 @@ No parameters.  Whole age range is mirrored from another fleet. The mirrored sel
 This pattern has 4 parameters and 2 fixed input values.
 
 The shape of the selectivity is provided by the function (here in terms of age $a$ but similarly applicable to length bin $l$)
-  \begin{equation}
+
+\begin{equation}
     S'_a =  
     \begin{cases}
       \hfil 0 & \text{if $a < p_5$,} \\
@@ -1842,12 +1784,13 @@ The shape of the selectivity is provided by the function (here in terms of age $
       \left(1 - \frac{1}{\exp\left(-p_4 \left( a - [p_6 p_1 - p_3]\right) \right) } \right)
       & \text{if $a \geq p_5$.}
     \end{cases}
-  \end{equation}
+ \end{equation}
 
-  which is then rescaled by first adding a small constant to all values and then rescaling to have a maximum of 1.0:
-  \begin{equation}
+ which is then rescaled by first adding a small constant to all values and then rescaling to have a maximum of 1.0:
+ 
+ \begin{equation}
     S_a = (S'_a + 0.000001) / \max_{a'}\{S'_a + 0.000001\}
-  \end{equation}
+ \end{equation}
 
   where
 	\begin{itemize}
@@ -2189,7 +2132,7 @@ Note that the male selectivity offsets currently cannot be time-varying because 
 
 \hypertarget{Dirichletparameter}{}
 \subsubsection{Dirichlet-Multinomial Error for Data Weighting}
-If the Dirichlet-multinomial error distribution was selected in the data file for length or age data weighting, add additional parameter line(s) immediately following the age selectivity parameter block.
+If the Dirichlet-multinomial error distribution was selected in the data file for length or age data weighting, add additional parameter line(s) immediately following the age selectivity parameter block. There should be 1 parameter line for each parameter in the data file.
 
 For additional information about the Dirichlet-multinomial please see \citet{thorson_model-based_2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
 
@@ -2212,12 +2155,11 @@ For additional information about the Dirichlet-multinomial please see \citet{tho
 \end{longtable}
 
 
-\subsubsection{Selectivity Time-Varying Options}
-The setup required for specifying time-varying options across parameter sections within SS (i.e., biology, recruitment, catchability, or selectivity) is the same and the basic description can be \hyperlink{tvOrder}{found above}. If time-varying selectivity parameters are invoked, short parameter lines are required to be read following the standard selectivity parameter section. If no selectivity parameters invoke any time-varying properties, this section is left blank (or completely commented out with \#).
+\subsubsection{Selectivity Time-Varying Parameters}
+Time-Varying selectivity can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
-
-\subsubsection{Two-Dimensional Auto-Regressive Selectivity}
-A new experimental feature added within SS v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu_new_2019}. Unlike other options for time-varying selectivity in SS, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
+\subsubsection{Two-Dimensional Auto-Regressive Selectivity (Semi-parametric selectivity)}
+An experimental feature added within SS v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu_new_2019}. Unlike other options for time-varying selectivity in SS, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
 
 When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic, exponential logistic, or double normal would be a better choices. This option has not yet been explored adequately to provide guidance on best practices.
 
@@ -2235,7 +2177,8 @@ When using this option for age-based selectivity, if there are not too many ages
 	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\Bstrut\\
 	\hline
-	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0\Tstrut\Bstrut\\
+	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0\Tstrut\\
+	   2    & 1990 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0 \Bstrut\\
 	\hline
 	\\
 	
@@ -2244,9 +2187,12 @@ When using this option for age-based selectivity, if there are not too many ages
 	     &    &      &       & PRIOR & PRIOR &       &     & & & \Tstrut\\
 	LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL}\Bstrut\\
 	\hline
-	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex}\Tstrut\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year}\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age}\Bstrut\\
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1}\Tstrut\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1}\\
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 2}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 2}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 2}\Bstrut\\
 	\multicolumn{11}{l}{\#Terminator line of 11 in length indicates the end of parameter input lines}\\
 	-9999 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
 	\hline
