@@ -8,7 +8,7 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 \item Environmental Link and variable (env\_var\&link; element 8)
 
 	\begin{itemize}
-	   \item The environmental link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass).
+	   \item The environmental link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. Note that environmental variables can only be included on an annual basis, so seasonal models would have the same effect applied to all seasons. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass). The other options for both elements are enumerated below.
 	   \item The link function options (hundreds place) for the env\_var\&link input are:
 	   \begin{itemize}
 	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
@@ -20,9 +20,9 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 	   \begin{itemize}
 	       \item $P_{y}$ = Parameter value in year $y$
            \item $P_{base}$ = Base parameter value
-           \item $P_{t}$ = Time-varying parameter value
-           \item $P_{t1}$ = First of 2 time-varying parameters (offset)
-           \item $P_{t2}$ = Second of 2 time-varying parameters (slope)
+           \item $P_{t}$ = Link parameter value
+           \item $P_{t1}$ = First of 2 link parameters (offset)
+           \item $P_{t2}$ = Second of 2 link parameters (slope)
            \item $E_{y}$ = Environmental index value or derived quantity value in year $y$
            \item $min(P_{base})$ = the minimum parameter bound of base parameter
            \item $max(P_{base})$ = the maximum parameter bound of base parameter
@@ -37,22 +37,38 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 		\item The four derived quantities are all calculated at the beginning of each year within the model, so they are available inside SS to use as the basis for time-varying parameter links without violating any order of operations rules.
 	\end{itemize}
 	
-\item Deviation Link (element 9). This must be specified if using parameter deviations, but otherwise should be left as 0. Link options for parameter deviations are:
+\item Deviation Link (element 9). A positive integer invokes parameter deviations, but otherwise should be left as 0. SS expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used. This differs from recruitment deviations and from the approach in SS 3.24. Link options for parameter deviations are:
 	\begin{itemize}
-		\item 1 = multiplicative: $P_y = P_{base}e^{\text{dev}_y*\text{dev}_{se}}$,
-		\item 2 = additive: $P_y = P_{base} + \text{dev}_y*\text{dev}_{se}$,
-		\item 3 = random walk. Random walk options are implemented by using rho in the objective function. SS expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used.
-		\item 4 = zero reverting random walk with rho. The deviation parameter is multiplied by the standard error parameter, rather than deviations being penalized according to a specified standard error (the approach in SS v.3.24)
-		\item 5 = zero reverting random walk with rho and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16)
-		\item 6 = mean reverting random walk with penalty to keep RMSE near 1.0
-		\item The option of applying the final model year deviation value into the forecast period was added in v. 3.30.13.  This new option is specified by selecting the appropriate deviation link option (1, 2, 3, or 4) and appending a 2 at the front (21, 22, 23, or 24) which will use the final year deviation value for all forecast years
+		\item 1 = multiplicative: $P_y = P_{base,y}e^{\text{dev}_y*\text{dev}_{se}}$,
+		\item 2 = additive: $P_y = P_{base,y} + \text{dev}_y*\text{dev}_{se}$,
+		\item 3 = random walk. Random walk options are implemented by using rho in the objective function. $P_y = P_{base,y} + \sum_{n=1}^{y} \text{dev}_n*\text{dev}_{se}$
+		\item 4 = mean reverting random walk with rho.
+		begin{itemize}
+		    \item $X_1 = \text{dev}_1*\text{dev}_{se}$
+			\item $P_1 = P_{base,y} + X_1$
+			\item $X_y = \rho*X_{y-1} + \text{dev}_y*\text{dev}_{se}$
+			\item $P_y = P_{base,y} + X_y$
+		end{itemize}
+		\item 5 = mean reverting random walk with rho and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS v.3.30.16)
+	    begin{itemize}
+		    \item $X_1 = \text{dev}_1*\text{dev}_{se}$
+			\item $R = P_{max} - P_{min}$
+			\item $Y_1 = ln(\frac{P_{base,y}} - P_{min} + \text{nil}}{P_{max} - P_{base,y} + nil})$
+			\item $P_1 = P_{min} + \frac{R}{1 + e^{-Y_1 - X_1 }}$. For the first year.
+			\item $X_y = \rho*X_{y-1} + \text{dev}_y*\text{dev}_{se}$ 
+			\item $Y_y = ln(\frac{P_{base,y} - P_{min} + nil}{P_{max} + P_{base,y} + nil)$
+			\item $P_1 = P_{min} + \frac{R}{1 + e^{-Y_y - X_y }}$. For years after the first year.
+		end{itemize}
+		\item 6 = mean reverting random walk with penalty to keep RMSE near 1.0. Same as case 4, but with penalty applied.
+		\item The option of extending the final model year deviation value subsequent years (i.e., into the forecast period) was added in v. 3.30.13.  This new option is specified by selecting the appropriate deviation link option (1, 2, 3, or 4) and appending a 2 at the front (21, 22, 23, or 24) which will use the final year deviation value for all forecast years
 	\end{itemize}
 	where: 
 	\begin{itemize}
 	     \item $P_{y}$ = Parameter value in year $y$
-         \item $P_{base}$ = Base parameter value
+         \item $P_{base,y}$ = Base parameter value for year $y$
 		 \item $\text{dev}_y$ = deviation in year $y$
 		 \item $\text{dev}_{se}$ = standard error of the deviation
+		 \item nil is a small value (e.g., 0.0000001)
 	\end{itemize}
 \item Deviation Minimum Year (element 10). Year deviations start for the parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
 	
@@ -63,15 +79,15 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 	
 \item Use Time Blocks or Trends (element 13). Time blocks and trends are both specified using this input. If neither are used, this should be left as 0. For trend options, the cumulative normal distribution function is used as the shape of the trend in all cases, but the parameterization differs. In general, the trend used is: 
     \begin{equation}
-	    P_y = P_{base} + P_{offset}\phi(\frac{y - P_{infl}}{P_{width}})
+	    P_y = P_{base} + P_{\text{offset}}\phi(\frac{y - P_{\text{infl}}}{P_{width}})
 	\end{equation}
 	where
 	\begin{itemize} 
 	    \item $P_y$ is the final parameter value in year $y$
 		\item $P_{base}$ is the base parameter value
-		\item $P_{offset}$ is the parameter offset value
+		\item $P_{\text{offset}}$ is the parameter offset value
 		\item $\phi$ is the standard cumulative normal distribution function
-		\item $P_{infl}$ is the inflection year (i.e., the year in which half of the total change from the base parameter has occured)
+		\item $P_{\text{infl}}$ is the inflection year (i.e., the year in which half of the total change from the base parameter has occured)
 		\item $P_{width}$ is the standard deviation.
 	\end{itemize}
 In all cases, 3 parameters are estimated and hence 3 short parameter lines are required. These parameter lines differ amongst the trend options.
@@ -80,9 +96,9 @@ The input value options for element 13 are:
 	\begin{itemize}
 % TODO: add more information about how the above equation relates to theoptions -1 and -3.
 		\item >0: time block index for parameter. See the \hyperlink{timeblocks}{time blocks section} of the control file for more information on specifying time blocks.
-		\item -1: Trend Offset option. Three parameters are estimated: end trend value as a logistic offset (input as $ln(P_{offset})$), inflection year logistic offset (input as $ln(P_{infl})$, and width ($P_{width}$. Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Width is directly specified.
-		\item -2: Trend Direct input option. In this case, $P_{offset} = 1$. Three parameters are input via short parameter lines: end trend parameter value ($P_y$ where $y$ is the final year), inflection year ($P_{infl}$, and width ($P_{width}$). 
-		\item -3: Trend Fractional option. In this case, $P_{offset} = 1$. Three parameters will be estimated: end trend parameter value as a fraction of base parameter maximum - minimum, inflection year as a fraction of end year - start year, and width ($P_{width}$). Width is directly input.
+		\item -1: Trend Offset option. Three parameters are estimated: end trend value as a logistic offset (input as $ln(P_{\text{offset}})$), inflection year logistic offset (input as $ln(P_{\text{infl}})$, and width ($P_{width}$. Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Width is directly specified.
+		\item -2: Trend Direct input option. In this case, $P_{\text{offset}} = 1$. Three parameters are input via short parameter lines: end trend parameter value ($P_y$ where $y$ is the final year), inflection year ($P_{\text{infl}}$, and width ($P_{width}$). 
+		\item -3: Trend Fractional option. In this case, $P_{\text{offset}} = 1$. Three parameters will be estimated: end trend parameter value as a fraction of base parameter maximum - minimum, inflection year as a fraction of end year - start year, and width ($P_{width}$). Width is directly input.
 	\end{itemize}
 	
 \item Time Block Functional Form (element 14). Leave as 0, unless time blocks are used.
@@ -91,7 +107,6 @@ The input value options for element 13 are:
 		\item 1: additive parameter ($P_{block} = P_{base} + P_t$)
 		\item 2: replace parameter ($P_{block} = P_t$)
 		\item 3: random walk across blocks ($P_{block} = P_{block,-1} + P_t$)
-		\item 4: mean reverting random walk
 	\end{itemize}
 	where:
 	\begin{itemize}
@@ -156,14 +171,14 @@ The number of short parameter lines for each time-varying setup selected depends
 	\item Trends: Requires 3 parameter lines. The interpretation of the parameters differs by the trend option selected, but in general they are a parameter for the final parameter value, a parameter for the inflection point year, and a parameter for the width (i.e., the standard deviation).
 \end{itemize}
 
-\subsubsection{Example time-varying parameter setups}
+\subsubsection{Example Time-varying Parameter Setups}
 
 The time-varying parameter options in Stock Synthesis are flexible. Below are some example setups that illustrate how the time-varying options could be used in a model, although there are many more possible setups.
 
 \myparagraph{Environmental linkages}
 
 \begin{itemize}
-	\item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as parameter number 1, the growth parameter $K$ (if using a von Bertalanffy growth equation) could be linked to the water tempeature proxy data by specifying the code "201" in the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line is required after the "MG parameter" long parameter lines section.
+	\item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as index number 1, the growth parameter $K$ (if using a von Bertalanffy growth equation) could be linked to the water temperature proxy data by specifying the code "201" in the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line is required after the "MG parameter" long parameter lines section.
 	\item Suppose for a fishery, selectivity is thought to shift depending on population size. Smaller fish are selected when there are lower population numbers, while larger fish are selected when there are higher population numbers. The selectivity parameter could be made time-varying using the code "-104" in the env\_var\&link option, which assumes a exponential scalar link between the base selectivity parameter and the time varying parameter value. One additional parameter line is required at the end of the selectivity long parameter lines section.
 \end{itemize}
 
