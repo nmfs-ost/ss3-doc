@@ -1,4 +1,12 @@
 % Preamble =========================================================================================
+%Options added to improve pdf accessibility:
+\PassOptionsToPackage{enable-debug,check-declarations}{expl3}
+\RequirePackage{pdfmanagement-testphase}
+\DeclareDocumentMetadata {  }
+\ExplSyntaxOn
+\pdfmanagement_add:nnn{Catalog}{Lang}{(enUS)}
+\ExplSyntaxOff
+% End accessibility options
 \documentclass[12pt]{article}
 \usepackage{natbib}
 \usepackage{lipsum, multicol}
@@ -39,6 +47,15 @@
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage[all]{nowidow}		    % Widow Control
 
+% For tagging the pdf: https://github.com/jgm/pandoc/issues/5409#issuecomment-770417614
+\ifluatex
+  \usepackage[luamode]{tagpdf}
+  \tagpdfsetup{
+      activate-all=true,
+      interwordspace=true
+   }
+\fi
+% End tagging the pdf
 
 % Set widow and club penalties
 \widowpenalty=100000
@@ -117,6 +134,10 @@
   	\fontsize{22pt}{24pt}%
   	\selectfont%
 }%
+% sets title for pdf reader
+%\usepackage[pdftitle={Stock Synthesis User Manual},
+%           pdfauthor={Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, and Kathryn Doering},
+%          pdfdisplaydoctitle=true]{hyperref}
 \xpretocmd{\maketitle}{\TitlePageFont}{}{}
 \title{\textcolor[cmyk]{1.00,0.83,0.41,0.36}{Stock Synthesis User Manual\\ Version 3.30.16}}
 \author{Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, and Kathryn Doering\\\\\\NOAA Fisheries\\Seattle, WA}
