@@ -1,7 +1,7 @@
 
 \section{Using R To View Model Output (r4ss)}\label{r4ss}
 
-A collection of functions developed as a package, \texttt{r4ss}, for the statistical software R has been created to explore SS model output.  The functions include tools for summarizing and plotting results, manipulating files, visualizing model parameterizations, and various other tasks.  Currently, information on the code, including installation instructions, can be found on \href{https://github.com/r4ss/r4ss}{Github}.  The software package is under constant development to maintain compatibility with new versions of SS and to improve functionality.
+The R package \texttt{r4ss} includes tools for summarizing and plotting results, manipulating files, visualizing model parameterizations, and other tasks. Currently, information about \texttt{r4ss} can be found on \href{https://github.com/r4ss/r4ss}{Github}.  The software package is under continuous development to maintain compatibility with new versions of SS and to improve functionality.
 
 The latest version of \texttt{r4ss} can be installed directly from GitHub at any time via the \texttt{remotes} package in R with the following commands:
 
@@ -12,18 +12,7 @@ The latest version of \texttt{r4ss} can be installed directly from GitHub at any
 	\end{verbatim}
 \end{quote}
 
-%This installs the main branch of the package from \href{https://github.com/r4ss/r4ss}{Github} which is a well tested version that should work across multiple versions of SS.  
-
-%The package undergoes continuous development in a separate location where new techniques for visualizing data and outputs along with code changes/corrections to align with new impending releases versions of SS. The development branch can be installed using the following R commands:
-
-%\begin{quote}
-%	\begin{verbatim}
-%	> install.packages("remotes")
-%	> remotes::install_github("r4ss/r4ss", ref = "development")
-%	\end{verbatim}
-%\end{quote}
-
-Once you have installed the \texttt{r4ss} package, it can be loaded in the regular manner:
+Once the \texttt{r4ss} package is installed, it can be loaded:
 
 \begin{quote}
 	\begin{verbatim}
@@ -31,17 +20,17 @@ Once you have installed the \texttt{r4ss} package, it can be loaded in the regul
 	\end{verbatim}
 \end{quote}
 
-Two of the most commonly used functions for model diagnostics are \texttt{SS\_output} and \texttt{SS\_plots}. After running a model using SS, the output files including Report.sso can be read into R by the \texttt{SS\_output} function which stores quantities in a list with named objects.  This list can then be passed to the \texttt{SS\_plots} function, which creates a series of over 100 plots that are useful to visualize output such as model fits to the data. Here is an example call:
+Two of the most commonly used functions for model diagnostics are \texttt{SS\_output} and \texttt{SS\_plots}. After running a model using SS, the output files including Report.sso can be read into R using the \texttt{SS\_output} function which stores quantities in a list with named objects.  This list can then be passed to the \texttt{SS\_plots} function, which creates a series of over 100 plots that are useful for visualizing output such as model fits to the data. For example, plots can be created using SS model output available in the directory "C:/myfiles/mymodels/myrun":
 
 \begin{quote}
 	\begin{verbatim}
-	> base.model = SS_output("C:/myfiles/mymodels/myrun")
+	> base.model <- SS_output("C:/myfiles/mymodels/myrun")
 	> SS_plots(base.model)
 	\end{verbatim}
 \end{quote}
   
 %\pagebreak
-The functions included in \texttt{r4ss} range from general use to functions developed for specific model applications:
+The core functions available in \texttt{r4ss} include:
 \begin{center}
 	\begin{longtable}{p{4.5cm} p{10.52cm}}
 		\hline
