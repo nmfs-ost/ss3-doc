@@ -352,29 +352,33 @@ Auto-generation is a useful way to automatically have SS create the required sho
 
 \subsection{Biology}
 \subsubsection{Natural Mortality}
-Natural mortality (M) has some options that are referenced to integer age, and some to real age since settlement.  So, if M varies by age, M will change by season and cohorts born early in the year will have different M than late born cohorts.
+Natural mortality (M) options in SS include some options that are referenced to integer age and other options to real age since settlement.  If using an option that references M to real age since settlement, M varies by age and will change by season (e.g., cohorts born early in the year will have different M than cohorts born later in the year).
 
-Lorenzen natural mortality is based on the concept that natural mortality varies over the life cycle of a fish, which is driven by physiological and ecological processes. So, natural mortality is scaled by the length of the fish.
+\myparagraph{Lorenzen Natural Mortality}
+Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish.
 
-\myparagraph{Age-specific M linked to age-specific length and maturity}
-A general model for age- and sex-specific natural mortality expands a model developed by Maunder et al. (2009) and Maunder (2011), and is based on the following five assumptions:
+\myparagraph{Age-specific M Linked to Age-Specific Length and Maturity}
+
+A general model for age- and sex-specific natural mortality expands a model developed by \citet{maunder2010bigeye} and \citet{maunder2011M} and is based on the following five assumptions:
+
 \begin{enumerate}
   \item M for younger fish is due mainly to processes (e.g., predation) that are functions of the size of the individuals;
   \item M increases after individuals become reproductively mature;
-  \item maturity follows the logistic curve;
+  \item maturity follows a logistic curve;
   \item M due to reproduction may differ by sex, but juvenile M is independent of sex; and 
   \item M due to senescence over and above that caused by reproduction is either small or occurs at an age for which there are few fish alive, so it is not influential. 
 \end{enumerate}
-The model is based on combining Lorenzen’s (2000) observation that M is inversely proportional to the length for young fish and Lehodey et al.’s (2008) logistic model for older fish.
+The model is based on combining the observation from \citet{lorenzen2000allometry} that M is inversely proportional to the length for young fish and the logistic model from \citet{lehodey2008spatial} for older fish.
 \begin{equation}
-M_{s,a} = M_{juv}\frac{L_{s,a}}{L_{mat}}^{\lambda} + %\frac{M_{mat,s}-M_{juv}\frac{L_{s,a}}{L_{mat*}}^\{lambda}}{1+e^{\beta_s(L_{s,a}- L_{50,s}}}
+M_{s,a} = M_{juv}\frac{L_{s,a}}{L_{mat*}}^{\lambda} + 
+\frac{M_{mat,s}-M_{juv}\frac{L_{s,a}}{L_{mat*}}^{\lambda}}{1+e^{\beta_s(L_{s,a}- L_{50,s})}}
 \end{equation}
 
-with the defaults $\lambda = -1.5$ from Gulland(1987), $\beta$ and $L_{50}$ from the maturity curve, $M_{mat,s} = 4.118K_{s}^{0.73}L_{inf,s}^{-0.33}$ as in Then et al. 2015, and $M_{juv} = 3W_{mat}^{-0.288}$ from Lorenzen (1996), $L_{mat}$ and $W_{mat}$, are the length and weight of a fish when they first become mature for either sex (could be set at the minimum length over both sexes when 5 percent of the fish are mature) or some other convenient corresponding length and weight of a fish before it becomes mature.
+with the defaults $\lambda = -1.5$ from \citet{gulland1987natural}, $\beta$ and $L_{50}$ from the maturity curve, $M_{mat,s}=\frac{5.4}{t_{max,s}}$ from Hamel (submitted) if $t_{max}$ is available, otherwise $M_{mat,s} = 4.118K_{s}^{0.73}L_{inf,s}^{-0.33}$ as in \citet{then2015evaluating} $M_{juv} = 3W_{mat}^{-0.288}$ from \citet{lorenzen1996relationship}. $L_{mat}$ and $W_{mat}$, are the length and weight of a fish when it first becomes mature for either sex (could be set at the minimum length over both sexes when 5\% of the fish are mature) or some other convenient corresponding length and weight of a fish before it becomes mature.
 
-For suboption 1, the maturity values are taken from the maturity relationship, which must use option 1. For suboption 3, the maturity values are specified in parameter lines by the user.
+For suboption 1, $L_{50}$ and and slope paramters are taken from the maturity relationship within SS, which must use option 1. For suboption 3, the $L_{50}$ and slope paramters are specified in long parameter lines by the user.
 
-
+\myparagraph{Natural Mortality Options}
 \begin{longtable}{p{0.5cm} p{2cm} p{12.75cm}}
 	\hline	
 	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
