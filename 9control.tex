@@ -359,22 +359,26 @@ Lorenzen natural mortality is based on the concept that natural mortality is dri
 
 \myparagraph{Age-specific M Linked to Age-Specific Length and Maturity}
 
-A general model for age- and sex-specific natural mortality expands a model developed by \citet{maunder2010bigeye} and \citet{maunder2011M} and is based on the following five assumptions:
+This is an experimental option available as of 3.30.17. 
+
+A general model for age- and sex-specific natural mortality expands a model developed by \citet{maunder2010bigeye} and \citet{maunder2011M} and is based on the following some assumptions:
 
 \begin{enumerate}
   \item M for younger fish is due mainly to processes that are functions of the size of the individuals (e.g., predation);
   \item M increases after individuals become reproductively mature;
-  \item Maturity follows a logistic curve;
-  \item M caused by reproduction may differ by sex, but juvenile M is independent of sex; and 
+  \item Maturity follows a logistic curve; and
+ % \item M caused by reproduction may differ by sex, but juvenile M is independent of sex; and 
   \item M caused by senescence is either small or occurs at an age for which there are few fish alive, so it is not influential. 
 \end{enumerate}
 The model is based on combining the observation that M is inversely proportional to length for young fish \citep{lorenzen2000allometry} and the logistic model from \citet{lehodey2008spatial} for older fish. Natural mortality for a given sex and age is:
 \begin{equation}
-M_{a,s} = M_{juv}\frac{L_{a,s}}{L_{mat*}}^{\lambda} + 
-\frac{M_{mat,s}-M_{juv,s}\frac{L_{a,s}}{L_{mat*}}^{\lambda}}{1+e^{\beta_s(L_{a,s}- L_{50,s})}},
+M_{a,s} = M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda} + 
+\frac{M_{mat,s}-M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda}}{1+e^{\beta_s(L_{a,s}- L_{50,s})}},
 \end{equation}
 
-where $M_{juv}$ (juvenile natural mortality), $\lambda$ (power), $L_{mat*}$ ( first mature length of fish), and $M_{mat,s}$ (the mature instantaneous natural mortality rate by sex, are user inputs in long parameter lines. For suboption 1, $L_{50}$ and and $\beta$ (slope) parameters taken from the maturity relationship within SS, which must use maturity-fecundity option 1. For suboption 3, the $L_{50,s}$  (the length at which 50\% of fish are mature) and $\beta$ (slope) paramters are specified in long parameter lines by the user.
+where $M_{juv,s}$ (juvenile natural mortality), $\lambda$ (power), $L_{mat*,s}$ ( first mature length of fish), and $M_{mat,s}$ (the mature instantaneous natural mortality rate by sex, are user inputs in long parameter lines. For suboption 1, $L_{50}$ and and $\beta$ (slope) parameters taken from the maturity relationship within SS, which must use maturity-fecundity option 1. For suboption 3, the $L_{50,s}$  (the length at which 50\% of fish are mature) and $\beta$ (slope) paramters are specified in long parameter lines by the user.
+
+Note that juvenile natural mortality and first mature length of fish inputs are by sex (and growth pattern), but they may be implemented in the future so that parameters can be shared across sex.
 
 The length for a given age and sex, $L_{a,s}$ is calculated within SS.
 
@@ -2440,7 +2444,7 @@ Additional standard deviation reported may be selected:
 
 	\multicolumn{3}{l}{0} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
 	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read values below; and}\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size,numbers, }\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size, numbers, }\Bstrut\\
 	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, and dynamic B0}\Bstrut\\
 	\hline
 
