@@ -54,9 +54,13 @@ ss.rep – This report file is created between phases so, unlike Report.sso, wil
 ss.cor – This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret.  This same information is reported in covar.sso.
 
 \subsection{SS Summary}
-The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place.  It is organized as a list.  At the top of the file are some descriptors, followed by the likelihoods for each component, then the parameters and their standard errors, then the derived quantities and their standard errors.  The total biomass, summary biomass, and catch were added to the quantities reported in this file in version 3.30.11 and later. This output was created to make it easy to compare the results between different versions of the executable, however, this file could be useful for numerous other uses. 
+The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place.  It is organized as a list. At the top of the file are descriptors, followed by the 1) likelihoods for each component, 2) parameters and their standard errors, and 3) derived quantities and their standard errors.  Total biomass, summary biomass, and catch were added to the quantities reported in this file in version 3.30.11 and later.
+
+Before 3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME\_SERIES table of Report.sso. The report file should be used instead of ss\_summary.sso for correct calculation of these quantities before 3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in report.sso for calculations done at times other than January 1.
 
 \subsection{SIS table}
+The SIS\_table.sso is deprecated as of SS 3.30.17. Please use the \hyperlink{r4ss}{r4ss} function \texttt{get\_IS\_info()} instead. 
+
 The SIS\_table.sso file contains model output formatted for reading into the NMFS Species Information System (\href{https://www.st.nmfs.noaa.gov/sis/}{SIS}). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees.
 
 \subsection{Derived Quantities}

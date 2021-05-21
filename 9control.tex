@@ -352,10 +352,45 @@ Auto-generation is a useful way to automatically have SS create the required sho
 
 \subsection{Biology}
 \subsubsection{Natural Mortality}
-Natural mortality (M) has some options that are referenced to integer age, and some to real age since settlement.  So, if M varies by age, M will change by season and cohorts born  early in the year will have different M than late born cohorts.
+Natural mortality (M) options in SS include some options that are referenced to integer age and other options to real age since settlement.  If using an option that references M to real age since settlement, M varies by age and will change by season (e.g., cohorts born early in the year will have different M than cohorts born later in the year).
 
-Lorenzen natural mortality is based on the concept that natural mortality varies over the life cycle of a fish, which is driven by physiological and ecological processes.  So, natural mortality is scaled by the length of the fish.
+\myparagraph{Lorenzen Natural Mortality}
+Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish.
 
+\myparagraph{Age-specific M Linked to Age-Specific Length and Maturity}
+
+This is an experimental option available as of 3.30.17. 
+
+A general model for age- and sex-specific natural mortality expands a model developed by \citet{maunder2010bigeye} and \citet{maunder2011M} and is based on the following some assumptions:
+
+\begin{enumerate}
+  \item M for younger fish is due mainly to processes that are functions of the size of the individuals (e.g., predation);
+  \item M increases after individuals become reproductively mature;
+  \item Maturity follows a logistic curve; and
+ % \item M caused by reproduction may differ by sex, but juvenile M is independent of sex; and 
+  \item M caused by senescence is either small or occurs at an age for which there are few fish alive, so it is not influential. 
+\end{enumerate}
+The model is based on combining the observation that M is inversely proportional to length for young fish \citep{lorenzen2000allometry} and the logistic model from \citet{lehodey2008spatial} for older fish. Natural mortality for a given sex and age is:
+\begin{equation}
+M_{a,s} = M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda} + 
+\frac{M_{mat,s}-M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda}}{1+e^{\beta_s(L_{a,s}- L_{50,s})}},
+\end{equation}
+
+where $M_{juv,s}$ (juvenile natural mortality), $\lambda$ (power), $L_{mat*,s}$ ( first mature length of fish), and $M_{mat,s}$ (the mature instantaneous natural mortality rate by sex, are user inputs in long parameter lines. For suboption 1, $L_{50}$ and and $\beta$ (slope) parameters taken from the maturity relationship within SS, which must use maturity-fecundity option 1. For suboption 3, the $L_{50,s}$  (the length at which 50\% of fish are mature) and $\beta$ (slope) paramters are specified in long parameter lines by the user.
+
+Note that juvenile natural mortality and first mature length of fish inputs are by sex (and growth pattern), but they may be implemented in the future so that parameters can be shared across sex.
+
+The length for a given age and sex, $L_{a,s}$ is calculated within SS.
+
+Some suggested defaults for user-provided parameter inputs are:
+\begin{itemize}
+ \item $\lambda = -1.5$ from \citet{gulland1987natural}
+ \item $M_{mat,s}=\frac{5.4}{t_{max,s}}$ from Hamel (submitted) if $t_{max}$ is available, otherwise $M_{mat,s} = 4.118K_{s}^{0.73}L_{inf,s}^{-0.33}$ as in \citet{then2015evaluating} 
+ \item $M_{juv,s} = 3W_{mat}^{-0.288}$ from \citet{lorenzen1996relationship}
+\end{itemize}
+
+
+\myparagraph{Natural Mortality Options}
 \begin{longtable}{p{0.5cm} p{2cm} p{12.75cm}}
 	\hline	
 	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
@@ -376,8 +411,9 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	  & & 0 = A single parameter;\\
 	  & & 1 = N breakpoints;\\
 	  & & 2 = Lorenzen; \\
-	  & & 3 = Read age specific M and do not do seasonal interpolation; and\\
-	  & & 4 = Read age specific and do seasonal interpolation, if appropriate.\Bstrut\\
+	  & & 3 = Read age specific M and do not do seasonal interpolation;\\
+	  & & 4 = Read age specific and do seasonal interpolation, if appropriate; and\\
+	  & & 5 = age-specific M linked to age-specific length and maturity (experimental). \Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND = 0} & No additional natural mortality controls. \Tstrut\Bstrut\\
@@ -396,6 +432,13 @@ Lorenzen natural mortality is based on the concept that natural mortality varies
 	\multicolumn{2}{l}{COND = 3 or 4} \Tstrut & Do not read any natural mortality parameters in the mortality growth parameter section.  With option 3, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.\\
 
 	& 0.20 0.25 ... 0.20 0.23 ... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern.\Bstrut\\
+	\hline
+	
+	\multicolumn{2}{l}{COND = 5} \Tstrut & age-specific M linked to age-specific length and maturity suboptions. \\
+
+	&  & 1 = Requires 4 long parameter lines per sex x growth pattern using maturity. Must be used with maturity option 1; \\
+	&  & 2 = reserved for future option; \\
+	&  & 3 = Requires 6 long parameter lines per sex x growth pattern\Bstrut\\
 	\hline
 \end{longtable}
 
@@ -2400,9 +2443,9 @@ Additional standard deviation reported may be selected:
 
 
 	\multicolumn{3}{l}{0} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read values below; and}\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size,numbers, }\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, and dynamic B0}\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read specification for reporting stdev for selectivity, size, numbers; and}\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size, numbers, }\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, dynamic B0, and Summary Bio}\Bstrut\\
 	\hline
 
 \end{longtable}
@@ -2434,13 +2477,17 @@ COND = 2, enter the above quantities plus (available in versions 3.30.15 and hig
 	\item 2 additional values related to natural mortality-at-age:
 	\begin{enumerate}
 		\item growth pattern (or 0 for not used), and
-		\item number of ages for reporting, list entered below (note - each sex will be reported).
+		\item number of ages for reporting, list entered below (note each sex will be reported).
 	\end{enumerate}
-	\item 2 additional values related to dynamic B0:
+	\item 1 additional value related to dynamic B0 (needed in versions 3.30.17 and higher):
 	\begin{enumerate}
-		\item 1 to report (or 0 for not used), and
-		\item any value (placeholder for future options.
+		\item 0 for not used, 1 to report SSB for dynamic B0, 2 to report SSB and recruitment
 	\end{enumerate}
+	\item 1 additional value related to Summary Bio (needed in versions 3.30.17 and higher):
+	   \begin{enumerate}
+	     \item 0 for not used, 1 to report
+	   \end{enumerate}
+	   
 \end{itemize}
 
 Depending upon the entered options above subsequent conditional inputs may be need.
