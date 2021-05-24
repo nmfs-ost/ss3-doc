@@ -33,22 +33,22 @@ By the end of using this guide, you should be able to:
 
 There are many potential workflows for developing a new SS model, but a common technique is to start with an existing model and change it in a piece-wise fashion. The basic technique is:
 
-1. Find an existing working model (perhaps one of the SS example models available in the [SS Document Library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library) or perhaps a model more similar in form to the model you plan to create).
+1. Find an existing working model (perhaps one of the SS example models available in the [SS Document Library](https://vlab.noaa.gov/web/stock-synthesis/document-library) or perhaps a model more similar in form to the model you plan to create).
 2. Edit portions of the model and try running as you go to check that your inputs can be read correctly by SS and make logical sense (tip: set ```maxphase = 0``` in the starter file and option ```-nohess``` to reduce run time with each iteration of checking inputs).
 
 Some commonly used tools for editing the SS input files are:
 
-1. **Stock Synthesis Interface (SSI; the SS GUI)**. SSI is available publicly in the [Stock Synthesis Vlab document library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library). The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI.
+1. **Stock Synthesis Interface (SSI; the SS GUI)**. SSI is available publicly in the [Stock Synthesis Vlab document library](https://vlab.noaa.gov/web/stock-synthesis/document-library). The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI.
 2. **Your favorite text editor**.
 3. **The ```SS_read*``` and ```SS_write*``` functions in the R package [r4ss](https://github.com/r4ss/r4ss)**. These functions allow you to read in SS input files to R, manipulate them from within R, then write them out to a file.
 
 # Guidance on model specification
 
-The [SS user manual](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132) and the [helper spreadsheets](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337) can be used as guides to help you edit your model. The SSI can also help guide you through changes in model inputs required as you select different SS model options.
+The [SS user manual](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132) and the [helper spreadsheets](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337) can be used as guides to help you edit your model. The SSI can also help guide you through changes in model inputs required as you select different SS model options.
 
 If you are unsure if you got the setup right (e.g., adding the correct number of parameter lines for a chosen catchability setup), try running the model with ```maxphase = 0``` in the starter file and ADMB option ```-nohess``` (or for SS 3.30.16 and greater, run the model with command line options ```-stopph 0 -nohess```). If the model run completes, you can compare the **control.ss_new** file and the first data set in **data.ss_new** to your SS input files to make sure SS interpreted your values in the way you intended. If the run exits before completion, you can look at **warning.sso** and **echoinput.sso** for clues as to what was wrong with your setup.
 
-For additional help with model specification, please post your issue on the vlab [forums](https://vlab.ncep.noaa.gov/web/stock-synthesis/public-forums) (for registered SS users) or send an email to the SS team at NMFS.Stock.Synthesis@noaa.gov.
+For additional help with model specification, please post your issue on the vlab [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) (for registered SS users) or send an email to the SS team at NMFS.Stock.Synthesis@noaa.gov.
 
 # Phases in SS and ADMB
 
@@ -67,7 +67,7 @@ The most useful tools for debugging SS issues are the SS output files **echoinpu
  
 # Visualizing results
 
-Visualization is helpful as you iteratively develop your model and for presentation of final model results. The output of an SS model can be read into [r4ss](https://github.com/r4ss/r4ss) or the excel viewer, SS_Output-330.xslm (find it in the [Helper Spreadsheets folder](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337) of the [Vlab SS Document Library](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library)).
+Visualization is helpful as you iteratively develop your model and for presentation of final model results. The output of an SS model can be read into [r4ss](https://github.com/r4ss/r4ss) or the excel viewer, SS_Output-330.xslm (find it in the [Helper Spreadsheets folder](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337) of the [Vlab SS Document Library](https://vlab.noaa.gov/web/stock-synthesis/document-library)).
 
 # Proposed workflow for arriving at a "final" model
 
@@ -92,7 +92,7 @@ Try changing max phase to be greater than 0 (perhaps 2 or 3) to estimate some bu
 
 Once all major patterns in the residuals have been resolved, try estimating all parameters in the model. Change max phase to include all of your model phases (i.e., equal to or higher than the highest phase specified in your model). You'll want to do multiple runs for different model refinement purposes at this time:
 
-1. Do one or more run(s) with the hessian estimated to get variance of the recruitment deviations and then use this vector of variances to adjust the bias adjustment ramp (see the [SS User Manual](https://vlab.ncep.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132) for additional details).
+1. Do one or more run(s) with the hessian estimated to get variance of the recruitment deviations and then use this vector of variances to adjust the bias adjustment ramp (see the [SS User Manual](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132) for additional details).
 2. Do runs with or without estimating the hessian to tune the data weightings.
 3. Run the model multiple times and jitter the starting values (option to jitter is selected in `starter.ss`). This runs the model with new starting parameter values to determine if a better model fit is possible using different starting values.
 
@@ -157,6 +157,6 @@ For a fixed value of sigmaR, a section of the output will provide diagnostics to
 
 # Where to get additional help
 
-Post questions to the [forums](https://vlab.ncep.noaa.gov/web/stock-synthesis/public-forums) or send an emails to the SS team at NMFS.Stock.Synthesis@noaa.gov for assistance.
+Post questions to the [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) or send an emails to the SS team at NMFS.Stock.Synthesis@noaa.gov for assistance.
 
 
