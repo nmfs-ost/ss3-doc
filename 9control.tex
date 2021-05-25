@@ -378,7 +378,7 @@ M_{a,s} = M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda} +
 
 where $M_{juv,s}$ (juvenile natural mortality), $\lambda$ (power), $L_{mat*,s}$ ( first mature length of fish), and $M_{mat,s}$ (the mature instantaneous natural mortality rate by sex, are user inputs in long parameter lines. For suboption 1, $L_{50}$ and and $\beta$ (slope) parameters taken from the maturity relationship within SS, which must use maturity-fecundity option 1. For suboption 3, the $L_{50,s}$  (the length at which 50\% of fish are mature) and $\beta$ (slope) paramters are specified in long parameter lines by the user.
 
-Note that juvenile natural mortality and first mature length of fish inputs are by sex (and growth pattern), but they may be implemented in the future so that parameters can be shared across sex.
+Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will make it same as the female parameter. This fulfills an additional assumption: M caused by reproduction may differ by sex, but juvenile M is independent of sex.
 
 The length for a given age and sex, $L_{a,s}$ is calculated within SS.
 
@@ -388,6 +388,7 @@ Some suggested defaults for user-provided parameter inputs are:
  \item $M_{mat,s}=\frac{5.4}{t_{max,s}}$ from Hamel (submitted) if $t_{max}$ is available, otherwise $M_{mat,s} = 4.118K_{s}^{0.73}L_{inf,s}^{-0.33}$ as in \citet{then2015evaluating} 
  \item $M_{juv,s} = 3W_{mat}^{-0.288}$ from \citet{lorenzen1996relationship}
 \end{itemize}
+
 
 
 \myparagraph{Natural Mortality Options}
@@ -626,7 +627,7 @@ The hermaphroditism option requires three full parameter lines in the mortality 
 These parameter lines are entered directly after the weight-at-length parameters for males.
 
 \pagebreak
-
+\hypertarget{offset}{}
 \subsubsection{Parameter offset method}
 
 \begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
