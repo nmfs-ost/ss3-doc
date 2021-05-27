@@ -378,7 +378,7 @@ M_{a,s} = M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda} +
 
 where $M_{juv,s}$ (juvenile natural mortality), $\lambda$ (power), $L_{mat*,s}$ ( first mature length of fish), and $M_{mat,s}$ (the mature instantaneous natural mortality rate by sex, are user inputs in long parameter lines. For suboption 1, $L_{50}$ and and $\beta$ (slope) parameters taken from the maturity relationship within SS, which must use maturity-fecundity option 1. For suboption 3, the $L_{50,s}$  (the length at which 50\% of fish are mature) and $\beta$ (slope) paramters are specified in long parameter lines by the user.
 
-Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will make it same as the female parameter. This fulfills an additional assumption: M caused by reproduction may differ by sex, but juvenile M is independent of sex.
+Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will fix the parameter as same as the female parameter. Alternatively, using offset option 1 and setting males to 0.0 and not estimating the parameter fixes the parameter at the value of the female parameter (the \hyperlink{male-shortcut}{section on fixing male parameters the same as female parameters} has more details). This fulfills an additional assumption: M caused by reproduction may differ by sex, but juvenile M is independent of sex.
 
 The length for a given age and sex, $L_{a,s}$ is calculated within SS.
 
@@ -388,8 +388,6 @@ Some suggested defaults for user-provided parameter inputs are:
  \item $M_{mat,s}=\frac{5.4}{t_{max,s}}$ from Hamel (submitted) if $t_{max}$ is available, otherwise $M_{mat,s} = 4.118K_{s}^{0.73}L_{inf,s}^{-0.33}$ as in \citet{then2015evaluating} 
  \item $M_{juv,s} = 3W_{mat}^{-0.288}$ from \citet{lorenzen1996relationship}
 \end{itemize}
-
-
 
 \myparagraph{Natural Mortality Options}
 \begin{longtable}{p{0.5cm} p{2cm} p{12.75cm}}
@@ -860,8 +858,11 @@ Parameters marked with COND are conditional on selecting that feature:
 	\hline
 \end{longtable}
 
+\hypertarget{male-shortcut}{}
 \myparagraph{Setting Male Parameters Equal to Females}
-SS allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2), and the growth coefficient (K).  If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the  corresponding female parameter value for the males. 
+SS allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2), and the growth coefficient (K) when using offset option = 1 (the \hyperlink{offset}{offset section} has information on the options available).  If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the  corresponding female parameter value for the males.
+
+For 
 
 \subsubsection{Time-varying Parameters}
 Please see \hyperlink{tvOrder}{the Time-Varying Parameter Specification and Setup section} for details on how to set up time varying parameters. In short, additional short parameter lines will be needed after the long parameter lines. There are some \hyperlink{tvgrowth}{additional considerations} for time-varying growth.
