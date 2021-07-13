@@ -1,6 +1,6 @@
 \hypertarget{ConvIssues}{}
 \section{Converting Files from SS v.3.24}
-Converting files from SS v.3.24 to SS v.3.30 can be easily performed by using the program ss\_trans.exe. The following file structure and steps are recommended for converting model files:
+Converting files from SS v.3.24 to SS v.3.30 can be performed by using the program ss\_trans.exe. This executable takes 3.24 files as input and will output SS 3.30 input and output files. SS\_trans executables are available for v. 3.30.01 - 3.30.17. The following file structure and steps are recommended for converting model files:
 \begin{enumerate}
 	\item Create "transition" folder.  Place the 4 main model files (control, data, starter, and forecast) from version SS v.3.24 within the transition folder along with the SS transition executable (ss\_trans.exe).  One tip is to use the control.ss\_new from the SS v.3.24 estimated model rather than the control.ss file which will set all parameter values at the previous estimated maximum likelihood estimated (MLE) parameters.  Run the transition executable with phase = 0 within the starter file with the read par file turned off (option 0).
 	
@@ -11,9 +11,11 @@ Converting files from SS v.3.24 to SS v.3.30 can be easily performed by using th
 	\item Change the max phase to a value greater than the last phase in which the a parameter is set to estimated within the control file.  Run the new SS v.3.30 executable (ss.exe) within the "converted" folder using the renamed ss\_new files created from the transition executable.
 	
 	\item Compare likelihood and model estimates between the SS v.3.24 and SS v.3.30 model versions.
+	
+	\item If desired, update to versions of SS > 3.30.17 by running the new 3.30 input files with the higher executable.
 \end{enumerate}
 
-\noindent There are some options that have been substantially changed in SS v.3.30 which impedes the automatic converting of SS v.3.24 model files. Known examples of SS v.3.24 options that cannot be converted, but for which better alternatives are available in SS v.3.30 are:
+\noindent There are some options that have been substantially changed in SS v.3.30, which impedes the automatic converting of SS v.3.24 model files. Known examples of SS v.3.24 options that cannot be converted, but for which better alternatives are available in SS v.3.30 are:
 \begin{enumerate}
 	\item The use of Q deviations,
 	\item Complex birth seasons,
