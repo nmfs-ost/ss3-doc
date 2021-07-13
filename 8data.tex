@@ -656,7 +656,7 @@ The options are:
 	\end{itemize}
 	\item 2 = Dirichlet Multinomial Error (saturation).
 	\begin{itemize}
-		\item This parameterization of the Dirichlet-multinomial Error has not been tested, so this option should be used with caution. The Dirichlet Multinomial Error data weighting approach will calculate the effective sample size based on equation 12 from \citet{thorson_model-based_2017} where the estimated parameter will now be in terms of $\beta$. The application of this method should follow the same steps detailed above for option 1. 
+		\item This parameterization of the Dirichlet-multinomial Error has not been tested, so this option should be used with caution. The Dirichlet Multinomial Error data weighting approach will calculate the effective sample size based on equation 12 from \citet{thorson-model-based-2017} where the estimated parameter will now be in terms of $\beta$. The application of this method should follow the same steps detailed above for option 1. 
 	\end{itemize}
 \end{itemize}
 
@@ -680,7 +680,7 @@ The Dirichlet estimates the effective sample size as $N_{eff}=\frac{1}{1+\theta}
 	
 This formula for effective sample size implies that, as the Stock Synthesis parameter ln(DM\_theta) goes to large values (i.e., 20), then the adjusted sample size will converge to the input sample size.  In this case, small changes in the value of the ln(DM\_theta) parameter has no action, and the derivative of the negative log-likelihood is zero with respect to the parameter, which means the Hessian will be singular and cannot be inverted. To avoid this non-invertible Hessian when the ln(DM\_theta) parameter becomes large, turn it off while fixing it at the high value. This is equivalent to turning off down-weighting of fleets where evidence suggests that the input sample sizes are reasonable.
 	
-For additional information about the Dirichlet-multinomial please see \citet{thorson_model-based_2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
+For additional information about the Dirichlet-multinomial please see \citet{thorson-model-based-2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
 
 \hypertarget{CompTiming}{}
 \subsection{Length Composition Data}
@@ -861,7 +861,7 @@ As with the length composition data, a negative year value causes the observatio
 \subsection{Conditional Age-at-Length}
 Use of conditional age-at-length will greatly increase the total number of age composition observations and associated model run time but there can be several advantages to inputting ages in this fashion.  First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information.  Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age. Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
 
-However, simulation research has shown that the use of conditional age-at-length data can result in biased growth estimates in the presence of unaccounted for age-based movement when length-based selectivity is assumed \citep{lee_effects_2017}, when other age-based processes (e.g., mortality) are not accounted for \citep{lee_use_2019}, or based on the age sampling protocol \citep{piner_evaluation_2016}.  Understanding how data are collected (e.g., random, length-conditioned samples) and the biology of the stock is important when using conditional age-at-length data for a fleet.   
+However, simulation research has shown that the use of conditional age-at-length data can result in biased growth estimates in the presence of unaccounted for age-based movement when length-based selectivity is assumed \citep{lee-effects-2017}, when other age-based processes (e.g., mortality) are not accounted for \citep{lee-use-2019}, or based on the age sampling protocol \citep{piner-evaluation-2016}.  Understanding how data are collected (e.g., random, length-conditioned samples) and the biology of the stock is important when using conditional age-at-length data for a fleet.   
 
 In a two sex model, it is best to enter these conditional age-at-length data as single sex observations (sex = 1 for females and = 2 for males), rather than as joint sex observations (sex = 3). Inputting joint sex observations comes with a more rigid assumption about sex ratios within each length bin. Using separate vectors for each sex allows 100\% of the expected composition to be fit to 100\% observations within each sex, whereas with the sex = 3 option, you would have a bad fit if the sex ratio were out of balance with the model expectation, even if the observed proportion at age within each sex exactly matched the model expectation for that age.  Additionally, inputting the conditional age-at-length data as single sex observations isolates the age composition data from any sex selectivity as well.
 

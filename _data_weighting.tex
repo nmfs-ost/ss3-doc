@@ -9,11 +9,11 @@ In 2015 there was a CAPAM workshop dedicated to data-weighting. Description of t
 Currently, there are three main methods for weighting length and data applied for U.S. West Coast assessments using Stock Synthesis.
 
 \begin{enumerate}
-	\item \textbf{McAllister - Ianelli}: Effective sample size is calculated from fit of observed to expected length or age compositions. Tuning algorithm is intended to make the arithmetic mean of the input sample size equal to the harmonic mean of the effective sample size \citep{mcallister_bayesian_1997}.
+	\item \textbf{McAllister - Ianelli}: Effective sample size is calculated from fit of observed to expected length or age compositions. Tuning algorithm is intended to make the arithmetic mean of the input sample size equal to the harmonic mean of the effective sample size \citep{mcallister-bayesian-1997}.
 	
-	\item \textbf{Francis}: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method "TA1.8") \citep{francis_data_2011}
+	\item \textbf{Francis}: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method "TA1.8") \citep{francis-data-2011}
 	
-	\item \textbf{Dirichlet-Multinomial}: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term "Effective sample size" has a different interpretation than in the McAllister-Ianelli approach \citep{thorson_model-based_2017}.
+	\item \textbf{Dirichlet-Multinomial}: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term "Effective sample size" has a different interpretation than in the McAllister-Ianelli approach \citep{thorson-model-based-2017}.
 \end{enumerate}
 
 \myparagraph{Applying the methods}
@@ -116,7 +116,7 @@ Add parameter lines to the control file:
 	\item Jim Thorson initially recommended bounds of -5 to 20, with a starting value of 0
     (which corresponds to a weight of about 50\% of the input sample size). However, parameter estimates above 5 are associated with 99-100\% weight with little information in the likelihood about the parameter value. Therefore, an upper bound of 5 may help identify cases that otherwise would have convergence issues.
 
-  \item In consultation with Jim Thorson, Ian Taylor proposed a normal $N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to counteract the effect of the logistic transformation between this parameter and the data weighting. The 1.813 value was calculated as the standard deviation of the distribution of $log(\theta)$ values derived from starting with a uniform distribution on the weights, weight = $\theta/(1+\theta) \sim U(0,1)$, and solving for $log(\theta)$. This prior was applied to the 2020 Pacific Hake stock assessment \citep{grandin_status_2020} and led to better MCMC convergence with relatively little impact on the maximum likelihood estimates.
+  \item In consultation with Jim Thorson, Ian Taylor proposed a normal $N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to counteract the effect of the logistic transformation between this parameter and the data weighting. The 1.813 value was calculated as the standard deviation of the distribution of $log(\theta)$ values derived from starting with a uniform distribution on the weights, weight = $\theta/(1+\theta) \sim U(0,1)$, and solving for $log(\theta)$. This prior was applied to the 2020 Pacific Hake stock assessment \citep{grandin-status-2020} and led to better MCMC convergence with relatively little impact on the maximum likelihood estimates.
 	
 	\item Example parameter lines are below (columns 8-14 not shown): 
     \begin{small}

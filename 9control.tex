@@ -460,7 +460,7 @@ This option creates age-specific K multipliers for each age of a user-specified 
 
 \hypertarget{GrowthCessation}{}
 \myparagraph{Growth cessation}
-A growth cessation model was developed for the application to tropical tuna species \citep{maunder_growth_2018}. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.
+A growth cessation model was developed for the application to tropical tuna species \citep{maunder-growth-2018}. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.
 
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
@@ -946,7 +946,7 @@ The Beverton-Holt Stock Recruitment curve is calculated as:
 \begin{equation}{R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
 \end{equation}
 
-where $R_0$ is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (corresponding to $R_0$), $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, is the standard deviation among recruitment deviations in natural log space, and is the lognormal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot_adjusting_2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
+where $R_0$ is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (corresponding to $R_0$), $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, is the standard deviation among recruitment deviations in natural log space, and is the lognormal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot-adjusting-2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
 
 \hypertarget{Ricker}{}
 \myparagraph{Ricker}
@@ -965,7 +965,7 @@ where $R_{\text{min}}$ is the minimum recruitment level predicted at a spawning 
 
 \hypertarget{Survivorship}{}
 \myparagraph{Survivorship}	
-The survivorship stock recruitment relationship based on \citet{taylor_stockrecruitment_2013} is a stock-recruitment model that enables explicit modeling of survival between embryos and age 0 recruits, and allows the description of a wide range of pre-recruit survival curves.  The model is especially useful for low fecundity species that produce relatively few offspring per litter and exhibit a more direct connection between spawning output and recruitment than species generating millions of eggs.
+The survivorship stock recruitment relationship based on \citet{taylor-stockrecruitment-2013} is a stock-recruitment model that enables explicit modeling of survival between embryos and age 0 recruits, and allows the description of a wide range of pre-recruit survival curves.  The model is especially useful for low fecundity species that produce relatively few offspring per litter and exhibit a more direct connection between spawning output and recruitment than species generating millions of eggs.
 
 Survival-based recruitment is constrained so that the recruitment rate cannot exceed fecundity. The relationship between survival and spawning output is based on parameters which are on a natural log scale. These are:
 \begin{equation}
@@ -1013,17 +1013,17 @@ where c is the shape parameter for the stock recruitment curve, and $h_{adj}$ is
 h_{adj}=0.2+\bigg(\frac{h-0.2}{0.8}\bigg)\bigg(\frac{1}{5*0.2^c}-0.2\bigg)
 \end{equation}
 
-More details can be found in \citet{punt_extending_2019}.
+More details can be found in \citet{punt-extending-2019}.
 
 %\myparagraph{Shepherd Re-parameterization}	
-%\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_2019}.
+%\hypertarget{Shepherd2}{The} Shepherd stock recruit curve re-parameterized version. More details can be found in \citet{punt-extending-2019}.
 %	\begin{equation}
 %		R_y = \frac{R_0SB_y}{SB_0}\bigg(\frac{5h(1-0.2^c)}{1-5h0.2^c+(5h-1)(SB_y/SB_0)^c}\bigg)
 %	\end{equation}
 %where $c$ is the shape parameter for the stock recruitment curve.
 
 \myparagraph{Ricker Re-parameterization}
-\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version. More details can be found in \citet{punt_extending_2019}.
+\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version. More details can be found in \citet{punt-extending-2019}.
 \begin{equation}
 R_y = R_0*(1-temp)*e^{ln(5h)(1-SB_y/SB_0)^{\gamma}/0.8^{\gamma}}
 \end{equation}
@@ -1199,7 +1199,7 @@ Conceptually, SS treats the early, data-poor period, the main data-rich period, 
 \myparagraph{Recruitment Likelihood with Bias Adjustment}
 For each year in the total recruitment deviation time series (early, mid, late/forecast) the contribution of that year to the log likelihood is equal to:  $dev^2/(2.0*\sigma^2_R)+offset*ln(\sigma_R)$ where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year.  With this approach, years with a zero or small offset value do not contribute to the second component. $\sigma_R$ may be estimable when there is good data to establish the time series of recruitment deviations.
 
-The recruitment bias adjustment implemented in SS is based upon the work documented in \citet{methot_adjusting_2011} and following the work of \citet{maunder_estimation_2003}.  The concept is based upon the following logic.  The $\sigma_R$ represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, $\sigma_R$, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate calculated as:  
+The recruitment bias adjustment implemented in SS is based upon the work documented in \citet{methot-adjusting-2011} and following the work of \citet{maunder-estimation-2003}.  The concept is based upon the following logic.  The $\sigma_R$ represents the true variability of recruitment in the population.  It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data.  Where data that are informative about recruitment deviations are available, the total variability in recruitment, $\sigma_R$, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate calculated as:  
 
 \begin{equation}
 SE(\hat{r}_y)^2 + SD(\hat{r})^2=\Bigg( \bigg( \frac{1}{\sigma^2_d}+\frac{1}{\sigma^2_R}\bigg)^{-1/2}\Bigg)^2+\Bigg( \frac{\sigma^2_R}{(\sigma^2_R+\sigma^2_d)^{1/2}}\Bigg)^2=\sigma^2_R
@@ -1848,7 +1848,7 @@ The shape of the selectivity is provided by the function (here in terms of age $
 	\end{itemize}
 
 \myparagraph{Pattern 25 (size) and 26 (age) - Exponential logistic}
-The exponential logistic included within SS is based on the exponential logistic selectivity detailed by \citet{thompson_confounding_1994}, however, the parameterization within SS differs.  Explorations using this selectivity form has shown that the estimation of p1 can be highly unstable.  Users are strongly encourage to use the double normal selectivity rather than the exponential logistic selectivity.
+The exponential logistic included within SS is based on the exponential logistic selectivity detailed by \citet{thompson-confounding-1994}, however, the parameterization within SS differs.  Explorations using this selectivity form has shown that the estimation of p1 can be highly unstable.  Users are strongly encourage to use the double normal selectivity rather than the exponential logistic selectivity.
 	\begin{itemize}
 		\item p1 – ascending rate, min: 0.02, max: 1.0, reasonable start value: 0.1.
 		\item p2 – peak, as fraction of way between min size and max size.  Parameter min value:  0.01; max:  0.99; reasonable start value: 0.5.
@@ -2179,7 +2179,7 @@ Note that the male selectivity offsets currently cannot be time-varying because 
 \subsubsection{Dirichlet-Multinomial Error for Data Weighting}
 If the Dirichlet-multinomial error distribution was selected in the data file for length or age data weighting, add additional parameter line(s) immediately following the age selectivity parameter block. There should be 1 parameter line for each parameter in the data file.
 
-For additional information about the Dirichlet-multinomial please see \citet{thorson_model-based_2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
+For additional information about the Dirichlet-multinomial please see \citet{thorson-model-based-2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
 
 	
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm}  p{1.8cm}  p{6.5cm}}
@@ -2204,7 +2204,7 @@ For additional information about the Dirichlet-multinomial please see \citet{tho
 Time-Varying selectivity can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity (Semi-parametric selectivity)}
-An experimental feature added within SS v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu_new_2019}. Unlike other options for time-varying selectivity in SS, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
+An experimental feature added within SS v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu-new-2019}. Unlike other options for time-varying selectivity in SS, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
 
 When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic, exponential logistic, or double normal would be a better choices. This option has not yet been explored adequately to provide guidance on best practices.
 
