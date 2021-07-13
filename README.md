@@ -9,7 +9,9 @@ The documentation includes:
 - SS input file helper spreadsheets, in the [Helper_Spreadsheets subdirectory](https://github.com/nmfs-stock-synthesis/ss-documentation/tree/main/Helper_Spreadsheets)
 - Getting started guide and Introduction to building an ss model guide, available in the [User_Guides subdirectory](https://github.com/nmfs-stock-synthesis/ss-documentation/tree/main/User_Guides)
 
-## Where can I find a compiled version of the manual?
+## Where can I find compiled versions of the documentation?
+
+See the [ss-documentation index page](https://nmfs-stock-synthesis.github.io/ss-documentation/) for links to the latest compiled documentation.
 
 PDF versions of the user manual are available in the [ss manuals folder on the vlab website](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132), as well as in the [archive of manuals subfolder](https://github.com/nmfs-stock-synthesis/ss-documentation/tree/main/Archive%20of%20Manuals).
 
