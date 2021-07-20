@@ -1,12 +1,15 @@
-name: Build LaTeX document using texlive
-on: [push, pull_request, workflow_dispatch]
+name: Build pdf from last release using texlive
+on: [workflow_dispatch]
 jobs:
-  build_latex_texlive:
+  build_pdf_main:
     runs-on: ubuntu-latest
     steps:
     
       - name: Set up Git repository
         uses: actions/checkout@v2
+        with:
+          ref:'v.3.30.17' #latest tagged release version
+          
         
       - name: remove rendered file, check that is gone.
         run: |

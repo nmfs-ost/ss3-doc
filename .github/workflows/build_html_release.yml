@@ -1,9 +1,9 @@
-name: build_html
+name: build_html_release
 
-on: [push]
+on: [workflow_dispatch]
 
 jobs:
-  build_html:
+  build_html_release:
     runs-on: ubuntu-20.04
     env:
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Set up Git repository
         uses: actions/checkout@v2
+        with: 
+          ref:'v3.30.17' #use the last tagged release version
         
       - name: Set up R
         uses: r-lib/actions/setup-r@master

@@ -1,0 +1,29 @@
+name: Build pdf from main branch using texlive
+on: [push, pull_request, workflow_dispatch]
+jobs:
+  build_pdf_main:
+    runs-on: ubuntu-latest
+    steps:
+    
+      - name: Set up Git repository
+        uses: actions/checkout@v2
+        
+      - name: remove rendered file, check that is gone.
+        run: |
+          rm -rf SS330_User_Manual.pdf
+          ls
+     # - name: add lua filter to the repository
+     #  run: wget https://raw.githubusercontent.com/klpn/accpdf/master/common/tagged-filter.lua      
+        
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: SS330_User_Manual.tex
+          #args: --lua-filter=tagged-filter.lua
+          latexmk_use_lualatex: true
+          
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v2
+        with:
+          name: SS330_User_Manual.pdf
+          path: SS330_User_Manual.pdf
