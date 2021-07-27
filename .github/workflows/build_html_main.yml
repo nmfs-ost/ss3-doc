@@ -73,6 +73,20 @@ jobs:
               html_txt[start:end] <- ""
             }
           }
+          # remove Pattern N Parameters etc double header
+          label <- grep(">N Parameters<", html_text, fixed = T)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label == 5)
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-2):(i-1)])
+            end <- min(end[end %in% (i+1):(i+2)])
+            if(length(start) == 1 & length(end) == 1) {
+              html_txt[start:end] <- ""
+            }
+          }
           # Add title to table of contents
           where_add <- grep('<nav id="TOC" role="doc-toc">', 
                             html_txt, fixed = TRUE)
