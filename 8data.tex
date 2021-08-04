@@ -951,25 +951,25 @@ The final two lines in the example above indicate in that variable series 1 will
 
 \myparagraph{Note}
 	\begin{itemize}
-		\item Any years for which environmental data are not read are assigned a value of 0.0. None of the current link functions in SS contain a link parameter that acts as an offset.  Therefore, you should subtract the mean from your data before entering it into SS.  This lessens the problem with missing observations,but does not eliminate it. A better approach for dealing with missing observations is to use a different approach for the environmental effect on the parameter.  Set up the parameter to have random deviations for all years, then enter the zero-centered environmental information as a \hyperlink{SpecialSurvey}{special survey of type 35} and set up the catchability of that survey to be a link to the deviation vector.  This is definitely a more complex approach and not much used, but it is superior in treatment of missing values and superior in allowing for error in the environmental relationship.
-		\item It is permissible to include a year that is one year before the start year in order to assign environmental conditions for the initial equilibrium year.  But this works only for recruitment parameters, not biology or selectivity parameters.
+		\item Any years for which environmental data are not read are assigned a value of 0.0. None of the current link functions in SS contain a link parameter that acts as an offset.  Therefore, you should subtract the mean from your data before entering it into SS.  This lessens the problem with missing observations, but does not eliminate it. A better approach for dealing with missing observations is to use a different approach for the environmental effect on the parameter.  Set up the parameter to have random deviations for all years, then enter the zero-centered environmental information as a \hyperlink{SpecialSurvey}{special survey of type 35} and set up the catchability of that survey to be a link to the deviation vector.  This is definitely a more complex approach and not much used, but it is superior in treatment of missing values and superior in allowing for error in the environmental relationship.
+		\item Users can assign environmental conditions for the initial equilibrium year by including environmental data for one year before the start year. However, this works only for recruitment parameters, not biology or selectivity parameters.
 		\item Environmental data can be read for up to 100 years after the end year of the model. Then, if the recruitment-environment link has been activated, the future recruitments will be influenced by any future environmental data. This could be used to create a future "regime shift" by setting historical values of the relevant environmental variable equal to zero and future values equal to 1, in which case the magnitude of the regime shift would be dictated by the value of the environmental linkage parameter. Note that only future recruitment and growth can be modified by the environmental inputs; there are no options to allow environmentally-linked selectivity in the forecast years.
 		\item Some model derived quantities like summary biomass and recruitment deviation are assigned to some \hyperlink{EnvVar}{negative valued environmental variables}. This is a stepping stone towards creating ability for parameters to be density-dependent. 
 	\end{itemize}
 
 \subsection{Generalized Size Composition Data}
-A flexible feature with SS is a generalized approach to size composition information.  It was designed initially to provide a means to include weight frequency data, but was implemented to provide a generalized capability.  The user can define as many size frequency methods as necessary.
+The generalized approach to size composition information was designed initially to provide a means to include weight frequency data. However, the uses are broader, such as allowing for size composition data with different data bins. The user can define as many generlized size composition methods as necessary.
 
 \begin{itemize}
 	\item Each method has a specified number of bins.
 	\item Each method has "units" so the frequencies can be in units of biomass or numbers.
 	\item Each method has "scale" so the bins can be in terms of weight or length (including ability to convert bin definitions in pounds or inches to kg or cm). 
-	\item The composition data is input as females then males, just like all other composition data in SS. So, in a two-sex model, the new composition data can be combined sex, single sex, or both sex.
-	\item If a retention function has been defined, then the new composition data can be from the combined discard + retained, discard only or retained only.
-	\item There are two options for treating fish that in population size bins that are smaller than the smallest size frequency bin.
+	\item The composition data is input as females then males, just like all other composition data in SS. In a two-sex model, the new composition data can be combined sex, single sex, or both sex.
+	\item The generalized size composition data can be from the combined discard and retained, discard only or retained only.
+	\item There are two options for treating fish that in population size bins are smaller than the smallest size frequency bin.
 	\begin{itemize}
-		\item Option 1: By default, these fish are excluded (unlike length composition data where the small fish are automatically accumulated up into the first bin.
-		\item Option 2: If the first size bin is given as a negative value, then, accumulation is turned on and the negative of the entered value is used as the lower edge of the first size bin.
+		\item Option 1: By default, these fish are excluded (unlike length composition data where the small fish are automatically accumulated up into the first bin.)
+		\item Option 2: If the first size bin is given as a negative value, then accumulation is turned on and the absolute value of the entered value is used as the lower edge of the first size bin.
 	\end{itemize}
 \end{itemize}
 
@@ -1001,7 +1001,7 @@ A flexible feature with SS is a generalized approach to size composition informa
 	\end{tabular}
 \end{center}
 
-An example observation is below.  Note that the format is identical to the length composition data, including sex and partition options, except for the addition of the first column to indicate the size frequency method.
+Example input is shown below. Note that the format is identical to the length composition data, including sex and partition options, except for the addition of the first column, which indicates the size frequency method.
 
 \begin{center}
 	\begin{tabular}{p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{5cm}}
@@ -1020,15 +1020,15 @@ An example observation is below.  Note that the format is identical to the lengt
 \myparagraph{Note}
 	\begin{itemize}
 		\item There is no tail compression for generalized size frequency data.
-		\item Super-period capability is enabled in same way as for length and age composition data.
-		\item By choosing units=2 and scale=3, the size composition method can be nearly identical to the length composition method if the bins are set identically.
-		\item Bin boundaries can be real numbers so obviously do not have to align with population length bin boundaries. SS interpolates as necessary.
-		\item Size bins cannot be defined to be narrower than the population binwidth; an untrapped error will occur.
-		\item Because the transition matrix can depend upon weight-at-length, it is calculated internally for each sex and for each season because weight-at-length can differ between sexes and can vary seasonally.
+		\item Super-period capability is as for the length and age composition data.
+		\item By choosing units = 2 and scale = 3 with identical bins and a negative first bin to turn accumulation of small fish on, the size composition method is identical to the length composition method.
+		\item Bin boundaries do not need to align with the population length bin boundaries. SS interpolates as necessary.
+		\item Size bins cannot be defined as narrower than the population bin width.
+		\item The transition matrix can depend upon weight-at-length which differs between sexes and can vary seasonally. Thus, the transition matrix is calculated internally for each sex and each season.
 	\end{itemize}
 
 \subsection{Tag-Recapture Data}
-The ability to analyze tag-recapture data is available with SS.  Each released tag group is characterized by an area, time, sex and age at release. Each recapture event is characterized by a time and fleet. SS fleets each operate in only one area, hence, it is not necessary to record the area of recapture. Inside the model, the tagged cohort is apportioned across all growth patterns in that area at that time (with options to apportion to only one sex or to both). The tag cohort combined with the growth pattern then behaves according to the movement and mortality of that growth pattern. The number of tagged fish is modeled as a negligible fraction of the total population. This means that a tagging event does not move fish from an untagged group to a tagged group. Instead, it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality. The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice. By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are considered to be released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
+The ability to analyze tag-recapture data is available with SS. Each released tag group is characterized by an area, time, sex and age at release. Each recapture event is characterized by a time and fleet. SS fleets each operate in only one area so it is not necessary to record the area of recapture. Inside the model, the tagged cohort is apportioned across all growth patterns in a given area at a given time (with options to apportion to only one sex or to both). The tag cohort by growth pattern then behaves according to the movement and mortality of the growth pattern. The number of tagged fish is modeled as a negligible fraction of the total population. This means that a tagging event does not move fish from an untagged group to a tagged group. Instead, it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality. The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice. By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are assumed to be released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
 
 \begin{center}
 	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3cm}}
