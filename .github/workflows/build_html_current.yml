@@ -97,12 +97,12 @@ jobs:
           where_add <- (grep("references csl-bib-body hanging-indent",
                              html_txt, fixed = TRUE) - 1)
           html_txt <- append(html_txt,
-            '<h1 data-number="18" id="sec:references"><span class="header-section-number">18</span> References</h1>',
+            '<h1 data-number="17" id="sec:references"><span class="header-section-number">17</span> References</h1>',
             after = where_add)
           # Add references to table of contents
-          where_add <- grep("17</span> Code Examples</a></li>", html_txt, fixed = TRUE)
+          where_add <- grep("</nav>", html_txt, fixed = TRUE)-2
           html_txt <- append(html_txt,
-            '<li><a href="#sec:references"><span class="toc-section-number">18</span> References</a></li>',
+            '<li><a href="#sec:references"><span class="toc-section-number">17</span> References</a></li>',
             after = where_add)
           # add formatting for tables
           where_add <- grep("td {", html_txt, fixed = TRUE)
