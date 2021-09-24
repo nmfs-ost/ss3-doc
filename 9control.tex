@@ -680,6 +680,42 @@ The last line in the mortality-growth parameter section allows the user to fix o
 
 As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
 
+\subsubsection{Predator Fleet Mortality}
+The ability to define a predator fleet was first implemented in v.3.30.18.  A parameter line for predator mortality is only required if a predator fleet has been defined in the data file. For each fleet that is designated as a predator, a new parameter line is created in the mortality-growth (MGparm) section in the control file. This parameter will have the label M2\_pred1, where the "1" is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect M2 to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each M2 parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times M2, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set M2 to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included. 
+
+For example with four seasons:
+\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{1.1cm}  p{1.1cm} p{1.1cm}  p{1.1cm}  p{6cm}  }
+	\hline
+	   &    &      &  <other  & Dev  & Dev   & Dev   & <other  & \Tstrut\\
+	LO & HI & INIT &  entries>& link & MinYR & MaxYr & entries>&Parameter Label \Bstrut\\
+	\hline
+	\endfirsthead
+	
+	\hline
+	   &    &      &  <other  & Dev  & Dev   & Dev   & <other  & \Tstrut\\
+    LO & HI & INIT &  entries>& link & MinYR & MaxYr & entries>&Parameter Label \Bstrut\\
+	\hline
+	\endhead
+	
+	\hline
+	\endfoot
+	
+	\endlastfoot
+	
+	0 &  4 & 0.32 & ... & 5 & 1991 & 2018 & \#M2\_pred1\Tstrut\\
+	0 & 10 & 1.00 & ... & 0 & 0    & 0    & \# M2\_pred1\_s1\\
+	0 & 10 & 1.12 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s2 \\
+	0 & 10 & 1.41 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s3 \\
+	0 & 10 & 1.80 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s4 \Bstrut\\		
+	\hline
+\end{longtable}
+
+M2 is age-specific, but not sex or morph specific. The value of the M2 parameter will be distributed across ages according to the selectivity for this fleet. In this example note that "pred1" refers to the first predator in the model, note the fleet number in which that predator has been 3 configured. The resultant age-specific M2 is added to the base M to create a total age-specific M that operates in the model exactly as M has always operated. 
+
+Because M2 is a MGparm, it can be time-varying like any other MGparm. This is important because M2, as a component added to base M, will probably always need to be time-varying by blocks, random walk or linkage to external driver. A time series of M2 from an external source could be input by setting the M2 parameter to have a base value of 0.0 and linking to the time series in the environmental data section of the data file using an additive link. In addition, the relationship should have a fixed slope of 1.0 such that $M2_y = 0.0 + 1.0 * M2\_env\_input_y$. 
+
+Note that all existing reports of natural mortality are the total (base M + M2) natural mortality. The M2 parameter is active in the virgin year and initial equilibrium year, where the value of M2 in the start year is used. In the future, separate control of M2 for the initial equilibrium will be provided. M2 is part of the total M used in the SPR and MSY benchmark calculations. M2 is active in the forecast era, so be attentive to its configuration if it is time-varying. Testing to date shows that this M2 feature can replicate previous results using bycatch fleets.
+
 \subsubsection{Read Biology Parameters}
 \hypertarget{MGorder}{Next}, SS reads the mortality-growth (MG) parameters in generally the following order (may vary based on selected options):
 
@@ -800,6 +836,10 @@ As of v.3.30.12, this parameter now has time-varying capability similar to other
 
 	\multicolumn{2}{l}{Fraction female}\Tstrut & \hypertarget{SexRatio}{Fraction} female at the time of recruitment by growth pattern, if multiple growth patterns, multiple entries required.\Bstrut\\
 	\hline
+	
+	\multicolumn{3}{l}{COND: The following lines are only required when predator fleets are invoked.}\Tstrut\\
+	& M2 Predator & Turned on in the data file.\\
+	\hline
 \end{longtable}
 
 
@@ -854,7 +894,8 @@ Parameters marked with COND are conditional on selecting that feature:
 	-99  & 99   &  0.288   & 0    & ... & 0 & \#Age\_Key\_Parms 2 to 5 (COND)\\
 	-99  & 99   &  0.715   & 0    & ... & 0 & \#Age\_Key\_Parm6 (COND)\\	
 	0.2  & 3.0   &  1.0   & 0    & ... & 0 & \#Catch\_mult\_fleet1 (COND)\\
-	0.001 & 0.999 & 0.5 & 0.5    & ... & 0 & \#Frac\_Female\_GP\_1 \Bstrut\\		
+	0.001 & 0.999 & 0.5 & 0.5    & ... & 0 & \#Frac\_Female\_GP\_1 \\
+	-1.0 & 2 & 0 & 0    & ... & 0 & \#PredM2\_4 \Bstrut\\		
 	\hline
 \end{longtable}
 

@@ -195,8 +195,8 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 	  \begin{itemize}
 	  	\item 1 = fleet with input catches;
 	  	\item 2 = bycatch fleet (all catch discarded) and invoke extra input for treatment in equilibrium and forecast;
-	  	\item 3 = survey: assumes no catch removals even if associated catches are specified below.  If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in Timing); and 
-	  	\item 4 = ignored (not yet implemented).
+	  	\item 3 = survey: assumes no catch removals even if associated catches are specified below.  If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in the "Timing" section); and 
+	  	\item 4 = predator fleet that adds additional mortality without a fleet F (added in version 3.30.18). Ideal for modeling large mortality events such as fish kills or red tide. 
 	  \end{itemize}
 
 \hypertarget{ObsTiming}{}
@@ -205,10 +205,10 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 	  \begin{itemize}
 	  	\item Fishery options:
 		\begin{itemize}
-		    \item -1: catch is treated as if it occurred over the whole season. Stock Synthesis may change the CPUE data to occure in the middle of the season if it is specified otherwise. A user can override this assumption for specific data observations (e.g., length or age) by specifying a month. This option works well for fisheries where fishing is spread throughout the year.
-			\item 1: The fleet timing is not used and only the month value associated with each observation is relevent. This option works well for pulse fisheries that occurs over a small subset of months.
+		    \item -1: catch is treated as if it occurred over the whole season. Stock Synthesis may change the CPUE data to occur in the middle of the season if it is specified otherwise. A user can override this assumption for specific data observations (e.g., length or age) by specifying a month. This option works well for fisheries where fishing is spread throughout the year.
+			\item 1: The fleet timing is not used and only the month value associated with each observation is relevant. This option works well for pulse fisheries that occurs over a small subset of months.
 		\end{itemize}
-	  	\item Survey option, 1: The fleet timingmis not used and only the month value associated with each observation is relevant (e.g., month specification in the indices of abundance or the month for composition data). This input should always be used for surveys.
+	  	\item Survey option, 1: The fleet timing is not used and only the month value associated with each observation is relevant (e.g., month specification in the indices of abundance or the month for composition data). This input should always be used for surveys.
 	  \end{itemize}	  
 	  
 \myparagraph{Area}
@@ -352,12 +352,25 @@ The new format for version SS v.3.30 for a 2 season model with 2 fisheries looks
 	\item If there is reason to believe that the retained catch values underestimate the true catch, then it is possible in the retention parameter set up to create the ability for the model to estimate the degree of unrecorded catch.  However, this is better handled with the new catch multiplier option.
 \end{itemize}
 
-%\subsubsection{Bycatch}
-%Bycatch fleets have an F and hence impose mortality and catch fish.  All this catch is discarded.  There must be a value entered for retained catch so that SS knows to calculate an F for that season, but this catch amount is ignored in the log likelihood.  The amount of discarded catch can be entered as a discard observation(s).  Bycatch fleets have selectivity, which must be specified or estimated if observations of the size or age composition of the discards is entered.
-%\begin{itemize}
-%	\item There is no retained catch amount to match and hence, the F for bycatch only fleets must be implemented with the continuous F method  (F\_method = 2).
-%	\item  MSY and yield per recruit are calculated in terms of dead catch, and they currently include catch from bycatch fleets.  The search for F\textsubscript{MSY} scales the bycatch F along with the F for the fleets that retain catch.   
-%\end{itemize}
+\subsection{Predator Fleets}
+
+Introduced in v.3.30.18, a predator fleet provides the capability to define an entity as a predator that adds additional mortality (M2, i.e., the predation mortality) to the base natural mortality. This new capability means that previous use of bycatch fleets to mimic predators (or fish kills, e.g., due to red tide) will no longer be necessary. The problem with using a bycatch fleet as a predator was that it still created an "F" that was included in the reporting of total F even if the bycatch was not included in the MSY search.
+
+For each fleet that is designated as a predator, a new parameter line is created in the mortality-growth (MGparm) section in the control file. This parameter will have the label M2\_pred1, where the "1" is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect M2 to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each M2 parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times M2, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set M2 to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included.
+
+Three types of data relevant to M2 can be input:
+
+\begin{itemize}
+\item Total kill (as discard in the data file): M2 is a component of Z, so M2/Z can be used to calculate the amount of the total kill that is attributable to M2. This is completely analogous to calculating catch for the fishing fleets. The total kill (e.g., consumption) is output to the discard array. If data on the total kill by the M2 predator is available, it can be input as observed “discard” for this fleet and thus included in the total logL to estimate the magnitude of the M2 parameter.
+
+\item Predator effort (as a survey index in the data file): M2 is a rate analogous to F, so the survey of F approach (survey units = 2) can be used to input predator abundance as an indicator of the “effort” that produced the M2. Like all surveys, this survey of M2 will also need a Q specification. Note that in the future we can explore improved options for this Q.
+
+\item Predated age-length composition (as length or age composition data in the data file): M2 "eats" the modeled fish, so gut contents or other sources may have size and/or age composition data which may be input to estimate selectivity of the M2 source. 
+\end{itemize}
+
+With the input of data on the time series of total kill or predator effort, it should be possible to estimate annual deviations around the base M2 for years with data. If the M2 time series is instead driven by environmental data, then also including data on kill or effort can provide a means to view consistency between the environmental time series and the additional data sets. Output of M2 is found in a report.sso section labeled predator(M2). In the example below, the M2 seasonal multiplier was defined to have random deviations by year. This allowed multipliers plus M2 itself to closely match the input consumption amounts (288 mt of consumption per season, the fit can be examined by looking at the discard output report).
+
+
 
 \subsection{Indices}
 Indices are data that are compared to aggregate quantities in the model.  Typically the index is a measure of selected fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model.  The first section of the "Indices" setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
