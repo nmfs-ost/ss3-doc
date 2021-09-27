@@ -685,32 +685,32 @@ As of v.3.30.12, this parameter now has time-varying capability similar to other
 \subsubsection{Predator Fleet Mortality}
 The ability to define a predator fleet was first implemented in v.3.30.18.  A parameter line for predator mortality is only required if a predator fleet has been defined in the data file. For each fleet that is designated as a predator, a new parameter line is created in the mortality-growth (MGparm) section in the control file. This parameter will have the label M2\_pred1, where the "1" is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect M2 to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each M2 parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times M2, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set M2 to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included. 
 
-For example with four seasons:
-\begin{longtable}{p{0.75cm} p{0.75cm} p{1cm}  p{1.5cm}  p{1.1cm}  p{1.1cm} p{1.1cm}  p{1.1cm}  p{4cm}  }
-	\hline
-	   &    &      &  <other  & Dev  & Dev   & Dev   & <other  & \Tstrut\\
-	LO & HI & INIT &  entries>& link & MinYR & MaxYr & entries>&Parameter Label \Bstrut\\
-	\hline
-	\endfirsthead
-	
-	\hline
-	   &    &      &  <other  & Dev  & Dev   & Dev   & <other  & \Tstrut\\
-    LO & HI & INIT &  entries>& link & MinYR & MaxYr & entries>&Parameter Label \Bstrut\\
-	\hline
-	\endhead
-	
-	\hline
-	\endfoot
-	
-	\endlastfoot
-	
-	0 &  4 & 0.32 & ... & 5 & 1991 & 2018 & \#M2\_pred1\Tstrut\\
-    0 & 10 & 1.00 & ... & 0 & 0    & 0    & \# M2\_pred1\_s1\\
-    0 & 10 & 1.12 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s2 \\
-    0 & 10 & 1.41 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s3 \\
-    0 & 10 & 1.80 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s4 \Bstrut\\		
-\hline
-\end{longtable}
+%For example with four seasons:
+%\begin{longtable}{p{0.75cm} p{0.75cm} p{1cm}  p{1.5cm}  p{1.1cm}  p{1.1cm} p{1.1cm}  p{1.1cm}  p{4cm}  }
+%	\hline
+%	   &    &      &  <other  & Dev  & Dev   & Dev   & <other  & \Tstrut\\
+%	LO & HI & INIT &  entries>& link & MinYR & MaxYr & entries>&Parameter Label \Bstrut\\
+%	\hline
+%	\endfirsthead
+%	
+%	\hline
+%	   &    &      &  <other  & Dev  & Dev   & Dev   & <other  & \Tstrut\\
+ %   LO & HI & INIT &  entries>& link & MinYR & MaxYr & entries>&Parameter Label \Bstrut\\
+%	\hline
+%	\endhead
+%	
+%	\hline
+%	\endfoot
+%	
+%	\endlastfoot
+%	
+%	0 &  4 & 0.32 & ... & 5 & 1991 & 2018 & \#M2\_pred1\Tstrut\\
+%   0 & 10 & 1.00 & ... & 0 & 0    & 0    & \# M2\_pred1\_s1\\
+%    0 & 10 & 1.12 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s2 \\
+%    0 & 10 & 1.41 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s3 \\
+%    0 & 10 & 1.80 & ... & 5 & 1991 & 2018 & \#M2\_pred1\_s4 \Bstrut\\		
+%\hline
+%\end{longtable}
 
 M2 is age-specific, but not sex or morph specific. The value of the M2 parameter will be distributed across ages according to the selectivity for this fleet. In this example note that "pred1" refers to the first predator in the model, note the fleet number in which that predator has been 3 configured. The resultant age-specific M2 is added to the base M to create a total age-specific M that operates in the model exactly as M has always operated. 
 
