@@ -155,7 +155,7 @@ Additional control of the seasonal timing was added in SS v.3.30 and now there n
 		
 		\endlastfoot
 		
-		1 \Tstrut & &\multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning.  Options:}} \\ \\ 
+		1 \Tstrut & &\multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning.  Options:}} \\ \\ \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{1 = no longer available (used the SS v.3.24 or earlier setup);}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{2 = main effects for growth pattern, settle timing, and area;}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{3 = each settle entity; and}} \\
@@ -267,6 +267,7 @@ Here the movement of fish between areas are defined.  This is a box transfer wit
 	\\
 	\\
 	\\ 
+	\\
 	\hline
 	\end{longtable}
 
@@ -300,6 +301,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 		\endfirsthead
 		
 		3 \Tstrut & & \multirow{1}{4cm}[-0.1cm]{\parbox{12cm}{Number of block patterns. These patterns can be referred to in the parameter sections to create a separate parameter value for each block.}}\Bstrut\\
+		\\
 		\\
 
 		\hline
@@ -684,7 +686,7 @@ As of v.3.30.12, this parameter now has time-varying capability similar to other
 The ability to define a predator fleet was first implemented in v.3.30.18.  A parameter line for predator mortality is only required if a predator fleet has been defined in the data file. For each fleet that is designated as a predator, a new parameter line is created in the mortality-growth (MGparm) section in the control file. This parameter will have the label M2\_pred1, where the "1" is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect M2 to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each M2 parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times M2, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set M2 to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included. 
 
 For example with four seasons:
-\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{1.1cm}  p{1.1cm} p{1.1cm}  p{1.1cm}  p{6cm}  }
+\begin{longtable}{p{0.75cm} p{0.75cm} p{1cm}  p{1.5cm}  p{1.1cm}  p{1.1cm} p{1.1cm}  p{1.1cm}  p{4cm}  }
 	\hline
 	   &    &      &  <other  & Dev  & Dev   & Dev   & <other  & \Tstrut\\
 	LO & HI & INIT &  entries>& link & MinYR & MaxYr & entries>&Parameter Label \Bstrut\\
@@ -1327,7 +1329,7 @@ F as parameter is also preferred for situations where catch is known imprecisely
    \hline
 
    \multicolumn{3}{l}{COND: F method = 4}\Tstrut\\
-   \multicolumn{3}{l}{Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only select a phase of 99. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line.}\Tstrut\\
+   & & Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only select a phase of 99. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line.\Tstrut\\
    Fleet & Parameter Value & Phase \Tstrut\\
    1 & 0.05 & 1 \\
    2 & 0.01 & 1 \\
