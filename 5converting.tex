@@ -1,6 +1,8 @@
 \hypertarget{ConvIssues}{}
 \section{Converting Files from SS v.3.24}
-Converting files from SS v.3.24 to SS v.3.30 can be performed by using the program ss\_trans.exe. This executable takes 3.24 files as input and will output SS 3.30 input and output files. SS\_trans executables are available for v. 3.30.01 - 3.30.17. The following file structure and steps are recommended for converting model files:
+Converting files from SS v.3.24 to SS v.3.30 can be performed by using the program ss\_trans.exe. This executable takes 3.24 files as input and will output SS 3.30 input and output files. SS\_trans executables are available for v. 3.30.01 - 3.30.17. The transitional executable was phased out with v.3.30.18. If a model needs to be converted from v. 3.24 and v. 3.30.18 or newer, one should use the v. 3.30.17 ss\_trans.exe to convert files and then make any additional needed adjustments between v. 3.30.17 to newer model versions should be done by hand.  
+
+The following file structure and steps are recommended for converting model files:
 \begin{enumerate}
 	\item Create "transition" folder.  Place the 4 main model files (control, data, starter, and forecast) from version SS v.3.24 within the transition folder along with the SS transition executable (ss\_trans.exe).  One tip is to use the control.ss\_new from the SS v.3.24 estimated model rather than the control.ss file which will set all parameter values at the previous estimated maximum likelihood estimated (MLE) parameters.  Run the transition executable with phase = 0 within the starter file with the read par file turned off (option 0).
 	
@@ -20,7 +22,6 @@ Converting files from SS v.3.24 to SS v.3.30 can be performed by using the progr
 	\item The use of Q deviations,
 	\item Complex birth seasons,
 	\item Environmental effects on spawner-recruitment parameters,
-	\item Setup of time-varying quantities for models that used the no-longer-available features (e.g., logistic bound constraint).
-\end{enumerate}
+	\item Setup of time-varying quantities for models that used the no-longer-available features (e.g., logistic bound constraint).\end{enumerate}
 
 \pagebreak
