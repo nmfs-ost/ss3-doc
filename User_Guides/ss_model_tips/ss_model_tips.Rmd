@@ -1,6 +1,6 @@
 ---
-title: "Developing your first Stock Synthesis (SS) model"
-author: "SS Development Team"
+title: "Developing your first Stock Synthesis (SS3) model"
+author: "SS3 Development Team"
 date: '`r format(Sys.Date(), "Last Updated: %B %d, %Y")`'
 output:
   pdf_document:
@@ -22,56 +22,56 @@ knitr::opts_chunk$set(echo = FALSE)
 
 # Scope
 <!-- This is a comment, feel free to add your own throughout! -->
-This document is intended to teach users how to develop a Stock Synthesis model. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS model, but that this is the first or one of the first SS models that they are developing.
+This document is intended to teach users how to develop a Stock Synthesis model. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS3 model, but that this is the first or one of the first SS3 models that they are developing.
 
-If you are a new SS user who is not yet comfortable running an SS model, we suggest trying to run an example working model using advice in the **Getting Started** document before attempting to develop and run your own model as outlined here.
+If you are a new SS3 user who is not yet comfortable running an SS3 model, we suggest trying to run an example working model using advice in the **Getting Started** document before attempting to develop and run your own model as outlined here.
 
 By the end of using this guide, you should be able to:
 
-1. Develop your own SS model development workflow based on the tools and methods suggested 
+1. Develop your own SS3 model development workflow based on the tools and methods suggested 
 2. Find information on the required inputs for different model specifications
-3. Understand how to use phases within an SS model
+3. Understand how to use phases within an SS3 model
 4. Debug basic issues with input in Stock Synthesis models and identify when there are more advanced model problems
 
-# How to create new SS models
+# How to create new SS3 models
 
-There are many potential workflows for developing a new SS model, but a common technique is to start with an existing model and change it in a piece-wise fashion. The basic technique is:
+There are many potential workflows for developing a new SS3 model, but a common technique is to start with an existing model and change it in a piece-wise fashion. The basic technique is:
 
-1. Find an existing working model (perhaps one of the SS example models available in the [SS Document Library](https://vlab.noaa.gov/web/stock-synthesis/document-library) or perhaps a model more similar in form to the model you plan to create).
-2. Edit portions of the model and try running as you go to check that your inputs can be read correctly by SS and make logical sense (tip: set ```maxphase = 0``` in the starter file and option ```-nohess``` to reduce run time with each iteration of checking inputs).
+1. Find an existing working model (perhaps one of the SS3 example models available in the [user-examples repository](https://github.com/nmfs-stock-synthesis/user-examples) or perhaps a model more similar in form to the model you plan to create).
+2. Edit portions of the model and try running as you go to check that your inputs can be read correctly by SS3 and make logical sense (tip: use options ```-stopph 0 -nohess``` to reduce run time with each iteration of checking inputs).
 
-Some commonly used tools for editing the SS input files are:
+Some commonly used tools for editing the SS3 input files are:
 
-1. **Stock Synthesis Interface (SSI; the SS GUI)**. SSI is available publicly in the [Stock Synthesis Vlab document library](https://vlab.noaa.gov/web/stock-synthesis/document-library). The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI.
+1. **Stock Synthesis Interface (SSI; the SS3 GUI)**. SSI is available publicly in the [Stock Synthesis Vlab document library](https://vlab.noaa.gov/web/stock-synthesis/document-library). The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI.
 2. **Your favorite text editor**.
-3. **The ```SS_read*``` and ```SS_write*``` functions in the R package [r4ss](https://github.com/r4ss/r4ss)**. These functions allow you to read in SS input files to R, manipulate them from within R, then write them out to a file.
+3. **The ```SS_read*``` and ```SS_write*``` functions in the R package [r4ss](https://github.com/r4ss/r4ss)**. These functions allow you to read in SS3 input files to R, manipulate them from within R, then write them out to a file.
 
 # Guidance on model specification
 
-The [SS user manual](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132) and the [helper spreadsheets](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337) can be used as guides to help you edit your model. The SSI can also help guide you through changes in model inputs required as you select different SS model options.
+The [SS3 user manual](https://github.com/nmfs-stock-synthesis/ss-documentation/releases) and the [helper spreadsheets](https://github.com/nmfs-stock-synthesis/ss-documentation/tree/main/Helper_Spreadsheets) can be used as guides to help you edit your model. The SSI can also help guide you through changes in model inputs required as you select different SS3 model options.
 
-If you are unsure if you got the setup right (e.g., adding the correct number of parameter lines for a chosen catchability setup), try running the model with ```maxphase = 0``` in the starter file and ADMB option ```-nohess``` (or for SS 3.30.16 and greater, run the model with command line options ```-stopph 0 -nohess```). If the model run completes, you can compare the **control.ss_new** file and the first data set in **data.ss_new** to your SS input files to make sure SS interpreted your values in the way you intended. If the run exits before completion, you can look at **warning.sso** and **echoinput.sso** for clues as to what was wrong with your setup.
+If you are unsure if you got the setup right (e.g., adding the correct number of parameter lines for a chosen catchability setup), try running the model with ```maxphase = 0``` in the starter file and ADMB option ```-nohess``` (or for SS3 3.30.16 and greater, run the model with command line options ```-stopph 0 -nohess```, no need to change the starter file). If the model run completes, you can compare the **control.ss_new** file and the first data set in **data.ss_new** to your SS3 input files to make sure SS3 interpreted your values in the way you intended. If the run exits before completion, you can look at **warning.sso** and **echoinput.sso** for clues as to what was wrong with your setup.
 
-For additional help with model specification, please post your issue on the vlab [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) (for registered SS users) or send an email to the SS team at NMFS.Stock.Synthesis@noaa.gov.
+For additional help with model specification, please post your issue on the vlab [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) (for registered SS3 users) or send an email to the SS3 team at NMFS.Stock.Synthesis@noaa.gov.
 
-# Phases in SS and ADMB
+# Phases in SS3 and ADMB
 
-Phases are used within ADMB to tell the program in what order the parameters should be estimated. For more details about phases in ADMB beyond what is provided here, see the [ADMB user manual](http://www.admb-project.org/docs/manuals/). ADMB phases can be specified for parameters in SS.
+Phases are used within ADMB to tell the program in what order the parameters should be estimated. For more details about phases in ADMB beyond what is provided here, see the [ADMB user manual](http://www.admb-project.org/docs/manuals/). ADMB phases can be specified for parameters in SS3.
 
 A **negative phase** indicates that the parameter is not estimated, but specified. Note that all negative phases are equivalent; i.e., there is no difference in how parameters with phases -1 and -99 are dealt with. The exceptions are:
 
- +  -9999, which is a special value within SS (see the profilevalues.ss section of the SS user manual).
+ +  -9999, which is a special value within SS3 (see the profilevalues.ss section of the SS3 user manual).
  + Values more negative than -999 for parameters in the tagging section of the control file.
 
 A **positive phase** indicates that the parameter will be estimated. Parameters with a lower positive phase will be estimated before those with a higher positive phase. Which phase should you put an estimated parameter in? While there is variability among analysts and models in how phasing is used, in general, parameters with low positive phases should be for values which define the scale of the population (i.e., *R0*, natural mortality, steepness, selectivity slope). Parameters for fine-tuning fits to the data are often estimated in later phases (i.e., catchability, growth, and recruitment deviation parameters). Many models use positive phases from about 1 to 5, although it is possible to use higher phasing values.
 
 # Basic debugging: use **echoinput.sso** and **warning.sso**
 
-The most useful tools for debugging SS issues are the SS output files **echoinput.sso** and **warning.sso**. As SS runs, it writes back to **echoinput.sso**. When SS exits without finishing, looking at the last contents written to **echoinput.sso** and comparing it with your input files can provide clues as to where (and possibly why) the run failed. Note that SS reads inputs in order and will read them incorrectly if the wrong number of inputs is provided.  Any warnings generated during the run are written to **warning.sso**. The **warnings.sso** file should always be examined at the end of the run, even if the run was successful.
+The most useful tools for debugging SS3 issues are the SS3 output files **echoinput.sso** and **warning.sso**. As SS3 runs, it writes back to **echoinput.sso**. When SS3 exits without finishing, looking at the last contents written to **echoinput.sso** and comparing it with your input files can provide clues as to where (and possibly why) the run failed. Note that SS3 reads inputs in order and will read them incorrectly if the wrong number of inputs is provided.  Any warnings generated during the run are written to **warning.sso**. The **warnings.sso** file should always be examined at the end of the run, even if the run was successful.
  
 # Visualizing results
 
-Visualization is helpful as you iteratively develop your model and for presentation of final model results. The output of an SS model can be read into [r4ss](https://github.com/r4ss/r4ss) or the excel viewer, SS_Output-330.xslm (find it in the [Helper Spreadsheets folder](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337) of the [Vlab SS Document Library](https://vlab.noaa.gov/web/stock-synthesis/document-library)).
+Visualization is helpful as you iteratively develop your model and for presentation of final model results. The output of an SS3 model can be read into [r4ss](https://github.com/r4ss/r4ss).
 
 # Proposed workflow for arriving at a "final" model
 
@@ -79,9 +79,9 @@ It's important to remember that arriving at a model takes time! You should plan 
 
 ## First runs without estimation
 
-First, you want to check that SS is able to read your input files in the way you intended. To do a run without estimation, set change max phase to 0 in **starter.ss** and run your model with ADMB option `-nohess`. Examine **warning.sso**, **echoinput.sso**, and the **.ss_new files**  produced during this run without estimation to see how SS interpreted your input files and if it was as you intended. 
+First, you want to check that SS3 is able to read your input files in the way you intended. To do a run without estimation, set change max phase to 0 in **starter.ss** and run your model with ADMB option `-nohess`. Examine **warning.sso**, **echoinput.sso**, and the **.ss_new files**  produced during this run without estimation to see how SS3 interpreted your input files and if it was as you intended. 
 
-After you have verified that SS is reading your input correctly, you can also consider adjustment to selectivity, growth, and recruitment parameters at this stage. 
+After you have verified that SS3 is reading your input correctly, you can also consider adjustment to selectivity, growth, and recruitment parameters at this stage. 
 
 <!-- Probably too many details, but could add to this section: -->
 <!-- *In particular, you can check that lnR0 is large enough to support the catch time series. If it is not, it should be adjusted. Note that the depletion fleet controls can be used as an automated approach for this issue.* -->
@@ -96,7 +96,7 @@ Try changing max phase to be greater than 0 (perhaps 2 or 3) to estimate some bu
 
 Once all major patterns in the residuals have been resolved, try estimating all parameters in the model. Change max phase to include all of your model phases (i.e., equal to or higher than the highest phase specified in your model). You'll want to do multiple runs for different model refinement purposes at this time:
 
-1. Do one or more run(s) with the hessian estimated to get variance of the recruitment deviations and then use this vector of variances to adjust the bias adjustment ramp (see the [SS User Manual](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132) for additional details).
+1. Do one or more run(s) with the hessian estimated to get variance of the recruitment deviations and then use this vector of variances to adjust the bias adjustment ramp (see the [SS3 User Manual](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132) for additional details).
 2. Do runs with or without estimating the hessian to tune the data weightings.
 3. Run the model multiple times and jitter the starting values (option to jitter is selected in `starter.ss`). This runs the model with new starting parameter values to determine if a better model fit is possible using different starting values.
 
@@ -110,7 +110,7 @@ In this section, we have listed some common problems that you may encounter and 
 
 It is often difficult to pinpoint the cause of residuals that have substantial patterns, but two potential reasons this could happen are unrealistic starting values or poor model specification. If you have residuals with substantial pattern, you can try changing the starting values. If a parameter is not moving from the starting value, there may not be enough information to determine its value and it may be necessary to fix the value in the model.  If the parameter does move with different starting values, it is possible that the starting value used before was not reasonable and thus changing the starting value to a reasonable value fixes the issue.
 
-## If SS runs, but there is a large gradient at the end
+## If SS3 runs, but there is a large gradient at the end
 
 Large gradients are usually reported in **warnings.sso** file, so this problem should be clear when examining the file after a model run. If this is the case, try the following
 
@@ -124,14 +124,14 @@ The hessian information is reported in the **Report.sso** file, so go to this se
 
 # Advanced ADMB run options (MCMC, adnuts)
 
-SS models are typically run using maximum likelihood estimation (MLE), but it is possible to run SS models using Markov Chain Monte Carlo (MCMC). MCMC is outside the scope of this document, but below are some resources to check out in case you are interested in pursuing it further:
+SS3 models are typically run using maximum likelihood estimation (MLE), but it is possible to run SS3 models using Markov Chain Monte Carlo (MCMC). MCMC is outside the scope of this document, but below are some resources to check out in case you are interested in pursuing it further:
 
-1. See the [ADMB user manual](http://www.admb-project.org/docs/manuals/) for more information on using MCMC in ADMB and the section on Running MCMC in the SS user manual for more specific information on running MCMC in SS.
+1. See the [ADMB user manual](http://www.admb-project.org/docs/manuals/) for more information on using MCMC in ADMB and the section on Running MCMC in the SS3 user manual for more specific information on running MCMC in SS3.
 2. See the [adnuts repository](https://github.com/colemonnahan/adnuts) for more information on using the No-U-Turn sampler (NUTS) in ADMB and [this article by Monnahan et al. (2019)](https://doi.org/10.1093/icesjms/fsz059) to better understand the benefits of using NUTS for assessment models.
 
 # Some questions to consider during model development
 
-There are many elements to consider in an SS model. Below are some questions and considerations that experienced SS users have used to check that their model makes sense throughout the iterative model development process.
+There are many elements to consider in an SS3 model. Below are some questions and considerations that experienced SS3 users have used to check that their model makes sense throughout the iterative model development process.
 
 ## Does my model model make sense?
 + Does the biology make sense? Selectivity? 
@@ -141,7 +141,7 @@ There are many elements to consider in an SS model. Below are some questions and
 
 ## Does my model  model fit well?
 
-+ The `r4ss::SS_output()` function prints some very useful diagnostics to the R console window, including a list of the estimated parameters, the estimated value, whether the parameter is hitting a bound, the gradient, and the prior type. Use this (or other SS output files) to answer:
++ The `r4ss::SS_output()` function prints some very useful diagnostics to the R console window, including a list of the estimated parameters, the estimated value, whether the parameter is hitting a bound, the gradient, and the prior type. Use this (or other SS3 output files) to answer:
 
   + Did the parameter move from the initial value?
   + Is the parameter hitting a bound?
@@ -161,6 +161,6 @@ For a fixed value of sigmaR, a section of the output will provide diagnostics to
 
 # Where to get additional help
 
-Post questions to the [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) or send an emails to the SS team at NMFS.Stock.Synthesis@noaa.gov for assistance.
+Post questions to the [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) or send an emails to the  team at NMFS.Stock.Synthesis@noaa.gov for assistance.
 
 

@@ -1,13 +1,13 @@
 ---
-title: "Getting Started with Stock Synthesis (SS)"
-author: "SS Development Team"
+title: "Getting Started with Stock Synthesis (SS3)"
+author: "SS3 Development Team"
 date: '`r format(Sys.Date(), "Last Updated: %B %d, %Y")`'
 output:
+  pdf_document:
+    number_sections: yes
   html_document:
     toc: true
     df_print: paged
-    number_sections: yes
-  pdf_document:
     number_sections: yes
 urlcolor: blue
 ---
@@ -17,78 +17,78 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Scope
 
-Stock Synthesis (SS) is a statistical fisheries population dynamics modeling framework built in [AD Model Builder](http://www.admb-project.org/). The purpose of this document is to introduce users to running SS. We assume these users have some experience with population dynamics models and that they have a basic understanding of how to use the command line, but are new to SS.
+Stock Synthesis (SS3) is a statistical fisheries population dynamics modeling framework built in [AD Model Builder](http://www.admb-project.org/). The purpose of this document is to introduce users to running SS3. We assume these users have some experience with population dynamics models and that they have a basic understanding of how to use the command line, but are new to SS3.
 
 If you have never used the command line, please see the resources in [Appendix 1](#app1).
 
-To follow along, we recommend downloading the simple example from the [SS Examples Folder](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/856180) within the [SS Document Library](https://vlab.noaa.gov/web/stock-synthesis/document-library). Simple is a working SS model that runs quickly and should allow you to experiment with SS workflows without having to worry about the model’s contents.
+To follow along, we recommend downloading the [simple example](https://github.com/nmfs-stock-synthesis/user-examples/tree/main/model_files/simple). Simple is a working SS3 model that runs in less than three minutes and should allow you to experiment with SS3 workflows without having to worry about the model’s contents.
 
 By the end of using this guide, you should:
 
 1. Understand the input and output file structure for Stock Synthesis
-2. Be able to run an SS model via the command line
-3. Understand which tools are available to work with SS models
-4. Troubleshoot basic problems associated with running an SS model
+2. Be able to run an SS3 model via the command line
+3. Understand which tools are available to work with SS3 models
+4. Troubleshoot basic problems associated with running an SS3 model
 
-```{r, echo = FALSE, out.width = "450px", fig.cap="SS input and output files, and associated tools. Note that some tools are used with both input and output model files."}
+```{r, echo = FALSE, out.width = "450px", fig.cap="SS3 input and output files, and associated tools. Note that some tools are used with both input and output model files."}
 knitr::include_graphics("images/SS_tools_files.png")
 ```
 
 # Stock Synthesis file structures and tools
 
-SS uses text input files and produces text output files. In this section, the SS input and output files are described, as are tools that can be used with these files. See how they relate in Figure 1.
+SS3 uses text input files and produces text output files. In this section, the SS3 input and output files are described, as are tools that can be used with these files. See how they relate in Figure 1.
 
 
-## SS files: Required inputs
+## SS3 files: Required inputs
 
-Four required input files are read by the SS executable. Throughout this document, we will refer to the SS executable as ss.exe. Keep in mind that the Linux and Mac versions of SS have no file extension, and the executable could be renamed to something else. These input files are:
+Four required input files are read by the SS3 executable. Throughout this document, we will refer to the SS3 executable as ss.exe. Keep in mind that the Linux and Mac versions of SS3 have no file extension, and the executable can be named differently (e.g., ss_win.exe). These input files are:
 
  1. **starter.ss:** Required file containing file names of the data file and the control file plus other run controls. Must be named starter.ss.
  2. **data file:** File containing model dimensions and the data. The data file can have any name, as specified in the starter file, but typically ends in .ss or .dat.
  3. **control file:** File containing set-up for the parameters. The control file can have any name, as specified in the starter file, but typically ends in .ss or .ctl.
  4. **forecast.ss:** File containing specifications for reference points and forecasts. Must be named forecast.ss.
  
-## SS files: Optional inputs
+## SS3 files: Optional inputs
 
-The two optional input files for SS are:
+The two optional input files for SS3 are:
 
  1. **ss.par:** A text file with one line per parameter where order matters that could be created from a previous model run. This file is read in to overwrite the initial parameter values in the control file. The option to use the ss.par file or the control file for initial parameter values is selected in starter.ss.
  2. **wtatage.ss:** File containing empirical input of body weight by fleet and population and empirical fecundity-at-age. The option to use the wtatage.ss file is selected in a line of the control file.
 
-## SS output files
+## SS3 output files
 
 After a model run, there are many output text files created. The most useful output files can be divided into:
 
  1. **Files containing results**. These files include ss_summary.sso and report.sso that contain model results summarized in different ways. 
- 2. **.ss_new files**. These files echo the SS input files, but include standardized comments. The values should be the same as the input files, except for the data.ss_new, which can also contain expected values from the model and bootstrapped data sets, if the user specifies so in the starter.ss file. The .ss_new files can be useful to standardize the comments in the input files and can be checked to make sure that SS interpreted the inputs as the user intended.
+ 2. **.ss_new files**. These files echo the SS3 input files, but include standardized comments. The values should be the same as the input files, except for the data.ss_new, which can also contain expected values from the model and bootstrapped data sets, if the user specifies so in the starter.ss file. The .ss_new files can be useful to standardize the comments in the input files and can be checked to make sure that SS3 interpreted the inputs as the user intended.
  3. **Files used for debugging**. These files include warnings.sso and echoinput.sso.
 
 ## Tool definitions
 
-+ **Any text editor** can be used to view and edit SS input and output files. Defining a custom syntax highlighting scheme for SS files may improve SS file readability. Some commonly used text editors include Atom, Emacs, Notepad++, and Sublime Text.
++ **Any text editor** can be used to view and edit SS3 input and output files. Defining a custom syntax highlighting scheme for SS3 files may improve SS3 file readability. Some commonly used text editors include Atom, Emacs, Notepad++, and Sublime Text.
 
-+ The **Helper Excel Sheets** and **Excel Viewer (SS-OUTPUT)** are available in the [Helper Spreadsheets folder](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/978337) of the NOAA Virtual Lab (Vlab) Stock Synthesis community document library. The helper excel sheets (also called helper spreadsheets) document inputs required given SS options selected and can be used as a reference while setting up model input files. The excel viewer is a tool for visualizing model results.
++ The [helper excel sheets](https://github.com/nmfs-stock-synthesis/ss-documentation/tree/main/Helper_Spreadsheets) (also called helper spreadsheets) document inputs required given SS3 options selected and can be used as a reference while setting up model input files.
 
-+ **r4ss**: an R package to plot SS model results and manipulate SS input and output files. Available at: https://github.com/r4ss/r4ss
++ **r4ss**: an R package to plot SS3 model results and manipulate SS3 input and output files. Available at: https://github.com/r4ss/r4ss
 
-+ **SSI**: Stock Synthesis Interface (i.e., the SS GUI). The latest version can be downloaded from [within the document library on Vlab](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951). SSI can be used to edit, save, run, and visualize model inputs and outputs.
++ **SSI**: Stock Synthesis Interface (i.e., the SS3 GUI). The latest version can be downloaded from [within the document library on Vlab](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951). SSI can be used to edit, save, run, and visualize model inputs and outputs.
 
-# Running SS
+# Running SS3
 
-SS is typically run through the command line. We will introduce three common approaches:
+SS3 is typically run through the command line. We will introduce three common approaches:
 
 1. The one folder approach
 2. The two folder approach
 3. The path approach
 
-Other possible approaches to running SS include:
+Other possible approaches to running SS3 include:
 
-1. Run SS via the command line from within R (discussed briefly)
-2. Use SSI to set up model files and run (not discussed here; find the SSI and its documentation [within the Latest Executables folder](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951) of the [Vlab SS community document library](https://vlab.noaa.gov/web/stock-synthesis/document-library))
+1. Run SS3 from within R (discussed briefly)
+2. Use SSI to set up model files and run (not discussed here; find the SSI and its documentation [within the Latest Executables folder](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951) of the [Vlab SS3 community document library](https://vlab.noaa.gov/web/stock-synthesis/document-library))
 
-## The one folder approach and demonstration of an SS model run
+## The one folder approach and demonstration of an SS3 model run
 
-The one folder approach is so named because the model input files and SS executable are in the same folder. The one folder approach is the simplest way to run SS via the command line, so we will walk through an example run using this approach.
+The one folder approach is so named because the model input files and SS3 executable are in the same folder. The one folder approach is the simplest way to run SS3 via the command line, so we will walk through an example run using this approach.
 
 ### Setup for the 1 folder approach
 
@@ -105,48 +105,48 @@ For example, here is what should be included for a model with no conditional fil
 
 ![](images/SS_input_files_folder.png)
 
-### Run SS
+### Run SS3
 
-Once all of the model files and the SS executable are in the same folder, you can open your command window of choice at the location of the model files. 
+Once all of the model files and the SS3 executable are in the same folder, you can open your command window of choice at the location of the model files. 
 
 To do this, you can typically click to highlight the folder the model files are in, then  shift + right click on the same folder and select the option from the menu to open the command line of choice (e.g., Windows Powershell). Then, type `ss` (or other name of the ss exe) into the command prompt and hit enter. Note that if you are using Windows Powershell, you will need to type `./ss`.
 
-The exact instructions for running SS can differ depending on the command window used. If you have trouble, search for resources that describe running an executable for your specific command line.
+The exact instructions for running SS3 can differ depending on the command window used. If you have trouble, search for resources that describe running an executable for your specific command line.
 
-If you still have issues, double-check that you are calling the correct exe name (e.g., you would need to type `ss_opt` to run an executable called `ss_opt.exe`.) and that the command line has the correct directory.
+If you still have issues, double-check that you are calling the correct exe name (e.g., you would need to type `ss_win` to run an executable called `ss_win.exe`.) and that the command line has the correct directory.
 
 After starting the run, you should see output to the command line similar to:
 
 ![](images/SS_start_run.png)
 
-Note that the message `Error trying to open data input file` can be safely ignored. If you get past `Estimating…please wait…`, then the structure of the SS inputs is OK. The volume of information displayed during the run within the command window is controlled in starter.ss file on the line with the comment `# run display detail (0,1,2)` (1 is the most typically used value).
+If the output gets past `Estimating…please wait…`, then the structure of the SS3 inputs is OK. The volume of information displayed during the run within the command window is controlled in starter.ss file on the line with the comment `# run display detail (0,1,2)` (1 is the most typically used value).
 
-SS always opens and reads files in the same order (starter.ss,  data file, forecast.ss, control, then wtatage.ss if using, and finally ss.par if using), writing to echoinput.sso as it reads. SS inputs are read in order by value, without reference to comments (i.e., anything after `#` on a line). Depending on which options are selected, SS will expect a particular number of values in a certain order, so failing to provide them will result in errors or at least a different model specification than intended.
+SS3 always opens and reads files in the same order (starter.ss,  data file, forecast.ss, control, then wtatage.ss if using, and finally ss.par if using), writing to echoinput.sso as it reads. SS3 inputs are read in order by value, without reference to comments (i.e., anything after `#` on a line). Depending on which options are selected, SS3 will expect a particular number of values in a certain order, so failing to provide them will result in errors or at least a different model specification than intended.
 
-After reading, SS proceeds immediately to pre-processing the data and creating internal parameter labels. As SS executes, it writes checks to echoinput.sso and warnings to warnings.sso.
+After reading, SS3 proceeds immediately to pre-processing the data and creating internal parameter labels. As SS3 executes, it writes checks to echoinput.sso and warnings to warnings.sso.
 
-SS next goes to the procedure section where iterative parameter changes are made by ADMB to minimize the negative log likelihood. When ADMB achieves convergence, control passes to the sd_phase for calculation of parameter variance (unless `–nohess` option is specified; See [command line options](#options)). After the sd_phase, SS proceeds to the benchmark and forecast code section and then to final reporting. Output files containing results are written to the directory.
+SS3 next goes to the procedure section where iterative parameter changes are made by ADMB to minimize the negative log likelihood. When ADMB achieves convergence, control passes to the sd_phase for calculation of parameter variance (unless `–nohess` option is specified; See [command line options](#options)). After the sd_phase, SS3 proceeds to the benchmark and forecast code section and then to final reporting. Output files containing results are written to the directory.
 
-When the run completes, SS shows `!! Run has completed !!` and the number of warnings:
+When the run completes, SS3 shows `!! Run has completed !!` and the number of warnings:
 
 ![](images/SS_end_run.png)
-Examine warnings.sso for issues and suggestions, regardless of if the run completed successfully or not. If SS exits on error, you will not see the message `!! Run has completed !!`. Here is an example of a run that exited on error due to invalid inputs: 
+Examine warnings.sso for issues and suggestions, regardless of if the run completed successfully or not. If SS3 exits on error, you will not see the message `!! Run has completed !!`. Here is an example of a run that exited on error due to invalid inputs: 
 
 ![](images/SS_exit_on_error.png)
 
 ### Examine the output
 
-**.ss_new files** are generated if a model run completes. For more information on the .ss_new files, see the "Output Files" section of the SS user manual.
+**.ss_new files** are generated if a model run completes. For more information on the .ss_new files, see the "Output Files" section of the SS3 user manual.
 
-**ss_summary.sso** files are included with the examples on vlab so that you can compare it with the `ss_summary.sso` file generated by your model run. You should see similar if not exactly the same values for the likelihood and parameter values if using the same version of SS.
+**ss_summary.sso** files are included with the examples on vlab so that you can compare it with the `ss_summary.sso` file generated by your model run. You should see similar if not exactly the same values for the likelihood and parameter values if using the same version of SS3.
 
-Output from SS can be read into r4ss or the excel viewer.
+Output from SS3 can be read into r4ss or the excel viewer.
 
 ## The two folder approach
 
-With this approach, you can have one (or more) folders with various versions of SS and many model user folders each with one (or more) batch file(s) that point to various versions of SS. This eliminates the need to have multiple copies of the same ss executable on your computer, which is necessary with the two folder approach.
+With this approach, you can have one (or more) folders with various versions of SS3 and many model user folders each with one (or more) batch file(s) that point to various versions of SS3. This eliminates the need to have multiple copies of the same SS3 executable on your computer, which is necessary with the two folder approach.
 
-In this approach, the ss.exe is no longer in the same folder as the model; instead, a batch file with a path to the SS executable is included in the folder with the model file.
+In this approach, the ss.exe is no longer in the same folder as the model; instead, a batch file with a path to the SS3 executable is included in the folder with the model file.
 
 The example shown in this handout uses batch files, which can be used on Windows only. However, there are similar workflows that can be used on OSX and Linux.
 
@@ -155,44 +155,54 @@ The example shown in this handout uses batch files, which can be used on Windows
 Put the model files in one folder and the desired executable in the other:
 
 ![*Folders containing the model and executable(s), respectively*](images/two_folder_setup.png)
-Within the ss_exes folder, any number of ss exe versions could be added, but for now, we only have one:
+Within the ss_exes folder, any number of SS3 exe versions could be added, but for now, we only have one:
 ![*The executable folder*](images/two_folder_exe.png)
 The other folder contains the model files, but also a batch file, which is a text file with the extension .bat:
 ![The model files and batch file(s) folder](images/two_folder_model_files.png)
 The batch file, a text file containing commands, can have any name, but must end in the extension .bat. In this case, we have called the batch file run_ss.bat.
 <!-- Note that the titles in these figs are not currently used, and the images are prevented from floating. Can delete these names at some point, potentially. -->
-The first line of the batch file has the full path to the SS executable. For example, our batch file contains only the line:
+The first line of the batch file has the full path to the SS3 executable. For example, our batch file contains only the line:
 
 ![*The batch file*](images/batch_file.png)
-Open the command window in the model user folder (in this example, the ss_example folder), then type the name of the batch file (e.g., in this case, type `run_ss` or `./run_ss`). This will call the batch file, which will then call the ss executable to run in the folder with the model files. If the model runs, you will see output to the console as with the one folder approach.
+Open the command window in the model user folder (in this example, the ss_example folder), then type the name of the batch file (e.g., in this case, type `run_ss` or `./run_ss`). This will call the batch file, which will then call the SS3 executable to run in the folder with the model files. If the model runs, you will see output to the console as with the one folder approach.
 
 This basic approach using a batch file can also be used to do multiple model runs, all called from the same batch file.
 
 ## The PATH approach
 
-The PATH is where your computer searches for files by default. This means that if an SS executable called ss.exe is in your path, when you type `ss` into the command window, regardless of the directory, your computer will be able to find ss.exe and use it with the model files in the current directory.
+The PATH is where your computer searches for files by default. This means that if an SS3 executable called ss.exe is in your path, when you type `ss` into the command window, regardless of the directory, your computer will be able to find ss.exe and use it with the model files in the current directory.
 
 For more information on how to add Stock Synthesis to the computer's PATH, see [Appendix 2](#app2).
 
-## Run SS from within R
+## Run SS3 from within R
 When the executable ss.exe in the same folder as model input files, use `system(“ss”)` from the R console to run.
 When using ss.exe that is in your PATH in Windows, use:
 
 ```{r eval = FALSE}
 get_bin <- Sys.which(“ss.exe”)[[1]] # get ss exe that is in your path
-system(get_bin) # to run SS in current working directory
+system(get_bin) # to run SS3 in current working directory
 ```
-Running SS from within R may be desirable for setting up simulations where many runs of SS models are required (e.g., [ss3sim](https://github.com/ss3sim/ss3sim)) or if r4ss is being used to read model output.
 
-# Options for running SS
+or the function within r4ss:
+
+```{r eval = FALSE}
+# run 2 models, in directories folder_1 and folder_2, using the SS3 executable named ss that 
+# is in the path.
+r4ss::run_SS_models(dirvec = c("folder_1", "folder_2"), model = "ss", 
+                    exe_in_path = TRUE)
+```
+
+Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., [ss3sim](https://github.com/ss3sim/ss3sim)) or if r4ss is being used to read model output.
+
+# Options for running SS3
 
 ## Command line options {#options}
 
-ADMB options can be added to the run when calling the SS executable from the command line. The most commonly used options is `ss -nohess` to skip standard errors (for quicker  results or to get Report.sso if the hessian does not invert).
+ADMB options can be added to the run when calling the SS3 executable from the command line. The most commonly used options is `ss -nohess` to skip standard errors (for quicker  results or to get Report.sso if the hessian does not invert).
 
 To list all command line options, use one of these calls: `SS -?` or `SS -help`. More info about the ADMB command line options is available in the [ADMB Manual](http://www.admb-project.org/docs/manuals/) (Chapter 12: Command line options).
 
-To run SS without estimating anything, as of 3.30.16 (in theory): `ss -stopph 0`. This will speed up your run by not optimizing. To run SS with no estimation in earlier versions of SS, change the max phase in the starter.ss file to 0 and run the exe with the `–nohess` option.
+To run SS3 without estimating anything, as of 3.30.16: `ss -stopph 0`. This will speed up your run by not optimizing. To run SS3 with no estimation in earlier versions of SS3, change the max phase in the starter.ss file to 0 and run the exe with the `–nohess` option.
  
 <!-- The following didn't work for me from the Powershell, command prompt, or  -->
 <!-- ADMB prompt; not sure why. -->
@@ -202,7 +212,7 @@ To run SS without estimating anything, as of 3.30.16 (in theory): `ss -stopph 0`
 
 ## Using ss.par for initial values
 
-Typically, SS uses initial parameter values as specified in the parameter lines of the control file. However, initial values can be read from the ss.par file instead.
+Typically, SS3 uses initial parameter values as specified in the parameter lines of the control file. However, initial values can be read from the ss.par file instead.
 To use ss.par, in starter.ss below the names of the data and control files, set the value to 1 rather than 0 on the line with comment 
 
 `# 0=use init values in control file; 1=use ss.par`.
@@ -211,34 +221,34 @@ Using the ss.par file comes in handy when you want to use different initial valu
 
 ## Using wtatage.ss
 
-As stated in the manual, SS has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. Please see the Empirical Weight-at-Age (wtatage.ss) section of the SS user manual for more information on using wtatage.ss with a model. There is also a weight at age SS example model available on vlab if you would like to try using this feature without having to build your own model.
+As stated in the manual, SS3 has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. Please see the Empirical Weight-at-Age (wtatage.ss) section of the SS3 user manual for more information on using wtatage.ss with a model. There is also a weight at age SS3 example model available on vlab if you would like to try using this feature without having to build your own model.
 
 # Plotting results and basic troubleshooting
 
-## Using r4ss to organize and plot SS output
+## Using r4ss to organize and plot SS3 output
 
-To plot the results of an ss model after it has run, use:
+To plot the results of an SS3 model after it has run, use:
 ```{r r4ss, eval = FALSE}
 library(r4ss) # use r4ss package on github
 # create list of quantities for the model in the directory mydir
 replist <- SS_output(mydir)
-SS_plots(replist)# create plots for SS run
+SS_plots(replist)# create plots for SS3 run
 ```
 See https://github.com/r4ss/r4ss for r4ss installation instructions.
 
-## What to do when SS doesn't run
+## What to do when SS3 doesn't run
 
-Here are some basic checks for when SS does not run:
+Here are some basic checks for when SS3 does not run:
 
  + Make sure that all file names and directories are named correctly.
  + Check that starter.ss references the correct names of the control and data files.
- + If SS starts to read files and then crashes, check warnings.sso and echoinput.sso. The warnings.sso will reveal potential issues with the model, while echoinput.sso will show how far SS was able to run. Work backwards from the bottom of echoinput.sso, looking for where what SS reads does not match your inputs or where SS stopped.
+ + If SS3 starts to read files and then crashes, check warnings.sso and echoinput.sso. The warnings.sso will reveal potential issues with the model, while echoinput.sso will show how far SS3 was able to run. Work backwards from the bottom of echoinput.sso, looking for where what SS3 reads does not match your inputs or where SS3 stopped.
 
-For further information on troubleshooting, please refer to SS User Manual “Running SS” subsections, especially “Re-Starting a Run” and  “Debugging Tips.”
+For further information on troubleshooting, please refer to SS3 User Manual “Running SS3” subsections, especially “Re-Starting a Run” and  “Debugging Tips.”
 
 # Where to get additional help
 
-+ The [SS vlab website](https://vlab.noaa.gov/web/stock-synthesis) resources, including the SS user manual and the SSI user guide
++ The [SS3 vlab website](https://vlab.noaa.gov/web/stock-synthesis) resources, including the SS3 user manual and the SSI user guide
 + Post questions to the [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums)
 + Email questions to nmfs.stock.synthesis@noaa.gov
 + [Fisheries Research special issue (vol. 142) on Stock Synthesis](https://www.sciencedirect.com/journal/fisheries-research/vol/142/suppl/C)
@@ -252,20 +262,20 @@ If you have never used the command line before, it will be helpful to learn a fe
  + [Introduction to the Command Line by Launch School](https://launchschool.com/books/command_line) has even more detail about using the command line specifically on Linux (which should also apply to OSX systems)
  + A web search on "Command Line" will reveal plenty of other resources
 
-# Appendix 2: Putting SS in your PATH {#app2}
+# Appendix 2: Putting SS3 in your PATH {#app2}
 
-Instead of copying the SS executable to each model folder, SS can be put in your system path, which is a list of folders that your operating system looks in whenever you type the name of a program on the command line. This approach saves on storage space since the SS binary (i.e., the SS executable or exe) is about 2.2 MB and having it located in each folder can be prohibitive in a large-scale simulation testing study. Even if you are not running a large simulation study, putting SS in your path may still be convenient, as you can use the same executable on many models, there is no need to specify a full file path to the executable each time you run a model, and no need to create a batch file that refers to the executable's location.
+Instead of copying the SS3 executable to each model folder, SS3 can be put in your system path, which is a list of folders that your operating system looks in whenever you type the name of a program on the command line. This approach saves on storage space since the SS3 binary (i.e., the SS3 executable or exe) is about 2.2 MB and having it located in each folder can be prohibitive in a large-scale simulation testing study. Even if you are not running a large simulation study, putting SS3 in your path may still be convenient, as you can use the same executable on many models, there is no need to specify a full file path to the executable each time you run a model, and no need to create a batch file that refers to the executable's location.
 
 ## For Unix (OS X and Linux)
 
-To check if SS is in your path, assuming the binary is named SS:
+To check if SS3 is in your path, assuming the binary is named SS:
 open a Terminal window and type `which SS` and hit enter.
-If you get nothing returned, then SS is not in your path.
-The easiest way to fix this is to move the SS binary
+If you get nothing returned, then SS3 is not in your path.
+The easiest way to fix this is to move the SS3 binary
 to a folder that's already in your path.
 To find existing path folders type `echo $PATH`
 in the terminal and hit enter.
-Now move the SS binary to one of these folders.
+Now move the SS3 binary to one of these folders.
 For example, in a Terminal window type:
 
     sudo cp ~/Downloads/SS /usr/bin/
@@ -282,7 +292,7 @@ and running the command:
 
     sudo chmod +x SS
 
-Check that SS is now executable and in your path:
+Check that SS3 is now executable and in your path:
 
     which SS
 
@@ -291,7 +301,7 @@ If you followed the instructions above, you will see the following line returned
     /usr/bin/SS
 
 If you have previously modified your path to add a non-standard location
-for the SS binary,
+for the SS3 binary,
 you may need to also tell R about the new path.
 The path that R sees may not include additional paths
 that you have added through a configuration file like `.bash_profile`.
@@ -303,13 +313,13 @@ by including a line like this in your `.Rprofile` file.
 
 ## For Windows
 
-To check if SS is in your path for Windows:
+To check if SS3 is in your path for Windows:
 open a DOS prompt (either Command Prompt or Powershell should work) and type `SS -?` and hit enter.
 If you get a line like `SS is not recognized...`
-then SS is not in your path (assuming the SS executable is called SS.exe).
-To add the SS binary file to your path, follow these steps:
+then SS3 is not in your path (assuming the SS3 executable is called SS.exe).
+To add the SS3 binary file to your path, follow these steps:
 
-1. Find the correct version of the `SS.exe` binary on your computer (or download from the [SS vlab site](https://vlab.noaa.gov/web/stock-synthesis)).
+1. Find the correct version of the `SS.exe` binary on your computer (or download from the [SS3 releases](https://github.com/nmfs-stock-synthesis/stock-synthesis/releases)).
 
 2. Move to and note the folder location. E.g. `C:/SS/`
 
@@ -322,7 +332,7 @@ To add the SS binary file to your path, follow these steps:
 6. Choose `PATH` and click edit
 
 7. In the `Edit User Variable` window add to the **end** of the `Variable value`
-   section a semicolon and the SS folder location you recorded earlier.
+   section a semicolon and the SS3 folder location you recorded earlier.
    E.g. `;C:/SS`.
    **Do not overwrite what was previously in the PATH variable**.
 
