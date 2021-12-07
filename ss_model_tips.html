@@ -168,7 +168,7 @@ pre code {
 
 <h1 class="title toc-ignore">Developing your first Stock Synthesis (SS3) model</h1>
 <h4 class="author">SS3 Development Team</h4>
-<h4 class="date">Last Updated: October 29, 2021</h4>
+<h4 class="date">Last Updated: December 07, 2021</h4>
 
 </div>
 
@@ -178,7 +178,7 @@ pre code {
 <!--     number_sections: true -->
 <!-- urlcolor: blue -->
 <div id="scope" class="section level1" number="1">
-<h1 number="1"><span class="header-section-number">1</span> Scope</h1>
+<h1><span class="header-section-number">1</span> Scope</h1>
 <!-- This is a comment, feel free to add your own throughout! -->
 <p>This document is intended to teach users how to develop a Stock Synthesis model. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS3 model, but that this is the first or one of the first SS3 models that they are developing.</p>
 <p>If you are a new SS3 user who is not yet comfortable running an SS3 model, we suggest trying to run an example working model using advice in the <strong>Getting Started</strong> document before attempting to develop and run your own model as outlined here.</p>
@@ -191,7 +191,7 @@ pre code {
 </ol>
 </div>
 <div id="how-to-create-new-ss3-models" class="section level1" number="2">
-<h1 number="2"><span class="header-section-number">2</span> How to create new SS3 models</h1>
+<h1><span class="header-section-number">2</span> How to create new SS3 models</h1>
 <p>There are many potential workflows for developing a new SS3 model, but a common technique is to start with an existing model and change it in a piece-wise fashion. The basic technique is:</p>
 <ol style="list-style-type: decimal">
 <li>Find an existing working model (perhaps one of the SS3 example models available in the <a href="https://github.com/nmfs-stock-synthesis/user-examples">user-examples repository</a> or perhaps a model more similar in form to the model you plan to create).</li>
@@ -205,13 +205,13 @@ pre code {
 </ol>
 </div>
 <div id="guidance-on-model-specification" class="section level1" number="3">
-<h1 number="3"><span class="header-section-number">3</span> Guidance on model specification</h1>
+<h1><span class="header-section-number">3</span> Guidance on model specification</h1>
 <p>The <a href="https://github.com/nmfs-stock-synthesis/ss-documentation/releases">SS3 user manual</a> and the <a href="https://github.com/nmfs-stock-synthesis/ss-documentation/tree/main/Helper_Spreadsheets">helper spreadsheets</a> can be used as guides to help you edit your model. The SSI can also help guide you through changes in model inputs required as you select different SS3 model options.</p>
 <p>If you are unsure if you got the setup right (e.g., adding the correct number of parameter lines for a chosen catchability setup), try running the model with <code>maxphase = 0</code> in the starter file and ADMB option <code>-nohess</code> (or for SS3 3.30.16 and greater, run the model with command line options <code>-stopph 0 -nohess</code>, no need to change the starter file). If the model run completes, you can compare the <strong>control.ss_new</strong> file and the first data set in <strong>data.ss_new</strong> to your SS3 input files to make sure SS3 interpreted your values in the way you intended. If the run exits before completion, you can look at <strong>warning.sso</strong> and <strong>echoinput.sso</strong> for clues as to what was wrong with your setup.</p>
 <p>For additional help with model specification, please post your issue on the vlab <a href="https://vlab.noaa.gov/web/stock-synthesis/public-forums">forums</a> (for registered SS3 users) or send an email to the SS3 team at <a href="mailto:NMFS.Stock.Synthesis@noaa.gov" class="email">NMFS.Stock.Synthesis@noaa.gov</a>.</p>
 </div>
 <div id="phases-in-ss3-and-admb" class="section level1" number="4">
-<h1 number="4"><span class="header-section-number">4</span> Phases in SS3 and ADMB</h1>
+<h1><span class="header-section-number">4</span> Phases in SS3 and ADMB</h1>
 <p>Phases are used within ADMB to tell the program in what order the parameters should be estimated. For more details about phases in ADMB beyond what is provided here, see the <a href="http://www.admb-project.org/docs/manuals/">ADMB user manual</a>. ADMB phases can be specified for parameters in SS3.</p>
 <p>A <strong>negative phase</strong> indicates that the parameter is not estimated, but specified. Note that all negative phases are equivalent; i.e., there is no difference in how parameters with phases -1 and -99 are dealt with. The exceptions are:</p>
 <ul>
@@ -221,18 +221,18 @@ pre code {
 <p>A <strong>positive phase</strong> indicates that the parameter will be estimated. Parameters with a lower positive phase will be estimated before those with a higher positive phase. Which phase should you put an estimated parameter in? While there is variability among analysts and models in how phasing is used, in general, parameters with low positive phases should be for values which define the scale of the population (i.e., <em>R0</em>, natural mortality, steepness, selectivity slope). Parameters for fine-tuning fits to the data are often estimated in later phases (i.e., catchability, growth, and recruitment deviation parameters). Many models use positive phases from about 1 to 5, although it is possible to use higher phasing values.</p>
 </div>
 <div id="basic-debugging-use-echoinput.sso-and-warning.sso" class="section level1" number="5">
-<h1 number="5"><span class="header-section-number">5</span> Basic debugging: use <strong>echoinput.sso</strong> and <strong>warning.sso</strong></h1>
+<h1><span class="header-section-number">5</span> Basic debugging: use <strong>echoinput.sso</strong> and <strong>warning.sso</strong></h1>
 <p>The most useful tools for debugging SS3 issues are the SS3 output files <strong>echoinput.sso</strong> and <strong>warning.sso</strong>. As SS3 runs, it writes back to <strong>echoinput.sso</strong>. When SS3 exits without finishing, looking at the last contents written to <strong>echoinput.sso</strong> and comparing it with your input files can provide clues as to where (and possibly why) the run failed. Note that SS3 reads inputs in order and will read them incorrectly if the wrong number of inputs is provided. Any warnings generated during the run are written to <strong>warning.sso</strong>. The <strong>warnings.sso</strong> file should always be examined at the end of the run, even if the run was successful.</p>
 </div>
 <div id="visualizing-results" class="section level1" number="6">
-<h1 number="6"><span class="header-section-number">6</span> Visualizing results</h1>
+<h1><span class="header-section-number">6</span> Visualizing results</h1>
 <p>Visualization is helpful as you iteratively develop your model and for presentation of final model results. The output of an SS3 model can be read into <a href="https://github.com/r4ss/r4ss">r4ss</a>.</p>
 </div>
 <div id="proposed-workflow-for-arriving-at-a-final-model" class="section level1" number="7">
-<h1 number="7"><span class="header-section-number">7</span> Proposed workflow for arriving at a “final” model</h1>
+<h1><span class="header-section-number">7</span> Proposed workflow for arriving at a “final” model</h1>
 <p>It’s important to remember that arriving at a model takes time! You should plan on making small revisions, rerunning the model, and looking at how the model has changed with each small revision. Typically, many intermediate model runs are required before you reach a final model. Keep notes inside of the run folder or elsewhere regarding the run specific changes. Below, we provide some suggestions on the steps to take as you iterate toward your “final” model.</p>
 <div id="first-runs-without-estimation" class="section level2" number="7.1">
-<h2 number="7.1"><span class="header-section-number">7.1</span> First runs without estimation</h2>
+<h2><span class="header-section-number">7.1</span> First runs without estimation</h2>
 <p>First, you want to check that SS3 is able to read your input files in the way you intended. To do a run without estimation, set change max phase to 0 in <strong>starter.ss</strong> and run your model with ADMB option <code>-nohess</code>. Examine <strong>warning.sso</strong>, <strong>echoinput.sso</strong>, and the <strong>.ss_new files</strong> produced during this run without estimation to see how SS3 interpreted your input files and if it was as you intended.</p>
 <p>After you have verified that SS3 is reading your input correctly, you can also consider adjustment to selectivity, growth, and recruitment parameters at this stage.</p>
 <!-- Probably too many details, but could add to this section: -->
@@ -240,11 +240,11 @@ pre code {
 <!-- *TODO: Add more details about lnR0 - explain why this needs to be done more fully and how to modify the depletion fleet controls.* -->
 </div>
 <div id="runs-estimating-some-parameters" class="section level2" number="7.2">
-<h2 number="7.2"><span class="header-section-number">7.2</span> Runs estimating some parameters</h2>
+<h2><span class="header-section-number">7.2</span> Runs estimating some parameters</h2>
 <p>Try changing max phase to be greater than 0 (perhaps 2 or 3) to estimate some but not all parameters. Run the model with <code>-nohess</code> to reduce run time. During this stage of model runs, you should try to adjust the model to resolve all major patterns in the residuals. This may include considering and making changes to the model structure.</p>
 </div>
 <div id="runs-estimating-all-parameters" class="section level2" number="7.3">
-<h2 number="7.3"><span class="header-section-number">7.3</span> Runs estimating all parameters</h2>
+<h2><span class="header-section-number">7.3</span> Runs estimating all parameters</h2>
 <p>Once all major patterns in the residuals have been resolved, try estimating all parameters in the model. Change max phase to include all of your model phases (i.e., equal to or higher than the highest phase specified in your model). You’ll want to do multiple runs for different model refinement purposes at this time:</p>
 <ol style="list-style-type: decimal">
 <li>Do one or more run(s) with the hessian estimated to get variance of the recruitment deviations and then use this vector of variances to adjust the bias adjustment ramp (see the <a href="https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132">SS3 User Manual</a> for additional details).</li>
@@ -255,14 +255,14 @@ pre code {
 </div>
 </div>
 <div id="advanced-debugging" class="section level1" number="8">
-<h1 number="8"><span class="header-section-number">8</span> Advanced debugging</h1>
+<h1><span class="header-section-number">8</span> Advanced debugging</h1>
 <p>In this section, we have listed some common problems that you may encounter and some techniques to resolving them within your model.</p>
 <div id="if-the-residuals-have-substantial-patterns" class="section level2" number="8.1">
-<h2 number="8.1"><span class="header-section-number">8.1</span> If the residuals have substantial patterns</h2>
+<h2><span class="header-section-number">8.1</span> If the residuals have substantial patterns</h2>
 <p>It is often difficult to pinpoint the cause of residuals that have substantial patterns, but two potential reasons this could happen are unrealistic starting values or poor model specification. If you have residuals with substantial pattern, you can try changing the starting values. If a parameter is not moving from the starting value, there may not be enough information to determine its value and it may be necessary to fix the value in the model. If the parameter does move with different starting values, it is possible that the starting value used before was not reasonable and thus changing the starting value to a reasonable value fixes the issue.</p>
 </div>
 <div id="if-ss3-runs-but-there-is-a-large-gradient-at-the-end" class="section level2" number="8.2">
-<h2 number="8.2"><span class="header-section-number">8.2</span> If SS3 runs, but there is a large gradient at the end</h2>
+<h2><span class="header-section-number">8.2</span> If SS3 runs, but there is a large gradient at the end</h2>
 <p>Large gradients are usually reported in <strong>warnings.sso</strong> file, so this problem should be clear when examining the file after a model run. If this is the case, try the following</p>
 <ul>
 <li>Examine <strong>Report.sso</strong> for parameters that are on or near bounds, as these may be the parameters that are causing issues. It depends on the value, but you can consider changing your bounds or the parameters, depending on what seems most plausible given your model.</li>
@@ -270,12 +270,12 @@ pre code {
 </ul>
 </div>
 <div id="if-the-hessian-does-not-invert" class="section level2" number="8.3">
-<h2 number="8.3"><span class="header-section-number">8.3</span> If the hessian does not invert</h2>
+<h2><span class="header-section-number">8.3</span> If the hessian does not invert</h2>
 <p>The hessian information is reported in the <strong>Report.sso</strong> file, so go to this section to confirm if this is an issue. This is a difficult issue to solve, but considering alternative models may be necessary if the hessian will not invert.</p>
 </div>
 </div>
 <div id="advanced-admb-run-options-mcmc-adnuts" class="section level1" number="9">
-<h1 number="9"><span class="header-section-number">9</span> Advanced ADMB run options (MCMC, adnuts)</h1>
+<h1><span class="header-section-number">9</span> Advanced ADMB run options (MCMC, adnuts)</h1>
 <p>SS3 models are typically run using maximum likelihood estimation (MLE), but it is possible to run SS3 models using Markov Chain Monte Carlo (MCMC). MCMC is outside the scope of this document, but below are some resources to check out in case you are interested in pursuing it further:</p>
 <ol style="list-style-type: decimal">
 <li>See the <a href="http://www.admb-project.org/docs/manuals/">ADMB user manual</a> for more information on using MCMC in ADMB and the section on Running MCMC in the SS3 user manual for more specific information on running MCMC in SS3.</li>
@@ -283,10 +283,10 @@ pre code {
 </ol>
 </div>
 <div id="some-questions-to-consider-during-model-development" class="section level1" number="10">
-<h1 number="10"><span class="header-section-number">10</span> Some questions to consider during model development</h1>
+<h1><span class="header-section-number">10</span> Some questions to consider during model development</h1>
 <p>There are many elements to consider in an SS3 model. Below are some questions and considerations that experienced SS3 users have used to check that their model makes sense throughout the iterative model development process.</p>
 <div id="does-my-model-model-make-sense" class="section level2" number="10.1">
-<h2 number="10.1"><span class="header-section-number">10.1</span> Does my model model make sense?</h2>
+<h2><span class="header-section-number">10.1</span> Does my model model make sense?</h2>
 <ul>
 <li>Does the biology make sense? Selectivity?</li>
 <li>Is the model fitting the indices? Length and age data?</li>
@@ -295,7 +295,7 @@ pre code {
 </ul>
 </div>
 <div id="does-my-model-model-fit-well" class="section level2" number="10.2">
-<h2 number="10.2"><span class="header-section-number">10.2</span> Does my model model fit well?</h2>
+<h2><span class="header-section-number">10.2</span> Does my model model fit well?</h2>
 <ul>
 <li><p>The <code>r4ss::SS_output()</code> function prints some very useful diagnostics to the R console window, including a list of the estimated parameters, the estimated value, whether the parameter is hitting a bound, the gradient, and the prior type. Use this (or other SS3 output files) to answer:</p>
 <ul>
@@ -307,17 +307,17 @@ pre code {
 </ul>
 </div>
 <div id="does-my-data-weighting-make-sense" class="section level2" number="10.3">
-<h2 number="10.3"><span class="header-section-number">10.3</span> Does my data weighting make sense?</h2>
+<h2><span class="header-section-number">10.3</span> Does my data weighting make sense?</h2>
 <p>The <code>r4ss::SS_output()</code> function prints information on tuning to the R console. This includes tuning information for length and age data that can be used for data weighting when using McAllister Ianelli weighting (i.e., weighting by the harmonic mean). The <code>r4ss::SS_plots()</code> function creates mean length and ages figures with captions showing the recommended Francis weights for each data source. Even if you are using an alternative data weighting approach (i.e., Francis, Dirichlet, or other), it is always good practice to explore an alternative approach and see how data weighting changes the model.</p>
 </div>
 <div id="did-i-fix-variation-in-recruitment-correctly" class="section level2" number="10.4">
-<h2 number="10.4"><span class="header-section-number">10.4</span> Did I fix variation in recruitment correctly?</h2>
+<h2><span class="header-section-number">10.4</span> Did I fix variation in recruitment correctly?</h2>
 <p>Check the the sigmaR (i.e., recruitment devs standard deviation) information. The sigmaR parameter is typically fixed within the model, so if it is not fixed within your model, you should consider whether or not this makes sense for the population and given the quality and quantity of data.</p>
 <p>For a fixed value of sigmaR, a section of the output will provide diagnostics to determine if the fixed sigmaR value is capturing the estimated variations in recruitment. The <code>r4ss::SS_output()</code> function will print a recommended value based on the variation in the estimated recruitment deviations that you may want to consider using.</p>
 </div>
 </div>
 <div id="where-to-get-additional-help" class="section level1" number="11">
-<h1 number="11"><span class="header-section-number">11</span> Where to get additional help</h1>
+<h1><span class="header-section-number">11</span> Where to get additional help</h1>
 <p>Post questions to the <a href="https://vlab.noaa.gov/web/stock-synthesis/public-forums">forums</a> or send an emails to the team at <a href="mailto:NMFS.Stock.Synthesis@noaa.gov" class="email">NMFS.Stock.Synthesis@noaa.gov</a> for assistance.</p>
 </div>
 
