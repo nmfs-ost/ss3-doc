@@ -1,5 +1,11 @@
 name: Build html using texlive
-on: [push, pull_request]
+on:
+  push:
+    paths: 
+      - '**.tex'
+  pull_request:
+    paths:
+      - '**.tex'
 jobs:
   call-workflow:
     uses: nmfs-stock-synthesis/workflows/.github/workflows/build-ss3-manual-html.yml@main
