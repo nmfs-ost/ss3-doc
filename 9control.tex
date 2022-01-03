@@ -1729,28 +1729,33 @@ The age-selectivity approach follows that detailed above for length-selectivity 
 
 \myparagraph{Pattern 14 (age) - Revise Age}
 Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age.  When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. The age-based selectivity is calculated as $a = 1$ to $a = Amax + 1$:
+
 	\begin{equation}
-		 \begin{split}
+		% \begin{split}
 		 temp = 9 - max(p_a)\\
 		S_a = \frac{1}{1+exp(-(p_{a+1} + temp))}
-		\end{split}
+		%\end{split}
 	\end{equation}	
 
 \myparagraph{Pattern 17 (age) - Random Walk}
 This selectivity pattern provides for a random walk in ln(selectivity).  For each age $a \geq A_{\text{min}}$, where $A_{\text{min}}$ is the minimum age for which selectivity is allowed to be non-zero, there is a selectivity parameter, $p_a$, controlling the changing selectivity from age $a-1$ to age $a$.
 	
-The selectivity at age $a$ is computed as
+The selectivity at age $a$ is computed as:
+
 	\begin{equation}
 	S_a = \exp (S'_a - S'_{\text{max}}),
 	\end{equation}
 where
+
 	\begin{equation}
 	S'_a = \sum_{i = a_{\text{min}}}^A p_i
 	\end{equation}
-and 
+and
+ 
 	\begin{equation}
 	S'_{\text{max}} = \mbox{max} \{S'_a\}.
 	\end{equation}
+
 Selectivity is fixed at $S_a = 0$ for $a < A_{\text{min}}$. 
 	
 This formulation has the properties that the maximum selectivity equals 1, positive values of $p_a$ are associated with increasing selectivity between ages $a-1$ and $a$, and negative values are associated with decreasing selectivity between those ages and $p_a = 0$ gives constant selectivity.
