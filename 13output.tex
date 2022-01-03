@@ -45,21 +45,21 @@
 \subsection{Standard ADMB output files}
 Standard ADMB files are created by SS. These are:
 
-ss.par – This file has the final parameter values.  They are listed in the order they are declared in SS.  This file can be read back into SS to restart a run with these values (see running SS on page \pageref{sec:RunningSS}).
+ss.par – This file has the final parameter values.  They are listed in the order they are declared in SS.  This file can be read back into SS3 to restart a run with these values (see running Stock Synthesis on page \pageref{sec:RunningSS}).
 
-ss.std – This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run.  It also contains the derived quantities declared as standard deviation report variables.  All of this information is also report in the covar.sso.  Also, the parameter section of Report.sso lists all the parameters with their SS generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
+ss.std – This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run.  It also contains the derived quantities declared as standard deviation report variables.  All of this information is also report in the covar.sso.  Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
 
 ss.rep – This report file is created between phases so, unlike Report.sso, will be created even if the hessian fails. It does not contain as much output as shown in Report.sso.
 
 ss.cor – This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret.  This same information is reported in covar.sso.
 
-\subsection{SS Summary}
+\subsection{Stock Synthesis Summary}
 The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place.  It is organized as a list. At the top of the file are descriptors, followed by the 1) likelihoods for each component, 2) parameters and their standard errors, and 3) derived quantities and their standard errors.  Total biomass, summary biomass, and catch were added to the quantities reported in this file in version 3.30.11 and later.
 
 Before 3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME\_SERIES table of Report.sso. The report file should be used instead of ss\_summary.sso for correct calculation of these quantities before 3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in report.sso for calculations done at times other than January 1.
 
 \subsection{SIS table}
-The SIS\_table.sso is deprecated as of SS 3.30.17. Please use the \hyperlink{r4ss}{r4ss} function \texttt{get\_IS\_info()} instead. 
+The SIS\_table.sso is deprecated as of SS3 v.3.30.17. Please use the \hyperlink{r4ss}{r4ss} function \texttt{get\_IS\_info()} instead. 
 
 The SIS\_table.sso file contains model output formatted for reading into the NMFS Species Information System (\href{https://www.st.nmfs.noaa.gov/sis/}{SIS}). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees.
 
@@ -68,7 +68,7 @@ Before listing the derived quantities reported to the standard deviation report,
 
 \hypertarget{VirginUnfished}{}
 \subsubsection{Virgin Spawning Biomass vs Unfished Spawning Biomass}
-Unfished is the condition for which reference points (benchmark) are calculated.  Virgin Spawning Biomass (B0) is the initial condition on which the start of the time-series depends.If biology or spawner-recruitment parameters are time-varying, then the benchmark year input in the forecast file tells SS which years to average in order to calculate "unfished". In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as "unfished" for clarity.  Note that if ln(R0) is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SPB\_virgin and spawning biomass unfished is denoted as SPB\_unf in the report file.
+Unfished is the condition for which reference points (benchmark) are calculated.  Virgin Spawning Biomass (B0) is the initial condition on which the start of the time-series depends.If biology or spawner-recruitment parameters are time-varying, then the benchmark year input in the forecast file tells the model which years to average in order to calculate "unfished". In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as "unfished" for clarity.  Note that if ln(R0) is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SPB\_virgin and spawning biomass unfished is denoted as SPB\_unf in the report file.
 
 Virgin Spawning Biomass (B0) is used in four ways within SS:
 \begin{enumerate}
@@ -94,7 +94,7 @@ The derived quantities report shows an annual SPR statistic.  The options, as sp
 	\item 4 = raw SPR
 \end{itemize}
 
-The SPR approach to measuring fishing intensity was implemented because the concept of a single annual F does not exist in SS because F varies by age, sex, and growth morph and season and area.  There is no single F value that is applied to all ages unless you create a very simple SS setup with knife-edge selectivity.  So, what you see in the SS options are various ways to calculate annual fishing intensity.  They can be broken down into three categories.  One is exploitation rate calculated simply as total catch divided by biomass from a defined age range. Another is SPR, which is a single measure of the equilibrium effect of fishing according to the F.  The third category are various ways to calculate an average F. Some measures of fishing intensity will be misleading if applied inappropriately. For example, the sum of the apical F's will be misleading if different fleets have very different selectivities or, worse, if they occur in different areas. The F=Z-M approach to getting fishing intensity is a way to have a single F that represents a number's weighted value across multiple areas, sexes, morphs, ages. An important distinction is that the exploitation rate and F-based approaches directly relate to the fraction of the population removed each year by fishing; whereas the SPR approach represents the cumulative effect of fishing so it's equivalent in F-space depends on M.
+The SPR approach to measuring fishing intensity was implemented because the concept of a single annual F does not exist in SS3 because F varies by age, sex, and growth morph and season and area.  There is no single F value that is applied to all ages unless you create a very simple model setup with knife-edge selectivity.  So, what you see in the options are various ways to calculate annual fishing intensity.  They can be broken down into three categories.  One is exploitation rate calculated simply as total catch divided by biomass from a defined age range. Another is SPR, which is a single measure of the equilibrium effect of fishing according to the F.  The third category are various ways to calculate an average F. Some measures of fishing intensity will be misleading if applied inappropriately. For example, the sum of the apical F's will be misleading if different fleets have very different selectivities or, worse, if they occur in different areas. The F=Z-M approach to getting fishing intensity is a way to have a single F that represents a number's weighted value across multiple areas, sexes, morphs, ages. An important distinction is that the exploitation rate and F-based approaches directly relate to the fraction of the population removed each year by fishing; whereas the SPR approach represents the cumulative effect of fishing so it's equivalent in F-space depends on M.
 
 \subsubsection{F std}
 This index provides a direct measure of fishing mortality.  The options are:
@@ -114,7 +114,7 @@ The exploitation rates are calculated as the ratio of the total annual catch (in
 \end{itemize}
 
 \subsubsection{F-at-Age}
-Because the annual F is so difficult to interpret as a sum of individual F components, an indirect calculation of F-at-age is reported at the end of the report.sso file. This section of the report calculates Z-at-age simply as $ln(N_{a+1,t+1}/N_{a,t})$. This is done on an annual basis and summed over all areas. It is done once using the fishing intensities as estimated (to get Z), and once with the F intensities set to 0.0 to get M-at-age. This latter sequence also provides a measure of dynamic Bzero.  The user can then subtract the table of M-at-age/year from the table of Z-at-age/year to get a table of F-at-age/year. From this apical F, average F over a range of ages, or other user-desired statistics could be calculated.  urther work within SS with this table of values is anticipated.
+Because the annual F is so difficult to interpret as a sum of individual F components, an indirect calculation of F-at-age is reported at the end of the report.sso file. This section of the report calculates Z-at-age simply as $ln(N_{a+1,t+1}/N_{a,t})$. This is done on an annual basis and summed over all areas. It is done once using the fishing intensities as estimated (to get Z), and once with the F intensities set to 0.0 to get M-at-age. This latter sequence also provides a measure of dynamic Bzero.  The user can then subtract the table of M-at-age/year from the table of Z-at-age/year to get a table of F-at-age/year. From this apical F, average F over a range of ages, or other user-desired statistics could be calculated.  Further work within SS3 with this table of values is anticipated.
 
 \subsubsection{MSY and other Benchmark Items}
 The following quantities are included in the sdreport vector mgmt\_quantities, so obtain estimates of variance.  Some additional quantities can be found in the benchmarks section of the forecast\_report.sso.
@@ -159,9 +159,9 @@ Cum\_Report.sso: contains a brief version of the run output, which is appended t
 
 \hypertarget{bootstrap}{}
 \subsection{Bootstrap Data Files}
-It is possible to create bootstrap data files for SS where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. The number of bootstrap data files to create is specified in the starter file where a value of 3 or greater will create a single bootstrap data file in the data.ss\_new file. The first output provides the unaltered input data file (with annotations added).  The second provides the expected values for only the data elements used in the model run.  The third and subsequent outputs provide parametric bootstraps around the expected values. The bootstrap data file can be parsed using r4ss function SS\_splitdat into individual data files and re-run with the model.
+It is possible to create bootstrap data files for SS3 where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. The number of bootstrap data files to create is specified in the starter file where a value of 3 or greater will create a single bootstrap data file in the data.ss\_new file. The first output provides the unaltered input data file (with annotations added).  The second provides the expected values for only the data elements used in the model run.  The third and subsequent outputs provide parametric bootstraps around the expected values. The bootstrap data file can be parsed using r4ss function SS\_splitdat into individual data files and re-run with the model.
 
-The bootstrapping procedure within SS is done via the following steps:
+The bootstrapping procedure within SS3 is done via the following steps:
 
 \begin{itemize}
 	\item Expected values of all input data are calculated (these are also used in the likelihood which compares observed to expected values for all data). The calculation of these expected values is described in detail under the "Observation Model" section of the appendix to \citet{methotstock2013}. \
@@ -191,7 +191,7 @@ Given this, there are some assumptions implicit in the bootstrapping procedure (
 	
 	\item Often there is need to explore the removal (not include in the model fitting) of specific years in a data set which can be done by specifying a negative fleet number. If bootstrapping a data file, note that specifying a negative fleet in the data inputs for indices, length composition, or age composition will include the "observation" in the model (hence generating predicted values and bootstrap data sets for the data), but not in the negative log likelihood. The "observation values" used with negative fleet do not influence the predicted values, except when using tail compression with length or age composition. Non-zero values greater than the minimum tail compression should be used for the observation values when tail compression is being used, as using zeros or values smaller than the minimum tail compression can cause the predicted values to be reported as zero and shift predictions to other bins.
 	
-	\item As of SS v. 3.30.15, age and length composition data that use the Dirichlet-Multinomial distribution in the model are generated using the Dirichlet-Multinomial in bootstrap data sets.
+	\item As of SS3 v.3.30.15, age and length composition data that use the Dirichlet-Multinomial distribution in the model are generated using the Dirichlet-Multinomial in bootstrap data sets.
 	
 \end{itemize}
 
@@ -210,64 +210,13 @@ Note:
 
 The top of the Forecast-report file shows the search for F\textsubscript {SPR}  and the search for F\textsubscript {MSY}, allowing the user to verify convergence. Note: if the STD file shows aberrant results, such as all the standard deviations being the same value for all recruitments, then check the F\textsubscript {MSY} search for convergence. The F\textsubscript {MSY} can be calculated, or set equal to one of the other F reference points per the selection made in starter.ss.
 
-%The reference point output is shown in the the table below: 
-%\begin{center}
-%	\includegraphics{ManagementReport}
-%\end{center}
-
-
-%\begin{landscape}
-%The forecast is done once using the Target SPR and once using the adjustments specified in the 40:10 section of forecast.ss input. Each section contains a time series of seasonal biomass and catch, followed by a time series of population numbers-at-age for each platoon.
-	
-%	\begin{center}
-%		\includegraphics{Forecast}
-%	\end{center}
-%\end{landscape}
-
-%where:
-%\begin{itemize}
-%	\item 40:10 is the magnitude of the adjustment of harvest multiplier to implement the optimum yield policy;
-%	\item bio-all is the biomass of all ages;
-%	\item bio-smry is the biomass for ages at or above the summary age;
-%	\item Spawnbio - is the female spawning biomass/output;
-%	\item Depletion is the spawning biomass/output divided by the unfished spawning biomass/output;
-%	\item Recruit-0 is the recruitment of age-o fish in this year;
-%	\item Dead\_cat\_B-1 is the total dead (retained plus dead discard) catch in MT for fleet 1;
-%	\item Retain\_B-1 is fleet 1's retained catch in MT;
-%	\item Equivalent catch in numbers is then reported;
-%	\item Hrate-1 is the harvest rate, as adjusted by the 40:10 policy.  The units will depend on the F method selected (Pope's method giving mid-year harvest rate or the continuous F).
-%	\item Opt=C means that the rate was calculated from an input catch level (and crashed means that this caused an excessive harvest rate.
-%	\item Opt=R means that the catch was calculated from the target harvest rate.; and
-%	\item ABC is equal to the Total-Catch when the 40:10 option is not used (upper portion of table).  When the 40:10 is on (lower table), the ABC is the catch level corresponding to no 40:10 adjustment after accounting for catch in previous year's from the 40:10.
-%\end{itemize}
-
-%The time series output described above is detailed by season, area, platoon and fishery.  It is usually more convenient to have annual values summed across areas, platoons and fisheries.  This is done for the 40:10 output and a subset of these values are replicated in the depletion vector in the sd\_report so that variance estimates can be obtained.  The elements of the depletion vector in the sd\_report are:
-%\begin{itemize}
-%	\item depletion level in end year
-%	\item depletion level in end year+1
-%	\item MSY (if calculated, else spbio in endyr-1)
-%	\item B\textsubscript{MSY} (if calculated, else spbio in endyr)
-%	\item SPR\textsubscript{MSY} (if calculated, else spbio in endyr+1) then the time series of:
-%	\begin{itemize}
-%		\item Spawning biomass
-%		\item Recruitment
-%		\item Depletion level
-%		\item Total catch (if forecast calculated catch from rates) or sum of fishery-specific harvest rates (if forecast is based on fixed input catch level in this year)
-%		\item Total exploitation rate (total dead catch divided by the summary biomass at the beginning of the year).
-%	\end{itemize}
-%\end{itemize}
-
-%\begin{center}
-%	\includegraphics{HCR}\\
-%	Two examples of harvest forecast adjustment: one adjusts catch and the other adjusts F.
-%\end{center}
 
 \subsection{Main Output File, Report.sso}
-This is the primary output file.  Its major sections (as of SS version 3.30.16) are listed below.  
+This is the primary output file.  Its major sections (as of SS3 v.3.30.16) are listed below.  
 
 The sections of the output file are:
 \begin{itemize}
-	\item SS version number with date compiled.  Time and date of model run.  This info appears at the top of all output files.
+	\item SS3 version number with date compiled.  Time and date of model run.  This info appears at the top of all output files.
 	\item Comments
 		\begin{itemize}
 			\item 	Input file lines starting with \#C are echoed here.

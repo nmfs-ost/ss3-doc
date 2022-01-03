@@ -28,13 +28,8 @@ A convenient way to process these values into the format required by the control
 
 where the input "replist" is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called "suggested\_tuning.ss" to the directory where the model was run.
 
-For models using SS version 3.30, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled "Input variance adjustments", followed by the terminator line which indicates the end of the section. 
+For models using SS3 v.3.30, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled "Input variance adjustments", followed by the terminator line which indicates the end of the section. 
 
-%Here's an example of the first few rows of the table followed by the terminator line (not added by the function):
-
-%\begin{center}
-%	\includegraphics[scale = 0.6]{appendixB_sstune}\\
-%\end{center}
 
 Also see the help page for the r4ss function \texttt{SS\_varadjust} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
 
@@ -59,7 +54,7 @@ There are a couple of challenges posed by the McAllister-Ianelli data-weighting 
 %\subsubsection{Francis}
 \myparagraph{Francis}
 
-Implementation: recommended adjustments are calculated by the r4ss functions \texttt{SSMethod.TA1.8} and \texttt{SSMethod.Cond.TA1.8}. These functions are rarely used alone but are called by the \texttt{SS\_plots} function when making plots like the one below. For SS v.3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps} function (described above under the McAllister-Ianelli method), but with a different option specified: 
+Implementation: recommended adjustments are calculated by the r4ss functions \texttt{SSMethod.TA1.8} and \texttt{SSMethod.Cond.TA1.8}. These functions are rarely used alone but are called by the \texttt{SS\_plots} function when making plots like the one below. For SS3 v.3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps} function (described above under the McAllister-Ianelli method), but with a different option specified: 
 
 \texttt{SS\_tune\_comps(replist, option = "Francis")}
 
@@ -91,7 +86,7 @@ There are a several of challenges posed by the Francis data-weighting approach:
 Change the choice of likelihood and set parameter choices in the data file:
 
 \begin{itemize}
-	\item In the specification of the length and/or age data, change "CompError" column in age and length comp specifications from 0 to 1 and "ParmSelect" from 0 to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. Note that there cannot be any skipped values from 1 to N, otherwise SS will exit on error while reading the input files.
+	\item In the specification of the length and/or age data, change "CompError" column in age and length comp specifications from 0 to 1 and "ParmSelect" from 0 to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. Note that there cannot be any skipped values from 1 to N, otherwise the model will exit on error while reading the input files.
 	
 	\item Resulting input should look similar to:
 \begin{small}
@@ -130,7 +125,7 @@ Add parameter lines to the control file:
       \end{minipage}
     \end{small}
 	
-	\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In 3.24 this means setting the values to 1, in SS version 3.30, you can simply delete or comment-out the rows with the adjustments.
+	\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In 3.24 this means setting the values to 1, in SS3 v.3.30, you can simply delete or comment-out the rows with the adjustments.
 \end{itemize}
 
 The \texttt{SS\_output} function in r4ss returns table like the following:
@@ -148,13 +143,7 @@ The ratio shown in the final column is the estimated multiplier which can be com
 
 If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that the model is trying to tune the sample size as high as possible. In this case, the $ln(\theta)$ parameters should be fixed at a high value, like the upper bound of 20, which will result in 100\% weight being applied to the input sample sizes. An alternative would be to manually change the input sample sizes to a higher value so that the estimated weighting will be less than 100%.
 
-Note that a constant of integration was added to the diricihlet-multinomila likelihood equation in SS v. 3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versons of SS.
-
-%There is also information about this result produced in the plots created by the \texttt{SS\_plots} function:
-
-%\begin{center}
-%	\includegraphics[scale = 1]{appendixB_DM}\\
-%\end{center}
+Note that a constant of integration was added to the diricihlet-multinomila likelihood equation in SS3 v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versons of SS.
 
 There are a few challenges posed by the Dirichlet-Multinomial data-weighting approach:
 \begin{enumerate}

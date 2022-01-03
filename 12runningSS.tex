@@ -1,7 +1,7 @@
-\section{Running SS} \label{sec:RunningSS}
+\section{Running Stock Synthesis} \label{sec:RunningSS}
 
 \subsection{Command Line Interface}
-The name of the SS executable files often contains the phrase "safe" or "opt" (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named "ss.exe" is typically the safe version unless the result of renaming by the user.
+The name of the SS3 executable files often contains the phrase "safe" or "opt" (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named "ss.exe" is typically the safe version unless the result of renaming by the user.
 
 On Mac and Linux computers, the executable does not include an extension (like .exe on Windows).
 Running the executable on from the DOS command line in Windows simply require typing the executable name (without the .exe extension):
@@ -12,7 +12,7 @@ Running the executable on from the DOS command line in Windows simply require ty
 \end{quote}
 
 
-On Mac and Linux computers, the executable name must be preceded by a period and slash (unless its location has been added to the user's PATH). Note that the user may need to change permissions for Stock Synthesis to be executable before running ss for the first time:
+On Mac and Linux computers, the executable name must be preceded by a period and slash (unless its location has been added to the user's PATH). Note that the user may need to change permissions for Stock Synthesis to be executable before running SS3 for the first time:
 
 \begin{quote}
 	\begin{verbatim}
@@ -23,9 +23,9 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 
 Additional ADMB commands can follow the executable name, such as "–nohess" to avoid calculating the Hessian matrix. To see a full list of options, add " -?" after the executable name (with a space in between).
 
-On all operating systems, a copy of the SS executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below. Editing the PATH is not covered here.
+On all operating systems, a copy of the SS3 executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below. Editing the PATH is not covered here.
 
-Often there is a need to run the model with no estimation. Alternative methods to run SS without estimating parameters are documented in the \hyperlink{NoEst}{Running Without Estimation section}. 
+Often there is a need to run the model with no estimation. Alternative methods to run SS3 without estimating parameters are documented in the \hyperlink{NoEst}{Running Without Estimation section}. 
 
 \subsubsection{Example of DOS batch input file}
 One file management approach is to put ss.exe in its own folder (example:  C:\textbackslash SS\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS\_runs).  Then a DOS batch file in the SS\_runs folder can be run at the command line to start ss.exe.  All output will appear in SS\_runs folder.
@@ -42,7 +42,7 @@ A DOS batch file (e.g. SS.bat) might contain some explicit ADMB commands, some i
 \end{quote}
 
 
-In this batch file, the –cbs and –gbs arguments allocate a large amount of memory for SS to use (you may need to edit these for your computer and SS configuration), and the \%1, \%2 etc. allows passing of command line arguments such as –nox or –nohess.  You add more items to the list of \% arguments as needed.
+In this batch file, the –cbs and –gbs arguments allocate a large amount of memory for SS3 to use (you may need to edit these for your computer and SS3 configuration), and the \%1, \%2 etc. allows passing of command line arguments such as –nox or –nohess.  You add more items to the list of \% arguments as needed.
 
 An easy way to start a command line in your current directory (SS\_runs) is to create a shortcut to the DOS command line prompt.  The shortcut’s target would be:
 
@@ -65,7 +65,7 @@ An alternative shortcut is to have the executable within the model folder then u
 
 \subsubsection{Simple Batch}
 
-This first example relies upon having a set of prototype SS input files, where a starter file named starter.r01 can be renamed to starter.ss and then used in the SS run. The example also copies one of the output files, ss.std, to a new name, ss-std01.txt, to save it from being overwritten in subsequent runs. The example code should be put in a batch file, which can have any name with the .bat extension. Note that brief output from each run will be appended to cumreport.sso (see below).
+This first example relies upon having a set of prototype SS3 input files, where a starter file named starter.r01 can be renamed to starter.ss and then used in the SS3 run. The example also copies one of the output files, ss.std, to a new name, ss-std01.txt, to save it from being overwritten in subsequent runs. The example code should be put in a batch file, which can have any name with the .bat extension. Note that brief output from each run will be appended to cumreport.sso (see below).
 
 \begin{quote}
 	\begin{verbatim}
@@ -102,7 +102,7 @@ This second example processes 25 dat files from a different directory, each time
 
 \hypertarget{NoEst}{}
 \subsubsection{Running Without Estimation}
-There may be time when users will want to run the model without parameter estimation. The ADMB command -noest will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS and ADMB.  
+There may be time when users will want to run the model without parameter estimation. The ADMB command -noest will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS3 and ADMB.  
 
 The first approach requires the user to change the maximum phase value in the starter.ss file to 0 then running the model via the command widow as without calculating the hessian:
 
@@ -144,11 +144,11 @@ Users will often want to run profiles over specific parameter to evaluate the in
 
 The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output.  The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found on page \pageref{r4ss}. 
 
-The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to –9999.  Edit STARTER.SS to refer to this control file and the appropriate data file.
+The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to –9999.  Edit starter.ss to refer to this control file and the appropriate data file.
 
 %\begin{center}
 	\begin{longtable}{p{0.5cm} p{16cm}}		
-		& Create a PROFILEVALUES.SS file\\
+		& Create a profilevalues.ss file\\
 		& 2	\# number of parameters using profile feature\\
 		& 0.16	\# value for first selected parameter when runnumber equals 1\\
 		& 0.35	\# value for second selected parameter when runnumber equals 1\\
@@ -173,40 +173,40 @@ Create a batch file that looks something like this.  Or make it more complicated
 \end{quote}
 
 
-Repeat as many times as you have set up conditions in the PROFILEVALUES.SS file.
+Repeat as many times as you have set up conditions in the profilevalues.ss file.
 The summary results will all be collected in the cumreport.sso file.  Each step of the profile will have an unique run number and its output will include the values of the natural mortality and steepness parameters for that run.
 
 \subsubsection{Re-Starting a Run}
-SS model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause SS to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted.  However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, SS can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter –binp ss.bar as one of the command line options.
+Model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause the model to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted.  However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter –binp ss.bar as one of the command line options.
 
 \subsection{The Stock Synthesis GUI (SSI)}
-\href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots.
+\href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots.
 
 \subsection{Debugging Tips}
-When SS input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem.  Before trying the steps below, examine the echoinput.sso file.  It is highly annotated, so you should be able to see if SS is interpreting your input files as you intended.  Additionally, users should check the warning.sso file when attempting to debug a non-running model.
+When input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem.  Before trying the steps below, examine the echoinput.sso file.  It is highly annotated, so you should be able to see if the model is interpreting your input files as you intended.  Additionally, users should check the warning.sso file when attempting to debug a non-running model.
 
 \begin{enumerate}
 	\item Set the turn\_off\_phase switch to 0 in the starter.ss file.  This will cause the mode to not attempt to adjust any parameters and simply converges a dummy parameter.  It will still produce a Report.sso file, which can be examined to see what has been calculated from the initial parameter values.
 	\item Turn the verbosity level to 2 in the starter.ss file.  This will cause the program to display the value of each likelihood component to the screen on each iteration.  So it the program is creating an illegal computation (e.g. divide by zero), it may show you which likelihood component contains the problematic calculation.  If the program is producing a Report.sso file, you may then see which observation is causing the illegal calculation.
 	\item Run the program with the command ss >>SSpipe.txt.  This will cause all screen display to go to the specified text file (note, delete this file before running because it will be appended to).  Examination of this file will show detailed statements produced during the reading and preprocessing of input files.
-	\item If SS fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the –nohess option so you can view the Report.sso to attempt to diagnose the problem.
-	\item If the problem is with reading one or more of the input files, please note that certain Mac line endings cannot be read by SS (although this is a rare occurance). Be sure to save the text files with Windows or Linux style line endings so that SS can parse them.
+	\item If the model fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the –nohess option so you can view the Report.sso to attempt to diagnose the problem.
+	\item If the problem is with reading one or more of the input files, please note that certain Mac line endings cannot be read by the model (although this is a rare occurance). Be sure to save the text files with Windows or Linux style line endings so that the executable can parse them.
 \end{enumerate}
 
 \subsection{Keyboard Tips}
 Typing "N" during a run will cause ADMB to immediately advance to the next phase of estimation.
 
-Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  This bypasses estimation of the Hessian and will produce all of the SS outputs, which are coded in the FINAL\_SECTION.
+Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  This bypasses estimation of the Hessian and will produce all of the model outputs, which are coded in the FINAL\_SECTION.
 
 \subsection{Running MCMC}
- Running SS v3.30 with MCMC can be done through command line options using the default ADMB MCMC algorithim (described below). Another possibility is using the R package adnuts. See the \href{https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html}{adnuts vignette} for more information.
+ Running SS3 v.3.30 with MCMC can be done through command line options using the default ADMB MCMC algorithim (described below). Another possibility is using the R package adnuts. See the \href{https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html}{adnuts vignette} for more information.
  \begin{itemize}
  	\item This gives maximum posterior density estimates, report file, Hessian matrix and the .cor file.
  	\item Look for parameters stuck on bounds which will degrade efficiency of MCMC implementation.
  	%\item Look for very high correlations that may degrade the efficiency of MCMC implementation.
  \end{itemize}
  
-\noindent Run SS v.3.30 with arguments -mcmc xxxx -mcsave yyyy
+\noindent Run SS3 v.3.30 with arguments -mcmc xxxx -mcsave yyyy
  \begin{itemize}
  	\item Where: xxxx is the number of iterations for the chain, and yyyy is the thinning interval (1000 is a good place to start).
  	\item MCMC chain starts at the MPD values.
@@ -217,7 +217,7 @@ Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  
  	\item Optional: Add -nohess and modify starter file so that run will now start from the converged (or modified) parameter estimates in "ss.par".
  \end{itemize}
 	
-\noindent Run SS v3.30 with argument -mceval
+\noindent Run SS3 v.3.30 with argument -mceval
 \begin{itemize}
 	\item This generates the posterior output files.
 	\item Optional: Modify starter file entries to add a burn-in and thinning interval above and beyond the ADMB thinning interval applied at run time.
@@ -225,11 +225,11 @@ Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  
 	\item This step can be repeated for alternate forecast options (e.g., catch levels) without repeating step 2.
 \end{itemize}
 
-\noindent Optional: Run SS v3.30 with arguments -mcr -mcmc xxxx -mcsave yyyy ...
+\noindent Optional: Run SS3 v.3.30 with arguments -mcr -mcmc xxxx -mcsave yyyy ...
 \begin{itemize}
 	\item This restarts and extends an uninterrupted chain previously completed (note that any intermediate runs without the -mcr command in the same directory will break this option).
 \end{itemize}
 
-Note: when SS switches to MCMC or MCEVAL mode, it sets all the bias adjustment factors to 1.0 for any years with recruitment deviations defined.  SS does not create a report file after completing MCMC because it would show values based on the last MCMC step.
+Note: when SS3 switches to MCMC or MCEVAL mode, it sets all the bias adjustment factors to 1.0 for any years with recruitment deviations defined.  SS does not create a report file after completing MCMC because it would show values based on the last MCMC step.
 
 \pagebreak

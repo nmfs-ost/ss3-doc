@@ -44,7 +44,7 @@ When time-varying growth is used, there are some additional considerations to be
 	\item The $\sigma_R$ and autocorrelation parameters can not be time-varying. 
 	% Is this true? Or can they be time varying but it is not advisable because it doesn't make much sense?
 	
-	\item The autocorrelation parameter cannot be estimated accurately within SS \citep{johnson-can-2016}, so external (i.e., external to SS) estimation for selecting an autocorrelation value is currently recommended. The autocorrelation of the recruitment deviations appears in the report file, which can aid in selecting the autocorrelation value.
+	\item The autocorrelation parameter cannot be estimated accurately within SS3 \citep{johnson-can-2016}, so external (i.e., external to SS) estimation for selecting an autocorrelation value is currently recommended. The autocorrelation of the recruitment deviations appears in the report file, which can aid in selecting the autocorrelation value.
 		
 	\item The value of R0 and steepness in the initial year are used within virgin calculations and within the benchmarks for calculation of the denominator in depletion estimates. The average value of R0 and steepness in the range of years specified as the benchmark years inputs 9 and 10 (see \hyperlink{fore-specify}{the forecast file specifications}) is used for MSY-type calculations. 
 	%So, for example, a long-term climate effect could cause R0 to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
@@ -53,28 +53,18 @@ When time-varying growth is used, there are some additional considerations to be
 	
 	\item The same algebraic effect on the calculated recruitment can be achieved by different combinations of spawner-recruit parameter options (e.g., changing R0 directly insead of the regime shift parameter). It is recommended to use block, trend or environmental effects on R0 only for long-term effects, and use time-vary effects on the regime shift parameter for transitory but multi-year deviations from R0.	
 	
-	\item If the R0 or steepness parameters are time-varying, then SS will use the current year's parameters to calculate the expected value of recruits as a function of the spawning biomass, then applies the recruitment deviations. If the regime shift parameter is time-varying, then SS applies the change in the regime shift parameter \textbf{after} calculating the expected value of recruits as a function of spawning biomass.
+	\item If the R0 or steepness parameters are time-varying, then the model will use the current year's parameters to calculate the expected value of recruits as a function of the spawning biomass, then applies the recruitment deviations. If the regime shift parameter is time-varying, then the model applies the change in the regime shift parameter \textbf{after} calculating the expected value of recruits as a function of spawning biomass.
 
 \end{itemize}
 
-%No longer need details about 3.24, someone could reference an older manual if
-%desired.
-
-%In SS v.3.24 and before, only a short parameter line was used for the spawner-recruitment section. SS v.3.30 now requires long parameter lines in the spawner-recruitment section because it now uses the same time-varying parameter approach as the biology and selectivity parameters. This generic time-varying approach replaces the spawner recruit envlink concept in SS v.3.24.  Also, the R1 offset was effectively a block to implement a regime shift for the initial equilibrium year.  Now in v.3.30, the R1 offset parameter is replaced by a parameter termed "regime shift". 
-
-%If a SS v.3.24 model implemented the R1 offset approach this can be mimicked in v.3.30 by the stock recruit regime parameter. For any given year, including startyr - 1, the R0 is replaced by $R0*exp(\mathrm{SR\_Regime}_y)$. So to mimic the R1\_offset, you need to put a block on SR\_regime for y = startyr - 1. But if SR\_regime has some change during your main time series, that change will be filtered through the stock-recruit relationship into an impact on the numbers at age for whatever years are impacted. This can also apply to the forecast. A block on SR\_regime is also easier than some of the old dummy environmental variables that were created in the past to adjust recruitment up and down for long periods.
 
 \subsubsection{Forecast Considerations with Time-Varying Parameters}
 
-Users should judiciously consider which parameter values are applied during forecast years. SS will default to use all base parameter values during the forecast period, but alternatively, which years of selectivity, relative F, and recruitment should be used during the forecast period by specifying in the \hyperlink{fore-specify}{forecast file}.
+Users should judiciously consider which parameter values are applied during forecast years. SS3 will default to use all base parameter values during the forecast period, but alternatively, which years of selectivity, relative F, and recruitment should be used during the forecast period by specifying in the \hyperlink{fore-specify}{forecast file}.
 
 Time-varying parameters can extend into the forecast period. For example, a parameter with a time block that stops at the model end year will revert to the base parameter value for the forecast, but when the block definition extends to include some or all forecast years, the last block will apply to the forecast. A good practice is to use 9999 as the terminal year for the last block to ensure including all forecast years. If a parameter has deviations and the deviations' year range includes the forecast years, then the parameter will have process uncertainty in the forecast years and MCMC draws(if using) will include the variability.
 
-%\subsubsection{Time-Varying Parameter Change from Earlier SS Versions}
-%The approach to time varying parameters was overhauled from SS v.3.24 to SS v.3.30. In SS v.3.24, the group of biology parameters (termed mortality-growth parameters) and the selectivity parameters used the same long parameter line approach, but each was implemented in its own section of the code. The spawner-recruitment parameters used short parameter lines and a different approach for linkage to an environmental variable and the R1 offset provided a limited type of block. The catchability parameters also used short parameter lines and had its own approach to doing environmental linkage and random deviations, but not blocks. Then finally, the tagging parameters had long parameter lines, but there was no code to interpret any time-varying info in those lines.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \hypertarget{2DAR}{}
 \subsection{Parameterizing the Two-Dimensional Autoregressive Selectivity}
 When the two-dimensional autoregressive selectivity feature is turned on for a fleet, the selectivity is calculated as a product of the assumed selectivity pattern and a non-parametric deviation term deviating from this assumed pattern:
@@ -126,13 +116,11 @@ as a measure of how rich the composition data is regarding estimating selectivit
 
 Second, fix $\sigma_s$ at the value iteratively tuned in the previous step and estimate $\epsilon_{a,t}$. Plot both Pearson residuals and $\epsilon_{a,t}$ out on the age-year surface to check their 2D dimensions. If their distributions seems to be not random but rather be autocorrelated (deviation estimates have the same sign several ages and/or years in a row), users should consider estimating and then including the autocorrelations in $\epsilon_{a,t}$.
 
-Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, SS should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the  autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
+Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, the model should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the  autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Continuous seasonal recruitment}
-It is awkward in SS to set up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year.  Consequently, some users have attempted to setup SS so that each quarter appears as a year.  They have set up all the data and parameters to treat quarters as if they were years (i.e., each still has a duration of 1.0 time step).  This can work, but requires that all rate parameters be re-scaled to be correct for the quarters being treated as years.
+It is awkward in SS3 to set up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year.  Consequently, some users have attempted to setup SS3 so that each quarter appears as a year.  They have set up all the data and parameters to treat quarters as if they were years (i.e., each still has a duration of 1.0 time step).  This can work, but requires that all rate parameters be re-scaled to be correct for the quarters being treated as years.
 
 Another option is available.  If there is one season per year and the season duration is set to 3 (rather than the normal 12), then the season duration is calculated to be 3/12 or 0.25. This means that the rate parameters can stay in their normal per year scaling and this shorter season duration makes the necessary adjustments internally. Some other adjustments to make when doing quarters as years include:
 
@@ -152,16 +140,14 @@ A good test showing comparability of the 3 approaches to setting up a quarterly 
 
 \pagebreak
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Detailed Information on SS Processes}
+\section{Detailed Information on Stock Synthesis Processes}
 
-The processes and calculations with SS can be complex and not transparent based on the model input files. Here additional information is provided to users to assist in understanding some of these processes.
+The processes and calculations with SS3 can be complex and not transparent based on the model input files. Here additional information is provided to users to assist in understanding some of these processes.
 
 \subsection{Jitter}
 \hypertarget{Jitter}{}
-The jitter function has been updated with SS v.3.30.  The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
+The jitter function has been updated with SS3 v.3.30.  The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
 \begin{enumerate}
 	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
 	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
@@ -191,12 +177,12 @@ Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid
 
 \hypertarget{PriorDescrip}{}
 \subsection{Parameter Priors}
-Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
+Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS3 is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
 
 The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. The Prior Likelihoods below represent the negative log likelihood in all cases.
 
 \myparagraph{Prior Types}
-Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
+Note that the numbering in SS3 v.3.30 is different from that used in SS3 v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
 
 \begin{tabular}{ll}
 	$P_\text{init}$ & The value of the parameter for which a prior is being calculated where init can either be\\
@@ -255,14 +241,7 @@ Note that the numbering in SS v.3.30 is different from that used in SS v.3.24 (w
 			& - (1 - \beta_\text{PR}) \cdot ln(0.0001 + P_\text{PR} - P_\text{LB}) \\
 			& - (1 - \alpha_\text{PR}) \cdot ln(0.0001 + P_\text{UB} - P_\text{PR})
 		\end{split}
-	\end{equation}
-
-	%\begin{figure}[h]
-	%\begin{center}
-	%	\includegraphics[scale = 0.9]{BetaComparison}\\
-	%\end{center}
-	%\caption{Comparison of the symmetric beta and the beta prior functions.}
-	%\end{figure}	
+	\end{equation}	
 
 	
 	\item \textbf{Prior Type 3 = Lognormal prior} \\ 

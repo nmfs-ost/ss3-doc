@@ -1,7 +1,7 @@
 
 \section{Using R To View Model Output (r4ss)}\label{r4ss}
 
-The R package \texttt{r4ss} includes tools for summarizing and plotting results, manipulating files, visualizing model parameterizations, and other tasks. Currently, information about \texttt{r4ss} can be found on \href{https://github.com/r4ss/r4ss}{Github}.  The software package is under continuous development to maintain compatibility with new versions of SS and to improve functionality.
+The R package \texttt{r4ss} includes tools for summarizing and plotting results, manipulating files, visualizing model parameterizations, and other tasks. Currently, information about \texttt{r4ss} can be found on \href{https://github.com/r4ss/r4ss}{Github}.  The software package is under continuous development to maintain compatibility with new versions of SS3 and to improve functionality.
 
 The latest version of \texttt{r4ss} can be installed directly from GitHub at any time via the \texttt{remotes} package in R with the following commands:
 
@@ -20,7 +20,7 @@ Once the \texttt{r4ss} package is installed, it can be loaded:
 	\end{verbatim}
 \end{quote}
 
-Two of the most commonly used functions for model diagnostics are \texttt{SS\_output} and \texttt{SS\_plots}. After running a model using SS, the output files including Report.sso can be read into R using the \texttt{SS\_output} function which stores quantities in a list with named objects.  This list can then be passed to the \texttt{SS\_plots} function, which creates a series of over 100 plots that are useful for visualizing output such as model fits to the data. For example, plots can be created using SS model output available in the directory "C:/myfiles/mymodels/myrun":
+Two of the most commonly used functions for model diagnostics are \texttt{SS\_output} and \texttt{SS\_plots}. After running a model using SS, the output files including Report.sso can be read into R using the \texttt{SS\_output} function which stores quantities in a list with named objects.  This list can then be passed to the \texttt{SS\_plots} function, which creates a series of over 100 plots that are useful for visualizing output such as model fits to the data. For example, plots can be created using model output available in the directory "C:/myfiles/mymodels/myrun":
 
 \begin{quote}
 	\begin{verbatim}
@@ -40,37 +40,12 @@ The core functions available in \texttt{r4ss} include:
 		SS\_plots  \Tstrut& Plot many quantities related to output from Stock Synthesis\\
 		\hline
 		
-%		\multicolumn{2}{l}{Individual plotting functions called by SS\_plots:} \Tstrut\Bstrut\\
-%		\hline
-%		SSplotBiology \Tstrut& Plot biology related quantities from Stock Synthesis model output, including mean weight, maturity, fecundity, and spawning output. \\
-%		SSplotCatch   \Tstrut & Plot catch related quantities \\
-%		SSplotCohorts \Tstrut & Plot cumulative catch by cohort \\
-%		SSplotComps   \Tstrut & Plot composition data and fits \\
-%		SSplotData    \Tstrut & Timeline of presence/absence data by type, year, and fleet \\
-%		SSplotDiscard \Tstrut & Plot fit to discard fraction \\
-%		SSplotIndices \Tstrut & Plot indices of abundance and associated quantities \\
-%		SSplotMnwt    \Tstrut & Plot mean weight data and fits \\
-%		SSplotMovementMap \Tstrut & Show movement rates on a map \\
-%		SSplotMovementRates \Tstrut & Show movement rates on a map \\
-%		SSplotNumbers \Tstrut& Plot numbers-at-age related data and fits \\
-%		SSplotRecdevs \Tstrut& Plot recruitment deviations \\
-%		SSplotRecdist \Tstrut& Plot of recruitment distribution among areas and seasons \\
-%		SSplotSelex   \Tstrut& Plot selectivity \\
-%		SSplotSexRatio \Tstrut& Plot sex ratios \\
-%		SSplotSummaryF \Tstrut& Plot time series summary of F (or harvest rate) \\
-%		SSplotSpawnrecruit \Tstrut& Plot spawner-recruit curve \\
-%		SSplotSPR     \Tstrut& Plot SPR quantities \\
-%		SSplotTags    \Tstrut& Plot tagging data and fits \\
-%		SSplotTimeseries \Tstrut& Plot time series data \\
-%		SSplotYield   \Tstrut& Plot yield and surplus production \\
-%		SS\_html \Tstrut& Create HTML files to view figures in browser \\
-%		\hline
 	
 		\multicolumn{2}{l}{Model comparisons and other diagnostics:} \Tstrut\Bstrut\\
 		\hline
-		SSsummarize   \Tstrut & Read output from multiple SS models\\
+		SSsummarize   \Tstrut & Read output from multiple SS3 models\\
 		SStableComparison \Tstrut & Make table comparing quantities across models\\
-		SSplotComparison \Tstrut & Plot output from multiple SS models \\
+		SSplotComparison \Tstrut & Plot output from multiple SS3 models \\
 		SSplotPars    \Tstrut & Plot distributions of priors, posteriors, and estimates \\
 		SS\_profile \Tstrut & Run likelihood parameter profiles \\
 		SSplotProfile \Tstrut & Plot likelihood profile results \\
@@ -94,12 +69,12 @@ The core functions available in \texttt{r4ss} include:
 		SS\_writeforecast \Tstrut & Write forecast file \\
 		SS\_writestarter  \Tstrut & Write starter file \\
 		SS\_writewtatage \Tstrut & Write weight-at-age file \\
-		SS\_makedatlist   \Tstrut & Make a list for SS data \\
-		SS\_parlines    \Tstrut & Get parameter lines from SS control file \\
+		SS\_makedatlist   \Tstrut & Make a list for SS3 data \\
+		SS\_parlines    \Tstrut & Get parameter lines from SS3 control file \\
 		SS\_changepars  \Tstrut  & Change parameters in the control file \\
 		SSmakeMmatrix    \Tstrut & Create inputs for entering a matrix of natural mortality by age and year \\
-		SS\_profile      \Tstrut & Run a likelihood profile in SS (incomplete) \\
-		NegLogInt\_Fn     \Tstrut& Calculated variances of time-varying parameters using SS implementation of the Laplace Approximation \Bstrut\\
+		SS\_profile      \Tstrut & Run a likelihood profile in SS3 (incomplete) \\
+		NegLogInt\_Fn     \Tstrut& Calculated variances of time-varying parameters using SS3 implementation of the Laplace Approximation \Bstrut\\
 		\hline
 		
 		\multicolumn{2}{l}{File manipulations for outputs:}\Tstrut\Bstrut\\
@@ -107,41 +82,7 @@ The core functions available in \texttt{r4ss} include:
 		SS\_recdevs  \Tstrut & Insert a vector of recruitment deviations into the control file \\
 		SS\_splitdat \Tstrut & Split apart bootstrap data to make input file \Bstrut\\
 		\hline
-		
-%		\multicolumn{2}{l}{Functions related to MCMC diagnostics:}\Tstrut\Bstrut\\
-%		\hline
-%		SSgetMCMC      \Tstrut & Read MCMC output \\
-%		SSplotMCMC\_ExtraSelex \Tstrut & Plot uncertainty around chosen selectivity ogive from MCMC \\
-%		mcmc.nuisance \Tstrut & Summarize nuisance MCMC output \\
-%		mcmc.out      \Tstrut & Summarize, analyze, and plot key MCMC output \Bstrut\\
-%		\hline
-				
-%		\multicolumn{2}{l}{Interactive tools for exploring functional forms:} \Tstrut\Bstrut\\
-%		\hline
-%		movepars    \Tstrut  & Explore movement parameterization \\
-%		selfit      \Tstrut  & A function to visualize parameterization of double normal and double logistic selectivity in SS \\
-%		selfit\_spline \Tstrut & Visualize parameterization of cubic spline selectivity in SS \\
-%		sel\_line   \Tstrut & A function for drawing selectivity curves\Bstrut \\
-%		\hline
-%
-%		\multicolumn{2}{l}{Minor plotting functions:}\Tstrut\Bstrut\\
-%		\hline
-%		bubble3         \Tstrut & Create a bubble plot \\
-%		make\_multifig  \Tstrut & Create multi-figure plots \\
-%		Make\_multifig\_sexratio \Tstrut & Create multi-figure plots of sex ratios \\
-%		plotCI          \Tstrut & Plot points with confidence intervals \\
-%		rich\_colors\_short \Tstrut & Make a vector of colors \\
-%		stackpoly       \Tstrut & Plot stacked polygons \\
-%		mountains       \Tstrut & Make shaded polygons with a mountain-like appearance \Bstrut\\
-		
-%		\hline
-%		\multicolumn{2}{l}{Really specialized functions:} \Tstrut\Bstrut\\
-%		\hline
-%		DoProjectPlots \Tstrut & Make plots from Rebuilder program \\
-%		IOTCmove       \Tstrut & Make a map of movement for a 5-area Indian Ocean model \\
-%		SSFishGraph    \Tstrut & A function for converting SS output to the format used by FishGraph \\
-%		TSCplot        \Tstrut & Create a plot for the TSC report \Bstrut\\
-%		\hline
+
 	\end{longtable}
 \end{center}
 

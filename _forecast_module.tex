@@ -2,7 +2,7 @@
 \subsection{Forecast Module: Benchmark and Forecasting Calculations}
 \label{sec:forecast}
 
-SS version 3.20 introduced substantial upgrades to the benchmark and forecast module.  The general intent was to make the forecast outputs more consistent with the requirement to set catch limits that have a known probability of exceeding the overfishing limit.  In addition, this upgrade addressed several inadequacies with the previous module, including:
+SS3 v.3.20 introduced substantial upgrades to the benchmark and forecast module.  The general intent was to make the forecast outputs more consistent with the requirement to set catch limits that have a known probability of exceeding the overfishing limit.  In addition, this upgrade addressed several inadequacies with the previous module, including:
 
 \begin{itemize}
 	\item The average selectivity and relative F was the same for the benchmark and the forecast calculations;
@@ -24,7 +24,7 @@ The V3.20 module addressed these issues by:
 \end{itemize}
 
 \myparagraph{Multiple Pass Forecast}
-The most complicated aspect of the changes is with regard to the multiple pass aspect of the forecast.  This multiple pass approach is needed to calculate both OFL and ABC in a single model run.  More importantly, the multiple passes are needed in order to mimic the actual sequence of assessment-management action – catch over a multi-year period.  The first pass calculates OFL based on catching OFL each year, so presents the absolute maximum upper limit to catches.  The second pass forecasts a catch based on a harvest policy, then applies catch caps and allocations, then updates the F’s to match these catches.  In the third pass, stochastic recruitment and catch implementation error are implemented and SS calculates the F that would be needed in order to catch the adjusted catch amount previously calculated in the second pass.  With this approach, SS is able to produce improved estimates of the probability that F would exceed the overfishing F.  In effect it is the complement of the P* approach.  Rather than the P* approach that calculates the stream of annual catches that would have an annual probability of F>Flimit, SS calculates the expected time series of P* that would result from a specified harvest policy implemented as a buffer between Ftarget and Flimit.
+The most complicated aspect of the changes is with regard to the multiple pass aspect of the forecast.  This multiple pass approach is needed to calculate both OFL and ABC in a single model run.  More importantly, the multiple passes are needed in order to mimic the actual sequence of assessment-management action – catch over a multi-year period.  The first pass calculates OFL based on catching OFL each year, so presents the absolute maximum upper limit to catches.  The second pass forecasts a catch based on a harvest policy, then applies catch caps and allocations, then updates the F’s to match these catches.  In the third pass, stochastic recruitment and catch implementation error are implemented and SS3 calculates the F that would be needed in order to catch the adjusted catch amount previously calculated in the second pass.  With this approach, SS3 is able to produce improved estimates of the probability that F would exceed the overfishing F.  In effect it is the complement of the P* approach.  Rather than the P* approach that calculates the stream of annual catches that would have an annual probability of F>Flimit, SS3 calculates the expected time series of P* that would result from a specified harvest policy implemented as a buffer between Ftarget and Flimit.
 
 The sequence of multiple forecast passes is as follows:
 \begin{enumerate}
@@ -61,7 +61,7 @@ The sequence of multiple forecast passes is as follows:
 				\item R=f(SSB) with no deviations
 				\item F=Ftarget to get catch for each fleet in each season
 				\item Fixed input catch amounts replace catch from step 2
-				\item Catch adjustments (caps and allocations) applied on annual basis (after looping through seasons and and areas within this year). These adjustments utilize the logistic joiner approach common in SS so the overall results remain completely differentiable.
+				\item Catch adjustments (caps and allocations) applied on annual basis (after looping through seasons and and areas within this year). These adjustments utilize the logistic joiner approach so the overall results remain completely differentiable.
 				\item No implementation error
 				\item Result: ABC as adjusted for caps and allocations
 			\end{enumerate}

@@ -72,9 +72,9 @@ Seasonal quantities in the model are calculated and treated in the following met
 
 \subsubsection{Subseasons and Timing of Events}
 \hypertarget{SubSeas}{}
-The treatment of subseasons in \SS v.3.30 provide more precision in the timing of events compared to earlier model versions.  \SS v.3.24 and all earlier versions effectively had two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.  
+The treatment of subseasons in SS3 provide more precision in the timing of events compared to earlier model versions.  SS3 v.3.24 and all earlier versions effectively had two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.  
 
-Time steps in \SS v.3.30 now can be broken into subseason and the ALK can be calculated multiple times over the course of a year:
+Time steps in SS3 can be broken into subseason and the ALK can be calculated multiple times over the course of a year:
 
 \begin{center}
 	\begin{tabular}{| p{2.37cm}| p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  }
@@ -90,12 +90,12 @@ Time steps in \SS v.3.30 now can be broken into subseason and the ALK can be cal
 	\begin{itemize}
 		\item Even number (min = 2) of subseasons per season (regardless of season duration):
 			\begin{itemize}
-				\item Two subseasons will mimic SS v.3.24
+				\item Two subseasons will mimic SS3 v.3.24
 				\item Specifying more subseasons will give finer temporal resolution, but will slow the model down, the effect of which is mitigated by only calculating growth as needed.
 			\end{itemize}
 		\item Survey timing is now cruise-specific and specified in units of months (e.g., April 15 = 4.5).
 			\begin{itemize}
-				\item sstrans.exe will convert year, season in SS v.3.24 format to year, real month in SS v.3.30 format.
+				\item sstrans.exe will convert year, season in SS3 v.3.24 format to year, real month in SS3 v.3.30 format.
 			\end{itemize}
 		\item Survey integer season and spawn integer season assigned at run time based on real month and season duration(s).
 		\item Growth and the age-length-key (ALK) is calculated at the beginning and mid-season or when there is a defined subseason with data observation.
@@ -103,7 +103,7 @@ Time steps in \SS v.3.30 now can be broken into subseason and the ALK can be cal
 		\item Survey body weight and size composition is calculated using the nearest subseason.
 		\item Reproductive output now has specified spawn timing (in months fraction) and interpolates growth to that timing.
 		\item Survey numbers calculated at cruise survey timing using $e^{-z}$.
-		\item Continuous Z for entire season.  Same as applied in version SS v.3.24.
+		\item Continuous Z for entire season.  Same as applied in version SS3 v.3.24.
 	\end{itemize}
 
 \subsection{Terminology}
@@ -115,7 +115,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 		\hline
 		\textbf{Value} & \textbf{Description} \Tstrut\Bstrut\\
 		\hline
-		\#V3.30.XX.XX & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Model version number.  This is written by SS in the  new files and a good idea to keep updated in the input files.}} \Tstrut\\
+		\#V3.30.XX.XX & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Model version number.  This is written by SS3 in the  new files and a good idea to keep updated in the input files.}} \Tstrut\\
 		&  \Bstrut\\
 
 		\hline
@@ -132,7 +132,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 		1 & Number of seasons per year \Tstrut\Bstrut\\
 
 		\hline
-		12 & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Vector with the number of months in each season.  These do not need to be integers.  Note:  If the sum of this vector is close to 12.0, then it is rescaled to sum to 1.0 so that season duration is a fraction of a year.  If the sum is not equal to 12.0, then the entered values are summed and rescaled to 1.  So, with one season per year and 3 months per season, the calculated season duration will be 0.25, which allows a quarterly model to be run as if quarters are years.  All rates in SS are  calculated by season (growth, mortality, etc.) using annual rates and season duration.}} \Tstrut\\
+		12 & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Vector with the number of months in each season.  These do not need to be integers.  Note:  If the sum of this vector is close to 12.0, then it is rescaled to sum to 1.0 so that season duration is a fraction of a year.  If the sum is not equal to 12.0, then the entered values are summed and rescaled to 1.  So, with one season per year and 3 months per season, the calculated season duration will be 0.25, which allows a quarterly model to be run as if quarters are years.  All rates in SS3 are  calculated by season (growth, mortality, etc.) using annual rates and season duration.}} \Tstrut\\
 		& \\
 		& \\
 		& \\
@@ -158,7 +158,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 		 & -1 = one sex and multiply the spawning biomass by the fraction female in the control file. \Bstrut\\
 
 		\hline
-		20 \Tstrut & Number of ages. The value here will be the plus-group age.  SS starts at age 0. \\
+		20 \Tstrut & Number of ages. The value here will be the plus-group age.  SS3 starts at age 0. \\
 
 		\hline
 		1 & Number of areas \Tstrut\Bstrut\\
@@ -171,7 +171,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 
 
 \subsection{Fleet Definitions }
-\hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (SS v.3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In version SS v.3.30 all fleets now have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions).  Available types are; catch fleet, bycatch only fleet, or survey.  
+\hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up.  The fleet setup input is transposed so each fleet is now a row.  Previous versions (SS v.3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets.  In SS3 all fleets have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions).  Available types are; catch fleet, bycatch only fleet, or survey.  
 
 \begin{center}
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{4cm} }
@@ -201,7 +201,7 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 
 \hypertarget{ObsTiming}{}
 \myparagraph{Timing}
-   Timing for data observations has been revised in SS v.3.30:
+   Timing for data observations:
 	  \begin{itemize}
 	  	\item Fishery options:
 		\begin{itemize}
@@ -233,13 +233,13 @@ Invokes use of a catch multiplier, which is then entered as a parameter in the m
 A catch multiplier can be useful when trying to explore historical unrecorded catches or ongoing illegal and unregulated catches.  The catch multiplier is a full parameter line in the control file and has the ability to be time-varying.  
 
 \subsection{Bycatch Fleets}
-The option to include bycatch fleets was introduced in SS v.3.30.10.  This is an optional input and if no bycatch is to be included in to the catches this section can be ignored.
+The option to include bycatch fleets was introduced in SS3 v.3.30.10.  This is an optional input and if no bycatch is to be included in to the catches this section can be ignored.
 
-A fishing fleet is designated as a bycatch fleet by indicating that its fleet type is 2.  A bycatch fleet creates a fishing mortality, same as a fleet of type 1, but a bycatch fleet has all catch discarded so the input value for retained catch is ignored.  However, an input value for retained catch is still needed to indicate that the bycatch fleet was active in that year and season.  A catch multiplier cannot be used with bycatch fleets because catch multiplier works on retained catch.  SS will expect that the retention function for this fleet will be set in the selectivity section to type 3, indicating that all selected catch is discarded dead.  It is necessary to specify a selectivity pattern for the bycatch fleet and, due to generally lack of data, to externally derive values for the parameters of this selectivity.
+A fishing fleet is designated as a bycatch fleet by indicating that its fleet type is 2.  A bycatch fleet creates a fishing mortality, same as a fleet of type 1, but a bycatch fleet has all catch discarded so the input value for retained catch is ignored.  However, an input value for retained catch is still needed to indicate that the bycatch fleet was active in that year and season.  A catch multiplier cannot be used with bycatch fleets because catch multiplier works on retained catch.  SS3 will expect that the retention function for this fleet will be set in the selectivity section to type 3, indicating that all selected catch is discarded dead.  It is necessary to specify a selectivity pattern for the bycatch fleet and, due to generally lack of data, to externally derive values for the parameters of this selectivity.
 
-All catch from a bycatch fleet is discarded, so one option to use a discard fleet is to enter annual values for the amount (not proportion) that is discarded in each time step.  However, it is uncommon to have such data for all years.  An alternative approach that has been used principally in the U.S. Gulf of Mexico is to input a time series of effort data for this fleet in the survey section (e.g.,  effort is a "survey" of F, for example, the shrimp trawl fleet in the Gulf of Mexico catches and discards small finfish and an effort time series is available for this fleet) and to input in the discard data section an observation for the average discard over time using the super year approach.  Another use of bycatch fleet is to use it to estimate effect of an external source of mortality, such as a red tide event.  In this usage there may be no data on the magnitude of the discards and SS will then rely solely on the contrast in other data to attempt to estimate the magnitude of the red tide kill that occurred. The benefit of doing this as a bycatch fleet, and not a block on natural mortality, is that the selectivity of the effect can be specified. 
+All catch from a bycatch fleet is discarded, so one option to use a discard fleet is to enter annual values for the amount (not proportion) that is discarded in each time step.  However, it is uncommon to have such data for all years.  An alternative approach that has been used principally in the U.S. Gulf of Mexico is to input a time series of effort data for this fleet in the survey section (e.g.,  effort is a "survey" of F, for example, the shrimp trawl fleet in the Gulf of Mexico catches and discards small finfish and an effort time series is available for this fleet) and to input in the discard data section an observation for the average discard over time using the super year approach.  Another use of bycatch fleet is to use it to estimate effect of an external source of mortality, such as a red tide event.  In this usage there may be no data on the magnitude of the discards and SS3 will then rely solely on the contrast in other data to attempt to estimate the magnitude of the red tide kill that occurred. The benefit of doing this as a bycatch fleet, and not a block on natural mortality, is that the selectivity of the effect can be specified. 
 
-Bycatch fleets are not expected to be under the same type of fishery management controls as the retained catch fleets included in the model.  This means that when SS enters into the reference point equilibrium calculations, it would be incorrect to have SS re-scale the magnitude of the F for the bycatch fleet as it searches for the F that produces, for example, F35\%.  Related issues apply to the forecast.  Consequently, a separate set of controls is provided for bycatch fleets (defined below).  Input is required for each fleet designated as fleet type = 2.
+Bycatch fleets are not expected to be under the same type of fishery management controls as the retained catch fleets included in the model.  This means that when SS3 enters into the reference point equilibrium calculations, it would be incorrect to have SS3 re-scale the magnitude of the F for the bycatch fleet as it searches for the F that produces, for example, F35\%.  Related issues apply to the forecast.  Consequently, a separate set of controls is provided for bycatch fleets (defined below).  Input is required for each fleet designated as fleet type = 2.
 
 \noindent If a fleet above was set as a bycatch fleet (fleet type = 2), the following line is required: 
 \begin{center}
@@ -298,14 +298,14 @@ The needed changes to the data file are:
 	\begin{enumerate}
 		\item Initial equilibrium – you may want to enter the bycatch amount as retained catch for the initial equilibrium year because there is no option to enter initial equilibrium discard in the discard section.
 	\end{enumerate}	
-	\item Discard input – It is useful, but not absolutely necessary, to enter the amount of discard to assist SS in estimating the F for the bycatch fleet.
-	\item Survey input - It is useful, but not absolutely necessary, to enter the effort time series by the bycatch fleet to assist SS in estimating the annual changes in F for the bycatch fleet.
+	\item Discard input – It is useful, but not absolutely necessary, to enter the amount of discard to assist SS3 in estimating the F for the bycatch fleet.
+	\item Survey input - It is useful, but not absolutely necessary, to enter the effort time series by the bycatch fleet to assist SS3 in estimating the annual changes in F for the bycatch fleet.
 \end{enumerate}
 
 The needed changes to the control file are:
 
 \begin{enumerate}
-	\item The F method must be set to 2 in order for SS to estimate F with having information on retained catch.
+	\item The F method must be set to 2 in order for SS3 to estimate F with having information on retained catch.
 	\item Selectivity – 
 	\begin{enumerate}
 		\item A selectivity pattern must be specified and fixed (or estimated if composition data is provided).
@@ -339,9 +339,9 @@ With the input of data on the time series of total kill or predator effort, it s
 
 \hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g., catch, length- and age-composition data), the control file (e.g., lambdas), and the forecast file (e.g., total catch by fleet, total catch by area, allocation groups, forecasted catch).
 
-In addition, it is possible to collapse the number of seasons.  So, if a season value is greater than the number of seasons for a particular model, that catch is added to the catch for the final season.  This is one way to easily collapse a seasonal model into an annual model.  The alternative option is to the use of season = 0.  This will cause SS to distribute the input value of catch equally among the number of seasons.  SS assumes that catch occurs continuously over seasons and hence is not specified as month in the catch data section.  However, all other data types will need to be specified by month.
+In addition, it is possible to collapse the number of seasons.  So, if a season value is greater than the number of seasons for a particular model, that catch is added to the catch for the final season.  This is one way to easily collapse a seasonal model into an annual model.  The alternative option is to the use of season = 0.  This will cause SS3 to distribute the input value of catch equally among the number of seasons.  SS3 assumes that catch occurs continuously over seasons and hence is not specified as month in the catch data section.  However, all other data types will need to be specified by month.
 
-The new format for version SS v.3.30 for a 2 season model with 2 fisheries looks like the table below.  The example is sorted by fleet, but the sort order does not matter.  In data.ss\_new, the sort order is fleet, year, season.
+The format for a 2 season model with 2 fisheries looks like the table below.  Example is sorted by fleet, but the sort order does not matter.  In data.ss\_new, the sort order is fleet, year, season.
 
 \begin{center}
 	\begin{tabular}{p{3cm} p{3cm} p{3cm} p{3cm} p{2cm}}
@@ -408,11 +408,11 @@ The options for units for input data are:
 			\item 33 = recruitment, age-0 recruits;
 			\item 34 = depletion (spawning biomass/virgin spawning biomass);
 			\begin{itemize}
-				\item Special survey option 34 automatically adjusts phases of parameters.  To use the depletion survey approach, the user will need to make the following revisions to the SS data file: 1) add a new survey fleet, 2) define the survey type as option 34, 3) add two depletion survey data points, and initial unfished set equal to 1 for an unfished modeled year and one for a later year with the depletion estimates, 4) set the input CV value for each survey data point to a low value (e.g., 0.0001) to force the model to fit these data, and in the control file 5) add the survey to the control file in the Q set-up and selectivity sections with float set to 0 with parameter value set to 0. 
+				\item Special survey option 34 automatically adjusts phases of parameters.  To use the depletion survey approach, the user will need to make the following revisions to the SS3 data file: 1) add a new survey fleet, 2) define the survey type as option 34, 3) add two depletion survey data points, and initial unfished set equal to 1 for an unfished modeled year and one for a later year with the depletion estimates, 4) set the input CV value for each survey data point to a low value (e.g., 0.0001) to force the model to fit these data, and in the control file 5) add the survey to the control file in the Q set-up and selectivity sections with float set to 0 with parameter value set to 0. 
 				\item There are options for additional control over this in the control file Q setup section under the "link information" column where:
 				\begin{itemize}
 				    \item 0 = add 1 to phases of all parameters. Only R0 active in new phase 1. Mimics the default option of previous model versions;
-				    \item 1 = only R0 active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters.  Essentially, this option allows SS to mimic DB-SRA; and
+				    \item 1 = only R0 active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters.  Essentially, this option allows SS3 to mimic DB-SRA; and
 				    \item 2 = no phase adjustments, can be used when profiling on fixed R0.
 				\end{itemize}
 				\item Warning: the depletion survey approach has not been tested on multiple area models.  This approach may present challenges depending upon the dynamics within each area.
@@ -518,7 +518,7 @@ The four options for discard error are:
 	\item 0 = normal distribution, value of error in data file is interpreted as CV of the observation;
 	\item -1 = normal distribution, value of error in data file is interpreted as standard error of the observation;
 	\item -2 = lognormal distribution, value of error in data file is interpreted as standard error of the observation in log space; and 
-	\item -3 = truncated normal distribution (new with SS v.3.30, needs further testing), value of error in data file is interpreted as standard error of the observation.  This is a good option for low observed discard rates.
+	\item -3 = truncated normal distribution (new with SS3 v.3.30, needs further testing), value of error in data file is interpreted as standard error of the observation.  This is a good option for low observed discard rates.
 \end{itemize}
 
 \myparagraph{Discard Notes}
@@ -528,7 +528,7 @@ The four options for discard error are:
 	\item Zero (0.0) is a legitimate discard observation, unless lognormal error structure is used.
 	\item Duplicate discard observations from a fleet for the same year are not allowed.
 	\item Observations can be entered in any order, except if the super-period feature is used. 
-	\item Note that in the control file you will enter information for retention such that 1-retention is the amount discarded.  All discard is assumed dead, unless you enter information for discard mortality.  Retention and discard mortality can be either size-based or age-based (new with SS v.3.30).
+	\item Note that in the control file you will enter information for retention such that 1-retention is the amount discarded.  All discard is assumed dead, unless you enter information for discard mortality.  Retention and discard mortality can be either size-based or age-based (new with SS3 v.3.30).
 \end{itemize}
 	
 \myparagraph{Cautionary Note}
@@ -609,7 +609,7 @@ There are some items for users to consider when setting up population length bin
 	
 	\item The mean size at settlement (virtual recruitment age) is set equal to the min size of the first population length bin.
 	
-	\item When using more, finer population length bins, SS will create smoother length selectivity curves and smoother length distributions in the age-length key, but run more slowly (more calculations to do).
+	\item When using more, finer population length bins, SS3 will create smoother length selectivity curves and smoother length distributions in the age-length key, but run more slowly (more calculations to do).
 	
 	\item The mean weight-at-length, maturity-at-length and size-selectivity are based on the mid-length of the population bins.  So these quantities will be rougher approximations if broad bins are defined.
 	
@@ -617,7 +617,7 @@ There are some items for users to consider when setting up population length bin
 	
 	\item While exploring the performance of models with finer bin structure, a potentially pathological situation has been identified.  When the bin structure is coarse (note that some applications have used 10 cm bin widths for the largest fish), it is possible for a selectivity slope parameter or a retention parameter to become so steep that all of the action occurs within the range of a single size bin.  In this case, the model will see zero gradient of the log likelihood with respect to that parameter and convergence will be hampered.
 	
-	\item  A value read near the end of the starter.ss file defines the degree of tail compression used for the age-length key, called ALK tolerance.  If this is set to 0.0, then no compression is used and all cells of the age-length key are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age.  With tail compression of, say 0.0001, SS will at the beginning of each phase calculate the min and max length bin to process for each age of each morphs ALK and compress accordingly.  Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%.  Large values of ALK tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence.  It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time.  The user is encouraged to explore this feature.
+	\item  A value read near the end of the starter.ss file defines the degree of tail compression used for the age-length key, called ALK tolerance.  If this is set to 0.0, then no compression is used and all cells of the age-length key are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age.  With tail compression of, say 0.0001, SS3 will at the beginning of each phase calculate the min and max length bin to process for each age of each morphs ALK and compress accordingly.  Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%.  Large values of ALK tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence.  It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time.  The user is encouraged to explore this feature.
 \end{itemize}
 
 
@@ -680,11 +680,11 @@ Value that indicates the groups of composition data for estimation of the Dirich
 
 \begin{itemize}
 	\item 0 = Default; and
-	\item 1-N = Only used for the Dirichlet option. Set to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. That is, if you have 3 fleets with length data, but only 2 also have age data, you would have values 1 to 3 in the length comp setup and 4 to 5 in the age comp setup. You can also have a data weight that is shared across fleets by repeating values in Parameter Select. Note that there can be no skipped numbers in the sequence from 1 to N, otherwise SS will exit on error when reading in the input files.
+	\item 1-N = Only used for the Dirichlet option. Set to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. That is, if you have 3 fleets with length data, but only 2 also have age data, you would have values 1 to 3 in the length comp setup and 4 to 5 in the age comp setup. You can also have a data weight that is shared across fleets by repeating values in Parameter Select. Note that there can be no skipped numbers in the sequence from 1 to N, otherwise SS3 will exit on error when reading in the input files.
 \end{itemize}	
 
 \myparagraph{Minimum Sample Size}
-The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. SS v.3.24 had an implicit minimum sample size value of 1.
+The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. SS3 v.3.24 had an implicit minimum sample size value of 1.
 
 \myparagraph{Additional information on Dirichlet Parameter Number and Effective Sample Sizes}
 If the Dirichlet-multinomial error distribution is selected, indicate here which of a list of Dirichlet-multinomial parameters will be used for this fleet.  So each fleet could use a unique Dirichlet-multinomial parameter, or all could share the same, or any combination of unique and shared.  The requested number of Dirichlet-multinomial parameters are specified as parameter lines in the control file immediately after the selectivity parameter section. Please note that age-compositions Dirichlet-multinomial parameters are continued after length-compositions, so a model with one fleet and both data types would presumably require two new Dirichlet-multinomial parameters.  	
@@ -697,7 +697,7 @@ For additional information about the Dirichlet-multinomial please see \citet{tho
 
 \hypertarget{CompTiming}{}
 \subsection{Length Composition Data}
-Composition data within SS can be entered as proportions, numbers, or values of observations by length bin based on data expansions.  
+Composition data within SS3 can be entered as proportions, numbers, or values of observations by length bin based on data expansions.  
 
 The data bins do not need to cover all observed lengths.  The selection of data bin structure should be based on the observed distribution of lengths and the assumed growth curve. If growth asymptotes at larger lengths, having additional length bins across these sizes may not contribute information to the model and may slow model run time.  Additionally, the lower length bin selection should be selected such that, depending on the size selection, to allow for information on smaller fish and possible patterns in recruitment. While set separately users should ensure that the length and age bins align.  It is recommended to explore multiple configurations of length and age bins to determine the impact of this choice on model estimation.
 
@@ -750,14 +750,14 @@ Partition indicates samples from either discards,retained, or combined.
 \myparagraph{Note}
 When processing data to be input into SS, all observed fish of sizes smaller than the first bin should be added to the first bin and all observed fish larger than the last bin should be condensed into the last bin.	
 
-SS  no longer requires that the number of length composition data lines be specified.  Entering -9999 at the end of the data matrix will indicate to the model the end of length composition lines to be read.
+SS3  no longer requires that the number of length composition data lines be specified.  Entering -9999 at the end of the data matrix will indicate to the model the end of length composition lines to be read.
 
 Each observation can be stored as one row for ease of data management in a spreadsheet and for sorting of the observations.  However, the 6 header values, the female vector and the male vector could each be on a separate line because ADMB reads values consecutively from the input file and will move to the next line as necessary to read additional values.
 
 The composition observations can be in any order and replicate observations by a year for a fleet are allowed (unlike survey and discard data).  However, if the super-period approach is used, then each super-periods' observations must be contiguous in the data file.
 
 \subsection{Age Composition Option}
-The age composition section begins by reading the number of age bins.  If the value 0 is entered for the number of age bins, then SS skips reading the bin structure and all reading of other age composition data inputs.
+The age composition section begins by reading the number of age bins.  If the value 0 is entered for the number of age bins, then SS3 skips reading the bin structure and all reading of other age composition data inputs.
 \begin{center}
 	\begin{tabular}{p{2cm} p{13cm}  }
 		\hline
@@ -768,7 +768,7 @@ The age composition section begins by reading the number of age bins.  If the va
 
 
 \subsubsection{Age Composition Bins}
-If a positive number of age bins is read, then SS reads the bin definition next.
+If a positive number of age bins is read, then SS3 reads the bin definition next.
 \begin{center}
 	\begin{tabular}{p{3cm} p{12cm}  }
 		\hline
@@ -808,7 +808,7 @@ Here, the capability to create a distribution of age (e.g., age with possible bi
 
 In principle, one could have year or laboratory specific matrices for ageing error. For each matrix, enter a vector with mean age for each true age; if there is no ageing bias, then set age equal to true age + 0.5.  Alternatively, -1 value for mean age means to set it equal to true age plus 0.5.  The addition of +0.5 is needed so that fish will get assigned to the intended integer age. The length of the input vector is equal to the population maximum age plus one (0-max age), with the first entry being for age 0 fish and the last for fish of population maximum age. The following line is a a vector with the standard deviation of age for each true age with a normal distribution assumption.
 
-SS is able to create one ageing error matrix from parameters, rather than from an input vector.  The range of conditions in which this new feature will perform well has not been evaluated, so it should be considered as a preliminary implementation and subject to modification. To invoke this option, for the selected ageing error vector, set the standard deviation of ageing error to a negative value for age 0.  This will cause creation of an ageing error matrix from parameters and any age or size-at-age data that specify use of this age error pattern will use this matrix. Then in the control file, add a full parameter line below the cohort growth deviation parameter (or the movement parameter lines if used) in the mortality growth parameter section.  These parameters are described in the control file section of this manual.
+SS3 is able to create one ageing error matrix from parameters, rather than from an input vector.  The range of conditions in which this new feature will perform well has not been evaluated, so it should be considered as a preliminary implementation and subject to modification. To invoke this option, for the selected ageing error vector, set the standard deviation of ageing error to a negative value for age 0.  This will cause creation of an ageing error matrix from parameters and any age or size-at-age data that specify use of this age error pattern will use this matrix. Then in the control file, add a full parameter line below the cohort growth deviation parameter (or the movement parameter lines if used) in the mortality growth parameter section.  These parameters are described in the control file section of this manual.
 
 Code for ageing error calculation can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_miscfxn.tpl}{SS\_miscfxn.tpl}, search for function "get\_age\_age" or "SS\_Label\_Function 45".
 
@@ -901,7 +901,7 @@ composition data.
 In this example observation, the age data is treated as on being conditional on the 2 cm length bins of 10-11.99, 12-13.99, 14-15.99, and 16-17.99cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.
 
 \subsection{Mean Length or Body Weight-at-Age}
-SS also accepts input of mean length-at-age or mean body weight-at-age.  This is done in terms of observed age, not true age, to take into account the effects of ageing imprecision on expected mean size-at-age.  If the value of the Age Error column is positive, then the observation is interpreted as mean length-at-age.  If the value of the Age Error column is negative, then the observation is interpreted as mean body weight-at-age and the abs(Age Error) is used as Age Error.
+SS3 also accepts input of mean length-at-age or mean body weight-at-age.  This is done in terms of observed age, not true age, to take into account the effects of ageing imprecision on expected mean size-at-age.  If the value of the Age Error column is positive, then the observation is interpreted as mean length-at-age.  If the value of the Age Error column is negative, then the observation is interpreted as mean body weight-at-age and the abs(Age Error) is used as Age Error.
 
 \begin{center}
 	\begin{tabular}{p{0.75cm} p{1cm} p{0.75cm} p{1cm} p{0.75cm} p{1cm} p{1cm} p{3.2cm} p{3.2cm} }
@@ -933,13 +933,13 @@ SS also accepts input of mean length-at-age or mean body weight-at-age.  This is
 		\item Each sexes' data vector and N fish vector has length equal to the number of age bins.
 		\item The "Ignore" column is not used (set aside for future options) but still needs to have default values in that column (any value). 
 		\item Where age data are being entered as conditional age-at-length and growth parameters are being estimated, it may be useful to include a mean length-at-age vector with nil emphasis to provide another view on the model's estimates.
-		\item An experiment that may be of interest might be to take the body weight-at-age data and enter it to SS as empirical body weight-at-true age in the wtatage.ss file, and to contrast results to entering the same body weight-at-age data here and to attempt to estimate growth parameters, potentially time-varying, that match these body weight data.
+		\item An experiment that may be of interest might be to take the body weight-at-age data and enter it to SS3 as empirical body weight-at-true age in the wtatage.ss file, and to contrast results to entering the same body weight-at-age data here and to attempt to estimate growth parameters, potentially time-varying, that match these body weight data.
 		\item If using mean size-at-age data, please see the \hyperlink{SaAlambda}{lambda usage notes} regarding issues for model fitting depending upon other data within the model.  		
 	\end{itemize}
 
 \hypertarget{env-dat}{}
 \subsection{Environmental Data}
-SS accepts input of time series of environmental data.  Parameters can be made to be time-varying by making them a function of one of these environmental time series. In v. 3.30.16 the option to specify the centering of environmental data by either using the mean of the by mean and the z-score. 
+SS3 accepts input of time series of environmental data.  Parameters can be made to be time-varying by making them a function of one of these environmental time series. In v.3.30.16 the option to specify the centering of environmental data by either using the mean of the by mean and the z-score. 
 
 \begin{center}
 	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{7.5cm}}
@@ -966,7 +966,7 @@ The final two lines in the example above indicate in that variable series 1 will
 
 \myparagraph{Note}
 	\begin{itemize}
-		\item Any years for which environmental data are not read are assigned a value of 0.0. None of the current link functions in SS contain a link parameter that acts as an offset.  Therefore, you should subtract the mean from your data before entering it into SS.  This lessens the problem with missing observations, but does not eliminate it. A better approach for dealing with missing observations is to use a different approach for the environmental effect on the parameter.  Set up the parameter to have random deviations for all years, then enter the zero-centered environmental information as a \hyperlink{SpecialSurvey}{special survey of type 35} and set up the catchability of that survey to be a link to the deviation vector.  This is definitely a more complex approach and not much used, but it is superior in treatment of missing values and superior in allowing for error in the environmental relationship.
+		\item Any years for which environmental data are not read are assigned a value of 0.0. None of the current link functions in SS3 contain a link parameter that acts as an offset.  Therefore, you should subtract the mean from your data before entering it into SS.  This lessens the problem with missing observations, but does not eliminate it. A better approach for dealing with missing observations is to use a different approach for the environmental effect on the parameter.  Set up the parameter to have random deviations for all years, then enter the zero-centered environmental information as a \hyperlink{SpecialSurvey}{special survey of type 35} and set up the catchability of that survey to be a link to the deviation vector.  This is definitely a more complex approach and not much used, but it is superior in treatment of missing values and superior in allowing for error in the environmental relationship.
 		\item Users can assign environmental conditions for the initial equilibrium year by including environmental data for one year before the start year. However, this works only for recruitment parameters, not biology or selectivity parameters.
 		\item Environmental data can be read for up to 100 years after the end year of the model. Then, if the recruitment-environment link has been activated, the future recruitments will be influenced by any future environmental data. This could be used to create a future "regime shift" by setting historical values of the relevant environmental variable equal to zero and future values equal to 1, in which case the magnitude of the regime shift would be dictated by the value of the environmental linkage parameter. Note that only future recruitment and growth can be modified by the environmental inputs; there are no options to allow environmentally-linked selectivity in the forecast years.
 		\item Some model derived quantities like summary biomass and recruitment deviation are assigned to some \hyperlink{EnvVar}{negative valued environmental variables}. This is a stepping stone towards creating ability for parameters to be density-dependent. 
@@ -1037,13 +1037,13 @@ Example input is shown below. Note that the format is identical to the length co
 		\item There is no tail compression for generalized size frequency data.
 		\item Super-period capability is as for the length and age composition data.
 		\item By choosing units = 2 and scale = 3 with identical bins and a negative first bin to turn accumulation of small fish on, the size composition method is identical to the length composition method.
-		\item Bin boundaries do not need to align with the population length bin boundaries. SS interpolates as necessary.
+		\item Bin boundaries do not need to align with the population length bin boundaries. SS3 interpolates as necessary.
 		\item Size bins cannot be defined as narrower than the population bin width.
 		\item The transition matrix can depend upon weight-at-length which differs between sexes and can vary seasonally. Thus, the transition matrix is calculated internally for each sex and each season.
 	\end{itemize}
 
 \subsection{Tag-Recapture Data}
-The ability to analyze tag-recapture data is available with SS. Each released tag group is characterized by an area, time, sex and age at release. Each recapture event is characterized by a time and fleet. SS fleets each operate in only one area so it is not necessary to record the area of recapture. Inside the model, the tagged cohort is apportioned across all growth patterns in a given area at a given time (with options to apportion to only one sex or to both). The tag cohort by growth pattern then behaves according to the movement and mortality of the growth pattern. The number of tagged fish is modeled as a negligible fraction of the total population. This means that a tagging event does not move fish from an untagged group to a tagged group. Instead, it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality. The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice. By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are assumed to be released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
+The ability to analyze tag-recapture data is available with SS. Each released tag group is characterized by an area, time, sex and age at release. Each recapture event is characterized by a time and fleet. Fleets operate in only one area so it is not necessary to record the area of recapture. Inside the model, the tagged cohort is apportioned across all growth patterns in a given area at a given time (with options to apportion to only one sex or to both). The tag cohort by growth pattern then behaves according to the movement and mortality of the growth pattern. The number of tagged fish is modeled as a negligible fraction of the total population. This means that a tagging event does not move fish from an untagged group to a tagged group. Instead, it acts as if the tags are seeded into the population with no impact at all on the total population abundance or mortality. The choice to require assignment of a predominant age at release for each tag group is a pragmatic coding and model efficiency choice. By assigning a tag group to a single age, rather than distributing it across all possible ages according to the size composition of the release group, it can be tracked as a single diagonal cohort through the age x time matrix with minimal overhead to the rest of the model.  Tags are assumed to be released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
 
 \begin{center}
 	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3cm}}
@@ -1093,11 +1093,11 @@ The ability to analyze tag-recapture data is available with SS. Each released ta
 	\end{itemize}
 
 \subsection{Stock (Morph) Composition Data}
-It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks. These data could come from genetics, otolith microchemistry, tags, or other means.  The growth pattern feature in SS allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas. SS now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns, "morphs". In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
+It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks. These data could come from genetics, otolith microchemistry, tags, or other means.  The growth pattern feature allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas. SS now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns, "morphs". In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
 
 \begin{center}
 	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3.5cm}}
-		\multicolumn{8}{l}{Stock composition by growth pattern (morph) data can be entered in SS as follows:}\\
+		\multicolumn{8}{l}{Stock composition by growth pattern (morph) data can be entered in as follows:}\\
 		\hline
 		1 &  \multicolumn{7}{l}{Do morph composition, if zero, then do not enter any further input below.}\Tstrut\Bstrut\\
 		\hline
@@ -1133,7 +1133,7 @@ It is sometimes possible to conduct field experiments or other studies to provid
 \begin{center}
 	\begin{tabular}{p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
 		\multicolumn{9}{l}{Selectivity data feature is under development for a future option and is not yet implemented.  }\\
-		\multicolumn{9}{l}{The input line still must be specified in SS as follows:}\\
+		\multicolumn{9}{l}{The input line still must be specified in as follows:}\\
 		\hline
 		0 &  \multicolumn{8}{l}{Do data read for selectivity (future option)}\Tstrut\Bstrut\\
         \hline
