@@ -7726,14 +7726,19 @@ Length- or age-selectivity can be set equal to 1.0 for a range of lengths or age
 <p>The age-selectivity approach follows that detailed above for length-selectivity but is more intuitive since parameter p1 and p2 is set in terms of population age.</p>
 <h4 data-number="8.9.3.6" id="pattern-14-age---revise-age"><span class="header-section-number">8.9.3.6</span> Pattern 14 (age) - Revise Age</h4>
 <p><br />
-Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age. When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. The age-based selectivity is calculated as <span class="math inline">\(a = 1\)</span> to <span class="math inline">\(a = Amax + 1\)</span>: <span class="math display">\[\begin{split}
+Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age. When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. The age-based selectivity is calculated as <span class="math inline">\(a = 1\)</span> to <span class="math inline">\(a = Amax + 1\)</span>:</p>
+<p><span class="math display">\[% \begin{split}
 		 temp = 9 - max(p_a)\\
 		S_a = \frac{1}{1+exp(-(p_{a+1} + temp))}
-		\end{split}\]</span></p>
+		%\end{split}\]</span></p>
 <h4 data-number="8.9.3.7" id="pattern-17-age---random-walk"><span class="header-section-number">8.9.3.7</span> Pattern 17 (age) - Random Walk</h4>
 <p><br />
 This selectivity pattern provides for a random walk in ln(selectivity). For each age <span class="math inline">\(a \geq A_{\text{min}}\)</span>, where <span class="math inline">\(A_{\text{min}}\)</span> is the minimum age for which selectivity is allowed to be non-zero, there is a selectivity parameter, <span class="math inline">\(p_a\)</span>, controlling the changing selectivity from age <span class="math inline">\(a-1\)</span> to age <span class="math inline">\(a\)</span>.</p>
-<p>The selectivity at age <span class="math inline">\(a\)</span> is computed as <span class="math display">\[S_a = \exp (S&#39;_a - S&#39;_{\text{max}}),\]</span> where <span class="math display">\[S&#39;_a = \sum_{i = a_{\text{min}}}^A p_i\]</span> and <span class="math display">\[S&#39;_{\text{max}} = \mbox{max} \{S&#39;_a\}.\]</span> Selectivity is fixed at <span class="math inline">\(S_a = 0\)</span> for <span class="math inline">\(a &lt; A_{\text{min}}\)</span>.</p>
+<p>The selectivity at age <span class="math inline">\(a\)</span> is computed as:</p>
+<p><span class="math display">\[S_a = \exp (S&#39;_a - S&#39;_{\text{max}}),\]</span> where</p>
+<p><span class="math display">\[S&#39;_a = \sum_{i = a_{\text{min}}}^A p_i\]</span> and</p>
+<p><span class="math display">\[S&#39;_{\text{max}} = \mbox{max} \{S&#39;_a\}.\]</span></p>
+<p>Selectivity is fixed at <span class="math inline">\(S_a = 0\)</span> for <span class="math inline">\(a &lt; A_{\text{min}}\)</span>.</p>
 <p>This formulation has the properties that the maximum selectivity equals 1, positive values of <span class="math inline">\(p_a\)</span> are associated with increasing selectivity between ages <span class="math inline">\(a-1\)</span> and <span class="math inline">\(a\)</span>, and negative values are associated with decreasing selectivity between those ages and <span class="math inline">\(p_a = 0\)</span> gives constant selectivity.</p>
 <p>The condition that maximum selectivity equals 1 results in one fewer degree of freedom than the number of estimated <span class="math inline">\(p_a\)</span>. Therefore, at least one parameter should be fixed at an arbitrary value, typically <span class="math inline">\(p_{A_{\text{min}}}=0\)</span>.</p>
 <p>The number of parameters lines required to the control file for pattern 17 is nages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to nages.Input to the special column is used to reduce the number of parameters lines needed (selectivity is constant above the age represented by the last parameter value read when using special).</p>
