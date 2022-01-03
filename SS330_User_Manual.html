@@ -7728,9 +7728,11 @@ Length- or age-selectivity can be set equal to 1.0 for a range of lengths or age
 <p><br />
 Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age. When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. The age-based selectivity is calculated as <span class="math inline">\(a = 1\)</span> to <span class="math inline">\(a = Amax + 1\)</span>:</p>
 <p><span class="math display">\[% \begin{split}
-		 temp = 9 - max(p_a)\\
-		S_a = \frac{1}{1+exp(-(p_{a+1} + temp))}
+		 temp = 9 - max(p_a)
 		%\end{split}\]</span></p>
+<p><span class="math display">\[% \begin{split}
+	S_a = \frac{1}{1+exp(-(p_{a+1} + temp))}
+	%\end{split}\]</span></p>
 <h4 data-number="8.9.3.7" id="pattern-17-age---random-walk"><span class="header-section-number">8.9.3.7</span> Pattern 17 (age) - Random Walk</h4>
 <p><br />
 This selectivity pattern provides for a random walk in ln(selectivity). For each age <span class="math inline">\(a \geq A_{\text{min}}\)</span>, where <span class="math inline">\(A_{\text{min}}\)</span> is the minimum age for which selectivity is allowed to be non-zero, there is a selectivity parameter, <span class="math inline">\(p_a\)</span>, controlling the changing selectivity from age <span class="math inline">\(a-1\)</span> to age <span class="math inline">\(a\)</span>.</p>
