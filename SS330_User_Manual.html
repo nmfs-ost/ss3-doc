@@ -193,7 +193,7 @@ Seattle, WA</p>
 <li><a href="#auxiliary-files"><span class="toc-section-number">2.3</span> Auxiliary Files</a></li>
 </ul></li>
 <li><a href="#starting-ss"><span class="toc-section-number">3</span> Starting SS</a></li>
-<li><a href="#converting-files-from-ss-v.3.24"><span class="toc-section-number">4</span> Converting Files from SS v.3.24</a></li>
+<li><a href="#converting-files-from-ss3-v.3.24"><span class="toc-section-number">4</span> Converting Files from SS3 v.3.24</a></li>
 <li><a href="#starter-file"><span class="toc-section-number">5</span> Starter File</a>
 <ul>
 <li><a href="#starter-file-options-starter.ss"><span class="toc-section-number">5.1</span> Starter File Options (starter.ss)</a></li>
@@ -386,9 +386,10 @@ Seattle, WA</p>
 <p>Fish population (aka &quot;stock&quot;) assessment models determine the impact of past fishing on the historical and current abundance of the population, evaluate sustainable rates of removals (catch), and project future levels of catch reflecting one or more risk-averse catch rules. These catch rules are codified in regional Fishery Management Plans according to requirements of the Sustainable Fisheries Act. In the U.S., approximately 500 federally managed fish and shellfish populations are managed under approximately 50 Fishery Management Plans. About 200 of these populations are assessed each year, based on a prioritized schedule for their current status. Despite this, many minor species have never been quantitatively assessed. Although the pace is slower than that for weather forecasting, fish stock assessments are operational models for fisheries management.</p>
 <p>Assessment models typically assimilate annual catches, data on fish abundance from diverse surveys and fishery sources, and biological information regarding fish body size and proportions at age. A suite of models is available depending on the degree of data availability and unique characteristics of the fish population or its fishery. Where feasible, environmental time series are used as indicators of changes in population or observation processes, especially to improve the accuracy of the projections of abundance and sustainable catch into the future. Such linkages are based principally on correlations given the challenge of conducting field observations on an appropriate scale. The frontier of model development is in the rapid estimation of parameters to include random temporal effects, in the simultaneous modeling of a suite of interacting species, and in the explicit treatment of the spatial distribution of the population.</p>
 <p>Assessment models are loosely coupled to other models. For example, an ocean-temperature or circulation model or benthic-habitat map may be directly included in the pre-processing of the fish abundance survey. A time series of a derived ocean factor, like the North Atlantic Oscillation, can be included as an indicator of a change in a population process. Output of a multi-decadal time series of derived fish abundance can be an input to ecosystem and economic models to better understand cumulative impacts and benefits.</p>
-<p>Stock Synthesis (SS) is an age- and size-structured assessment model in the class of models termed integrated analysis models. SS has a population sub-model that simulates a stock’s growth, maturity, fecundity, recruitment, movement, and mortality processes, an observation sub-model estimates expected values for various types of data, a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance, and a forecast sub-model projects needed management quantities. SS outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (<a href="http://www.admb-project.org">admb</a>). Windows, Linux, and iOS versions are available. Output processing and associated tools are in R, and a graphical interface is in QT. SS is available from NOAA’s VLAB. The rich feature set in SS allows it to be configured for a wide range of situations. SS has become the basis for a large fraction of U.S. assessments and many other assessments around the world.</p>
-<p>This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. An overview and technical description of the model itself is in <span class="citation" data-cites="methotstock2013">Methot and Wetzel (2013)</span>. However, SS has continued to evolve and grow since the publication in 2013, with this manual reflecting the most up to date information regarding SS. The model and a graphical user interface are available from the NOAA <a href="https://vlab.noaa.gov/group/stock-synthesis/home">VLAB</a>. The VLAB site also provides a user forum for posting questions and for accessing various additional materials. An output processor package, r4ss, in R is available for download from CRAN or <a href="https://github.com/r4ss/r4ss">GitHub</a>.</p>
-<p>Additional guidance for new users can be found in the SS <a href="https://vlab.noaa.gov/group/stock-synthesis/document-library">document library</a> within the NOAA VLAB website. The &quot;Begin Here - Introduction to Stock Synthesis&quot; folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.</p>
+<p>Stock Synthesis is an age- and size-structured assessment model in the class of models termed integrated analysis models. Stock Synthesis has evolved since its initial inception in order to model a wide range of fish populations and dynamics. The most recent major revision to Stock Synthesis occurred in 2016, when version 3.30 was introduced. This new version of Stock Synthesis required major revisions to the input files relative to earlier versions (see the <span id="ConvIssues">Converting Files</span> section for more information). The acronym for Stock Synthesis has evolved over time with earlier versions being referred to as SS2 (SS v.2.+), SS3 (SS v.3.+), or just simply SS. The current official abbreviation of Stock Synthesis is SS3 for all versions greater than SS v.3.+.</p>
+<p>SS3 has a population sub-model that simulates a stock’s growth, maturity, fecundity, recruitment, movement, and mortality processes, an observation sub-model estimates expected values for various types of data, a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance, and a forecast sub-model projects needed management quantities. SS3 outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (<a href="http://www.admb-project.org">admb</a>). Windows, Linux, and iOS versions are available. Output processing and associated tools are in R, and a graphical interface is in QT. SS is available from NOAA’s VLAB. The rich feature set in SS allows it to be configured for a wide range of situations. SS3 has become the basis for a large fraction of U.S. assessments and many other assessments around the world.</p>
+<p>This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. An overview and technical description of the model itself is in <span class="citation" data-cites="methotstock2013">Methot and Wetzel (2013)</span>. However, SS3 has continued to evolve and grow since the publication in 2013, with this manual reflecting the most up to date information regarding SS. The model and a graphical user interface are available from the NOAA <a href="https://vlab.noaa.gov/group/stock-synthesis/home">VLAB</a>. The VLAB site also provides a user forum for posting questions and for accessing various additional materials. An output processor package, r4ss, in R is available for download from CRAN or <a href="https://github.com/r4ss/r4ss">GitHub</a>.</p>
+<p>Additional guidance for new users can be found in the SS3 <a href="https://vlab.noaa.gov/group/stock-synthesis/document-library">document library</a> within the NOAA VLAB website. The &quot;Begin Here - Introduction to Stock Synthesis&quot; folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.</p>
 <h1 data-number="2" id="FileOrganization"><span class="header-section-number">2</span> File Organization</h1>
 <h2 data-number="2.1" id="input-files"><span class="header-section-number">2.1</span> Input Files</h2>
 <ol>
@@ -410,7 +411,7 @@ Seattle, WA</p>
 <li><p>warning.sso: This file contains a list of warnings generated during program execution.</p></li>
 <li><p>echoinput.sso: This file is produced while reading the input files and includes an annotated echo of the input. The sole purpose of this output file is debugging input errors.</p></li>
 <li><p>Report.sso: This file is the primary report file.</p></li>
-<li><p>ss_summary.sso: Output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in SS v.3.30.08.03 and greater.</p></li>
+<li><p>ss_summary.sso: Output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in SS3 v.3.30.08.03 and greater.</p></li>
 <li><p>CompReport.sso: Observed and expected composition data in a list-based format.</p></li>
 <li><p>Forecast-report.sso: Output of management quantities and for forecasts.</p></li>
 <li><p>CumReport.sso: This file contains a brief version of the run output, output is appended to current content of file so results of several runs can be collected together. This is useful when a batch of runs is being processed.</p></li>
@@ -418,7 +419,7 @@ Seattle, WA</p>
 <li><p>ss.par: This file contains all estimated and fixed parameters from the model run.</p></li>
 <li><p>ss.std, ss.rep, ss.cor etc.: Standard ADMB output files.</p></li>
 <li><p>checkup.sso: Contains details of selectivity parameters and resulting vectors. This is written during the first call of the objective function.</p></li>
-<li><p>Gradient.dat: New for SS v.3.30, this file shows parameter gradients at the end of the run.</p></li>
+<li><p>Gradient.dat: New for SS3 v.3.30, this file shows parameter gradients at the end of the run.</p></li>
 <li><p>rebuild.dat: Output formatted for direct input to Andre Punt’s rebuilding analysis package. Cumulative output is output to REBUILD.SS (useful when doing MCMC or profiles).</p></li>
 <li><p>SIS_table.sso: Output formatted for reading into the NMFS Species Information System.</p></li>
 <li><p>Parmtrace.sso: Parameter values at each iteration.</p></li>
@@ -442,23 +443,23 @@ Seattle, WA</p>
 </ol></li>
 </ol>
 <h1 data-number="3" id="starting-ss"><span class="header-section-number">3</span> Starting SS</h1>
-<p>SS is typically run through the command line interface, although it can also be called from another program, R, the SS-GUI or a script file (such as a DOS batch file). SS is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS will run much slower on computers with inadequate memory. See the Running SS section on page for additional notes on methods of running SS.</p>
-<p>Communication with the program is through text files. When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS is being run. The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page . The names of the control and data files must match the names specified in the starter.ss file. File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to setup a model correctly. Output from SS consists of text files containing specific keywords. Output processing programs, such as the SS GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.</p>
+<p>SS3 is typically run through the command line interface, although it can also be called from another program, R, the SS-GUI or a script file (such as a DOS batch file). SS3 is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS3 will run much slower on computers with inadequate memory. See the Running SS3 section on page for additional notes on methods of running SS.</p>
+<p>Communication with the program is through text files. When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS3 is being run. The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page . The names of the control and data files must match the names specified in the starter.ss file. File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to setup a model correctly. Output from SS3 consists of text files containing specific keywords. Output processing programs, such as the SS3 GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.</p>
 <div id="ConvIssues">
 
 </div>
-<h1 data-number="4" id="converting-files-from-ss-v.3.24"><span class="header-section-number">4</span> Converting Files from SS v.3.24</h1>
-<p>Converting files from SS v.3.24 to SS v.3.30 can be performed by using the program ss_trans.exe. This executable takes 3.24 files as input and will output SS 3.30 input and output files. SS_trans executables are available for v. 3.30.01 - 3.30.17. The transitional executable was phased out with v.3.30.18. If a model needs to be converted from v. 3.24 and v. 3.30.18 or newer, one should use the v. 3.30.17 ss_trans.exe to convert files and then make any additional needed adjustments between v. 3.30.17 to newer model versions should be done by hand.</p>
+<h1 data-number="4" id="converting-files-from-ss3-v.3.24"><span class="header-section-number">4</span> Converting Files from SS3 v.3.24</h1>
+<p>Converting files from SS3 v.3.24 to SS3 v.3.30 can be performed by using the program ss_trans.exe. This executable takes 3.24 files as input and will output SS3 v.3.30 input and output files. SS_trans executables are available for v. 3.30.01 - 3.30.17. The transitional executable was phased out with v.3.30.18. If a model needs to be converted from v. 3.24 and v. 3.30.18 or newer, one should use the v. 3.30.17 ss_trans.exe to convert files and then make any additional needed adjustments between v. 3.30.17 to newer model versions should be done by hand.</p>
 <p>The following file structure and steps are recommended for converting model files:</p>
 <ol>
-<li><p>Create &quot;transition&quot; folder. Place the 4 main model files (control, data, starter, and forecast) from version SS v.3.24 within the transition folder along with the SS transition executable (ss_trans.exe). One tip is to use the control.ss_new from the SS v.3.24 estimated model rather than the control.ss file which will set all parameter values at the previous estimated maximum likelihood estimated (MLE) parameters. Run the transition executable with phase = 0 within the starter file with the read par file turned off (option 0).</p></li>
+<li><p>Create &quot;transition&quot; folder. Place the 4 main model files (control, data, starter, and forecast) from version SS3 v.3.24 within the transition folder along with the SS3 transition executable (ss_trans.exe). One tip is to use the control.ss_new from the SS3 v.3.24 estimated model rather than the control.ss file which will set all parameter values at the previous estimated maximum likelihood estimated (MLE) parameters. Run the transition executable with phase = 0 within the starter file with the read par file turned off (option 0).</p></li>
 <li><p>Create &quot;converted&quot; folder. Place the ss_new (data.ss_new, control.ss_new, starter.ss_new, forecast.ss_new) files created by the transition executable contained within the &quot;transition&quot; folder into this new folder. Rename the ss_new files to the appropriate suffixes and change the names in the starter.ss file accordingly.</p></li>
 <li><p>Review the control (control.ss_new) file to determine that all model functions converted correctly. The structural changes and assumptions for a couple of the advanced model features are too complicated to convert automatically. See below for some known features that may not convert. When needed, it is recommended to modify the control.ss_new file, the converted control file, for only the features that failed to convert properly.</p></li>
-<li><p>Change the max phase to a value greater than the last phase in which the a parameter is set to estimated within the control file. Run the new SS v.3.30 executable (ss.exe) within the &quot;converted&quot; folder using the renamed ss_new files created from the transition executable.</p></li>
-<li><p>Compare likelihood and model estimates between the SS v.3.24 and SS v.3.30 model versions.</p></li>
-<li><p>If desired, update to versions of SS &gt; 3.30.17 by running the new 3.30 input files with the higher executable.</p></li>
+<li><p>Change the max phase to a value greater than the last phase in which the a parameter is set to estimated within the control file. Run the new SS3 v.3.30 executable (ss.exe) within the &quot;converted&quot; folder using the renamed ss_new files created from the transition executable.</p></li>
+<li><p>Compare likelihood and model estimates between the SS3 v.3.24 and SS3 v.3.30 model versions.</p></li>
+<li><p>If desired, update to versions of SS3 &gt; v.3.30.17 by running the new v.3.30 input files with the higher executable.</p></li>
 </ol>
-<p>There are some options that have been substantially changed in SS v.3.30, which impedes the automatic converting of SS v.3.24 model files. Known examples of SS v.3.24 options that cannot be converted, but for which better alternatives are available in SS v.3.30 are:</p>
+<p>There are some options that have been substantially changed in SS3 v.3.30, which impedes the automatic converting of SS3 v.3.24 model files. Known examples of SS3 v.3.24 options that cannot be converted, but for which better alternatives are available in SS3 v.3.30 are:</p>
 <ol>
 <li><p>The use of Q deviations,</p></li>
 <li><p>Complex birth seasons,</p></li>
@@ -466,7 +467,7 @@ Seattle, WA</p>
 <li><p>Setup of time-varying quantities for models that used the no-longer-available features (e.g., logistic bound constraint).</p></li>
 </ol>
 <h1 data-number="5" id="starter-file"><span class="header-section-number">5</span> Starter File</h1>
-<p>SS begins by reading the file starter.ss. The term COND appears in the &quot;Typical Value&quot; column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss_new files.</p>
+<p>SS3 begins by reading the file starter.ss. The term COND appears in the &quot;Typical Value&quot; column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss_new files.</p>
 <section id="starter-file-options-starter.ss" class="landscape" data-number="5.1">
 <h2 data-number="5.1"><span class="header-section-number">5.1</span> Starter File Options (starter.ss)</h2>
 <table>
@@ -506,7 +507,7 @@ Seattle, WA</p>
 <tr class="even">
 <td style="text-align: left;">0</td>
 <td style="text-align: left;">Initial Parameter Values:</td>
-<td style="text-align: left;">Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file. Values in ss.par can be edited, carefully. Do not run ss_trans.exe from a ss.par from SS v.3.24.</td>
+<td style="text-align: left;">Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file. Values in ss.par can be edited, carefully. Do not run ss_trans.exe from a ss.par from SS3 v.3.24.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
@@ -766,7 +767,7 @@ Seattle, WA</p>
 <tr class="even">
 <td style="text-align: left;">0.0</td>
 <td style="text-align: left;"><a href="#Jitter">Jitter:</a></td>
-<td style="text-align: left;">The jitter function has been revised with SS v.3.30. Starting values are now jittered based on a normal distribution with the pr(P<sub>MIN</sub>) = 0.1% and the pr(P<sub>MAX</sub>) = 99.9%. A positive value here will add a small random jitter to the initial parameter values. When using the jitter option, care should be given when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.</td>
+<td style="text-align: left;">The jitter function has been revised with SS3 v.3.30. Starting values are now jittered based on a normal distribution with the pr(P<sub>MIN</sub>) = 0.1% and the pr(P<sub>MAX</sub>) = 99.9%. A positive value here will add a small random jitter to the initial parameter values. When using the jitter option, care should be given when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
@@ -1171,7 +1172,7 @@ Seattle, WA</p>
 <p>3.30</p>
 </div></td>
 <td style="text-align: left;">Model version check value.</td>
-<td style="text-align: left;">A value of 3.30 indicates that the control and data files are currently in SS v3.30 format and a value of 999 indicates that the control and data file are in a previous SS v.3.24 version. The ss_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss_new and data.ss_new files. All ss_new files are in the SS v.3.30 format, so starter.ss_new has SS v.3.30 on the last line. The mortality-growth parameter section has a new sequence, so SS v.3.30 cannot read a ss.par file produced by SS v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The <span id="ConvIssues">Converting Files from SS v.3.24</span> section has additional information on model features that may impede file conversion.</td>
+<td style="text-align: left;">A value of 3.30 indicates that the control and data files are currently in SS3 v3.30 format and a value of 999 indicates that the control and data file are in a previous SS3 v.3.24 version. The ss_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss_new and data.ss_new files. All ss_new files are in the SS3 v.3.30 format, so starter.ss_new has SS3 v.3.30 on the last line. The mortality-growth parameter section has a new sequence, so SS3 v.3.30 cannot read a ss.par file produced by SS3 v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The <span id="ConvIssues">Converting Files from SS3 v.3.24</span> section has additional information on model features that may impede file conversion.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -1246,7 +1247,7 @@ Seattle, WA</p>
 <tr class="odd">
 <td style="text-align: left;">1</td>
 <td style="text-align: left;"><a href="#Benchmark">Benchmarks/Reference Points:</a></td>
-<td style="text-align: left;">SS checks for consistency of the Forecast specification and the benchmark specification. It will turn benchmarks on if necessary and report a warning.</td>
+<td style="text-align: left;">SS3 checks for consistency of the Forecast specification and the benchmark specification. It will turn benchmarks on if necessary and report a warning.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -1296,7 +1297,7 @@ Seattle, WA</p>
 <tr class="odd">
 <td style="text-align: left;">0.45</td>
 <td style="text-align: left;">SPR<sub>target</sub></td>
-<td style="text-align: left;">SS searches for F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to unfished value.</td>
+<td style="text-align: left;">SS3 searches for F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to unfished value.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -1311,7 +1312,7 @@ Seattle, WA</p>
 <tr class="even">
 <td style="text-align: left;">0.40</td>
 <td style="text-align: left;">Relative Biomass Target</td>
-<td style="text-align: left;">SS searches for F multiplier that will produce this level of spawning biomass relative to unfished value. This is not “per recruit” and takes into account the spawner-recruitment relationship.</td>
+<td style="text-align: left;">SS3 searches for F multiplier that will produce this level of spawning biomass relative to unfished value. This is not “per recruit” and takes into account the spawner-recruitment relationship.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
@@ -1415,7 +1416,7 @@ Seattle, WA</p>
 <tr class="odd">
 <td style="text-align: left;">10</td>
 <td style="text-align: left;">N forecast years (must be &gt;= 1)</td>
-<td style="text-align: left;">At least one forecast year now required if the Forecast option above is &gt;=0 (Note: SS v.3.24 allowed zero forecast years).</td>
+<td style="text-align: left;">At least one forecast year now required if the Forecast option above is &gt;=0 (Note: SS3 v.3.24 allowed zero forecast years).</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -1564,7 +1565,7 @@ Seattle, WA</p>
 <tr class="odd">
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">Number of forecast loops (1,2,3)</td>
-<td style="text-align: left;">SS sequentially goes through the forecast up to three times. Maximum number of forecast loops: 1=OFL only, 2=ABC control rule and buffers, 3=set catches equal to control rule or input catch and redo forecast implementation error.</td>
+<td style="text-align: left;">SS3 sequentially goes through the forecast up to three times. Maximum number of forecast loops: 1=OFL only, 2=ABC control rule and buffers, 3=set catches equal to control rule or input catch and redo forecast implementation error.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -1594,7 +1595,7 @@ Seattle, WA</p>
 <tr class="odd">
 <td style="text-align: left;"></td>
 <td style="text-align: left;"><a href="#ForeSpawn">Forecast recruitment:</a></td>
-<td style="text-align: left;">Option 0, ignore input and do forecast recruitment as before SS v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations). Need to set phase to -1 in control to get constant recruitment in MCMC.</td>
+<td style="text-align: left;">Option 0, ignore input and do forecast recruitment as before SS3 v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations). Need to set phase to -1 in control to get constant recruitment in MCMC.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -1813,7 +1814,7 @@ Seattle, WA</p>
 </tr>
 <tr class="odd">
 <td style="text-align: left;" colspan="2">COND: if N allocation groups is &gt;0</td>
-<td style="text-align: left;">Enter a year and the allocation fraction to each group for that year. SS will fill those values to the end of the forecast, then read another year from this list. Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0.</td>
+<td style="text-align: left;">Enter a year and the allocation fraction to each group for that year. SS3 will fill those values to the end of the forecast, then read another year from this list. Terminate with -9999 in year field. Annual values are rescaled to sum to 1.0.</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2002 1</td>
@@ -1896,12 +1897,12 @@ Seattle, WA</p>
 </table>
 </div>
 <h2 data-number="6.2" id="including-a-new-fleet-in-the-forecast"><span class="header-section-number">6.2</span> Including a New Fleet in the Forecast</h2>
-<p>As of v.3.30.16 users can have a forecast fleet without catches during the modeled period. Previously, fleets in the forecast period were required to have input catches at some amount during the modeled period. SS now has capability to have a fleet with no input catches during the modeled period that could be used as a fleet during the forecast.</p>
+<p>As of v.3.30.16 users can have a forecast fleet without catches during the modeled period. Previously, fleets in the forecast period were required to have input catches at some amount during the modeled period. SS3 now has capability to have a fleet with no input catches during the modeled period that could be used as a fleet during the forecast.</p>
 <div id="Benchmark">
 
 </div>
 <h2 data-number="6.3" id="benchmark-calculations"><span class="header-section-number">6.3</span> Benchmark Calculations</h2>
-<p>This feature of SS is designed to calculate an equilibrium fishing rate intended to serve as a proxy for the fishing rate that would provide maximum sustainable yield (MSY). Then in the forecast module these fishing rates can be used in the projections.</p>
+<p>This feature of SS3 is designed to calculate an equilibrium fishing rate intended to serve as a proxy for the fishing rate that would provide maximum sustainable yield (MSY). Then in the forecast module these fishing rates can be used in the projections.</p>
 <p>Four reference points can be calculated by SS. The first of which is the estimate of F<sub>MSY</sub> within the model, while the others use proxies or an alternative estimated point.</p>
 <ul>
 <li><p>F<sub>MSY</sub>: Search for the F that produces maximum equilibrium (e.g. dead catch).</p></li>
@@ -1914,10 +1915,10 @@ Seattle, WA</p>
 Each of the potential reference points is calculated by searching across a range of F multiplier levels, calculating equilibrium biomass and catch at that F, using Newton-Raphson method to calculate a better F multiplier value, and iterating a fixed number of times to achieve convergence on the desired level.</p>
 <h4 data-number="6.3.0.2" id="calculations"><span class="header-section-number">6.3.0.2</span> Calculations</h4>
 <p><br />
-The calculation of equilibrium biomass and catch uses the same code that is used to calculate the virgin conditions and the initial equilibrium conditions. This equilibrium calculation code takes into account all morph, timing, biology, selectivity, and movement conditions as they apply while doing the time series calculations. You can verify this by running SS to calculate F<sub>MSY</sub> then hardwire initial F to equal this value, use the F_method approach 2 so each annual F is equal to F<sub>MSY</sub> and then set forecast F to be the same F<sub>MSY</sub>. Then run SS without estimation and no recruitment deviations. You should see that the population has an initial equilibrium abundance equal to B<sub>MSY</sub> and stays at this level during the time series and forecast.</p>
+The calculation of equilibrium biomass and catch uses the same code that is used to calculate the virgin conditions and the initial equilibrium conditions. This equilibrium calculation code takes into account all morph, timing, biology, selectivity, and movement conditions as they apply while doing the time series calculations. You can verify this by running SS3 to calculate F<sub>MSY</sub> then hardwire initial F to equal this value, use the F_method approach 2 so each annual F is equal to F<sub>MSY</sub> and then set forecast F to be the same F<sub>MSY</sub>. Then run SS3 without estimation and no recruitment deviations. You should see that the population has an initial equilibrium abundance equal to B<sub>MSY</sub> and stays at this level during the time series and forecast.</p>
 <h4 data-number="6.3.0.3" id="catch-units"><span class="header-section-number">6.3.0.3</span> Catch Units</h4>
 <p><br />
-For each fleet, SS always calculates catch in terms of biomass (mt) and numbers (1000s) for encountered (selected) catch, dead catch, and retained catch. These three categories differ only when some fleets have discarding or are designated as a bycatch fleet. SS uses total dead catch biomass as the quantity that is principally reported and the quantity that is optimized when searching for F<sub>MSY</sub>. The quantity &quot;dead catch&quot; may occasionally be referred to as &quot;yield&quot;.</p>
+For each fleet, SS3 always calculates catch in terms of biomass (mt) and numbers (1000s) for encountered (selected) catch, dead catch, and retained catch. These three categories differ only when some fleets have discarding or are designated as a bycatch fleet. SS3 uses total dead catch biomass as the quantity that is principally reported and the quantity that is optimized when searching for F<sub>MSY</sub>. The quantity &quot;dead catch&quot; may occasionally be referred to as &quot;yield&quot;.</p>
 <h4 data-number="6.3.0.4" id="biomass-units"><span class="header-section-number">6.3.0.4</span> Biomass Units</h4>
 <p><br />
 The principle measure of fish abundance, for the purpose of reference point calculation, is female reproductive output. This is referred to as SSB (spawning stock biomass) and sometimes just &quot;B&quot; because the typical user settings have one unit of reproductive output (fecundity) per kg of mature female biomass. So when the output label says B<sub>MSY</sub>, this is actually the female reproductive output at the proxy for F<sub>MSY</sub>.</p>
@@ -1925,7 +1926,7 @@ The principle measure of fish abundance, for the purpose of reference point calc
 <p><br />
 An important concept for the reference point calculation is the allocation of fishing rate among fleets. Internally, this is Bmark_relF(<span class="math inline">\(f,s\)</span>) and it is the fraction of the F multiplier assigned to each fleet, <span class="math inline">\(f\)</span> and season, <span class="math inline">\(s\)</span>. The value, F_multiplier * Bmark_relF(<span class="math inline">\(f,s\)</span>), is the F level for a particular fleet in a particular season and for the age that has a selectivity of 1.0. Other ages will have different F values according to their selectivity.</p>
 <ul>
-<li><p>The Bmark_relF values can be calculated by SS from a range of years specified in the input for Benchmark Years or it can be set to be the same as the Forecast_RelF, which in turn can be based on a range of years or can be input as a set of fixed values.</p></li>
+<li><p>The Bmark_relF values can be calculated by SS3 from a range of years specified in the input for Benchmark Years or it can be set to be the same as the Forecast_RelF, which in turn can be based on a range of years or can be input as a set of fixed values.</p></li>
 <li><p>Note that for Bycatch Fleets, the F’s calculated by application of Bmark_relF for a bycatch fleet can be overridden by a F value calculated from a range of years or a fixed F value that is input by the user. If such an override is selected for a bycatch fleet, that F value is not adjusted by changes to the F multiplier. This allows the user to treat a bycatch fleet as a constant background F while the optimal F for other fleets is sought. Also for bycatch fleets, there is user control for whether or not the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for F<sub>MSY</sub>.</p></li>
 </ul>
 <h4 data-number="6.3.0.6" id="virgin-vs.-unfished"><span class="header-section-number">6.3.0.6</span> Virgin vs. Unfished</h4>
@@ -2036,8 +2037,8 @@ The concept of unfished spawning biomass, SSB_unf, is important to the reference
 <div id="SubSeas">
 
 </div>
-<p>The treatment of subseasons in SS v.3.30 provide more precision in the timing of events compared to earlier model versions. SS v.3.24 and all earlier versions effectively had two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.</p>
-<p>Time steps in SS v.3.30 now can be broken into subseason and the ALK can be calculated multiple times over the course of a year:</p>
+<p>The treatment of subseasons in SS3v.3.30 provide more precision in the timing of events compared to earlier model versions. SS3v.3.24 and all earlier versions effectively had two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.</p>
+<p>Time steps in SS3v.3.30 now can be broken into subseason and the ALK can be calculated multiple times over the course of a year:</p>
 <div class="center">
 <table>
 <thead>
