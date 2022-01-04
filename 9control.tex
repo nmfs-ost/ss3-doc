@@ -1730,16 +1730,8 @@ The age-selectivity approach follows that detailed above for length-selectivity 
 \myparagraph{Pattern 14 (age) - Revise Age}
 Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age.  When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. The age-based selectivity is calculated as $a = 1$ to $a = Amax + 1$:
 
-	\begin{equation}
-		% \begin{split}
-		 temp = 9 - max(p_a)
-		%\end{split}
-	\end{equation}	
-
-	\begin{equation}
-	% \begin{split}
-	S_a = \frac{1}{1+exp(-(p_{a+1} + temp))}
-	%\end{split}
+\begin{equation}
+	S_a = \frac{1}{1+exp(-(p_{a+1} + (9 - max(p_a))))}
 \end{equation}	
 
 \myparagraph{Pattern 17 (age) - Random Walk}
