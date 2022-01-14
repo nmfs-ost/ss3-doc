@@ -7896,14 +7896,16 @@ The exponential logistic included is based on the exponential logistic selectivi
 <p>The exponential logistic selectivity is calculated as: <span class="math display">\[peak = \text{min}(L_l) + p2(\text{max}(L_l) - \text{min}(L_l) )\]</span> where <span class="math inline">\(L_l\)</span> is the length bins at bin <span class="math inline">\(l\)</span> (if age-based substitute with age bins) and: <span class="math display">\[S_l = \frac{e^{p3*p1(peak-L_l)}}{1-p3(1-e^{p1(peak- L_l)})}\]</span></p>
 <h4 data-number="8.9.3.14" id="pattern-27-size-or-age--cubic-spline"><span class="header-section-number">8.9.3.14</span> Pattern 27 (size or age)- Cubic Spline</h4>
 <p><br />
-This selectivity pattern uses the ADMB implementation of the cubic spline function. This function requires input of the number of nodes, the positions of those nodes, the parameter values at those nodes, and the slope of the function at the first and last node. The number of nodes is specified in the &quot;special&quot; column of the selectivity set-up. The pattern number 27 is used to invoke cubic spline for size selectivity and for age selectivity; the input syntax is identical.</p>
+This selectivity pattern uses the ADMB implementation of the cubic spline function. This function requires input of the number of nodes, the positions of those nodes, the parameter values at those nodes, and the slope of the function at the first and last node.</p>
+<p>An alternative to specifying or estimating the slope at the first and last nodes is to fix those values at 1e30 which will cause create a &quot;natural cubic spline&quot; which allows the slope (first derivative) to be flexible but sets the curvature (second derivative) to be 0 at the first and last nodes.</p>
+<p>The number of nodes is specified in the &quot;special&quot; column of the selectivity set-up. The pattern number 27 is used to invoke cubic spline for size selectivity and for age selectivity; the input syntax is identical.</p>
 <p>For a 3 node setup, the input parameters would be:</p>
 <ul>
-<li><p>p1 – code for initial set-up (0, 1 or 2) as explained below</p></li>
-<li><p>p2 – gradient at the first node (should be a small positive value)</p></li>
-<li><p>p3 – gradient at the last node (should be zero or a small negative value)</p></li>
-<li><p>p4-p6 – the nodes in units of cm; must be in rank order and inside of the range of the population length bins. These must be held constant (not estimated, e.g., negative phase value) during a model run.</p></li>
-<li><p>p7-p9 – the values at the nodes. Units are ln(selectivity).</p></li>
+<li><p>p1 – Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below</p></li>
+<li><p>p2 – Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a &quot;natural cubic spline&quot;)</p></li>
+<li><p>p3 – Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a &quot;natural cubic spline&quot;)</p></li>
+<li><p>p4-p6 – The nodes in units of cm; must be in rank order and inside of the range of the population length bins. These must be held constant (not estimated, e.g., negative phase value) during a model run.</p></li>
+<li><p>p7-p9 – The values at the nodes. Units are ln(selectivity) before rescaling.</p></li>
 </ul>
 <p>Notes:</p>
 <ul>
@@ -7911,16 +7913,20 @@ This selectivity pattern uses the ADMB implementation of the cubic spline functi
 <li><p>One of the node selectivity parameter values should be held constant so others are estimated relative to it.</p></li>
 <li><p>Selectivity is forced to be constant for sizes greater than the size at the last node.</p></li>
 <li><p>The overall selectivity curve is scaled to have a peak equal to 1.0.</p></li>
-<li><p>Terminal nodes cannot be at the min or max population length bins.</p></li>
+<li><p>Last node cannot be at the max population length bin.</p></li>
 </ul>
 <p>Code for implementing cubic spline selectivity can be found in <a href="https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_selex.tpl">SS_selex.tpl</a>, search for &quot;SS_Label_Info_22.7.27&quot;.</p>
-<p>Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered with the cubic spline function is a capability to produce more specific parameter labels and to auto-generate selectivity parameter setup. The auto-generation feature is controlled by the first selectivity parameter value for each fleet that is specified to use the cubic spline. There are 3 possible values for this setup parameter:</p>
+<p>One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial set-up code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this problem.</p>
+<p>Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered with the cubic spline function is a capability to produce more specific parameter labels and to auto-generate selectivity parameter setup. The auto-generation feature is controlled by the first selectivity parameter value for each fleet that is specified to use the cubic spline. There are 6 possible values for this setup parameter:</p>
 <ul>
 <li><p>0: no auto-generation, process parameter setup as read.</p></li>
 <li><p>1: auto-generate the node locations based on the specified number of nodes and on the cumulative size distribution of the data for this fleet/survey.</p></li>
 <li><p>2: auto-generate the nodes and also the min, max, prior, initial, and phase for each parameter.</p></li>
+<li><p>10: no auto-generation as in 0 above and fix selectivity = 0.0 below the first knot</p></li>
+<li><p>11: auto-generate the node locations as in 1 above and also fix selectivity = 0.0 below the first knot</p></li>
+<li><p>12: auto-generate the nodes and other inputs as in 2 above and also fix selectivity = 0.0 below the first knot</p></li>
 </ul>
-<p>With either the auto-generate option #1 or #2, it still is necessary to include in the parameter file placeholder rows of values so that the init_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix dimensioned as N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior stddev, and phase will be overwritten.</p>
+<p>With either the auto-generate option 1, 2 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.</p>
 <p>Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in echoinput.sso and in a new OVERALL_COMPS section of report.sso.</p>
 <p>When the nodes are auto-generated, the first node is placed at the size corresponding to the 2.5% percentile of the cumulative size distribution, the last is placed at the 97.5% percentile of the size distribution, and the remainder are placed at equally spaced percentiles along the cumulative size distribution. These calculated node values are output into control.ss_new. So, the user could extract these nodes from control.ss_new, edit them to desired values, then, insert them into the input control file. Remember to turn off auto-generation in the revised control file.</p>
 <p>When the complete auto-generation is selected, the control.ss_new would look like the table below:</p>
