@@ -1882,24 +1882,18 @@ selectivity and for age selectivity; the input syntax is identical.
 	
 For a 3 node setup, the input parameters would be:
 	\begin{itemize}
-		\item p1 – 	code for initial set-up (0, 1, 2, 10, 11, or 12) as explained below
-		\item p2 – 	gradient at the first node (should be a small positive value,
-      or fixed at 1e30 to implement a "natural cubic spline")
-		\item p3 – 	gradient at the last node (should be zero, a small negative value,
-      or fixed or fixed at 1e30 to implement a "natural cubic spline")
-		\item p4-p6 – the nodes in units of cm; must be in rank order and inside
-      of the range of the population length bins.  These must be held constant
-      (not estimated, e.g., negative phase value) during a model run.
-		\item p7-p9 – the values at the nodes. Units are ln(selectivity) before rescaling.
+		\item p1 – 	Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
+		\item p2 – 	Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a "natural cubic spline")
+		\item p3 – 	Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a "natural cubic spline")
+		\item p4-p6 – The nodes in units of cm; must be in rank order and inside of the range of the population length bins.  These must be held constant (not estimated, e.g., negative phase value) during a model run.
+		\item p7-p9 – The values at the nodes. Units are ln(selectivity) before rescaling.
 	\end{itemize}
 
 Notes:
 	\begin{itemize}
 		\item There must be at least 3 nodes.
-		\item One of the node selectivity parameter values should be held constant
-      so others are estimated relative to it.
-		\item Selectivity is forced to be constant for sizes greater than the size
-      at the last node.
+		\item One of the node selectivity parameter values should be held constant so others are estimated relative to it.
+		\item Selectivity is forced to be constant for sizes greater than the size at the last node.
 		\item The overall selectivity curve is scaled to have a peak equal to 1.0.
 		\item Last node cannot be at the max population length bin.
 	\end{itemize}
@@ -1908,19 +1902,9 @@ Code for implementing cubic spline selectivity can be found in
 \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_selex.tpl}{SS\_selex.tpl},
 search for "SS\_Label\_Info\_22.7.27".
 
-One potential problem that may occur with a cubic spline is a U-shaped pattern
-in the selectivity around the first node. If this occurs, the initial set-up
-code (described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which
-will cause selectivity to be fixed at 0.0 for all bins below the first node.
-A natural cubic spline (noted above) may be an alternative solution to this
-problem.
+One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial set-up code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this problem.
 
-Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered
-with the cubic spline function is a capability to produce more specific
-parameter labels and to auto-generate selectivity parameter setup.
-The auto-generation feature is controlled by the first selectivity parameter
-value for each fleet that is specified to use the cubic spline.  There are 6
-possible values for this setup parameter:
+Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered with the cubic spline function is a capability to produce more specific parameter labels and to auto-generate selectivity parameter setup. The auto-generation feature is controlled by the first selectivity parameter value for each fleet that is specified to use the cubic spline.  There are 6 possible values for this setup parameter:
 	\begin{itemize}
 		\item 0: no auto-generation, process parameter setup as read.
 		\item 1: auto-generate the node locations based on the specified number of nodes and on the cumulative size distribution of the data for this fleet/survey.
@@ -1930,7 +1914,7 @@ possible values for this setup parameter:
 		\item 12: auto-generate the nodes and other inputs as in 2 above and also fix selectivity = 0.0 below the first knot  
 	\end{itemize}
 	
-With either the auto-generate option \#1 or \#2, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix dimensioned as N parameters x 14 columns.  The read values of min, max, initial, prior, prior type, prior stddev, and phase will be overwritten.
+With either the auto-generate option 1, 2 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns.  The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
 	
 Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in echoinput.sso and in a new OVERALL\_COMPS section of report.sso.
 	
