@@ -100,17 +100,19 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
    & & \\
    & & \\
 
- 
- \hline
- 1 & Data File Output: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{All output files are sequentially output to data.ss\_new and will need to be parsed by the user into separate data files. The output of the input data file makes no changes, so retains the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. The N obs values are adjusted accordingly.  At this time, the tag recapture data is not output to data.ss\_new.}}\Tstrut\\
+ \pagebreak
+ %\hline
+ 1 & Number of Data Files to Output: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{All output files are sequentially output to data\_echo.ss\_new and will need to be parsed by the user into separate data files. The output of the input data file makes no changes, so retains the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to data\_echo.ss\_new. As of v.3.30.19  the output file names have changed were now a separate file is created for the echoed data (data\_echo.ss\_new), the expected data values given the model fit (data\_expval.ss), and any requested bootstap data files (data\_boot\_x.sso where x is the bootstrap number) In versions prior to 3.30.19 each of these outputs was printed to a single file called data.ss\_new. }}\Tstrut\\
    & 0 = none; As of 3.30.16, none of the .ss\_new files will be produced;& \\
    & 1 = output an annotated replicate of the input data file; & \\
-   & 2 = add a second data file containing the model's expected values with no added error; and & \\
+   & 2 = add a second data file containing the model's expected values with no added error. ; and & \\
    & 3+ = add N-2 parametric bootstrap data files. & \\
+   & & \\
+   & & \\
 
- %\hline
+ \hline
  %\pagebreak
- 8 & Turn off estimation: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The 0 option is useful for (1) quickly reading in a messy set of input files and producing the annotated control.ss\_new and data.ss\_new files, or (2) examining model output based solely on input parameter values.  Similarly, the value option allows examination of model output after completing a specified phase.  Also see usage note for restarting from a specified phase.}}\Tstrut\\
+ 8 & Turn off estimation: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The 0 option is useful for (1) quickly reading in a messy set of input files and producing the annotated control.ss\_new and data\_echo.ss\_new files, or (2) examining model output based solely on input parameter values.  Similarly, the value option allows examination of model output after completing a specified phase.  Also see usage note for restarting from a specified phase.}}\Tstrut\\
    & -1 = exit after reading input files; & \\
    & 0 = exit after one call to the calculation routines and production of sso and ss\_new files; and & \\
    & <positive value> = exit after completing this phase. & \\	  
@@ -118,10 +120,11 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
  \hline
  1000 & MCMC burn interval & Number of iterations to discard at the start of an MCMC run. \Tstrut\\
 	   
- \hline
+ %\hline
+ \pagebreak
  200 & MCMC thin interval & Number of iterations to remove between the main period of the MCMC run. \Tstrut\\
 	   
- %\hline 
+ \hline 
  0.0 & \hyperlink{Jitter}{Jitter:} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The jitter function has been revised with SS3 v.3.30.  Starting values are now jittered based on a normal distribution with the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%. A positive value here will add a small random jitter to the initial parameter values.  When using the jitter option, care should be given when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.}}\Tstrut\\ 
 	 & 0 = no jitter done to starting values; and & \\
 	 & >0 starting values will vary with larger jitter values resulting in larger changes from the parameter values in the control or par file. & \\
@@ -139,7 +142,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
     & -2 = end annual SD report in last forecast year; and & \\
     & <value> = end SD report in this year. & \\
 	   
- %\hline
+ \hline
  2 & Extra SD Report Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In a long time series application, the model variance calculations will be smaller and faster if not all years are included in the SD reporting.  For example, the annual SD reporting could start in 1960 and the extra option could select reporting in each decade before then.}}\Tstrut\\
    & 0 = none; and & \\
    & <value> = number of years to read. &  \\
@@ -171,7 +174,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
    & & \\ 
 
  \hline
- \pagebreak
+ %\pagebreak
  1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in SB.  The calculated values are reported to the SD report.}}\Tstrut\\
    & 0 = skip; & \\
    & 1 = X*SB0; & Relative to virgin spawning biomass.\\
@@ -184,8 +187,8 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
  \hline
  1 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SSB\textsubscript{y}/(X*SSB0).\Tstrut\\
 
- \hline
- %\pagebreak
+ %\hline
+ \pagebreak
  1 & SPR report basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{SPR is the equilibrium SSB per recruit that would result from the current year’s pattern and intensity of F’s.  The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section.  Then the one specified here is used as the selected }}\Tstrut\\
    & 0 = skip; & \\
    & 1 = use 1-SPR\textsubscript{target}; & \\
@@ -193,7 +196,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
    & 3 = use 1-SPR at B\textsubscript{target}; and & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Denominator in a ratio with the annual value of (1 – SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}}\Tstrut\\
    & 4 = no denominator, so report actual 1-SPR values. & \\
   
- \pagebreak
+ %\pagebreak
  \hline 
  4 & Annual F units: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In addition to SPR, an additional proxy for annual F can be specified here.  As with SPR, the selected quantity will be calculated annually and in the benchmarks section.  The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector.  Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas.  But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring.  Option 3 is a simple sum of the full F’s by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age.  Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below).  The F is calculated as Z-M where Z and M are each calculated an ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}}\Tstrut\\
    & 0 = skip; & \\
@@ -231,7 +234,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
   0.01 & MCMC output detail: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of MCMC output. This input requires the specification of two items; the output detail and a bump value to be added to the ln(R0) in the first call to MCMC. A bias adjustment of 1.0 is applied to recruitment deviations in the MCMC phase, which could result in reduced recruitment estimates relative to the MLE when a lower bias adjustment value is applied.  A small value, called the "bump", is added to the ln(R0) for the first call to MCMC in order to prevent the stock from hitting the lower bounds when switching from MLE to MCMC. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\\
   & 0 = default; & \\
   & 1 = output likelihood components and associated lambda values; &  \\
-  & 2 = expanded output; and &  \\		 
+  & 2 = write report for each mceval; and &  \\		 
   & 3 = make output subdirectory for each MCMC vector. &  \\
   & & \\
   & & \\ 
@@ -252,7 +255,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
   
  \pagebreak
  \hline
- \hypertarget{Convert}{3.30} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{ A value of 3.30 indicates that the control and data files are currently in SS3 v3.30 format and a value of 999 indicates that the control and data file are in a previous SS3 v.3.24 version. The ss\_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss\_new and data.ss\_new files.  All ss\_new files are in the SS3 v.3.30 format, so starter.ss\_new has SS3 v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS3 v.3.30 cannot read a ss.par file produced by SS3 v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The \hypertarget{ConvIssues}  {Converting Files from SS3 v.3.24} section has additional information on model features that may impede file conversion.}}\Tstrut\\
+ \hypertarget{Convert}{3.30} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{ A value of 3.30 indicates that the control and data files are currently in SS3 v3.30 format and a value of 999 indicates that the control and data file are in a previous SS3 v.3.24 version. The ss\_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss\_new and data\_echo.ss\_new files.  All ss\_new files are in the SS3 v.3.30 format, so starter.ss\_new has SS3 v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS3 v.3.30 cannot read a ss.par file produced by SS3 v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The \hypertarget{ConvIssues}  {Converting Files from SS3 v.3.24} section has additional information on model features that may impede file conversion.}}\Tstrut\\
      & & \\  
      & & \\  
 	 & & \\
