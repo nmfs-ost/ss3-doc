@@ -1134,7 +1134,7 @@ The R0, steepness, and regime shift parameters can be time-varying by blocks, tr
 	1971 \Tstrut & Main recruitment deviations begin year & If begin year is less than the model start year, then the early deviations are used to modify the initial age composition.   However, if set to be more than the population maximum age before start year, it is changed to equal to the maximum age before start year. \Bstrut\\
 	\hline
 
-	2017 \Tstrut & Main recruitment deviations end year & If recruitment deviations end year is later than retro year, it is reset to equal retro year. The final year to estimate main recruitment deviations should be set to a year where information about young fish in the data becomes limited. As example, if the model end year is 2020 and the fleet/survey only starts observing fish of age 2+, the last year to estimate main recruitment deviations could be set to 2018. Years after the main period but before the end model year will be estimated as late recruitment deviations.   \Bstrut\\
+	2017 \Tstrut & Main recruitment deviations end year & If recruitment deviations end year is later than retro year, it is reset to equal retro year. The final year to estimate main recruitment deviations should be set to a year where information about young fish in the data becomes limited. As example, if the model end year is 2020 and the fleet/survey only starts observing fish of age 2+, the last year to estimate main recruitment deviations could be set to 2018. Years after the main period but before the end model year will be estimated as late deviations   \Bstrut\\
 	\hline
 
 	3 \Tstrut & Main recruitment deviations phase. & \Bstrut\\
@@ -1184,20 +1184,27 @@ The R0, steepness, and regime shift parameters can be time-varying by blocks, tr
 	\Tstrut & 5    & Maximum Recruitment Deviation: Max value for recruitment deviation. \\
 			&      & Late Phase = Default value (e.g., 5)\\
 	
-	\Tstrut & 2    & Number of Explicit Recruitment Deviations to Read:\\
+	\Tstrut & 5   & Number of Explicit Recruitment Deviations to Read:\\
 			&      & 0: Default, do not read any recruitment deviations; Integer: read this number of recruitment deviations.\\
-	
-	\multicolumn{3}{l}{End of advanced options}\Tstrut\Bstrut\\
-	\hline
 
 	\multicolumn{3}{l}{COND = If N recruitment cycle is > 0, enter N full parameter lines below.}\Tstrut\\
 	\Tstrut & <parameter line> & Full parameter line for each of the N periods of recruitment cycle.\Bstrut\\
 	\hline
 
-	\multicolumn{3}{l}{COND = If N explicit recruitment deviations is > 0, then enter N lines below.}\Tstrut\Bstrut\\
-	& 1977 3.0 & Enter year and deviation.\\
-	& 1984 3.0 & Two example recruitment deviations being read.  Note: the model will rescale the entire vector of recruitment deviation after reading these deviations, so by reading two positive values, all other recruitment deviations will be scaled to a small negative value to achieve a sum to zero condition before starting model estimation.\Bstrut\\
+	\multicolumn{3}{l}{COND = If the number of recruitment deviations to read is > 0, then enter a total number of lines }\Tstrut\\
+	\multicolumn{3}{l}{equal to that specified above. A year and a deviation value is expected as: }\Bstrut\\
+	& 2010  1.27 & Enter year and deviation.\\
+	& 2011  -0.45 & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Two example recruitment deviations being read.  Note: the model will rescale the entire vector of recruitment deviation after reading these deviations, so by reading two positive values, all other recruitment deviations will be scaled to a small negative value to achieve a sum to zero condition before starting model estimation.}}\\
+	& 2012  -0.25 & \\
+	& 2013   0.67 & \\
+	& 2014  0.20 & \\
+	& 2015  -0.11 & \Bstrut\\
 	\hline
+	
+		
+	\multicolumn{3}{l}{End of advanced options}\Tstrut\Bstrut\\
+	\hline
+	
 \end{longtable}
 
 \myparagraph{Recruitment Eras}
