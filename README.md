@@ -22,7 +22,7 @@ Please open an [issue](https://github.com/nmfs-stock-synthesis/doc/issues) or su
 
 ## Where should I ask a question about Stock Synthesis?
 
-If you have a question related to Stock Synthesis, please ask it on the [Stock Synthesis forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) or email it to the Stock Synthesis team at nmfs.stock.synthesis@noaa.gov.
+If you have a question related to Stock Synthesis, please ask it on the [Stock Synthesis forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums), post an issue [in the Stock Synthesis github repository for model questions](https://github.com/nmfs-stock-synthesis/stock-synthesis/issues) and [in the Stock Synthesis document github repository for questions about the manual](https://github.com/nmfs-stock-synthesis/doc/issues), or email it to the Stock Synthesis team at nmfs.stock.synthesis@noaa.gov .
 
 ## How can I contribute to the Stock Synthesis documentation?
 
