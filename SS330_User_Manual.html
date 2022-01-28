@@ -352,7 +352,7 @@ Seattle, WA</p>
 <ul>
 <li><a href="#using-time-varying-parameters"><span class="toc-section-number">14.1</span> Using Time-Varying Parameters</a>
 <ul>
-<li><a href="#time-varying-parameters-in-ss"><span class="toc-section-number">14.1.1</span> Time-Varying Parameters in SS</a></li>
+<li><a href="#time-varying-parameters-1"><span class="toc-section-number">14.1.1</span> Time-Varying Parameters</a></li>
 <li><a href="#specification-of-time-varying-parameters-long-parameter-lines"><span class="toc-section-number">14.1.2</span> Specification of Time-Varying Parameters: Long Parameter Lines</a></li>
 <li><a href="#specification-of-time-varying-parameters-short-parameter-lines"><span class="toc-section-number">14.1.3</span> Specification of Time-Varying Parameters: Short Parameter Lines</a></li>
 <li><a href="#example-time-varying-parameter-setups"><span class="toc-section-number">14.1.4</span> Example Time-varying Parameter Setups</a></li>
@@ -404,7 +404,9 @@ Seattle, WA</p>
 </ol>
 <h2 data-number="2.2" id="output-files"><span class="header-section-number">2.2</span> Output Files</h2>
 <ol>
-<li><p>data.ssnew: Contains a user-specified number of datafiles, generated through a parametric bootstrap procedure, and written sequentially to this file.</p></li>
+<li><p>data_echo.ss_new: Contains the input data as read by the model. In model versions prior to 3.30.19 a single data.ss_new file was created that included the echoed data, the expected data values (data_expval.ss), and any bootstap data files seleected (data_boot_x.sso).</p></li>
+<li><p>data_expval.ss: Contains the expected data values given the model fit.</p></li>
+<li><p>data_boot_x.sso: A new data file filled with bootstap data based on the original input data and variances. This file is only created if the value on the &quot;Number of datafiles to produce&quot; in the starter file is set to 3 or greater. A separate bootstrap data file will be written for the number of bootstrap data file requestes where x in the file name indicates the bootstrap simulation number (e.g., data_boot_2.sso, data_boot_2.sso,...).</p></li>
 <li><p>control.ssnew: Updated version of the control file with final parameter values replacing the initial parameter values.</p></li>
 <li><p>starter.ssnew: New version of the starter file with annotations.</p></li>
 <li><p>Forecast.ssnew: New version of the forecast file with annotations.</p></li>
@@ -711,8 +713,8 @@ Seattle, WA</p>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">1</td>
-<td style="text-align: left;">Data File Output:</td>
-<td style="text-align: left;">All output files are sequentially output to data.ss_new and will need to be parsed by the user into separate data files. The output of the input data file makes no changes, so retains the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. The N obs values are adjusted accordingly. At this time, the tag recapture data is not output to data.ss_new.</td>
+<td style="text-align: left;">Number of Data Files to Output:</td>
+<td style="text-align: left;">All output files are sequentially output to data_echo.ss_new and will need to be parsed by the user into separate data files. The output of the input data file makes no changes, so retains the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to data_echo.ss_new. As of v.3.30.19 the output file names have changed were now a separate file is created for the echoed data (data_echo.ss_new), the expected data values given the model fit (data_expval.ss), and any requested bootstap data files (data_boot_x.sso where x is the bootstrap number) In versions prior to 3.30.19 each of these outputs was printed to a single file called data.ss_new.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -726,7 +728,7 @@ Seattle, WA</p>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
-<td style="text-align: left;">2 = add a second data file containing the model’s expected values with no added error; and</td>
+<td style="text-align: left;">2 = add a second data file containing the model’s expected values with no added error. ; and</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
@@ -735,9 +737,19 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;">8</td>
 <td style="text-align: left;">Turn off estimation:</td>
-<td style="text-align: left;">The 0 option is useful for (1) quickly reading in a messy set of input files and producing the annotated control.ss_new and data.ss_new files, or (2) examining model output based solely on input parameter values. Similarly, the value option allows examination of model output after completing a specified phase. Also see usage note for restarting from a specified phase.</td>
+<td style="text-align: left;">The 0 option is useful for (1) quickly reading in a messy set of input files and producing the annotated control.ss_new and data_echo.ss_new files, or (2) examining model output based solely on input parameter values. Similarly, the value option allows examination of model output after completing a specified phase. Also see usage note for restarting from a specified phase.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
@@ -760,7 +772,7 @@ Seattle, WA</p>
 <td style="text-align: left;">Number of iterations to discard at the start of an MCMC run.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">200</td>
+<td style="text-align: left;"></td>
 <td style="text-align: left;">MCMC thin interval</td>
 <td style="text-align: left;">Number of iterations to remove between the main period of the MCMC run.</td>
 </tr>
@@ -898,7 +910,7 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;"></td>
+<td style="text-align: left;">1</td>
 <td style="text-align: left;">Depletion basis:</td>
 <td style="text-align: left;">Selects the basis for the denominator when calculating degree of depletion in SB. The calculated values are reported to the SD report.</td>
 </tr>
@@ -943,7 +955,7 @@ Seattle, WA</p>
 <td style="text-align: left;">Value for use in the calculation of the ratio for SSB<sub>y</sub>/(X*SSB0).</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">1</td>
+<td style="text-align: left;"></td>
 <td style="text-align: left;">SPR report basis:</td>
 <td style="text-align: left;">SPR is the equilibrium SSB per recruit that would result from the current year’s pattern and intensity of F’s. The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section. Then the one specified here is used as the selected</td>
 </tr>
@@ -973,7 +985,7 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;"></td>
+<td style="text-align: left;">4</td>
 <td style="text-align: left;">Annual F units:</td>
 <td style="text-align: left;">In addition to SPR, an additional proxy for annual F can be specified here. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector. Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas. But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring. Option 3 is a simple sum of the full F’s by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below). The F is calculated as Z-M where Z and M are each calculated an ln(N<sub>t+1</sub>/N<sub>t</sub>) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.</td>
 </tr>
@@ -1098,7 +1110,7 @@ Seattle, WA</p>
 </tr>
 <tr class="odd">
 <td style="text-align: left;"></td>
-<td style="text-align: left;">2 = expanded output; and</td>
+<td style="text-align: left;">2 = write report for each mceval; and</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
@@ -1172,7 +1184,7 @@ Seattle, WA</p>
 <p>3.30</p>
 </div></td>
 <td style="text-align: left;">Model version check value.</td>
-<td style="text-align: left;">A value of 3.30 indicates that the control and data files are currently in SS3 v3.30 format and a value of 999 indicates that the control and data file are in a previous SS3 v.3.24 version. The ss_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss_new and data.ss_new files. All ss_new files are in the SS3 v.3.30 format, so starter.ss_new has SS3 v.3.30 on the last line. The mortality-growth parameter section has a new sequence, so SS3 v.3.30 cannot read a ss.par file produced by SS3 v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The <span id="ConvIssues">Converting Files from SS3 v.3.24</span> section has additional information on model features that may impede file conversion.</td>
+<td style="text-align: left;">A value of 3.30 indicates that the control and data files are currently in SS3 v3.30 format and a value of 999 indicates that the control and data file are in a previous SS3 v.3.24 version. The ss_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss_new and data_echo.ss_new files. All ss_new files are in the SS3 v.3.30 format, so starter.ss_new has SS3 v.3.30 on the last line. The mortality-growth parameter section has a new sequence, so SS3 v.3.30 cannot read a ss.par file produced by SS3 v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The <span id="ConvIssues">Converting Files from SS3 v.3.24</span> section has additional information on model features that may impede file conversion.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;"></td>
@@ -9976,7 +9988,8 @@ There may be times a user would like to generate the .ss_new files without runni
 
 </div>
 <h2 data-number="12.7" id="bootstrap-data-files"><span class="header-section-number">12.7</span> Bootstrap Data Files</h2>
-<p>It is possible to create bootstrap data files for SS3 where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. The number of bootstrap data files to create is specified in the starter file where a value of 3 or greater will create a single bootstrap data file in the data.ss_new file. The first output provides the unaltered input data file (with annotations added). The second provides the expected values for only the data elements used in the model run. The third and subsequent outputs provide parametric bootstraps around the expected values. The bootstrap data file can be parsed using r4ss function SS_splitdat into individual data files and re-run with the model.</p>
+<p>It is possible to create bootstrap data files for SS3 where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. Starting in version 3.30.19, bootstrap data files are output separated in single numbered files (e.g., data_boot_1.sso). In version prior to version 3.30.19 a single file called data.ss_new was output that contained multiple sections: the original data echoed out, the expected data values based on the model fit, and then subsequent bootstrap data files.</p>
+<p>Specifying the number of bootstrap data files has remained the same across model version. Creating bootstrap data files is specified in the starter file via the &quot;Number of datafiles to produce&quot; line where a value of 3 or greater will create three files: the original data file called data_echo.ss_new, a data file with the model expected values called data_expval.ss, and single bootstrap data file called data_boot_1.sso. The first output provides the unaltered input data file (with annotations added). The second provides the expected values for only the data elements used in the model run. The third and subsequent outputs provide parametric bootstraps around the expected values. The bootstrap data file can be parsed using r4ss function SS_splitdat into individual data files and re-run with the model.</p>
 <p>The bootstrapping procedure within SS3 is done via the following steps:</p>
 <ul>
 <li><p>Expected values of all input data are calculated (these are also used in the likelihood which compares observed to expected values for all data). The calculation of these expected values is described in detail under the &quot;Observation Model&quot; section of the appendix to <span class="citation" data-cites="methotstock2013">Methot and Wetzel (2013)</span>.  </p></li>
@@ -10378,7 +10391,7 @@ There may be times a user would like to generate the .ss_new files without runni
 <div id="tvOrder">
 
 </div>
-<h3 data-number="14.1.1" id="time-varying-parameters-in-ss"><span class="header-section-number">14.1.1</span> Time-Varying Parameters in SS</h3>
+<h3 data-number="14.1.1" id="time-varying-parameters-1"><span class="header-section-number">14.1.1</span> Time-Varying Parameters</h3>
 <p>Starting in SS3 v.3.30, mortality-growth, some stock-recruitment, catchability, and selectivity base parameters can be time varying. Note that as of SS3 v. 3.30.16, time-varying parameters cannot be used with tagging parameters. There are four ways a parameter can be time-varying in SS:</p>
 <ol>
 <li><p>Environmental Linkages: Links the base parameter with environmental data.</p></li>
@@ -10770,8 +10783,8 @@ There may be times a user would like to generate the .ss_new files without runni
 <li><p>The <span class="math inline">\(\sigma_R\)</span> and autocorrelation parameters can not be time-varying.</p></li>
 <li><p>The autocorrelation parameter cannot be estimated accurately within SS3 <span class="citation" data-cites="johnson-can-2016">(Johnson et al. 2016)</span>, so external (i.e., external to SS) estimation for selecting an autocorrelation value is currently recommended. The autocorrelation of the recruitment deviations appears in the report file, which can aid in selecting the autocorrelation value.</p></li>
 <li><p>The value of R0 and steepness in the initial year are used within virgin calculations and within the benchmarks for calculation of the denominator in depletion estimates. The average value of R0 and steepness in the range of years specified as the benchmark years inputs 9 and 10 (see <a href="#fore-specify">the forecast file specifications</a>) is used for MSY-type calculations.</p></li>
-<li><p>The spawner recruit regime parameter is a modifier on R0. The regime shift parameter line allows for multi-year or environmentally driven deviations from R0 without changing R0 itself. The regime shift base parameter should have a base value of 0.0 and not be estimated (i.e., have a negative phase). Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments.</p></li>
-<li><p>The same algebraic effect on the calculated recruitment can be achieved by different combinations of spawner-recruit parameter options (e.g., changing R0 directly insead of the regime shift parameter). It is recommended to use block, trend or environmental effects on R0 only for long-term effects, and use time-vary effects on the regime shift parameter for transitory but multi-year deviations from R0.</p></li>
+<li><p>The spawner-recruit regime parameter is a modifier on R0. The regime shift parameter line allows for multi-year or environmentally driven deviations from R0 without changing R0 itself. The regime shift base parameter should have a base value of 0.0 and not be estimated (i.e., have a negative phase). Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments.</p></li>
+<li><p>The same algebraic effect on the calculated recruitment can be achieved by different combinations of spawner-recruit parameter options (e.g., changing R0 directly instead of the regime shift parameter). It is recommended to use block, trend or environmental effects on R0 only for long-term effects, and use time-vary effects on the regime shift parameter for transitory but multi-year deviations from R0.</p></li>
 <li><p>If the R0 or steepness parameters are time-varying, then the model will use the current year’s parameters to calculate the expected value of recruits as a function of the spawning biomass, then applies the recruitment deviations. If the regime shift parameter is time-varying, then the model applies the change in the regime shift parameter <strong>after</strong> calculating the expected value of recruits as a function of spawning biomass.</p></li>
 </ul>
 <h3 data-number="14.1.7" id="forecast-considerations-with-time-varying-parameters"><span class="header-section-number">14.1.7</span> Forecast Considerations with Time-Varying Parameters</h3>
