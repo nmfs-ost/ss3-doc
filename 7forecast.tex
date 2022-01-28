@@ -35,16 +35,27 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 
  1 & \hyperlink{Benchmark}{Benchmarks/Reference Points:} & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{SS3 checks for consistency of the Forecast specification and the benchmark specification.  It will turn benchmarks on if necessary and report a warning.}}\Tstrut\\
    & 0 = omit; & \\
-   & 1 = calculate F\textsubscript{SPR}, F\textsubscript{Btarget}, and F\textsubscript{MSY}; and & \\
-   & 2 = calculate F\textsubscript{SPR}, F\textsubscript{MSY}, F\textsubscript{0.10}. & \\
+   & 1 = calculate F\textsubscript{SPR}, F\textsubscript{Btarget}, and F\textsubscript{MSY}; & \\
+   & 2 = calculate F\textsubscript{SPR}, F\textsubscript{MSY}, F\textsubscript{0.10}; and & \\
    & 3 = add F at B\textsubscript{LIMIT} \Bstrut\\ 
    
  \hline
  1 & MSY Method: &  \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{Specifies basis for calculating a single population level F\textsubscript{MSY} value.}}\Tstrut\\
    & 1 = F\textsubscript{SPR} as proxy; & \\
    & 2 = calculate F\textsubscript{MSY}; & \\
-   & 3 = F\textsubscript{Btarget} as proxy or F\textsubscript{0.10; and}& \\
-   & 4 = F\textsubscript{end year} as proxy. & \Bstrut\\
+   & 3 = F\textsubscript{Btarget} as proxy or F\textsubscript{0.10}; & \\
+   & 4 = F\textsubscript{end year} as proxy; and & \\
+   & 5 = F\textsubscript{MEY}. & \Bstrut\\
+   
+ %\hline 
+ \multicolumn{2}{l}{COND: MSY Method = 5} &  \Tstrut\\
+ 1 & MSY units &  \\
+   & 1 = dead biomass; & \\
+   & 2 = retained biomass; and & \\
+   & 3 = profits. &  \\
+ \multicolumn{1}{r}{1 0 1}  & Fleet, Cost/F, Price/mt & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{To calculate F\textsubscript{MEY} enter fleet number, the cost/F, and price per mt. Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost=0 and price = 1, so will be identical to MSY in weight.}}  \\
+ \multicolumn{1}{r}{2 0 1}  &  &   \\
+ \multicolumn{1}{r}{-9999 1 1 } & Terminator line & \Bstrut\\
 
 
  \hline
@@ -122,7 +133,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  0.40 \Tstrut & Control Rule Upper Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Relative biomass level to unfished biomass above which F is constant at control rule F\textsubscript{target}.}} \\
    &  & \Bstrut\\
  
- \pagebreak
+ %\pagebreak
  \hline
  0.10 \Tstrut & Control Rule Lower Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Relative biomass level to unfished biomass below which F is set to 0 (management threshold).}} \\
    &  & \Bstrut\\
@@ -154,7 +165,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  
  \hline
  
- \pagebreak
+ %\pagebreak
  0 \Tstrut & \hyperlink{ForeSpawn}{Forecast recruitment:} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS3 v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations). Need to set phase to -1 in control to get constant recruitment in MCMC.}} \\
     & 0 = spawner recruit curve; & \\
     & 1 = value*(spawner recruit curve); & \\
