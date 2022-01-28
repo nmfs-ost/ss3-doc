@@ -53,9 +53,12 @@ The term COND appears in the "Typical Value" column of this documentation (it do
    & 1 = dead biomass; & \\
    & 2 = retained biomass; and & \\
    & 3 = profits. &  \\
- \multicolumn{1}{r}{1 0 1}  & Fleet, Cost/F, Price/mt & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{To calculate F\textsubscript{MEY} enter fleet number, the cost/F, and price per mt. Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost=0 and price = 1, so will be identical to MSY in weight.}}  \\
- \multicolumn{1}{r}{2 0 1}  &  &   \\
- \multicolumn{1}{r}{-9999 1 1 } & Terminator line & \Bstrut\\
+
+ \multicolumn{1}{r}{1 0 1 0 } & Fleet, Cost/F, Price/mt, and Optimization & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{To calculate F\textsubscript{MEY} enter fleet number, the cost/F, price per mt, and whether optimization should adjust the fleet's F or keep it at the mean from the benchmark years (0 = no, 1= yes). Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost=0 and price = 1, so will be identical to MSY in weight.}}  \\
+ \multicolumn{1}{r}{2 0 1 0 } & &   \\
+ \multicolumn{1}{r}{-9999 1 1 1 } &  & \\
+ & & \\
+ & & \Bstrut\\
 
 
  \hline
@@ -160,10 +163,9 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  & & \Bstrut\Bstrut\\
  
  \hline  
- 3 \Tstrut & \hyperlink{appendB}{First forecast loop with stochastic recruitment} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{If this is set to 1 or 2, then OFL and ABC will be calculated as if there was perfect knowledge about recruitment deviations in the future.}} \\
-   & & \\
- 
- \hline
+ 3 \Tstrut & \hyperlink{appendB}{First forecast loop with stochastic recruitment} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{If this is set to 1 or 2, then OFL and ABC will be calculated as if there was perfect knowledge about recruitment deviations in the future.}} \Bstrut\\
+ %  & & \\
+ %\hline
  
  %\pagebreak
  0 \Tstrut & \hyperlink{ForeSpawn}{Forecast recruitment:} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS3 v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations). Need to set phase to -1 in control to get constant recruitment in MCMC.}} \\
@@ -173,7 +175,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
     & 3 = recent mean from year range above. & \\
     & & \\
     & & \\
-    & & \\
+    %& & \\
      
  \hline
  1 \Tstrut & Scalar or number of years of recent main recruitments to average. & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{This input depends upon option selected directly above.  If option 1 or 2 selected this value should be a scalar value to be applied to recruitment. If option 3 is selected above this should be input as the number of years to average recruitment.}} \\
@@ -199,7 +201,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
    & 0 = omit U.S. West Coast rebuilder output; and & \\
    & 1 = do U.S. West Coast rebuilder output. & \Bstrut\\
    
- \hline
+ %\hline
+ \pagebreak
  2004 & Rebuilder catch (Year Declared): & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Input line is required even if Rebuilder = 0, specified in the line above.}} \Tstrut\\
       & >0 = year first catch should be set to zero; and & \\
       & -1 = set to 1999. & \Bstrut\\
@@ -223,7 +226,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
    & 6 = retained total numbers. & \Bstrut\\
     
  \hline 
- \pagebreak
+ %\pagebreak
  \multicolumn{3}{l}{COND 2: Conditional input for fleet relative F (Enter: Season, Fleet, Relative F)} \Tstrut\\
  \multicolumn{1}{r}{1 1 0.6}  & Fleet allocation by relative F fraction. & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The fraction of the forecast F value.  For a multiple area model user must define a fraction for each fleet and each area.  The total fractions must sum to one over all fleets and areas.}}\\
  \multicolumn{1}{r}{1 2 0.4}  &  & \\
