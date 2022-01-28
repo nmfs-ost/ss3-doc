@@ -4,7 +4,7 @@
 \subsection{Using Time-Varying Parameters}
 
 \hypertarget{tvOrder}{}
-\subsubsection{Time-Varying Parameters in SS}
+\subsubsection{Time-Varying Parameters}
 
 Starting in SS3 v.3.30, mortality-growth, some stock-recruitment, catchability, and selectivity base parameters can be time varying. Note that as of SS3 v. 3.30.16, time-varying parameters cannot be used with tagging parameters. There are four ways a parameter can be time-varying in SS:
 \begin{enumerate}
@@ -49,9 +49,9 @@ When time-varying growth is used, there are some additional considerations to be
 	\item The value of R0 and steepness in the initial year are used within virgin calculations and within the benchmarks for calculation of the denominator in depletion estimates. The average value of R0 and steepness in the range of years specified as the benchmark years inputs 9 and 10 (see \hyperlink{fore-specify}{the forecast file specifications}) is used for MSY-type calculations. 
 	%So, for example, a long-term climate effect could cause R0 to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
 	
-	\item The spawner recruit regime parameter is a modifier on R0. The regime shift parameter line allows for multi-year or environmentally driven deviations from R0 without changing R0 itself. The regime shift base parameter should have a base value of 0.0 and not be estimated (i.e., have a negative phase). Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments.
+	\item The spawner-recruit regime parameter is a modifier on R0. The regime shift parameter line allows for multi-year or environmentally driven deviations from R0 without changing R0 itself. The regime shift base parameter should have a base value of 0.0 and not be estimated (i.e., have a negative phase). Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments.
 	
-	\item The same algebraic effect on the calculated recruitment can be achieved by different combinations of spawner-recruit parameter options (e.g., changing R0 directly insead of the regime shift parameter). It is recommended to use block, trend or environmental effects on R0 only for long-term effects, and use time-vary effects on the regime shift parameter for transitory but multi-year deviations from R0.	
+	\item The same algebraic effect on the calculated recruitment can be achieved by different combinations of spawner-recruit parameter options (e.g., changing R0 directly instead of the regime shift parameter). It is recommended to use block, trend or environmental effects on R0 only for long-term effects, and use time-vary effects on the regime shift parameter for transitory but multi-year deviations from R0.	
 	
 	\item If the R0 or steepness parameters are time-varying, then the model will use the current year's parameters to calculate the expected value of recruits as a function of the spawning biomass, then applies the recruitment deviations. If the regime shift parameter is time-varying, then the model applies the change in the regime shift parameter \textbf{after} calculating the expected value of recruits as a function of spawning biomass.
 
