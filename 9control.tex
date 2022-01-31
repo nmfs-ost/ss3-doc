@@ -451,11 +451,28 @@ When fish recruit at the real age of 0.0 at settlement, they have body size equa
 \myparagraph{Maximum Length (Linf)}
 If “Growth at age for L2” is set equal to 999, then the size at the L2 parameter is used as Linf. 
 	
-\myparagraph{Schnute growth function}
-The Schnute implementation of a 3-parameter growth function is invoked by entering 2 in the growth type field.  Then a fourth parameter is read after reading the von Bertalanffy growth coefficient parameter (K). When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced , it required that A0 be set to 0.0.
+\myparagraph{Schnute/Richards growth function}
+The \citet{richards1959growth} growth model as parameterized by  \citet{schnute1981growth} provides a flexible growth parameterization that allows for not only asymptotic growth but also linear, quadratic or exponential growth. The Schnute/Richards growth is invoked by entering option 2 in the growth type field.  The Schnute/Richards growth function uses the standard growth parameters (e.g, Lmin, Linf, and $k$) and a fourth parameter that is read after reading the von Bertalanffy growth coefficient parameter ($k$). When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve.  When this function was first introduced , it was required that A0 parameter be set to 0.0.
+
+The Schnute/Richards growth model is parameterized as:
+
+\begin{equation}
+		L_t = L_{MIN}^b + (L_\infty^b-L_{MIN}^b)\frac{1-e^{-k(t-A_{1})}}{1-e^{-k(A_2-A_1)}}^{1/b}
+\end{equation}
+
+with parameters $L_{MIN}$, $L_{MAX}$, $k$, and $b$.
+
+The Richards model has $b$ < 0, the von Bertalanffy model has $b$ = 1. The general case of $b$ > 0 was called the "generalized von Bertalanffy" by \citet{schnute1981growth}. The Gompertz has $b$ = 0, where the equation is undefined as written above and must be replaced with: 
+
+\begin{equation}
+		L_t = y_1e\Big[log(y_2/y-1)\frac{1-e^{-k(t-A_1)}}{1-e{-k(A_2-A_1)}}\Big]
+\end{equation}
+
+Thus, if $b$ will be estimated as a free parameter, it might be necessary to include options for constraining it to different ranges.
+
 	
 \myparagraph{Mean size-at-maximum age}
-The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specificy the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In SS3 v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age.  Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in a the future version.
+The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In SS3 v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age.  Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in a the future version.
 	
 \myparagraph{Age-specific K}
 This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex. The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current age's multiplier. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect.  Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year.  There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
