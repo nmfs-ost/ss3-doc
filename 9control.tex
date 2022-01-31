@@ -1089,7 +1089,7 @@ Read the required number of long parameter set-up lines (e.g. LO, HI, INIT, PRIO
 	& 3rd Parameter & Optional depending on which spawner-recruitment relationship function is used.\Bstrut\\
 	\hline
 
-	0.60 \Tstrut & $\sigma_R$ &  Standard deviation of natural log recruitment. This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated. Thus the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation.\Bstrut\\
+	0.60 \Tstrut & $\sigma_R$ &  Standard deviation of natural log recruitment. This parameter has two related roles.  It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated. Thus the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hypertarget{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$.  \Bstrut\\
 	%\hline
 
 	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in SS3 v.3.24 and earlier.\Bstrut\\
@@ -1120,6 +1120,15 @@ Example set-up of the spawner-recruitment section:
 
 The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviations.  Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section. However, not all of these options make sense for all parameters; please see additional details in the section on \hyperlink{tv-sr}{Time-Varying Stock-Recruitment Considerations}.
 
+\subsubsection{Tuning $\sigma_R$}
+\hyperlink{TuneSigmaR}{}
+The $\sigma_R$ value is generally not estimatable and it is recommended practice to tune input $\sigma_R$ values based on the variance in estimated recruitments post running SS3. The R package \texttt{r4ss} designed to read and visualize SS3 model results provides recommendations on adjusting $\sigma_R$ values in the \texttt{sigma\_R\_info} object in the list created by the \texttt{r4ss::SS\_output()} function. An alternative $\sigma_R$ value is provided based on equation:
+
+\begin{equation}
+	\sigma_R^2 = Var(\hat{r}) + \overline{SE(\hat{r}_y)}^2
+\end{equation}
+  
+Simulation studies conducted by \cite{methot-adjusting-2011} compared three methods of tuning $\sigma_R$ with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates.
 
 \subsubsection{Recruitment Deviation Setup}
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
