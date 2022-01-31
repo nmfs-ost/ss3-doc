@@ -274,7 +274,8 @@ Seattle, WA</p>
 <li><a href="#spawner-recruitment-functions"><span class="toc-section-number">8.6.1</span> Spawner-Recruitment Functions</a></li>
 <li><a href="#spawner-recruitment-parameter-setup"><span class="toc-section-number">8.6.2</span> Spawner-Recruitment Parameter Setup</a></li>
 <li><a href="#spawner-recruitment-time-varying-parameters"><span class="toc-section-number">8.6.3</span> Spawner-Recruitment Time-Varying Parameters</a></li>
-<li><a href="#recruitment-deviation-setup"><span class="toc-section-number">8.6.4</span> Recruitment Deviation Setup</a></li>
+<li><a href="#tuning-sigma_r"><span class="toc-section-number">8.6.4</span> Tuning <span class="math inline">\(\sigma_R\)</span></a></li>
+<li><a href="#recruitment-deviation-setup"><span class="toc-section-number">8.6.5</span> Recruitment Deviation Setup</a></li>
 </ul></li>
 <li><a href="#fishing-mortality-method"><span class="toc-section-number">8.7</span> Fishing Mortality Method</a>
 <ul>
@@ -2106,8 +2107,8 @@ The concept of unfished spawning biomass, SSB_unf, is important to the reference
 <div id="SubSeas">
 
 </div>
-<p>The treatment of subseasons in SS3 provide more precision in the timing of events compared to earlier model versions. SS3 v.3.24 and all earlier versions effectively had two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.</p>
-<p>Time steps in SS3 can be broken into subseason and the ALK can be calculated multiple times over the course of a year:</p>
+<p>The treatment of subseasons in SS3 provide more precision in the timing of events compared to earlier model versions. In early versions, v.3.24 and before, there was effectively only two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.</p>
+<p>Time steps can be broken into subseason and the ALK can be calculated multiple times over the course of a year:</p>
 <div class="center">
 <table>
 <thead>
@@ -2138,12 +2139,12 @@ The concept of unfished spawning biomass, SSB_unf, is important to the reference
 <ul>
 <li><p>Even number (min = 2) of subseasons per season (regardless of season duration):</p>
 <ul>
-<li><p>Two subseasons will mimic SS3 v.3.24</p></li>
+<li><p>Two subseasons will mimic v.3.24</p></li>
 <li><p>Specifying more subseasons will give finer temporal resolution, but will slow the model down, the effect of which is mitigated by only calculating growth as needed.</p></li>
 </ul></li>
 <li><p>Survey timing is now cruise-specific and specified in units of months (e.g., April 15 = 4.5).</p>
 <ul>
-<li><p>sstrans.exe will convert year, season in SS3 v.3.24 format to year, real month in SS3 v.3.30 format.</p></li>
+<li><p>ss_trans.exe will convert year, season in v.3.24 format to year, real month in v.3.30 format.</p></li>
 </ul></li>
 <li><p>Survey integer season and spawn integer season assigned at run time based on real month and season duration(s).</p></li>
 <li><p>Growth and the age-length-key (ALK) is calculated at the beginning and mid-season or when there is a defined subseason with data observation.</p></li>
@@ -2151,7 +2152,7 @@ The concept of unfished spawning biomass, SSB_unf, is important to the reference
 <li><p>Survey body weight and size composition is calculated using the nearest subseason.</p></li>
 <li><p>Reproductive output now has specified spawn timing (in months fraction) and interpolates growth to that timing.</p></li>
 <li><p>Survey numbers calculated at cruise survey timing using <span class="math inline">\(e^{-z}\)</span>.</p></li>
-<li><p>Continuous Z for entire season. Same as applied in version SS3 v.3.24.</p></li>
+<li><p>Continuous Z for entire season. Same as applied in version v.3.24.</p></li>
 </ul>
 <h2 data-number="7.4" id="terminology"><span class="header-section-number">7.4</span> Terminology</h2>
 <p>The term COND appears in the &quot;Typical Value&quot; column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss_new files.</p>
@@ -6408,7 +6409,7 @@ The survivorship stock recruitment relationship based on <span class="citation" 
 <tr class="even">
 <td style="text-align: left;">0.60</td>
 <td style="text-align: left;"><span class="math inline">\(\sigma_R\)</span></td>
-<td style="text-align: left;">Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated. Thus the value of <span class="math inline">\(\sigma_R\)</span> must be selected to approximate the true average recruitment deviation.</td>
+<td style="text-align: left;">Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated. Thus the value of <span class="math inline">\(\sigma_R\)</span> must be selected to approximate the true average recruitment deviation. See <span id="TuneSigmaR">Tuning <span class="math inline">\(\sigma_R\)</span></span> section below for additional guidance on how to tune <span class="math inline">\(\sigma_R\)</span>.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;">0</td>
@@ -6487,7 +6488,11 @@ The survivorship stock recruitment relationship based on <span class="citation" 
 </div>
 <h3 data-number="8.6.3" id="spawner-recruitment-time-varying-parameters"><span class="header-section-number">8.6.3</span> Spawner-Recruitment Time-Varying Parameters</h3>
 <p>The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviations. Details on how to specify time-varying parameters can be found in the <a href="#tvOrder">Time-Varying Parameter Specification and Setup</a> section. However, not all of these options make sense for all parameters; please see additional details in the section on <a href="#tv-sr">Time-Varying Stock-Recruitment Considerations</a>.</p>
-<h3 data-number="8.6.4" id="recruitment-deviation-setup"><span class="header-section-number">8.6.4</span> Recruitment Deviation Setup</h3>
+<h3 data-number="8.6.4" id="tuning-sigma_r"><span class="header-section-number">8.6.4</span> Tuning <span class="math inline">\(\sigma_R\)</span></h3>
+<p><a href="#TuneSigmaR"></a> The <span class="math inline">\(\sigma_R\)</span> value is generally not estimatable and it is recommended practice to tune input <span class="math inline">\(\sigma_R\)</span> values based on the variance in estimated recruitments post running SS3. The R package <code>r4ss</code> designed to read and visualize SS3 model results provides recommendations on adjusting <span class="math inline">\(\sigma_R\)</span> values in the <code>sigma_R_info</code> object in the list created by the <code>r4ss::SS_output()</code> function. An alternative <span class="math inline">\(\sigma_R\)</span> value is provided based on equation:</p>
+<p><span class="math display">\[\sigma_R^2 = Var(\hat{r}) + \overline{SE(\hat{r}_y)}^2\]</span></p>
+<p>Simulation studies conducted by <span class="citation" data-cites="methot-adjusting-2011">(Methot, Taylor, and Chen 2011)</span> compared three methods of tuning <span class="math inline">\(\sigma_R\)</span> with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates.</p>
+<h3 data-number="8.6.5" id="recruitment-deviation-setup"><span class="header-section-number">8.6.5</span> Recruitment Deviation Setup</h3>
 <table>
 <thead>
 <tr class="header">
@@ -6772,13 +6777,13 @@ The survivorship stock recruitment relationship based on <span class="citation" 
 </tr>
 </tbody>
 </table>
-<h4 data-number="8.6.4.1" id="recruitment-eras"><span class="header-section-number">8.6.4.1</span> Recruitment Eras</h4>
+<h4 data-number="8.6.5.1" id="recruitment-eras"><span class="header-section-number">8.6.5.1</span> Recruitment Eras</h4>
 <p><br />
 Conceptually, the model treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum. The user has control of the break year between eras. Each era has its own vector. The early era is defined as a vector (prior to V3.10 this was a deviation vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations. The main era can be a vector of simple deviations, or a deviation vector but it is normally implemented as a deviation vector so that the spawner-recruitment function is its central tendency. The last era does not force a zero-centered deviation vector so it can have zeros during the actual forecast and non-zero values in last few years of the time series. The early and last eras are optional, but their use can help prevent balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years. When the 3 eras are used, it would be typically to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.</p>
 <div id="RecBias">
 
 </div>
-<h4 data-number="8.6.4.2" id="recruitment-likelihood-with-bias-adjustment"><span class="header-section-number">8.6.4.2</span> Recruitment Likelihood with Bias Adjustment</h4>
+<h4 data-number="8.6.5.2" id="recruitment-likelihood-with-bias-adjustment"><span class="header-section-number">8.6.5.2</span> Recruitment Likelihood with Bias Adjustment</h4>
 <p><br />
 For each year in the total recruitment deviation time series (early, mid, late/forecast) the contribution of that year to the log likelihood is equal to: <span class="math inline">\(dev^2/(2.0*\sigma^2_R)+offset*ln(\sigma_R)\)</span> where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year. With this approach, years with a zero or small offset value do not contribute to the second component. <span class="math inline">\(\sigma_R\)</span> may be estimable when there is good data to establish the time series of recruitment deviations.</p>
 <p>The implemented recruitment bias adjustment is based upon the work documented in <span class="citation" data-cites="methot-adjusting-2011">Methot, Taylor, and Chen (2011)</span> and following the work of <span class="citation" data-cites="maunder-estimation-2003">Mark N. Maunder and Deriso (2003)</span>. The concept is based upon the following logic. The <span class="math inline">\(\sigma_R\)</span> represents the true variability of recruitment in the population. It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data. Where data that are informative about recruitment deviations are available, the total variability in recruitment, <span class="math inline">\(\sigma_R\)</span>, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate calculated as:</p>
@@ -6788,10 +6793,10 @@ For each year in the total recruitment deviation time series (early, mid, late/f
 <p><span class="math display">\[b_y=\frac{E\Big( SD(\hat{r}_y)\Big)^2}{\sigma^2_R}=1-\frac{SE(\hat{r}_y)^2}{\sigma^2_R}\]</span></p>
 <p>of the offset then depends upon the partitioning of <span class="math inline">\(\sigma_R\)</span> into between and within recruitment variability. The most appropriate degree of bias adjustment can be approximated from the relationship among <span class="math inline">\(\sigma_R\)</span>, recruitment variability (the signal), and recruitment residual error. Because the quantity and quality of data varies during a time series, the user can control the rate at which the offset is ramped in during the early, data-poor years, and then ramped back to zero for the forecast years. On output, the mean bias adjustment during the early and main eras is calculated, comparing this value to the RMSE of estimated recruitment deviations in the report.sso file. A warning is generated if the RMSE is small and the bias adjustment is larger than 2.0 times the ratio of <span class="math inline">\(RMSE^2\)</span> to <span class="math inline">\(\sigma^2_R\)</span>. Additional information on recruitment bias adjustment can be found in the <a href="#BiasCorrect">Recruitment Variability and Bias Correction section</a>.</p>
 <p>In MCMC mode, the model still draws recruitment deviations from the lognormal distribution, so the full offset is used such that the expected mean recruitment from this lognormal distribution will stay equal to the mean from the spawner-recruitment curve. When the model reaches the MCMC and MCEVAL phases, all bias adjustment values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full lognormal distribution of each recruitment.</p>
-<h4 data-number="8.6.4.3" id="recruitment-cycle"><span class="header-section-number">8.6.4.3</span> Recruitment Cycle</h4>
+<h4 data-number="8.6.5.3" id="recruitment-cycle"><span class="header-section-number">8.6.5.3</span> Recruitment Cycle</h4>
 <p><br />
 When the model is configured such that seasons are modeled as years, the concept of season within year disappears. However, there may be reason to still want to model a repeating pattern in expected recruitment to track an actual seasonal cycle in recruitment. If the recruitment cycle factor is set to a positive integer, this value is interpreted as the number of time units in the cycle and this number of full parameter lines will be read. The cyclic effect is modeled as an exp(p) factor times R0, so a parameter value of 0.0 has nil effect. In order to maintain the same number of total recruits over the duration of the cycle, a penalty is introduced so that the cumulative effect of the cycle produces the same number of recruits as Ncycles * R0. Because the cyclic factor operates as an exponential, this penalty is different than a penalty that would cause the sum of the cyclic factors to be 0.0. This is done by adding a penalty to the parameter likelihood.</p>
-<h4 data-number="8.6.4.4" id="initial-age-composition"><span class="header-section-number">8.6.4.4</span> Initial Age Composition</h4>
+<h4 data-number="8.6.5.4" id="initial-age-composition"><span class="header-section-number">8.6.5.4</span> Initial Age Composition</h4>
 <p><br />
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year. These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series. The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F’s to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector. If the number of estimated ages in the initial age composition is less than maximum age, then the older ages will retain their equilibrium levels. Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.</p>
 <h2 data-number="8.7" id="fishing-mortality-method"><span class="header-section-number">8.7</span> Fishing Mortality Method</h2>
