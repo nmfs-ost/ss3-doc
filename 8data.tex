@@ -72,9 +72,9 @@ Seasonal quantities in the model are calculated and treated in the following met
 
 \subsubsection{Subseasons and Timing of Events}
 \hypertarget{SubSeas}{}
-The treatment of subseasons in SS3 provide more precision in the timing of events compared to earlier model versions.  SS3 v.3.24 and all earlier versions effectively had two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.  
+The treatment of subseasons in SS3 provide more precision in the timing of events compared to earlier model versions. In early versions, v.3.24 and before, there was effectively only two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.  
 
-Time steps in SS3 can be broken into subseason and the ALK can be calculated multiple times over the course of a year:
+Time steps can be broken into subseason and the ALK can be calculated multiple times over the course of a year:
 
 \begin{center}
 	\begin{tabular}{| p{2.37cm}| p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  p{2.37cm}|  }
@@ -90,12 +90,12 @@ Time steps in SS3 can be broken into subseason and the ALK can be calculated mul
 	\begin{itemize}
 		\item Even number (min = 2) of subseasons per season (regardless of season duration):
 			\begin{itemize}
-				\item Two subseasons will mimic SS3 v.3.24
+				\item Two subseasons will mimic v.3.24
 				\item Specifying more subseasons will give finer temporal resolution, but will slow the model down, the effect of which is mitigated by only calculating growth as needed.
 			\end{itemize}
 		\item Survey timing is now cruise-specific and specified in units of months (e.g., April 15 = 4.5).
 			\begin{itemize}
-				\item sstrans.exe will convert year, season in SS3 v.3.24 format to year, real month in SS3 v.3.30 format.
+				\item ss\_trans.exe will convert year, season in v.3.24 format to year, real month in v.3.30 format.
 			\end{itemize}
 		\item Survey integer season and spawn integer season assigned at run time based on real month and season duration(s).
 		\item Growth and the age-length-key (ALK) is calculated at the beginning and mid-season or when there is a defined subseason with data observation.
@@ -103,7 +103,7 @@ Time steps in SS3 can be broken into subseason and the ALK can be calculated mul
 		\item Survey body weight and size composition is calculated using the nearest subseason.
 		\item Reproductive output now has specified spawn timing (in months fraction) and interpolates growth to that timing.
 		\item Survey numbers calculated at cruise survey timing using $e^{-z}$.
-		\item Continuous Z for entire season.  Same as applied in version SS3 v.3.24.
+		\item Continuous Z for entire season.  Same as applied in version v.3.24.
 	\end{itemize}
 
 \subsection{Terminology}
