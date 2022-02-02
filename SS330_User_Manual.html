@@ -190,7 +190,6 @@ Seattle, WA</p>
 <ul>
 <li><a href="#input-files"><span class="toc-section-number">2.1</span> Input Files</a></li>
 <li><a href="#output-files"><span class="toc-section-number">2.2</span> Output Files</a></li>
-<li><a href="#auxiliary-files"><span class="toc-section-number">2.3</span> Auxiliary Files</a></li>
 </ul></li>
 <li><a href="#starting-stock-synthesis"><span class="toc-section-number">3</span> Starting Stock Synthesis</a></li>
 <li><a href="#converting-files-from-ss3-v.3.24"><span class="toc-section-number">4</span> Converting Files from SS3 v.3.24</a></li>
@@ -389,8 +388,8 @@ Seattle, WA</p>
 <p>Assessment models are loosely coupled to other models. For example, an ocean-temperature or circulation model or benthic-habitat map may be directly included in the pre-processing of the fish abundance survey. A time series of a derived ocean factor, like the North Atlantic Oscillation, can be included as an indicator of a change in a population process. Output of a multi-decadal time series of derived fish abundance can be an input to ecosystem and economic models to better understand cumulative impacts and benefits.</p>
 <p>Stock Synthesis is an age- and size-structured assessment model in the class of models termed integrated analysis models. Stock Synthesis has evolved since its initial inception in order to model a wide range of fish populations and dynamics. The most recent major revision to Stock Synthesis occurred in 2016, when version 3.30 was introduced. This new version of Stock Synthesis required major revisions to the input files relative to earlier versions (see the <span id="ConvIssues">Converting Files</span> section for more information). The acronym for Stock Synthesis has evolved over time with earlier versions being referred to as SS2 (SS v.2.+), SS3 (SS v.3.+), or just simply SS. The current official abbreviation of Stock Synthesis is SS3 for all versions greater than SS v.3.+.</p>
 <p>SS3 has a population sub-model that simulates a stock’s growth, maturity, fecundity, recruitment, movement, and mortality processes, an observation sub-model estimates expected values for various types of data, a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance, and a forecast sub-model projects needed management quantities. SS3 outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (<a href="http://www.admb-project.org">admb</a>). Windows, Linux, and iOS versions are available. Output processing and associated tools are in R, and a graphical interface is in QT. SS3 is available from NOAA’s VLAB. The rich feature set in SS3 allows it to be configured for a wide range of situations. SS3 has become the basis for a large fraction of U.S. assessments and many other assessments around the world.</p>
-<p>This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. An overview and technical description of the model itself is in <span class="citation" data-cites="methotstock2013">Methot and Wetzel (2013)</span>. However, SS3 has continued to evolve and grow since the publication in 2013, with this manual reflecting the most up to date information regarding SS. The model and a graphical user interface are available from the NOAA <a href="https://vlab.noaa.gov/group/stock-synthesis/home">VLAB</a>. The VLAB site also provides a user forum for posting questions and for accessing various additional materials. An output processor package, r4ss, in R is available for download from CRAN or <a href="https://github.com/r4ss/r4ss">GitHub</a>.</p>
-<p>Additional guidance for new users can be found in the SS3 <a href="https://vlab.noaa.gov/group/stock-synthesis/document-library">document library</a> within the NOAA VLAB website. The &quot;Begin Here - Introduction to Stock Synthesis&quot; folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.</p>
+<p>This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. An overview and technical description of the model itself is in <span class="citation" data-cites="methotstock2013">Methot and Wetzel (2013)</span>. However, SS3 has continued to evolve and grow since the publication in 2013, with this manual reflecting the most up to date information regarding SS. The model and a graphical user interface are available from the NOAA <a href="https://vlab.noaa.gov/web/stock-synthesis">VLAB</a>. The VLAB site also provides a user forum for posting questions and for accessing various additional materials. An output processor package, r4ss, in R is available for download from CRAN or <a href="https://github.com/r4ss/r4ss">GitHub</a>.</p>
+<p>Additional guidance for new users can be found in the SS3 <a href="https://vlab.noaa.gov/web/stock-synthesis/document-library">document library</a> within the NOAA VLAB website. The &quot;Begin Here - Introduction to Stock Synthesis&quot; folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.</p>
 <h1 data-number="2" id="FileOrganization"><span class="header-section-number">2</span> File Organization</h1>
 <h2 data-number="2.1" id="input-files"><span class="header-section-number">2.1</span> Input Files</h2>
 <ol>
@@ -428,26 +427,9 @@ Seattle, WA</p>
 <li><p>Parmtrace.sso: Parameter values at each iteration.</p></li>
 <li><p>posteriors.sso, derived_posteriors.sso, posterior_vectors.sso: Files associated with MCMC.</p></li>
 </ol>
-<h2 data-number="2.3" id="auxiliary-files"><span class="header-section-number">2.3</span> Auxiliary Files</h2>
-<p>These files are additional files (e.g. excel files) which allow for exploration or understanding of specific parameterization which can assist in selecting appropriate starting values. These files are available for download from the Vlab website.</p>
-<ol>
-<li><p>SS3-OUTPUT.xls: Excel file with macros to read report.sso and display results.</p></li>
-<li><p>SS_330_Control_Setup.xls:</p>
-<ol>
-<li><p>Shows how to setup an example control file for SS.</p></li>
-</ol></li>
-<li><p>SS_330_Data_Input.xls:</p>
-<ol>
-<li><p>Shows how to setup an example data input file for SS.</p></li>
-</ol></li>
-<li><p>SS_330_Starter&amp;Forecast.xls:</p>
-<ol>
-<li><p>Shows how to setup an example starter and forecast input files for SS.</p></li>
-</ol></li>
-</ol>
 <h1 data-number="3" id="starting-stock-synthesis"><span class="header-section-number">3</span> Starting Stock Synthesis</h1>
 <p>SS3 is typically run through the command line interface, although it can also be called from another program, R, the SS-GUI or a script file (such as a DOS batch file). SS3 is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS3 will run much slower on computers with inadequate memory. See the Running Stock Synthesis section on page for additional notes on methods of running SS3.</p>
-<p>Communication with the program is through text files. When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS3 is being run. The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page . The names of the control and data files must match the names specified in the starter.ss file. File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to setup a model correctly. Output from SS3 consists of text files containing specific keywords. Output processing programs, such as the SS3 GUI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.</p>
+<p>Communication with the program is through text files. When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS3 is being run. The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page . The names of the control and data files must match the names specified in the starter.ss file. File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows.The echoinput.sso file outputs how the executable read each input file and can be used for troubleshooting when trying to setup a model correctly. Output from SS3 consists of text files containing specific keywords. Output processing programs, such as the SSI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.</p>
 <div id="ConvIssues">
 
 </div>
@@ -10231,7 +10213,7 @@ There may be times a user would like to generate the .ss_new files without runni
 <li><p>Seasonal Effects</p></li>
 <li><p>Biology at Age</p>
 <ul>
-<li><p>This section shows derived size-at-age and other quantities. It is the basis for the Bio report page of the Excel output processor.</p></li>
+<li><p>This section shows derived size-at-age and other quantities.</p></li>
 </ul></li>
 <li><p>Mean Body Wt (begin)</p>
 <ul>
