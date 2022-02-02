@@ -1,4 +1,4 @@
-# code to create ss-documentation/images/TimeVarying.png
+# code to create doc/images/TimeVarying.png
 # describe this as example time varying setups
 
 library(ggplot2) # to create the plots

@@ -1,4 +1,4 @@
-# ss-documentation
+# doc
 
 Source code for the stock synthesis manual and other supplementary documentation 
 
@@ -6,18 +6,17 @@ Source code for the stock synthesis manual and other supplementary documentation
 
 The documentation includes:
 - The Stock Synthesis user manual source code, in .tex files
-- Stock Synthesis input file helper spreadsheets, in the [Helper_Spreadsheets subdirectory](https://github.com/nmfs-stock-synthesis/doc/tree/main/Helper_Spreadsheets)
-- Getting started guide and Introduction to building an Stock Synthesis model guide, available in the [User_Guides subdirectory](https://github.com/nmfs-stock-synthesis/doc/tree/main/User_Guides)
+- Getting started guide and Introduction to building an ss model guide, available in the [User_Guides subdirectory](https://github.com/nmfs-stock-synthesis/doc/tree/main/User_Guides)
 
 ## Where can I find compiled versions of the documentation?
 
 See the [documentation index page](https://nmfs-stock-synthesis.github.io/doc/) for links to the latest compiled documentation.
 
-PDF versions of the user manual are available in the [manuals folder on the vlab website](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132), as well as in the [archive of manuals subfolder](https://github.com/nmfs-stock-synthesis/doc/tree/main/Archive%20of%20Manuals).
+PDF versions of the user manual are available in the [ss3 manuals folder on the vlab website](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132).
 
 The [contributing guide](https://github.com/nmfs-stock-synthesis/doc/blob/main/CONTRIBUTING.md) contains information on [how to compile locally or with github actions](https://github.com/nmfs-stock-synthesis/doc/blob/main/CONTRIBUTING.md#compiling-the-stock-synthesis-manual).
 
-## How can I report bugs or suggest changes to the manual, helper spreadsheets, or guides?
+## How can I report bugs or suggest changes to the ss3 documentation?
 
 Please open an [issue](https://github.com/nmfs-stock-synthesis/doc/issues) or submit a [pull request](https://github.com/nmfs-stock-synthesis/doc/pulls).
 

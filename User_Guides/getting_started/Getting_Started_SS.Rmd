@@ -17,7 +17,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 # Scope
 
-Stock Synthesis (SS3) is a statistical fisheries population dynamics modeling framework built in [AD Model Builder](http://www.admb-project.org/). The purpose of this document is to introduce users to running SS3. We assume these users have some experience with population dynamics models and that they have a basic understanding of how to use the command line, but are new to SS3.
+Stock Synthesis (SS3) is a statistical fisheries population dynamics modeling framework built in [AD Model Builder](http://www.admb-project.org/). This Getting Started Guide introduces users to running SS3. We assume some experience with population dynamics models and a basic understanding of how to use the command line.
 
 If you have never used the command line, please see the resources in [Appendix 1](#app1).
 
@@ -25,7 +25,7 @@ To follow along, we recommend downloading the [simple example](https://github.co
 
 By the end of using this guide, you should:
 
-1. Understand the input and output file structure for Stock Synthesis
+1. Understand the input and output file structure for SS3
 2. Be able to run an SS3 model via the command line
 3. Understand which tools are available to work with SS3 models
 4. Troubleshoot basic problems associated with running an SS3 model
@@ -38,10 +38,9 @@ knitr::include_graphics("images/SS_tools_files.png")
 
 SS3 uses text input files and produces text output files. In this section, the SS3 input and output files are described, as are tools that can be used with these files. See how they relate in Figure 1.
 
-
 ## SS3 files: Required inputs
 
-Four required input files are read by the SS3 executable. Throughout this document, we will refer to the SS3 executable as ss.exe. Keep in mind that the Linux and Mac versions of SS3 have no file extension, and the executable can be named differently (e.g., ss_win.exe). These input files are:
+Four required input files are read by the SS3 executable. Throughout this document, we will refer to the SS3 executable as ss.exe. Keep in mind that the Linux and Mac versions of SS3 have no file extension (e.g., ss), and the executable can have a different name (e.g., ss_win.exe, ss_3.30.18.exe). These input files are:
 
  1. **starter.ss:** Required file containing file names of the data file and the control file plus other run controls. Must be named starter.ss.
  2. **data file:** File containing model dimensions and the data. The data file can have any name, as specified in the starter file, but typically ends in .ss or .dat.
@@ -52,30 +51,28 @@ Four required input files are read by the SS3 executable. Throughout this docume
 
 The two optional input files for SS3 are:
 
- 1. **ss.par:** A text file with one line per parameter where order matters that could be created from a previous model run. This file is read in to overwrite the initial parameter values in the control file. The option to use the ss.par file or the control file for initial parameter values is selected in starter.ss.
+ 1. **ss.par:** A text file with one line per parameter where order matters. Usually created from a previous model run. This file can provide initial parameter values instead of using the initial values in the control file. The option to use the ss.par file or the control file for initial parameter values is selected in starter.ss.
  2. **wtatage.ss:** File containing empirical input of body weight by fleet and population and empirical fecundity-at-age. The option to use the wtatage.ss file is selected in a line of the control file.
 
 ## SS3 output files
 
-After a model run, there are many output text files created. The most useful output files can be divided into:
+Many output text files are created during a model run. The most useful output files can be divided into:
 
  1. **Files containing results**. These files include ss_summary.sso and report.sso that contain model results summarized in different ways. 
- 2. **.ss_new files**. These files echo the SS3 input files, but include standardized comments. The values should be the same as the input files, except for the data.ss_new, which can also contain expected values from the model and bootstrapped data sets, if the user specifies so in the starter.ss file. The .ss_new files can be useful to standardize the comments in the input files and can be checked to make sure that SS3 interpreted the inputs as the user intended.
+ 2. **.ss_new files**. These files echo the SS3 input files, but include standardized comments. The values should be the same as the input files, except for control.ss_new, which updates the initial values to the final estimated values. The .ss_new files can be useful to standardize comments in the input files and can be checked to make sure that SS3 interpreted the inputs as the user intended.
  3. **Files used for debugging**. These files include warnings.sso and echoinput.sso.
 
 ## Tool definitions
 
 + **Any text editor** can be used to view and edit SS3 input and output files. Defining a custom syntax highlighting scheme for SS3 files may improve SS3 file readability. Some commonly used text editors include Atom, Emacs, Notepad++, and Sublime Text.
 
-+ The [helper excel sheets](https://github.com/nmfs-stock-synthesis/ss-documentation/tree/main/Helper_Spreadsheets) (also called helper spreadsheets) document inputs required given SS3 options selected and can be used as a reference while setting up model input files.
-
-+ **r4ss**: an R package to plot SS3 model results and manipulate SS3 input and output files. Available at: https://github.com/r4ss/r4ss
++ **r4ss**: An R package to plot SS3 model results and manipulate SS3 input and output files. Available at: https://github.com/r4ss/r4ss
 
 + **SSI**: Stock Synthesis Interface (i.e., the SS3 GUI). The latest version can be downloaded from [within the document library on Vlab](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951). SSI can be used to edit, save, run, and visualize model inputs and outputs.
 
 # Running SS3
 
-SS3 is typically run through the command line. We will introduce three common approaches:
+SS3 is typically run through the command line. We will introduce three common command-line approaches:
 
 1. The one folder approach
 2. The two folder approach
@@ -84,7 +81,7 @@ SS3 is typically run through the command line. We will introduce three common ap
 Other possible approaches to running SS3 include:
 
 1. Run SS3 from within R (discussed briefly)
-2. Use SSI to set up model files and run (not discussed here; find the SSI and its documentation [within the Latest Executables folder](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951) of the [Vlab SS3 community document library](https://vlab.noaa.gov/web/stock-synthesis/document-library))
+2. Use SSI to set up model files and run (not discussed here; find the [SSI and its documentation](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951)
 
 ## The one folder approach and demonstration of an SS3 model run
 
@@ -109,7 +106,7 @@ For example, here is what should be included for a model with no conditional fil
 
 Once all of the model files and the SS3 executable are in the same folder, you can open your command window of choice at the location of the model files. 
 
-To do this, you can typically click to highlight the folder the model files are in, then  shift + right click on the same folder and select the option from the menu to open the command line of choice (e.g., Windows Powershell). Then, type `ss` (or other name of the ss exe) into the command prompt and hit enter. Note that if you are using Windows Powershell, you will need to type `./ss`.
+To do this, you can typically click to highlight the folder the model files are in, then  shift + right click on the same folder and select the option from the menu to open the command line of choice (e.g., Windows Powershell). This should bring up a command window. Then, type `ss` (or other name of the ss exe) into the command prompt and hit enter. Note that if you are using Windows Powershell, you will need to type `./ss`.
 
 The exact instructions for running SS3 can differ depending on the command window used. If you have trouble, search for resources that describe running an executable for your specific command line.
 
@@ -136,11 +133,11 @@ Examine warnings.sso for issues and suggestions, regardless of if the run comple
 
 ### Examine the output
 
-**.ss_new files** are generated if a model run completes. For more information on the .ss_new files, see the "Output Files" section of the SS3 user manual.
+**.ss_new files** are generated if a model run completes. For more information on the .ss_new files, see the ["Output Files" section of the SS3 user manual](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#output-files).
 
 **ss_summary.sso** files are included with the examples on vlab so that you can compare it with the `ss_summary.sso` file generated by your model run. You should see similar if not exactly the same values for the likelihood and parameter values if using the same version of SS3.
 
-Output from SS3 can be read into r4ss or the excel viewer.
+Output from SS3 can be read into [r4ss](https://github.com/r4ss/r4ss) or the excel viewer.
 
 ## The two folder approach
 
@@ -186,9 +183,10 @@ system(get_bin) # to run SS3 in current working directory
 or the function within r4ss:
 
 ```{r eval = FALSE}
-# run 2 models, in directories folder_1 and folder_2, using the SS3 executable named ss that 
-# is in the path.
-r4ss::run_SS_models(dirvec = c("folder_1", "folder_2"), model = "ss", 
+# run 2 models, in directories folder_1 and folder_2, using the SS3 executable
+# named ss that is in the path.
+r4ss::run_SS_models(dirvec = c("folder_1", "folder_2"),
+                    model = "ss", 
                     exe_in_path = TRUE)
 ```
 
@@ -198,11 +196,11 @@ Running SS3 from within R may be desirable for setting up simulations where many
 
 ## Command line options {#options}
 
-ADMB options can be added to the run when calling the SS3 executable from the command line. The most commonly used options is `ss -nohess` to skip standard errors (for quicker  results or to get Report.sso if the hessian does not invert).
+ADMB options can be added to the run when calling the SS3 executable from the command line. The most commonly used option is `ss -nohess` to skip standard errors (for quicker  results or to get Report.sso if the hessian does not invert).
 
 To list all command line options, use one of these calls: `SS -?` or `SS -help`. More info about the ADMB command line options is available in the [ADMB Manual](http://www.admb-project.org/docs/manuals/) (Chapter 12: Command line options).
 
-To run SS3 without estimating anything, as of 3.30.16: `ss -stopph 0`. This will speed up your run by not optimizing. To run SS3 with no estimation in earlier versions of SS3, change the max phase in the starter.ss file to 0 and run the exe with the `–nohess` option.
+To run SS3 without estimation use: `ss -stopph 0`. This will speed up your run by not optimizing. Often `-stopph 0` is used with the `-nohess` option to speed up the run even more. To run SS3 with no estimation in SS3.30.15 and earlier, change the max phase in the starter.ss file to 0 and run the exe with the `–nohess` option.
  
 <!-- The following didn't work for me from the Powershell, command prompt, or  -->
 <!-- ADMB prompt; not sure why. -->
@@ -213,15 +211,15 @@ To run SS3 without estimating anything, as of 3.30.16: `ss -stopph 0`. This will
 ## Using ss.par for initial values
 
 Typically, SS3 uses initial parameter values as specified in the parameter lines of the control file. However, initial values can be read from the ss.par file instead.
-To use ss.par, in starter.ss below the names of the data and control files, set the value to 1 rather than 0 on the line with comment 
+To use ss.par, in starter.ss below the names of the data and control files, set the value to 1 rather than 0 on the line with comment: 
 
 `# 0=use init values in control file; 1=use ss.par`.
 
-Using the ss.par file comes in handy when you want to use different initial values without modifying the control file. An ss.par file is created during each model run and contains the ending parameter values (note that when you run a model, ss.par is one of the output files created). Using this ss.par file from a previous model run with a similar model (that still has the same parameters) will speed up run time because the initial values are closer to the maximum likelihood estimation (MLE) parameter estimates.
+Using the ss.par file is helpful when you want to use different initial values without modifying the control file. An ss.par file is an output file created during each model run and contains the ending parameter values. Using this ss.par file from a previous model run with a similar model (that still has the same parameters) will speed up run time because the initial values are likely closer to the maximum likelihood estimation (MLE) parameter estimates.
 
 ## Using wtatage.ss
 
-As stated in the manual, SS3 has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. Please see the Empirical Weight-at-Age (wtatage.ss) section of the SS3 user manual for more information on using wtatage.ss with a model. There is also a weight at age SS3 example model available on vlab if you would like to try using this feature without having to build your own model.
+As stated in the manual, SS3 has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. Please see the [Empirical Weight-at-Age (wtatage.ss) section of the SS3 user manual](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#WAA) for more information on using wtatage.ss with a model. There is also a [weight at age SS3 example model available](https://github.com/nmfs-stock-synthesis/user-examples/tree/main/model_files/empirical_wtatage_and_age_selex) if you would like to try using this feature without having to build your own model.
 
 # Plotting results and basic troubleshooting
 
@@ -240,17 +238,18 @@ See https://github.com/r4ss/r4ss for r4ss installation instructions.
 
 Here are some basic checks for when SS3 does not run:
 
- + Make sure that all file names and directories are named correctly.
+ + Make sure that all files and directories are named correctly.
  + Check that starter.ss references the correct names of the control and data files.
- + If SS3 starts to read files and then crashes, check warnings.sso and echoinput.sso. The warnings.sso will reveal potential issues with the model, while echoinput.sso will show how far SS3 was able to run. Work backwards from the bottom of echoinput.sso, looking for where what SS3 reads does not match your inputs or where SS3 stopped.
+ + If SS3 starts to read files and then crashes, check warnings.sso and echoinput.sso. The warnings.sso will reveal potential issues with the model, while echoinput.sso will show how far SS3 was able to run. Work backwards from the bottom of echoinput.sso, looking for where SS3 stopped and if the inputs are being read corectly or not.
 
-For further information on troubleshooting, please refer to SS3 User Manual “Running SS3” subsections, especially “Re-Starting a Run” and  “Debugging Tips.”
+For further information on troubleshooting, please refer to the SS3 User Manual [“Running Stock Synthesis” subsections](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#sec:RunningSS), especially [“Re-Starting a Run”](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#re-starting-a-run) and  [“Debugging Tips”](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#debugging-tips).
 
 # Where to get additional help
 
 + The [SS3 vlab website](https://vlab.noaa.gov/web/stock-synthesis) resources, including the SS3 user manual and the SSI user guide
 + Post questions to the [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums)
 + Email questions to nmfs.stock.synthesis@noaa.gov
++ Report bugs or request features using the [Stock Synthesis issue tracker](https://github.com/nmfs-stock-synthesis/stock-synthesis/issues)
 + [Fisheries Research special issue (vol. 142) on Stock Synthesis](https://www.sciencedirect.com/journal/fisheries-research/vol/142/suppl/C)
 + [Center for the Advancement of Population Assessment Methodology (CAPAM)](http://www.capamresearch.org/) provides information about good practices in stock assessment
 
