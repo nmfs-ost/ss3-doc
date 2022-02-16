@@ -1,0 +1,476 @@
+\input{input_accessability.tex}
+\documentclass[11pt,
+  english,
+  letterpaper,
+]{article}
+\usepackage{sa4ss}
+\usepackage{amsmath,amssymb,array}
+\usepackage{booktabs}
+
+% From tagged-template.latex
+\usepackage{lmodern}
+\usepackage{ifxetex,ifluatex}
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\hypersetup{
+  pdftitle={Technical description of Stock Synthesis assessment program},
+  pdflang={en},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+\urlstyle{same} % disable monospaced font for URLs
+\usepackage{longtable}
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{5}
+\ifxetex
+  % Load polyglossia as late as possible: uses bidi with RTL langages (e.g. Hebrew, Arabic)
+  \usepackage{polyglossia}
+  \setmainlanguage[]{english}
+\else
+  \usepackage[shorthands=off,main=english]{babel}
+\fi
+
+%Define cslreferences environment, required by pandoc 2.8
+%https://github.com/rstudio/rmarkdown/issues/1649
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+% for Pandoc 2.8 to 2.10.1
+\newenvironment{cslreferences}%
+  {}%
+  {\par}
+% For Pandoc 2.11+
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc}  % for \widthof, \maxof in minipage
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
+
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+\date{}
+\newcommand{\trTitle}{Technical description of Stock Synthesis assessment program}
+\newcommand{\trYear}{2022}
+\newcommand{\trMonth}{February}
+\newcommand{\trAuthsLong}{truetrue}
+\newcommand{\trAuthsBack}{Wetzel, C.R., K.L. Doering}
+\newcommand{\trCitation}{
+\begin{hangparas}{1em}{1}
+\trAuthsBack{}. \trYear{}. \trTitle{}. \glsentrylong{pfmc}, Portland, Oregon. \pageref{LastPage}{}\,p.
+\end{hangparas}}
+
+\AtBeginDocument{\tagstructbegin{tag=Document}}
+\AtEndDocument{\tagstructend}
+\pretocmd{\maketitle}{\tagstructbegin{tag=H1}\tagmcbegin{tag=H1}}{}{}
+\apptocmd{\maketitle}{\tagmcend\tagstructend}{}{}
+
+\begin{document}
+
+%%%%% Frontmatter %%%%%
+
+% Footnote symbols in front matter
+\renewcommand*{\thefootnote}{\fnsymbol{footnote}}
+
+\small
+\thispagestyle{empty}
+\pagenumbering{roman}
+\noindent
+\begin{center}
+\title{Technical description of Stock Synthesis assessment program}
+% \textnormal{\MakeTextUppercase{\trTitle{}}}
+\vspace{1.5cm}
+{\Large\textbf\newline{Technical description of Stock Synthesis assessment program}}
+\vfill
+by\\
+Chantel R. Wetzel\textsuperscript{1}\\
+Kathryn Doering\textsuperscript{1}\vfill
+\textsuperscript{1}Northwest Fisheries Science Center, U.S. Department of Commerce, National Oceanic and Atmospheric Administration, National Marine Fisheries Service, 2725 Montlake Boulevard East, Seattle, Washington 98112\vfill
+\trMonth{} \trYear{}
+\end{center}
+\clearpage
+
+% Remove copyright page for non-assessment documents
+% Fourth page: Colophon
+%\thispagestyle{empty}
+%\vspace*{\fill}
+%\begin{center}
+%\copyright{} \glsentrylong{pfmc}, \trYear{}\\
+%\end{center}
+%\par
+%\bigskip
+%\noindent
+%Correct citation for this publication:
+%\bigskip
+%\par
+%\trCitation{}
+%\clearpage
+
+% Add TOC to pdf bookmarks (clickable pdf)
+\pdfbookmark[1]{\contentsname}{toc}
+
+% Table of contents page, lists of figures and tables
+\tableofcontents\clearpage
+\label{TRlastRoman}
+\clearpage
+
+% Table of contents
+\newpage
+\thispagestyle{empty} % to remove page number
+
+% Settings for the main document
+\pagenumbering{arabic}  % Regular page numbers
+\pagestyle{plain}  % No page number on first page of main document, use 'empty'
+\renewcommand*{\thefootnote}{\arabic{footnote}}  % Back to numeric footnotes
+\setcounter{footnote}{0}  % And start at 1
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+%\pagestyle{fancy}\fancyhead[c]{Draft: Do not cite or circulate}
+
+\newcommand{\lt}{\ensuremath <}
+\newcommand{\gt}{\ensuremath >}
+
+\pagebreak
+\pagenumbering{roman}
+\setcounter{page}{1}
+
+\renewcommand{\thetable}{\roman{table}}
+\renewcommand{\thefigure}{\roman{figure}}
+
+\setlength\parskip{0.5em plus 0.1em minus 0.2em}
+
+\pagebreak
+\setlength{\parskip}{5mm plus1mm minus1mm}
+\pagenumbering{arabic}
+\setcounter{page}{1}
+\renewcommand{\thefigure}{\arabic{figure}}
+\renewcommand{\thetable}{\arabic{table}}
+\setcounter{table}{0}
+\setcounter{figure}{0}
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The Stock Synthesis 3 (SS3) assessment program provides a statistical framework for calibration of a population dynamics model using a diversity of fishery and survey data. SS is designed to deal with both age- and size-structure with multiple stock sub-areas and multiple growth patterns. The description here details the most commonly applied features, along with a subset of the more advanced options offered by SS3.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=H1}\tagmcbegin{tag=H1}
+
+\hypertarget{population-model}{%
+\section{Population Model}\label{population-model}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The factors described here are those that control the rate at which new individuals recruit to the population each time step; the rate at which they die due to fishing and natural mortality; and the rate at which they grow and contribute to the total biomass and reproductive potential of the stock. The total population can be divided among one to many entities. The total of all entities born within a year are referred to as a year-class or cohort. Each of the biologically- or birthseason- delineated entities is referred to as a morph. In addition, each morph can be sub-divided into slow-, medium-, and fast-growing entities termed platoons \textbf{(Goodyear 1996; Taylor and Methot 2012)}. The model description here does not include subscripting for morphs or platoons in an attempt for simplicity, but each of these entities is tracked in the population dynamics and biology if the user chooses to invoke these features. Each cohort/morph/platoon is split into males and females if the user invokes a two-sex configuration, and the subscript for gender is included in the description below.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{initial-numbers-at-age}{%
+\subsection{Initial Numbers-at-Age}\label{initial-numbers-at-age}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The population in the initial year of a SS application can be simply an unfished equilibrium population, a population in equilibrium with an estimated mortality rate that is influenced by data on historical equilibrium catch, or an equilibrium population that has estimable age-specific deviations from this equilibrium for a user-specified number of the younger ages.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The numbers of animals of gender {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\gamma\)\leavevmode\tagmcend\tagstructend} in age group a in a virgin state ({\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(y=0\)\leavevmode\tagmcend\tagstructend}) is:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{recruitment}{%
+\subsection{Recruitment}\label{recruitment}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The number of age-0 fish is related to spawning biomass according to a stock-recruitment relationship. A range of stock-recruitment relationships are available. Here, the Beverton-Holt is described:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{initial-growth}{%
+\subsection{Initial Growth}\label{initial-growth}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{natural-mortality}{%
+\subsection{Natural Mortality}\label{natural-mortality}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{growth}{%
+\subsection{Growth}\label{growth}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{variation-in-size-at-age}{%
+\subsection{Variation in Size-at-Age}\label{variation-in-size-at-age}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{age-length-population-structure}{%
+\subsection{Age-Length Population Structure}\label{age-length-population-structure}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{body-weight}{%
+\subsection{Body Weight}\label{body-weight}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{maturity-and-fecundity}{%
+\subsection{Maturity and Fecundity}\label{maturity-and-fecundity}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{population-with-fishing-mortality}{%
+\subsection{Population with Fishing Mortality}\label{population-with-fishing-mortality}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{selectivity}{%
+\subsection{Selectivity}\label{selectivity}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{retention}{%
+\subsection{Retention}\label{retention}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H1}\tagmcbegin{tag=H1}
+
+\hypertarget{observation-model}{%
+\section{Observation Model}\label{observation-model}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{survey-observation}{%
+\subsection{Survey Observation}\label{survey-observation}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{abundance-indices}{%
+\subsection{Abundance Indices}\label{abundance-indices}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{composition-data}{%
+\subsection{Composition Data}\label{composition-data}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H3}\tagmcbegin{tag=H3}
+
+\hypertarget{length-compositions}{%
+\subsubsection{Length Compositions}\label{length-compositions}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H3}\tagmcbegin{tag=H3}
+
+\hypertarget{age-compositions}{%
+\subsubsection{Age Compositions}\label{age-compositions}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H1}\tagmcbegin{tag=H1}
+
+\hypertarget{statistical-model}{%
+\section{Statistical Model}\label{statistical-model}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{likelihood-components}{%
+\subsection{Likelihood Components}\label{likelihood-components}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{recruitment-deviaitons}{%
+\subsection{Recruitment Deviaitons}\label{recruitment-deviaitons}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{parameter-priors}{%
+\subsection{Parameter Priors}\label{parameter-priors}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{parameter-deviations}{%
+\subsection{Parameter Deviations}\label{parameter-deviations}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{crash-penalties}{%
+\subsection{Crash Penalties}\label{crash-penalties}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H1}\tagmcbegin{tag=H1}
+
+\hypertarget{management-quantities}{%
+\section{Management Quantities}\label{management-quantities}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{reference-points}{%
+\subsection{Reference Points}\label{reference-points}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{forecast}{%
+\subsection{Forecast}\label{forecast}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H3}\tagmcbegin{tag=H3}
+
+\hypertarget{u.s.-west-coast-groundfish-control-rule}{%
+\subsubsection{U.S. West Coast Groundfish Control Rule}\label{u.s.-west-coast-groundfish-control-rule}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H3}\tagmcbegin{tag=H3}
+
+\hypertarget{u.s.-alaska-control-rule}{%
+\subsubsection{U.S. Alaska Control Rule}\label{u.s.-alaska-control-rule}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H1}\tagmcbegin{tag=H1}
+
+\hypertarget{advanced-model-options}{%
+\section{Advanced Model Options}\label{advanced-model-options}}
+
+\leavevmode\tagmcend\tagstructend
+
+\clearpage
+
+\tagstructbegin{tag=H1}\tagmcbegin{tag=H1}
+
+\hypertarget{references}{%
+\section{References}\label{references}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=BibEntry}\tagmcbegin{tag=BibEntry}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{0}{0}
+\end{CSLReferences}
+
+\leavevmode\tagmcend\tagstructend
+\end{document}
