@@ -8,8 +8,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 	
 \hypertarget{fore-specify}{}
 \subsection{Forecast File Options (forecast.ss)}	
-  %\centerline{\large{\textbf{FORECAST.SS}}} 
-	%\vspace{0.10in}
+
   {
   \setlength\extrarowheight{4pt}	
   \begin{longtable}{p{3.2cm} p{7cm} p{10.8cm}} 
@@ -49,14 +48,18 @@ The term COND appears in the "Typical Value" column of this documentation (it do
    
  %\hline 
  \multicolumn{2}{l}{COND: MSY Method = 5} &  \Tstrut\\
- 1 & MEY units &  \\
+ 1 & Maximum economic yield (MEY) units &  \\
    & 1 = dead biomass; & \\
-   & 2 = retained biomass; and & \\
-   & 3 = profits. &  \\
+   & 2 = dead biomass without excluded bycatch fleet; & \\
+   & 3 = retained biomass; and &  \\
+   & 4 = profits using price and costs. & \\
 
- \multicolumn{1}{r}{1 0 1 0 } & MEY options - Fleet, Cost/F, Price/mt, and Optimization & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{To calculate F\textsubscript{MEY} enter fleet number, the cost/F, price per mt, and whether optimization should adjust the fleet's F or keep it at the mean from the benchmark years (0 = no, 1= yes). Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost=0 and price = 1, so will be identical to MSY in weight.}}  \\
- \multicolumn{1}{r}{2 0 1 0 } & &   \\
+ \pagebreak
+ 
+ \multicolumn{1}{r}{1 0 0 1 } & MEY options - Fleet, Cost/F, Price/F, and Include F\textsubscript{MEY} in Optimization & \multirow{1}{1cm}[-0.1cm]{\parbox{11cm}{To calculate the F\textsubscript{MEY} enter fleet number, the cost per fishing mortality, price per mt, and whether optimization should adjust the fleet's F or keep it at the mean from the benchmark years (0 = no, 1= yes). Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost=0 and price = 1, so will be identical to MSY in weight. Note, if a fleet's catch is excluded from the F\textsubscript{MEY} search, its catch or profits are still included in the MSY value using historical F levels from benchmark years}}  \Tstrut\\
  \multicolumn{1}{r}{-9999 0 0 0 } &  & \\
+ & & \\
+ & & \\
  & & \\
  & & \Bstrut\\
 
@@ -116,7 +119,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
     & <= 0 = year relative to end year. & \\
     & & \Bstrut\\  
 
- %\pagebreak   
+ \pagebreak   
  %\hline   
  0 & Forecast Selectivity Option: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Determines the selectivity used in the forecast years. Selecting 1 will allow for application of time-varying selectivity parameters (e.g., random walk) to continue into the forecast period.}}\Tstrut\\
    & 0 = forecast selectivity is mean from year range; and & \\
@@ -141,7 +144,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  0.10 \Tstrut & Control Rule Lower Limit & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Relative biomass level to unfished biomass below which F is set to 0 (management threshold).}} \\
    &  & \Bstrut\\
  
- \hline
+ %\hline
+ \pagebreak
  0.75 \Tstrut & Control Rule Buffer (multiplier between 0-1.0 or -1) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Control rule catch or F\textsubscript{target} as a fraction of selected catch or F\textsubscript{MSY} proxy. The buffer will be applied to reduce catch from the estimated overfishing limit. The buffer value is a value between 0-1.0 where a value of 1.0 would set catch equal to the overfishing limit. As example if the buffer is applied to catch (Control Rule option 3 or 4 above) the catch will equal the buffer times the overfishing limit. Alternatively a value of -1 will allow the user to input a forecast year specific control rule fraction (added in v. 3.30.13).}} \\ 
   & & \\
   & & \\
@@ -158,8 +162,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
   \multicolumn{1}{r}{2021 0.5}  & & \\ 
   \multicolumn{1}{r}{-9999 0}   & & \Bstrut\\ 
   
- %\hline
- \pagebreak
+ \hline
+ %\pagebreak
  3 \Tstrut & Number of forecast loops (1,2,3) & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{SS3 sequentially goes through the forecast up to three times.  Maximum number of forecast loops: 1=OFL only, 2=ABC control rule and buffers, 3=set catches equal to control rule or input catch and redo forecast implementation error.}} \\
  & & \\
  & & \\
@@ -170,7 +174,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  %  & & \\
  %\hline
  
- %\pagebreak
+ \pagebreak
  0 \Tstrut & \hyperlink{ForeSpawn}{Forecast recruitment:} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Option 0, ignore input and do forecast recruitment as before SS3 v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations). Need to set phase to -1 in control to get constant recruitment in MCMC.}} \\
     & 0 = spawner recruit curve; & \\
     & 1 = value*(spawner recruit curve); & \\
@@ -191,8 +195,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  \hline
  2015 \Tstrut & First year for caps and allocations & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \Bstrut\\
 
- \pagebreak
- %\hline
+ %\pagebreak
+ \hline
  0 \Tstrut & Implementation Error & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The standard deviation of the log of the ratio between the realized catch and the target catch in the forecast. (set value >0.0 to cause implementation error deviations to be an estimated parameter that will add variance to forecast).}} \\
    &   & \\
    &   & \\
@@ -204,8 +208,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
    & 0 = omit U.S. West Coast rebuilder output; and & \\
    & 1 = do U.S. West Coast rebuilder output. & \Bstrut\\
    
- \hline
- %\pagebreak
+ %\hline
+ \pagebreak
  2004 & Rebuilder catch (Year Declared): & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Input line is required even if Rebuilder = 0, specified in the line above.}} \Tstrut\\
       & >0 = year first catch should be set to zero; and & \\
       & -1 = set to 1999. & \Bstrut\\
@@ -221,8 +225,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
    & 1 = use first-last allocation year; and & \\
    & 2 = read season(row) x fleet (column) set below. & \Bstrut\\
 
- %\hline 
- \pagebreak
+ \hline 
+ %\pagebreak
  2 & Basis for maximum forecast catch: &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The maximum basis for forecasted catch will be implemented for the for the "First year for caps and allocations" selected above. The maximum catch (biomass or numbers) by fleet is specified below on the "Maximum total forecast catch by fleet" line.}}\Tstrut\\
    & 2 = total catch biomass; & \\
    & 3 = retained catch biomass; & \\
@@ -255,8 +259,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
   \multicolumn{1}{r}{-9999 1} & & \Bstrut\\
   
   
-  %\hline
-  \pagebreak
+  \hline
+  %\pagebreak
     -1 & Basis for forecast catch: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{ The dead or retained value in the forecast catch inputs will be interpreted in terms of numbers or biomass based on the units of the input catch for each fleet. }}\Tstrut\\
     & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below; & \\
     & 2 = Dead catch (retained + discarded); & \\
