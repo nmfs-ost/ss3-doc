@@ -98,12 +98,31 @@ The population in the initial year of a SS application can be simply an unfished
 
 The numbers of animals of gender $\gamma$ in age group a in a virgin state ($y=0$) is:
 
+\begin{equation}
+\label{eqn1}
+N_{0,\gamma,a} =
+\begin{cases}
+cR_0e^{-aM_{\gamma,a}} & \text{for $a=0$ to $A-1$} \\
+\sum_{a=A}^{3A-1}N_{0,\gamma,a} + \frac{N_{0,\gamma,3A-1}e^{-M_{\gamma,a}}}{1-e^{-M_{\gamma,a}}} & \text{for $a=A$ to $3A-1$}\\
+\end{cases}
+\end{equation}
 
+where $c$ (I)[^1] is a user-defined constant that determines the sex-ratio of recruits[^2], $M_{\gamma,a}$ (P)[^3] is natural mortality for age a and sex $\gamma$, $A$ is the plus-group age, $3A$ is three times the plusgroup age, and $R_0$ is the number of age-0 fish at unfished equilibrium. The plus group virgin
+numbers-at-age calculation is based on 3 timex the maximum age to include movement dynamics through age $3A-1$. After calculating the numbers-at-age through age $3A$, the numbers are collapsed to age A for subsequent calculations. Equation \ref{eqn1} use total mortality, $Z_{\gamma,a}$ (see Equation 1.21 XX), rather than $M_{\gamma,a}$ when the initial equilibrium also involves fishing mortality. Although this fishing mortality will reduce spawning biomass, no adjustment to $R_0$ is made on premise that this reduction has probably not been occurring for enough years to effect this change. $R_0$ serves as both the starting level of mean recruitment and as the factor that scales the mean spawner-recruitment relationship against which future annual recruitment deviations will act. An estimated offset, $R_1$, can be applied to $R_0$. When the initial population involves agespecific deviations, these deviations are an extension of the zero-centered, lognormal recruitment deviations applied to the equilibrium numbers-at-age (see Equation 1.20 XX).
 
+[^1]: User-specified quantities will henceforth be denoted as "(I)". 
+[^2]: The term "recruits" is used to refer to age-0 animals. 
+[^3]: Estimated quantities will henceforth be denoted as "(P)".
 
 ## Recruitment
 
 The number of age-0 fish is related to spawning biomass according to a stock-recruitment relationship. A range of stock-recruitment relationships are available. Here, the Beverton-Holt is described:
+
+\begin{equation}
+\label{eqn2}
+R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma_R^2+\tilde{R}_y} \;\ \tilde{R}_y \sim N(0; \sigma_R^2)
+\end{equation}
+
 
 
 <!--chapter:end:12init_numbers_recruitment.Rmd-->
