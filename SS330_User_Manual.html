@@ -1158,7 +1158,7 @@ Seattle, WA</p>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
-<td style="text-align: left;">MEY units</td>
+<td style="text-align: left;">Maximum economic yield (MEY) units</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
@@ -1168,26 +1168,36 @@ Seattle, WA</p>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">2 = retained biomass; and</td>
+<td style="text-align: left;">2 = dead biomass without excluded bycatch fleet;</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">3 = profits.</td>
+<td style="text-align: left;">3 = retained biomass; and</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: right;">1 0 1 0</td>
-<td style="text-align: left;">MEY options - Fleet, Cost/F, Price/mt, and Optimization</td>
-<td style="text-align: left;">To calculate F<sub>MEY</sub> enter fleet number, the cost/F, price per mt, and whether optimization should adjust the fleet’s F or keep it at the mean from the benchmark years (0 = no, 1= yes). Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost=0 and price = 1, so will be identical to MSY in weight.</td>
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;">4 = profits using price and costs.</td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: right;">2 0 1 0</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;">MEY options - Fleet, Cost/F, Price/F, and Include F<sub>MEY</sub> in Optimization</td>
+<td style="text-align: left;">To calculate the F<sub>MEY</sub> enter fleet number, the cost per fishing mortality, price per mt, and whether optimization should adjust the fleet’s F or keep it at the mean from the benchmark years (0 = no, 1= yes). Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost=0 and price = 1, so will be identical to MSY in weight. Note, if a fleet’s catch is excluded from the F<sub>MEY</sub> search, its catch or profits are still included in the MSY value using historical F levels from benchmark years</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">-9999 0 0 0</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -1431,7 +1441,7 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;">0.75</td>
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Control Rule Buffer (multiplier between 0-1.0 or -1)</td>
 <td style="text-align: left;">Control rule catch or F<sub>target</sub> as a fraction of selected catch or F<sub>MSY</sub> proxy. The buffer will be applied to reduce catch from the estimated overfishing limit. The buffer value is a value between 0-1.0 where a value of 1.0 would set catch equal to the overfishing limit. As example if the buffer is applied to catch (Control Rule option 3 or 4 above) the catch will equal the buffer times the overfishing limit. Alternatively a value of -1 will allow the user to input a forecast year specific control rule fraction (added in v. 3.30.13).</td>
 </tr>
@@ -1485,7 +1495,7 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">3</td>
 <td style="text-align: left;">Number of forecast loops (1,2,3)</td>
 <td style="text-align: left;">SS3 sequentially goes through the forecast up to three times. Maximum number of forecast loops: 1=OFL only, 2=ABC control rule and buffers, 3=set catches equal to control rule or input catch and redo forecast implementation error.</td>
 </tr>
@@ -1510,7 +1520,7 @@ Seattle, WA</p>
 <td style="text-align: left;">If this is set to 1 or 2, then OFL and ABC will be calculated as if there was perfect knowledge about recruitment deviations in the future.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;">0</td>
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><a href="#ForeSpawn">Forecast recruitment:</a></td>
 <td style="text-align: left;">Option 0, ignore input and do forecast recruitment as before SS3 v.3.30.10, if 1, then use next value as a multiplier applied after env/block/regime is applied, if 2, then use value as multiplier times adjusted virgin recruitment (after time-varying adjustments to R0), and if 3, then use value as the number of years from end of main recruitment deviations to average (mean is the recruitments, not the deviations). Need to set phase to -1 in control to get constant recruitment in MCMC.</td>
 </tr>
@@ -1605,7 +1615,7 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;">2004</td>
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Rebuilder catch (Year Declared):</td>
 <td style="text-align: left;">Input line is required even if Rebuilder = 0, specified in the line above.</td>
 </tr>
@@ -1650,7 +1660,7 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">2</td>
 <td style="text-align: left;">Basis for maximum forecast catch:</td>
 <td style="text-align: left;">The maximum basis for forecasted catch will be implemented for the for the &quot;First year for caps and allocations&quot; selected above. The maximum catch (biomass or numbers) by fleet is specified below on the &quot;Maximum total forecast catch by fleet&quot; line.</td>
 </tr>
@@ -1737,7 +1747,7 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">-1</td>
 <td style="text-align: left;">Basis for forecast catch:</td>
 <td style="text-align: left;">The dead or retained value in the forecast catch inputs will be interpreted in terms of numbers or biomass based on the units of the input catch for each fleet.</td>
 </tr>
