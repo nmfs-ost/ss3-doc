@@ -34,7 +34,10 @@ Seattle, WA</p>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
 <ul>
-<li><a href="#sec:intro"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#sec:intro"><span class="toc-section-number">1</span> Introduction</a>
+<ul>
+<li><a href="#how-to-cite"><span class="toc-section-number">1.1</span> How To Cite</a></li>
+</ul></li>
 <li><a href="#FileOrganization"><span class="toc-section-number">2</span> File Organization</a>
 <ul>
 <li><a href="#input-files"><span class="toc-section-number">2.1</span> Input Files</a></li>
@@ -170,6 +173,7 @@ Seattle, WA</p>
 <li><a href="#running-without-estimation"><span class="toc-section-number">11.1.4</span> Running Without Estimation</a></li>
 <li><a href="#running-parameter-profiles"><span class="toc-section-number">11.1.5</span> Running Parameter Profiles</a></li>
 <li><a href="#re-starting-a-run"><span class="toc-section-number">11.1.6</span> Re-Starting a Run</a></li>
+<li><a href="#optional-output-subfolders"><span class="toc-section-number">11.1.7</span> Optional Output Subfolders</a></li>
 </ul></li>
 <li><a href="#the-stock-synthesis-gui-ssi"><span class="toc-section-number">11.2</span> The Stock Synthesis GUI (SSI)</a></li>
 <li><a href="#debugging-tips"><span class="toc-section-number">11.3</span> Debugging Tips</a></li>
@@ -239,6 +243,11 @@ Seattle, WA</p>
 <p>SS3 has a population sub-model that simulates a stock’s growth, maturity, fecundity, recruitment, movement, and mortality processes, an observation sub-model estimates expected values for various types of data, a statistical sub-model characterizes the data’s goodness of fit and obtains best-fitting parameters with associated variance, and a forecast sub-model projects needed management quantities. SS3 outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (<a href="http://www.admb-project.org">admb</a>). Windows, Linux, and iOS versions are available. Output processing and associated tools are in R, and a graphical interface is in QT. SS3 is available from NOAA’s VLAB. The rich feature set in SS3 allows it to be configured for a wide range of situations. SS3 has become the basis for a large fraction of U.S. assessments and many other assessments around the world.</p>
 <p>This manual provides a guide for using SS. The guide contains a description of the input and output files and usage instructions. An overview and technical description of the model itself is in <span class="citation" data-cites="methotstock2013">Methot and Wetzel (2013)</span>. However, SS3 has continued to evolve and grow since the publication in 2013, with this manual reflecting the most up to date information regarding SS. The model and a graphical user interface are available from the NOAA <a href="https://vlab.noaa.gov/web/stock-synthesis">VLAB</a>. The VLAB site also provides a user forum for posting questions and for accessing various additional materials. An output processor package, r4ss, in R is available for download from CRAN or <a href="https://github.com/r4ss/r4ss">GitHub</a>.</p>
 <p>Additional guidance for new users can be found in the SS3 <a href="https://vlab.noaa.gov/web/stock-synthesis/document-library">document library</a> within the NOAA VLAB website. The &quot;Begin Here - Introduction to Stock Synthesis&quot; folder located in the Document Library contains step-by-step guidance for running Stock Synthesis.</p>
+<h2 data-number="1.1" id="how-to-cite"><span class="header-section-number">1.1</span> How To Cite</h2>
+<p>Please cite Stock Synthesis as:</p>
+<p>Methot, R.D. and Wetzel, C.R. (2013). Stock Synthesis: A biological and statistical framework for fish stock assessment and fishery management. Fisheries Research, 142: 86-99. <a href="https://doi.org/10.1016/j.fishres.2012.10.012">https://doi.org/10.1016/j.fishres.2012.10.012</a></p>
+<p>Please cite the Stock Synthesis User Manual as:</p>
+<p>Methot, R. D., Jr., C. R. Wetzel, I. G. Taylor, and K. Doering. (2020). Stock Synthesis User Manual Version 3.30.15. U.S. Department of Commerce, NOAA Processed Report NMFS-NWFSC-PR-2020-05.<a href="https://doi.org/10.25923/5wpn-qt71">https://doi.org/10.25923/5wpn-qt71</a></p>
 <h1 data-number="2" id="FileOrganization"><span class="header-section-number">2</span> File Organization</h1>
 <h2 data-number="2.1" id="input-files"><span class="header-section-number">2.1</span> Input Files</h2>
 <ol>
@@ -9478,6 +9487,8 @@ There may be times a user would like to generate the .ss_new files without runni
 <p>Repeat as many times as you have set up conditions in the profilevalues.ss file. The summary results will all be collected in the cumreport.sso file. Each step of the profile will have an unique run number and its output will include the values of the natural mortality and steepness parameters for that run.</p>
 <h3 data-number="11.1.6" id="re-starting-a-run"><span class="header-section-number">11.1.6</span> Re-Starting a Run</h3>
 <p>Model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause the model to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted. However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter –binp ss.bar as one of the command line options.</p>
+<h3 data-number="11.1.7" id="optional-output-subfolders"><span class="header-section-number">11.1.7</span> Optional Output Subfolders</h3>
+<p>As of 3.30.19, users can optionally send .sso and .ss_new extension files to subfolders. To send files with a .sso extension to a subfolder within the model folder, create a subfolder called sso before running the model. To send files with a .ss_new extension to a separate subfolder, create a folder called ssnew before running the model.</p>
 <h2 data-number="11.2" id="the-stock-synthesis-gui-ssi"><span class="header-section-number">11.2</span> The Stock Synthesis GUI (SSI)</h2>
 <p><a href="https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951">Stock Synthesis Interface</a> (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots.</p>
 <h2 data-number="11.3" id="debugging-tips"><span class="header-section-number">11.3</span> Debugging Tips</h2>
