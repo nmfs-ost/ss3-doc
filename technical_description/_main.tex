@@ -427,10 +427,149 @@ where {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{\text{min bin}}\
 
 \leavevmode\tagmcend\tagstructend\par
 
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn6}
+b = \frac{L_{1,\gamma} - L_{\text{min bin}}}{a_3}
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+{\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{0,\gamma, a}\)\leavevmode\tagmcend\tagstructend} is the mean size at the start of the equilibrium year for animals of age {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(a\)\leavevmode\tagmcend\tagstructend} and sex {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\gamma\)\leavevmode\tagmcend\tagstructend}, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(a_3\)\leavevmode\tagmcend\tagstructend} (I) is a reference age near the youngest age well represented in the data, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{1,\gamma}\)\leavevmode\tagmcend\tagstructend} (P) is the mean size of sexs {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\gamma\)\leavevmode\tagmcend\tagstructend} at age {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(a_3\)\leavevmode\tagmcend\tagstructend}, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(k_{\gamma}\)\leavevmode\tagmcend\tagstructend} (P) is the growth coefficient for sex {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\gamma\)\leavevmode\tagmcend\tagstructend}, and {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{\infty,\gamma}\)\leavevmode\tagmcend\tagstructend} is the mean asymptotic size, calculated from:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn7}
+L_{\infty,\gamma} = L_{1,\gamma} + \frac{L_{2,\gamma} - L_{1,\gamma}}{1 - e^{-k(a_4 - a_3)}}
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+{\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(a_4\)\leavevmode\tagmcend\tagstructend} (I) is a reference age near the oldest age well represented in the data, and {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{2,\gamma}\)\leavevmode\tagmcend\tagstructend} (P) is the mean size of sex {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\gamma\)\leavevmode\tagmcend\tagstructend} at age {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(a_4\)\leavevmode\tagmcend\tagstructend}. An option allows {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{2,\gamma}\)\leavevmode\tagmcend\tagstructend} to be used directly as {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{\infty,\gamma}\)\leavevmode\tagmcend\tagstructend}.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+Growth within the plus-group in the initial year is accounted for by calculating an average length for the group by:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn8}
+L_{0,\gamma,A} = \frac{\sum_{a=A}^{2A}e^{-0.2(a-A)}(L_{0,\gamma}^{'}+(\frac{a-A}{A})(L_{\infty,\gamma} - L_{0,\gamma}^{'}))}{\sum_{a=A}^{2A}e^{-0.2(a-A)}} 
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+where {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{0,\gamma}^{'}\)\leavevmode\tagmcend\tagstructend} is defined as the size at the plus-group age defined from the growth curve (Eqn. \ref{eqn5}) which is used to calculate the potential growth in the plus-group beyond the maximum age set within the model.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+Equation \ref{eqn8} would logically use natural mortality as the decay factor. However, growth is calculated before natural mortality (to allow for size-specific natural mortality), so a fixed decay constant of 0.2 is used. Also, A should be large enough such that growth within the plus-group is small.
+
+\leavevmode\tagmcend\tagstructend\par
+
 \tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
 
 \hypertarget{growth}{%
 \subsection{Growth}\label{growth}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The mean size-at-age for the von Bertanlaffy growth curve by sex at the start of each season for each growth morph is incremented across years as:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn9}
+L_{y+1,\gamma,a} = L_{y,\gamma,a} + (L_{y,\gamma,a-k} - L_{\infty,\gamma}) (e^{-k_{\gamma}} - 1) \;\ \text{for $a<A$}
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+where {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(k_{\gamma}\)\leavevmode\tagmcend\tagstructend} (P) is the growth coeffient for sex {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\gamma\)\leavevmode\tagmcend\tagstructend}.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The mean size at the start of the season for the plus-group is calculated based on a weighted average of fish moving into the plus-group and existing plus-group fish. This approach allows for a decline in the mean size of fish in the plus-group over time as fishing mortality reduces the numbers in the plus-group. It also prevents an instantaneous change in size of plus-group fish when growth parameters are allowed to be time-varying.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn10}
+L_{y,t+1,\gamma,a} = \frac{N_{y,t,\gamma,A-1} \tilde{L}_{y,t,\gamma,A} (L_{y,t,\gamma,A} + (L_{y,t,\gamma,A} - L_{\infty,\gamma}) (e^{-k_{\gamma}} - 1))}{ N_{y,t,A-1} + N_{y,t,\gamma,A} } 
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+DEFINE {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(t\)\leavevmode\tagmcend\tagstructend}. IS IT THE START OF A SEASON SINCE BELOW SEASON DURATION IS {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\delta_s\)\leavevmode\tagmcend\tagstructend}?
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+Note that size in the plus-group from Equation \ref{eqn10} will differ slightly from size in the plus-group in the initial year from Equation \ref{eqn8} if fish are still growing appreciably when they reach age {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(A\)\leavevmode\tagmcend\tagstructend} and if the mortality factor of 0.2, in Equation \ref{eqn8} is not close to the mortality rate in the appliation.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+Fish of each sex grow according to their current size and current year's {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(k\)\leavevmode\tagmcend\tagstructend} and {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{\infty}\)\leavevmode\tagmcend\tagstructend}. This cohort-specific growth propagates into forecasts. Fish are not allowed to shrink if {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{\infty}\)\leavevmode\tagmcend\tagstructend} declines. Provision exists for cohort-specific {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(k\)\leavevmode\tagmcend\tagstructend} deviations in addition to time-varying {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(k\)\leavevmode\tagmcend\tagstructend}, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{\infty}\)\leavevmode\tagmcend\tagstructend}, and {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_1\)\leavevmode\tagmcend\tagstructend}. Another option allows for age-specific {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(k\)\leavevmode\tagmcend\tagstructend} for a user-specified number of younger ages.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The mean size in the middle of the season is calculated from the size at the start of the season as:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn11}
+\tilde{L}_{y,t,\gamma,a} = L{y,t,\gamma,a} + (L_{y,t,\gamma,a} - L_{\infty,\gamma})(e^{-0.5\delta_{s}k_{\gamma}} - 1)
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+where {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\delta_s\)\leavevmode\tagmcend\tagstructend} (I) is the duration of the season.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=H3}\tagmcbegin{tag=H3}
+
+\hypertarget{additional-growth-functional-forms}{%
+\subsubsection{Additional Growth Functional Forms}\label{additional-growth-functional-forms}}
 
 \leavevmode\tagmcend\tagstructend
 

@@ -188,7 +188,66 @@ L_{\infty,\gamma} + (L_{1,\gamma} - L_{\infty,\gamma})e^{-k_{\gamma}(a-a_3)} & \
 
 where $L_{\text{min bin}}$ is the lower limite of the first population bin, $b$ is the linear slope of growth for $a \leq a_3$ calculated as:
 
+\begin{equation}
+\label{eqn6}
+b = \frac{L_{1,\gamma} - L_{\text{min bin}}}{a_3}
+\end{equation}
+
+$L_{0,\gamma, a}$ is the mean size at the start of the equilibrium year for animals of age $a$ and sex $\gamma$, $a_3$ (I) is a reference age near the youngest age well represented in the data, $L_{1,\gamma}$ (P) is the mean size
+of sexs $\gamma$ at age $a_3$, $k_{\gamma}$ (P) is the growth coefficient for sex $\gamma$, and $L_{\infty,\gamma}$ is the mean asymptotic size, calculated from:
+
+\begin{equation}
+\label{eqn7}
+L_{\infty,\gamma} = L_{1,\gamma} + \frac{L_{2,\gamma} - L_{1,\gamma}}{1 - e^{-k(a_4 - a_3)}}
+\end{equation}
+
+$a_4$ (I) is a reference age near the oldest age well represented in the data, and $L_{2,\gamma}$ (P) is the mean size of sex $\gamma$ at age $a_4$. An option allows $L_{2,\gamma}$ to be used directly as $L_{\infty,\gamma}$.
+
+Growth within the plus-group in the initial year is accounted for by calculating an average length for the group by:
+
+\begin{equation}
+\label{eqn8}
+L_{0,\gamma,A} = \frac{\sum_{a=A}^{2A}e^{-0.2(a-A)}(L_{0,\gamma}^{'}+(\frac{a-A}{A})(L_{\infty,\gamma} - L_{0,\gamma}^{'}))}{\sum_{a=A}^{2A}e^{-0.2(a-A)}} 
+\end{equation}
+
+where $L_{0,\gamma}^{'}$ is defined as the size at the plus-group age defined from the growth curve (Eqn. \ref{eqn5}) which is used to calculate the potential growth in the plus-group beyond the maximum age set within the model.
+
+Equation \ref{eqn8} would logically use natural mortality as the decay factor. However, growth is calculated before natural mortality (to allow for size-specific natural mortality), so a fixed decay constant of 0.2 is used. Also, A should be large enough such that growth within the plus-group is small.
+
 ## Growth
+
+The mean size-at-age for the von Bertanlaffy growth curve by sex at the start of each season for each growth morph is incremented across years as:
+
+\begin{equation}
+\label{eqn9}
+L_{y+1,\gamma,a} = L_{y,\gamma,a} + (L_{y,\gamma,a-k} - L_{\infty,\gamma}) (e^{-k_{\gamma}} - 1) \;\ \text{for $a<A$}
+\end{equation}
+
+where $k_{\gamma}$ (P) is the growth coeffient for sex $\gamma$.
+
+The mean size at the start of the season for the plus-group is calculated based on a weighted average of fish moving into the plus-group and existing plus-group fish. This approach allows for a decline in the mean size of fish in the plus-group over time as fishing mortality reduces the numbers in the plus-group. It also prevents an instantaneous change in size of plus-group fish when growth parameters are allowed to be time-varying.
+
+\begin{equation}
+\label{eqn10}
+L_{y,t+1,\gamma,a} = \frac{N_{y,t,\gamma,A-1} \tilde{L}_{y,t,\gamma,A} (L_{y,t,\gamma,A} + (L_{y,t,\gamma,A} - L_{\infty,\gamma}) (e^{-k_{\gamma}} - 1))}{ N_{y,t,A-1} + N_{y,t,\gamma,A} } 
+\end{equation}
+
+DEFINE $t$. IS IT THE START OF A SEASON SINCE BELOW SEASON DURATION IS $\delta_s$?
+
+Note that size in the plus-group from Equation \ref{eqn10} will differ slightly from size in the plus-group in the initial year from Equation \ref{eqn8} if fish are still growing appreciably when they reach age $A$ and if the mortality factor of 0.2, in Equation \ref{eqn8} is not close to the mortality rate in the appliation. 
+
+Fish of each sex grow according to their current size and current year’s $k$ and $L_{\infty}$. This cohort-specific growth propagates into forecasts. Fish are not allowed to shrink if $L_{\infty}$ declines. Provision exists for cohort-specific $k$ deviations in addition to time-varying $k$, $L_{\infty}$, and $L_1$. Another option allows for age-specific $k$ for a user-specified number of younger ages.
+
+The mean size in the middle of the season is calculated from the size at the start of the season as:
+
+\begin{equation}
+\label{eqn11}
+\tilde{L}_{y,t,\gamma,a} = L{y,t,\gamma,a} + (L_{y,t,\gamma,a} - L_{\infty,\gamma})(e^{-0.5\delta_{s}k_{\gamma}} - 1)
+\end{equation}
+
+where $\delta_s$ (I) is the duration of the season.
+
+### Additional Growth Functional Forms
 
 
 ## Variation in Size-at-Age

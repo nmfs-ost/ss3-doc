@@ -1,7 +1,7 @@
 ---
 geometry: margin=1in
-month: "February"
-year: "2022"
+month: "`r format(Sys.Date(), '%B')`"
+year: "`r format(Sys.Date(), '%Y')`"
 preamble: |
 output:
   sa4ss::techreport_pdf:
@@ -12,7 +12,29 @@ lang: en
 papersize: letter
 ---
 
+```{r opts, include = FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+knitr::knit_hooks$set(plot = function(x,options) {
+      base = knitr::opts_knit$get('base.url')
+      if (is.null(base)) base = ''
+      alt = ifelse (is.null(options$alt),"",options$alt)
+      cap = ifelse (is.null(options$caption),"",options$caption)
+      if (alt != ""){
+        sprintf('![%s](%s%s "%s")', cap, base, x, alt)
+      } else {
+        sprintf('![%s](%s%s)', cap, base, x)
+        }
+  })
 
+load("00opts.Rdata")
+
+if(file.exists("00mod.Rdata")){
+  load("00mod.Rdata")
+} else {
+  print("Model output not being read. Please run the read_model() function.")
+}
+
+```
 
 <!--chapter:end:00a.Rmd-->
 
@@ -210,7 +232,7 @@ Growth within the plus-group in the initial year is accounted for by calculating
 L_{0,\gamma,A} = \frac{\sum_{a=A}^{2A}e^{-0.2(a-A)}(L_{0,\gamma}^{'}+(\frac{a-A}{A})(L_{\infty,\gamma} - L_{0,\gamma}^{'}))}{\sum_{a=A}^{2A}e^{-0.2(a-A)}} 
 \end{equation}
 
-where $L_{0,\gamma}^{'}$ is defined as the size at the plust-group age defined from the growth curve (Eqn. \ref{eqn5}) which is used to calculate the potential growth in the plus-group beyond the maximum age set within the model.
+where $L_{0,\gamma}^{'}$ is defined as the size at the plus-group age defined from the growth curve (Eqn. \ref{eqn5}) which is used to calculate the potential growth in the plus-group beyond the maximum age set within the model.
 
 Equation \ref{eqn8} would logically use natural mortality as the decay factor. However, growth is calculated before natural mortality (to allow for size-specific natural mortality), so a fixed decay constant of 0.2 is used. Also, A should be large enough such that growth within the plus-group is small.
 
