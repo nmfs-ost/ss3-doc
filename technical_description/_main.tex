@@ -301,10 +301,50 @@ R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma_R^2+\tilde{R}_y} \;
 
 \leavevmode\tagmcend\tagstructend\par
 
-\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
 
-\hypertarget{initial-growth}{%
-\subsection{Initial Growth}\label{initial-growth}}
+where {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(R_0\)\leavevmode\tagmcend\tagstructend} (P) is the unfished equilibrium recruitment, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(SB_0\)\leavevmode\tagmcend\tagstructend} is the unfished equilibrium spawning biomass (or spawning output) corresponding to {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(R_0\)\leavevmode\tagmcend\tagstructend}, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(SB_y\)\leavevmode\tagmcend\tagstructend} is the spawning biomass at the start of the spawning season during year {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(y\)\leavevmode\tagmcend\tagstructend}, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(h\)\leavevmode\tagmcend\tagstructend} (P) is the steepness parameter, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(b_y\)\leavevmode\tagmcend\tagstructend} (I) is the bias adjustment fraction applied during year {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(y\)\leavevmode\tagmcend\tagstructend}, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\sigma_R\)\leavevmode\tagmcend\tagstructend} (P) is the standard deviation among recruitment deviations in log space, and {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\tilde{R}_y\)\leavevmode\tagmcend\tagstructend} (P) is the lognormal recruitment deviation for year {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(y\)\leavevmode\tagmcend\tagstructend}. The bias-adjustment factor \textbf{(Methot and Taylor 2011)} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\tilde{R}_y\)\leavevmode\tagmcend\tagstructend} is near 0.0.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The annual bias-adjustment fraction by {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(b_y\)\leavevmode\tagmcend\tagstructend} is the piecewise linear function:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn3}
+b_y =
+\begin{cases}
+0 & \text{for $y \leq y_1^b$} \\
+b_{\text{max}}(1-\frac{y-y_1^b}{y_2^b-y_1^b}) & \text{for $y_1^b < y < y_2^b$} \\
+b_{\text{max}} & \text{for $y_2^b \leq y \leq y_3^b$} \\
+b_{\text{max}}(1-\frac{y_3^b-y}{y_4^b-y_3^b}) & \text{for $y_3^b < y < y_4^b$} \\
+0 & \text{for $y_4^b \leq y$} \\
+\end{cases}
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+where {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(y_1^b\)\leavevmode\tagmcend\tagstructend} (I) is the first year of the bias ramp up adjustment period, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(y_2^b\)\leavevmode\tagmcend\tagstructend} (I) is the last year of the bias ramp up adjustment period, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(y_3^b\)\leavevmode\tagmcend\tagstructend} (I) is the first year of the bias ramp down adjustment period, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(y_4^b\)\leavevmode\tagmcend\tagstructend} (I) is the last year of the bias ramp down adjustment period, and {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(b_{\text{max}}\)\leavevmode\tagmcend\tagstructend} (I) is the maximum bias adjustment applied to recruitment deviations.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The total annual recruitment can be partitioned among growth morphs and birth seasons and areas according to a design matrix. Each of these entities can be further divided into males and females according to a pre-specified fraction. Finally, each of these entities can be further subdivided into platoons that will have slow, medium or large size-at-age relative to the average size-at-age for the overall morph. For morphs that are designated to recruit in a season after the spawning season, their age 0 for the purposes of growth occurs at the start of that season. Thus, they will have smaller size-at-age relative to morphs of that annual cohort that are born earlier, but will grow towards the same {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_\infty\)\leavevmode\tagmcend\tagstructend}.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=H3}\tagmcbegin{tag=H3}
+
+\hypertarget{additional-stock-recruitment-relationship-functional-forms}{%
+\subsubsection{Additional Stock Recruitment Relationship Functional Forms}\label{additional-stock-recruitment-relationship-functional-forms}}
 
 \leavevmode\tagmcend\tagstructend
 
@@ -314,6 +354,78 @@ R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma_R^2+\tilde{R}_y} \;
 \subsection{Natural Mortality}\label{natural-mortality}}
 
 \leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+Natural mortality can take several alternative forms, including age-specific and or sex-specific. Further, natural mortality parameters, in common with growth parameters, can be time-varying or functions of environmental inputs. The most basic and simple form of natural mortality is:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn4}
+M_{\gamma, a} = \text{constant}
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+where the natural mortality rate is constant across ages {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(a\)\leavevmode\tagmcend\tagstructend} beginning at age 0 and equal for sexes {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(\gamma\)\leavevmode\tagmcend\tagstructend}.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=H3}\tagmcbegin{tag=H3}
+
+\hypertarget{additional-natural-mortality-functional-forms}{%
+\subsubsection{Additional Natural Mortality Functional Forms}\label{additional-natural-mortality-functional-forms}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
+
+\hypertarget{initial-growth}{%
+\subsection{Initial Growth}\label{initial-growth}}
+
+\leavevmode\tagmcend\tagstructend
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+Growth follows the von Bertalanffy function as re-formulated by \textbf{Schnute (1981)}, or by the Richards equation which has an option for a 3rd parameter to govern growth \textbf{(ADD REFERENCE)}. Growth is sex-specific. SS3 also allows for additional morphs with different growth patterns.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+Mean size-at-age is calculated from growth parameters at the start of the initial year. The mean size-at-age of each morph is progressed forward according to the growth parameters active during that time period for subsequent seasons within that year and for subsequent years.
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+The sex-specific size-at-age in the initial population using the von Bertalanffy growth function is calculated as:
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+\begin{equation}
+\label{eqn5}
+L_{0,\gamma,a} = 
+\begin{cases}
+L_{\text{min bin}} + ba & \text{for $a \leq a_3$} \\
+L_{\infty,\gamma} + (L_{1,\gamma} - L_{\infty,\gamma})e^{-k_{\gamma}(a-a_3)} & \text{for $a>a_3$ to $a=A-1$}\\
+\end{cases}
+\end{equation}
+
+\leavevmode\tagmcend\tagstructend\par
+
+\tagstructbegin{tag=P}\tagmcbegin{tag=P}
+
+where {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(L_{\text{min bin}}\)\leavevmode\tagmcend\tagstructend} is the lower limite of the first population bin, {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(b\)\leavevmode\tagmcend\tagstructend} is the linear slope of growth for {\tagstructbegin{tag=Formula}\tagmcbegin{tag=Formula}\(a \leq a_3\)\leavevmode\tagmcend\tagstructend} calculated as:
+
+\leavevmode\tagmcend\tagstructend\par
 
 \tagstructbegin{tag=H2}\tagmcbegin{tag=H2}
 

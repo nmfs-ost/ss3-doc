@@ -1,8 +1,35 @@
-## Initial Growth
-
-
 ## Natural Mortality
 
+Natural mortality can take several alternative forms, including age-specific and or sex-specific. Further, natural mortality parameters, in common with growth parameters, can be time-varying or functions of environmental inputs. The most basic and simple form of natural mortality is:
+
+\begin{equation}
+\label{eqn4}
+M_{\gamma, a} = \text{constant}
+\end{equation}
+
+where the natural mortality rate is constant across ages $a$ beginning at age 0 and equal for sexes $\gamma$.
+
+### Additional Natural Mortality Functional Forms
+
+
+## Initial Growth
+
+Growth follows the von Bertalanffy function as re-formulated by **Schnute (1981)**, or by the Richards equation which has an option for a 3rd parameter to govern growth **(ADD REFERENCE)**. Growth is sex-specific. SS3 also allows for additional morphs with different growth patterns.
+
+Mean size-at-age is calculated from growth parameters at the start of the initial year. The mean size-at-age of each morph is progressed forward according to the growth parameters active during that time period for subsequent seasons within that year and for subsequent years.
+
+The sex-specific size-at-age in the initial population using the von Bertalanffy growth function is calculated as:
+
+\begin{equation}
+\label{eqn5}
+L_{0,\gamma,a} = 
+\begin{cases}
+L_{\text{min bin}} + ba & \text{for $a \leq a_3$} \\
+L_{\infty,\gamma} + (L_{1,\gamma} - L_{\infty,\gamma})e^{-k_{\gamma}(a-a_3)} & \text{for $a>a_3$ to $a=A-1$}\\
+\end{cases}
+\end{equation}
+
+where $L_{\text{min bin}}$ is the lower limite of the first population bin, $b$ is the linear slope of growth for $a \leq a_3$ calculated as:
 
 ## Growth
 

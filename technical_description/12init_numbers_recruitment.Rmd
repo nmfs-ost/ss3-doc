@@ -30,3 +30,31 @@ R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma_R^2+\tilde{R}_y} \;
 \end{equation}
 
 
+where $R_0$ (P) is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (or spawning output) corresponding to $R_0$, $SB_y$ is the spawning biomass at the start of the spawning season
+during year $y$, $h$ (P) is the steepness parameter, $b_y$ (I) is the bias adjustment fraction applied
+during year $y$, $\sigma_R$ (P) is the standard deviation among recruitment deviations in log space, and
+$\tilde{R}_y$ (P) is the lognormal recruitment deviation for year $y$. The bias-adjustment factor **(Methot
+and Taylor 2011)** ensures unbiased estimation of mean recruitment even during data-poor eras in
+which the maximum likelihood estimate of the $\tilde{R}_y$ is near 0.0.
+
+The annual bias-adjustment fraction by $b_y$ is the piecewise linear function:
+
+\begin{equation}
+\label{eqn3}
+b_y =
+\begin{cases}
+0 & \text{for $y \leq y_1^b$} \\
+b_{\text{max}}(1-\frac{y-y_1^b}{y_2^b-y_1^b}) & \text{for $y_1^b < y < y_2^b$} \\
+b_{\text{max}} & \text{for $y_2^b \leq y \leq y_3^b$} \\
+b_{\text{max}}(1-\frac{y_3^b-y}{y_4^b-y_3^b}) & \text{for $y_3^b < y < y_4^b$} \\
+0 & \text{for $y_4^b \leq y$} \\
+\end{cases}
+\end{equation}
+
+where $y_1^b$ (I) is the first year of the bias ramp up adjustment period, $y_2^b$  (I) is the last year of the
+bias ramp up adjustment period, $y_3^b$ (I) is the first year of the bias ramp down adjustment period,
+$y_4^b$ (I) is the last year of the bias ramp down adjustment period, and $b_{\text{max}}$ (I) is the maximum bias adjustment applied to recruitment deviations.
+
+The total annual recruitment can be partitioned among growth morphs and birth seasons and areas according to a design matrix. Each of these entities can be further divided into males and females according to a pre-specified fraction. Finally, each of these entities can be further subdivided into platoons that will have slow, medium or large size-at-age relative to the average size-at-age for the overall morph. For morphs that are designated to recruit in a season after the spawning season, their age 0 for the purposes of growth occurs at the start of that season. Thus, they will have smaller size-at-age relative to morphs of that annual cohort that are born earlier, but will grow towards the same $L_\infty$.
+
+### Additional Stock Recruitment Relationship Functional Forms

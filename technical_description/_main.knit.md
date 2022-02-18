@@ -124,14 +124,69 @@ R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma_R^2+\tilde{R}_y} \;
 \end{equation}
 
 
+where $R_0$ (P) is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (or spawning output) corresponding to $R_0$, $SB_y$ is the spawning biomass at the start of the spawning season
+during year $y$, $h$ (P) is the steepness parameter, $b_y$ (I) is the bias adjustment fraction applied
+during year $y$, $\sigma_R$ (P) is the standard deviation among recruitment deviations in log space, and
+$\tilde{R}_y$ (P) is the lognormal recruitment deviation for year $y$. The bias-adjustment factor **(Methot
+and Taylor 2011)** ensures unbiased estimation of mean recruitment even during data-poor eras in
+which the maximum likelihood estimate of the $\tilde{R}_y$ is near 0.0.
+
+The annual bias-adjustment fraction by $b_y$ is the piecewise linear function:
+
+\begin{equation}
+\label{eqn3}
+b_y =
+\begin{cases}
+0 & \text{for $y \leq y_1^b$} \\
+b_{\text{max}}(1-\frac{y-y_1^b}{y_2^b-y_1^b}) & \text{for $y_1^b < y < y_2^b$} \\
+b_{\text{max}} & \text{for $y_2^b \leq y \leq y_3^b$} \\
+b_{\text{max}}(1-\frac{y_3^b-y}{y_4^b-y_3^b}) & \text{for $y_3^b < y < y_4^b$} \\
+0 & \text{for $y_4^b \leq y$} \\
+\end{cases}
+\end{equation}
+
+where $y_1^b$ (I) is the first year of the bias ramp up adjustment period, $y_2^b$  (I) is the last year of the
+bias ramp up adjustment period, $y_3^b$ (I) is the first year of the bias ramp down adjustment period,
+$y_4^b$ (I) is the last year of the bias ramp down adjustment period, and $b_{\text{max}}$ (I) is the maximum bias adjustment applied to recruitment deviations.
+
+The total annual recruitment can be partitioned among growth morphs and birth seasons and areas according to a design matrix. Each of these entities can be further divided into males and females according to a pre-specified fraction. Finally, each of these entities can be further subdivided into platoons that will have slow, medium or large size-at-age relative to the average size-at-age for the overall morph. For morphs that are designated to recruit in a season after the spawning season, their age 0 for the purposes of growth occurs at the start of that season. Thus, they will have smaller size-at-age relative to morphs of that annual cohort that are born earlier, but will grow towards the same $L_\infty$.
+
+### Additional Stock Recruitment Relationship Functional Forms
 
 <!--chapter:end:12init_numbers_recruitment.Rmd-->
 
-## Initial Growth
-
-
 ## Natural Mortality
 
+Natural mortality can take several alternative forms, including age-specific and or sex-specific. Further, natural mortality parameters, in common with growth parameters, can be time-varying or functions of environmental inputs. The most basic and simple form of natural mortality is:
+
+\begin{equation}
+\label{eqn4}
+M_{\gamma, a} = \text{constant}
+\end{equation}
+
+where the natural mortality rate is constant across ages $a$ beginning at age 0 and equal for sexes $\gamma$.
+
+### Additional Natural Mortality Functional Forms
+
+
+## Initial Growth
+
+Growth follows the von Bertalanffy function as re-formulated by **Schnute (1981)**, or by the Richards equation which has an option for a 3rd parameter to govern growth **(ADD REFERENCE)**. Growth is sex-specific. SS3 also allows for additional morphs with different growth patterns.
+
+Mean size-at-age is calculated from growth parameters at the start of the initial year. The mean size-at-age of each morph is progressed forward according to the growth parameters active during that time period for subsequent seasons within that year and for subsequent years.
+
+The sex-specific size-at-age in the initial population using the von Bertalanffy growth function is calculated as:
+
+\begin{equation}
+\label{eqn5}
+L_{0,\gamma,a} = 
+\begin{cases}
+L_{\text{min bin}} + ba & \text{for $a \leq a_3$} \\
+L_{\infty,\gamma} + (L_{1,\gamma} - L_{\infty,\gamma})e^{-k_{\gamma}(a-a_3)} & \text{for $a>a_3$ to $a=A-1$}\\
+\end{cases}
+\end{equation}
+
+where $L_{\text{min bin}}$ is the lower limite of the first population bin, $b$ is the linear slope of growth for $a \leq a_3$ calculated as:
 
 ## Growth
 
