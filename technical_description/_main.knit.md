@@ -252,6 +252,19 @@ where $\delta_s$ (I) is the duration of the season.
 
 ## Variation in Size-at-Age
 
+Variation in size can be a function of age or mean length-at-age, with the option of either having the parameters for each sex expressed in terms of the coefficient of variation or the standard deviation. For example, the standard deviation of length-at-age for each sex $\gamma$ when the coefficient of variation in length changes linearly with size-at-age between parameters specified for ages $a_3$ and $a_4$ for each sex $\gamma$ is given by:
+
+\begin{equation}
+\label{eqn12}
+\sigma_{\gamma, a} = 
+\begin{cases}
+\tilde{L}_{\gamma,a}CV_{1,\gamma} \;\ \text{for $a \leq a_3$} \\
+\tilde{L}_{\gamma,a}\biggl(CV_{1,\gamma} + \frac{\tilde{L}_{\gamma,a} - L_{1,\gamma}}{L_{2,\gamma} - L_{1,\gamma}}(CV_{2,\gamma} - CV_{1,\gamma})\biggr) \;\ \text{for $a_3 < a < a_4$}\\
+\tilde{L}_{\gamma,a}CV_{2,\gamma} \;\ \text{for $a \geq a_4$} \\
+\end{cases}
+\end{equation}
+
+where $CV_{1,\gamma}$ (P) is the coefficient of variation for length for sex $\gamma$ at age $a_3$ , and $CV_{2,\gamma}$ (P) is the coefficient of variation for length for sex $\gamma$ at age $a_4$.
 
 ## Age-Length Population Structure
 

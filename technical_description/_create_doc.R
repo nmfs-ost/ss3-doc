@@ -1,5 +1,5 @@
 # Always: Load packages
-library(sa4ssgeneral)
+library(sa4ss)
 
 # Always: Specify the directory for the document
 setwd("C:/Users/Chantel.Wetzel/Documents/GitHub/doc/technical_description")
