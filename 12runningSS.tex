@@ -23,7 +23,7 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 
 Additional ADMB commands can follow the executable name, such as "–nohess" to avoid calculating the Hessian matrix. To see a full list of options, add " -?" after the executable name (with a space in between).
 
-On all operating systems, a copy of the SS3 executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below. Editing the PATH is not covered here.
+On all operating systems, a copy of the SS3 executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below.
 
 Often there is a need to run the model with no estimation. Alternative methods to run SS3 without estimating parameters are documented in the \hyperlink{NoEst}{Running Without Estimation section}. 
 
@@ -99,6 +99,7 @@ This second example processes 25 dat files from a different directory, each time
 	find "hessian" ss.cor >> Summary.txt)
 	\end{verbatim}
 \end{quote}
+
 
 \hypertarget{NoEst}{}
 \subsubsection{Running Without Estimation}
@@ -181,6 +182,95 @@ Model runs can be restarted from a previously estimated set of parameter values.
 
 \subsubsection{Optional Output Subfolders}
 As of 3.30.19, users can optionally send .sso and .ss\_new extension files to subfolders. To send files with a .sso extension to a subfolder within the model folder, create a subfolder called sso before running the model. To send files with a .ss\_new extension to a separate subfolder, create a folder called ssnew before running the model.
+
+\subsection{Putting Stock Synthesis in your PATH}
+
+Instead of copying the SS3 executable to each model folder, SS3 can be put in your system path, which is a list of folders that your operating system looks in whenever you type the name of a program on the command line. This approach saves on storage space since the SS3 binary (i.e., the SS3 executable or exe) is about 2.2 MB and having it located in each folder can be prohibitive in a large-scale simulation testing study. Even if you are not running a large simulation study, putting SS3 in your path may still be convenient, as you can use the same executable on many models, there is no need to specify a full file path to the executable each time you run a model, and no need to create a batch file that refers to the executable's location.
+
+\subsubsection{For Unix (OS X and Linux)}
+
+To check if SS3 is in your path, assuming the binary is named SS: open a Terminal window and type \texttt{which SS} and hit enter. If you get nothing returned, then SS3 (named SS or SS.exe) is not in your path. The easiest way to fix this is to move the SS3 binary to a folder that's already in your path. To find existing path folders type \texttt{echo \$PATH} in the terminal and hit enter. Now move the SS3 binary to one of these folders.
+
+For example, in a Terminal window type:
+
+\begin{quote}
+   \begin{verbatim}
+    sudo cp ~/Downloads/SS /usr/bin/
+  \end{verbatim}
+\end{quote}
+
+to move an binary called SS from the Downloads folder to \texttt{/usr/bin}. You will need to use \texttt{sudo} and enter your password after to have permission to move a file to a folder like \texttt{/usr/bin/}, because doing so edits the system for other users also.
+
+Also note that you may need to add executable permissions to the SS binary after downloading it. You can do that by switching to the folder where you placed the binary
+(\texttt{cd /usr/bin/} if you followed the instructions above), and running the command:
+
+\begin{quote}
+   \begin{verbatim}
+    sudo chmod +x SS
+    \end{verbatim}
+\end{quote}
+
+Check that SS3 is now executable and in your path:
+
+\begin{quote}
+   \begin{verbatim}
+    which SS
+    \end{verbatim}
+\end{quote}
+
+If you followed the instructions above, you will see the following line returned:
+
+\begin{quote}
+   \begin{verbatim}
+    /usr/bin/SS
+  \end{verbatim}
+\end{quote}
+
+If you have previously modified your path to add a non-standard location for the SS3 binary, you may need to also tell R about the new path. The path that R sees may not include additional paths that you have added through a configuration file like \texttt{.bash\_profile}. If needed, you can add to the path that R sees by including a line like this in your \texttt{.Rprofile} file (\texttt{.Rprofile} is an invisible file in your home directory).
+
+\begin{quote}
+   \begin{verbatim}
+    Sys.setenv(PATH=paste(Sys.getenv("PATH"),"/my/folder",sep=":"))
+    \end{verbatim}
+\end{quote}
+
+\subsubsection{For Windows}
+
+To check if SS3 is in your path for Windows, open a DOS prompt (either Command Prompt or Powershell should work) and type \texttt{SS -?} and hit enter. If the prompt returns a message like \texttt{SS is not recognized...}, then SS3 is not in your path (assuming the SS3 executable is called SS.exe).
+
+To add the SS3 binary file to your path, follow these steps:
+
+\begin{enumerate}
+  \item Find the correct version of the SS.exe binary on your computer (or download from the \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/releases}{SS3 releases}).
+  \item Move to and note the folder location. E.g., \texttt{C:/SS/}
+  \item Click on the start menu and type \texttt{environment}
+  \item Choose \texttt{Edit environment variables for your account} under Control Panel
+  \item Click on \texttt{PATH} if it exists, create it if does not exist 
+  \item Choose `PATH` and click edit
+  \item In the \texttt{Edit User Variable} window add to the end of the \texttt{Variable value} section a semicolon and the SS3 folder location you recorded earlier.
+     E.g. \texttt{;C:/SS}. Do not overwrite what was previously in the \texttt{PATH} variable.
+  \item Restart your computer
+  \item Go back to the DOS prompt and try typing \texttt{SS -?} and hitting return again.
+\end{enumerate}
+
+
+\subsection{Running Stock Synthesis from R}
+
+Use \texttt{system(“path/to/ss3”)} to run Stock Synthesis from within the R console, where \texttt{path/to/ss3} is the path to and name of the Stock Synthesis binary.
+
+Alternatively, use the function \texttt{run\_SS\_models} from the \texttt{r4ss} package within the R console:
+
+\begin{quote}
+  \begin{verbatim}
+  # run 2 models, in directories folder_1 and folder_2, using the SS3 executable
+  # named ss3 that is in the path.
+  r4ss::run_SS_models(dirvec = c("folder_1", "folder_2"),
+                      model = "ss3",
+                      exe_in_path = TRUE)
+  \end{verbatim}
+\end{quote}
+
+Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{ss3sim}) or if \texttt{r4ss} is already used to read model output.
 
 \subsection{The Stock Synthesis GUI (SSI)}
 \href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots.
