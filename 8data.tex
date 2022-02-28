@@ -35,14 +35,14 @@ The normal units of measure are as follows:
 \hypertarget{RecrTiming}{}
 \subsection{Time Units}
 	\begin{itemize}
-		\item Spawning:
+		\item Spawning: 
 		\begin{itemize}
-			\item Restricted to happening once per year at a specified date (in real months). To create multiple spawning events per year, the way to do this is to change the definition of a year (e.g. call a 6 month period a "year" when there are two spawning events about 6 months apart) which you can do by having the total duration of the seasons be less than 1 year. 
+			\item Restricted to happening once per year at a specified date (in real months, 1.0 - 12.99). To create multiple spawning events per year, change the definition of a year (e.g. call a 6 month period a "year" when there are two spawning events about 6 months apart) which you can do by having the total duration of the seasons be less than 1 year. 
 		\end{itemize}
 		
 		\item Recruitment:   
 		\begin{itemize}
-			\item Occurs at specified recruitment events that occur at user-specified dates (in real months).
+			\item Occurs at specified recruitment events that occur at user-specified dates (in real months, 1.0 - 12.99).
 			\item There can be one to many recruitment events across a year; each producing a platoon as a portion of the total recruitment.
 			\item A settlement platoon enters the model at age 0 if settlement is between the time of spawning and the end of the year; it enters at age 1 if settlement is after the first of the year; these ages at settlement can be overridden in the settlement setup.
 		\end{itemize}
@@ -65,7 +65,7 @@ Seasonal quantities in the model are calculated and treated in the following met
 	 	\item Seasons are the time step during which constant rates apply.
 	 	\item Catch and discard amounts are per season and F is calculated per season.
 	 	\item The year can have just one annual season, or be subdivided into seasons of unequal length.
-	 	\item Season duration is input in real months and is converted into fractions of an annum.  Annual rate values are multiplied by the per annum season duration.
+	 	\item Season duration is input in real months (1.0 - 12.99) and is converted into fractions of an annum.  Annual rate values are multiplied by the per annum season duration.
 	 	\item If the sum of the input season durations do not equal 12.0, then the input durations are divided by the total duration input to rescale season duration to equal 1.0.  
 	 	\item Allows for a special situation in which the year could be only 0.25 in duration (e.g., seasons as years) so that spawning and time-varying parameters can occur more frequently.	 	
 	 \end{itemize}
@@ -93,7 +93,7 @@ Time steps can be broken into subseason and the ALK can be calculated multiple t
 				\item Two subseasons will mimic v.3.24
 				\item Specifying more subseasons will give finer temporal resolution, but will slow the model down, the effect of which is mitigated by only calculating growth as needed.
 			\end{itemize}
-		\item Survey timing is now cruise-specific and specified in units of months (e.g., April 15 = 4.5).
+		\item Survey timing is now cruise-specific and specified in units of months (e.g., April 15 = 4.5; possible inputs are 1.0 to 12.99).
 			\begin{itemize}
 				\item ss\_trans.exe will convert year, season in v.3.24 format to year, real month in v.3.30 format.
 			\end{itemize}
