@@ -8,13 +8,13 @@
 
 Starting in SS3 v.3.30, mortality-growth, some stock-recruitment, catchability, and selectivity base parameters can be time varying. Note that as of SS3 v. 3.30.16, time-varying parameters cannot be used with tagging parameters. There are four ways a parameter can be time-varying in SS:
 \begin{enumerate}
-    \item Environmental Linkages: Links the base parameter with environmental data.
+    \item Environmental or Density dependent Linkages: Links the base parameter with environmental data or a model derived quantity.
 	\item Parameter deviations: Creates annual deviations from the base parameter during a user-specified range of years.
 	\item Time blocks: The base parameter is changed during a "block" (or "blocks") of time (i.e., one or more consecutive years) as specified by the user.
 	\item Trends: A trend (shape: cumulative normal distribution function) is applied to the parameter. Trends are specified using the same input column as time blocks, but with different codes. This means that trends and time blocks cannot be used simultaneously for the same base parameter.
 \end{enumerate}
 
-Environmental linkages, parameter deviations, and either time blocks or trends can be applied to the same base parameter. The model processes each time-varying parameter specification (first time blocks and trends, then environmental linkages, then parameter deviations) and creates a time-series of intermediate values that are used as the model subsequently loops through years.
+Environmental and density dependent linkages, parameter deviations, and either time blocks or trends can be applied to the same base parameter. The model processes each time-varying parameter specification (first time blocks and trends, then environmental linkages, then parameter deviations) and creates a time-series of intermediate values that are used as the model subsequently loops through years.
 
 \begin{figure}[h]
 	\begin{center}
@@ -41,7 +41,7 @@ When time-varying growth is used, there are some additional considerations to be
 \subsubsection{Time-Varying Stock-Recruitment Considerations}
 \begin{itemize}
 	
-	\item The $\sigma_R$ and autocorrelation parameters can not be time-varying. 
+	\item The $\sigma_R$ and autocorrelation parameters cannot be time-varying. 
 	% Is this true? Or can they be time varying but it is not advisable because it doesn't make much sense?
 	
 	\item The autocorrelation parameter cannot be estimated accurately within SS3 \citep{johnson-can-2016}, so external (i.e., external to SS) estimation for selecting an autocorrelation value is currently recommended. The autocorrelation of the recruitment deviations appears in the report file, which can aid in selecting the autocorrelation value.

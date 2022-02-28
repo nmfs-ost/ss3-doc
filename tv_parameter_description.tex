@@ -5,10 +5,10 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 \hypertarget{EnvVar}{}
 \begin{itemize}
 
-\item Environmental Link and variable (env\_var\&link; element 8)
+\item Environmental or Density Dependent Link and variable (env\_var\&link; element 8)
 
 	\begin{itemize}
-	   \item The environmental link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. Note that environmental variables can only be included on an annual basis, so seasonal models would have the same effect applied to all seasons. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass). The other options for both elements are enumerated below.
+	   \item The environmental or density dependent link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. Note that environmental variables can only be included on an annual basis, so seasonal models would have the same effect applied to all seasons. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass). The other options for both elements are enumerated below.
 	   \item The link function options (hundreds place) for the env\_var\&link input are:
 	   \begin{itemize}
 	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
@@ -179,7 +179,7 @@ The number of short parameter lines for each time-varying setup selected depends
 
 The time-varying parameter options in Stock Synthesis are flexible. Below are some example setups that illustrate how the time-varying options could be used in a model, although there are many more possible setups.
 
-\myparagraph{Environmental linkages}
+\myparagraph{Environmental and density dependent linkages}
 
 \begin{itemize}
 	\item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as index number 1, the growth parameter $K$ (if using a von Bertalanffy growth equation) could be linked to the water temperature proxy data by specifying the code "201" in the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line is required after the "MG parameter" long parameter lines section.
