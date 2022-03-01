@@ -294,7 +294,7 @@ The needed changes to the data file are:
 \begin{enumerate}
 	\item Fleet type – set to value of 2.
 	\item Set bycatch fleet controls per information above.
-	\item Catch input – you must enter a positive value for catch in each year/season that you want a bycatch calculated.  The entered value of catch will be ignored by SS, it is just a placeholder to invoke creating an F.
+	\item Catch input – you must enter a positive value for catch in each year/season that you want a bycatch calculated.  The entered value of catch will be ignored by SS3, it is just a placeholder to invoke creating an F.
 	\begin{enumerate}
 		\item Initial equilibrium – you may want to enter the bycatch amount as retained catch for the initial equilibrium year because there is no option to enter initial equilibrium discard in the discard section.
 	\end{enumerate}	
@@ -433,7 +433,7 @@ Abundance indices typically have a lognormal error structure with units of stand
 
 For the normal error structure, the entered values for standard error are interpreted directly as a standard error in arithmetic space and not as a CV.  Thus switching from a lognormal to a normal error structure forces the user to provide different values for the standard error input in the data file.
 
-If the data exist as a set of normalized Z-scores, you can assert a lognormal error structure after entering the data as exp(Z-score) because it will be logged by SS.  Preferably, the Z-scores would be entered directly and the normal error structure would be used.
+If the data exist as a set of normalized Z-scores, you can assert a lognormal error structure after entering the data as exp(Z-score) because it will be logged by SS3.  Preferably, the Z-scores would be entered directly and the normal error structure would be used.
 
 \myparagraph{Enable SD Report}
 Indices with SD Report enabled will have the expected values for their historical values appear in the ss.std and ss.cor files. The default value is for this option is 0.
@@ -748,7 +748,7 @@ Partition indicates samples from either discards,retained, or combined.
 	\end{itemize}
 
 \myparagraph{Note}
-When processing data to be input into SS, all observed fish of sizes smaller than the first bin should be added to the first bin and all observed fish larger than the last bin should be condensed into the last bin.	
+When processing data to be input into SS3, all observed fish of sizes smaller than the first bin should be added to the first bin and all observed fish larger than the last bin should be condensed into the last bin.	
 
 The number of length composition data lines no longer needs to be specified in order to read the length (or age) composition data. Starting in SS3 3.30, the model will continue to read length composition data until an pre-specified exit line is read.  The exit line is specified by entering -9999 at the end of the data matrix. The -9999 indicates to the model the end of length composition lines to be read.
 
@@ -978,7 +978,7 @@ The generalized approach to size composition information was designed initially 
 	\item Each method has a specified number of bins.
 	\item Each method has "units" so the frequencies can be in units of biomass or numbers.
 	\item Each method has "scale" so the bins can be in terms of weight or length (including ability to convert bin definitions in pounds or inches to kg or cm). 
-	\item The composition data is input as females then males, just like all other composition data in SS. In a two-sex model, the new composition data can be combined sex, single sex, or both sex.
+	\item The composition data is input as females then males, just like all other composition data in SS3. In a two-sex model, the new composition data can be combined sex, single sex, or both sex.
 	\item The generalized size composition data can be from the combined discard and retained, discard only or retained only.
 	\item There are two options for treating fish that in population size bins are smaller than the smallest size frequency bin.
 	\begin{itemize}
@@ -1088,7 +1088,7 @@ The ability to analyze tag-recapture data is available with SS3. Each released t
 		\item The release data must be entered in tag group order.
 		\item <tfill> values are place holders and are replaced by program generated values for model time.
 		\item Analysis of the tag-recapture data has one negative log likelihood component for the distribution of recaptures across areas and another negative log likelihood component for the decay of tag recaptures from a group over time, hence informative about mortality.  More on this is in the control file.
-		\item Warning for earlier versions of SS: A shortcoming in the recapture calculations when also using Pope's F approach was identified and corrected in version 3.30.14.
+		\item Warning for earlier versions of SS3: A shortcoming in the recapture calculations when also using Pope's F approach was identified and corrected in version 3.30.14.
 	\end{itemize}
 
 \subsection{Stock (Morph) Composition Data}
@@ -1120,10 +1120,10 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 	\begin{itemize}
 		\item The number of stocks entered with these data must match the number of growth patterns (morphs) in the control file.
 		\item Each data line for unique observations should enter data for morph 1 first followed sequentially for each morph included in the model.
-		\item The expected value is combined across sexes. The entered data values will be normalized to sum to one within SS.
+		\item The expected value is combined across sexes. The entered data values will be normalized to sum to one within SS3.
 		\item The "null" flag is included here in the data input section and is a reserved spot for future features. 
 		\item Note that there is a specific value of minimum compression to add to all values of observed and expected.
-		\item Warning for earlier versions of SS: A flaw was identified in the calculation of accumulation by morph. This has been corrected in version 3.30.14.  Older versions were incorrectly calculating the catch by morph using the expectation around age-at-length which already was accounting for the accumulation by morph.   
+		\item Warning for earlier versions of SS3: A flaw was identified in the calculation of accumulation by morph. This has been corrected in version 3.30.14.  Older versions were incorrectly calculating the catch by morph using the expectation around age-at-length which already was accounting for the accumulation by morph.   
 	\end{itemize}
 
 \subsection{Selectivity Empirical Data (future feature)}

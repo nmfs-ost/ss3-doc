@@ -28,7 +28,7 @@ A convenient way to process these values into the format required by the control
 
 where the input "replist" is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called "suggested\_tuning.ss" to the directory where the model was run.
 
-For models using SS3 v.3.30, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled "Input variance adjustments", followed by the terminator line which indicates the end of the section. 
+For version 3.30 models, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled "Input variance adjustments", followed by the terminator line which indicates the end of the section. 
 
 
 Also see the help page for the r4ss function \texttt{SS\_varadjust} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
@@ -54,7 +54,7 @@ There are a couple of challenges posed by the McAllister-Ianelli data-weighting 
 %\subsubsection{Francis}
 \myparagraph{Francis}
 
-Implementation: recommended adjustments are calculated by the r4ss functions \texttt{SSMethod.TA1.8} and \texttt{SSMethod.Cond.TA1.8}. These functions are rarely used alone but are called by the \texttt{SS\_plots} function when making plots like the one below. For SS3 v.3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps} function (described above under the McAllister-Ianelli method), but with a different option specified: 
+Implementation: recommended adjustments are calculated by the r4ss functions \texttt{SSMethod.TA1.8} and \texttt{SSMethod.Cond.TA1.8}. These functions are rarely used alone but are called by the \texttt{SS\_plots} function when making plots like the one below. For version 3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps} function (described above under the McAllister-Ianelli method), but with a different option specified: 
 
 \texttt{SS\_tune\_comps(replist, option = "Francis")}
 
@@ -143,11 +143,10 @@ The ratio shown in the final column is the estimated multiplier which can be com
 
 If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that the model is trying to tune the sample size as high as possible. In this case, the $ln(\theta)$ parameters should be fixed at a high value, like the upper bound of 20, which will result in 100\% weight being applied to the input sample sizes. An alternative would be to manually change the input sample sizes to a higher value so that the estimated weighting will be less than 100%.
 
-Note that a constant of integration was added to the diricihlet-multinomila likelihood equation in SS3 v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versons of SS.
+Note that a constant of integration was added to the diricihlet-multinomila likelihood equation in SS3 v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versons of SS3.
 
-There are a few challenges posed by the Dirichlet-Multinomial data-weighting approach:
+Some challenges posed by the Dirichlet-Multinomial data-weighting approach:
 \begin{enumerate}
 	\item Does not allow weights above 100\% (by design) so it is not yet clear how best to deal with the situation when the estimated weight is close to 100\%.
-	
 	\item Parameterization has potential to cause convergence issues or inefficient MCMC sampling when weights are close to 100\% if no prior is applied as discussed above.
 \end{enumerate}

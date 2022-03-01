@@ -6,7 +6,7 @@
 \hypertarget{tvOrder}{}
 \subsubsection{Time-Varying Parameters}
 
-Starting in SS3 v.3.30, mortality-growth, some stock-recruitment, catchability, and selectivity base parameters can be time varying. Note that as of SS3 v. 3.30.16, time-varying parameters cannot be used with tagging parameters. There are four ways a parameter can be time-varying in SS:
+Starting in SS3.30, mortality-growth, some stock-recruitment, catchability, and selectivity base parameters can be time varying. Note that as of SS3.30.16, time-varying parameters cannot be used with tagging parameters. There are four ways a parameter can be time-varying in SS3:
 \begin{enumerate}
     \item Environmental or Density dependent Linkages: Links the base parameter with environmental data or a model derived quantity.
 	\item Parameter deviations: Creates annual deviations from the base parameter during a user-specified range of years.
@@ -44,7 +44,7 @@ When time-varying growth is used, there are some additional considerations to be
 	\item The $\sigma_R$ and autocorrelation parameters cannot be time-varying. 
 	% Is this true? Or can they be time varying but it is not advisable because it doesn't make much sense?
 	
-	\item The autocorrelation parameter cannot be estimated accurately within SS3 \citep{johnson-can-2016}, so external (i.e., external to SS) estimation for selecting an autocorrelation value is currently recommended. The autocorrelation of the recruitment deviations appears in the report file, which can aid in selecting the autocorrelation value.
+	\item The autocorrelation parameter cannot be estimated accurately within SS3 \citep{johnson-can-2016}, so external (i.e., external to SS3) estimation for selecting an autocorrelation value is currently recommended. The autocorrelation of the recruitment deviations appears in the report file, which can aid in selecting the autocorrelation value.
 		
 	\item The value of R0 and steepness in the initial year are used within virgin calculations and within the benchmarks for calculation of the denominator in depletion estimates. The average value of R0 and steepness in the range of years specified as the benchmark years inputs 9 and 10 (see \hyperlink{fore-specify}{the forecast file specifications}) is used for MSY-type calculations. 
 	%So, for example, a long-term climate effect could cause R0 to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
@@ -73,7 +73,7 @@ When the two-dimensional autoregressive selectivity feature is turned on for a f
 \hat{S}_{a,t} = S_aexp^{\epsilon_{a,t}}
 \end{equation}
 
-where $S_a$ is specified in the corresponding age/length selectivity types section and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2D AR1) process:
+where $S_a$ is specified in the corresponding age/length selectivity types section and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS3); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2D AR1) process:
 
 \begin{equation}
 vec(\epsilon) \sim MVN(\mathbf{0},\sigma_s^2\mathbf{R_{total}})
@@ -120,34 +120,31 @@ Third, extract the estimated selectivity deviation samples from the previous ste
 
 \hypertarget{continuous-seasonal-recruitment-sec}{}
 \subsection{Continuous seasonal recruitment}
-It is awkward in SS3 to set up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year.  Consequently, some users set up SS3 so that each quarter appears as a year (i.e., seasons as years models).  They have set up all the data and parameters to treat quarters as if they were years (i.e., each still has a duration of 1.0 time step).  This can work, but requires that all rate parameters be re-scaled to be correct for the quarters being treated as years.
+Setting up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year is awkward in SS3.  Instead, SS3 can be set up so that each quarter appears as a year (i.e., a seasons as years model).  All the data and parameters are set up to treat quarters as if they were years. Note that setting up a seasons as years model also requires that all rate parameters be re-scaled to correctly account for the quarters being treated as years.
 
-Another option is available.  If there is one season per year and the season duration is set to 3 (rather than the normal 12), then the season duration is calculated to be 3/12 or 0.25. This means that the rate parameters can stay in their normal per year scaling and this shorter season duration makes the necessary adjustments internally. Some other adjustments to make when doing quarters as years include:
+Other adjustments to make when using seasons as years include:
 
 \begin{itemize}
 	\item Re-index all "year seas" inputs to be in terms of quarter-year because all are now season 1; increase end year (endyr) value in sync with this.
 	\item Increase max age because age is now in quarters.
-	\item In the age error definitions, increase the number of entries in accord with new max age
+	\item In the age error definitions, increase the number of entries to reflect that age is now in quarters.
 	\item In the age error definitions, recode so that each quarter-age gets assigned to the correct age bin. This is because the age data are still in terms of age bins; i.e., the first 4 entries for quarter-ages 1 through 4 will all be assigned to age bin 1.5; the next four to age bin 2.5;  you cannot accomplish the same result by editing the age bin values because the standard deviation of ageing error is in terms of age bin.
-	\item In the control file, multiple the natural mortality age breakpoints and growth Amin and Amax values by 1/season duration.
+	\item In the control file, multiply the natural mortality age breakpoints and growth Amin and Amax values by 1/season duration.
 	\item Decrease the R0 parameter starting value because it is now the average number of recruitments per quarter year.
 	\item Edit the recruitment deviation (rec\_dev) start and end years to be in terms of quarter year.
-	\item Edit any age selectivity parameters that refer to age to now refer to quarter age.
-	\item If there needs to be some degree of seasonality to recruitment or some parameter, then you could create a cyclic pattern in the environmental input and make recruitment or some other parameter a function of this cyclic pattern.
+	\item Edit any age selectivity parameters that refer to age, because they are now in terms of quarter age.
+	\item If there needs to be some degree of seasonality to a parameter, then you could create a cyclic pattern in the environmental input and make the parameter a function of this cyclic pattern.
 \end{itemize}
-
-A good test showing comparability of the 3 approaches to setting up a quarterly model should be done.
 
 \pagebreak
 
-
 \section{Detailed Information on Stock Synthesis Processes}
 
-The processes and calculations with SS3 can be complex and not transparent based on the model input files. Here additional information is provided to users to assist in understanding some of these processes.
+The processes and calculations within SS3 can be complex and not transparent based on the model input files. Here, additional information on processes within SS3 is provided.
 
 \subsection{Jitter}
 \hypertarget{Jitter}{}
-The jitter function has been updated with SS3 v.3.30.  The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
+The jitter function has been updated with SS3.30. The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
 \begin{enumerate}
 	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
 	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
@@ -165,7 +162,7 @@ The jitter function has been updated with SS3 v.3.30.  The following steps are n
 	\end{center}
 \end{figure}
 
-In SS, the jitter fraction defines a uniform distribution in cumulative normal space +/- the jitter fraction from the initial value (in cumulative normal space). The normal distribution for each parameter, for this purpose, is defined such that the minimum bound is at 0.001, and the maximum at 0.999 of the cumulative distribution. If the jitter faction and original initial value are such that a portion of the uniform distribution goes beyond 0.001 or 0.999 of the cumulative normal, the new value is set to one-tenth of the way from the bound to the original initial value. 
+In SS3, the jitter fraction defines a uniform distribution in cumulative normal space +/- the jitter fraction from the initial value (in cumulative normal space). The normal distribution for each parameter, for this purpose, is defined such that the minimum bound is at 0.001, and the maximum at 0.999 of the cumulative distribution. If the jitter faction and original initial value are such that a portion of the uniform distribution goes beyond 0.001 or 0.999 of the cumulative normal, the new value is set to one-tenth of the way from the bound to the original initial value. 
 
 Therefore sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, CV (= sigma/original initial value) may be a better measure. 
 
@@ -177,7 +174,7 @@ Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid
 
 \hypertarget{PriorDescrip}{}
 \subsection{Parameter Priors}
-Priors on parameters fulfill two roles in SS.  First, for parameters provided with an informative prior, SS3 is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
+Priors on parameters fulfill two roles in SS3.  First, for parameters provided with an informative prior, SS3 is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
 
 The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. The Prior Likelihoods below represent the negative log likelihood in all cases.
 
@@ -278,7 +275,7 @@ Note that the numbering in SS3 v.3.30 is different from that used in SS3 v.3.24 
 %=========Forecast Module
 \input{_forecast_module}
 
-%=========F mortality in SS
+%=========F mortality in SS3
 \input{_f_mortality}
 
 

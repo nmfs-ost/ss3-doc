@@ -1,7 +1,7 @@
 \section{Output Files}
 
 \subsection{Custom Reporting}
-\hypertarget{custom}{Additional} user control for what is included in the Report.sso file was added in v.3.30.16.  This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS from the starter file.  The numbering system for each item in the Report file is as follows:
+\hypertarget{custom}{Additional} user control for what is included in the Report.sso file was added in v.3.30.16.  This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file.  The numbering system for each item in the Report file is as follows:
 
 \begin{center}
 	\begin{longtable}{p{1cm} p{6.5cm}p{1cm} p{6cm}}
@@ -43,9 +43,9 @@
 \end{center}
 
 \subsection{Standard ADMB output files}
-Standard ADMB files are created by SS. These are:
+Standard ADMB files are created by SS3. These are:
 
-ss.par – This file has the final parameter values.  They are listed in the order they are declared in SS.  This file can be read back into SS3 to restart a run with these values (see running Stock Synthesis on page \pageref{sec:RunningSS}).
+ss.par – This file has the final parameter values.  They are listed in the order they are declared in SS3.  This file can be read back into SS3 to restart a run with these values (see running Stock Synthesis on page \pageref{sec:RunningSS}).
 
 ss.std – This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run.  It also contains the derived quantities declared as standard deviation report variables.  All of this information is also report in the covar.sso.  Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
 
@@ -70,7 +70,7 @@ Before listing the derived quantities reported to the standard deviation report,
 \subsubsection{Virgin Spawning Biomass vs Unfished Spawning Biomass}
 Unfished is the condition for which reference points (benchmark) are calculated.  Virgin Spawning Biomass (B0) is the initial condition on which the start of the time-series depends.If biology or spawner-recruitment parameters are time-varying, then the benchmark year input in the forecast file tells the model which years to average in order to calculate "unfished". In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as "unfished" for clarity.  Note that if ln(R0) is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SPB\_virgin and spawning biomass unfished is denoted as SPB\_unf in the report file.
 
-Virgin Spawning Biomass (B0) is used in four ways within SS:
+Virgin Spawning Biomass (B0) is used in four ways within SS3:
 \begin{enumerate}
 	\item Anchor for the spawner-recruitment relationship as virgin spawning biomass.
 	\item Basis for the initial equilibrium abundance. 
@@ -161,7 +161,7 @@ Cum\_Report.sso: contains a brief version of the run output, which is appended t
 \subsection{Bootstrap Data Files}
 It is possible to create bootstrap data files for SS3 where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. Starting in version 3.30.19, bootstrap data files are output separated in single numbered files (e.g., data\_boot\_001.ss). In version prior to version 3.30.19 a single file called data.ss\_new was output that contained multiple sections:  the original data echoed out, the expected data values based on the model fit, and then subsequent bootstrap data files. 
 
-Specifying the number of bootstrap data files has remained the same across model version.  Creating bootstrap data files is specified in the starter file via the "Number of datafiles to produce" line where a value of 3 or greater will create three files: the original data file, data\_echo.ss\_new, a data file with the model expected values, data\_expval.ss, and single bootstrap data file, data\_boot\_001.ss.  The first output provides the unaltered input data file (with annotations added).  The second provides the expected values for only the data elements used in the model run.  The third and subsequent outputs provide parametric bootstraps around the expected values. The bootstrap data file can be parsed using r4ss function SS\_splitdat into individual data files and re-run with the model.
+Specifying the number of bootstrap data files has remained the same across model versions.  Creating bootstrap data files is specified in the starter file via the "Number of datafiles to produce" line where a value of 3 or greater will create three files: the original data file, data\_echo.ss\_new, a data file with the model expected values, data\_expval.ss, and single bootstrap data file, data\_boot\_001.ss.  The first output provides the unaltered input data file (with annotations added).  The second provides the expected values for only the data elements used in the model run.  The third and subsequent outputs provide parametric bootstraps around the expected values. 
 
 The bootstrapping procedure within SS3 is done via the following steps:
 
@@ -245,7 +245,7 @@ The sections of the output file are:
 		\end{itemize}
 	\item Parameters
 		\begin{itemize}
-			\item The parameters are listed here.  For the estimated parameters, the display shows: Num (count of parameters), Label (as internally generated by SS), Value, Active\_Cnt, Phase, Min, Max, Init, Prior, Prior\_type, Prior\_SD, Prior\_Like, Parm\_StD (standard deviation of parameter as calculated from inverse Hessian), Status (e.g. near bound), and Pr\_atMin (value of prior penalty if parameter was near bound).  The Active\_Cnt entry is a count of the parameters in the same order they appear in the ss.cor file.
+			\item The parameters are listed here.  For the estimated parameters, the display shows: Num (count of parameters), Label (as internally generated by SS3), Value, Active\_Cnt, Phase, Min, Max, Init, Prior, Prior\_type, Prior\_SD, Prior\_Like, Parm\_StD (standard deviation of parameter as calculated from inverse Hessian), Status (e.g. near bound), and Pr\_atMin (value of prior penalty if parameter was near bound).  The Active\_Cnt entry is a count of the parameters in the same order they appear in the ss.cor file.
 		\end{itemize}
 	\item Derived Quantities
 		\begin{itemize}
@@ -258,7 +258,7 @@ The sections of the output file are:
 		\end{itemize}
 \end{itemize}
 
-Then the time series of output, with standard deviation of estimates, are produced with internally generated labels.  Note that these time series extend through the forecast era.  The order of the output is: spawning biomass, recruitment, SPRratio, Fratio, Bratio, management quantities, forecast catch (as a target level), forecast catch as a limit level (OFL), Selex\_std, Grow\_std, NatAge\_std.  For the three "ratio" quantities, there is an additional column of output showing a Z-score calculation of the probability that the ratio differs from 1.0. The "management quantities" section is designed to meet the terms of reference for west coast groundfish assessments; other formats could be made available upon request. The standard deviation quantities at the end are set up according to specifications at the end of the control input file. In some cases, a user may specify that no derived quantity output of a certain type be produced. In those cases, SS substitutes a repeat output of the virgin spawning biomass so that vectors of null length are not created.
+Then the time series of output, with standard deviation of estimates, are produced with internally generated labels.  Note that these time series extend through the forecast era.  The order of the output is: spawning biomass, recruitment, SPRratio, Fratio, Bratio, management quantities, forecast catch (as a target level), forecast catch as a limit level (OFL), Selex\_std, Grow\_std, NatAge\_std.  For the three "ratio" quantities, there is an additional column of output showing a Z-score calculation of the probability that the ratio differs from 1.0. The "management quantities" section is designed to meet the terms of reference for west coast groundfish assessments; other formats could be made available upon request. The standard deviation quantities at the end are set up according to specifications at the end of the control input file. In some cases, a user may specify that no derived quantity output of a certain type be produced. In those cases, SS3 substitutes a repeat output of the virgin spawning biomass so that vectors of null length are not created.
 
 \begin{itemize}
 	\item Mortality and growth parameters by year after adjustments
