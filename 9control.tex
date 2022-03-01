@@ -115,7 +115,7 @@ The term COND appears in the "Typical Value" column of this documentation (it do
 		%\hline
 		\pagebreak
 		1 & & Number (N) of growth patterns (GP), also referred to as morphs:\Tstrut\\
-		& & These are collections of fish with unique biological characteristics (growth, mortality, weight-length, reproduction). The GP x Sex x Settlement Events constitute unique growth patterns that are tracked in SS. They are assigned these characteristics at birth and retain them throughout their lifetime. At recruitment, growth pattern members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing growth pattern to recruit predominately in a southern areas and a slow-growing growth pattern to a northern area. The natural mortality and growth parameters are specified for each growth pattern in the mortality-growth parameter section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N in a two sex model.\Bstrut\\
+		& & These are collections of fish with unique biological characteristics (growth, mortality, weight-length, reproduction). The GP x Sex x Settlement Events constitute unique growth patterns that are tracked in SS3. They are assigned these characteristics at birth and retain them throughout their lifetime. At recruitment, growth pattern members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate.  For example, one could assign a fast-growing growth pattern to recruit predominately in a southern areas and a slow-growing growth pattern to a northern area. The natural mortality and growth parameters are specified for each growth pattern in the mortality-growth parameter section in the order of females growth pattern 1 to growth pattern N followed by males growth pattern 1 to growth pattern N in a two sex model.\Bstrut\\
 
 		\hline
 		1 & & Number of platoons within a growth pattern/morph:\Tstrut\\
@@ -1202,7 +1202,7 @@ Simulation studies conducted by \cite{methot-adjusting-2011} compared three meth
 			& 	   & -3: bias adjustment set to 0 for all model and forecast years.\\
 
 	\Tstrut & 0    & Period For Recruitment Cycles: \\
-			&      & Use this when the model is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level.  If value is >0, then read that number of full parameter lines below define the recruitment cycle. \\
+			&      & Use this when the model is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level.  If value is >0, then read that number of full parameter lines below define the recruitment cycle. See more information on setting up a seasons as years model in the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment section}.\\
 	
 	\Tstrut & -5   & Minimum Recruitment Deviation: Min value for recruitment deviation.\\
 			&      & Negative phase = Default value.\\
@@ -1301,7 +1301,7 @@ F as parameter is also preferred for situations where catch is known imprecisely
 	\endlastfoot
 
 	0.2 \Tstrut & & F ballpark\\
-	    & & This value is compared to the sum of the F's for the specified year (defined on the next line). The sum is over all seasons and areas. In older versions of SS, the lambda was automatically set to 0.0 in the final phase, the user now has control over whether to reduce the \hyperlink{Lambdas}{lambda} in later phases.\Bstrut\\
+	    & & This value is compared to the sum of the F's for the specified year (defined on the next line). The sum is over all seasons and areas. In older versions of SS3, the lambda was automatically set to 0.0 in the final phase, the user now has control over whether to reduce the \hyperlink{Lambdas}{lambda} in later phases.\Bstrut\\
    \hline
 
 	-1990\Tstrut & & F ballpark year\\
@@ -1351,7 +1351,6 @@ If there is catch, then give a starting value greater than zero and it generally
 It is possible to use the initial F method to achieve an estimate of the initial equilibrium Z in cases where the initial equilibrium catch is unknown.  To do this requires 2 changes to the input files:
 \begin{enumerate}
 	\item Data File: Include a positive value for the initial equilibrium catch for at least one fleet, often with a higher standard error depending upon the situation.
-%	\item Control File: Set the lambda in the for the log likelihood for initial equilibrium catch to a nil value (hence causing SS to ignore the lack of fit to the input catch level).
 	\item Control File: Add an initial F parameter line (short parameter line) for each fleet and season with initial equilibrium catch to be estimated immediately after the Fishing Mortality set-up.  It will be influenced by the early age and size comps which should have some information about the early levels of Z.
 \end{enumerate}
 
@@ -1384,7 +1383,7 @@ It is possible to use the initial F method to achieve an estimate of the initial
 
 \hypertarget{Qsetup}{}
 \subsection{Catchability}
-Catchability is the scaling factor that relates a model quantity to the expected value for some type of data (index).  Typically this is used to converted selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet.  In SS, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the time series of deviations for some parameter.  This flexibility means that a family of link functions beyond simple proportionality is needed.
+Catchability is the scaling factor that relates a model quantity to the expected value for some type of data (index).  Typically this is used to converted selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet.  In SS3, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the time series of deviations for some parameter.  This flexibility means that a family of link functions beyond simple proportionality is needed.
 
 For each fishery and survey with an index, enter a row with the entries as described below:
 
@@ -2245,7 +2244,7 @@ For additional information about the Dirichlet-multinomial please see \citet{tho
 Time-Varying selectivity can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity (Semi-parametric selectivity)}
-An experimental feature added within SS3 v.3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu-new-2019}. Unlike other options for time-varying selectivity in SS, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
+An experimental feature added version 3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu-new-2019}. Unlike other options for time-varying selectivity in SS3, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
 
 When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic, exponential logistic, or double normal would be a better choices. This option has not yet been explored adequately to provide guidance on best practices.
 

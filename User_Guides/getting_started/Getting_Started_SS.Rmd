@@ -72,16 +72,7 @@ Many output text files are created during a model run. The most useful output fi
 
 # Running SS3
 
-SS3 is typically run through the command line. We will introduce three common command-line approaches:
-
-1. The one folder approach
-2. The two folder approach
-3. The path approach
-
-Other possible approaches to running SS3 include:
-
-1. Run SS3 from within R (discussed briefly)
-2. Use SSI to set up model files and run (not discussed here; find the [SSI and its documentation](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951)
+SS3 is typically run through the command line. We will introduce the one folder approach, where SS3 is in the same folder as the model files. Other possible approaches to running SS3 include, which are detailed in the [running SS section of the user manual](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#sec:RunningSS).
 
 ## The one folder approach and demonstration of an SS3 model run
 
@@ -139,59 +130,6 @@ Examine warnings.sso for issues and suggestions, regardless of if the run comple
 
 Output from SS3 can be read into [r4ss](https://github.com/r4ss/r4ss) or the excel viewer.
 
-## The two folder approach
-
-With this approach, you can have one (or more) folders with various versions of SS3 and many model user folders each with one (or more) batch file(s) that point to various versions of SS3. This eliminates the need to have multiple copies of the same SS3 executable on your computer, which is necessary with the two folder approach.
-
-In this approach, the ss.exe is no longer in the same folder as the model; instead, a batch file with a path to the SS3 executable is included in the folder with the model file.
-
-The example shown in this handout uses batch files, which can be used on Windows only. However, there are similar workflows that can be used on OSX and Linux.
-
-### Example
-
-Put the model files in one folder and the desired executable in the other:
-
-![*Folders containing the model and executable(s), respectively*](images/two_folder_setup.png)
-Within the ss_exes folder, any number of SS3 exe versions could be added, but for now, we only have one:
-![*The executable folder*](images/two_folder_exe.png)
-The other folder contains the model files, but also a batch file, which is a text file with the extension .bat:
-![The model files and batch file(s) folder](images/two_folder_model_files.png)
-The batch file, a text file containing commands, can have any name, but must end in the extension .bat. In this case, we have called the batch file run_ss.bat.
-<!-- Note that the titles in these figs are not currently used, and the images are prevented from floating. Can delete these names at some point, potentially. -->
-The first line of the batch file has the full path to the SS3 executable. For example, our batch file contains only the line:
-
-![*The batch file*](images/batch_file.png)
-Open the command window in the model user folder (in this example, the ss_example folder), then type the name of the batch file (e.g., in this case, type `run_ss` or `./run_ss`). This will call the batch file, which will then call the SS3 executable to run in the folder with the model files. If the model runs, you will see output to the console as with the one folder approach.
-
-This basic approach using a batch file can also be used to do multiple model runs, all called from the same batch file.
-
-## The PATH approach
-
-The PATH is where your computer searches for files by default. This means that if an SS3 executable called ss.exe is in your path, when you type `ss` into the command window, regardless of the directory, your computer will be able to find ss.exe and use it with the model files in the current directory.
-
-For more information on how to add Stock Synthesis to the computer's PATH, see [Appendix 2](#app2).
-
-## Run SS3 from within R
-It is possible to run SS3 from within the R console. When the executable ss.exe in the same folder as model input files, use `system(“ss”)` from the R console to run.
-When using ss.exe that is in your PATH in Windows, use:
-
-```{r eval = FALSE}
-get_bin <- Sys.which(“ss.exe”)[[1]] # get ss exe that is in your path
-system(get_bin) # to run SS3 in current working directory
-```
-
-or the function within r4ss:
-
-```{r eval = FALSE}
-# run 2 models, in directories folder_1 and folder_2, using the SS3 executable
-# named ss that is in the path.
-r4ss::run_SS_models(dirvec = c("folder_1", "folder_2"),
-                    model = "ss", 
-                    exe_in_path = TRUE)
-```
-
-Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., [ss3sim](https://github.com/ss3sim/ss3sim)) or if r4ss is being used to read model output.
-
 # Options for running SS3
 
 ## Command line options {#options}
@@ -201,12 +139,6 @@ ADMB options can be added to the run when calling the SS3 executable from the co
 To list all command line options, use one of these calls: `SS -?` or `SS -help`. More info about the ADMB command line options is available in the [ADMB Manual](http://www.admb-project.org/docs/manuals/) (Chapter 12: Command line options).
 
 To run SS3 without estimation use: `ss -stopph 0`. This will speed up your run by not optimizing. Often `-stopph 0` is used with the `-nohess` option to speed up the run even more. To run SS3 with no estimation in SS3.30.15 and earlier, change the max phase in the starter.ss file to 0 and run the exe with the `–nohess` option.
- 
-<!-- The following didn't work for me from the Powershell, command prompt, or  -->
-<!-- ADMB prompt; not sure why. -->
-<!-- When the model is running: -->
-<!-- Press ‘n’: immediately goes to next phase. -->
-<!-- Press ‘q’: immediately quits estimation. -->
 
 ## Using ss.par for initial values
 
@@ -260,81 +192,3 @@ If you have never used the command line before, it will be helpful to learn a fe
  + [Appendix A](https://happygitwithr.com/shell.html) to the Happy Git and GitHub for the useR book, which introduces the command line on Linux, OSX, and Windows systems.
  + [Introduction to the Command Line by Launch School](https://launchschool.com/books/command_line) has even more detail about using the command line specifically on Linux (which should also apply to OSX systems)
  + A web search on "Command Line" will reveal plenty of other resources
-
-# Appendix 2: Putting SS3 in your PATH {#app2}
-
-Instead of copying the SS3 executable to each model folder, SS3 can be put in your system path, which is a list of folders that your operating system looks in whenever you type the name of a program on the command line. This approach saves on storage space since the SS3 binary (i.e., the SS3 executable or exe) is about 2.2 MB and having it located in each folder can be prohibitive in a large-scale simulation testing study. Even if you are not running a large simulation study, putting SS3 in your path may still be convenient, as you can use the same executable on many models, there is no need to specify a full file path to the executable each time you run a model, and no need to create a batch file that refers to the executable's location.
-
-## For Unix (OS X and Linux)
-
-To check if SS3 is in your path, assuming the binary is named SS:
-open a Terminal window and type `which SS` and hit enter.
-If you get nothing returned, then SS3 is not in your path.
-The easiest way to fix this is to move the SS3 binary
-to a folder that's already in your path.
-To find existing path folders type `echo $PATH`
-in the terminal and hit enter.
-Now move the SS3 binary to one of these folders.
-For example, in a Terminal window type:
-
-    sudo cp ~/Downloads/SS /usr/bin/
-
-You will need to use `sudo`
-and enter your password after to have permission
-to move a file to a folder like `/usr/bin/`.
-
-Also note that you may need to add executable permissions to the SS binary
-after downloading it.
-You can do that by switching to the folder where you placed the binary
-(`cd /usr/bin/` if you followed the instructions above),
-and running the command:
-
-    sudo chmod +x SS
-
-Check that SS3 is now executable and in your path:
-
-    which SS
-
-If you followed the instructions above, you will see the following line returned:
-
-    /usr/bin/SS
-
-If you have previously modified your path to add a non-standard location
-for the SS3 binary,
-you may need to also tell R about the new path.
-The path that R sees may not include additional paths
-that you have added through a configuration file like `.bash_profile`.
-If needed, you can add to the path that R sees
-by including a line like this in your `.Rprofile` file.
-(This is an invisible file in your home directory.)
-
-    Sys.setenv(PATH=paste(Sys.getenv("PATH"),"/my/folder",sep=":"))
-
-## For Windows
-
-To check if SS3 is in your path for Windows:
-open a DOS prompt (either Command Prompt or Powershell should work) and type `SS -?` and hit enter.
-If you get a line like `SS is not recognized...`
-then SS3 is not in your path (assuming the SS3 executable is called SS.exe).
-To add the SS3 binary file to your path, follow these steps:
-
-1. Find the correct version of the `SS.exe` binary on your computer (or download from the [SS3 releases](https://github.com/nmfs-stock-synthesis/stock-synthesis/releases)).
-
-2. Move to and note the folder location. E.g. `C:/SS/`
-
-3. Click on the start menu and type `environment`
-
-4. Choose `Edit environment variables for your account` under Control Panel
-
-5. Click on `PATH` if it exists, create it if does not exist
-
-6. Choose `PATH` and click edit
-
-7. In the `Edit User Variable` window add to the **end** of the `Variable value`
-   section a semicolon and the SS3 folder location you recorded earlier.
-   E.g. `;C:/SS`.
-   **Do not overwrite what was previously in the PATH variable**.
-
-8. Restart your computer
-
-9. Go back to the DOS prompt and try typing `SS -?` and hitting return again.
