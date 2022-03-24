@@ -1652,12 +1652,9 @@ The currently defined selectivity patterns, and corresponding required number of
 	\hline
 	0 \Tstrut& 0 & Selectivity = 1.0 for all sizes. \\
 	1 \Tstrut& 2 & Logistic selectivity.\\
-	2 \Tstrut& 8 & Discontinued: Double logistic with defined peak (uses IF joiners). Use pattern 8 instead.\\
-	4 \Tstrut& 0 & Discontinued: Set size selectivity equal to female fecundity. Use \hyperlink{SpecialSurvey}{special survey pattern 30} located in the index section within the data file instead.\\
+	2 \Tstrut& 8 & Older version of selectivity pattern 24 for backward compatibility in treatment of sex-specific scaling
 	5 \Tstrut& 2 & Mirror another selectivity. The two parameters select bin range.\\
 	6 \Tstrut& 2 + special & Non-parametric \\
-	7 \Tstrut& 8 & Discontinued: Double logistic with defined peak, uses smooth joiners; special = 1 causes constant selectivity above Linf for morph 1.  Use pattern 8.\\
-	8 \Tstrut& 8 & Double logistic, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1.  \\
 	9 \Tstrut& 6 & Simple double logistic with no defined peak.\\
 	11 \Tstrut& 2 & Selectivity = 1.0 for a specified length-bin range.\\
 	15 \Tstrut& 0 & Mirror another selectivity (same as for age selectivity).\\
@@ -1724,6 +1721,9 @@ where $L_l$ is the length bin.  If age based selectivity is selected then the le
 	\item p1 - size/age at inflection; and
 	\item p2 - width for 95\% selection; a negative width causes a descending curve.
 \end{itemize}
+
+\myparagraph{Pattern 2 (size) - Older version of selectivity pattern 24 for backward compatibility}
+Differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in Section \hyperlink{MaleSelectivityOffset}{} for more information. Pattern 24 was changed in version 3.30.19 with the old parameterization now provided in Pattern 2.
 
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
 Two parameters select the min and max bin number (not min max size) of the source selectivity pattern.  If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value <=0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
@@ -2196,6 +2196,7 @@ For intermediate ages, the natural log values are linearly interpolated on size 
 
 If selectivity for the dependent sex is greater than the selectivity for the first sex (which always peaks at 1.0), then the male-female selectivity matrix is rescaled to have a maximum of 1.0.
 
+\hypertarget{MaleSelectivityOffset}{}
 \myparagraph{Male Selectivity Estimated as Offsets from Female Selectivity (or vice versa):}
 A new sex selectivity option (3 or 4) has been implemented for size selectivity patterns 1 (logistic) and 23 and 24 (double normal) or age selectivity pattern 20 (double normal age).  Rather than calculate male selectivity as an offset from female selectivity, here the male selectivity is calculated by making the male parameters an offset from the female parameters (option 3), or females are offset from males with option 4.  The description below applies to option 3. If the size selectivity pattern is 1 (logistic), then read 3 parameters:
 \begin{itemize}
@@ -2204,16 +2205,20 @@ A new sex selectivity option (3 or 4) has been implemented for size selectivity 
 	\item male parameter 3 is the asymptotic selectivity
 \end{itemize}
 
-If the size selectivity pattern is 20, 23 or 24 (double normal), then:
+If the size selectivity pattern is 2, 20, 23 or 24 (double normal), then:
 \begin{itemize}
 	\item male parameter 1 is added to the first selectivity parameter (peak)
 	\item male parameter 2 is added to the third selectivity parameter (width of ascending side); then exp(this sum) per previous transform
 	\item male parameter 3 is added to the fourth selectivity parameter (width of descending side); then exp(sum) per previous transform
 	\item male parameter 4 is added to the sixth selectivity parameter (selectivity at final size bin); then 1/(1+exp(-sum)) per previous transform
-	\item male parameter 5 is the apical selectivity for males
+	\item male parameter 5 in selectivity pattern 24 is the apical selectivity and the descending limb for males (see note below). For selectivity pattern 2, 20, and 23 it applies only to the apical selectivity.
 \end{itemize}
 
-Note that the male selectivity offsets currently cannot be time-varying because they are offsets from female selectivity, they inherit the time-varying characteristics of the female selectivity.
+Notes:
+\begin{itemize}
+	\item Male selectivity offsets currently cannot be time-varying because they are offsets from female selectivity, they inherit the time-varying characteristics of the female selectivity.
+    \item Prior to version 3.30.19 male parameter 5 in pattern 24 scaled only the apical selectivity. This sometimes resulted in strange shapes when the final selectivity, which was shared between females and males in that parameterization, was higher than the estimated apical selectivity. For backwards compatibility to the pattern 24 parameterization prior to 3.30.19, use selectivity pattern 2.
+\end{itemize}
 
 \hypertarget{Dirichletparameter}{}
 \subsubsection{Dirichlet-Multinomial Error for Data Weighting}
