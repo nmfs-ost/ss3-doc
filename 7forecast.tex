@@ -208,31 +208,39 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  
  %\pagebreak
  \hline
- 0 \Tstrut & Rebuilder: &\multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Creates a rebuild.dat file to be used for U.S. West Coast groundfish rebuilder program.}} \\
-   & 0 = omit U.S. West Coast rebuilder output; and & \\
-   & 1 = do abbreviated U.S. West Coast rebuilder output; and & \\
-   & 2 = do extended U.S. West Coast rebuilder output. & \Bstrut\\
-   
-   
+ 0 \Tstrut & Rebuilder: &\multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Creates a rebuild.dat file (option = 1) to be used for U.S. West Coast groundfish rebuilder program.}} \\
+   & 0 = do not output U.S. West Coast rebuilder output (rebuild.dat file); and & \\
+   & 1 = create U.S. West Coast rebuilder output (rebuild.dat file) & \Bstrut\\
+    
  %\hline
  \pagebreak
- 2004 & Rebuilder catch (Year Declared): & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Input line is required even if Rebuilder = 0, specified in the line above.}} \Tstrut\\
+ 2004 & Rebuilder: Year Declared: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The first year catch could have been set to sero (year declared). Input line is required even if Rebuilder = 0, specified in the line above.}} \Tstrut\\
       & >0 = year first catch should be set to zero; and & \\
       & -1 = set to 1999. & \Bstrut\\
       
  \hline
  %\pagebreak
- 2004 & Rebuilder start year (Year Initial): & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Input line is required even if Rebuilder = 0, specified two line above.}} \Tstrut\\
-      & >0 = year for current age structure; and & \\
+ 2004 & Rebuilder: Year for Initial Age-Strucuter: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Input line is required even if Rebuilder = 0, specified two line above.}} \Tstrut\\
+      & >0 = year for current age structure (Yinit); and & \\
       & -1 = set to end year +1. & \Bstrut\\
-    
+
+ \hline
+ \multicolumn{3}{l}{COND 1: Conditional input for West Coast rebuilder} \Tstrut\\
+ \multicolumn{1}{r}{1 2023 0.075 2.0}  & Sigma assessment error & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Base value to start the time-varying sigma (usually set to 1.0), first year to apply the time-varying sigma, slope of the change in sigma (default is 0.075), and the maximum sigma to be applied (typically set equal to the next higher assessment category sigma).}}\\
+ & & \\
+ & & \\
+ \multicolumn{1}{r}{0.45} & Pstar & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Council specified Pstar value.}}\\
+ \multicolumn{1}{r}{1} & Constrain catches & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Constrain catches by the ABC (1=yes, 2=no).}}\\ 
+ \multicolumn{1}{r}{0}  & Do implementation error & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Apply implementation error (0=no, 1=lognormal, 2=uniform).}}\\
+ \multicolumn{1}{r}{1 0.3}  & Implementation error parameters &   \Bstrut\\     
+
  \hline
  1 & Fleet Relative F: & \Tstrut\\
    & 1 = use first-last allocation year; and & \\
    & 2 = read season(row) x fleet (column) set below. & \Bstrut\\
 
- \hline 
- %\pagebreak
+ %\hline 
+ \pagebreak
  2 & Basis for maximum forecast catch: &  \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{The maximum basis for forecasted catch will be implemented for the for the "First year for caps and allocations" selected above. The maximum catch (biomass or numbers) by fleet is specified below on the "Maximum total forecast catch by fleet" line.}}\Tstrut\\
    & 2 = total catch biomass; & \\
    & 3 = retained catch biomass; & \\
@@ -265,8 +273,8 @@ The term COND appears in the "Typical Value" column of this documentation (it do
   \multicolumn{1}{r}{-9999 1} & & \Bstrut\\
   
   
-  \hline
-  %\pagebreak
+  %\hline
+  \pagebreak
     -1 & Basis for forecast catch: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{ The dead or retained value in the forecast catch inputs will be interpreted in terms of numbers or biomass based on the units of the input catch for each fleet. }}\Tstrut\\
     & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below; & \\
     & 2 = Dead catch (retained + discarded); & \\
