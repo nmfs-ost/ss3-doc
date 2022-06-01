@@ -1,0 +1,630 @@
+---
+title: "Model building tutorial"
+author: "SS Development Team"
+date: "10/23/2019"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Scope
+<!-- Note that this guide is not yet complete! -->
+This is a tutorial illustrating how different data and parameters familiar to stock assessment scientists can be added to Stock Synthesis input files. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS model.
+
+If you are a new SS user who is not yet comfortable running an SS model, we suggest trying to run a working example model using advice in the **Getting Started** document before attempting to develop and run your own model as outlined here. You can also get more general model building advice in the **Developing your first Stock Synthesis model** guide.
+
+Throughout this example, we use an even simpler version of the Stock Synthesis example model "Simple". To get the most out of this tutorial, it is best to download the model files to look at during the tutorial. It may also be useful to run the model and plot the results using the R package [r4ss](github.com/r4ss/r4ss).
+
+# Model description
+
+## General
+
+The Simple model is a 2-sex age-structured assessment model for a single population in 1 area starting in 1971 and ending in 2001. The maximum age in the model is 40 years. It includes 1 fishery and 2 surveys. Survey 1 is a fisheries independent survey, while the second survey is for age-0 fish.
+
+## Fishery and survey data 
+
+The fishery does not discard and thus retains all fish that it catches. Logistic length-based selectivity was assumed for the fishery and for survey 1. Full selectivity was assumed for age-0 fish only (i.e., the survey does not catch any fish older than age 0) for the second survey. Catchability is estimated for both surveys, and to adjust for data quality, additional standard deviation is specified.
+
+Catch comes from the fishery. Indices of abundance come from both survey 1 and survey 2. Length composition and age composition data comes from the fishery and survey 1. 
+
+No aging error bias is assumed and aging is considered to be very precise.
+
+## More specific parameter assumptions
+
+### Natural mortality, growth, maturity, and sex ratio
+
+All parameters are assumed to be the same over time. Natural mortality is specified at 0.1. A von Bertalanfy growth curve is used with K estimated. Maturity is assumed to be length logistic with some specified parameter values. The sex ratio is assumed 50-50 female and male.
+
+### Spawner-Recruitment
+
+A beverton-holt SR relationship is assumed, with values for steepness and R0 estimated. 
+
+### Recruitment
+
+Recuitment deviations are assumed, and include a bias ramp to account for early and late observations having less information than recruitments during 1971-2001.
+
+### Fishing mortality
+
+Fishing mortality is found using a hybrid approach, meaning that F's are estimated parameters, but are constrained using Pope's approximation.
+
+### Data weighting
+
+This model has not yet undergone data weighting, which would of course be necessary in a true model. This will be discussed later on in this write-up.
+
+### Forecasting
+
+*This needs to be considered more carefully; try to use the most standard options for this*
+
+# Stepping through Stock synthesis input files
+
+## Starter and Forecast
+
+Generic starter and forecast files were used. There were no need to modify them specifically for this example.
+However, it should be checked that the correct data and control file names are listed at the top of the starter file:
+
+```{R eval = FALSE}
+#_user_info_available_at:https://vlab.ncep.noaa.gov/group/stock-synthesis
+#C starter comment here
+data.ss
+control.ss
+0 # 0=use init values in control file; 1=use ss.par
+0 # run display detail (0,1,2)
+
+```
+In the case of this example, data.ss is the name of the data file, while control.ss is the name of the control file.
+
+## Data file
+
+This is where the data inputs are specified. At the top, general information about the model is specified: the model years, number of seasons, number of sexes, maximum age, number of areas, number of fleets:
+
+```{R eval = FALSE}
+#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Foreign copyrights may apply. See copyright.txt for more information.
+1971 #_StartYr
+2001 #_EndYr
+1 #_Nseas
+12 #_months/season
+2 #_Nsubseasons (even number, minimum is 2)
+1 #_spawn_month
+2 #_Ngenders: 1, 2, -1  (use -1 for 1 sex setup with SSB multiplied by female_frac parameter)
+40 #_Nages=accumulator age, first age is always age 0
+1 #_Nareas
+3 #_Nfleets (including surveys)
+
+```
+
+Next, the fleet types are specified. Since we have one fishery and 2 surveys (3 fleets in all), there will be three lines. 
+
+```{R eval = FALSE}
+#_fleet_type: 1=catch fleet; 2=bycatch only fleet; 3=survey; 4=ignore 
+#_sample_timing: -1 for fishing fleet to use season-long catch-at-age for observations, or 1 to use observation month;  (always 1 for surveys)
+#_fleet_area:  area the fleet/survey operates in 
+#_units of catch:  1=bio; 2=num (ignored for surveys; their units read later)
+#_catch_mult: 0=no; 1=yes
+#_rows are fleets
+#_fleet_type fishery_timing area catch_units need_catch_mult fleetname
+ 1 -1 1 1 0 FISHERY  # 1
+ 3 1 1 2 0 SURVEY1  # 2
+ 3 1 1 2 0 SURVEY2  # 3
+
+```
+Most notable here is that the fishery has type 1 (because it is a catch fleet) and the surveys have type 3. Units for each fleet (what is called "catch units" in the header) are also specified here, although for the surveys they are ignored. For the fishery, it has "catch-units" = 1, which means it is in units of biomass and not numbers.The names for the fleets are specified last on each line (before the comment). For example, in this case, the fishery has been named FISHERY, while the first survey has been named SURVEY1.
+
+Next, the catch is specified:
+```{R eval = FALSE}
+#_Catch data: yr, seas, fleet, catch, catch_se
+#_catch_se:  standard error of log(catch)
+#_NOTE:  catch data is ignored for survey fleets
+-999 1 1 0 0.01
+1971 1 1 0 0.01
+1972 1 1 200 0.01
+1973 1 1 1000 0.01
+...
+...
+...
+2000 1 1 3000 0.01
+2001 1 1 3000 0.01
+-9999 0 0 0 0
+```
+
+The first line of the above code chunk shows the column headers for the catch data. Note that all catch comes from the fishery. The line `-999 1 1 0 0.01` specifies equilibirum catch for years before the model starts - in this case, there is no equilibrium catch because the catch column is 0. To terminate this catch data section the line `-9999 0 0 0 0` is needed. This tells SS that it can stop reading catch data.
+
+Next comes specification for indices of abundance. First is the setup for all of the fleets: 
+
+```{R eval = FALSE}
+#_CPUE_and_surveyabundance_observations
+#_Units:  0=numbers; 1=biomass; 2=F; >=30 for special types
+#_Errtype:  -1=normal; 0=lognormal; >0=T
+#_SD_Report: 0=no sdreport; 1=enable sdreport
+#_Fleet Units Errtype SD_Report
+1 1 0 0 # FISHERY
+2 1 0 1 # SURVEY1
+3 0 0 0 # SURVEY2
+
+```
+The column headers for this section are directly above the numbers. Note that all fleets are defined here (i.e., each fleet needs a line), including the fishery and are listed in the same order as when the fleet types were specified. Most importantly in this section, the units and error type that will be used when reading the the indices of abundance are specified. In this case, the fishery and survey 1 have units of biomass, wheras survey 2 is in numbers. Lognormal error is assumed for all 3 of the fleets.
+
+Directly after its header, the indices of abundance data is included: 
+
+```{r eval = FALSE}
+#_yr month fleet obs stderr
+1977 7 2 339689 0.3 #_ SURVEY1
+1980 7 2 193353 0.3 #_ SURVEY1
+1983 7 2 151984 0.3 #_ SURVEY1
+...
+...
+...
+2000 7 3 5.97125 0.7 #_ SURVEY2
+2001 7 3 1.69379 0.7 #_ SURVEY2
+-9999 1 1 1 1 # terminator for survey observations 
+
+```
+Like the catch data, a terminator line is needed to tell SS when to stop reading the indices. 
+
+Next, discards and mean body size data could be specified, but they are 0 in this example:
+```{r eval = FALSE}
+0 #_N_fleets_with_discard
+...
+...
+...
+0 #_use meanbodysize_data (0/1)
+```
+
+The next section sets up the population length bins. This needs to be specified whether or not length composition data is used (although you could generate the population length bins from the length composition data bins).
+```{r eval = FALSE}
+# set up population length bin structure (note - irrelevant if not using size data and using empirical wtatage
+2 # length bin method: 1=use databins; 2=generate from binwidth,min,max below; 3=read vector
+2 # binwidth for population size comp 
+10 # minimum size in the population (lower edge of first bin and size at age 0.00) 
+94 # maximum size in the population (lower edge of last bin) 
+1 # use length composition data (0/1)
+
+```
+
+Following the population bins is the setup for length composition (expecting 1 line per fleet):
+```{r eval = FALSE}
+#_mintailcomp addtocomp combM+F CompressBins CompError ParmSelect minsamplesize
+0 1e-007 0 0 0 0 1 #_fleet:1_FISHERY
+0 1e-007 0 0 0 0 1 #_fleet:2_SURVEY1
+0 1e-007 0 0 0 0 1 #_fleet:3_SURVEY2
+
+```
+The length composition bin setup:
+```{r eval = FALSE}
+25 #_N_LengthBins; then enter lower edge of each length bin
+ 26 28 30 32 34 36 38 40 42 44 46 48 50 52 54 56 58 60 62 64 68 72 76 80 90
+```
+
+And then the length composition data:
+```{r eval = FALSE}
+#_yr month fleet sex part Nsamp datavector(female-male)
+ 1971 7 1 3 0 125 0 0 0 0 0 0 0 0 0 4 1 1 2 4 1 5 6 2 3 11 8 4 5 0 0 0 0 0 0 0 0 0 0 1 0 1 3 0 3 4 2 4 5 9 17 8 3 8 0 0
+ 1972 7 1 3 0 125 0 0 0 0 0 0 0 0 0 3 0 1 2 1 1 6 2 7 4 10 10 4 5 3 0 0 0 0 0 0 0 0 0 1 3 2 4 1 3 1 4 4 7 3 8 11 4 10 0 0
+ 1973 7 1 3 0 125 0 0 0 0 0 0 0 0 0 0 0 0 7 3 4 5 6 3 10 12 6 10 9 0 0 0 0 0 0 0 0 0 0 0 0 0 3 0 1 3 0 7 2 6 7 8 5 5 3 0
+ 1974 7 1 3 0 125 0 0 0 0 0 0 0 0 0 2 2 0 1 1 1 4 5 3 8 8 10 4 7 0 0 0 0 0 0 0 0 0 1 2 0 4 0 0 1 5 6 6 4 6 15 11 5 0 3 0
+ ...
+ ...
+ ...
+ 1998 7 2 3 0 125 0 0 0 3 1 1 2 3 4 6 4 6 5 3 1 2 1 1 1 5 2 2 0 0 0 0 0 0 0 10 5 4 2 3 7 2 1 4 4 5 3 2 3 1 8 6 2 0 0 0
+ 2001 7 2 3 0 125 0 0 0 0 0 2 3 5 7 5 9 2 9 5 4 4 1 1 2 2 8 0 0 0 0 0 0 0 0 2 1 4 6 5 6 4 3 4 4 5 1 3 2 1 3 2 0 0 0 0
+-9999 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 
+```
+In this 2 sex model, length composition data is put in for females, with 1 number per length composition bin set up previously, followed by data for males with also 1 number per length composition bin.
+
+Age composition data follows. First, the age bins and ageerror definitions are established:
+```{r eval = FALSE}
+17 #_N_age_bins
+ 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 20 25
+1 #_N_ageerror_definitions
+ 0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5 14.5 15.5 16.5 17.5 18.5 19.5 20.5 21.5 22.5 23.5 24.5 25.5 26.5 27.5 28.5 29.5 30.5 31.5 32.5 33.5 34.5 35.5 36.5 37.5 38.5 39.5 40.5
+ 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
+```
+For the age bins, SS reads in the number (17 in this case) and then expects that number of inputs for the age bins (the 17 values below it). Next, SS reads the age error definitions. In this case, there is only 1 definition, so SS expects 2 vectors, each which contain the max number of ages + 1 values (41 values per vector in this case). The first line defines the *bias* for the aging error, while the second vector defines the *standard deviation* of the aging error. This example has no aging bias and very high aging precision (low standard deviation), so this is close to assuming no aging error.
+
+Next comes the age composition setup lines:
+```{r eval = FALSE}
+#_mintailcomp addtocomp combM+F CompressBins CompError ParmSelect minsamplesize
+0 1e-007 1 0 0 0 1 #_fleet:1_FISHERY
+0 1e-007 1 0 0 0 1 #_fleet:2_SURVEY1
+0 1e-007 1 0 0 0 1 #_fleet:3_SURVEY2
+1 #_Lbin_method_for_Age_Data: 1=poplenbins; 2=datalenbins; 3=lengths
+```
+which includes the length bin method for ages. Finally, the age composition data is input:
+
+```{r eval = FALSE}
+#_yr month fleet sex part ageerr Lbin_lo Lbin_hi Nsamp datavector(female-male)
+ 1971 7 1 3 0 1 -1 -1 75 0 0 0 0 3 1 1 4 2 1 0 1 2 2 13 2 3 0 0 4 2 1 1 2 1 2 2 1 2 1 2 6 5 8
+ 1972 7 1 3 0 1 -1 -1 75 2 1 1 1 0 3 1 2 2 5 3 1 2 2 9 8 3 0 0 1 2 3 1 3 0 5 1 3 0 2 1 2 3 2
+ 1973 7 1 3 0 1 -1 -1 75 0 0 1 0 1 1 2 3 3 1 1 5 2 2 7 4 3 0 0 0 4 1 3 5 1 2 3 1 3 2 0 5 3 6
+ ...
+ ...
+ ...
+ 1998 7 2 3 0 1 -1 -1 75 9 4 4 3 1 1 1 1 3 3 1 2 1 7 0 0 0 0 6 5 3 5 1 3 3 2 3 2 0 1 0 0 0 0
+ 2001 7 2 3 0 1 -1 -1 75 4 0 4 11 5 3 4 2 2 0 0 0 0 0 2 0 0 0 2 4 7 11 5 2 0 2 2 2 0 0 0 1 0 0
+-9999 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+```
+One important note here is the using Lbin_lo and Lbin_hi = -1 selects the entire length bin as being used for the ages. Similar to the length composition data, SS expect 1 value for females in each data bin, followed by values for males in each data bin (in this case, there are 34 values in the data vector)
+
+SS has some additional options that we have not used here and thus set to 0:
+```{r eval = FALSE}
+0 #_Use_MeanSize-at-Age_obs (0/1)
+#
+0 #_N_environ_variables
+#Yr Variable Value
+#
+0 # N sizefreq methods to read 
+#
+0 # do tags (0/1)
+#
+0 #    morphcomp data(0/1) 
+#  Nobs, Nmorphs, mincomp
+#  yr, seas, type, partition, Nsamp, datavector_by_Nmorphs
+#
+0  #  Do dataread for selectivity priors(0/1)
+
+```
+And finally, the data file must end in `999` to tell SS to stop reading.
+```{r eval = FALSE}
+999
+```
+## Control file
+
+The control file contains the setup for model parameter values (both fixed values and estimated values). The first option to be aware of is a line to read the empirical weight at age file:
+```{r eval = FALSE}
+0  # 0 means do not read wtatage.ss; 1 means read and use wtatage.ss and also read and use growth parameters
+```
+
+In this case, it is not being used, so is set to 0. If empirical weight at age were used, SS would ignore all inputs relating to growth, maturity, and fecundity that are specified later in the control file (although it does still expect inputs).
+
+Next are options for number of growth patterns and platoons. These are set to 1 because we assume the whole population is the same growth pattern, and there are not platoons within the growth patterns.
+```{r eval = FALSE}
+1  #_N_Growth_Patterns (Growth Patterns, Morphs, Bio Patterns, GP are terms used interchangeably in SS)
+1 #_N_platoons_Within_GrowthPattern 
+```
+
+The recruitment distribution is then specified. We are assuming for this population that there is only 1 growth pattern, 1 time of settlement, and 1 area, so we can use option 4. This is the simplest, because it requires no full parameter lines futher on in the control file.
+```{r eval = FALSE}
+#
+4 # recr_dist_method for parameters:  2=main effects for GP, Area, Settle timing; 3=each Settle entity; 4=none (only when N_GP*Nsettle*pop==1)
+1 # not yet implemented; Future usage: Spawner-Recruitment: 1=global; 2=by area
+1 #  number of recruitment settlement assignments 
+0 # unused option
+#GPattern month  area  age (for each settlement assignment)
+ 1 1 1 0
+#
+```
+Note that we also used 1 settlement assignement, and specified that the fish settled in January at age 0. This could be modified if the fish settled at a different age or time. 
+
+We are not using time blocks, but there are some specified in this model.
+```{r eval = FALSE}
+1 #_Nblock_Patterns
+1 #_blocks_per_pattern 
+# begin and end years of blocks
+1970 1970
+```
+Note that any blocks could be specified and not used (blocks are set up here, but are not used until it is specified within a parameter line), so there could be any number of blocks specified here.
+
+Likewise, timevarying parameters are not used, so it is unimportant what is specified in the time varying control parameters:
+```{r eval = FALSE}
+# controls for all timevary parameters 
+1 #_env/block/dev_adjust_method for all time-vary parms (1=warn relative to base parm bounds; 3=no bound check)
+#
+# AUTOGEN
+0 0 0 0 0 # autogen: 1st element for biology, 2nd for SR, 3rd for Q, 4th reserved, 5th for selex
+# where: 0 = autogen all time-varying parms; 1 = read each time-varying parm line; 2 = read then autogen if parm min==-12345
+```
+
+The setup lines for natural mortality, growth, and maturity come next. 
+
+Option 0 is used for natural mortality because only 1 value is being assumed. Growth model 1 is used to specify a von Bertalanffy growth model, followed by lines specifying details about growth:
+``` {r eval = FALSE}
+0 #_natM_type:_0=1Parm; 1=N_breakpoints;_2=Lorenzen;_3=agespecific;_4=agespec_withseasinterpolate
+  #_no additional input for selected M option; read 1P per morph
+#
+1 # GrowthModel: 1=vonBert with L1&L2; 2=Richards with L1&L2; 3=age_specific_K_incr; 4=age_specific_K_decr; 5=age_specific_K_each; 6=NA; 7=NA; 8=growth cessation
+0 #_Age(post-settlement)_for_L1;linear growth below this
+25 #_Growth_Age_for_L2 (999 to use as Linf)
+-999 #_exponential decay for growth above maxage (value should approx initial Z; -999 replicates 3.24; -998 to not allow growth above maxage)
+0  #_placeholder for future growth feature
+#
+0 #_SD_add_to_LAA (set to 0.1 for SS2 V1.x compatibility)
+0 #_CV_Growth_Pattern:  0 CV=f(LAA); 1 CV=F(A); 2 SD=F(LAA); 3 SD=F(A); 4 logSD=F(A)
+#
+```
+Then, the setup lines for maturity, fecundity, and other specialized options:
+``` {r eval = FALSE}
+1 #_maturity_option:  1=length logistic; 2=age logistic; 3=read age-maturity matrix by growth_pattern; 4=read age-fecundity; 5=disabled; 6=read length-maturity
+1 #_First_Mature_Age
+1 #_fecundity option:(1)eggs=Wt*(a+b*Wt);(2)eggs=a*L^b;(3)eggs=a*Wt^b; (4)eggs=a+b*L; (5)eggs=a+b*W
+0 #_hermaphroditism option:  0=none; 1=female-to-male age-specific fxn; -1=male-to-female age-specific fxn
+1 #_parameter_offset_approach (1=none, 2= M, G, CV_G as offset from female-GP1, 3=like SS2 V1.x)
+```
+The parameter lines resulting from the natural mortality, growth, and maturity (this section is sometimes called MG parms) are specified next. The number of paramter lines depends on the options selected in the setup lines. The parameters must also be specified in a particular order, with female parameters coming before male parameters in a 2-sex model:
+```{r eval = FALSE}
+#_ LO HI INIT PRIOR PR_SD PR_type PHASE env_var&link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
+# Sex: 1  BioPattern: 1  NatMort
+ 0.05 0.15 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # NatM_p_1_Fem_GP_1
+# Sex: 1  BioPattern: 1  Growth
+ -10 45 21.6535 36 10 6 2 0 0 0 0 0 0 0 # L_at_Amin_Fem_GP_1
+ 40 90 71.6493 70 10 6 4 0 0 0 0 0 0 0 # L_at_Amax_Fem_GP_1
+ 0.05 0.25 0.147297 0.15 0.8 6 4 0 0 0 0 0 0 0 # VonBert_K_Fem_GP_1
+ 0.05 0.25 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # CV_young_Fem_GP_1
+ 0.05 0.25 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # CV_old_Fem_GP_1
+# Sex: 1  BioPattern: 1  WtLen
+ -3 3 2.44e-006 2.44e-006 0.8 0 -3 0 0 0 0 0 0 0 # Wtlen_1_Fem_GP_1
+ -3 4 3.34694 3.34694 0.8 0 -3 0 0 0 0 0 0 0 # Wtlen_2_Fem_GP_1
+# Sex: 1  BioPattern: 1  Maturity&Fecundity
+ 50 60 55 55 0.8 0 -3 0 0 0 0 0 0 0 # Mat50%_Fem_GP_1
+ -3 3 -0.25 -0.25 0.8 0 -3 0 0 0 0 0 0 0 # Mat_slope_Fem_GP_1
+ -3 3 1 1 0.8 0 -3 0 0 0 0 0 0 0 # Eggs/kg_inter_Fem_GP_1
+ -3 3 0 0 0.8 0 -3 0 0 0 0 0 0 0 # Eggs/kg_slope_wt_Fem_GP_1
+# Sex: 2  BioPattern: 1  NatMort
+ 0.05 0.15 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # NatM_p_1_Mal_GP_1
+# Sex: 2  BioPattern: 1  Growth
+ 1 45 0 36 10 0 -3 0 0 0 0 0 0 0 # L_at_Amin_Mal_GP_1
+ 40 90 69.5362 70 10 6 4 0 0 0 0 0 0 0 # L_at_Amax_Mal_GP_1
+ 0.05 0.25 0.163533 0.15 0.8 6 4 0 0 0 0 0 0 0 # VonBert_K_Mal_GP_1
+ 0.05 0.25 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # CV_young_Mal_GP_1
+ 0.05 0.25 0.1 0.1 0.8 0 -3 0 0 0 0 0 0 0 # CV_old_Mal_GP_1
+# Sex: 2  BioPattern: 1  WtLen
+ -3 3 2.44e-006 2.44e-006 0.8 0 -3 0 0 0 0 0 0 0 # Wtlen_1_Mal_GP_1
+ -3 4 3.34694 3.34694 0.8 0 -3 0 0 0 0 0 0 0 # Wtlen_2_Mal_GP_1
+# Hermaphroditism
+#  Recruitment Distribution  
+#  Cohort growth dev base
+ 0.1 10 1 1 1 0 -1 0 0 0 0 0 0 0 # CohortGrowDev
+#  Movement
+#  Age Error from parameters
+#  catch multiplier
+#  fraction female, by GP
+ 1e-006 0.999999 0.5 0.5 0.5 0 -99 0 0 0 0 0 0 0 # FracFemale_GP_1
+
+```
+Note that the first line in the block of SS input above shows the column headers. All sections with long parameter lines within the control file have these same headings. There are a lot of specifications in these long parameter lines, but a few of particular note are:
+
+- Anything with negative phase (7th value in a long parameter line) is not estimated and is set at the initial value (3rd value in the line), while positivie phases are estimated. 
+- Natural mortality for both males and females is specified at 0.1.
+- The 3 parameters of the von Bertalanffy growth curve are estimated.
+
+Next are some unused options, because there is no seasonality in the biology parameters:
+```{r eval = FALSE}
+#_no timevary MG parameters
+#
+#_seasonal_effects_on_biology_parms
+ 0 0 0 0 0 0 0 0 0 0 #_femwtlen1,femwtlen2,mat1,mat2,fec1,fec2,Malewtlen1,malewtlen2,L1,K
+#_ LO HI INIT PRIOR PR_SD PR_type PHASE
+#_Cond -2 2 0 0 -1 99 -2 #_placeholder when no seasonal MG parameters
+```
+
+
+Next, the Spawner recruitment setup and Spawner recruit long parameter lines are specified (sometimes referred to as SR parms). To set up the lines, a Beverton-Holt SR curve is specified:
+```{r eval = FALSE}
+3 #_Spawner-Recruitment; Options: 2=Ricker; 3=std_B-H; 4=SCAA; 5=Hockey; 6=B-H_flattop; 7=survival_3Parm; 8=Shepherd_3Parm; 9=RickerPower_3parm
+0  # 0/1 to use steepness in initial equ recruitment calculation
+0  #  future feature:  0/1 to make realized sigmaR a function of SR curvature
+```
+which effects the number of SR parameter lines that follow:
+```{r eval = FALSE}
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn #  parm_name
+             3            31       8.81505          10.3            10             0          1          0          0          0          0          0          0          0 # SR_LN(R0)
+           0.2             1      0.614248           0.7          0.05             1          4          0          0          0          0          0          0          0 # SR_BH_steep
+             0             2           0.6           0.8           0.8             0         -4          0          0          0          0          0          0          0 # SR_sigmaR
+            -5             5             0             0             1             0         -4          0          0          0          0          0          0          0 # SR_regime
+             0             0             0             0             0             0        -99          0          0          0          0          0          0          0 # SR_autocorr
+```
+
+The recruitment deviation options are specified after the SR parms. First are the standard recruitment deviations options:
+```{r eval = FALSE}
+1 #do_recdev:  0=none; 1=devvector (R=F(SSB)+dev); 2=deviations (R=F(SSB)+dev); 3=deviations (R=R0*dev; dev2=R-f(SSB)); 4=like 3 with sum(dev2) adding penalty
+1971 # first year of main recr_devs; early devs can preceed this era
+2001 # last year of main recr_devs; forecast devs start in following year
+2 #_recdev phase 
+```
+These define the main recruitment devitations, which in this case last from the first year of the model to the last year. Advanced options are also read:
+```{r eval = FALSE}
+1 # (0/1) to read 13 advanced options
+ 0 #_recdev_early_start (0=none; neg value makes relative to recdev_start)
+ -4 #_recdev_early_phase
+ 0 #_forecast_recruitment phase (incl. late recr) (0 value resets to maxphase+1)
+ 1 #_lambda for Fcast_recr_like occurring before endyr+1
+ 1900 #_last_yr_nobias_adj_in_MPD; begin of ramp
+ 1900 #_first_yr_fullbias_adj_in_MPD; begin of plateau
+ 2001 #_last_yr_fullbias_adj_in_MPD
+ 2002 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+ 1 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
+ 0 #_period of cycles in recruitment (N parms read below)
+ -5 #min rec_dev
+ 5 #max rec_dev
+ 0 #_read_recdevs
+#_end of advanced SR options
+```
+The advanced options allow the user to bias adjust the recruitment deviations. There is more on bias adjustment in the SS user manual, but the general idea is to account for the fact that earlier and later recruitment deviations likely have less information informing them than the ones in the middle. The bias adjustment ramp accounts for this and is typically "tuned" by looking at bias ramp in the model results after it is run, respecifying the bias ramp as needed, and rerunning the model. 
+
+Fishing mortality info is next specified:
+```{r eval = FALSE}
+#Fishing Mortality info 
+0.3 # F ballpark
+-2001 # F ballpark year (neg value to disable)
+3 # F_Method:  1=Pope; 2=instan. F; 3=hybrid (hybrid is recommended)
+2.95 # max F or harvest rate, depends on F_Method
+# no additional F input needed for Fmethod 1
+# if Fmethod=2; read overall start F value; overall phase; N detailed inputs to read
+# if Fmethod=3; read N iterations for tuning for Fmethod 3
+4  # N iterations for tuning F in hybrid method (recommend 3 to 7)
+```
+There are no paricular special settings for fishing mortality information for this model, but note that the recommended hybrid F method is used.
+
+Catchability setup and parameter lines follow fishing mortality info:
+```{r eval = FALSE}
+#_Q_setup for fleets with cpue or survey data
+#_1:  fleet number
+#_2:  link type: (1=simple q, 1 parm; 2=mirror simple q, 1 mirrored parm; 3=q and power, 2 parm; 4=mirror with offset, 2 parm)
+#_3:  extra input for link, i.e. mirror fleet# or dev index number
+#_4:  0/1 to select extra sd parameter
+#_5:  0/1 for biasadj or not
+#_6:  0/1 to float
+#_   fleet      link link_info  extra_se   biasadj     float  #  fleetname
+         2         1         0         1         0         0  #  SURVEY1
+         3         1         0         0         0         0  #  SURVEY2
+-9999 0 0 0 0 0
+#
+#_Q_parms(if_any);Qunits_are_ln(q)
+#_ LO HI INIT PRIOR PR_SD PR_type PHASE env-var use_dev dev_mnyr dev_mxyr dev_PH Block Blk_Fxn # parm_name
+   -7 5   0.516018 0    1 0  1 0 0 0 0 0 0 0  #  LnQ_base_SURVEY1(2)
+    0 0.5 0        0.05 1 0 -4 0 0 0 0 0 0 0  #  Q_extraSD_SURVEY1(2)
+   -7 5   -6.6281  0    1 0  1 0 0 0 0 0 0 0  #  LnQ_base_SURVEY2(3)
+```
+Because the fishery is not used as an index of abundance, it does not require any catchability setup lines or parameters. Note that the log scale (LNQ) catchability parameters are both estimated for the surveys. Also, for fleet 2 in the setup lines, it was specified to used extra standard error, so there is an extraSD fixed value specified as a parameter line.
+
+Selectivity comes next. First, the size and age selectivity setup lines:
+```{r eval = FALSE}
+#_size_selex_patterns
+...
+...
+...
+#_Pattern Discard Male Special
+ 1 0 0 0 # 1 FISHERY
+ 1 0 0 0 # 2 SURVEY1
+ 0 0 0 0 # 3 SURVEY2
+ #
+#_age_selex_patterns
+ ...
+ ...
+ ...
+ #_Pattern Discard Male Special
+ 11 0 0 0 # 1 FISHERY
+ 11 0 0 0 # 2 SURVEY1
+ 11 0 0 0 # 3 SURVEY2
+```
+A selectivity pattern must be specified for both size and age selectivity for each fleet; however, using patterns 0 and 1 for size selectivity allow the user to specify that selectivity is the same across all sizes (within the range specified, if using pattern 1). Here, age selectivity pattern 11 (logistic) is used for all of the fleets. The selectivity setup lines are followed by the selectivity parameter lines:
+```{r eval = FALSE}
+#_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn  #  parm_name
+# 1   FISHERY LenSelex
+            19            80       53.6411            50          0.01             1          2          0          0          0          0          0          0          0  #  Size_inflection_FISHERY(1)
+          0.01            60       18.9232            15          0.01             1          3          0          0          0          0          0          0          0  #  Size_95%width_FISHERY(1)
+# 2   SURVEY1 LenSelex
+            19            70        36.653            30          0.01             1          2          0          0          0          0          0          0          0  #  Size_inflection_SURVEY1(2)
+          0.01            60       6.59179            10          0.01             1          3          0          0          0          0          0          0          0  #  Size_95%width_SURVEY1(2)
+# 3   SURVEY2 LenSelex
+# 1   FISHERY AgeSelex
+             0            40             0             5            99             0         -1          0          0          0          0          0          0          0  #  minage@sel=1_FISHERY(1)
+             0            40            40             6            99             0         -1          0          0          0          0          0          0          0  #  maxage@sel=1_FISHERY(1)
+# 2   SURVEY1 AgeSelex
+             0            40             0             5            99             0         -1          0          0          0          0          0          0          0  #  minage@sel=1_SURVEY1(2)
+             0            40            40             6            99             0         -1          0          0          0          0          0          0          0  #  maxage@sel=1_SURVEY1(2)
+# 3   SURVEY2 AgeSelex
+             0            40             0             5            99             0         -1          0          0          0          0          0          0          0  #  minage@sel=1_SURVEY2(3)
+             0            40             0             6            99             0         -1          0          0          0          0          0          0          0  #  maxage@sel=1_SURVEY2(3)
+#_no timevary selex parameters
+#
+```
+These paramter lines are specified in order, with the size (or length) selectivity lines specified before the age selectivity lines and the fleets in the same order as in the setup lines. Also, the selectivity pattern used determines the number of parameters needed to specify each fleets' size or age selectivity.
+
+Some special features (2DAR selectivity, tagging data, variance adjusment, lambdas, and additional standard deviation reporting) in the control file are turned off for this model:
+```{r eval = FALSE}
+0   #  use 2D_AR1 selectivity(0/1):  experimental feature
+#_no 2D_AR1 selex offset used
+#
+# Tag loss and Tag reporting parameters go next
+0  # TG_custom:  0=no read and autogen if tag data exist; 1=read
+...
+# Input variance adjustments factors: 
+...
+#_Factor  Fleet  Value
+ -9999   1    0  # terminator
+#
+4 #_maxlambdaphase
+1 #_sd_offset; must be 1 if any growthCV, sigmaR, or survey extraSD is an estimated parameter
+...
+#like_comp fleet  phase  value  sizefreq_method
+-9999  1  1  1  1  #  terminator
+#
+0 # (0/1) read specs for more stddev reporting 
+```
+Varaiance adjustment factors and/or lambdas can be used for data weighting, but in this case they have not yet been used. The control file then ends with 999 so that SS knows it can stop reading: 
+```{r eval = FALSE}
+999
+```
+
+# Running the model and afterwards
+
+The model was run using Stock Synthesis 3.30.14 and no additional ADMB command line options. The model should have no issues running, but if you have issues, please see debugging sections in the **Getting Started** and **Developing your first Stock Synthesis model** guides. 
+
+## Checks for convergence
+After running the model, open the warning.sso file to check for any warnings from Stock Synthesis. This file shows no warnings:
+```{r eval = FALSE}
+ N warnings: 0
+Number_of_active_parameters_on_or_near_bounds: 0
+```
+which suggests that the model is not misspecified in a way that SS knows to warn about.
+
+Next, we want to quickly check for any evidence that the model did not converge. In Report.sso, underneath information about the data file and control file names is information about the convergence level:
+```{r eval = FALSE}
+Convergence_Level: 2.14568e-005 is_final_gradient
+```
+The convergence criteria is set in the starter.ss file before the run, and is typically 0.0001. In this case, the final gradient is smaller than the convergence criteria, so this suggests (but does not guarantee) that the model has converged.
+
+We also want to check that there are no estimated parameters on bounds, which can also be done in the Report.sso file. Further down in Report.sso (around line 272), should be a line that tells how many activie (i.e., estimated) parameters were on bounds:
+```{r eval = FALSE}
+Number_of_active_parameters_on_or_near_bounds: 0
+Active_count 54
+```
+If there were any parameters on bounds, the analyst would need to decide if the bounds on the parameter are appropriate or not and consider expanding the bounds or fixing the parameter (if there is not enough information informing the parameter estimate, fixing it may be necessary).
+
+## Check that the hessian inverted
+
+Checking if the hessian inverted is useful, although it is possible to use point estimates from a model for which the hessian does not invert. To see if the hessian inverted, look for the presence of the ss.cor file (the first line of which is something like "The logarithm of the determinant of the hessian = 280.952") and/or to check the covar.sso file which will contain the text "Variances are 0.0 for first two elements, so do not write" if the Hessian failed to invert.
+
+## Further convergence check: Jitter the start values
+
+A common method to have even more confidence that the model has converged is to jitter (i.e., change slightly) the starting values in the model. The r4ss function `SS_RunJitter()' can be used to easily do this.
+
+To jitter a mondel, first the amount of jitter and the option to use the .par file should be set in the starter.ss file. Typically, 0.01 is used:
+```{r eval = FALSE}
+0.1 # jitter initial parm value by this fraction
+```
+and option to read the par file in the starter file is set to 1:
+```{r eval = FALSE}
+1 # 0=use init values in control file; 1=use ss.par
+```
+Using the .par file from a previous run is useful because starting the model from previous values will speed up the runs.
+
+The starter file values can be modified by opening up the starter.ss file and modifying it by hand, or r4ss functions can be used to change this within R, as shown in this example from r4ss:
+```{r eval = FALSE}
+library(r4ss)
+starter <- SS_readstarter(file.path(mydir, 'starter.ss'))
+starter$init_values_src = 1 # Change to use .par file
+# Change jitter (0.1 is an arbitrary, but common choice for jitter amount)
+starter$jitter_fraction = 0.1
+SS_writestarter(starter, dir = mydir, overwrite = TRUE) # write modified starter file
+```
+Next, the jitter can be run:
+```{r eval = FALSE}
+SS_RunJitter(mydir = "simpler", model = "ss", Njitter = 100)
+```
+The previous code assumes that the model directory `mydir` is called "simpler", which is a folder within the working directory. The `model` argument specifies the name of the ss executable, so in this case, it assumes that the SS executable is within the "simpler" folder and called "ss.exe". Finally, `Njitter` tells the function how many times to run the function. For west coast stock assessment jitters, 100 runs is a common value to use, but note that the run time is not trivial (it depends on the model, but may take an hour or more to run).
+
+After the jitter is run, the final likelihood values are the most important part of the results to look at. If the original model run has found a global minimum, you would expect all likelihood values from the jitter to be the same or higher than the original model run. If there are any likehood values that are lower than the original model run, this indicates that the model run did not find a global minimum. Investigating the run or runs with lower likelihood values would be the next step in figuring out what the "final" model run will be.
+
+To check on the results of the jitter, code similar to this example code from r4ss can be used:
+```{r eval = FALSE}
+ #### Read in results using other r4ss functions
+ profilemodels <- SSgetoutput(dirvec = "simpler", keyvec=1:100, getcovar=FALSE)
+ # summarize output
+ profilesummary <- SSsummarize(profilemodels)
+ profilesummary$likelihoods[1,]  # Likelihoods
+ profilesummary$pars # Parameters
+```
+
+## Looking at model results
+
+Once verifying that there is no indication that the model hasn't converged (although an extensive jittering analysis need not be done at this stage), looking at estimates from the model can be helpful. Perhaps the easiest and quickest way to look at many plots from a model is to use the `SS_plots()` in `r4ss`. To plot the results, use:
+```{r eval = FALSE}
+output <- SS_output(dir = "simpler")
+SS_plots(output)
+```
+When the function is done run running, an HTML window will open up in your browser and you can look through plots quickly to determine if the model "makes sense" or if adjustments need to be made.
+
