@@ -4869,7 +4869,7 @@ Recruits are apportioned according to:</p>
 <p>Natural mortality (M) options include some options that are referenced to integer age and other options to real age since settlement. If using an option that references M to real age since settlement, M varies by age and will change by season (e.g., cohorts born early in the year will have different M than cohorts born later in the year).</p>
 <h4 data-number="8.5.1.1" id="lorenzen-natural-mortality"><span class="header-section-number">8.5.1.1</span> Lorenzen Natural Mortality</h4>
 <p><br />
-Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish.</p>
+Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish. In this implementation, a reference age and M value are read in, and other ages will have an M scaled to its body size-at-age. However, if platoons are used, all will have the same M as their growth pattern. Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated. Be careful in using Lorenzen when there is time-varying growth.</p>
 <h4 data-number="8.5.1.2" id="age-specific-m-linked-to-age-specific-length-and-maturity"><span class="header-section-number">8.5.1.2</span> Age-specific M Linked to Age-Specific Length and Maturity</h4>
 <p><br />
 This is an experimental option available as of 3.30.17.</p>
@@ -4891,7 +4891,11 @@ This is an experimental option available as of 3.30.17.</p>
 <li><p><span class="math inline">\(M_{mat,s}=\frac{5.4}{t_{max,s}}\)</span> from Hamel (submitted) if <span class="math inline">\(t_{max}\)</span> is available, otherwise <span class="math inline">\(M_{mat,s} = 4.118K_{s}^{0.73}L_{inf,s}^{-0.33}\)</span> as in <span class="citation" data-cites="then2015evaluating">Then et al. (2015)</span></p></li>
 <li><p><span class="math inline">\(M_{juv,s} = 3W_{mat}^{-0.288}\)</span> from <span class="citation" data-cites="lorenzen1996relationship">K. Lorenzen (1996)</span></p></li>
 </ul>
-<h4 data-number="8.5.1.3" id="natural-mortality-options"><span class="header-section-number">8.5.1.3</span> Natural Mortality Options</h4>
+<h4 data-number="8.5.1.3" id="age-range-lorenzen"><span class="header-section-number">8.5.1.3</span> Age-range Lorenzen</h4>
+<p><br />
+The original implementation of Lorenzen natural mortality in Stock Synthesis uses a reference age and its associated natural mortality as inputs to determine the Lorenzen curve. However, sometimes this information is not known. The age-range Lorenzen instead uses a range of ages and the average natural mortality over them to calculate a Lorenzen natural mortality curve.</p>
+<p>Like the original Lorenzen options, ages will have an M scaled to its body size-at-age and care should be taken when there are multiple growth patterns or time-varying growth.</p>
+<h4 data-number="8.5.1.4" id="natural-mortality-options"><span class="header-section-number">8.5.1.4</span> Natural Mortality Options</h4>
 <p><br />
 </p>
 <table>
@@ -4934,66 +4938,85 @@ This is an experimental option available as of 3.30.17.</p>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">4 = Read age specific and do seasonal interpolation, if appropriate; and</td>
+<td style="text-align: left;">4 = Read age specific and do seasonal interpolation, if appropriate;</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">5 = age-specific M linked to age-specific length and maturity (experimental).</td>
+<td style="text-align: left;">5 = age-specific M linked to age-specific length and maturity (experimental);</td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">6 = Age-range Lorenzen.</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;" colspan="2">COND = 0</td>
 <td style="text-align: left;">No additional natural mortality controls.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;" colspan="2">COND = 1</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4</td>
 <td style="text-align: left;">Number of breakpoints. Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;" colspan="2">2.5 4.5 9.0 15.0</td>
 <td style="text-align: left;">Vector of age breakpoints.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;" colspan="2">COND = 2</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4</td>
-<td style="text-align: left;">Reference age for Lorenzen natural mortality: read one additional integer value that is the reference age. Later read one parameter for each sex x growth pattern that will be the M at the reference age. Other ages will have an M scaled to its body size-at-age. However, if platoons are used, all will have the same M as their growth pattern. Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated. So be careful in using Lorenzen when there is time-varying growth.</td>
+<td style="text-align: left;">Reference age for Lorenzen natural mortality: read one additional integer value that is the reference age. Later read one long parameter line for each sex x growth pattern that will be the M at the reference age.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;" colspan="2">COND = 3 or 4</td>
 <td style="text-align: left;">Do not read any natural mortality parameters in the mortality growth parameter section. With option 3, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0.20 0.25 ... 0.20 0.23 ...</td>
 <td style="text-align: left;">Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;" colspan="2">COND = 5</td>
 <td style="text-align: left;">age-specific M linked to age-specific length and maturity suboptions.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">1 = Requires 4 long parameter lines per sex x growth pattern using maturity. Must be used with maturity option 1;</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">2 = reserved for future option;</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">3 = Requires 6 long parameter lines per sex x growth pattern</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;" colspan="2">COND = 6</td>
+<td style="text-align: left;">Read two additional integer values that are the age range for average M. Later, read one long parameter line for each sex x growth pattern that will be the average M over the reference age range.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">Minimum age of average M range for calculating Lorenzen natural mortality.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;">10</td>
+<td style="text-align: left;">Maximum age of average M range for calculating Lorenzen natural mortality.</td>
 </tr>
 </tbody>
 </table>
