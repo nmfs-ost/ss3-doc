@@ -21,7 +21,7 @@ Stock Synthesis (SS3) is a statistical fisheries population dynamics modeling fr
 
 If you have never used the command line, please see the resources in [Appendix 1](#app1).
 
-To follow along, we recommend downloading the [simple example](https://github.com/nmfs-stock-synthesis/user-examples/tree/main/model_files/simple). Simple is a working SS3 model that runs in less than three minutes and should allow you to experiment with SS3 workflows without having to worry about the model’s contents.
+To follow along, we recommend downloading the [simple example](https://github.com/nmfs-stock-synthesis/user-examples/tree/main/model_files/simple) ([Instructions for downloading](https://github.com/nmfs-stock-synthesis/user-examples#how-to-download)) and the [latest release of SS3](https://github.com/nmfs-stock-synthesis/stock-synthesis/releases/latest). Simple is a working SS3 model that runs in less than three minutes and should allow you to experiment with SS3 workflows without having to worry about the model’s contents.
 
 By the end of using this guide, you should:
 
@@ -30,7 +30,7 @@ By the end of using this guide, you should:
 3. Understand which tools are available to work with SS3 models
 4. Troubleshoot basic problems associated with running an SS3 model
 
-```{r, echo = FALSE, out.width = "450px", fig.cap="SS3 input and output files, and associated tools. Note that some tools are used with both input and output model files."}
+```{r, echo = FALSE, out.width = "450px", fig.cap="Figure 1. SS3 input and output files, and associated tools. Note that some tools are used with both input and output model files."}
 knitr::include_graphics("images/SS_tools_files.png")
 ```
 
@@ -40,7 +40,7 @@ SS3 uses text input files and produces text output files. In this section, the S
 
 ## SS3 files: Required inputs
 
-Four required input files are read by the SS3 executable. Throughout this document, we will refer to the SS3 executable as ss.exe. Keep in mind that the Linux and Mac versions of SS3 have no file extension (e.g., ss), and the executable can have a different name (e.g., ss_win.exe, ss_3.30.18.exe). These input files are:
+Four required input files are read by the SS3 executable. Throughout this document, we will refer to the SS3 executable as ss.exe. Keep in mind that the Linux and Mac versions of SS3 have no file extension (e.g., ss), and the executable can be renamed by the user as desired (e.g., ss_win.exe, ss_3.30.18.exe). These input files are:
 
  1. **starter.ss:** Required file containing file names of the data file and the control file plus other run controls. Must be named starter.ss.
  2. **data file:** File containing model dimensions and the data. The data file can have any name, as specified in the starter file, but typically ends in .ss or .dat.
@@ -68,11 +68,11 @@ Many output text files are created during a model run. The most useful output fi
 
 + **r4ss**: An R package to plot SS3 model results and manipulate SS3 input and output files. Available at: https://github.com/r4ss/r4ss
 
-+ **SSI**: Stock Synthesis Interface (i.e., the SS3 GUI). The latest version can be downloaded from [within the document library on Vlab](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951). SSI can be used to edit, save, run, and visualize model inputs and outputs.
++ **SSI**: Stock Synthesis Interface (i.e., the SS3 GUI). The [latest version of SSI](https://github.com/nmfs-stock-synthesis/ssi/releases/latest) can be downloaded from GitHub. SSI can be used to edit, save, run, and visualize model inputs and outputs.
 
 # Running SS3
 
-SS3 is typically run through the command line. We will introduce the one folder approach, where SS3 is in the same folder as the model files. Other possible approaches to running SS3 include, which are detailed in the [running SS section of the user manual](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#sec:RunningSS).
+SS3 is typically run through the command line. We will introduce the one folder approach, where SS3 is in the same folder as the model files. Other possible approaches to running SS3 include, which are detailed in the ["Running Stock Synthesis" section of the user manual](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#sec:RunningSS).
 
 ## The one folder approach and demonstration of an SS3 model run
 
@@ -85,7 +85,7 @@ Create a folder and add:
 + Control File (Must match name in starter.ss)
 + Data File (Must match name in starter.ss)
 + forecast.ss
-+ ss.exe (or ss_opt.exe for running faster without internal checks)
++ ss.exe
 + starter.ss
 + Conditional files: wtatage.ss (if doing empirical wt-at-age approach) and/or ss.par (to continue from a previous run)
 
@@ -107,13 +107,13 @@ After starting the run, you should see output to the command line similar to:
 
 ![](images/SS_start_run.png)
 
-If the output gets past `Estimating…please wait…`, then the structure of the SS3 inputs is OK. The volume of information displayed during the run within the command window is controlled in starter.ss file on the line with the comment `# run display detail (0,1,2)` (1 is the most typically used value).
+If the output gets past `Estimating…please wait…`, then the structure of the SS3 inputs is correct. The volume of information displayed during the run within the command window is controlled in starter.ss file on the line with the comment `# run display detail (0,1,2)`. The 0 setting is the least verbose option, while the 2 setting is the most verbose.
 
-SS3 always opens and reads files in the same order (starter.ss,  data file, forecast.ss, control, then wtatage.ss if using, and finally ss.par if using), writing to echoinput.sso as it reads. SS3 inputs are read in order by value, without reference to comments (i.e., anything after `#` on a line). Depending on which options are selected, SS3 will expect a particular number of values in a certain order, so failing to provide them will result in errors or at least a different model specification than intended.
+SS3 always opens and reads files in the same order (starter.ss,  data file, forecast.ss, control, then wtatage.ss if using, and finally ss.par if using), writing to echoinput.sso (a file for debugging runs) and warnings.sso (a file which collects warnings from SS3) as it reads. SS3 inputs are read in order by value, without reference to comments (i.e., anything after `#` on a line). Linebreaks and whitespace are both treated as separators. Depending on which options are selected, SS3 will expect a particular number of values in a certain order, so failing to provide them will result in errors or at least a different model specification than intended.
 
-After reading, SS3 proceeds immediately to pre-processing the data and creating internal parameter labels. As SS3 executes, it writes checks to echoinput.sso and warnings to warnings.sso.
+After reading, SS3 proceeds immediately to pre-processing the data and creating internal parameter labels. As SS3 executes, it continues to write debugging output to echoinput.sso and warnings to warnings.sso.
 
-SS3 next goes to the procedure section where iterative parameter changes are made by ADMB to minimize the negative log likelihood. When ADMB achieves convergence, control passes to the sd_phase for calculation of parameter variance (unless `–nohess` option is specified; See [command line options](#options)). After the sd_phase, SS3 proceeds to the benchmark and forecast code section and then to final reporting. Output files containing results are written to the directory.
+SS3 next goes to the procedure section where iterative parameter changes are made by ADMB to minimize the negative log likelihood. When ADMB achieves convergence, control passes to the sd_phase for calculation of parameter variance (unless `–nohess` option is specified; See [command line options](#options)). After the sd_phase, SS3 proceeds to the benchmark and forecast code section and then to final reporting. Output files containing results are typically written to the directory in which the model was run from (except when using [this special subfolder option](https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#optional-output-subfolders)).
 
 When the run completes, SS3 shows `!! Run has completed !!` and the number of warnings:
 
