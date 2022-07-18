@@ -9644,33 +9644,25 @@ There may be times a user would like to generate the .ss_new files without runni
 <p>Typing &quot;N&quot; during a run will cause ADMB to immediately advance to the next phase of estimation.</p>
 <p>Typing &quot;Q&quot; during a run will cause ADMB to immediately go to the final phase. This bypasses estimation of the Hessian and will produce all of the model outputs, which are coded in the FINAL_SECTION.</p>
 <h2 data-number="11.7" id="running-mcmc"><span class="header-section-number">11.7</span> Running MCMC</h2>
-<p>Running SS3 v.3.30 with MCMC can be done through command line options using the default ADMB MCMC algorithim (described below). Another possibility is using the R package adnuts. See the <a href="https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html">adnuts vignette</a> for more information.</p>
-<ul>
-<li><p>This gives maximum posterior density estimates, report file, Hessian matrix and the .cor file.</p></li>
-<li><p>Look for parameters stuck on bounds which will degrade efficiency of MCMC implementation.</p></li>
-</ul>
-<p>Run SS3 v.3.30 with arguments -mcmc xxxx -mcsave yyyy</p>
+<p>Running SS3 with MCMC can be done through command line options using the default ADMB MCMC algorithim (described below). Another possibility is using the R package adnuts. See the <a href="https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html">adnuts vignette</a> for more information. The <a href="https://www.admb-project.org/developers/mcmc/mcmc-guide-for-admb.pdf">MCMC guide for ADMB</a> provides the most comprehensive guidance available for using MCMC with ADMB models (such as SS3).</p>
+<p>Running SS3 with MCMC (instead of maximum likelihood estimation) provides maximum posterior density estimates, report file, Hessian matrix and the .cor file. Parameters stuck on bounds which will degrade efficiency of MCMC implementation. Two commands are needed to obtain the model results:</p>
+<p>Run SS3 with arguments -mcmc xxxx -mcsave yyyy</p>
 <ul>
 <li><p>Where: xxxx is the number of iterations for the chain, and yyyy is the thinning interval (1000 is a good place to start).</p></li>
 <li><p>MCMC chain starts at the MPD values.</p></li>
 <li><p>Recommended: Remove existing .psv files in run directory to generate a new chain.</p></li>
-<li><p>Recommended: Set DOS run detail switch in starter file to 0; reporting to screen will dramatically slow MCMC progress.</p></li>
-<li><p>Optional: Add -nohess to use the existing Hessian file without re-estimating.</p></li>
-<li><p>Optional: To start the MCMC chain from specific values change the par file; run the model with estimation, adjust the par file to the values that the chain should start from, change within the starter file for the model to begin from the par file, and call the MCMC function using ss –mcmc xxxx – mcsave yyyy -nohess –noest.</p></li>
-<li><p>Optional: Add -nohess and modify starter file so that run will now start from the converged (or modified) parameter estimates in &quot;ss.par&quot;.</p></li>
+<li><p>Recommended: Before running, set the run detail switch in starter file to 0 to limit printing to the screen; reporting to screen will slow MCMC progress.</p></li>
+<li><p>Optional: Add <code>-nohess</code> to use the existing Hessian file without re-estimating.</p></li>
+<li><p>Optional: To start the MCMC chain from specific values change the par file: run the model with estimation, adjust the par file to the values that the chain should start from, change within the starter file for the model to begin from the par file, and call the MCMC function using <code>ss –mcmc xxxx – mcsave yyyy -nohess –noest</code>.</p></li>
 </ul>
-<p>Run SS3 v.3.30 with argument -mceval</p>
+<p>Run SS3 with argument -mceval to get more summaries</p>
 <ul>
 <li><p>This generates the posterior output files.</p></li>
 <li><p>Optional: Modify starter file entries to add a burn-in and thinning interval above and beyond the ADMB thinning interval applied at run time.</p></li>
 <li><p>Recommended: MCMC always begins with the maximum posterior density values and so a burn-in &gt;0 should always be used.</p></li>
 <li><p>This step can be repeated for alternate forecast options (e.g., catch levels) without repeating step 2.</p></li>
 </ul>
-<p>Optional: Run SS3 v.3.30 with arguments -mcr -mcmc xxxx -mcsave yyyy ...</p>
-<ul>
-<li><p>This restarts and extends an uninterrupted chain previously completed (note that any intermediate runs without the -mcr command in the same directory will break this option).</p></li>
-</ul>
-<p>Note: when the model switches to MCMC or MCEVAL mode, it sets all the bias adjustment factors to 1.0 for any years with recruitment deviations defined. A report file is not created after completing MCMC because it would show values based on the last MCMC step.</p>
+<p>Note that when the model is switched to MCMC or MCEVAL mode, all the bias adjustment factors become 1.0 for any years with recruitment deviations. A report file is not created after completing MCMC because it would show values based only on the last MCMC step.</p>
 <h1 data-number="12" id="output-files-1"><span class="header-section-number">12</span> Output Files</h1>
 <h2 data-number="12.1" id="custom-reporting"><span class="header-section-number">12.1</span> Custom Reporting</h2>
 <div id="custom">
