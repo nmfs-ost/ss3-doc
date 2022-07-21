@@ -656,7 +656,14 @@ These parameter lines are entered directly after the weight-at-length parameters
 
 \pagebreak
 \hypertarget{offset}{}
-\subsubsection{Parameter offset method}
+\subsubsection{Natural Mortality and Growth Parameter Offset Method}
+
+The most common set-up for natural mortality and growth parameters for two-sex models is  direct assignment (option 1) which allows for independent estimation (or fixing) of natural mortality and growth parameters by sex.  Within the direct assignment option there is functionality to set male parameters equal to the corresponding female parameter if the male INIT value is set to 0 and the phase is negative. 
+
+Alternatively, there may be situations where a user wants to create direct linkages between natural mortality and growth parameters between sexes (options 2 or 3). If the parameter offset option 2 is selected, the control file still requires that all male natural mortality and growth parameters lines to be included. The natural mortality and growth parameters (e.g., k, Lmin, Lmax, CV1, CV2) for sex > 1 (typically male fish) have a value that is an exponential offset to the female natural mortality and growth parameters, e.g., $M_{\text{male}} = M_{\text{female}}*exp(M_{\text{male offset}})$. An offset parameter can be fixed at 0.0, at a non-zero value, or estimated.
+
+Parameter offset option 3 has an offset feature for the growth CV and for natural mortality. For the growth CV, the parameter for CV at old age is an exponential offset from the parameter for CV at young age, e.g., $CV_{\text{old}} = CV_{\text{young}}*exp(CV_{\text{offset}})$.This allows for CV old to track an estimated CV young parameter. For natural mortality, if there is more than 1 natural mortality parameter, then parameters 2 and higher for the same sex and growth pattern are exponential offsets from the first natural mortality parameter. Note that it is an old feature designed to work with natural mortality option 1 (breakpoints). It may work with natural mortality options 3 and 4, but this has not been tested.
+
 
 \begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
 	\hline	
