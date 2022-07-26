@@ -1425,7 +1425,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 			\item 2 = no phase adjustments, can be used when profiling on fixed R0.
 		\end{itemize}
 	\end{enumerate}
-	\item Do extra standard error
+	\item Estimate extra standard error for an index
 	\begin{enumerate}
 		\item 0 = skip (typical); and
 		\item 1 = estimate a parameter that will contain an additive constant to be added to the input standard deviation of the survey variability.  
@@ -2393,7 +2393,7 @@ To avoid having to specify mirrored parameter lines, the tag parameters can be a
 
 \hypertarget{GcompVar}{}
 \subsection{Variance Adjustment Factors}
-When doing iterative re-weighting of the input variance factors, it is convenient to do this in the control file, rather than the data file.  This section creates that capability.
+When doing iterative re-weighting of the input variance factors, it is convenient to do this in the control file, rather than the data file. This section creates that capability.
 
 
 \begin{longtable}{p{3cm} p{3cm} p{2.5cm} p{6.25cm} }
@@ -2411,6 +2411,8 @@ When doing iterative re-weighting of the input variance factors, it is convenien
 
 
 \myparagraph{Additive Survey CV - Factor 1}
+While this functionality has been retained for backward compatibility with only model versions, this does not reflect current best practices for tuning indices. Tuning indices should be conducted using the ability to estimate additional standard deviation which can be done in the \hyperlink{Qsetup}{Catchability} setup.   
+
 The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey). The variance adjustment is added directly to this standard deviation. Set to 0.0 for no effect. Negative values are OK, but will crash if adjusted standard deviation value becomes negative.
 
 \myparagraph{Additive Discard - Factor 2}	
