@@ -6982,7 +6982,7 @@ A non-equilibrium initial age composition is achieved by setting the first year 
 <li><p>2 = no phase adjustments, can be used when profiling on fixed R0.</p></li>
 </ul></li>
 </ol></li>
-<li><p>Do extra standard error</p>
+<li><p>Estimate extra standard error for an index</p>
 <ol>
 <li><p>0 = skip (typical); and</p></li>
 <li><p>1 = estimate a parameter that will contain an additive constant to be added to the input standard deviation of the survey variability.</p></li>
@@ -8953,7 +8953,8 @@ In version 3.30.14, the ability to mirror the tagging parameters from another ta
 </table>
 <h4 data-number="8.11.0.1" id="additive-survey-cv---factor-1"><span class="header-section-number">8.11.0.1</span> Additive Survey CV - Factor 1</h4>
 <p><br />
-The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey). The variance adjustment is added directly to this standard deviation. Set to 0.0 for no effect. Negative values are OK, but will crash if adjusted standard deviation value becomes negative.</p>
+While this functionality has been retained for backward compatibility with only model versions, this does not reflect current best practices for tuning indices. Tuning indices should be conducted using the ability to estimate additional standard deviation which can be done in the <a href="#Qsetup">Catchability</a> setup.</p>
+<p>The survey input variance (labeled survey CV) is actually the standard deviation of the ln(survey). The variance adjustment is added directly to this standard deviation. Set to 0.0 for no effect. Negative values are OK, but will crash if adjusted standard deviation value becomes negative.</p>
 <h4 data-number="8.11.0.2" id="additive-discard---factor-2"><span class="header-section-number">8.11.0.2</span> Additive Discard - Factor 2</h4>
 <p><br />
 The input variance is the CV of the observation. Because this will cause observations of near zero discard to appear overly precise, the variance adjustment is added to the discard standard deviation, not to the CV. Set to 0.0 for no effect.</p>
