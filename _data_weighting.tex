@@ -83,12 +83,58 @@ There are a several of challenges posed by the Francis data-weighting approach:
 %\subsubsection{Dirichlet-Multinomial}
 \myparagraph{Dirichlet-Multinomial}
 
-Change the choice of likelihood and set parameter choices in the data file:
+The Dirichlet-multinomial should only be used when there is a
+substantive basis for setting an approximate value for input sample
+size.  This is important because: 
 
 \begin{itemize}
-	\item In the specification of the length and/or age data, change "CompError" column in age and length comp specifications from 0 to 1 and "ParmSelect" from 0 to a sequence of numbers from 1 to N where N is the total number of combinations of fleet and age/length. Note that there cannot be any skipped values from 1 to N, otherwise the model will exit on error while reading the input files.
+
+\item The input-sample-size provided by the user is an upper bound on
+weighting for those data, such that a dummy value of 1 will cause those
+data to never be assigned a weight \>1.
+
+\item Changes in input sample size are not quite proportionally
+offsetted by changes in the estimated weighting parameter, such that
+using input-sample-size of 100 vs. 200 will result in small differences
+in estimated data weights (this property is fixed by the
+multivariate-Tweedie likelihood, where changes in input-sample-size are
+exactly offsetted by changes in the estimated weighting parameters).   
+
+\end{itemize}
+
+To develop an input-sample-size, Jim Thorson recommends:
+
+\begin{enumerate}
+
+\item Using nonparametric (bootstrapping), design-based, or model-based
+estimators to identify the variance of expanded compositional data, and
+then deriving an input-sample-size from that; 
+
+\item Using \textit{a priori} reasoning, e.g., about fishery compositions
+deserving a lower input-sample-size than a survey in cases when the
+input-sample-size for the survey is known, but that for the fishery is
+unknown. 
+
+\item If the proceeding options are not feasible, using accepted
+standards in that region and review context, i.e., assigning
+input-sample-size of arbitrary value X if that is what has always been
+done in that region/stock, there’s no basis for changing it, and it is
+greater than or equal to the likely effective sample size; 
+
+\end{enumerate}
+
+Change the choice of likelihood and set parameter choices in the data
+file: 
+
+\begin{itemize}
+\item In the specification of the length and/or age data, change
+"CompError" column in age and length comp specifications from 0 to 1 and
+"ParmSelect" from 0 to a sequence of numbers from 1 to N where N is the
+total number of combinations of fleet and age/length. Note that there
+cannot be any skipped values from 1 to N, otherwise the model will exit
+on error while reading the input files. 
 	
-	\item Resulting input should look similar to:
+\item Resulting input should look similar to:
 \begin{small}
 \begin{verbatim}
 #_mintail addtocomp combM+F CompressBins CompError ParmSelect minsamplesize   
@@ -97,9 +143,12 @@ Change the choice of likelihood and set parameter choices in the data file:
 \end{verbatim}
 \end{small}
 
-	\item The ParmSelect column can also have repeated values so that multiple fleets share the same log(Theta) parameter.
+\item The ParmSelect column can also have repeated values so that
+multiple fleets share the same log(Theta) parameter. 
 	
-	\item If you have both length and age data, the ParmSelect should have separate numbers for each, e.g. 1 and 2 for the length comps and 3 and 4 for the age comps for the same two fleets.
+\item If you have both length and age data, the ParmSelect should have
+separate numbers for each, e.g. 1 and 2 for the length comps and 3 and 4
+for the age comps for the same two fleets. 
 	
 \end{itemize}
 
@@ -108,12 +157,31 @@ Add parameter lines to the control file:
 \begin{itemize}
 	\item Add as many parameter lines as the maximum numbers in the ParmSelect column. The new parameter lines go after the main selectivity parameters but before any time-varying selectivity parameters
 	
-	\item Jim Thorson initially recommended bounds of -5 to 20, with a starting value of 0
-    (which corresponds to a weight of about 50\% of the input sample size). However, parameter estimates above 5 are associated with 99-100\% weight with little information in the likelihood about the parameter value. Therefore, an upper bound of 5 may help identify cases that otherwise would have convergence issues.
+\item Given that the input-sample-size is fixed at a reasonable level,
+Jim Thorson recommends bounds of -5 to 5, with a starting value of 0
+(which corresponds to a weight of about 50\% of the input sample size).
+However, parameter estimates above 5 are associated with 99-100\% weight
+with little information in the likelihood about the parameter value.
+Therefore, an upper bound of 5 may help identify cases that otherwise
+would have convergence issues.  When the parameter hits this upper
+bound, consider either switching those data to a multinomial (which
+behavior the DM is asymptotically approaching) or using a Bayesian prior
+/ likelihood penalty to ensure that the estimated parameter does not
+rest on this boundary.  	
 
-  \item In consultation with Jim Thorson, Ian Taylor proposed a normal $N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to counteract the effect of the logistic transformation between this parameter and the data weighting. The 1.813 value was calculated as the standard deviation of the distribution of $log(\theta)$ values derived from starting with a uniform distribution on the weights, weight = $\theta/(1+\theta) \sim U(0,1)$, and solving for $log(\theta)$. This prior was applied to the 2020 Pacific Hake stock assessment \citep{grandin-status-2020} and led to better MCMC convergence with relatively little impact on the maximum likelihood estimates.
+
+\item In consultation with Jim Thorson, Ian Taylor proposed a normal
+$N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to
+counteract the effect of the logistic transformation between this
+parameter and the data weighting. The 1.813 value was calculated as the
+standard deviation of the distribution of $log(\theta)$ values derived
+from starting with a uniform distribution on the weights, weight =
+$\theta/(1+\theta) \sim U(0,1)$, and solving for $log(\theta)$. This
+prior was applied to the 2020 Pacific Hake stock assessment
+\citep{grandin-status-2020} and led to better MCMC convergence with
+relatively little impact on the maximum likelihood estimates. 
 	
-	\item Example parameter lines are below (columns 8-14 not shown): 
+\item Example parameter lines are below (columns 8-14 not shown): 
     \begin{small}
       % minipage to stop page break that was falling within these lines
       \begin{minipage}{\linewidth} 
@@ -125,7 +193,7 @@ Add parameter lines to the control file:
       \end{minipage}
     \end{small}
 	
-	\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In 3.24 this means setting the values to 1, in SS3 v.3.30, you can simply delete or comment-out the rows with the adjustments.
+\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In 3.24 this means setting the values to 1, in SS3 v.3.30, you can simply delete or comment-out the rows with the adjustments.
 \end{itemize}
 
 The \texttt{SS\_output} function in r4ss returns table like the following:
