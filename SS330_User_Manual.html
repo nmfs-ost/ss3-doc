@@ -1264,7 +1264,7 @@ Seattle, WA</p>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0 0 0 0 0 0 0 0 0 0</td>
 <td style="text-align: left;">Benchmark Years:</td>
-<td style="text-align: left;">Requires 10 values, beginning and ending years for (1,2) biology (e.g., growth, natural mortality, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) stock-recruitment parameters for averaging years in calculating benchmark quantities.</td>
+<td style="text-align: left;">Requires 10 values, beginning and ending years for (1,2) biology (e.g., growth, natural mortality, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) stock-recruitment parameters for averaging years in calculating benchmark quantities. If there is no time-varying biology it is recommend to select the first model year for the beginning year for biology.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -1279,6 +1279,16 @@ Seattle, WA</p>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">&lt;= 0: year relative to end year.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
@@ -1875,9 +1885,10 @@ For each fleet, SS3 always calculates catch in terms of biomass (mt) and numbers
 The principle measure of fish abundance, for the purpose of reference point calculation, is female reproductive output. This is referred to as SSB (spawning stock biomass) and sometimes just &quot;B&quot; because the typical user settings have one unit of reproductive output (fecundity) per kg of mature female biomass. So when the output label says B<sub>MSY</sub>, this is actually the female reproductive output at the proxy for F<sub>MSY</sub>.</p>
 <h4 data-number="6.3.0.5" id="fleet-allocation"><span class="header-section-number">6.3.0.5</span> Fleet Allocation</h4>
 <p><br />
-An important concept for the reference point calculation is the allocation of fishing rate among fleets. Internally, this is Bmark_relF(<span class="math inline">\(f,s\)</span>) and it is the fraction of the F multiplier assigned to each fleet, <span class="math inline">\(f\)</span> and season, <span class="math inline">\(s\)</span>. The value, F_multiplier * Bmark_relF(<span class="math inline">\(f,s\)</span>), is the F level for a particular fleet in a particular season and for the age that has a selectivity of 1.0. Other ages will have different F values according to their selectivity.</p>
+An important concept for the reference point calculation is the allocation of fishing rate among fleets. Internally, this is benchmark years relative F (Bmark_relF(<span class="math inline">\(f,s\)</span>)) and it is the fraction of the F multiplier assigned to each fleet, <span class="math inline">\(f\)</span> and season, <span class="math inline">\(s\)</span>. The value, F_multiplier * Bmark_relF(<span class="math inline">\(f,s\)</span>), is the F level for a particular fleet in a particular season and for the age that has a selectivity of 1.0. Other ages will have different F values according to their selectivity.</p>
 <ul>
 <li><p>The Bmark_relF values can be calculated by SS3 from a range of years specified in the input for Benchmark Years or it can be set to be the same as the Forecast_RelF, which in turn can be based on a range of years or can be input as a set of fixed values.</p></li>
+<li><p>The biology years selected for the Bmark_relF calculations can have an effect on the standard deviation estimated, even in models with no time-varying biology. It is recommended to use the first model year except when biology is time-varying.Note that when biology is time-varying, the fecundity vector, which is used to calculate SSB, will be updated in every iteration for every year that has time-varying biology.</p></li>
 <li><p>Note that for Bycatch Fleets, the F’s calculated by application of Bmark_relF for a bycatch fleet can be overridden by a F value calculated from a range of years or a fixed F value that is input by the user. If such an override is selected for a bycatch fleet, that F value is not adjusted by changes to the F multiplier. This allows the user to treat a bycatch fleet as a constant background F while the optimal F for other fleets is sought. Also for bycatch fleets, there is user control for whether or not the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for F<sub>MSY</sub>.</p></li>
 </ul>
 <h4 data-number="6.3.0.6" id="virgin-vs.-unfished"><span class="header-section-number">6.3.0.6</span> Virgin vs. Unfished</h4>
