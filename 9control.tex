@@ -2281,28 +2281,39 @@ When using this option for age-based selectivity, if there are not too many ages
 	\multicolumn{3}{l}{ } & \multicolumn{8}{l}{0 = Not used,}\\
 	\multicolumn{3}{l}{ } & \multicolumn{8}{l}{1 = Use 2D AR.}\Tstrut\\
 
-	\multicolumn{11}{l}{COND = 1 Read the following long parameter lines:}\\
+	\multicolumn{11}{l}{COND = 1 Read the following long parameter lines.} \\
+	\multicolumn{11}{l}{If multiple fleets are specified for 2D AR, the following lines are repeated for each fleet:}\\
 	\hline
 	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\Bstrut\\
 	\hline
 	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0\Tstrut\\
-	   2    & 1990 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0 \Bstrut\\
-	\hline
-	\\
-	
-	\multicolumn{11}{l}{continued:} \\
 	\hline
 	     &    &      &       & PRIOR & PRIOR &       &     & & & \Tstrut\\
 	LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL}\Bstrut\\
 	\hline
-	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1}\Tstrut\\
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, first age}\Tstrut\\
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, second age}\Tstrut\\
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, ... age}\Tstrut\\
 	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1}\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1}\\
-	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 2}\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 2}\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 2}\Bstrut\\
-	\multicolumn{11}{l}{\#Terminator line of 11 in length indicates the end of parameter input lines}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1} \\
+	\hline
+	\multicolumn{11}{l}{\# Additional fleets (e.g., fleet 2) with 2D AR selectivity}\\
+	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
+	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\Bstrut\\
+	\hline
+	2    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0\Tstrut\\
+		\hline
+	&    &      &       & PRIOR & PRIOR &       &     & & & \Tstrut\\
+	LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL}\Bstrut\\
+	\hline
+	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, first age}\Tstrut\\
+	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, second age}\Tstrut\\
+	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, ... age}\Tstrut\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1}\\
+	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1} \\
+	\hline
+	\multicolumn{11}{l}{\# Terminator line of 11 in length indicates the end of parameter input lines}\\
 	-9999 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
 	\hline
 \end{longtable}
