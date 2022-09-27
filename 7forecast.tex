@@ -81,11 +81,12 @@ The term COND appears in the "Typical Value" column of this documentation (it do
   
   
  \hline
- 0 0 0 0 0 0 0 0 0 0 & Benchmark Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Requires 10 values, beginning and ending years for (1,2) biology (e.g., growth, natural mortality, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) stock-recruitment parameters for averaging years in calculating benchmark quantities.}} \Tstrut\\
+ 0 0 0 0 0 0 0 0 0 0 & Benchmark Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm }{ Requires 10 values, beginning and ending years for (1,2) biology (e.g., growth, natural mortality, maturity, fecundity), (3,4) selectivity, (5,6) relative Fs, (7,8) movement and recruitment distribution; (9,10) stock-recruitment parameters for averaging years in calculating benchmark quantities. If there is no time-varying biology it is recommend to select the first model year for the beginning year for biology.}} \Tstrut\\
   & -999: start year; & \\
   & >0:   absolute year; and & \\
   & <= 0: year relative to end year. & \\
-
+  & & \Bstrut\\
+  & & \Bstrut\\
 
   %\pagebreak
   %\hline
@@ -321,10 +322,12 @@ For each fleet, SS3 always calculates catch in terms of biomass (mt) and numbers
 The principle measure of fish abundance, for the purpose of reference point calculation, is female reproductive output.  This is referred to as SSB (spawning stock biomass) and sometimes just "B" because the typical user settings have one unit of reproductive output (fecundity) per kg of mature female biomass.  So when the output label says B\textsubscript{MSY}, this is actually the female reproductive output at the proxy for F\textsubscript{MSY}.
 
 \myparagraph{Fleet Allocation}
-An important concept for the reference point calculation is the allocation of fishing rate among fleets.  Internally, this is Bmark\_relF($f,s$) and it is the fraction of the F multiplier assigned to each fleet, $f$ and season, $s$.  The value, F\_multiplier * Bmark\_relF($f,s$), is the F level for a particular fleet in a particular season and for the age that has a selectivity of 1.0.  Other ages will have different F values according to their selectivity.
+An important concept for the reference point calculation is the allocation of fishing rate among fleets.  Internally, this is benchmark years relative F (Bmark\_relF($f,s$)) and it is the fraction of the F multiplier assigned to each fleet, $f$ and season, $s$.  The value, F\_multiplier * Bmark\_relF($f,s$), is the F level for a particular fleet in a particular season and for the age that has a selectivity of 1.0.  Other ages will have different F values according to their selectivity.
 
 \begin{itemize}
 	\item The Bmark\_relF values can be calculated by SS3 from a range of years specified in the input for Benchmark Years or it can be set to be the same as the Forecast\_RelF, which in turn can be based on a range of years or can be input as a set of fixed values.
+	
+	\item The biology years selected for the Bmark\_relF calculations can have an effect on the standard deviation estimated, even in models with no time-varying biology. It is recommended to use the first model year except when biology is time-varying.Note that when biology is time-varying, the fecundity vector, which is used to calculate SSB, will be updated in every iteration for every year that has time-varying biology.  
 	
 	\item Note that for Bycatch Fleets, the F's calculated by application of Bmark\_relF for a bycatch fleet can be overridden by a F value calculated from a range of years or a fixed F value that is input by the user.  If such an override is selected for a bycatch fleet, that F value is not adjusted by changes to the F multiplier.  This allows the user to treat a bycatch fleet as a constant background F while the optimal F for other fleets is sought.  Also for bycatch fleets, there is user control for whether or not the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for F\textsubscript{MSY}.
 \end{itemize}
