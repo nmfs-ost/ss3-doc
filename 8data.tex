@@ -972,7 +972,7 @@ The final two lines in the example above indicate in that variable series 1 will
 	\end{itemize}
 
 \subsection{Generalized Size Composition Data}
-The generalized approach to size composition information was designed initially to provide a means to include weight frequency data. However, the uses are broader, such as allowing for size composition data with different data bins. The user can define as many generlized size composition methods as necessary.
+The generalized approach to size composition information was designed initially to provide a means to include weight frequency data. However, the uses are broader, such as allowing for size composition data with different data bins. The user can define as many generalized size composition methods as necessary.
 
 \begin{itemize}
 	\item Each method has a specified number of bins.
@@ -991,14 +991,19 @@ The generalized approach to size composition information was designed initially 
 	\begin{tabular}{p{1.4cm} p{0.5cm} p{13 cm}}
 		\multicolumn{3}{l}{Example entry:}\\
 		\hline
-		2 &  & N of size frequency methods, if this value is 0, then omit all entries below. \Tstrut\Bstrut\\
+		2 &  & Number (N) of size frequency methods to be read. If this value is 0, then omit all entries below. If this value is -1 (or any negative value), expanded options inputs are required below. \Tstrut\Bstrut\\
 		\hline
+		\multicolumn{3}{l}{N of size frequency COND < 0 }  \Tstrut\\
+		multicolumn{2}{l}{2} & Number of size frequency methods to read\\
 		\multicolumn{3}{l}{COND > 0 }  \Tstrut\\
-		\multicolumn{2}{r}{25 15} & Nbins per method\\
+		\multicolumn{2}{r}{25 15} & Number of bins per method\\
 		\multicolumn{2}{r}{2 2} & Units per each method (1 = biomass, 2 = numbers)\\
 		\multicolumn{2}{r}{3 3} & Scale per each method (1 = kg, 2 = lbs, 3 = cm, 4 = inches)\\
 		\multicolumn{2}{r}{1e-9 1e-9} & Min compression to add to each observation (entry for each method)\\
-		\multicolumn{2}{r}{2 2} & N observations per weight frequency method \Bstrut\\
+		\multicolumn{2}{r}{2 2} & Number of observations per weight frequency method \Tstrut\\
+		\multicolumn{3}{l}{N of size frequency COND < 0 }  \Tstrut\\
+		\multicolumn{2}{r}{1 1} & Composition error structure (0 = multinomial, 1 = Dirichlet using Theta*n, 2 = Dirichlet using beta, 3 = MV Tweedie)\Tstrut\\
+		\multicolumn{2}{r}{1 1} & Consecutive index for Dirichlet or MV Tweedie composition error\Bstrut\\
 		\hline
 	\end{tabular}
 \end{center}
