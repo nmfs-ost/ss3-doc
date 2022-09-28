@@ -3016,30 +3016,72 @@ If the Dirichlet-multinomial error distribution is selected, indicate here which
 <table>
 <thead>
 <tr class="header">
-<th style="text-align: left;" colspan="2">28</th>
-<th style="text-align: left;" colspan="5">Number of length bins for data</th>
+<th style="text-align: left;">28</th>
+<th style="text-align: left;">Number of length bins for data</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;" colspan="2">26 28 30 ... 80</td>
-<td style="text-align: left;" colspan="5">Vector of length bins associated with the length data.</td>
+<td style="text-align: left;white-space: nowrap;">26 28 30 ... 80</td>
+<td style="text-align: left;">Vector of length bins associated with the length data</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;" colspan="7">The above data bins will combine 0-26 cm fish, &gt;26 - 28 cm, ..., and 80+ cm fish.</td>
+</tbody>
+</table>
+</div>
+<p>Note: the vector of length bins above will aggregate data from outside the range of values as follows:</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;"></th>
+<th style="text-align: center;">bin 1</th>
+<th style="text-align: center;">bin 2</th>
+<th style="text-align: center;">bin 3</th>
+<th style="text-align: center;">...</th>
+<th style="text-align: center;">bin 27</th>
+<th style="text-align: center;">bin 28</th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
+<th style="text-align: center;"></th>
 </tr>
+</thead>
+<tbody>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;white-space: nowrap;">bin vector</td>
+<td style="text-align: center;">26</td>
+<td style="text-align: center;">28</td>
+<td style="text-align: center;">30</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;">78</td>
+<td style="text-align: center;">80</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;" colspan="7">Example of a single length composition observation:</td>
+<td style="text-align: left;white-space: nowrap;">bin contains</td>
+<td style="text-align: center;">0–27.99</td>
+<td style="text-align: center;">28–29.99</td>
+<td style="text-align: center;">30–30.99</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: center;">78–79.99</td>
+<td style="text-align: center;">80+</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;"></td>
 </tr>
+</tbody>
+</table>
+</div>
+<p>Example of a single length composition observation:</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;" colspan="7"></th>
+</tr>
+</thead>
+<tbody>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">Year</td>
 <td style="text-align: left;">Month</td>
@@ -3074,7 +3116,7 @@ If the Dirichlet-multinomial error distribution is selected, indicate here which
 <td style="text-align: left;">0</td>
 <td style="text-align: left;">0</td>
 <td style="text-align: left;">0</td>
-<td style="text-align: left;">0</td>
+<td style="text-align: left;">&lt;0 repeated for each element of the data vector above&gt;</td>
 </tr>
 </tbody>
 </table>
@@ -3481,7 +3523,7 @@ As with the length composition data, a negative year value causes the observatio
 </tr>
 </tbody>
 </table>
-<p>In this example observation, the age data is treated as on being conditional on the 2 cm length bins of 10-11.99, 12-13.99, 14-15.99, and 16-17.99cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.</p>
+<p>In this example observation, the age data is treated as on being conditional on the 2 cm length bins of 10–11.99, 12–13.99, 14–15.99, and 16–17.99cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.</p>
 <h2 data-number="7.18" id="mean-length-or-body-weight-at-age"><span class="header-section-number">7.18</span> Mean Length or Body Weight-at-Age</h2>
 <p>The model also accepts input of mean length-at-age or mean body weight-at-age. This is done in terms of observed age, not true age, to take into account the effects of ageing imprecision on expected mean size-at-age. If the value of the Age Error column is positive, then the observation is interpreted as mean length-at-age. If the value of the Age Error column is negative, then the observation is interpreted as mean body weight-at-age and the abs(Age Error) is used as Age Error.</p>
 <div class="center">
