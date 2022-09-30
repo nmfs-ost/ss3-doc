@@ -60,11 +60,21 @@
 % Set widow and club penalties
 \widowpenalty=100000
 \clubpenalty=100000
+
+%sectsty commands
+% all section headers use the same sans serif family - roboto
+%\allsectionsfont{\sffamily\selectfont\roboto\mdseries\bfseries}
 \allsectionsfont{\sffamily\selectfont\roboto\mdseries\bfseries}
+% Set size and color of section header AL's H1
+%\sectionfont{\LARGE\nohang\centering\roboto\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 \sectionfont{\LARGE\nohang\centering\roboto\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
+% Set size and color of subsection header AL's H2
+%\subsectionfont{\fontsize{18pt}{20pt}\selectfont\roboto\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 \subsectionfont{\fontsize{18pt}{20pt}\selectfont\roboto\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
+% Set size and color of subsubsection header AL's H3
 \subsubsectionfont{\hspace{0pt}\nohang\fontsize{16pt}{18pt}\selectfont\roboto\raggedright\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
-0.0, 0.40}}
+% Set size and color of paragraph header AL's H4
+%\paragraphfont{\fontsize{14pt}{16pt}\selectfont\robotocondensed\fontseries{bl}\selectfont\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 \paragraphfont{\fontsize{14pt}{16pt}\selectfont\robotocondensed\fontseries{bl}\selectfont\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 \newcolumntype{R}{>{\raggedright\arraybackslash}p{3cm}}
 
@@ -81,6 +91,13 @@
 \emergencystretch=\maxdimen
 \hyphenpenalty=10000
 \hbadness=10000
+
+%\hypersetup{%
+%	colorlinks=false,% hyperlinks will be black
+%	linkbordercolor=red,% hyperlink borders will be red
+%	pdfborderstyle={/S/U/W 1}% border style will be underline of width 1pt
+%}
+
 
 
 %%The following sets up how the pdf displays links and functions in Acrobat.
@@ -107,14 +124,25 @@
 \newcolumntype{L}{>{\centering\arraybackslash}m{3in}}
 
 \newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
+
+% Define a term for SS3 abbreviation to use across document
+% \newcommand{\SS}{SS3}
+
+% Create custom font title of document
+% note the use of:
+%% \textcolor in the title itself
+%%  \maketitle BEFORE resetting the \fontfamily
 \usepackage{xparse}
 \usepackage{xpatch}
 \NewDocumentCommand{\TitlePageFont}{}{%
   	\sffamily\bfseries%
   	\fontsize{22pt}{24pt}%
   	\selectfont%
-}
-
+}%
+% sets title for pdf reader
+%\usepackage[pdftitle={Stock Synthesis User Manual},
+%           pdfauthor={Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, and Kathryn Doering},
+%          pdfdisplaydoctitle=true]{hyperref}
 \xpretocmd{\maketitle}{\TitlePageFont}{}{}
 \title{\textcolor[cmyk]{1.00,0.83,0.41,0.36}{Stock Synthesis User Manual\\ Version 3.30.20}}
 \author{Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering,\\and Kelli F. Johnson\\\\\\NOAA Fisheries\\Seattle, WA}
@@ -134,7 +162,10 @@
 	\newpage
 	\normalfont % this sets the main font to crimson
 	\normalsize %% return the text to 12 point font - otherwise you end up with 22 point font!
+	% Set base font as serif
+	%\fontfamily{crimson}\selectfont
 
+		
 	% ====== Table of Contents ===================================================
 	\pagenumbering{roman}
 	\tableofcontents
