@@ -5,20 +5,19 @@
 
 In 2015 there was a CAPAM workshop dedicated to data-weighting. Description of the workshop can be found on the \href{http://capamresearch.org/data-weighting/workshop}{CAPAM} website. The presentations from the workshop are available through that website and many of them were included in a special issue of \href{https://sciencedirect.com/journal/fisheries-research/vol/192}{Fisheries Research}.
 
-
 Currently, there are three main methods for weighting length and data applied for U.S. West Coast assessments using Stock Synthesis.
 
 \begin{enumerate}
-	\item \textbf{McAllister - Ianelli}: Effective sample size is calculated from fit of observed to expected length or age compositions. Tuning algorithm is intended to make the arithmetic mean of the input sample size equal to the harmonic mean of the effective sample size \citep{mcallister-bayesian-1997}.
+	\item \hyperlink{MI}{\textbf{McAllister - Ianelli}}: Effective sample size is calculated from fit of observed to expected length or age compositions. Tuning algorithm is intended to make the arithmetic mean of the input sample size equal to the harmonic mean of the effective sample size \citep{mcallister-bayesian-1997}.
 	
-	\item \textbf{Francis}: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method "TA1.8") \citep{francis-data-2011}
+	\item \hyperlink{Francis}{\textbf{Francis}}: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method "TA1.8") \citep{francis-data-2011}
 	
-	\item \textbf{Dirichlet-Multinomial}: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term "Effective sample size" has a different interpretation than in the McAllister-Ianelli approach \citep{thorson-model-based-2017}.
+	\item \hyperlink{DM}{\textbf{Dirichlet-Multinomial}}: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term "Effective sample size" has a different interpretation than in the McAllister-Ianelli approach \citep{thorson-model-based-2017}.
 \end{enumerate}
 
 \myparagraph{Applying the methods}
 
-%\subsubsection{McAllister-Ianelli}
+\hypertarget{MI}{}
 \myparagraph{McAllister-Ianelli}
 The "Length\_Comp\_Fit\_Summary" and "Age\_Comp\_Fit\_Summary" sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the r4ss package, these tables are returned by the \texttt{SS\_output} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
 
@@ -51,7 +50,7 @@ There are a couple of challenges posed by the McAllister-Ianelli data-weighting 
 	\item Takes time to implement so tuning is rarely repeated during retrospective or sensitivity analyses.
 \end{enumerate}
 
-%\subsubsection{Francis}
+\hypertarget{Francis}{}
 \myparagraph{Francis}
 
 Implementation: recommended adjustments are calculated by the r4ss functions \texttt{SSMethod.TA1.8} and \texttt{SSMethod.Cond.TA1.8}. These functions are rarely used alone but are called by the \texttt{SS\_plots} function when making plots like the one below. For version 3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps} function (described above under the McAllister-Ianelli method), but with a different option specified: 
@@ -69,8 +68,6 @@ The figure below shows the estimated 95\% intervals around the observed mean len
 	%\figurename{name}
 \end{figure}
 
-
-
 There are a several of challenges posed by the Francis data-weighting approach:
 \begin{enumerate}
 	\item Subjective choice of how many iterations to take to achieve adequate convergence. Often just one iteration is applied.
@@ -80,7 +77,9 @@ There are a several of challenges posed by the Francis data-weighting approach:
 	\item Recommended adjustment can be sensitive to outliers (remove a few years of anomalous composition data can lead to large change in recommended adjustment).
 \end{enumerate}
 
-%\subsubsection{Dirichlet-Multinomial}
+Finally, in simulation work comparing both the Francis and McAllister and Ianelli data weighting approaches, indicate that the arithmetic averaging of effective samples sizes from the McAllister and Ianelli approach was inferior to other methods \citep{punt_insights_2016}.
+
+\hypertarget{DM}{}
 \myparagraph{Dirichlet-Multinomial}
 
 The Dirichlet-multinomial should only be used when there is a
