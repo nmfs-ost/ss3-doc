@@ -1302,6 +1302,10 @@ However, when F is very high, the problem becomes quite computationally stiff fo
 
 F as parameter is also preferred for situations where catch is known imprecisely and it is acceptable to have a solution in which the final F values do not reproduce the input catch levels exactly. 
 
+The calculation of the catch log-likelihood for the Baranov F method (method 2) and the Hybrid F method (method 3) is identical with the only difference between the methods is how the expected catch is calculated. With F method 2, F is a parameter (or set of parameters for all the fleets). The model uses that parameter(s) to go straight to calculating expected catch for each fleet, then to the log-likelihood. F method 2 includes option to do F method 3 in early phases and then transition to F method 2 to finish (which can be faster in high F, many fleet situations). With F method 3, the model does a Pope's (F method 1) to get each F in right ballpark and then adjusts it through a few iterations to get closer to matching the observed catch.  It then finishes through the F method 2 code to calculate the final iteration of expected catch and then log-likelihood.  At high F and/or with many fleets it may not get to an exact match to the observed catch.
+
+Finally, the newer fleet-specific hybrid F method (F method 4) provides more flexibility in that some fleets can do hybrid and other fleets (particularly high F fleets) can do parameters starting at a fleet-specific phase. This new approach is considered the prefer F method.
+
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	\multicolumn{3}{l}{Control file continued:}\\
 	\hline
