@@ -274,7 +274,7 @@ Seattle, WA</p>
 <li><p>control.ss_ new: Updated version of the control file with final parameter values replacing the initial parameter values.</p></li>
 <li><p>starter.ss_ new: New version of the starter file with annotations.</p></li>
 <li><p>Forecast.ss_ new: New version of the forecast file with annotations.</p></li>
-<li><p>warning.sso: This file contains a list of warnings generated during program execution.</p></li>
+<li><p>warning.sso: This file contains a list of warnings generated during program execution. Starting in SS3 v.3.30.20 warnings are categorized into either Note or Warning. An item marked as a not denotes settings that the user may want to revise but do not require any additional changes for the model to run. Items marked with Warning are items that may or may not have allowed the model to finish running. Items with a fatal warning caused the model to fail during either reading input files or calculations. Warnings classified as error or adjustment may be causing calculation issues, even if the model was able to finish reading file and running, and should be addressed the user.</p></li>
 <li><p>echoinput.sso: This file is produced while reading the input files and includes an annotated echo of the input. The sole purpose of this output file is debugging input errors.</p></li>
 <li><p>Report.sso: This file is the primary report file.</p></li>
 <li><p>ss_summary.sso: Output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in SS3 v.3.30.08.03 and greater.</p></li>
@@ -11393,13 +11393,13 @@ Below is a list of items to consider in terms of units for <span class="math inl
 <p>In 2015 there was a CAPAM workshop dedicated to data-weighting. Description of the workshop can be found on the <a href="http://capamresearch.org/data-weighting/workshop">CAPAM</a> website. The presentations from the workshop are available through that website and many of them were included in a special issue of <a href="https://sciencedirect.com/journal/fisheries-research/vol/192">Fisheries Research</a>.</p>
 <p>Currently, there are three main methods for weighting length and data applied for U.S. West Coast assessments using Stock Synthesis.</p>
 <ol>
-<li><p><strong>McAllister - Ianelli</strong>: Effective sample size is calculated from fit of observed to expected length or age compositions. Tuning algorithm is intended to make the arithmetic mean of the input sample size equal to the harmonic mean of the effective sample size <span class="citation" data-cites="mcallister-bayesian-1997">(McAllister and Ianelli 1997)</span>.</p></li>
-<li><p><strong>Francis</strong>: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method &quot;TA1.8&quot;) <span class="citation" data-cites="francis-data-2011">(Francis and Hilborn 2011)</span></p></li>
-<li><p><strong>Dirichlet-Multinomial</strong>: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term &quot;Effective sample size&quot; has a different interpretation than in the McAllister-Ianelli approach <span class="citation" data-cites="thorson-model-based-2017">(Thorson et al. 2017)</span>.</p></li>
+<li><p><a href="#MI"><strong>McAllister - Ianelli</strong></a>: Effective sample size is calculated from fit of observed to expected length or age compositions. Tuning algorithm is intended to make the arithmetic mean of the input sample size equal to the harmonic mean of the effective sample size <span class="citation" data-cites="mcallister-bayesian-1997">(McAllister and Ianelli 1997)</span>.</p></li>
+<li><p><a href="#Francis"><strong>Francis</strong></a>: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method &quot;TA1.8&quot;) <span class="citation" data-cites="francis-data-2011">(Francis and Hilborn 2011)</span></p></li>
+<li><p><a href="#DM"><strong>Dirichlet-Multinomial</strong></a>: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term &quot;Effective sample size&quot; has a different interpretation than in the McAllister-Ianelli approach <span class="citation" data-cites="thorson-model-based-2017">(Thorson et al. 2017)</span>.</p></li>
 </ol>
 <h4 data-number="16.1.0.1" id="applying-the-methods"><span class="header-section-number">16.1.0.1</span> Applying the methods</h4>
 <p><br />
-</p>
+<span id="MI"></span></p>
 <h4 data-number="16.1.0.2" id="mcallister-ianelli"><span class="header-section-number">16.1.0.2</span> McAllister-Ianelli</h4>
 <p><br />
 The &quot;Length_Comp_Fit_Summary&quot; and &quot;Age_Comp_Fit_Summary&quot; sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the r4ss package, these tables are returned by the <code>SS_output</code> function as <code> $Length_comp_Eff_N_tuning_check</code> and <code> $Age_comp_Eff_N_tuning_check</code>.</p>
@@ -11418,6 +11418,9 @@ The &quot;Length_Comp_Fit_Summary&quot; and &quot;Age_Comp_Fit_Summary&quot; sec
 <li><p>Subjective choice of how many iterations to take to achieve adequate convergence. Often just one iteration is applied.</p></li>
 <li><p>Takes time to implement so tuning is rarely repeated during retrospective or sensitivity analyses.</p></li>
 </ol>
+<div id="Francis">
+
+</div>
 <h4 data-number="16.1.0.3" id="francis"><span class="header-section-number">16.1.0.3</span> Francis</h4>
 <p><br />
 Implementation: recommended adjustments are calculated by the r4ss functions <code>SSMethod.TA1.8</code> and <code>SSMethod.Cond.TA1.8</code>. These functions are rarely used alone but are called by the <code>SS_plots</code> function when making plots like the one below. For version 3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the <code>SS_tune_comps</code> function (described above under the McAllister-Ianelli method), but with a different option specified:</p>
@@ -11433,6 +11436,10 @@ Implementation: recommended adjustments are calculated by the r4ss functions <co
 <li><p>Takes time to implement so tuning is rarely repeated during retrospective or sensitivity analyses.</p></li>
 <li><p>Recommended adjustment can be sensitive to outliers (remove a few years of anomalous composition data can lead to large change in recommended adjustment).</p></li>
 </ol>
+<p>Finally, in simulation work comparing both the Francis and McAllister and Ianelli data weighting approaches, indicate that the arithmetic averaging of effective samples sizes from the McAllister and Ianelli approach was inferior to other methods <span class="citation" data-cites="punt_insights_2016">(Punt 2016)</span>.</p>
+<div id="DM">
+
+</div>
 <h4 data-number="16.1.0.4" id="dirichlet-multinomial"><span class="header-section-number">16.1.0.4</span> Dirichlet-Multinomial</h4>
 <p><br />
 The Dirichlet-multinomial should only be used when there is a substantive basis for setting an approximate value for input sample size. This is important because:</p>
@@ -11596,6 +11603,9 @@ Monnahan, Cole C, Trevor A Branch, James T Thorson, Ian J Stewart, and Cody S Sz
 </div>
 <div id="ref-piner-evaluation-2016" class="csl-entry" role="doc-biblioentry">
 Piner, Kevin R., Hui-Hua Lee, and Mark N. Maunder. 2016. <span>“Evaluation of Using Random-at-Length Observations and an Equilibrium Approximation of the Population Age Structure in Fitting the von <span>Bertalanffy</span> Growth Function.”</span> <em>Fisheries Research</em> 180 (August): 128–37. <a href="https://doi.org/10.1016/j.fishres.2015.05.024">https://doi.org/10.1016/j.fishres.2015.05.024</a>.
+</div>
+<div id="ref-punt_insights_2016" class="csl-entry" role="doc-biblioentry">
+Punt, André E. 2016. <span>“Some Insights into Data Weighting in Integrated Stock Assessments.”</span> <em>Fisheries Research</em>, January. <a href="https://doi.org/10.1016/j.fishres.2015.12.006">https://doi.org/10.1016/j.fishres.2015.12.006</a>.
 </div>
 <div id="ref-punt-extending-2019" class="csl-entry" role="doc-biblioentry">
 Punt, André E., and Jason M. Cope. 2019. <span>“Extending Integrated Stock Assessment Models to Use Non-Depensatory Three-Parameter Stock-Recruitment Relationships.”</span> <em>Fisheries Research</em> 217: 46–57. <a href="https://doi.org/10.1016/j.fishres.2017.07.007">https://doi.org/10.1016/j.fishres.2017.07.007</a>.
