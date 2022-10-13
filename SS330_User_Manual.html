@@ -206,7 +206,7 @@ Seattle, WA</p>
 <li><a href="#forecast-and-reference-points-forecast-report.sso"><span class="toc-section-number">12.8</span> Forecast and Reference Points (Forecast-report.sso)</a></li>
 <li><a href="#main-output-file-report.sso"><span class="toc-section-number">12.9</span> Main Output File, Report.sso</a></li>
 </ul></li>
-<li><a href="#r4ss"><span class="toc-section-number">13</span> Using R To View Model Output (r4ss)</a></li>
+<li><a href="#sec:r4ss"><span class="toc-section-number">13</span> Using R To View Model Output (r4ss)</a></li>
 <li><a href="#advanced-stock-synthesis-configuration-settings-and-advice"><span class="toc-section-number">14</span> Advanced Stock Synthesis Configuration Settings and Advice</a>
 <ul>
 <li><a href="#using-time-varying-parameters"><span class="toc-section-number">14.1</span> Using Time-Varying Parameters</a>
@@ -292,8 +292,8 @@ Seattle, WA</p>
 <li><p>posteriors.sso, derived_posteriors.sso, posterior_vectors.sso: Files associated with MCMC.</p></li>
 </ol>
 <h1 data-number="3" id="starting-stock-synthesis"><span class="header-section-number">3</span> Starting Stock Synthesis</h1>
-<p>SS3 is typically run through the command line interface, although it can also be called from another program, R, the Stock Synthesis Interface, or a script file (such as a DOS batch file). SS3 is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS3 will run much slower on computers with inadequate memory. See the Running Stock Synthesis section on page for additional notes on methods of running SS3.</p>
-<p>Communication with the program is through text files. When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS3 is being run. The file starter.ss contains required input information plus references to other required input files, as described in the File Organization section on page . The names of the control and data files must match the names specified in the starter.ss file. File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable reads each input file and can be used for troubleshooting when trying to setup a model correctly. Output from SS3 consists of text files containing specific keywords. Output processing programs, such as the SSI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.</p>
+<p>SS3 is typically run through the command line interface, although it can also be called from another program, R, the Stock Synthesis Interface, or a script file (such as a DOS batch file). SS3 is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS3 will run much slower on computers with inadequate memory. See <a href="#sec:RunningSS">Running Stock Synthesis</a> for additional notes on methods of running SS3.</p>
+<p>Communication with the program is through text files. When the program first starts, it reads the file starter.ss, which typically must be located in the same directory from which SS3 is being run. The file starter.ss contains required input information plus references to other required input files, as described in the <a href="#FileOrganization">File Organization section</a>. The names of the control and data files must match the names specified in the starter.ss file. File names, including starter.ss, are case-sensitive on Linux and Mac systems but not on Windows. The echoinput.sso file outputs how the executable reads each input file and can be used for troubleshooting when trying to setup a model correctly. Output from SS3 consists of text files containing specific keywords. Output processing programs, such as the SSI, Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.</p>
 <div id="ConvIssues">
 
 </div>
@@ -1077,7 +1077,7 @@ Seattle, WA</p>
 </table>
 </section>
 <h1 data-number="6" id="forecast-file"><span class="header-section-number">6</span> Forecast File</h1>
-<p>The specification of options for forecasts is contained in the mandatory input file named forecast.ss. Additional details on the forecast module process are provided on page .</p>
+<p>The specification of options for forecasts is contained in the mandatory input file named forecast.ss. See <a href="#sec:forecast">Forecast Module: Benchmark and Forecasting Calculations</a> for additional details.</p>
 <p>The term COND appears in the &quot;Typical Value&quot; column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss_new files.</p>
 <div class="landscape">
 <div id="fore-specify">
@@ -9684,7 +9684,7 @@ There may be times a user would like to generate the .ss_new files without runni
 <p>where -1 is the maximum phase for the model to run through (e.g., can be other values if a user would like to only run through a specific parameter phase). This approach will create all the new files with the starter.ss_new reflecting the original maxphase value in the starter.ss file. This approach is available in v.3.30.16 and later.</p>
 <h3 data-number="11.1.5" id="running-parameter-profiles"><span class="header-section-number">11.1.5</span> Running Parameter Profiles</h3>
 <p>Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood. There are two ways this can be done.</p>
-<p>The first option is the use functions within <code>r4ss</code> to run the profile, summarize quantities across runs, and plot the output. The <code>SS_profile()</code> function will run the profile based on function inputs, <code>SSgetoutput()</code> will read quantities from each run Report file, <code>SSsummarize()</code> will summarize key model quantities, and the <code>SSplotProfile()</code> and <code>PinerPlot()</code> functions can be used to visualize results. Additional information regarding <code>r4ss</code> can be found on page .</p>
+<p>The first option is the use functions within <code>r4ss</code> to run the profile, summarize quantities across runs, and plot the output. The <code>SS_profile()</code> function will run the profile based on function inputs, <code>SSgetoutput()</code> will read quantities from each run Report file, <code>SSsummarize()</code> will summarize key model quantities, and the <code>SSplotProfile()</code> and <code>PinerPlot()</code> functions can be used to visualize results. Additional information regarding <code>r4ss</code> can be found in the <a href="#sec:r4ss">r4ss section</a>.</p>
 <p>The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course. Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to –9999. Edit starter.ss to refer to this control file and the appropriate data file.</p>
 <table>
 <tbody>
@@ -10025,7 +10025,7 @@ There may be times a user would like to generate the .ss_new files without runni
 </div>
 <h2 data-number="12.2" id="standard-admb-output-files"><span class="header-section-number">12.2</span> Standard ADMB output files</h2>
 <p>Standard ADMB files are created by SS3. These are:</p>
-<p>ss.par – This file has the final parameter values. They are listed in the order they are declared in SS3. This file can be read back into SS3 to restart a run with these values (see running Stock Synthesis on page ).</p>
+<p>ss.par – This file has the final parameter values. They are listed in the order they are declared in SS3. This file can be read back into SS3 to restart a run with these values (see <a href="#sec:RunningSS">Running Stock Synthesis</a> for more info).</p>
 <p>ss.std – This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run. It also contains the derived quantities declared as standard deviation report variables. All of this information is also report in the covar.sso. Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.</p>
 <p>ss.rep – This report file is created between phases so, unlike Report.sso, will be created even if the hessian fails. It does not contain as much output as shown in Report.sso.</p>
 <p>ss.cor – This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret. This same information is reported in covar.sso.</p>
@@ -10033,7 +10033,7 @@ There may be times a user would like to generate the .ss_new files without runni
 <p>The ss_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place. It is organized as a list. At the top of the file are descriptors, followed by the 1) likelihoods for each component, 2) parameters and their standard errors, and 3) derived quantities and their standard errors. Total biomass, summary biomass, and catch were added to the quantities reported in this file in version 3.30.11 and later.</p>
 <p>Before 3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME_SERIES table of Report.sso. The report file should be used instead of ss_summary.sso for correct calculation of these quantities before 3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in report.sso for calculations done at times other than January 1.</p>
 <h2 data-number="12.4" id="sis-table"><span class="header-section-number">12.4</span> SIS table</h2>
-<p>The SIS_table.sso is deprecated as of SS3 v.3.30.17. Please use the <a href="#r4ss">r4ss</a> function <code>get_IS_info()</code> instead.</p>
+<p>The SIS_table.sso is deprecated as of SS3 v.3.30.17. Please use the <a href="#sec:r4ss">r4ss</a> function <code>get_SIS_info()</code> instead.</p>
 <p>The SIS_table.sso file contains model output formatted for reading into the NMFS Species Information System (<a href="https://www.st.nmfs.noaa.gov/sis/">SIS</a>). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees.</p>
 <h2 data-number="12.5" id="derived-quantities"><span class="header-section-number">12.5</span> Derived Quantities</h2>
 <p>Before listing the derived quantities reported to the standard deviation report, there are a couple of topics that deserve further explanation.</p>
@@ -10395,7 +10395,7 @@ There may be times a user would like to generate the .ss_new files without runni
 <li><p>Global MSY Report</p></li>
 <li><p>Dynamic Bzero Report</p></li>
 </ul>
-<h1 data-number="13" id="r4ss"><span class="header-section-number">13</span> Using R To View Model Output (r4ss)</h1>
+<h1 data-number="13" id="sec:r4ss"><span class="header-section-number">13</span> Using R To View Model Output (r4ss)</h1>
 <p>The R package <code>r4ss</code> includes tools for summarizing and plotting results, manipulating files, visualizing model parameterizations, and other tasks. Currently, information about <code>r4ss</code> can be found on <a href="https://github.com/r4ss/r4ss">Github</a>. The software package is under continuous development to maintain compatibility with new versions of SS3 and to improve functionality.</p>
 <p>The latest version of <code>r4ss</code> can be installed directly from GitHub at any time via the <code>remotes</code> package in R with the following commands:</p>
 <blockquote>
@@ -11620,7 +11620,7 @@ Richards, F. J. 1959. <span>“A Flexible Growth Function for Empirical Use.”<
 Schnute, Jon. 1981. <span>“A Versatile Growth Model with Statistically Stable Parameters.”</span> <em>Canadian Joural of Fisheries and Aquatic Science</em> 38: 1128–40.
 </div>
 <div id="ref-taylor-stockrecruitment-2013" class="csl-entry" role="doc-biblioentry">
-Taylor, Ian G., Vladlena Gertseva, Richard D. Methot, and Mark N. Maunder. 2013. <span>“A Stock–Recruitment Relationship Based on Pre-Recruit Survival, Illustrated with Application to Spiny Dogfish Shark.”</span> <em>Fisheries Research</em> 142 (May): 15–21. <a href="https://doi.org/10.1016/j.fishres.2012.04.018">https://doi.org/10.1016/j.fishres.2012.04.018</a>.
+Taylor, Ian G., Vladlena Gertseva, Richard D. Methot, and Mark N. Maunder. 2013. <span>“A Stock-Recruitment Relationship Based on Pre-Recruit Survival, Illustrated with Application to Spiny Dogfish Shark.”</span> <em>Fisheries Research</em> 142 (May): 15–21. <a href="https://doi.org/10.1016/j.fishres.2012.04.018">https://doi.org/10.1016/j.fishres.2012.04.018</a>.
 </div>
 <div id="ref-then2015evaluating" class="csl-entry" role="doc-biblioentry">
 Then, Amy Y, John M Hoenig, Norman G Hall, David A Hewitt, and Handling editor: Ernesto Jardim. 2015. <span>“Evaluating the Predictive Performance of Empirical Estimators of Natural Mortality Rate Using Information on over 200 Fish Species.”</span> <em>ICES Journal of Marine Science</em> 72 (1): 82–92.
