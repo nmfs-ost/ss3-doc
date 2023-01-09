@@ -2541,7 +2541,7 @@ COND = 1 or 2: Read the following lines (split into 3 rows for readability):
 	\begin{enumerate}
 		\item fleet number (or 0 if not used),
 		\item type of selectivity to report: 1 = length, 2 = age, or 3 = combined (age with length),
-		\item year, and
+		\item year (enter -1 for end year), and
 		\item number of bins to report, list entered below (note - combined will report in age bins).
 	\end{enumerate}	
 	\item 2 values related to growth:
@@ -2552,7 +2552,7 @@ COND = 1 or 2: Read the following lines (split into 3 rows for readability):
 	\item 3 values related to numbers-at-age:
 	\begin{enumerate}
 		\item area (enter -1 for sum of all areas), or 0 for not used,
-		\item year, and
+		\item year (enter -1 for end year + 1), and
 		\item number of ages to report, list entered below (note - each sex will be reported and summed across growth patterns).
 	\end{enumerate}
 \end{itemize}
@@ -2596,7 +2596,8 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 \end{itemize}
 
 Example input:	
-<pre><code>
+\begin{quote}
+	\begin{verbatim}
 2 # (0/1/2) read specs for more stddev reporting: 0 = skip, 1 = read specs for reporting stdev for selectivity, size, and numbers, 2 = add options for M,Dyn. Bzero, SmryBio
  1 1 -1 5 # Selectivity: (1) 0 to skip or fleet, (2) 1=len/2=age/3=combined, (3) year, (4) N selex bins; NOTE: combined reports in age bins
  1 5 # Growth: (1) 0 to skip or growth pattern, (2) growth ages; NOTE: does each sex
@@ -2608,6 +2609,6 @@ Example input:
  1 2 5 10 15 # vector with growth std ages picks (-1 in first bin to self-generate)
  1 2 5 10 15 # vector with NatAge std ages (-1 in first bin to self-generate)
  1 2 5 10 15 # vector with NatM std ages picks (-1 in first bin to self-generate)
-</code></pre>
+\end{verbatim}
+\end{quote}
 
-to end year + 1, hence the year that starts the forecast period.
