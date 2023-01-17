@@ -9301,7 +9301,7 @@ The report.sso output file contains information in the &quot;FIT_LEN_COMPS&quot;
 <ol>
 <li><p>fleet number (or 0 if not used),</p></li>
 <li><p>type of selectivity to report: 1 = length, 2 = age, or 3 = combined (age with length),</p></li>
-<li><p>year, and</p></li>
+<li><p>year (enter -1 for end year), and</p></li>
 <li><p>number of bins to report, list entered below (note - combined will report in age bins).</p></li>
 </ol></li>
 <li><p>2 values related to growth:</p>
@@ -9312,7 +9312,7 @@ The report.sso output file contains information in the &quot;FIT_LEN_COMPS&quot;
 <li><p>3 values related to numbers-at-age:</p>
 <ol>
 <li><p>area (enter -1 for sum of all areas), or 0 for not used,</p></li>
-<li><p>year, and</p></li>
+<li><p>year (enter -1 for end year + 1), and</p></li>
 <li><p>number of ages to report, list entered below (note - each sex will be reported and summed across growth patterns).</p></li>
 </ol></li>
 </ul>
@@ -9359,20 +9359,20 @@ The report.sso output file contains information in the &quot;FIT_LEN_COMPS&quot;
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;" colspan="3">1</td>
-<td style="text-align: left;" colspan="6">0 = No additional std dev reporting;</td>
+<td style="text-align: left;" colspan="3">2</td>
+<td style="text-align: left;" colspan="6"># 0 = No additional std dev reporting;</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;" colspan="3"></td>
-<td style="text-align: left;" colspan="6">1 = read values below; and</td>
+<td style="text-align: left;" colspan="6"># 1 = read values below; and</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;" colspan="3"></td>
-<td style="text-align: left;" colspan="6">2 = read specification for reporting stdev for selectivity, size,numbers, and</td>
+<td style="text-align: left;" colspan="6"># 2 = read specification for reporting stdev for selectivity, size,numbers, and</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;" colspan="3"></td>
-<td style="text-align: left;" colspan="6">natural mortality.</td>
+<td style="text-align: left;" colspan="6"># natural mortality.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;" colspan="4">1 1 -1 5</td>
@@ -9387,16 +9387,32 @@ The report.sso output file contains information in the &quot;FIT_LEN_COMPS&quot;
 <td style="text-align: left;" colspan="5"># Numbers-at-age</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;" colspan="4">5 15 25 35 43</td>
-<td style="text-align: left;" colspan="5"># Vector with selectivity std bins (-1 in first bin to self-generate)</td>
+<td style="text-align: left;" colspan="4">1 5</td>
+<td style="text-align: left;" colspan="5"># M-at-age</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;" colspan="4">1 2 14 26 40</td>
-<td style="text-align: left;" colspan="5"># Vector with growth std ages picks (-1 in first bin to self-generate)</td>
+<td style="text-align: left;" colspan="4">1</td>
+<td style="text-align: left;" colspan="5"># Dynamic Bzero</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;" colspan="4">1 2 14 26 40</td>
+<td style="text-align: left;" colspan="4">1</td>
+<td style="text-align: left;" colspan="5"># Summary Biomass</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;" colspan="4">5 15 25 35 38</td>
+<td style="text-align: left;" colspan="5"># Vector with selectivity std bins (-1 in first bin to self-generate)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;" colspan="4">1 2 5 10 15</td>
+<td style="text-align: left;" colspan="5"># Vector with growth std ages picks (-1 in first bin to self-generate)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;" colspan="4">1 2 5 10 15</td>
 <td style="text-align: left;" colspan="5"># Vector with numbers-at-age std ages (-1 in first bin to self-generate)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;" colspan="4">1 2 5 10 15</td>
+<td style="text-align: left;" colspan="5"># Vector with M-at-age std ages (-1 in first bin to self-generate)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"><strong><span>999</span></strong></td>
@@ -9404,7 +9420,6 @@ The report.sso output file contains information in the &quot;FIT_LEN_COMPS&quot;
 </tr>
 </tbody>
 </table>
-<p>to end year + 1, hence the year that starts the forecast period.</p>
 <h1 data-number="9" id="optional-inputs"><span class="header-section-number">9</span> Optional Inputs</h1>
 <div id="WAA">
 
