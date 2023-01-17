@@ -2541,7 +2541,7 @@ COND = 1 or 2: Read the following lines (split into 3 rows for readability):
 	\begin{enumerate}
 		\item fleet number (or 0 if not used),
 		\item type of selectivity to report: 1 = length, 2 = age, or 3 = combined (age with length),
-		\item year, and
+		\item year (enter -1 for end year), and
 		\item number of bins to report, list entered below (note - combined will report in age bins).
 	\end{enumerate}	
 	\item 2 values related to growth:
@@ -2552,7 +2552,7 @@ COND = 1 or 2: Read the following lines (split into 3 rows for readability):
 	\item 3 values related to numbers-at-age:
 	\begin{enumerate}
 		\item area (enter -1 for sum of all areas), or 0 for not used,
-		\item year, and
+		\item year (enter -1 for end year + 1), and
 		\item number of ages to report, list entered below (note - each sex will be reported and summed across growth patterns).
 	\end{enumerate}
 \end{itemize}
@@ -2595,31 +2595,31 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 		\end{itemize}
 \end{itemize}
 
-
-		
 \begin{longtable}{p{1.1cm} p{1.4cm} p{1.2cm} p{1.2cm} p{1.3cm} p{1.6cm} p{1.4cm} p{1.4cm} p{1.4cm}}
 	
 	\hline
 	\multicolumn{9}{l}{Example Input:}\Tstrut\Bstrut\\
 	\hline
 	
-	\multicolumn{3}{l}{1} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read values below; and}\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size,numbers, and }\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality.}\Bstrut\\
+	\multicolumn{3}{l}{2} & \multicolumn{6}{l}{\# 0 = No additional std dev reporting;} \Tstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 1 = read values below; and}\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size,numbers, and }\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# natural mortality.}\Bstrut\\
 	\hline
 	
-	\multicolumn{4}{l}{ 1 1 -1 5} & \multicolumn{5}{l}{\# Selectivity} \Bstrut\\
-	\multicolumn{4}{l}{ 1 5}      & \multicolumn{5}{l}{\# Growth} \Bstrut\\
+	\multicolumn{4}{l}{1 1 -1 5}  & \multicolumn{5}{l}{\# Selectivity} \Bstrut\\
+	\multicolumn{4}{l}{1 5}       & \multicolumn{5}{l}{\# Growth} \Bstrut\\
 	\multicolumn{4}{l}{1 -1 5}    & \multicolumn{5}{l}{\# Numbers-at-age} \Bstrut\\
-
-	\multicolumn{4}{l}{5 15 25 35 43} & \multicolumn{5}{l}{\# Vector with selectivity std bins (-1 in first bin to self-generate)}\Bstrut\\
-	\multicolumn{4}{l}{1 2 14 26 40}  & \multicolumn{5}{l}{\# Vector with growth std ages picks (-1 in first bin to self-generate)}\Bstrut\\
-	\multicolumn{4}{l}{1 2 14 26 40}  & \multicolumn{5}{l}{\# Vector with numbers-at-age std ages (-1 in first bin to self-generate)}\Bstrut\\
+	\multicolumn{4}{l}{1 5}       & \multicolumn{5}{l}{\# M-at-age} \Bstrut\\
+	\multicolumn{4}{l}{1}         & \multicolumn{5}{l}{\# Dynamic Bzero} \Bstrut\\
+	\multicolumn{4}{l}{1}         & \multicolumn{5}{l}{\# Summary Biomass} \Bstrut\\
+	
+	\multicolumn{4}{l}{5 15 25 35 38} & \multicolumn{5}{l}{\# Vector with selectivity std bins (-1 in first bin to self-generate)}\Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with growth std ages picks (-1 in first bin to self-generate)}\Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with numbers-at-age std ages (-1 in first bin to self-generate)}\Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with M-at-age std ages (-1 in first bin to self-generate)}\Bstrut\\
 	
 	\hline
 	\bfseries{999} & \multicolumn{8}{l}{\#End of the control file input}\Tstrut\Bstrut\\
 	\hline			
 \end{longtable}
-
-to end year + 1, hence the year that starts the forecast period.
