@@ -5106,7 +5106,14 @@ When fish recruit at the real age of 0.0 at settlement, they have body size equa
 <h4 data-number="8.5.2.2" id="maximum-length-linf"><span class="header-section-number">8.5.2.2</span> Maximum Length (Linf)</h4>
 <p><br />
 If “Growth at age for L2” is set equal to 999, then the size at the L2 parameter is used as Linf.</p>
-<h4 data-number="8.5.2.3" id="schnuterichards-growth-function"><span class="header-section-number">8.5.2.3</span> Schnute/Richards growth function</h4>
+<h4 data-number="8.5.2.3" id="von-bertalanffy-growth-function"><span class="header-section-number">8.5.2.3</span> von Bertalanffy growth function</h4>
+<p><br />
+The von Bertalanffy growth curve is parameterized as:</p>
+<p><span class="math display">\[L_t = L_\infty + (L_{1}-L_\infty)e^{-k(a-A_{1})}\]</span></p>
+<p>with parameters <span class="math inline">\(L_{1}\)</span>, <span class="math inline">\(L_\infty\)</span>, and <span class="math inline">\(k\)</span>. The <span class="math inline">\(L_\infty\)</span> is calculated as:</p>
+<p><span class="math display">\[L_\infty = L_{1} + \frac{(L_2 - L_1)}{e^{-k(A2-A1)}}\]</span></p>
+<p>based on the input values of fixed age for first size-at-age (<span class="math inline">\(A_1\)</span>) and fixed age for second size-at-age (<span class="math inline">\(A_2\)</span>).</p>
+<h4 data-number="8.5.2.4" id="schnuterichards-growth-function"><span class="header-section-number">8.5.2.4</span> Schnute/Richards growth function</h4>
 <p><br />
 The <span class="citation" data-cites="richards1959growth">Richards (1959)</span> growth model as parameterized by <span class="citation" data-cites="schnute1981growth">Schnute (1981)</span> provides a flexible growth parameterization that allows for not only asymptotic growth but also linear, quadratic or exponential growth. The Schnute/Richards growth is invoked by entering option 2 in the growth type field. The Schnute/Richards growth function uses the standard growth parameters (e.g, Lmin, Linf, and <span class="math inline">\(k\)</span>) and a fourth parameter that is read after reading the von Bertalanffy growth coefficient parameter (<span class="math inline">\(k\)</span>). When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve. When this function was first introduced , it was required that A0 parameter be set to 0.0.</p>
 <p>The Schnute/Richards growth model is parameterized as:</p>
@@ -5115,16 +5122,16 @@ The <span class="citation" data-cites="richards1959growth">Richards (1959)</span
 <p>The Richards model has <span class="math inline">\(b\)</span> &lt; 0, the von Bertalanffy model has <span class="math inline">\(b\)</span> = 1. The general case of <span class="math inline">\(b\)</span> &gt; 0 was called the &quot;generalized von Bertalanffy&quot; by <span class="citation" data-cites="schnute1981growth">Schnute (1981)</span>. The Gompertz has <span class="math inline">\(b\)</span> = 0, where the equation is undefined as written above and must be replaced with:</p>
 <p><span class="math display">\[L_t = y_1e\Big[log(y_2/y-1)\frac{1-e^{-k(t-A_1)}}{1-e{-k(A_2-A_1)}}\Big]\]</span></p>
 <p>Thus, if <span class="math inline">\(b\)</span> will be estimated as a free parameter, it might be necessary to include options for constraining it to different ranges.</p>
-<h4 data-number="8.5.2.4" id="mean-size-at-maximum-age"><span class="header-section-number">8.5.2.4</span> Mean size-at-maximum age</h4>
+<h4 data-number="8.5.2.5" id="mean-size-at-maximum-age"><span class="header-section-number">8.5.2.5</span> Mean size-at-maximum age</h4>
 <p><br />
 The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In SS3 v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in a the future version.</p>
-<h4 data-number="8.5.2.5" id="age-specific-k"><span class="header-section-number">8.5.2.5</span> Age-specific K</h4>
+<h4 data-number="8.5.2.6" id="age-specific-k"><span class="header-section-number">8.5.2.6</span> Age-specific K</h4>
 <p><br />
 This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex. The null value is 1.0 and each age’s K is set to the next earlier age’s K times the value of the current age’s multiplier. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect. Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year. There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.</p>
 <div id="GrowthCessation">
 
 </div>
-<h4 data-number="8.5.2.6" id="growth-cessation"><span class="header-section-number">8.5.2.6</span> Growth cessation</h4>
+<h4 data-number="8.5.2.7" id="growth-cessation"><span class="header-section-number">8.5.2.7</span> Growth cessation</h4>
 <p><br />
 A growth cessation model was developed for the application to tropical tuna species <span class="citation" data-cites="maunder-growth-2018">(Mark N. Maunder et al. 2018)</span>. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.</p>
 <table>
@@ -5150,7 +5157,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">1 = von Bertalanffy (2 parameters);</td>
+<td style="text-align: left;">1 = von Bertalanffy (3 parameters);</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -5188,7 +5195,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 <td style="text-align: left;">8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;">1.66</td>
+<td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">Growth Amin (A1): Reference age for first size-at-age (post-settlement) parameter.</td>
 </tr>
