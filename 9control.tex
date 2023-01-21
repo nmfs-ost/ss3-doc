@@ -234,7 +234,7 @@ Tips for fixing or estimating the recruitment apportionment:
 
 In a seasonal model, all cohorts graduate to the age of 1 when they first reach January 1, even if the seasonal structure of the model has them being spawned in the late fall. In general, this means that the model operates under the assumption that all age data have been adjusted so that fish are age 0 at the time of spawning and all fish graduate to the next age on January 1. This can be problematic if the ageing structures deposit a ring at another time of year. Consequently, you may need to add or subtract a year to some of your age data to make it conform to the model expected data structure, or more ideally you may need to define the calendar year within the model to start at the beginning of the season at which ring deposition occurs. Talk with your ageing lab about their criteria for seasonal ring deposition.
 		
-Seasonal recruitment is coded to work smoothly with growth. If the recruitment occurring in each season is assigned the same growth pattern, then each seasonal cohort’s growth trajectory is simply shifted along the age/time axis. At the end of the year, the early born cohorts will be larger, but all are growing with the same growth parameters, so all will converge in size as they approach their common maximum length (e.g., no seasonal effects on growth).
+Seasonal recruitment is coded to work smoothly with growth. If the recruitment occurring in each season is assigned the same growth pattern, then each seasonal cohort's growth trajectory is simply shifted along the age/time axis. At the end of the year, the early born cohorts will be larger, but all are growing with the same growth parameters, so all will converge in size as they approach their common maximum length (e.g., no seasonal effects on growth).
 	
 At the time of settlement, fish are assigned a size equal to the lower edge of the first population size bin and they grow linearly until they reach the age A1. A warning is generated if the first population length bin is greater than 10 cm as this seems an unreasonably large value for a larval fish.  A1 is in terms of real age elapsed since birth. All fish advance to the next integer age on January 1, regardless of birth season. For example, consider a 2 season model with some recruitment in each season and with each season's recruits coming from the same GP.  At the end of the first year, the early born fish will be larger but both of the seasonal cohorts will advance to an integer age of 1 on Jan 1 of the next year.  The full growth curve is still calculated below A1, but the size-at-age used is the linear replacement. Because the linear growth trajectory can never go negative, there is no need for the additive constant to the standard deviation (necessary for the growth model used in SS2 V1.x), but the option to add a constant has been retained in the model.
 
@@ -457,10 +457,10 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 \subsubsection{Growth}
 
 \myparagraph{Timing} 
-When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin.  The fish then grow linearly until they reach a real age equal to the input value “growth-at-age for L1” and have a size equal to the parameter value for L1 (the minimum length parameter).  As they age further, they grow according the selected growth equation.  The growth curve is calibrated to go through the size L2 parameter when they reach the age of maximum length.
+When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin.  The fish then grow linearly until they reach a real age equal to the input value ``growth-at-age for L1'' and have a size equal to the parameter value for L1 (the minimum length parameter).  As they age further, they grow according the selected growth equation.  The growth curve is calibrated to go through the size L2 parameter when they reach the age of maximum length.
 	
 \myparagraph{Maximum Length (Linf)}
-If “Growth at age for L2” is set equal to 999, then the size at the L2 parameter is used as Linf. 
+If ``Growth at age for L2'' is set equal to 999, then the size at the L2 parameter is used as Linf. 
 	
 \myparagraph{von Bertalanffy growth function}
 
@@ -700,7 +700,7 @@ Parameter offset option 3 has an offset feature for the growth CV and for natura
 	 1 & & Parameter Offset Method: \Tstrut\Bstrut\\
 	   & & 1 = direct assignment; \\
 	   & & 2 = for each growth pattern by sex, parameter defines offset from sex 1, offsets are in exponential terms, so for example: $M_{\text{old male}} = M_{\text{old female}}*exp(M_{\text{old male}})$; and\\
-	   & & 3 = for each growth pattern by sex, parameter defines offset from growth pattern 1 sex 1.  For females, given that “natM option” is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{\text{old female}} = M_{\text{young female}}*exp(M_{\text{old female}}$). For males, given that "natM option" is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{\text{old male}} = M_{\text{young female}}*exp(M_{\text{young male}})*exp(M_{\text{old male}})$).\Bstrut\\
+	   & & 3 = for each growth pattern by sex, parameter defines offset from growth pattern 1 sex 1.  For females, given that ``natM option'' is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{\text{old female}} = M_{\text{young female}}*exp(M_{\text{old female}}$). For males, given that "natM option" is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{\text{old male}} = M_{\text{young female}}*exp(M_{\text{young male}})*exp(M_{\text{old male}})$).\Bstrut\\
 	\hline
 \end{longtable}
 
@@ -1229,7 +1229,7 @@ Simulation studies conducted by \cite{methot-adjusting-2011} compared three meth
 			& 1970 & First year with full bias adjustment. \\
 			& 2001 & Last year with full bias adjustment. \\
 			& 2002 & First recent year with no bias adjustment. \\
-			&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum log likelihood.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that the model will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: start year – 1000, start year – Nages, main recruitment deviation final year, end year + 1. See \hyperlink{RecBias}{Recruitment Likelihood with Bias Adjustment} for more information.\\
+			&      & These four entries control how the bias adjustment is phased in and then phased back out when the model is searching for the maximum log likelihood.  Bias adjustment is automatically turned off when in MCMC mode.  For intervening years between the first and second years in this list, the amount of bias adjustment that will be applied is linearly phased in.  The first year with full bias adjustment should be a few years into the data-rich period so that the model will apply the full bias-correction only to those recruitment deviations that have enough data to inform the model about the full range of recruitment variability.  Defaults for the four year values: start year - 1000, start year - Nages, main recruitment deviation final year, end year + 1. See \hyperlink{RecBias}{Recruitment Likelihood with Bias Adjustment} for more information.\\
 	
 	\Tstrut & 0.85 & Max Bias Adjustment: \\
 			&      & > 0: value for the maximum bias adjustment during the MLE mode. \\
@@ -1702,7 +1702,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	21 \Tstrut& 2  & Non-parametric size selectivity\\
 	22 \Tstrut& 4 & Double normal; similar to CASAL.\\
 	23 \Tstrut& 6 & Same as the double normal pattern 24 except the final selectivity is now directly interpreted as the terminal selectivity value. Cannot be used with Pope's F method because maximum selectivity may be greater than 1.\\
-	24 \Tstrut& 6 & Double normal with defined initial and final selectivity level – Recommended option.\\
+	24 \Tstrut& 6 & Double normal with defined initial and final selectivity level - Recommended option.\\
 	25 \Tstrut& 3 & Exponential-logistic. \\
 	27 \Tstrut& 3 + 2*N nodes & Cubic spline with N nodes. \\
 	42 \Tstrut& 5 + 2*x & Selectivity pattern 27 but with 2 additional scaling parameters. \\
@@ -1777,14 +1777,14 @@ Non-parametric size selectivity uses a set of linear segments.  The first way po
 \myparagraph{Pattern 8 (size) and 18 (age) - Double Logistic}
 Users are discouraged from using the double logistic selectivity. The double normal selectivity pattern (size pattern 24, age pattern 20) provides similar functionality but with only 6 parameters.
 	\begin{itemize}
-		\item  p1 – peak: size (age) for peak. Should be an integer and should be at bin boundary and not estimated.  But options 7 and 18 may allow estimation.
-		\item p2 – initial: selectivity at length bin=1 (minimum length) or age=0.
-		\item p3 – inflection: a logit transform $(1/(1+exp(-x))$ is used so that the transformed value will be between 0 and 1.  So a p1 value of –1.1 will be transformed to 0.25 and used to set the selectivity equal to 0.5 at a size (age) equal to 0.25 of the way between minimum length and peak. 
-		\item p4 – slope1: ln(slope) of left side (ascending) selectivity.
-		\item p5 – final: logit transform for selectivity at maximum length (or maximum age).
-		\item p6 – inflection2:  logit transform for size (age) at right side selectivity equal to half way between peak + peak width and maximum length (or maximum age).
-		\item p7 – slop2: ln(slope) of right side (descending) selectivity.
-		\item p8 – peak width: width of flattop.
+		\item  p1 - peak: size (age) for peak. Should be an integer and should be at bin boundary and not estimated.  But options 7 and 18 may allow estimation.
+		\item p2 - initial: selectivity at length bin=1 (minimum length) or age=0.
+		\item p3 - inflection: a logit transform $(1/(1+exp(-x))$ is used so that the transformed value will be between 0 and 1.  So a p1 value of -1.1 will be transformed to 0.25 and used to set the selectivity equal to 0.5 at a size (age) equal to 0.25 of the way between minimum length and peak. 
+		\item p4 - slope1: ln(slope) of left side (ascending) selectivity.
+		\item p5 - final: logit transform for selectivity at maximum length (or maximum age).
+		\item p6 - inflection2:  logit transform for size (age) at right side selectivity equal to half way between peak + peak width and maximum length (or maximum age).
+		\item p7 - slop2: ln(slope) of right side (descending) selectivity.
+		\item p8 - peak width: width of flattop.
 	\end{itemize}
 	
 \myparagraph{Pattern 11 (size or age) - Selectivity = 1.0 for range}
@@ -1853,33 +1853,33 @@ Code for implementing random walk selectivity can be found in \href{https://gith
 
 \myparagraph{Pattern 22 (size) - Double Normal with Plateau}
 	\begin{itemize}
-		\item p1 – peak1: beginning size for the plateau (in cm).
-		\item p2 – peak2: ending size for the plateau.  Calculated as a fraction of the distance between peak1 and 99\% of the lower edge of the last size bin in the model.  Transformed as (1/(1+exp(-p2)). So a value of 0 results in peak2 being halfway between peak1 and 99\% of the last bin.
-		\item p3 – upslope: ln(variance) on ascending side.
-		\item p4 – downslope:  ln(variance) on descending side.
+		\item p1 - peak1: beginning size for the plateau (in cm).
+		\item p2 - peak2: ending size for the plateau.  Calculated as a fraction of the distance between peak1 and 99\% of the lower edge of the last size bin in the model.  Transformed as (1/(1+exp(-p2)). So a value of 0 results in peak2 being halfway between peak1 and 99\% of the last bin.
+		\item p3 - upslope: ln(variance) on ascending side.
+		\item p4 - downslope:  ln(variance) on descending side.
 	\end{itemize}
 
 \myparagraph{Pattern 23 (size), 24 (size), and 20 (age) - Double Normal Selectivity}	
 	\begin{itemize}
-		\item p1 – peak: beginning size (or age) for the plateau (in cm or year).
-		\item p2 – top: width of plateau, as logistic between peak and maximum length (or age).
-		\item p3 – ascending width:  parameter value is ln(width).
-		\item p4 – descending width:  parameter value is ln(width).
-		\item p5 – initial: selectivity at first bin, as logistic between 0 and 1.
-		\item p6 – final: selectivity at last bin, as logistic between 0 and 1 (for pattern 24). For pattern 23 age selectivity at last bin, as absolute value, so can be > 1.0. Warning: do not allow this value to go above 1.0 if the F\_method uses Pope’s approximation. It can above 1.0 when F is in exponential form.  When this parameter is above 1.0, the overall selectivity pattern will have an intermediate plateau at 1.0 (according to peak and top), then will ascend further to the final value.
+		\item p1 - peak: beginning size (or age) for the plateau (in cm or year).
+		\item p2 - top: width of plateau, as logistic between peak and maximum length (or age).
+		\item p3 - ascending width:  parameter value is ln(width).
+		\item p4 - descending width:  parameter value is ln(width).
+		\item p5 - initial: selectivity at first bin, as logistic between 0 and 1.
+		\item p6 - final: selectivity at last bin, as logistic between 0 and 1 (for pattern 24). For pattern 23 age selectivity at last bin, as absolute value, so can be > 1.0. Warning: do not allow this value to go above 1.0 if the F\_method uses Pope's approximation. It can above 1.0 when F is in exponential form.  When this parameter is above 1.0, the overall selectivity pattern will have an intermediate plateau at 1.0 (according to peak and top), then will ascend further to the final value.
 	\end{itemize}
 	
 Notes for Double Normal Selectivity:
 	\begin{itemize}
 		\item For the initial selectivity parameter (parameter 5)
 		\begin{itemize}
-			\item -999 or –1000:   ignore the initial selectivity algorithm and simply decay the small fish selectivity according to p3,
-			\item < -1000:  ignore the initial selectivity algorithm as above and then set selectivity equal to 1.0e-06 for size bins 1 through bin =  -1001 –value.  So a value of –1003 would set selectivity to a nil level for bins 1 through 2 and begin using the modeled selectivity in bin 3.
+			\item -999 or -1000:   ignore the initial selectivity algorithm and simply decay the small fish selectivity according to p3,
+			\item < -1000:  ignore the initial selectivity algorithm as above and then set selectivity equal to 1.0e-06 for size bins 1 through bin =  -1001 -value.  So a value of -1003 would set selectivity to a nil level for bins 1 through 2 and begin using the modeled selectivity in bin 3.
 		\end{itemize}
 		\item For the final selectivity parameter (parameter 6)
 		\begin{itemize}
-			\item -999 or –1000:   ignore the final selectivity algorithm and simply decay the large fish selectivity according to parameter 4,
-			\item <-1000:  set selectivity constant for bins greater than bin number =  -1000 – value.
+			\item -999 or -1000:   ignore the final selectivity algorithm and simply decay the large fish selectivity according to parameter 4,
+			\item <-1000:  set selectivity constant for bins greater than bin number =  -1000 - value.
 		\end{itemize}
 	\end{itemize}
 
@@ -1888,8 +1888,8 @@ No parameters.  Whole age range is mirrored from another fleet. The mirrored sel
 
 \myparagraph{Pattern 16 (age) - Gaussian (similar to Coleraine)}
 	\begin{itemize}
-		\item p1 – age below which selectivity declines
-		\item p2 – scaling factor for decline
+		\item p1 - age below which selectivity declines
+		\item p2 - scaling factor for decline
 	\end{itemize}
 
 
@@ -1917,20 +1917,20 @@ The shape of the selectivity is provided by the function (here in terms of age $
 
   where
 	\begin{itemize}
-		\item p1 – ascending inflection age/size (in cm).
-		\item p2 – ascending slope. 
-		\item p3 – descending inflection age/size (in cm).
-		\item p4 – descending slope.
-		\item p5 – age or size at first selection; this is a specification parameter, so must not be estimated.  Enter integer that is age for pattern 19 and is bin number for pattern 9.
-		\item p6 – (0/1)  where a value of 0 causes the descending inflection to be a standalone parameter, and a value of 1 causes the descending inflection to be interpreted as an offset from the ascending inflection.  This is a specification parameter, so must not be estimated.
+		\item p1 - ascending inflection age/size (in cm).
+		\item p2 - ascending slope. 
+		\item p3 - descending inflection age/size (in cm).
+		\item p4 - descending slope.
+		\item p5 - age or size at first selection; this is a specification parameter, so must not be estimated.  Enter integer that is age for pattern 19 and is bin number for pattern 9.
+		\item p6 - (0/1)  where a value of 0 causes the descending inflection to be a standalone parameter, and a value of 1 causes the descending inflection to be interpreted as an offset from the ascending inflection.  This is a specification parameter, so must not be estimated.
 	\end{itemize}
 
 \myparagraph{Pattern 25 (size) and 26 (age) - Exponential logistic}
 The exponential logistic included is based on the exponential logistic selectivity detailed by \citet{thompson-confounding-1994}; however, the parameterization within SS3 differs.  Explorations using this selectivity form has shown that the estimation of p1 can be highly unstable.  Users are strongly encourage to use the double normal selectivity rather than the exponential logistic selectivity.
 	\begin{itemize}
-		\item p1 – ascending rate, min: 0.02, max: 1.0, reasonable start value: 0.1.
-		\item p2 – peak, as fraction of way between min size and max size.  Parameter min value:  0.01; max:  0.99; reasonable start value: 0.5.
-		\item p3 – descending rate, min: 0.001, max: 0.5, reasonable start value:  0.01.  A value of 0.001 provides a nearly asymptotic curve. Values above 0.2 provide strongly dome-shaped function in which the p3 and p1 parameters interact strongly.
+		\item p1 - ascending rate, min: 0.02, max: 1.0, reasonable start value: 0.1.
+		\item p2 - peak, as fraction of way between min size and max size.  Parameter min value:  0.01; max:  0.99; reasonable start value: 0.5.
+		\item p3 - descending rate, min: 0.001, max: 0.5, reasonable start value:  0.01.  A value of 0.001 provides a nearly asymptotic curve. Values above 0.2 provide strongly dome-shaped function in which the p3 and p1 parameters interact strongly.
 	\end{itemize}
 
 The exponential logistic selectivity is calculated as:
@@ -1960,11 +1960,11 @@ selectivity and for age selectivity; the input syntax is identical.
 	
 For a 3 node setup, the input parameters would be:
 	\begin{itemize}
-		\item p1 – 	Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
-		\item p2 – 	Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a "natural cubic spline")
-		\item p3 – 	Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a "natural cubic spline")
-		\item p4-p6 – The nodes in units of cm; must be in rank order and inside of the range of the population length bins.  These must be held constant (not estimated, e.g., negative phase value) during a model run.
-		\item p7-p9 – The values at the nodes. Units are ln(selectivity) before rescaling.
+		\item p1 - 	Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
+		\item p2 - 	Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a "natural cubic spline")
+		\item p3 - 	Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a "natural cubic spline")
+		\item p4-p6 - The nodes in units of cm; must be in rank order and inside of the range of the population length bins.  These must be held constant (not estimated, e.g., negative phase value) during a model run.
+		\item p7-p9 - The values at the nodes. Units are ln(selectivity) before rescaling.
 	\end{itemize}
 
 Notes:
@@ -2183,16 +2183,16 @@ Retention is defined as a logistic function of size or age.  It does not apply t
 \begin{itemize}
 	\item Asymptotic (4 parameters):
 	\begin{itemize}
-		\item p1 – ascending inflection,
-		\item p2 – ascending slope,
-		\item p3 – maximum retention controlling the height of the asymptote (smaller values result in lower asymptotes), often a time-varying quantity to match the observed amount of discard. As of v. 3.30.01, this parameter is now input in logit space ranging between -10 and 10. A fixed value of -999 would assume no retention of fish and a value of 999 would set asymptotic retention equal to 1.0,
-		\item p4 – male offset to ascending inflection (arithmetic, not multiplicative),
+		\item p1 - ascending inflection,
+		\item p2 - ascending slope,
+		\item p3 - maximum retention controlling the height of the asymptote (smaller values result in lower asymptotes), often a time-varying quantity to match the observed amount of discard. As of v. 3.30.01, this parameter is now input in logit space ranging between -10 and 10. A fixed value of -999 would assume no retention of fish and a value of 999 would set asymptotic retention equal to 1.0,
+		\item p4 - male offset to ascending inflection (arithmetic, not multiplicative),
 	\end{itemize}
 	\item Dome-shaped (add the following 3 parameters):
 	\begin{itemize}
-		\item p5 – descending inflection,
-		\item p6 – descending slope, and
-		\item p7 – male offset to descending inflection (arithmetic, not multiplicative).
+		\item p5 - descending inflection,
+		\item p6 - descending slope, and
+		\item p7 - male offset to descending inflection (arithmetic, not multiplicative).
 	\end{itemize}
 \end{itemize}
 
@@ -2210,10 +2210,10 @@ If discard mortality is 1.0, all selected fish are dead; if discard mortality is
 
 Four parameters are used:
 \begin{itemize}
-	\item p1 – descending inflection
-	\item p2 – descending slope
-	\item p3 – maximum discard mortality
-	\item p4 – male offset to descending inflection (arithmetic, not multiplicative)
+	\item p1 - descending inflection
+	\item p2 - descending slope
+	\item p3 - maximum discard mortality
+	\item p4 - male offset to descending inflection (arithmetic, not multiplicative)
 \end{itemize}
 
 Discard mortality is calculated as:
@@ -2222,15 +2222,15 @@ Discard mortality is calculated as:
 \end{equation}
 
 \subsubsection{Sex-Specific Selectivity}
-There are two approaches to specifying sex specific selectivity.  One approach allows male selectivity to be specified as a fraction of female selectivity (or vice versa).  This first approach can be used for any selectivity pattern.  The other option allows for separate selectivity parameters for each sex plus an additional parameter to define the scaling of one sex’s peak selectivity relative to the other sex’s peak.  This second approach has only been implemented for a few selectivity patterns.
+There are two approaches to specifying sex specific selectivity.  One approach allows male selectivity to be specified as a fraction of female selectivity (or vice versa).  This first approach can be used for any selectivity pattern.  The other option allows for separate selectivity parameters for each sex plus an additional parameter to define the scaling of one sex's peak selectivity relative to the other sex's peak.  This second approach has only been implemented for a few selectivity patterns.
 
 \myparagraph{Male Selectivity as a Fraction of Female Selectivity (or vice versa):}
 If the "domale" flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity.  The two sexes switch roles if the "domale" flag is set to 2.  Generally it is best to select the option so that the dependent sex has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0. Sex specific selectivity is done the same way for all size and age selectivity options.
 \begin{itemize}
-	\item p1 – size (age) at which a dogleg occurs (set to an integer at a bin boundary and do not estimate).
-	\item p2 – ln(relative selectivity) at minimum length or age = 0.  Typically this will be set to a value of 0.0 (for no offset) and not estimated.  It would be a rare circumstance in which the youngest/smallest fish had sex-specific selectivity.
-	\item p3 – ln(relative selectivity) at the dogleg.
-	\item p4 – ln(relative selectivity) at maximum length or max age.
+	\item p1 - size (age) at which a dogleg occurs (set to an integer at a bin boundary and do not estimate).
+	\item p2 - ln(relative selectivity) at minimum length or age = 0.  Typically this will be set to a value of 0.0 (for no offset) and not estimated.  It would be a rare circumstance in which the youngest/smallest fish had sex-specific selectivity.
+	\item p3 - ln(relative selectivity) at the dogleg.
+	\item p4 - ln(relative selectivity) at maximum length or max age.
 \end{itemize}
 
 For intermediate ages, the natural log values are linearly interpolated on size (age).
@@ -2599,15 +2599,15 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 	\end{itemize}
 	\item COND if growth specs number of bins to report > 0 and empirical weight at age not used:
 		\begin{itemize}
-			\item … as for selectivity bins
+			\item \ldots~as for selectivity bins
 		\end{itemize}
 	\item COND if numbers-at-age specs number of ages > 0:
 		\begin{itemize}
-			\item … as for selectivity bins
+			\item \ldots~as for selectivity bins
 		\end{itemize}
 	\item COND == 2 and mortality-at-age specs number of ages > 0:
 		\begin{itemize}
-			\item … as for selectivity bins
+			\item \ldots~as for selectivity bins
 		\end{itemize}
 \end{itemize}
 

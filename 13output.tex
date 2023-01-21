@@ -45,13 +45,13 @@
 \subsection{Standard ADMB output files}
 Standard ADMB files are created by SS3. These are:
 
-ss.par – This file has the final parameter values.  They are listed in the order they are declared in SS3.  This file can be read back into SS3 to restart a run with these values (see \hyperref[sec:RunningSS]{Running Stock Synthesis} for more info).
+ss.par - This file has the final parameter values.  They are listed in the order they are declared in SS3.  This file can be read back into SS3 to restart a run with these values (see \hyperref[sec:RunningSS]{Running Stock Synthesis} for more info).
 
-ss.std – This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run.  It also contains the derived quantities declared as standard deviation report variables.  All of this information is also report in the covar.sso.  Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
+ss.std - This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run.  It also contains the derived quantities declared as standard deviation report variables.  All of this information is also report in the covar.sso.  Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
 
-ss.rep – This report file is created between phases so, unlike Report.sso, will be created even if the hessian fails. It does not contain as much output as shown in Report.sso.
+ss.rep - This report file is created between phases so, unlike Report.sso, will be created even if the hessian fails. It does not contain as much output as shown in Report.sso.
 
-ss.cor – This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret.  This same information is reported in covar.sso.
+ss.cor - This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret.  This same information is reported in covar.sso.
 
 \subsection{Stock Synthesis Summary}
 The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place.  It is organized as a list. At the top of the file are descriptors, followed by the 1) likelihoods for each component, 2) parameters and their standard errors, and 3) derived quantities and their standard errors.  Total biomass, summary biomass, and catch were added to the quantities reported in this file in version 3.30.11 and later.
@@ -171,7 +171,7 @@ The bootstrapping procedure within SS3 is done via the following steps:
 	\item Parametric bootstrap data are calculated for each observation by sampling from a probability distribution corresponding to the likelihood for that data type using the expected values noted above. Examples of how this happens include the following:
 	
 	\begin{itemize}
-		\item Indices of abundance are sampled from the distribution used in the estimation model (as set in the “Errtype” column of the index configuration, most commonly lognormal but could be normal or T-distribution). The variability of the distribution from which the random sample is drawn is based on the combination of the input uncertainty and any estimated "Extra SD" parameter and any "add\_to\_survey\_CV" value included under the input variance adjustments factors.
+		\item Indices of abundance are sampled from the distribution used in the estimation model (as set in the ``Errtype'' column of the index configuration, most commonly lognormal but could be normal or T-distribution). The variability of the distribution from which the random sample is drawn is based on the combination of the input uncertainty and any estimated "Extra SD" parameter and any "add\_to\_survey\_CV" value included under the input variance adjustments factors.
 		
 		\item Length and age compositions are sampled from multinomial distributions with expected proportions in each bin based on the expected values and sample size equal to the adjusted input sample size (input sample size multiplied by any inputs for "mult\_by\_lencomp\_N" or "mult\_by\_agecomp\_N" under the input variance adjustments factors).
 		
@@ -349,7 +349,7 @@ Then the time series of output, with standard deviation of estimates, are produc
 	\end{itemize}
 	\item Environmental Data
 	\begin{itemize}
-		\item The input values of environmental data are echoed here. In the future, the summary biomass in the previous year will be mirrored into environmental column –2 and that the age zero recruitment deviation into environmental column –1. Once so mirrored, they may enable density-dependent effects on model parameters.
+		\item The input values of environmental data are echoed here. In the future, the summary biomass in the previous year will be mirrored into environmental column -2 and that the age zero recruitment deviation into environmental column -1. Once so mirrored, they may enable density-dependent effects on model parameters.
 	\end{itemize}
 	\item Tag Recapture Information
 	\item Numbers at Age
