@@ -32,7 +32,7 @@ As of ADMB 12.3, a new command called "-hess{\textunderscore}step" is available 
 \subsubsection{Example of DOS batch input file}
 One file management approach is to put ss.exe in its own folder (example:  C:\textbackslash SS\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS\_runs).  Then a DOS batch file in the SS\_runs folder can be run at the command line to start ss.exe.  All output will appear in SS\_runs folder.
 
-A DOS batch file (e.g. SS.bat) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
+A DOS batch file (e.g., SS.bat) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
 
 \begin{quote}
 	\begin{verbatim}
@@ -259,7 +259,7 @@ To add the SS3 binary file to your path, follow these steps:
   \item Click on \texttt{PATH} if it exists, create it if does not exist 
   \item Choose `PATH` and click edit
   \item In the \texttt{Edit User Variable} window add to the end of the \texttt{Variable value} section a semicolon and the SS3 folder location you recorded earlier.
-     E.g. \texttt{;C:/SS}. Do not overwrite what was previously in the \texttt{PATH} variable.
+     E.g., \texttt{;C:/SS}. Do not overwrite what was previously in the \texttt{PATH} variable.
   \item Restart your computer
   \item Go back to the DOS prompt and try typing \texttt{SS -?} and hitting return again.
 \end{enumerate}
@@ -291,7 +291,7 @@ When input files are causing the program to crash or fail to produce sensible re
 
 \begin{enumerate}
 	\item Set the turn\_off\_phase switch to 0 in the starter.ss file.  This will cause the mode to not attempt to adjust any parameters and simply converges a dummy parameter.  It will still produce a Report.sso file, which can be examined to see what has been calculated from the initial parameter values.
-	\item Turn the verbosity level to 2 in the starter.ss file.  This will cause the program to display the value of each likelihood component to the screen on each iteration.  So it the program is creating an illegal computation (e.g. divide by zero), it may show you which likelihood component contains the problematic calculation.  If the program is producing a Report.sso file, you may then see which observation is causing the illegal calculation.
+	\item Turn the verbosity level to 2 in the starter.ss file.  This will cause the program to display the value of each likelihood component to the screen on each iteration.  So it the program is creating an illegal computation (e.g., divide by zero), it may show you which likelihood component contains the problematic calculation.  If the program is producing a Report.sso file, you may then see which observation is causing the illegal calculation.
 	\item Run the program with the command ss >>SSpipe.txt.  This will cause all screen display to go to the specified text file (note, delete this file before running because it will be appended to).  Examination of this file will show detailed statements produced during the reading and preprocessing of input files.
 	\item If the model fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the -nohess option so you can view the Report.sso to attempt to diagnose the problem.
 	\item If the problem is with reading one or more of the input files, please note that certain Mac line endings cannot be read by the model (although this is a rare occurance). Be sure to save the text files with Windows or Linux style line endings so that the executable can parse them.
