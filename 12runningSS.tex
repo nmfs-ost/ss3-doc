@@ -143,13 +143,14 @@ There may be times a user would like to generate the .ss\_new files without runn
 where -1 is the maximum phase for the model to run through (e.g., can be other values if a user would like to only run through a specific parameter phase). This approach will create all the new files with the starter.ss\_new reflecting the original maxphase value in the starter.ss file. This approach is available in v.3.30.16 and later.
 
 \hypertarget{hess-step}{}
-\subsubsection{Using -hess{\textunderscore}step to do single Newton steps using the inverse Hessian}
+\subsubsection{Using -hess{\textunderscore}step to do additional Newton steps using the inverse Hessian}
 
 The optimizer in ADMB is designed to run until the maximum absolute gradient (mac) is small enough (e.g., 1e-05), after which it quits and does the uncertainty calculations. But if run for longer it cannot appreciably decrease this mac. In many cases it is interesting or advisable to get closer to the mode to confirm convergence of the model. 
 
-% A new feature as of ADMB 12.3 called ``-hess{\textunderscore}step'' takes Newton steps to update the MLE using the information in the Hessian calculated as $MLE_{new}=MLE-(inverse~Hessian)*(gradient)$, where the Hessian and gradient are calculated from the original MLE. If the mgc improves then this corroborates the optimizer has converged and that the negative log-likelihood surface is approximately quadratic at the mode as assumed in the asymptotic uncertainty calculations. The downside is the high computational cost due to the extra matrix calculations.
+A new feature as of ADMB 12.3 called ``-hess{\textunderscore}step'' takes Newton steps to update the MLE using the information in the Hessian calculated as $MLE_{new}=MLE-(inverse~Hessian)*(gradient)$, where the Hessian and gradient are calculated from the original MLE. If the mac improves then this corroborates the optimizer has converged and that the negative log-likelihood surface is approximately quadratic at the mode as assumed in the asymptotic uncertainty calculations. The downside is the high computational cost due to the extra matrix calculations.
 
-The feature is used by optimizing normally, and then from the command line running -hess{\textunderscore}step for defaults (recommended), -hess{\textunderscore}step N, or -hess{\textunderscore}step{\textunderscore}tol eps where N and eps are the maximum number of steps to take and the tolerance (i.e., a very small number like 1e-10) after which to stop.
+The feature is used by optimizing normally, and then from the command line running -hess{\textunderscore}step for defaults (recommended), -hess{\textunderscore}step N, or -hess{\textunderscore}step{\textunderscore}tol eps where N and eps are the maximum number of steps to take and the tolerance (i.e., a very small number like 1e-10) after which to stop. When running the Hessian first and then the -hess_step, ADMB will prompt you to run it with -binp ss.bar.
+
 
 \subsubsection{Running Parameter Profiles}
 Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood.  There are two ways this can be done.
