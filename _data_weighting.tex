@@ -80,7 +80,7 @@ There are a several of challenges posed by the Francis data-weighting approach:
 Finally, in simulation work comparing both the Francis and McAllister and Ianelli data weighting approaches, indicate that the arithmetic averaging of effective samples sizes from the McAllister and Ianelli approach was inferior to other methods \citep{punt_insights_2016}.
 
 \hypertarget{DM}{}
-\myparagraph{Dirichlet-Multinomial}
+\myparagraph{Dirichlet-multinomial}
 
 The Dirichlet-Multinomial should only be used when there is a
 substantive basis for setting an approximate value for input sample
@@ -210,9 +210,9 @@ The ratio shown in the final column is the estimated multiplier which can be com
 
 If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that the model is trying to tune the sample size as high as possible. In this case, the $ln(\theta)$ parameters should be fixed at a high value, like the upper bound of 20, which will result in 100\% weight being applied to the input sample sizes. An alternative would be to manually change the input sample sizes to a higher value so that the estimated weighting will be less than 100%.
 
-Note that a constant of integration was added to the Dirichlet-Multinomial likelihood equation in SS3 v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versions of SS3.
+Note that a constant of integration was added to the Dirichlet-multinomial likelihood equation in SS3 v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versions of SS3.
 
-Some challenges posed by the Dirichlet-Multinomial data-weighting approach:
+Some challenges posed by the Dirichlet-multinomial data-weighting approach:
 \begin{enumerate}
 	\item Does not allow weights above 100\% (by design) so it is not yet clear how best to deal with the situation when the estimated weight is close to 100\%.
 	\item Parameterization has potential to cause convergence issues or inefficient MCMC sampling when weights are close to 100\% if no prior is applied as discussed above.
