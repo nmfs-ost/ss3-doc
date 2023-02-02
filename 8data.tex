@@ -617,7 +617,7 @@ There are some items for users to consider when setting up population length bin
 	
 	\item While exploring the performance of models with finer bin structure, a potentially pathological situation has been identified.  When the bin structure is coarse (note that some applications have used 10 cm bin widths for the largest fish), it is possible for a selectivity slope parameter or a retention parameter to become so steep that all of the action occurs within the range of a single size bin.  In this case, the model will see zero gradient of the log likelihood with respect to that parameter and convergence will be hampered.
 	
-	\item  A value read near the end of the starter.ss file defines the degree of tail compression used for the age-length key, called ALK tolerance.  If this is set to 0.0, then no compression is used and all cells of the age-length key are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age.  With tail compression of, say 0.0001, the model, at the beginning of each phase, will calculate the min and max length bin to process for each age of each morphs ALK and compress accordingly.  Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%.  Large values of ALK tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence.  It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time.  The user is encouraged to explore this feature.
+	\item A value read near the end of the starter.ss file defines the degree of tail compression used for the age-length key, called ALK tolerance.  If this is set to 0.0, then no compression is used and all cells of the age-length key are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age.  With tail compression of, say 0.0001, the model, at the beginning of each phase, will calculate the min and max length bin to process for each age of each morphs ALK and compress accordingly.  Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%.  Large values of ALK tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence.  It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time.  The user is encouraged to explore this feature.
 \end{itemize}
 
 
@@ -625,22 +625,25 @@ There are some items for users to consider when setting up population length bin
 \begin{tabular}{p{2cm} p{13cm}}
 		\multicolumn{2}{l}{Enter a code to indicate whether or not length composition data will be used:\Tstrut\Bstrut}\\
 		\hline	
-		1 & Use length composition data (0/1)\Tstrut\Bstrut\\
+		1 & Use length composition data (0/1/2)\Tstrut\Bstrut\\
 		\hline									  
 \end{tabular}
 
-If the value 0 is entered, then skip all length related inputs below and skip to the age data setup section.  Otherwise continue:
-	
+If the value 0 is entered, then skip all length related inputs below and skip to the age data setup section.  If value 1 is entered, all data weighting options for composition data apply equally to all partitions within a fleet. If value 2 is entered, then the data weighting options are applied by partition specified. Note that the partitions must be entered in numerical order within each fleet.
+
+If the value for fleet is negative, then the vector of inputs is copied to all partitions (0, 1, and 2) for that fleet and all higher numbered fleets. This as a good practice so that the user controls the values used for all fleets.
+
 \hypertarget{Dirichlet}{}
 \begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.7cm}}
 		\multicolumn{7}{l}{Specify bin compression and error structure for length composition data for each fleet:}\\
 		\hline
-		Min.      & Constant & Combine   &           & Comp. & Dirichlet & Min.\Tstrut\\
-		Tail      & added    & males \&  & Compress. & Error & Param.    & Sample\\
-		Compress. & to prop. & females   & Bins      & Dist. & Select    & Size\Bstrut\\
+		          &           & Min.      & Constant & Combine   &           & Comp. &           & Min.\Tstrut\\
+		          &           & Tail      & added    & males \&  & Compress. & Error & Param.    & Sample\\
+		Fleet     & Partition & Compress. & to prop. & females   & Bins      & Dist. & Select    & Size\Bstrut\\
 		\hline
-		0 & 0.0001 & 0 & 0 & 0 & 0 & 1 \Tstrut\\
-		0 & 0.0001 & 0 & 0 & 0 & 0 & 1 \Bstrut\\
+		0 & 0 & 0 & 0.0001 & 0 & 0 & 0 & 0 & 1 \Tstrut\\
+		1 & 1 & 0 & 0.0001 & 0 & 0 & 0 & 1 & 1 \\
+		1 & 2 & 0 & 0.0001 & 0 & 0 & 0 & 2 & 1 \Bstrut\\
 		\hline
 \end{tabular}
 
@@ -671,12 +674,13 @@ The options are:
 	\begin{itemize}
 		\item This parameterization of the Dirichlet-multinomial Error has not been tested, so this option should be used with caution. The Dirichlet Multinomial Error data weighting approach will calculate the effective sample size based on equation 12 from \citet{thorson-model-based-2017} where the estimated parameter will now be in terms of $\beta$. The application of this method should follow the same steps detailed above for option 1. 
 	\end{itemize}
+	\item 3 = Multivariate Tweedie.
 \end{itemize}
 
 %\pagebreak
 
-\myparagraph{Dirichlet Parameter Select}	
-Value that indicates the groups of composition data for estimation of the Dirichlet parameter for weighting composition data.
+\myparagraph{Parameter Select}	
+Value that indicates the groups of composition data for estimation of the Dirichlet or Multivariate Tweedie parameter for weighting composition data.
 
 \begin{itemize}
 	\item 0 = Default; and
@@ -835,7 +839,7 @@ If age data are included in the model, the following set-up is required, similar
 \begin{tabular}{p{2cm} p{2cm} p{2cm} p{1.5cm} p{1.5cm} p{2cm} p{2cm}}
 		\multicolumn{7}{l}{Specify bin compression and error structure for age composition data for each fleet:}\\
 		\hline
-		Min.      & Constant & Combine   &           & Comp. & Dirichlet & Min.\Tstrut\\
+		Min.      & Constant & Combine   &           & Comp. &           & Min.\Tstrut\\
 		Tail      & added    & males \&  & Compress. & Error & Param.    & Sample\\
 		Compress. & to prop. & females   & Bins      & Dist. & Select    & Size\Bstrut\\
 		\hline
