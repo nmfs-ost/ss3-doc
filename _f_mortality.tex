@@ -36,18 +36,18 @@ Terminology and reporting of $\text{ann}F$ and $F\text{std}$ has been slightly r
 SS3 allows for three approaches to estimate the $F'$ that will match the input values for retained catch. Note that SS3 is calculating the $F'$ to match the retained catch conditional on the fraction of total catch that is retained, e.g., the total catch is partitioned into retained and discarded portions.
 
 \begin{enumerate}
-	\item Pope’s method decays the numbers-at-age to the middle of the season, calculates a harvest rate for each fleet, $H_{t,f}$, that is the ratio of $C_{t,f}$ to $B_{t,f}$, then decays the survivors to the end of the season. the total mortality, $Z_{t,a}$, from the ratio of survivors to initial numbers, is then calculated. The $Z$ is subsequently used for in-season interpolation to get expected values for observations.
+	\item Pope's method decays the numbers-at-age to the middle of the season, calculates a harvest rate for each fleet, $H_{t,f}$, that is the ratio of $C_{t,f}$ to $B_{t,f}$, then decays the survivors to the end of the season. the total mortality, $Z_{t,a}$, from the ratio of survivors to initial numbers, is then calculated. The $Z$ is subsequently used for in-season interpolation to get expected values for observations.
 	
-	\item $F$ as parameters uses the standard Baranov catch equation and lets ADMB find the $F'$ parameter values that produce the lowest negative log-likelihood, which includes fit to the input catch data. $F$ as parameters method tends to work better than Pope’s or hybrid in high $F$ situations because it allows for some lack of fit to catch levels in early iterations and can later improve this fit as it closes in on the best solution.
+	\item $F$ as parameters uses the standard Baranov catch equation and lets ADMB find the $F'$ parameter values that produce the lowest negative log-likelihood, which includes fit to the input catch data. $F$ as parameters method tends to work better than Pope's or hybrid in high $F$ situations because it allows for some lack of fit to catch levels in early iterations and can later improve this fit as it closes in on the best solution.
 	
-	\item Hybrid $F$ starts by calculating a harvest rate, $H$, using Pope’s, then converts these $H$ values, which have units of fractional harvest rate, into an approximate of $F'$ in exponential units, tuning these $F'$ values over a few iterations to get a better match to each fleet’s catch.
+	\item Hybrid $F$ starts by calculating a harvest rate, $H$, using Pope's, then converts these $H$ values, which have units of fractional harvest rate, into an approximate of $F'$ in exponential units, tuning these $F'$ values over a few iterations to get a better match to each fleet's catch.
 \end{enumerate}
 
 Items to note:
 \begin{itemize}
 	\item SS3 includes a permutation on the $F$ as parameters method. In the first few phases, SS3 uses hybrid, then between phases it converts these directly calculated $F'$ values into parameters and proceeds in subsequent phases and MCMC to use the parameter approach. This variation on the parameter method is the recommend approach in high $F$ situations.
 	
-	\item With Pope’s method, the $H$ values are fraction caught, so duration of the season does not matter. Parameter and hybrid treat $F'$ identically and multiply the $F'$ values by season duration (which has units of fraction of a year) as it is used. Each of the $F$ methods ends up with a $Z_{t,f}$ that is used for in-season interpolation.
+	\item With Pope's method, the $H$ values are fraction caught, so duration of the season does not matter. Parameter and hybrid treat $F'$ identically and multiply the $F'$ values by season duration (which has units of fraction of a year) as it is used. Each of the $F$ methods ends up with a $Z_{t,f}$ that is used for in-season interpolation.
 \end{itemize}
 
 \myparagraph{Relative $F$ and $F$mult}

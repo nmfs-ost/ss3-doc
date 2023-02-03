@@ -80,9 +80,9 @@ There are a several of challenges posed by the Francis data-weighting approach:
 Finally, in simulation work comparing both the Francis and McAllister and Ianelli data weighting approaches, indicate that the arithmetic averaging of effective samples sizes from the McAllister and Ianelli approach was inferior to other methods \citep{punt_insights_2016}.
 
 \hypertarget{DM}{}
-\myparagraph{Dirichlet-Multinomial}
+\myparagraph{Dirichlet-multinomial}
 
-The Dirichlet-multinomial should only be used when there is a
+The Dirichlet-Multinomial should only be used when there is a
 substantive basis for setting an approximate value for input sample
 size.  This is important because: 
 
@@ -93,11 +93,11 @@ weighting for those data, such that a dummy value of 1 will cause those
 data to never be assigned a weight \>1.
 
 \item Changes in input sample size are not quite proportionally
-offsetted by changes in the estimated weighting parameter, such that
+offset by changes in the estimated weighting parameter, such that
 using input-sample-size of 100 vs. 200 will result in small differences
 in estimated data weights (this property is fixed by the
 multivariate-Tweedie likelihood, where changes in input-sample-size are
-exactly offsetted by changes in the estimated weighting parameters).   
+exactly offset by changes in the estimated weighting parameters).   
 
 \end{itemize}
 
@@ -117,7 +117,7 @@ unknown.
 \item If the proceeding options are not feasible, using accepted
 standards in that region and review context, i.e., assigning
 input-sample-size of arbitrary value X if that is what has always been
-done in that region/stock, there’s no basis for changing it, and it is
+done in that region/stock, there's no basis for changing it, and it is
 greater than or equal to the likely effective sample size; 
 
 \end{enumerate}
@@ -146,7 +146,7 @@ on error while reading the input files.
 multiple fleets share the same log(Theta) parameter. 
 	
 \item If you have both length and age data, the ParmSelect should have
-separate numbers for each, e.g. 1 and 2 for the length comps and 3 and 4
+separate numbers for each, e.g., 1 and 2 for the length comps and 3 and 4
 for the age comps for the same two fleets. 
 	
 \end{itemize}
@@ -210,9 +210,9 @@ The ratio shown in the final column is the estimated multiplier which can be com
 
 If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that the model is trying to tune the sample size as high as possible. In this case, the $ln(\theta)$ parameters should be fixed at a high value, like the upper bound of 20, which will result in 100\% weight being applied to the input sample sizes. An alternative would be to manually change the input sample sizes to a higher value so that the estimated weighting will be less than 100%.
 
-Note that a constant of integration was added to the diricihlet-multinomila likelihood equation in SS3 v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versons of SS3.
+Note that a constant of integration was added to the Dirichlet-multinomial likelihood equation in SS3 v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versions of SS3.
 
-Some challenges posed by the Dirichlet-Multinomial data-weighting approach:
+Some challenges posed by the Dirichlet-multinomial data-weighting approach:
 \begin{enumerate}
 	\item Does not allow weights above 100\% (by design) so it is not yet clear how best to deal with the situation when the estimated weight is close to 100\%.
 	\item Parameterization has potential to cause convergence issues or inefficient MCMC sampling when weights are close to 100\% if no prior is applied as discussed above.

@@ -37,7 +37,7 @@ The normal units of measure are as follows:
 	\begin{itemize}
 		\item Spawning: 
 		\begin{itemize}
-			\item Happens once per year at a specified date (in real months, 1.0 - 12.99). To create multiple spawning events per year, change the definition of a year (e.g. call a 6 month period a "year" when there are two spawning events about 6 months apart). 
+			\item Happens once per year at a specified date (in real months, 1.0 - 12.99). To create multiple spawning events per year, change the definition of a year (e.g., call a 6 month period a "year" when there are two spawning events about 6 months apart). 
 		\end{itemize}
 		
 		\item Recruitment:   
@@ -292,13 +292,13 @@ When implementing a bycatch fleet, changes to both the data and control file are
 The needed changes to the data file are:
 
 \begin{enumerate}
-	\item Fleet type – set to value of 2.
+	\item Fleet type - set to value of 2.
 	\item Set bycatch fleet controls per information above.
-	\item Catch input – you must enter a positive value for catch in each year/season that you want a bycatch calculated.  The entered value of catch will be ignored by SS3, it is just a placeholder to invoke creating an F.
+	\item Catch input - you must enter a positive value for catch in each year/season that you want a bycatch calculated.  The entered value of catch will be ignored by SS3, it is just a placeholder to invoke creating an F.
 	\begin{enumerate}
-		\item Initial equilibrium – you may want to enter the bycatch amount as retained catch for the initial equilibrium year because there is no option to enter initial equilibrium discard in the discard section.
+		\item Initial equilibrium - you may want to enter the bycatch amount as retained catch for the initial equilibrium year because there is no option to enter initial equilibrium discard in the discard section.
 	\end{enumerate}	
-	\item Discard input – It is useful, but not absolutely necessary, to enter the amount of discard to assist SS3 in estimating the F for the bycatch fleet.
+	\item Discard input - It is useful, but not absolutely necessary, to enter the amount of discard to assist SS3 in estimating the F for the bycatch fleet.
 	\item Survey input - It is useful, but not absolutely necessary, to enter the effort time series by the bycatch fleet to assist SS3 in estimating the annual changes in F for the bycatch fleet.
 \end{enumerate}
 
@@ -306,7 +306,7 @@ The needed changes to the control file are:
 
 \begin{enumerate}
 	\item The F method must be set to 2 in order for SS3 to estimate F with having information on retained catch.
-	\item Selectivity – 
+	\item Selectivity - 
 	\begin{enumerate}
 		\item A selectivity pattern must be specified and fixed (or estimated if composition data is provided).
 		\item The discard column of selectivity input must be set to a value of 3 to cause all catch to be discarded.
@@ -324,9 +324,9 @@ For each fleet that is designated as a predator, a new parameter line is created
 Three types of data relevant to M2 can be input:
 
 \begin{itemize}
-	\item Total kill (as discard in the data file): M2 is a component of Z, so M2/Z can be used to calculate the amount of the total kill that is attributable to M2. This is completely analogous to calculating catch for the fishing fleets. The total kill (e.g., consumption) is output to the discard array. If data on the total kill by the M2 predator is available, it can be input as observed “discard” for this fleet and thus included in the total logL to estimate the magnitude of the M2 parameter.
+	\item Total kill (as discard in the data file): M2 is a component of Z, so M2/Z can be used to calculate the amount of the total kill that is attributable to M2. This is completely analogous to calculating catch for the fishing fleets. The total kill (e.g., consumption) is output to the discard array. If data on the total kill by the M2 predator is available, it can be input as observed ``discard'' for this fleet and thus included in the total logL to estimate the magnitude of the M2 parameter.
 	
-	\item Predator effort (as a survey index in the data file): M2 is a rate analogous to F, so the survey of F approach (survey units = 2) can be used to input predator abundance as an indicator of the “effort” that produced the M2. Like all surveys, this survey of M2 will also need a Q specification. Note that in the future we can explore improved options for this Q.
+	\item Predator effort (as a survey index in the data file): M2 is a rate analogous to F, so the survey of F approach (survey units = 2) can be used to input predator abundance as an indicator of the ``effort'' that produced the M2. Like all surveys, this survey of M2 will also need a Q specification. Note that in the future we can explore improved options for this Q.
 	
 	\item Predated age-length composition (as length or age composition data in the data file): M2 "eats" the modeled fish, so gut contents or other sources may have size and/or age composition data which may be input to estimate selectivity of the M2 source. 
 \end{itemize}
@@ -464,7 +464,7 @@ Indices with SD Report enabled will have the expected values for their historica
 		\item If the fishery or survey has time-varying selectivity, then this changing selectivity will be taken into account when calculating expected values for the CPUE or survey index.
 		\item Year values that are before start year or after end year are excluded from model, so the easiest way to include provisional data in a data file is to put a negative sign on its year value.
 		\item Duplicate survey observations for the same year are not allowed.
-		\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID.  Previously the code for not using observations was to enter the observation itself as a negative value.  However, that old approach prevented use of a Z-score environmental index as a “survey”.  This approach is best for single or select years from an index rather than an approach to remove a whole index.  Removing a whole index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
+		\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID.  Previously the code for not using observations was to enter the observation itself as a negative value.  However, that old approach prevented use of a Z-score environmental index as a ``survey''.  This approach is best for single or select years from an index rather than an approach to remove a whole index.  Removing a whole index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
 		\item Observations can be entered in any order, except if the super-year feature is used.
 		\item Super-periods are turned on and then turned back off again by putting a negative sign on the season.  Previously, super-periods were started and stopped by entering -9999 and the -9998 in the SE field.  See the \hyperlink{SuperPeriod}{Data Super-Period} section of this manual for more information.
 		\item If the statistical analysis used to create the CPUE index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery's size and age composition, then you may want to enter the CPUE as if it was a separate survey and with a selectivity that differs from the fishery's estimated selectivity.  The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the CPUE should be derived through an area-weighted approach to better serve as a survey of stock abundance.
