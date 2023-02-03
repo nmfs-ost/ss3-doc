@@ -631,9 +631,22 @@ There are some items for users to consider when setting up population length bin
 
 If the value 0 is entered, then skip all length related inputs below and skip to the age data setup section.  If value 1 is entered, all data weighting options for composition data apply equally to all partitions within a fleet. If value 2 is entered, then the data weighting options are applied by partition specified. Note that the partitions must be entered in numerical order within each fleet.
 
-If the value for fleet is negative, then the vector of inputs is copied to all partitions (0, 1, and 2) for that fleet and all higher numbered fleets. This as a good practice so that the user controls the values used for all fleets.
+If the value for fleet is negative, then the vector of inputs is copied to all partitions (0 = combined, 1 = discard, and 2 = retained) for that fleet and all higher numbered fleets. This as a good practice so that the user controls the values used for all fleets.
 
-\hypertarget{Dirichlet}{}
+Example input table when "Use length composition data" = 1 (where here the first fleet has multinomial error structure with no associated parameter, and the second fleet uses Dirichlet-multinomial structure):
+\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.7cm}}
+	\multicolumn{7}{l}{Specify bin compression and error structure for length composition data for each fleet:}\\
+	\hline
+	Min.      & Constant & Combine   &           & Comp. &           & Min.\Tstrut\\
+	Tail      & added    & males \&  & Compress. & Error & Param.    & Sample\\
+	Compress. & to prop. & females   & Bins      & Dist. & Select    & Size\Bstrut\\
+	\hline
+	0 & 0.0001 & 0 & 0 & 0 & 0 & 0.1 \Tstrut\\
+	0 & 0.0001 & 0 & 0 & 1 & 1 & 0.1 \Bstrut\\
+	\hline
+\end{tabular}
+
+Example input table when "Use length composition data" = 2 (where here the -1 in the fleet column applies the first parameter to all partitions for fleet 1 while fleet 2 has separate parameters for discards and retained fish):
 \begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.7cm}}
 		\multicolumn{7}{l}{Specify bin compression and error structure for length composition data for each fleet:}\\
 		\hline
@@ -641,9 +654,9 @@ If the value for fleet is negative, then the vector of inputs is copied to all p
 		          &           & Tail      & added    & males \&  & Compress. & Error & Param.    & Sample\\
 		Fleet     & Partition & Compress. & to prop. & females   & Bins      & Dist. & Select    & Size\Bstrut\\
 		\hline
-		0 & 0 & 0 & 0.0001 & 0 & 0 & 0 & 0 & 1 \Tstrut\\
-		1 & 1 & 0 & 0.0001 & 0 & 0 & 0 & 1 & 1 \\
-		1 & 2 & 0 & 0.0001 & 0 & 0 & 0 & 2 & 1 \Bstrut\\
+		-1 & 0 & 0 & 0.0001 & 0 & 0 & 1 & 1 & 0.1 \Tstrut\\
+		2 & 1 & 0 & 0.0001 & 0 & 0 & 1 & 2 & 0.1 \\
+		2 & 2 & 0 & 0.0001 & 0 & 0 & 1 & 3 & 0.1 \Bstrut\\
 		\hline
 \end{tabular}
 
