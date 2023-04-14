@@ -13,22 +13,61 @@ jobs:
       RSPM: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"
 
     steps:
-      - name: Set up Git repository
+      - name: Setup Git repository
         uses: actions/checkout@v3
           fetch-depth: 0
 
       - name: Update Ubuntu packages
         run: sudo apt-get update
         
-      - name: Set up R
+      - name: Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
 
-      - name: setup pandoc
+      - name: Setup pandoc
         uses: r-lib/actions/setup-pandoc@v2
         with:
             pandoc-version: '2.14.0.3'
+
+      - name: Install rmarkdown
+        run: install.packages("rmarkdown")
+        shell: Rscript {0}
+
+# Get previous version and then create the next version   
+      - name: Application Version
+        id: version
+        uses: paulhatch/semantic-version@v5.0.2
+        with:
+          tag_prefix: "v"
+          version_format: "v${major}.${minor}.${patch}"
+
+# Create version.txt to use when changing the version in the index.md
+      - name: Create version.txt
+        run: echo ${{ steps.version.outputs.version }} > version.txt
+
+# Update version and date in SS330_User_Manual.tex
+      - name: Update version and date in manual
+        run: |
+          version <- readLines("version.txt", encoding = "UTF-8")
+          version <- gsub("v", "", version)
+          manual_tex <- readLines("SS330_User_Manual.tex")
+          manual_tex[grep("Version", manual_tex)] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, manual_tex[grep("Version", manual_tex)])
+          date_line <- manual_tex[grep("date[{]", manual_tex)]
+          todays_month <- format(Sys.Date(), "%B")
+          todays_day <- format(Sys.Date(), "%d")
+          todays_year <- format(Sys.Date(), "%Y")
+          todays_date <- paste0("{", todays_month, " ", todays_day, ", ", todays_year, "}")
+          date_line <- gsub("\\{[^{}]*\\}", todays_date, date_line)
+          manual_tex[grep("date[{]", manual_tex)]<- date_line
+          writeLines(manual_tex, "SS330_User_Manual.tex")
+        shell: Rscript {0}
+      
+      - name: Commit date and version changes in SS330_User_Manual.tex
+        uses: EndBug/add-and-commit@v9
+        with: 
+          add: './docs/SS330_User_Manual.tex'
+          message: 'update version and date in manual'
 
 # HTML Portion
       - name: Convert tex to html
@@ -134,7 +173,14 @@ jobs:
             '<li><a href="#sec:references"><span class="toc-section-number">17</span> References</a></li>',
             after = where_add)
           writeLines(html_txt, "SS330_User_Manual.html")
+          writeLines(html_txt, "docs/SS330_User_Manual_release.html")
         shell: Rscript {0}     
+
+      - name: Commit html of manual to docs folder
+        uses: EndBug/add-and-commit@v9
+        with: 
+          add: './docs/SS330_User_Manual_release.html'
+          message: 'update manual html in docs'
 
 # PDF Portion
       - name: remove rendered file, check that is gone.
@@ -151,12 +197,23 @@ jobs:
           #args: --lua-filter=tagged-filter.lua
           latexmk_use_lualatex: true
 
-# Get previous version and then create the next version   
-      - name: Application Version
-        id: version
-        uses: paulhatch/semantic-version@v5.0.2
-        with:
-          tag_prefix: "v"
+# Update the version in index.md      
+      - name: Update version in index.md
+        run: |
+          version <- readLines("version.txt", encoding = "UTF-8")
+          index <- readLines("docs/index.md", encoding = "UTF-8")
+          version <- gsub("v", "", version)
+          index[6] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, index[6])
+          index[7] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, index[7])
+          writeLines(index, "docs/index.md")
+        shell: Rscript {0}
+
+# Commit changes to the version in index.md to the repository
+      - name: Commit changes made to index.md
+        uses: EndBug/add-and-commit@v9
+        with: 
+          add: 'docs/index.md'
+          message: 'update index version'
 
  # Create Release     
       - name: Create Release
@@ -168,7 +225,8 @@ jobs:
           draft: false
           prerelease: false
 
- # Add html as artifact for release         
+ # Add html as artifact for release
+ # Could change link in index for html to asset location so don't need to add html to docs folder         
       - name: Upload release artifact - html manual
         uses: actions/upload-release-asset@v1
         with:
@@ -185,3 +243,16 @@ jobs:
           asset_path: ./SS330_User_Manual.pdf
           asset_name: SS330_User_Manual.pdf
           asset_content_type: application/pdf
+
+# Render github pages
+      - name: render the rmd files
+        run: |
+          rmarkdown::render("User_Guides/ss_model_tips/ss_model_tips.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
+          rmarkdown::render("User_Guides/getting_started/Getting_Started_SS.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
+        shell: Rscript {0}
+
+      - name: Deploy to GitHub pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: docs/
