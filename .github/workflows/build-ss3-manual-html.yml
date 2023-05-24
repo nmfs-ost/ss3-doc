@@ -1,7 +1,7 @@
 name: build html version of the ss3 user manual
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       ref:
         default: ${{ github.ref }}
@@ -16,6 +16,7 @@ on:
     paths:
       - '**.tex'
       - 'html_usermanual_snippets.html'
+  workflow_dispatch:
 
 jobs:
   build-html:
