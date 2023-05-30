@@ -1,11 +1,22 @@
 name: Build SS3 user manual using texlive
+
 on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '**.tex'
+      - '**.yml'
+  pull_request:
+    paths:
+      - '**.tex'
+      - '**.yml'
   workflow_call:
     inputs:
       ref:
         default: ${{ github.ref }}
         required: false
         type: string
+        
 jobs:
   build-pdf:
     runs-on: ubuntu-latest
