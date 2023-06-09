@@ -1,0 +1,258 @@
+name: Release
+
+on:
+  workflow_dispatch:
+
+jobs:
+    
+  release:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
+      RSPM: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"
+
+    steps:
+      - name: Setup Git repository
+        uses: actions/checkout@v3
+          fetch-depth: 0
+
+      - name: Update Ubuntu packages
+        run: sudo apt-get update
+        
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: 'release'
+
+      - name: Setup pandoc
+        uses: r-lib/actions/setup-pandoc@v2
+        with:
+            pandoc-version: '2.14.0.3'
+
+      - name: Install rmarkdown
+        run: install.packages("rmarkdown")
+        shell: Rscript {0}
+
+# Get previous version and then create the next version   
+      - name: Application Version
+        id: version
+        uses: paulhatch/semantic-version@v5.0.2
+        with:
+          tag_prefix: "v"
+          version_format: "v${major}.${minor}.${patch}"
+
+# Create version.txt to use when changing the version in the index.md
+      - name: Create version.txt
+        run: echo ${{ steps.version.outputs.version }} > version.txt
+
+# Update version and date in SS330_User_Manual.tex
+      - name: Update version and date in manual
+        run: |
+          version <- readLines("version.txt", encoding = "UTF-8")
+          version <- gsub("v", "", version)
+          manual_tex <- readLines("SS330_User_Manual.tex")
+          manual_tex[grep("Version", manual_tex)] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, manual_tex[grep("Version", manual_tex)])
+          date_line <- manual_tex[grep("date[{]", manual_tex)]
+          todays_month <- format(Sys.Date(), "%B")
+          todays_day <- format(Sys.Date(), "%d")
+          todays_year <- format(Sys.Date(), "%Y")
+          todays_date <- paste0("{", todays_month, " ", todays_day, ", ", todays_year, "}")
+          date_line <- gsub("\\{[^{}]*\\}", todays_date, date_line)
+          manual_tex[grep("date[{]", manual_tex)]<- date_line
+          writeLines(manual_tex, "SS330_User_Manual.tex")
+        shell: Rscript {0}
+      
+      - name: Commit date and version changes in SS330_User_Manual.tex
+        uses: EndBug/add-and-commit@v9
+        with: 
+          add: './docs/SS330_User_Manual.tex'
+          message: 'update version and date in manual'
+
+# HTML Portion
+      - name: Convert tex to html
+        run: pandoc SS330_User_Manual.tex -s -o SS330_User_Manual.html --toc --self-contained --mathjax --default-image-extension=png --number-sections --citeproc --variable linkcolor=#0033CC
+        # Note: for the following R code, may be a single command to deal with the double header issue before rendering.
+      - name: Edit html to improve formatting
+        run: |
+          html_txt <- readLines("SS330_User_Manual.html")
+          #read html snippits to add
+          html_snips <- readLines("html_usermanual_snippets.html")
+          # remove inline style
+          style_sec <- grep("style>", html_txt)
+          html_txt <- html_txt[-(style_sec[1]:style_sec[2])]
+          # add in the the navbar
+          navbar_snip <- grep("div", html_snips)
+          navbar_snip <- html_snips[navbar_snip[1]:navbar_snip[2]]
+          html_txt <- append(html_txt, navbar_snip, after = grep("<html", html_txt))
+          html_txt <- gsub(
+            "<p>_add:nnn<span>Catalog</span><span>Lang</span><span>(enUS)</span></p>",
+            "", html_txt, fixed = TRUE)
+          # add link to css
+          css_snip <- grep("<link", html_snips, value = TRUE)
+          html_txt <- append(html_txt, css_snip, after = grep("<title>", html_txt))
+          # Add styling to tables add 1 because first col is on next row
+          first_lines <- grep("^<tr class=[[:punct:]]{1}[oe]", html_txt) + 1
+          tmp_lines <- html_txt[first_lines]
+          tmp_lines <- gsub("<td style=\"text-align: left;\">",
+                            "<td style=\"text-align: left;white-space: nowrap;\">",
+                            tmp_lines)
+          html_txt[first_lines] <- tmp_lines
+          # remove Typical Value double header
+          label <- grep(">Typical Value<", html_txt, fixed = TRUE)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label <10)
+          # one to get rid of is test
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-5):(i-1)])
+            end <- min(end[end %in% (i+1):(i+5)])
+            if(length(start) == 1 & length(end) == 1) {
+             html_txt[start:end] <- ""
+            }
+          }
+          # remove Value double header
+          label <- grep(">Value<", html_txt, fixed = TRUE)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label <10)
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-5):(i-1)])
+            end <- min(end[end %in% (i+1):(i+5)])
+            if(length(start) == 1 & length(end) == 1) {
+              html_txt[start:end] <- ""
+            }
+          }
+          # remove LO HI INIT etc double header
+          label <- grep(">LO<", html_txt, fixed = TRUE)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label < 20)
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-10):(i-1)])
+            end <- min(end[end %in% (i+1):(i+10)])
+            if(length(start) == 1 & length(end) == 1) {
+              html_txt[start:end] <- ""
+            }
+          }
+          # remove Pattern N Parameters etc double header
+          label <- grep(">N Parameters<", html_txt, fixed = T)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label == 5)
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-2):(i-1)])
+            end <- min(end[end %in% (i+1):(i+2)])
+            if(length(start) == 1 & length(end) == 1) {
+              html_txt[start:end] <- ""
+            }
+          }
+          # Add title to table of contents
+          where_add <- grep('<nav id="TOC" role="doc-toc">',
+                            html_txt, fixed = TRUE)
+          html_txt <- append(html_txt,
+                             "<h1>Table of Contents</h1>",
+                             after = where_add[1])
+          # Add title to references
+          where_add <- (grep("references csl-bib-body hanging-indent",
+                             html_txt, fixed = TRUE) - 1)
+          html_txt <- append(html_txt,
+            '<h1 data-number="17" id="sec:references"><span class="header-section-number">17</span> References</h1>',
+            after = where_add)
+          # Add references to table of contents
+          where_add <- grep("</nav>", html_txt, fixed = TRUE)-2
+          html_txt <- append(html_txt,
+            '<li><a href="#sec:references"><span class="toc-section-number">17</span> References</a></li>',
+            after = where_add)
+          writeLines(html_txt, "SS330_User_Manual.html")
+          writeLines(html_txt, "docs/SS330_User_Manual_release.html")
+        shell: Rscript {0}     
+
+      - name: Commit html of manual to docs folder
+        uses: EndBug/add-and-commit@v9
+        with: 
+          add: './docs/SS330_User_Manual_release.html'
+          message: 'update manual html in docs'
+
+# PDF Portion
+      - name: remove rendered file, check that is gone.
+        run: |
+          rm -rf SS330_User_Manual.pdf
+          ls
+     # - name: add lua filter to the repository
+     #   run: wget https://raw.githubusercontent.com/klpn/accpdf/master/common/tagged-filter.lua      
+        
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: SS330_User_Manual.tex
+          #args: --lua-filter=tagged-filter.lua
+          latexmk_use_lualatex: true
+
+# Update the version in index.md      
+      - name: Update version in index.md
+        run: |
+          version <- readLines("version.txt", encoding = "UTF-8")
+          index <- readLines("docs/index.md", encoding = "UTF-8")
+          version <- gsub("v", "", version)
+          index[6] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, index[6])
+          index[7] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, index[7])
+          writeLines(index, "docs/index.md")
+        shell: Rscript {0}
+
+# Commit changes to the version in index.md to the repository
+      - name: Commit changes made to index.md
+        uses: EndBug/add-and-commit@v9
+        with: 
+          add: 'docs/index.md'
+          message: 'update index version'
+
+ # Create Release     
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        with:
+          tag_name: ${{ steps.version.outputs.version }}
+          release_name: ${{ steps.version.outputs.version }} Docs
+          draft: false
+          prerelease: false
+
+ # Add html as artifact for release
+ # Could change link in index for html to asset location so don't need to add html to docs folder         
+      - name: Upload release artifact - html manual
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./SS330_User_Manual.html
+          asset_name: SS330_User_Manual.html
+          asset_content_type: application/html
+
+ # Add pdf as artifact for release     
+      - name: Upload release artifact 2
+        uses: actions/upload-release-asset@v1
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./SS330_User_Manual.pdf
+          asset_name: SS330_User_Manual.pdf
+          asset_content_type: application/pdf
+
+# Render github pages
+      - name: render the rmd files
+        run: |
+          rmarkdown::render("User_Guides/ss_model_tips/ss_model_tips.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
+          rmarkdown::render("User_Guides/getting_started/Getting_Started_SS.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
+        shell: Rscript {0}
+
+      - name: Deploy to GitHub pages
+        uses: JamesIves/github-pages-deploy-action@4.1.4
+        with:
+          branch: gh-pages
+          folder: docs/
