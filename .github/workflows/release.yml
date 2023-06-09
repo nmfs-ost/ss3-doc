@@ -1,8 +1,6 @@
 name: Release
 
 on:
-  # push:
-  #   branches: [auto-release-workflows]
   workflow_dispatch:
 
 jobs:
@@ -16,7 +14,8 @@ jobs:
 
     steps:
       - name: Setup Git repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+          fetch-depth: 0
 
       - name: Update Ubuntu packages
         run: sudo apt-get update
@@ -28,6 +27,8 @@ jobs:
 
       - name: Setup pandoc
         uses: r-lib/actions/setup-pandoc@v2
+        with:
+            pandoc-version: '2.14.0.3'
 
       - name: Install rmarkdown
         run: install.packages("rmarkdown")
@@ -36,10 +37,10 @@ jobs:
 # Get previous version and then create the next version   
       - name: Application Version
         id: version
-        uses: paulhatch/semantic-version@v5.3.0
+        uses: paulhatch/semantic-version@v5.0.2
         with:
           tag_prefix: "v"
-          version_format: "${major}.${minor}.${patch}"
+          version_format: "v${major}.${minor}.${patch}"
 
 # Create version.txt to use when changing the version in the index.md
       - name: Create version.txt
@@ -49,45 +50,131 @@ jobs:
       - name: Update version and date in manual
         run: |
           version <- readLines("version.txt", encoding = "UTF-8")
+          version <- gsub("v", "", version)
           manual_tex <- readLines("SS330_User_Manual.tex")
-          manual_tex[grep("Version", manual_tex)] <- gsub(
-            pattern = "[0-9].[0-9][0-9].[0-9][0-9]",
-            replacement = version,
-            x = manual_tex[grep(pattern = "Version", x = manual_tex)]
-          )
-          date_line <- grep(pattern = "date\\{", x = manual_tex)
-          todays_date <- format(x = Sys.Date(), "%B %d, %Y")
-          manual_tex[date_line] <- gsub(
-            pattern = "\\{[A-Za-z0-9, ]+",
-            replacement = paste0("{", todays_date),
-            x = manual_tex[date_line]
-          writeLines(text = manual_tex, con = "SS330_User_Manual.tex")
+          manual_tex[grep("Version", manual_tex)] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, manual_tex[grep("Version", manual_tex)])
+          date_line <- manual_tex[grep("date[{]", manual_tex)]
+          todays_month <- format(Sys.Date(), "%B")
+          todays_day <- format(Sys.Date(), "%d")
+          todays_year <- format(Sys.Date(), "%Y")
+          todays_date <- paste0("{", todays_month, " ", todays_day, ", ", todays_year, "}")
+          date_line <- gsub("\\{[^{}]*\\}", todays_date, date_line)
+          manual_tex[grep("date[{]", manual_tex)]<- date_line
+          writeLines(manual_tex, "SS330_User_Manual.tex")
         shell: Rscript {0}
       
       - name: Commit date and version changes in SS330_User_Manual.tex
         uses: EndBug/add-and-commit@v9
         with: 
           add: './docs/SS330_User_Manual.tex'
-          message: 'release: update version and date in manual'    
-      
+          message: 'update version and date in manual'
 
 # HTML Portion
       - name: Convert tex to html
-        run: pandoc SS330_User_Manual.tex -s -o SS330_User_Manual_release.html --toc --self-contained --mathjax --default-image-extension=png --number-sections --citeproc --variable linkcolor=#0033CC
+        run: pandoc SS330_User_Manual.tex -s -o SS330_User_Manual.html --toc --self-contained --mathjax --default-image-extension=png --number-sections --citeproc --variable linkcolor=#0033CC
         # Note: for the following R code, may be a single command to deal with the double header issue before rendering.
-# Create user_manual_name.txt to user for the name of the html file 
-# (will be release here but will not have release for the build-ss3-manual.yml)
-      - name: Create user_manual_name.txt
+      - name: Edit html to improve formatting
         run: |
-          name_txt <- file("user_manual_name.txt")
-          writeLines("SS330_User_Manual_release.html", name_txt)
-          close(name_txt)
-        shell: Rscript {0}
-
-      - name: Run R script to create html
-        run: |
-          source("Rcode/edit_html_improve_formatting.R")
-        shell: Rscript {0}   
+          html_txt <- readLines("SS330_User_Manual.html")
+          #read html snippits to add
+          html_snips <- readLines("html_usermanual_snippets.html")
+          # remove inline style
+          style_sec <- grep("style>", html_txt)
+          html_txt <- html_txt[-(style_sec[1]:style_sec[2])]
+          # add in the the navbar
+          navbar_snip <- grep("div", html_snips)
+          navbar_snip <- html_snips[navbar_snip[1]:navbar_snip[2]]
+          html_txt <- append(html_txt, navbar_snip, after = grep("<html", html_txt))
+          html_txt <- gsub(
+            "<p>_add:nnn<span>Catalog</span><span>Lang</span><span>(enUS)</span></p>",
+            "", html_txt, fixed = TRUE)
+          # add link to css
+          css_snip <- grep("<link", html_snips, value = TRUE)
+          html_txt <- append(html_txt, css_snip, after = grep("<title>", html_txt))
+          # Add styling to tables add 1 because first col is on next row
+          first_lines <- grep("^<tr class=[[:punct:]]{1}[oe]", html_txt) + 1
+          tmp_lines <- html_txt[first_lines]
+          tmp_lines <- gsub("<td style=\"text-align: left;\">",
+                            "<td style=\"text-align: left;white-space: nowrap;\">",
+                            tmp_lines)
+          html_txt[first_lines] <- tmp_lines
+          # remove Typical Value double header
+          label <- grep(">Typical Value<", html_txt, fixed = TRUE)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label <10)
+          # one to get rid of is test
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-5):(i-1)])
+            end <- min(end[end %in% (i+1):(i+5)])
+            if(length(start) == 1 & length(end) == 1) {
+             html_txt[start:end] <- ""
+            }
+          }
+          # remove Value double header
+          label <- grep(">Value<", html_txt, fixed = TRUE)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label <10)
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-5):(i-1)])
+            end <- min(end[end %in% (i+1):(i+5)])
+            if(length(start) == 1 & length(end) == 1) {
+              html_txt[start:end] <- ""
+            }
+          }
+          # remove LO HI INIT etc double header
+          label <- grep(">LO<", html_txt, fixed = TRUE)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label < 20)
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-10):(i-1)])
+            end <- min(end[end %in% (i+1):(i+10)])
+            if(length(start) == 1 & length(end) == 1) {
+              html_txt[start:end] <- ""
+            }
+          }
+          # remove Pattern N Parameters etc double header
+          label <- grep(">N Parameters<", html_txt, fixed = T)
+          diff_label <- diff(label)
+          to_rm <- which(diff_label == 5)
+          to_rm_lines <- label[to_rm+1]
+          for (i in to_rm_lines) {
+            start <- grep("<tr", html_txt, fixed = TRUE)
+            end <- grep("/tr", html_txt, fixed = TRUE)
+            start <- max(start[start %in% (i-2):(i-1)])
+            end <- min(end[end %in% (i+1):(i+2)])
+            if(length(start) == 1 & length(end) == 1) {
+              html_txt[start:end] <- ""
+            }
+          }
+          # Add title to table of contents
+          where_add <- grep('<nav id="TOC" role="doc-toc">',
+                            html_txt, fixed = TRUE)
+          html_txt <- append(html_txt,
+                             "<h1>Table of Contents</h1>",
+                             after = where_add[1])
+          # Add title to references
+          where_add <- (grep("references csl-bib-body hanging-indent",
+                             html_txt, fixed = TRUE) - 1)
+          html_txt <- append(html_txt,
+            '<h1 data-number="17" id="sec:references"><span class="header-section-number">17</span> References</h1>',
+            after = where_add)
+          # Add references to table of contents
+          where_add <- grep("</nav>", html_txt, fixed = TRUE)-2
+          html_txt <- append(html_txt,
+            '<li><a href="#sec:references"><span class="toc-section-number">17</span> References</a></li>',
+            after = where_add)
+          writeLines(html_txt, "SS330_User_Manual.html")
+          writeLines(html_txt, "docs/SS330_User_Manual_release.html")
+        shell: Rscript {0}     
 
       - name: Commit html of manual to docs folder
         uses: EndBug/add-and-commit@v9
@@ -110,17 +197,14 @@ jobs:
           #args: --lua-filter=tagged-filter.lua
           latexmk_use_lualatex: true
 
-# Change name of pdf file to include "_release"
-      - name: Add _release to pdf file name
-        run: |
-          mv SS330_User_Manual.pdf SS330_User_Manual_release.pdf
-
-# Update the version in index.md [this will need to change when website is updated]
+# Update the version in index.md      
       - name: Update version in index.md
         run: |
           version <- readLines("version.txt", encoding = "UTF-8")
-          index <- readLines("docs/index.md", encoding = "UTF-8")         
-          index <- gsub("v[0-9]\\.[0-9]{2}\\.[0-9]{2}", version, index)
+          index <- readLines("docs/index.md", encoding = "UTF-8")
+          version <- gsub("v", "", version)
+          index[6] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, index[6])
+          index[7] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, index[7])
           writeLines(index, "docs/index.md")
         shell: Rscript {0}
 
@@ -147,24 +231,24 @@ jobs:
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./SS330_User_Manual_release.html
-          asset_name: SS330_User_Manual_release.html
+          asset_path: ./SS330_User_Manual.html
+          asset_name: SS330_User_Manual.html
           asset_content_type: application/html
 
  # Add pdf as artifact for release     
-      - name: Upload release artifact - pdf manual
+      - name: Upload release artifact 2
         uses: actions/upload-release-asset@v1
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./SS330_User_Manual_release.pdf
-          asset_name: SS330_User_Manual_release.pdf
+          asset_path: ./SS330_User_Manual.pdf
+          asset_name: SS330_User_Manual.pdf
           asset_content_type: application/pdf
 
 # Render github pages
       - name: render the rmd files
         run: |
-          rmarkdown::render("User_Guides/ss3_model_tips/ss3_model_tips.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
-          rmarkdown::render("User_Guides/getting_started/Getting_Started_SS3.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
+          rmarkdown::render("User_Guides/ss_model_tips/ss_model_tips.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
+          rmarkdown::render("User_Guides/getting_started/Getting_Started_SS.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
         shell: Rscript {0}
 
       - name: Deploy to GitHub pages
