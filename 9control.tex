@@ -2289,22 +2289,49 @@ For additional information about the Dirichlet-multinomial please see \citet{tho
 \subsubsection{Selectivity Time-Varying Parameters}
 Time-Varying selectivity can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
-\subsubsection{Two-Dimensional Auto-Regressive Selectivity (Semi-parametric selectivity)}
-An experimental feature added version 3.30.03.02. Earlier versions do not have this feature and hence this input is not expected.  This features allows for a matrix of auto-correlation selectivity deviations by age or length and time as described in \citet{xu-new-2019}. Unlike other options for time-varying selectivity in SS3, these deviations are not in the selectivity parameters themselves, but exponential multipliers on whatever baseline selectivity has been chosen.  
+\subsubsection{Two-Dimensional Auto-Regressive Selectivity (2DAR; Semi-parametric selectivity)}
+This features combines a baseline parametric selectivity per existing options with a matrix of auto-correlated deviations by year and age (or length) to achieve semi-parametric selectivity as described in \citet{xu-new-2019}. For brevity, only ages will be referred to here. With 2DAR, these deviations are not in the selectivity parameters themselves. Instead, the deviations are exponentiated then used as year and age-specific multipliers on the chosen baseline selectivity.
 
-When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic, exponential logistic, or double normal would be a better choices. This option has not yet been explored adequately to provide guidance on best practices.
+There are a range of controls for this feature. The deviations can be applied to either the age selectivity or the length selectivity over a specified range of ages (or lengths) and years. The variance of the devs can be the same for all ages, or can be age-specific up to a specified age, then constant variance for all older ages that are within the 2DAR range. Ages outside of the 2DAR range revert to the parametric selectivity. The user can select a range of years for which devs will be created and can specify whether selectivity for years outside this range revert to the parametric selectivity or continue with the semi-parametric from the terminal year with devs; thus devs could be defined for just one year, the first year, then mirrored for all subsequent years. Finally, the controls allow for there to be a user-specified level of auto-correlation along the age dimension separate from a user-specified level of auto-correlation in the year dimension.
+
+When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the 2DAR deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic or exponential logistic would be a reasonable choice. The 2DAR option has not yet been explored adequately to provide guidance on best practices.
+
+\begin{tabular}{p{2cm} p{14cm}}
+	\hline
+	Typical Value & Description and Options\Tstrut\Bstrut\\
+	\hline
+	1 \Tstrut & Two-dimensional auto-regressive selectivity:\\
+	  & 0 = Not used, \\
+	  & 1 = Use 2DAR. \\
+	COND = 1 & Then read a specification line for the first fleet that uses 2DAR, then any short parameter lines invoked by those specifications, then enter another specification for next fleet using 2DAR (if any) and its parameter lines, then finish with a specification line containing negative value for the fleet \Bstrut\\
+	\hline
+\end{tabular}
+
+The specification line contains 11 values:
+\begin{enumerate}
+	\item Fleet: Fleet number to which semi-parametric deviations should be added.
+	\item Ymin: First year with deviations.
+	\item Ymax: Last year with deviations.
+	\item Amin: First integer age (or population length bin index) with deviations.
+	\item Amax: Last integer age (or population length bin index) with deviations.
+	\item Sigma\_Amax: the last age (or population length bin index) for which a separate sigma should be read. The number of sigma parameter lines to be read will be Sigma\_Amax - Amin + 1. The feature allows for the expected situation in which annual variability in selectivity is higher for younger ages. For simplicity, only a single sigma parameter line needs to be read if Sigma\_Amax equals Amin, or if Sigma\_Amax < 0.
+	\item Use Rho (0/1): Use autocorrelation parameters.  This invokes two parameter lines, first for  year, second for age (or length).  The rho parameter must be set as fixed; it is treated as a constant and cannot be estimated by SS3.
+	\item Len(1) / Age(2): to specify whether the deviations should be applied to length- or age-based selectivity.
+	\item Phase: Phase to begin estimation of the deviation parameters.
+	\item Before Range: How should selectivity be modeled in the years prior to Ymin? Available options are (0) apply no deviations, (1) use deviations from the first year with deviations (Ymin), and (3) use average across all years with deviations (Ymin to Ymax).
+	\item After Range: Similar to Before Range but defines how selectivity should be modeled after Ymax.
+\end{enumerate}
+
+Following each fleet-specific specification line are short parameter lines for the standard deviation of the devs (sigma\_selex) and, optionally, their autocorrelation (rho).
+
+\begin{enumerate}
+	\item Short parameter line for sigma\_selex at Amin;
+	\item If Sigma\_Amax > Amin, then additional parameter lines for each age up to Sigma\_Amax;
+	\item If Use Rho = 1, then one parameter line for rho in the year direction and one parameter line for rho in the age (length) direction. These must be set to have a negative phase.
+\end{enumerate}
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
-		
-	\multicolumn{3}{l}{Typical Value} &  \multicolumn{8}{l}{Description and Options} \\
-	\hline
-
-	\multicolumn{3}{l}{1} & \multicolumn{8}{l}{Two-dimensional auto-regressive selectivity:}\Tstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{8}{l}{0 = Not used,}\\
-	\multicolumn{3}{l}{ } & \multicolumn{8}{l}{1 = Use 2D AR.}\Tstrut\\
-
-	\multicolumn{11}{l}{COND = 1 Read the following long parameter lines.} \\
-	\multicolumn{11}{l}{If multiple fleets are specified for 2D AR, the following lines are repeated for each fleet:}\\
+	\multicolumn{11}{l}{If multiple fleets are specified for 2DAR, the following lines are repeated for each fleet:}\\
 	\hline
 	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\Bstrut\\
@@ -2320,7 +2347,7 @@ When using this option for age-based selectivity, if there are not too many ages
 	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1}\\
 	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1} \\
 	\hline
-	\multicolumn{11}{l}{\# Additional fleets (e.g., fleet 2) with 2D AR selectivity}\\
+	\multicolumn{11}{l}{\# Additional fleets (e.g., fleet 2) with 2DAR selectivity}\\
 	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After\\
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range\Bstrut\\
 	\hline
@@ -2340,21 +2367,6 @@ When using this option for age-based selectivity, if there are not too many ages
 	\hline
 \end{longtable}
 
-
-Parameter Definitions:
-\begin{itemize}
-	\item Fleet: Fleet number to which semi-parametric deviations should be added.
-	\item Ymin: First year with deviations.
-	\item Ymax: Last year with deviations.
-	\item Amin: First integer age (or population length bin index) with deviations.
-	\item Amax: Last integer age (or population length bin index) with deviations.
-	\item Sigma Amax: the last age (or population length bin index) for which a separate sigma should be read. For simplicity, it is easiest to set Sigma Amax equal to the Amin value which requires only a single sigma line (otherwise N = Sigma Amax - Amin input lines are required for the sigma parameters). Also, a value < 0 will allow for only one sigma parameter should be read and then used for all bins (this is option is available in versions 3.30.15 and higher).
-	\item Use Rho: Use autocorrelation parameters.
-	\item Len(1) / Age(2): 1 or 2 to specify whether the deviations should be applied to length- or age-based selectivity.
-	\item Phase: Phase to begin estimation of the deviation parameters.
-	\item Before Range: How should selectivity be modeled in the years prior to Ymin? Available options are (0) apply no deviations, (1) use deviations from the first year with deviations (Ymin), and (3) use average across all years with deviations (Ymin to Ymax).
-	\item After Range: Similar to Before Range but defines how selectivity should be modeled after Ymax.
-\end{itemize}
 
 \hypertarget{tagrecapture}{}
 \subsection{Tag Recapture Parameters}
