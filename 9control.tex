@@ -1859,17 +1859,17 @@ Code for implementing random walk selectivity can be found in \href{https://gith
 		\item p4 - downslope:  ln(variance) on descending side.
 	\end{itemize}
 
-\myparagraph{Pattern 23 (size), 24 (size), 2 (legacy), and 20 (age) - Double Normal Selectivity}	
+\myparagraph{Pattern 23 (size), 24 (size), 2 (legacy), and 20 (age) - Double Normal with Defined Peak and Tail Controls}	
 	\begin{itemize}
 		\item p1 - peak: beginning size (or age) for the plateau (in cm or year).
-		\item p2 - top: width of plateau, as logistic between peak and maximum length (or age).
+		\item p2 - top: width of plateau, as logistic between peak and maximum length (or age). See section on \hyperlink{PriorDescrip}{Parameter Priors} regarding challenges with estimation of this parameter.
 		\item p3 - ascending width:  parameter value is ln(width).
 		\item p4 - descending width:  parameter value is ln(width).
 		\item p5 - initial: selectivity at start bin, as logistic between 0 and 1, or a code.
 		\item p6 - final: selectivity at last bin, as logistic between 0 and 1 (for pattern 24). For pattern 23 age selectivity at last bin, as absolute value, so can be > 1.0. Warning: do not allow this value to go above 1.0 if the F\_method uses Pope's approximation. It can above 1.0 when F is in exponential form.  When this parameter is above 1.0, the overall selectivity pattern will have an intermediate plateau at 1.0 (according to peak and top), then will ascend further to the final value.
 	\end{itemize}
 	
-Notes for Double Normal Selectivity:
+Notes for Double Normal with Defined Peak and Tail Controls:
 	\begin{itemize}
 		\item Selectivity calculations are made based on the mid\_length of a population size bin. The start bin is set to the larger of bin 1 or the first population length bin that overlaps with the data length bin.
 		\item For the initial selectivity parameter
