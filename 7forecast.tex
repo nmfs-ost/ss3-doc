@@ -179,7 +179,6 @@ The term COND appears in the "Typical Value" column of this documentation (it do
   & & \\
    %\hline
  
- % BEGIN UPDATES
  \pagebreak
  1 \Tstrut & \hyperlink{ForeSpawn}{Base recruitment in forecast:} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{This option controls the base R (to which devs are applied) in the forecast, or the averaging of a range of historical Rs after all adjustments and devs were applied. For options 1 and 2, the next value read is a scalar applied to the base. Option 3 also averages the distribution of R among areas and morphs, but this is now redundant with the Control Averaging input two boxes down. Options 3 and 4 require that the user set the forecast R\_dev phase to negative.}} \\
     & 0 = spawner recruit curve; & \\
@@ -190,6 +189,12 @@ The term COND appears in the "Typical Value" column of this documentation (it do
      
  \hline
  0.7 \Tstrut & Scalar applied to base & \multirow{1}{1cm}[-0.05cm]{\parbox{11cm}{Scalar is ignored unless option 1 and 2 is selected}} \Bstrut\\
+ 
+ \hline
+ 1 & Control Averaging & \multirow{4}{1cm}{\parbox{11cm}{This option was introduced in 3.20.22 to provide averaging of various biology vectors in forecast. It invokes reading a list of sub-options. It works like the averaging of selectivity by averaging the annual vectors, not the parameters used to create the vectors.}} \Tstrut\\
+   & 0 = ignore option & \\
+   & 1 = use option & \\
+   & & \\ 
 
  \hline
  \multicolumn{3}{l}{\multirow{5}{1cm}{\parbox{22cm}{If Control Averaging is selected, then enter a list of biology types and their selected year range for averaging.  For all others and those not selected here, biology during forecast will be created annually from parameters, which can be time-varying. Obviously, these averaging options and time-varying parameter options are incompatible. The initial set of types released with 3.30.22 includes those shown in the example below: 1 = M, 4 = Recruitment Distribution, 5 = movement. The Average\_Method is a future option and must be "1" at this time. The min year and max year values can use -999 just as the Forecast Years entered above.}}} \\
@@ -204,13 +209,11 @@ The term COND appears in the "Typical Value" column of this documentation (it do
  4 & 1 & 1986 \hspace{30mm} 1989 \\
  5 & 1 & 1997 \hspace{30mm} 2005 \\
  -9999 & 0 & 0 \hspace{36mm} 0 \Bstrut\\
- 
- % END UPDATES
-
- \hline
- 2015 \Tstrut & First year for caps and allocations & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \Bstrut\\
 
  \pagebreak
+ 2015 \Tstrut & First year for caps and allocations & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \Bstrut\\
+
+ %\pagebreak
  \hline
  0 \Tstrut & Implementation Error & \multirow{1}{1cm}[-0.2cm]{\parbox{11cm}{The standard deviation of the log of the ratio between the realized catch and the target catch in the forecast. (set value >0.0 to cause implementation error deviations to be an estimated parameter that will add variance to forecast).}} \Bstrut\\
    &   & \Bstrut\\
