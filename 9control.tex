@@ -1764,7 +1764,7 @@ where $L_l$ is the length bin.  If age based selectivity is selected then the le
 \end{itemize}
 
 \myparagraph{Pattern 2 (size) - Older version of selectivity pattern 24 for backward compatibility}
-Differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in Section \hyperlink{MaleSelectivityOffset}{} for more information. Pattern 24 was changed in version 3.30.19 with the old parameterization now provided in Pattern 2.
+Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in \hyperlink{MaleSelectivityOffset}{Male Selectivity Estimated as Offsets from Female Selectivity} for more information. Pattern 24 was changed in version 3.30.19 with the old parameterization now provided in Pattern 2.
 
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
 Two parameters select the min and max bin number (not min max size) of the source selectivity pattern.  If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value <=0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
@@ -1859,28 +1859,31 @@ Code for implementing random walk selectivity can be found in \href{https://gith
 		\item p4 - downslope:  ln(variance) on descending side.
 	\end{itemize}
 
-\myparagraph{Pattern 23 (size), 24 (size), and 20 (age) - Double Normal Selectivity}	
+\myparagraph{Pattern 23 (size), 24 (size), 2 (legacy), and 20 (age) - Double Normal with Defined Peak and Tail Controls}	
 	\begin{itemize}
 		\item p1 - peak: beginning size (or age) for the plateau (in cm or year).
-		\item p2 - top: width of plateau, as logistic between peak and maximum length (or age).
+		\item p2 - top: width of plateau, as logistic between peak and maximum length (or age). See section on \hyperlink{PriorDescrip}{Parameter Priors} regarding challenges with estimation of this parameter.
 		\item p3 - ascending width:  parameter value is ln(width).
 		\item p4 - descending width:  parameter value is ln(width).
-		\item p5 - initial: selectivity at first bin, as logistic between 0 and 1.
+		\item p5 - initial: selectivity at start bin, as logistic between 0 and 1, or a code.
 		\item p6 - final: selectivity at last bin, as logistic between 0 and 1 (for pattern 24). For pattern 23 age selectivity at last bin, as absolute value, so can be > 1.0. Warning: do not allow this value to go above 1.0 if the F\_method uses Pope's approximation. It can above 1.0 when F is in exponential form.  When this parameter is above 1.0, the overall selectivity pattern will have an intermediate plateau at 1.0 (according to peak and top), then will ascend further to the final value.
 	\end{itemize}
 	
-Notes for Double Normal Selectivity:
+Notes for Double Normal with Defined Peak and Tail Controls:
 	\begin{itemize}
-		\item For the initial selectivity parameter (parameter 5)
+		\item Selectivity calculations are made based on the mid\_length of a population size bin. The start bin is set to the larger of bin 1 or the first population length bin that overlaps with the data length bin.
+		\item For the initial selectivity parameter
 		\begin{itemize}
-			\item -999 or -1000:   ignore the initial selectivity algorithm and simply decay the small fish selectivity according to p3,
-			\item < -1000:  ignore the initial selectivity algorithm as above and then set selectivity equal to 1.0e-06 for size bins 1 through bin =  -1001 -value.  So a value of -1003 would set selectivity to a nil level for bins 1 through 2 and begin using the modeled selectivity in bin 3.
+			\item p5 $>$ -999: use p5 with p1 and p3 to do logistic calculations,
+			\item p5 $=$ -999 or -1000: do not use p5 and extend the logistic decay of small fish selectivity down to the start bin,
+			\item p5 $<$ -1000: ignore the initial selectivity algorithm as above and set selectivity equal to 1.0e-06 for size bins 1 through bin $=$ -1001 - value. So a value of -1003 would set selectivity to a nil level for bins 1 through 2 and begin using the modeled selectivity in bin 3.
 		\end{itemize}
-		\item For the final selectivity parameter (parameter 6)
+		\item For the final selectivity parameter
 		\begin{itemize}
-			\item -999 or -1000:   ignore the final selectivity algorithm and simply decay the large fish selectivity according to parameter 4,
-			\item <-1000:  set selectivity constant for bins greater than bin number =  -1000 - value.
+			\item p6 $=$ -999 or -1000: ignore the final selectivity algorithm and simply decay the large fish selectivity according to parameter 4,
+			\item p6 $<$ -1000: set selectivity constant for bins greater than bin number $=$ -1000 - value.
 		\end{itemize}
+		\item If start\_bin $<$ 1 and p5 $\geq$ -1000, then selectivity for lengths less than start\_bin are decayed according to the square of their mid length.
 	\end{itemize}
 
 \myparagraph{Pattern 15 (size or age) - Mirror}
