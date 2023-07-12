@@ -40,7 +40,7 @@ The normal units of measure are as follows:
 			\item Happens once per year at a specified date (in real months, 1.0 - 12.99). To create multiple spawning events per year, change the definition of a year (e.g., call a 6 month period a "year" when there are two spawning events about 6 months apart). 
 		\end{itemize}
 		
-		\item Recruitment:   
+		\item Recruitment: 
 		\begin{itemize}
 			\item Occurs at specified recruitment events that occur at user-specified dates (in real months, 1.0 - 12.99).
 			\item There can be one to many recruitment events across a year; each producing a platoon as a portion of the total recruitment.
@@ -398,9 +398,9 @@ The options for units for input data are:
 		\item 1  = biomass; 
 		\item 2  = F; and
 		\begin{itemize}
-			\item Note the F option can only be used for a fishing fleet and not for a survey, even if the survey selectivity is mirrored to a fishing fleet.  The values of these effort data are interpreted as proportional to the level of the fishery F values.  No adjustment is made for differentiating between continuous F values versus exploitation rate values coming from Pope's approximation.  A normal error structure is recommended so that the input effort data are compared directly to the model's calculated F, rather than to log(F).  The resultant proportionality constant has units of 1/Q where Q is the catchability coefficient. 	
+			\item Note the F option can only be used for a fishing fleet and not for a survey, even if the survey selectivity is mirrored to a fishing fleet. The values of these effort data are interpreted as proportional to the level of the fishery F values. No adjustment is made for differentiating between continuous F values versus exploitation rate values coming from Pope's approximation. A normal error structure is recommended so that the input effort data are compared directly to the model's calculated F, rather than to log(F). The resultant proportionality constant has units of 1/Q where Q is the catchability coefficient. 	
 		\end{itemize}
-		\item \hypertarget{SpecialSurvey}{>=30} special survey types.  These options bypass the calculation of survey selectivity so the no selectivity parameter are required and age/length selectivity pattern should be set as 0. A catchability parameter line in the control file will be required for each special survey.  The expected values for these types are:
+		\item \hypertarget{SpecialSurvey}{>=30} Special survey types. These options bypass the calculation of survey selectivity so the no selectivity parameter are required and age/length selectivity pattern should be set as 0. A catchability parameter line in the control file will be required for each special survey. Special survey types 31, 32, and 36 relate to recruitment deviations. Before v.3.30.22, the expected value for observations before recdev\_start or after recdev\_end were null. With v.3.30.22, expected values are now based on recruitment deviations for all years and suggestions are included in warnings.sso if observations occur outside the range of active recruitment deviations. The expected values for these types are:
 		\begin{itemize}
 			\item 30 = spawning biomass/output (e.g., for an egg and larvae survey);
 			\item 31 = exp(recruitment deviation), useful for environmental index affecting recruitment;
@@ -408,16 +408,17 @@ The options for units for input data are:
 			\item 33 = recruitment, age-0 recruits;
 			\item 34 = depletion (spawning biomass/virgin spawning biomass);
 			\begin{itemize}
-				\item Special survey option 34 automatically adjusts phases of parameters.  To use the depletion survey approach, the user will need to make the following revisions to the SS3 data file: 1) add a new survey fleet, 2) define the survey type as option 34, 3) add two depletion survey data points, and initial unfished set equal to 1 for an unfished modeled year and one for a later year with the depletion estimates, 4) set the input CV value for each survey data point to a low value (e.g., 0.0001) to force the model to fit these data, and in the control file 5) add the survey to the control file in the Q set-up and selectivity sections with float set to 0 with parameter value set to 0. 
+				\item Special survey option 34 automatically adjusts phases of parameters. To use the depletion survey approach, the user will need to make the following revisions to the SS3 data file: 1) add a new survey fleet, 2) define the survey type as option 34, 3) add two depletion survey data points, and initial unfished set equal to 1 for an unfished modeled year and one for a later year with the depletion estimates, 4) set the input CV value for each survey data point to a low value (e.g., 0.0001) to force the model to fit these data, and in the control file 5) add the survey to the control file in the Q set-up and selectivity sections with float set to 0 with parameter value set to 0. 
 				\item There are options for additional control over this in the control file catchability setup section under the "link information" column where:
 				\begin{itemize}
 				    \item 0 = add 1 to phases of all parameters. Only R0 active in new phase 1. Mimics the default option of previous model versions;
-				    \item 1 = only R0 active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters.  Essentially, this option allows SS3 to mimic DB-SRA; and
+				    \item 1 = only R0 active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters. Essentially, this option allows SS3 to mimic DB-SRA; and
 				    \item 2 = no phase adjustments, can be used when profiling on fixed R0.
 				\end{itemize}
-				\item Warning: the depletion survey approach has not been tested on multiple area models.  This approach may present challenges depending upon the dynamics within each area.
+				\item Warning: the depletion survey approach has not been tested on multiple area models. This approach may present challenges depending upon the dynamics within each area.
 			\end{itemize}
-			\item 35 = survey of a deviation vector ($e(survey(y)) = f(parm\_dev(k,y))$), can be used for an environmental time-series with soft linkage to the index. The selected deviation vector is specified in Q section of the control file. The index of the deviation vector to which the index is related is specified in the 2nd column of the Q setup table (see \hyperlink{Qsetup}{Catchability}).
+			\item 35 = survey of a deviation vector ($e(survey(y)) = f(parm\_dev(k,y))$), can be used for an environmental time-series with soft linkage to the index. The selected deviation vector is specified in Q section of the control file. The index of the deviation vector to which the index is related is specified in the 2nd column of the Q setup table (see \hyperlink{Qsetup}{Catchability});
+			\item 36 = recruitment deviation
 		\end{itemize}
 	\end{itemize}
 
@@ -426,14 +427,14 @@ The options for error distribution form are:
 	\begin{itemize}
 		\item -1 = normal error;
 		\item  0 = lognormal error; and 
-		\item >0 = Student's t-distribution in log space with degrees of freedom equal to this value.  For DF>30, results will be nearly identical to that for lognormal distribution.  A DF value of about 4 gives a fat-tail to the distribution.  The standard error values entered in the data file must be the standard error in log\textsubscript{e} space.
+		\item >0 = Student's t-distribution in log space with degrees of freedom equal to this value. For DF>30, results will be nearly identical to that for lognormal distribution. A DF value of about 4 gives a fat-tail to the distribution. The standard error values entered in the data file must be the standard error in log\textsubscript{e} space.
 	\end{itemize}
 
-Abundance indices typically have a lognormal error structure with units of standard error of log\textsubscript{e}(index).  If the variance of the observations is available only as a coefficient of variation (CV), then the value of standard error can be approximated as $\sqrt{(log_e(1+(CV)^2))}$ where the CV is the standard error of the observation divided by the mean value of the observation.
+Abundance indices typically have a lognormal error structure with units of standard error of log\textsubscript{e}(index). If the variance of the observations is available only as a coefficient of variation (CV), then the value of standard error can be approximated as $\sqrt{(log_e(1+(CV)^2))}$ where the CV is the standard error of the observation divided by the mean value of the observation.
 
-For the normal error structure, the entered values for standard error are interpreted directly as a standard error in arithmetic space and not as a CV.  Thus switching from a lognormal to a normal error structure forces the user to provide different values for the standard error input in the data file.
+For the normal error structure, the entered values for standard error are interpreted directly as a standard error in arithmetic space and not as a CV. Thus switching from a lognormal to a normal error structure forces the user to provide different values for the standard error input in the data file.
 
-If the data exist as a set of normalized Z-scores, you can assert a lognormal error structure after entering the data as exp(Z-score) because it will be logged by SS3.  Preferably, the Z-scores would be entered directly and the normal error structure would be used.
+If the data exist as a set of normalized Z-scores, you can assert a lognormal error structure after entering the data as exp(Z-score) because it will be logged by SS3. Preferably, the Z-scores would be entered directly and the normal error structure would be used.
 
 \myparagraph{Enable SD Report}
 Indices with SD Report enabled will have the expected values for their historical values appear in the ss.std and ss.cor files. The default value is for this option is 0.
@@ -789,7 +790,7 @@ Partition indicates samples from either discards,retained, or combined.
 \myparagraph{Note}
 When processing data to be input into SS3, all observed fish of sizes smaller than the first bin should be added to the first bin and all observed fish larger than the last bin should be condensed into the last bin.	
 
-The number of length composition data lines no longer needs to be specified in order to read the length (or age) composition data. Starting in SS3 3.30, the model will continue to read length composition data until an pre-specified exit line is read.  The exit line is specified by entering -9999 at the end of the data matrix. The -9999 indicates to the model the end of length composition lines to be read.
+The number of length composition data lines no longer needs to be specified in order to read the length (or age) composition data. Starting in SS3 v.3.30, the model will continue to read length composition data until an pre-specified exit line is read.  The exit line is specified by entering -9999 at the end of the data matrix. The -9999 indicates to the model the end of length composition lines to be read.
 
 Each observation can be stored as one row for ease of data management in a spreadsheet and for sorting of the observations.  However, the 6 header values, the female vector and the male vector could each be on a separate line because ADMB reads values consecutively from the input file and will move to the next line as necessary to read additional values.
 
