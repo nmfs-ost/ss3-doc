@@ -2,13 +2,11 @@
 
 The objective function $L$ is the weighted sum of the individual components
 indexed by kind of data $i$, and fishery/survey $f$ as appropriate:
-
 \begin{equation}
 	L = \sum_{i=1}^{I}\sum_{f=1}^{A_f}\lambda_{i,f} L_{i,f}+\lambda_R L_R + 
 	  \sum_{\theta}^{}\lambda_\theta L_\theta + \sum_{P}^{}\lambda_P L_P +
 	  \lambda_{F_B} L_{F_B} + \lambda_{C_P} L_{C_P}
 \end{equation}
-
 where $L$ is the total objective function, $i$ is the index of the objective
 function component, $A_f$ is the number of fleets, $L_{i,f}$ is the
 objective function for data kind $i$ for the fishery/survey $f$,
@@ -16,34 +14,34 @@ $\lambda_{i,f}$ is a weighting factor for each objective function component,
 $\theta$ is the parameter priors, and $P$ is the random parameter deviations.
 
 The components of the objective function based on the model set-up and data are: 
-
-\begin{longtable}{p{1cm} p{3.5cm} p{5.5cm} p{5cm}}
+\begin{longtable}{p{1cm} p{2.75cm} p{4.75cm} p{6.5cm}}
 	\hline
-	Index & Source & Data/Parameter & Error structure\Tstrut\Bstrut\\
+	Index & Source & Data/Parameter & Error structure \Tstrut\Bstrut\\
 	\hline	
-	$i$ & fishery/survey $f$ & CPUE or Abundance index   & user choice \Tstrut\\
-	$i$ & fishery $f$        & Discard biomass           & user choice \Tstrut\\
-	$i$ & fishery/survey $f$ & Mean body weight          & normal \Tstrut\\
-	$i$ & fishery/survey $f$ & Length composition        & multinomial or Dirichlet-multinomial\Tstrut\\
-	$i$ & fishery/survey $f$ & Age composition           & multinomial or Dirichlet-multinomial\Tstrut\\
-%	$i$ & fishery/survey $f$ & Dirichlet data weighting  & gamma in log-space\Tstrut\\
-	$i$ & fishery/survey $f$ & Mean size-at-age          & normal \Tstrut\\
-	$i$ & fishery/survey $f$ & Tag-recapture 1           & multinomial \Tstrut\\
-	$i$ & fishery/survey $f$ & Tag-recapture 2           & negative binomial\Tstrut\\
-	$i$ & fishery $f$        & Initial equilibrium catch & lognormal \Tstrut\\
-	$i$ & fishery $f$        & Catch                     & lognormal \Tstrut\\
-	$R$ & 					 & Recruitment deviations    & lognormal \Tstrut\\
-	$P$ & 					 & Random parameter devs.    & normal \Tstrut\\
-	$\theta$ & 				 & Parameter priors	         & user choice\Tstrut\\
-	$F_B$ & 				 & F ballpark penalty	     &  \Tstrut\\
-	$C_P$ &				     & Crash penalty             &  \Tstrut\Bstrut\\
+	$i$ & fishery/survey $f$ & CPUE or Abundance index	 & user choice \Tstrut\\
+	$i$ & fishery $f$		 & Discard Biomass			 & user choice \Tstrut\\
+	$i$ & fishery/survey $f$ & Mean body W or L (all ages) & normal \Tstrut\\
+	$i$ & fishery/survey $f$ & Generalized size (W or L) composition & multinomial or Dirichlet-multinomial \Tstrut\\
+	$i$ & fishery/survey $f$ & L Composition	 		 & multinomial or Dirichlet-multinomial \Tstrut\\
+	$i$ & fishery/survey $f$ & Age Composition			 & multinomial or Dirichlet-multinomial \Tstrut\\
+%	$i$ & fishery/survey $f$ & Dirichlet data weighting	 & gamma in log-space\Tstrut\\
+	$i$ & fishery/survey $f$ & Mean L (or W)-at-age 	 & normal \Tstrut\\
+	$i$ & fishery/survey $f$ & Tag-recapture 1			 & multinomial \Tstrut\\
+	$i$ & fishery/survey $f$ & Tag-recapture 2			 & negative binomial \Tstrut\\
+	$i$ & fishery $f$		 & Initial equilibrium catch & lognormal \Tstrut\\
+	$i$ & fishery $f$		 & catch					 & lognormal \Tstrut\\
+	$R$ & 					 & Recruitment Deviations	 & lognormal \Tstrut\\
+	$P$ & 					 & Random parameter devs. 	 & normal \Tstrut\\
+	$\theta$ & 				 & Parameter priors			 & user choice \Tstrut\\
+	$F_B$ & 				 & F ballpark penalty		 & \Tstrut\\
+	$C_P$ &					 & Crash Penalty			 & \Tstrut\Bstrut\\
 	\hline
 \end{longtable}
 %Full description of likelihood distributions by source will be added in the future.
 
 %\subsection{CPUE or abundance index}
 
-%The distribution for CPUE or abundance index data can be lognormal, student-t, or normal.  The %lognormal likelihood formulation is:  
+%The distribution for CPUE or abundance index data can be lognormal, student-t, or normal. The %lognormal likelihood formulation is: 
 
 %\begin{equation} L_{i,f} = N(ln(\sigma)) + \sum_{y=1}^{N_y}\frac{(ln(I_{y,f})-ln(Q_f B_{y,f}))^2}{2\sigma^2}
 %\end{equation}
