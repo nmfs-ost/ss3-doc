@@ -2510,6 +2510,9 @@ These values are multiplied by the corresponding likelihood component to calcula
 
 The reading of the lambda values has been substantially altered with SS3 v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0.  After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS3.  First read an integer for the number of changes.
 
+You can put any placeholder value like 0 or 999 for fleet if the likelihood component is not fleet specific (like recdevs)
+
+You can also put any placeholder value like 0 or 999 for the SizeFreq Method unless the likelihood component you are changing the lambda for is 6 = size frequency, in which case you need to have a row for each size frequency method you want to modify and put the associated method number in that fourth column.
 
 \begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
 
@@ -2520,6 +2523,8 @@ The reading of the lambda values has been substantially altered with SS3 v.3.30.
 	\hline
 	1 & 2 & 2 & 1.5 & 1 \Tstrut\\
 	4 & 2 & 2 & 10 & 1 \\
+	10 & 0 & 2 & ? & 0 \\
+	6 & ? & ? & ? & ? \\
 	4 & 2 & 3 & 0.2 & 1 \\
 	-9999 & 1 & 1 & 1 & 1 \Bstrut\\
 	\hline
