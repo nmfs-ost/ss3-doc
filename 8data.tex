@@ -37,7 +37,7 @@ The normal units of measure are as follows:
 	\begin{itemize}
 		\item Spawning: 
 		\begin{itemize}
-			\item Happens once per year at a specified date (in real months, 1.0 - 12.99). To create multiple spawning events per year, change the definition of a year (e.g., call a 6 month period a "year" when there are two spawning events about 6 months apart). However, revising the definition of year affects assignment of fish age, so it should not be used if age data are included.
+			\item Happens once per year at a specified date (in real months, 1.0 - 12.99). To create multiple spawning events per year, change the definition of a year (e.g., call a 6 month period a ``year'' when there are two spawning events about 6 months apart). However, revising the definition of year affects assignment of fish age, so it should not be used if age data are included.
 		\end{itemize}
 		
 		\item Recruitment: 
@@ -107,7 +107,7 @@ Time steps can be broken into subseason and the ALK can be calculated multiple t
 	\end{itemize}
 
 \subsection{Terminology}
-The term COND appears in the "Typical Value" column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
+The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
 \subsection{Model Dimensions}
 \begin{center}
@@ -195,7 +195,7 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 	  \begin{itemize}
 	  	\item 1 = fleet with input catches;
 	  	\item 2 = bycatch fleet (all catch discarded) and invoke extra input for treatment in equilibrium and forecast;
-	  	\item 3 = survey: assumes no catch removals even if associated catches are specified below.  If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in the "Timing" section); and 
+	  	\item 3 = survey: assumes no catch removals even if associated catches are specified below.  If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in the ``Timing'' section); and 
 	  	\item 4 = predator (M2) fleet that adds additional mortality without a fleet F (added in version 3.30.18). Ideal for modeling large mortality events such as fish kills or red tide. Requires additional long parameter lines for a second mortality component (M2) in the control file after the natural mortality/growth parameter lines (entered immediately after the fraction female parameter line).
 	  \end{itemize}
 
@@ -237,7 +237,7 @@ The option to include bycatch fleets was introduced in SS3 v.3.30.10.  This is a
 
 A fishing fleet is designated as a bycatch fleet by indicating that its fleet type is 2.  A bycatch fleet creates a fishing mortality, same as a fleet of type 1, but a bycatch fleet has all catch discarded so the input value for retained catch is ignored.  However, an input value for retained catch is still needed to indicate that the bycatch fleet was active in that year and season.  A catch multiplier cannot be used with bycatch fleets because catch multiplier works on retained catch.  SS3 will expect that the retention function for this fleet will be set in the selectivity section to type 3, indicating that all selected catch is discarded dead.  It is necessary to specify a selectivity pattern for the bycatch fleet and, due to generally lack of data, to externally derive values for the parameters of this selectivity.
 
-All catch from a bycatch fleet is discarded, so one option to use a discard fleet is to enter annual values for the amount (not proportion) that is discarded in each time step.  However, it is uncommon to have such data for all years.  An alternative approach that has been used principally in the U.S. Gulf of Mexico is to input a time series of effort data for this fleet in the survey section (e.g.,  effort is a "survey" of F, for example, the shrimp trawl fleet in the Gulf of Mexico catches and discards small finfish and an effort time series is available for this fleet) and to input in the discard data section an observation for the average discard over time using the super year approach.  Another use of bycatch fleet is to use it to estimate effect of an external source of mortality, such as a red tide event.  In this usage there may be no data on the magnitude of the discards and SS3 will then rely solely on the contrast in other data to attempt to estimate the magnitude of the red tide kill that occurred. The benefit of doing this as a bycatch fleet, and not a block on natural mortality, is that the selectivity of the effect can be specified. 
+All catch from a bycatch fleet is discarded, so one option to use a discard fleet is to enter annual values for the amount (not proportion) that is discarded in each time step.  However, it is uncommon to have such data for all years.  An alternative approach that has been used principally in the U.S. Gulf of Mexico is to input a time series of effort data for this fleet in the survey section (e.g.,  effort is a ``survey'' of F, for example, the shrimp trawl fleet in the Gulf of Mexico catches and discards small finfish and an effort time series is available for this fleet) and to input in the discard data section an observation for the average discard over time using the super year approach.  Another use of bycatch fleet is to use it to estimate effect of an external source of mortality, such as a red tide event.  In this usage there may be no data on the magnitude of the discards and SS3 will then rely solely on the contrast in other data to attempt to estimate the magnitude of the red tide kill that occurred. The benefit of doing this as a bycatch fleet, and not a block on natural mortality, is that the selectivity of the effect can be specified. 
 
 Bycatch fleets are not expected to be under the same type of fishery management controls as the retained catch fleets included in the model.  This means that when SS3 enters into the reference point equilibrium calculations, it would be incorrect to have SS3 re-scale the magnitude of the F for the bycatch fleet as it searches for the F that produces, for example, F35\%.  Related issues apply to the forecast.  Consequently, a separate set of controls is provided for bycatch fleets (defined below).  Input is required for each fleet designated as fleet type = 2.
 
@@ -317,7 +317,7 @@ In version 3.30.14 it was identified that there can be an interaction between th
 
 \subsection{Predator Fleets}
 
-Introduced in v.3.30.18, a predator fleet provides the capability to define an entity as a predator that adds additional mortality (M2, i.e., the predation mortality) to the base natural mortality. This new capability means that previous use of bycatch fleets to mimic predators (or fish kills, e.g., due to red tide) will no longer be necessary. The problem with using a bycatch fleet as a predator was that it still created an "F" that was included in the reporting of total F even if the bycatch was not included in the MSY search.
+Introduced in v.3.30.18, a predator fleet provides the capability to define an entity as a predator that adds additional mortality (M2, i.e., the predation mortality) to the base natural mortality. This new capability means that previous use of bycatch fleets to mimic predators (or fish kills, e.g., due to red tide) will no longer be necessary. The problem with using a bycatch fleet as a predator was that it still created an ``F'' that was included in the reporting of total F even if the bycatch was not included in the MSY search.
 
 For each fleet that is designated as a predator, a new parameter line is created in the mortality-growth (MGparm) section in the control file. This parameter will have the label M2\_pred1, where the "1" is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect M2 to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each M2 parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times M2, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set M2 to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included.
 
@@ -328,14 +328,14 @@ Three types of data relevant to M2 can be input:
 	
 	\item \hyperlink{PredEffort}{Predator effort} (as a survey index in the data file): M2 is a rate analogous to F, so the survey of F approach (survey units = 2) can be used to input predator abundance as an indicator of the ``effort'' that produced the M2. Like all surveys, this survey of M2 will also need a Q specification. Note that in the future we can explore improved options for this Q.
 	
-	\item Predated age-length composition (as length or age composition data in the data file): M2 "eats" the modeled fish, so gut contents or other sources may have size and/or age composition data which may be input to estimate selectivity of the M2 source. 
+	\item Predated age-length composition (as length or age composition data in the data file): M2 ``eats'' the modeled fish, so gut contents or other sources may have size and/or age composition data which may be input to estimate selectivity of the M2 source. 
 \end{itemize}
 
 With the input of data on the time series of total kill or predator effort, it should be possible to estimate annual deviations around the base M2 for years with data. If the M2 time series is instead driven by environmental data, then also including data on kill or effort can provide a means to view consistency between the environmental time series and the additional data sets. Output of M2 is found in a report.sso section labeled predator (M2). In the example below, the M2 seasonal multiplier was defined to have random deviations by year. This allowed multipliers plus M2 itself to closely match the input consumption amounts (288 mt of consumption per season, the fit can be examined by looking at the discard output report).
 
 
 \subsection{Catch}
-\hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model. The format for the catches is year and season that the catch is attributed to, fleet, a catch value, and a year-specific catch standard error. Only positive catches need to be entered, so there is no need for records corresponding to all years and fleets. To include an equilibrium catch value for a fleet and season, the year should be noted as -999. For each non-zero equilibirum catch value included, a short paramter line is required in the \hyperlink{InitF}{initial F section} of the control file.
+\hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model. The format for the catches is year and season that the catch is attributed to, fleet, a catch value, and a year-specific catch standard error. Only positive catches need to be entered, so there is no need for records corresponding to all years and fleets. To include an equilibrium catch value for a fleet and season, the year should be noted as -999. For each non-zero equilibrium catch value included, a short parameter line is required in the \hyperlink{InitF}{initial F section} of the control file.
 
 \hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g., catch, length- and age-composition data), the control file (e.g., lambdas), and the forecast file (e.g., total catch by fleet, total catch by area, allocation groups, forecasted catch).
 
@@ -373,7 +373,7 @@ The format for a 2 season model with 2 fisheries looks like the table below.  Ex
 
 
 \subsection{Indices}
-Indices are data that are compared to aggregate quantities in the model.  Typically the index is a measure of selected fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model.  The first section of the "Indices" setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
+Indices are data that are compared to aggregate quantities in the model.  Typically the index is a measure of selected fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model.  The first section of the ``Indices'' setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
 
 \begin{center}
 	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{6cm}}
@@ -971,7 +971,7 @@ The model also accepts input of mean length-at-age or mean body weight-at-age.  
 		\item Negative value for year causes observation to not be included in the working matrix. This feature is the easiest way to include observations in a data file but not to use them in a
 		particular model scenario.
 		\item Each sexes' data vector and N fish vector has length equal to the number of age bins.
-		\item The "Ignore" column is not used (set aside for future options) but still needs to have default values in that column (any value). 
+		\item The ``Ignore'' column is not used (set aside for future options) but still needs to have default values in that column (any value). 
 		\item Where age data are being entered as conditional age-at-length and growth parameters are being estimated, it may be useful to include a mean length-at-age vector with nil emphasis to provide another view on the model's estimates.
 		\item An experiment that may be of interest might be to take the body weight-at-age data and enter it to the model as empirical body weight-at-true age in the wtatage.ss file, and to contrast results to entering the same body weight-at-age data here and to attempt to estimate growth parameters, potentially time-varying, that match these body weight data.
 		\item If using mean size-at-age data, please see the \hyperlink{SaAlambda}{lambda usage notes} regarding issues for model fitting depending upon other data within the model.  		
@@ -987,7 +987,7 @@ The model accepts input of time series of environmental data.  Parameters can be
 		\hline
 		1 & \multicolumn{3}{l}{Number of environmental variables}\Tstrut\Bstrut\\
 		\multicolumn{4}{l}{ The environmental data can be centered by subtracting the mean and dividing by stdev (z-score, -1) or }\\
-		\multicolumn{4}{l}{ by subtracting the mean fo the environmental variable (-2) based on the year column value. }\\
+		\multicolumn{4}{l}{ by subtracting the mean of the environmental variable (-2) based on the year column value. }\\
 		\hline
 		\multicolumn{4}{l}{COND > 0  Example of 2 environmental observations:} \Tstrut\\
 		  & Year & Variable & Value \Bstrut\\
@@ -1001,7 +1001,7 @@ The model accepts input of time series of environmental data.  Parameters can be
 	\end{tabular}
 \end{center}
 
-The final two lines in the example above indicate in that variable series 1 will be centered by subtracting the mean and dividing by the standard deviation (indicated by the -1 value in the year column). The environmental variable series 2 will be centered by subtracting the mean of the time series (indicated by the -2 value in the year column).  The input in the "value" column for both of the final two lines specifying the centering of the time series is ignored by the model. The control file also will need to be modified to in the long parameter line column "env-var" for the selected parameter. This feature was added in v.3.30.16.
+The final two lines in the example above indicate in that variable series 1 will be centered by subtracting the mean and dividing by the standard deviation (indicated by the -1 value in the year column). The environmental variable series 2 will be centered by subtracting the mean of the time series (indicated by the -2 value in the year column).  The input in the ``value'' column for both of the final two lines specifying the centering of the time series is ignored by the model. The control file also will need to be modified to in the long parameter line column "env-var" for the selected parameter. This feature was added in v.3.30.16.
 
 
 \myparagraph{Note}
@@ -1016,10 +1016,10 @@ The generalized approach to size composition information was designed initially 
 
 \begin{itemize}
 	\item Each method has a specified number of bins.
-	\item Each method has "units" so the frequencies can be in units of biomass or numbers.
-	\item Each method has "scale" so the bins can be in terms of weight or length (including ability to convert bin definitions in pounds or inches to kg or cm). 
+	\item Each method has ``units'' so the frequencies can be in units of biomass or numbers.
+	\item Each method has ``scale'' so the bins can be in terms of weight or length (including ability to convert bin definitions in pounds or inches to kg or cm). 
 	\item The composition data is input as females then males, just like all other composition data in SS3. In a two-sex model, the new composition data can be combined sex, single sex, or both sex.
-	\item The generalized size composition data can be from the combined discard and retained, discard only or retained only.
+	\item The generalized size composition data can be from the combined discard and retained, discard only, or retained only.
 	\item There are two options for treating fish that in population size bins are smaller than the smallest size frequency bin.
 	\begin{itemize}
 		\item Option 1: By default, these fish are excluded (unlike length composition data where the small fish are automatically accumulated up into the first bin.)
@@ -1152,7 +1152,7 @@ Predominant age at release for each tag group must be assigned; this requirement
 	\end{itemize}
 
 \subsection{Stock (Morph) Composition Data}
-It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks. These data could come from genetics, otolith microchemistry, tags, or other means.  The growth pattern feature allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas. SS3 now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns, "morphs". In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
+It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks. These data could come from genetics, otolith microchemistry, tags, or other means.  The growth pattern feature allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas. SS3 now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns, ``morphs''. In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
 
 \begin{center}
 	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3.5cm}}
@@ -1181,7 +1181,7 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 		\item The number of stocks entered with these data must match the number of growth patterns (morphs) in the control file.
 		\item Each data line for unique observations should enter data for morph 1 first followed sequentially for each morph included in the model.
 		\item The expected value is combined across sexes. The entered data values will be normalized to sum to one within SS3.
-		\item The "null" flag is included here in the data input section and is a reserved spot for future features. 
+		\item The ``null'' flag is included here in the data input section and is a reserved spot for future features. 
 		\item Note that there is a specific value of minimum compression to add to all values of observed and expected.
 		\item Warning for earlier versions of SS3: A flaw was identified in the calculation of accumulation by morph. This has been corrected in version 3.30.14.  Older versions were incorrectly calculating the catch by morph using the expectation around age-at-length which already was accounting for the accumulation by morph.   
 	\end{itemize}
