@@ -10,24 +10,24 @@ Currently, there are three main methods for weighting length and data applied fo
 \begin{enumerate}
 	\item \hyperlink{MI}{\textbf{McAllister - Ianelli}}: Effective sample size is calculated from fit of observed to expected length or age compositions. Tuning algorithm is intended to make the arithmetic mean of the input sample size equal to the harmonic mean of the effective sample size \citep{mcallister-bayesian-1997}.
 	
-	\item \hyperlink{Francis}{\textbf{Francis}}: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method "TA1.8") \citep{francis-data-2011}
+	\item \hyperlink{Francis}{\textbf{Francis}}: Based on variability in the observed mean length or age by year, where the sample sizes are adjusted such that the fit of the expected mean length or age should fit within the uncertainty intervals at a rate which is consistent with variability expected based on the adjusted sample sizes (Method ``TA1.8'') \citep{francis-data-2011}
 	
-	\item \hyperlink{DM}{\textbf{Dirichlet-Multinomial}}: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term "Effective sample size" has a different interpretation than in the McAllister-Ianelli approach \citep{thorson-model-based-2017}.
+	\item \hyperlink{DM}{\textbf{Dirichlet-Multinomial}}: A new likelihood (as opposed to the standard multinomial) which includes an estimable parameter (theta) which scales the input sample size. In this case, the term ``Effective sample size'' has a different interpretation than in the McAllister-Ianelli approach \citep{thorson-model-based-2017}.
 \end{enumerate}
 
 \myparagraph{Applying the methods}
 
 \hypertarget{MI}{}
 \myparagraph{McAllister-Ianelli}
-The "Length\_Comp\_Fit\_Summary" and "Age\_Comp\_Fit\_Summary" sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the r4ss package, these tables are returned by the \texttt{SS\_output} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
+The ``Length\_Comp\_Fit\_Summary'' and ``Age\_Comp\_Fit\_Summary'' sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the r4ss package, these tables are returned by the \texttt{SS\_output} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
 
 A convenient way to process these values into the format required by the control file is to use the function:
 
-\texttt{ SS\_tune\_comps(replist, option = "MI") }
+\texttt{ SS\_tune\_comps(replist, option = ``MI'') }
 
-where the input "replist" is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called "suggested\_tuning.ss" to the directory where the model was run.
+where the input ``replist'' is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called ``suggested\_tuning.ss'' to the directory where the model was run.
 
-For version 3.30 models, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled "Input variance adjustments", followed by the terminator line which indicates the end of the section. 
+For version 3.30 models, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled ``Input variance adjustments'', followed by the terminator line which indicates the end of the section. 
 
 
 Also see the help page for the r4ss function \texttt{SS\_varadjust} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
@@ -55,7 +55,7 @@ There are a couple of challenges posed by the McAllister-Ianelli data-weighting 
 
 Implementation: recommended adjustments are calculated by the r4ss functions \texttt{SSMethod.TA1.8} and \texttt{SSMethod.Cond.TA1.8}. These functions are rarely used alone but are called by the \texttt{SS\_plots} function when making plots like the one below. For version 3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps} function (described above under the McAllister-Ianelli method), but with a different option specified: 
 
-\texttt{SS\_tune\_comps(replist, option = "Francis")}
+\texttt{SS\_tune\_comps(replist, option = ``Francis'')}
 
 The figure below shows the estimated 95\% intervals around the observed mean length by year based on the input sample size (thick lines) and the increase in that uncertainty which would occur if the sample sizes were adjusted according to the proposed multiplier.
 
@@ -127,8 +127,8 @@ file:
 
 \begin{itemize}
 \item In the specification of the length and/or age data, change
-"CompError" column in age and length comp specifications from 0 to 1 and
-"ParmSelect" from 0 to a sequence of numbers from 1 to N where N is the
+``CompError'' column in age and length comp specifications from 0 to 1 and
+``ParmSelect'' from 0 to a sequence of numbers from 1 to N where N is the
 total number of combinations of fleet and age/length. Note that there
 cannot be any skipped values from 1 to N, otherwise the model will exit
 on error while reading the input files. 

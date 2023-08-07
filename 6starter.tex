@@ -1,7 +1,7 @@
 
 \section{Starter File}
 
-SS3 begins by reading the file starter.ss. The term COND appears in the "Typical Value" column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
+SS3 begins by reading the file starter.ss. The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
 {
 \setlength\extrarowheight{4pt}
@@ -216,13 +216,13 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
   
  \hline
  %\pagebreak
- \multicolumn{2}{l}{COND: If F std reporting $\geq$ 4 } & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.}} \Tstrut\\
+ \multicolumn{2}{l}{COND: If F std reporting $\geq$ 4} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.}} \Tstrut\\
 
  \multicolumn{1}{r}{3 7}  & Age range if F std reporting = 4. & \Tstrut\\
 
  \hline
  %\pagebreak
- 1 & F report basis: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the denominator to use when reporting the F std report values. A new option to allow for the calculation of a multi-year trailing average in F was implemented in v. 3.30.16. This option is triggered by appending the number of years to calculate the average across where an input of 1 or 11 would result in the SPR\textsubscript{target} with no changes.  Alternatively a value of 21 would calculate F as SPR\textsubscript{target} with a 2-year trailing average.}}\Tstrut\\
+ 1 & F report basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the denominator to use when reporting the F std report values. A new option to allow for the calculation of a multi-year trailing average in F was implemented in v. 3.30.16. This option is triggered by appending the number of years to calculate the average across where an input of 1 or 11 would result in the SPR\textsubscript{target} with no changes.  Alternatively a value of 21 would calculate F as SPR\textsubscript{target} with a 2-year trailing average.}}\Tstrut\\
    & 0 = not relative, report raw values; & \\
    & 1 = use F std value relative to SPR\textsubscript{target}; & \\
    & 2 = use F std value relative to F\textsubscript{MSY}; and & \\
@@ -232,7 +232,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
 
   \hline
   %\pagebreak
-  0.01 & MCMC output detail: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of MCMC output. This input requires the specification of two items; the output detail and a bump value to be added to the ln(R0) in the first call to MCMC. A bias adjustment of 1.0 is applied to recruitment deviations in the MCMC phase, which could result in reduced recruitment estimates relative to the MLE when a lower bias adjustment value is applied.  A small value, called the "bump", is added to the ln(R0) for the first call to MCMC in order to prevent the stock from hitting the lower bounds when switching from MLE to MCMC. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\\
+  0.01 & MCMC output detail: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of MCMC output. This input requires the specification of two items; the output detail and a bump value to be added to the ln(R0) in the first call to MCMC. A bias adjustment of 1.0 is applied to recruitment deviations in the MCMC phase, which could result in reduced recruitment estimates relative to the MLE when a lower bias adjustment value is applied.  A small value, called the ``bump'', is added to the ln(R0) for the first call to MCMC in order to prevent the stock from hitting the lower bounds when switching from MLE to MCMC. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\\
   & 0 = default; & \\
   & 1 = output likelihood components and associated lambda values; &  \\
   & 2 = write report for each mceval; and &  \\		 
@@ -248,7 +248,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
   & & \Bstrut\\
   
   \hline  
-  \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)}& \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to 3.30.15. This is an optional input value which allows for the specification of a random number seed value.  If you do not want to specify a seed, skip this input line and end the reading of the starter file with the check value (3.30). }} \Tstrut\\
+  \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)}& \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to 3.30.15. This is an optional input value which allows for the specification of a random number seed value.  If you do not want to specify a seed, skip this input line and end the reading of the starter file with the check value (3.30).}} \Tstrut\\
   & & \\ 
   & & \\
   & & \\ 
@@ -256,7 +256,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the "Typical
   
  \pagebreak
  \hline
- \hypertarget{Convert}{3.30} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{ A value of 3.30 indicates that the control and data files are currently in SS3 v3.30 format and a value of 999 indicates that the control and data file are in a previous SS3 v.3.24 version. The ss\_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss\_new and data\_echo.ss\_new files.  All ss\_new files are in the SS3 v.3.30 format, so starter.ss\_new has SS3 v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS3 v.3.30 cannot read a ss.par file produced by SS3 v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from SS3 v.3.24} section has additional information on model features that may impede file conversion.}}\Tstrut\\
+ \hypertarget{Convert}{3.30} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{A value of 3.30 indicates that the control and data files are currently in SS3 v3.30 format and a value of 999 indicates that the control and data file are in a previous SS3 v.3.24 version. The ss\_trans.exe executable should be used and will convert the 3.24 version files to the new format in the control.ss\_new and data\_echo.ss\_new files.  All ss\_new files are in the SS3 v.3.30 format, so starter.ss\_new has SS3 v.3.30 on the last line.  The mortality-growth parameter section has a new sequence, so SS3 v.3.30 cannot read a ss.par file produced by SS3 v.3.24 and earlier, so please ensure that read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from SS3 v.3.24} section has additional information on model features that may impede file conversion.}}\Tstrut\\
      & & \\  
      & & \\  
 	 & & \\
