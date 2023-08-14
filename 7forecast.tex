@@ -11,7 +11,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   {
   \setlength\extrarowheight{4pt}	
-  \begin{longtable}{p{3.2cm} p{7cm} p{10.8cm}} 
+  \begin{longtable}{p{2.6cm} p{7cm} p{11.4cm}} 
 		
 	\hline
 	\textbf{Value} & \textbf{Options} & \textbf{Description} \Tstrut\Bstrut\\ 
@@ -89,7 +89,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   %\hline
   1 & Benchmark Relative F Basis: & \multirow{1}{1cm}[-0.2cm]{\parbox{11cm}{The specification does not affect year range for selectivity and biology.}} \Tstrut\\
     & 1 = use year range; and & \\
-    & 2 = set range for relF same as forecast below. & \\
+    & 2 = set range for relF same as forecast below. & \Bstrut\\
 
   %\pagebreak
   \hline
@@ -104,17 +104,17 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   \hline
   10 & N forecast years (must be >= 1) & \multirow{1}{1cm}[-0.15cm]{\parbox{11cm}{At least one forecast year now required if the Forecast option above is >=0 (Note: SS3 v.3.24 allowed zero forecast years).}} \Tstrut\\
-    & & \Bstrut\\
-
-  \hline
-  1 & F scalar & \multirow{1}{1cm}[-0.15cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar), but is a required line in the forecast file.}} \Tstrut\Bstrut\\
     & & \\
 
   \hline
-  0 0 0 0 0 0 & Forecast Years: & \multirow{1}{1cm}[-0.15cm]{\parbox{11cm}{Requires 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts. In future, hope to allow random effects to propagate into forecast. Please note, relative F for bycatch only fleets is scaled just like other fleets. More options for this in future.}} \Tstrut\\
+  1 & F scalar & \multirow{1}{1cm}[-0.15cm]{\parbox{11cm}{Only used if Forecast option = 5 (input annual F scalar), but is a required line in the forecast file.}} \Tstrut\\
+    & & \\
+
+  \hline
+  0 0 -10 0 -999 0 & \hypertarget{FcastYears}{Forecast Years:} & \multirow{1}{1cm}[-0.15cm]{\parbox{11cm}{Requires 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution that will be used to create averages to use in forecasts. These can be entered in as the actual year, or values of 0 or -integer to be relative endyr. In future, hope to allow random effects to propagate into forecast. Please note, relative F for bycatch only fleets is scaled just like other fleets.}} \Tstrut\\
+    & <= 0 = year relative to end year. & \\  
     & -999 = start year; & \\
     & >0 = absolute year; and & \\
-    & <= 0 = year relative to end year. & \\
     & & \Bstrut\\
 
   \pagebreak
@@ -177,7 +177,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   %\hline
   \pagebreak
-  1 \Tstrut & \hyperlink{ForeSpawn}{Base recruitment in forecast:} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{This option controls the base R (to which deviations are applied) in the forecast, or the averaging of a range of historical Rs after all adjustments and deviations were applied. For options 1 and 2, the next value read is a scalar applied to the base. Option 3 also averages the distribution of R among areas and morphs, but this is now redundant with the Control Averaging input two boxes down. Options 3 and 4 require that the user set the \hyperlink{FcastRecDevPhase}{forecast recruitment deviation phase} to negative (specifically -1 to get requested mean in MCMC) and that the \hyperlink{RecDevEndYear}{last year of recruitment deviations} is the \hyperlink{EndYear}{end year}.}} \\
+  1 \Tstrut & \hyperlink{ForeSpawn}{Base recruitment in forecast:} & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{This option controls the base R (to which deviations are applied) in the forecast, or the averaging of a range of historical Rs after all adjustments and deviations were applied. For options 1 and 2, the next value read is a scalar applied to the base. Option 3 averages the distribution of R among areas and morphs, but this is now redundant with the Control Averaging input two boxes down. Options 3 and 4 require the user set the \hyperlink{FcastRecDevPhase}{forecast recruitment deviation phase} to negative (specifically -1 to get requested mean in MCMC) and the \hyperlink{RecDevEndYear}{last year of recruitment deviations} is the \hyperlink{EndYear}{end year}.}} \\
     & 0 = spawner recruit curve; & \\
     & 1 = value*(spawner recruit curve); & \\
     & 2 = value*(virgin R); & \\
@@ -188,13 +188,13 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   0.7 \Tstrut & Scalar applied to base & \multirow{1}{1cm}[-0.05cm]{\parbox{11cm}{Scalar is ignored unless option 1 and 2 is selected}} \Bstrut\\
 
   \hline
-  1 & Control Averaging (Fcast\_MGvector\_averaging) & \multirow{4}{1cm}{\parbox{11cm}{This option was introduced in 3.20.22 to provide averaging of various biology vectors in forecast. It invokes reading a list of sub-options. It works like the averaging of selectivity by averaging the annual vectors, not the parameters used to create the vectors.}} \Tstrut\\
+  1 & Control Averaging (Fcast\_MGvector \_averaging) & \multirow{4}{1cm}{\parbox{11cm}{This option was introduced in 3.20.22 to provide averaging of various biology vectors in forecast. It invokes reading a list of sub-options. It works like the averaging of selectivity by averaging the annual vectors, not the parameters used to create the vectors.}} \Tstrut\\
     & 0 = ignore option & \\
-    & 1 = use option & \\
-    & & \\ 
+    & 1 = use option & \Bstrut\\
+   % & & \\ 
 
   \hline
-  \multicolumn{3}{l}{\multirow{5}{1cm}{\parbox{22cm}{If Control Averaging is selected, then enter a list of biology types and their selected year range for averaging. For all others and those not selected here, biology during forecast will be created annually from parameters, which can be time-varying. Obviously, these averaging options and time-varying parameter options are incompatible. The initial set of types released with 3.30.22 includes those shown in the example below: 1 = M, 4 = Recruitment Distribution, 5 = movement. The Average\_Method is a future option and must be ``1'' at this time. The min year and max year values can use -999 just as the Forecast Years entered above.}}} \\
+  \multicolumn{3}{l}{\multirow{5}{1cm}{\parbox{22cm}{If Control Averaging is selected, then enter a list of biology types and their selected year range for averaging. For all others and those not selected here, biology during forecast will be created annually from parameters, which can be time-varying. Obviously, these averaging options and time-varying parameter options are incompatible. The initial set of types released with 3.30.22 includes those shown in the example below: 1 = M, 4 = Recruitment Distribution, 5 = movement. The Average\_Method is a future option and must be ``1'' at this time. The min year and max year values can use -999 just as the \hyperlink{FcastYears}{Forecast Years} entered above.}}} \\
     & & \\
     & & \\
     & & \\ 
@@ -206,8 +206,9 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   4 & 1 & 1986 \hspace{30mm} 1989 \\
   5 & 1 & 1997 \hspace{30mm} 2005 \\
   -9999 & 0 & 0 \hspace{36mm} 0 \Bstrut\\
-
-  \pagebreak
+  
+  \hline
+  %\pagebreak
   2015 \Tstrut & First year for caps and allocations & \multirow{1}{1cm}[-0.10cm]{\parbox{11cm}{Should be after years with fixed inputs.}} \Bstrut\\
 
   %\pagebreak
