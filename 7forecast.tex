@@ -55,12 +55,12 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   \pagebreak
   
-  \multicolumn{1}{r}{1 0 0 1} & MEY options - Fleet, Cost/F, Price/F, and Include F\textsubscript{MEY} in Optimization & \multirow{1}{1cm}[-0.2cm]{\parbox{11.3cm}{To calculate the F\textsubscript{MEY} enter fleet number, the cost per fishing mortality, price per mt, and whether optimization should adjust the fleet's F or keep it at the mean from the benchmark years (0 = no, 1= yes). Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost = 0 and price = 1, so it will be identical to MSY in weight. Note, if a fleet's catch is excluded from the F\textsubscript{MEY} search, its catch or profits are still included in the MSY value using historical F levels from benchmark years.}} \Tstrut\\
+  \multicolumn{1}{r}{1 0 0 1} & MEY options - Fleet, Cost/F, Price/F, and Include F\textsubscript{MEY} in Optimization & \multirow{1}{1cm}[-0.2cm]{\parbox{11.3cm}{To calculate the F\textsubscript{MEY} enter fleet number, the cost per fishing mortality, price per mt, and whether optimization should adjust the fleet's F or keep it at the mean from the benchmark years (0 = no, 1= yes). Care should taken when scaling the values used for cost/F and price/mt. Units in the example show cost = 0 and price = 1, so it will be identical to MSY in weight. Note, if a fleet's catch is excluded from the F\textsubscript{MEY} search, its catch or profits are still included in the MSY value using historical F levels from benchmark years.}} \Tstrut\Bstrut\\
   \multicolumn{1}{r}{-9999 0 0 0} & & \\
     & & \\
-    & & \\
-    & & \\
-    & & \\
+    & & \Tstrut\Bstrut\\
+    & & \Tstrut\Bstrut\\
+    % & & \\
 
   \hline
   0.45 & SPR\textsubscript{target} & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{SS3 searches for the F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to the unfished value.}} \Tstrut\Bstrut\\
@@ -72,7 +72,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     
   \hline 
   \multicolumn{2}{l}{COND: \hyperlink{Bmarks_RefPoints}{Benchmarks} = 3} & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{B\textsubscript{LIMIT} as a fraction of the B\textsubscript{MSY} where a negative value will be applied as a fraction of B0}} \Tstrut\\
-    & -0.25 & \Bstrut\\
+    & -0.25 & \\
     
     
   \hline
@@ -87,11 +87,11 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   \hline
   1 & Benchmark Relative F Basis: & \multirow{1}{1cm}[-0.2cm]{\parbox{11.3cm}{The specification does not affect year range for selectivity and biology.}} \Tstrut\\
     & 1 = use year range; and & \\
-    & 2 = set range for relF same as forecast below. & \Bstrut\\
+    & 2 = set range for relF same as \hyperlink{Fcast}{Forecast}. & \Bstrut\\
 
   %\pagebreak
   \hline
-  2 & Forecast: & \multirow{1}{1cm}[-0.25cm]{\parbox{11.3cm}{This input is required but is ignored if benchmarks are turned off. This determines how forecast catches are calculated and removed from the population which is separate from the ``MSY Method'' above. If F\textsubscript{MSY} is selected, it uses whatever proxy (e.g., F\textsubscript{SPR} or F\textsubscript{BTGT}) is selected in the ``MSY Method'' row.}} \Tstrut\\
+  2 & \hypertarget{Fcast}{Forecast:} & \multirow{1}{1cm}[-0.25cm]{\parbox{11.3cm}{This input is required but is ignored if benchmarks are turned off. This determines how forecast catches are calculated and removed from the population which is separate from the ``MSY Method'' above. If F\textsubscript{MSY} is selected, it uses whatever proxy (e.g., F\textsubscript{SPR} or F\textsubscript{BTGT}) is selected in the ``MSY Method'' row.}} \Tstrut\\
     & -1 = none, no forecast years; & \\
     & 0 = simple, single forecast year calculated; & \\
     & 1 = use F\textsubscript{SPR}; & \\
@@ -110,45 +110,45 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   
   % \pagebreak
   \hline
-  \multicolumn{3}{l}{There are 2 options for entering \hypertarget{FcastYears}{Forecast Years}:} \Tstrut\\
+  \multicolumn{3}{l}{There are 2 options for entering \hypertarget{FcastYears}{Forecast Years}:} \Tstrut\Bstrut\\
   
-  Option 1: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18cm}{This approach for forecast year ranges is no longer recommended because blocks, random effects, and other time-varying parameter changes can now operate on forecast years.}}} \Tstrut\\
-   & & \\
+  Option 1: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18cm}{This approach for forecast year ranges is no longer recommended because blocks, random effects, and other time-varying parameter changes can now operate on forecast years and the new approach provides better control averaging.}}} \Tstrut\Bstrut\\
+   & & \Tstrut\Bstrut\\
 
   % \pagebreak
-  0 0 0 0 0 0 & Enter 6 Forecast Year Values & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{To continue to use this pre-SS3.20.22 approach, enter 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution. These will be used to create averages over the specified range of years. These can be entered in as the actual year, -999 for start year, or values of 0 or -integer to be relative endyr.}} \Bstrut\\
-   & & \\
-   & & \\
-   & & \\
-   & & Important things to note:\\
-   & & - Relative F for bycatch only fleets is scaled just like other fleets.\Tstrut\\
-   & & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{- For selectivity averaging with the new approach the method code is ``1'', whereas with the old Forecast Selectivity Option approach, the code was ``1'' for using time-varying parameters. SS3 accounts for this change internally.}} \Tstrut\\
-   & & \\
+  0 0 0 0 0 0 & Enter 6 Forecast Year Values & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{To continue to use this pre-SS3.20.22 approach, enter 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution. These will be used to create averages over the specified range of years. These can be entered in as the actual year, -999 for start year, or values of 0 or -integer to be relative endyr.}} \Tstrut\\
    & & \Bstrut\\
-   & & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{- Whenever doing averages, the created mean will have artificially low variance than if a minimal range of years is selected.}} \Tstrut\\
+   & & \Bstrut\\
+   & & \Bstrut\\
+   & & Important things to note: \\
+   & & -- Relative F for bycatch only fleets is scaled just like other fleets.\\
+   & & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{-- For selectivity averaging with the new approach the method code is ``1'', whereas with the old Forecast Selectivity Option approach, the code was ``1'' for using time-varying parameters. SS3 accounts for this change internally.}} \\
    & & \\
-    % & <= 0 = year relative to end year; & \\  
-    % & -999 = start year; and & \\
-    % & >0 = absolute year & \\
-    % & & \\
+   & & \\
+   & & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{-- Whenever doing averages, the created mean will have artificially low variance than if a minimal range of years is selected.}} \Tstrut\\
+   & & \\
+
+  0 & \hypertarget{FcastSelectivity}{Forecast Selectivity Option:} & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{Determines the selectivity used in the forecast years. Selecting 1 will allow for application of time-varying selectivity parameters (e.g., random walk) to continue into the forecast period. This setting is not included in Option 2.}} \\
+    & 0 = forecast selectivity is mean from year range; and & \\
+    & \multirow{1}{1cm}[-0.15cm]{\parbox{6.5cm}{1 = forecast selectivity from annual time-varying parameters.}} & \\
+    & & \\
 
   % \hline
-  Option 2: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18cm}{To invoke use of the new approach, enter a single value of -12345 and also omit entry of the \hyperlink{FcastSelectivity}{Forecast Selectivity Option}.}}} \\
+  Option 2: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18cm}{To invoke use of the new approach, enter a single value of -12345 and omit entry of the \hyperlink{FcastSelectivity}{Forecast Selectivity Option}.}}} \\
    & & \\
 
   -12345 & Invoke New Forecast Format & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{Biology and selectivity vectors are updated annually in the forecast according to their time-varying parameters. Be sure to check the end year of the blocks and the deviation vectors. Input in this section directs the creation of averages over historical years to override any time-varying changes. To invoke recruitment averaging, see the \hyperlink{FcastRecruitment}{Base recruitment in forecast} option further down in the forecast file. See the Example New Forecast Format Input section below.}} \Bstrut\\
    & & \\
    & & \\
-   & & \\
-   & & \\
-   & & \\
+   & & \Tstrut\Bstrut\\
+   & & \Tstrut\Bstrut\\
 
   % \pagebreak
-  \hline
-  0 & \hypertarget{FcastSelectivity}{Forecast Selectivity Option:} & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{Determines the selectivity used in the forecast years. Selecting 1 will allow for application of time-varying selectivity parameters (e.g., random walk) to continue into the forecast period.}} \Tstrut\\
-    & 0 = forecast selectivity is mean from year range; and & \\
-    & \multirow{1}{1cm}[-0.15cm]{\parbox{6.5cm}{1 = forecast selectivity from annual time-varying parameters.}} & \\
-    & & \\
+  % \hline
+  % 0 & \hypertarget{FcastSelectivity}{Forecast Selectivity Option:} & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{Determines the selectivity used in the forecast years. Selecting 1 will allow for application of time-varying selectivity parameters (e.g., random walk) to continue into the forecast period.}} \Tstrut\\
+  %   & 0 = forecast selectivity is mean from year range; and & \\
+  %   & \multirow{1}{1cm}[-0.15cm]{\parbox{6.5cm}{1 = forecast selectivity from annual time-varying parameters.}} & \\
+  %   & & \\
 
   % \hline
   % -12345 & Invoke New Forecast Format (instead of reading 6 values for \hyperlink{FcastYears}{Forecast Years}) & \multirow{1}{1cm}[-0.15cm]{\parbox{11cm}{Biology and selectivity vectors are updated annually in the forecast according to their time-varying parameters. Be sure to check the end year of the blocks and the deviation vectors. Input in this section directs the creation of averages over historical years to override any time-varying changes. To invoke recruitment averaging, see the \hyperlink{FcastRecruitment}{Base recruitment in forecast} option further down in the forecast file.}} \Tstrut\Bstrut\\
@@ -159,14 +159,17 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   \pagebreak
   % \hline
   \multicolumn{2}{l}{Example New Forecast Format Input:} & \\
-   & Method \hspace{15mm} Start Year & End Year \\
-  10 & 1 \hspace{26mm} 0 & 0 \hspace{30mm} \# selectivity \\
-  11 & 1 \hspace{26mm} -3 & 0 \hspace{30mm} \# rel\_F\\
+  Factor & Method \hspace{15mm} Start Year & End Year \\
+  1 & 1 \hspace{26mm} 2002 & 2003 \hspace{24mm} \# natural mortality \\
+  4 & 1 \hspace{26mm} 2016 & 2018 \hspace{24mm} \# recruitment distribution \\ 
+  10 & 1 \hspace{26mm} -999 & 0 \hspace{30mm} \# selectivity \\
+  11 & 1 \hspace{26mm} -3 & 0 \hspace{30mm} \# relative F\\
   12 & 1 \hspace{26mm} 2006 & 2014 \hspace{24mm} \# recruitment\\
   -9999 & -1 \hspace{25mm} -1 & -1 \Bstrut\\
 
-  \hline
-   & 1 = M; & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{These are what has been implemented thus far. Terminate with -9999.}} \Tstrut\\
+  % \hline
+   & Factor & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{Factors implemented thus far. Terminate with -9999.}} \Tstrut\\
+   & 1 = natural mortality (M); & \\
    & 4 = recruitment distribution; & \\
    & 5 = migration; & \\
    & 10 = selectivity; & \\
@@ -174,18 +177,16 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
    & 12 = recruitment & \\
 
   % \pagebreak
-  \hline
+  % \hline
    & Method & \Tstrut\\
    & 0 (or omitted) = continue using time\_vary parameters; & \\
    & 1 = use average of derived factor; & \\
    & 2 (future) = average parameter then apply as if time\_vary & \\
-
-   & Start Year & Enter the actual year or values of 0 or -integer to be relative styr. \\
-
+   & Start Year & Enter the actual year or values of 0, -999 to be styr, or -integer to be relative endyr. \\
    & End Year & Enter the actual year or values of 0 or -integer to be relative endyr. \Bstrut\\
   
-  %\pagebreak
-  \hline
+  \pagebreak
+  % \hline
   1 & Control Rule Method: & \multirow{1}{1cm}[-0.15cm]{\parbox{11.3cm}{Used to apply reductions (``buffer'') to either the catch or F based on the control rule during the forecast period. The buffer value is specified below via the Control Rule Buffer.}} \Tstrut\\
     & 0 = none (additional control rule inputs will be ignored); & \\
     & 1 = catch as function of SSB, buffer on F; & \\
