@@ -10,7 +10,7 @@ Starting in SS3.30, mortality-growth, some stock-recruitment, catchability, and 
 \begin{enumerate}
     \item Environmental or Density dependent Linkages: Links the base parameter with environmental data or a model derived quantity.
 	\item Parameter deviations: Creates annual deviations from the base parameter during a user-specified range of years.
-	\item Time blocks: The base parameter is changed during a "block" (or "blocks") of time (i.e., one or more consecutive years) as specified by the user.
+	\item Time blocks: The base parameter is changed during a ``block'' (or ``blocks'') of time (i.e., one or more consecutive years) as specified by the user.
 	\item Trends: A trend (shape: cumulative normal distribution function) is applied to the parameter. Trends are specified using the same input column as time blocks, but with different codes. This means that trends and time blocks cannot be used simultaneously for the same base parameter.
 \end{enumerate}
 
@@ -106,13 +106,13 @@ Note, \citet{xu-new-2019} has additional information on tuning the 2D AR selecti
 \sigma_s^2=SD(\epsilon)^2+\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t_{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2
 \end{equation}
 
-The minimal and maximal ages/lengths and years for the 2D AR1 process can be freely specified by users in the control file. However, we recommend specifying the minimal and maximal ages and years to cover the relatively "data-rich" age/length and year ranges only. Particularly we introduce: 
+The minimal and maximal ages/lengths and years for the 2D AR1 process can be freely specified by users in the control file. However, we recommend specifying the minimal and maximal ages and years to cover the relatively ``data-rich'' age/length and year ranges only. Particularly we introduce: 
 
 \begin{equation}
 b=1-\frac{\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2}{\sigma_s^2}
 \end{equation}
 
-as a measure of how rich the composition data is regarding estimating selectivity deviations. We also recommend using the Dirichlet-Multinomial method to "weight" the corresponding composition data while $\sigma_s$ is interactively tuned in this step.
+as a measure of how rich the composition data is regarding estimating selectivity deviations. We also recommend using the Dirichlet-Multinomial method to ``weight'' the corresponding composition data while $\sigma_s$ is interactively tuned in this step.
 
 Second, fix $\sigma_s$ at the value iteratively tuned in the previous step and estimate $\epsilon_{a,t}$. Plot both Pearson residuals and $\epsilon_{a,t}$ out on the age-year surface to check their 2D dimensions. If their distributions seems to be not random but rather be autocorrelated (deviation estimates have the same sign several ages and/or years in a row), users should consider estimating and then including the autocorrelations in $\epsilon_{a,t}$.
 
@@ -125,7 +125,7 @@ Setting up a seasonal model such that recruitment can occur with similar and ind
 Other adjustments to make when using seasons as years include:
 
 \begin{itemize}
-	\item Re-index all "year seas" inputs to be in terms of quarter-year because all are now season 1; increase end year (endyr) value in sync with this.
+	\item Re-index all ``year seas'' inputs to be in terms of quarter-year because all are now season 1; increase end year (endyr) value in sync with this.
 	\item Increase max age because age is now in quarters.
 	\item In the age error definitions, increase the number of entries to reflect that age is now in quarters.
 	\item In the age error definitions, recode so that each quarter-age gets assigned to the correct age bin. This is because the age data are still in terms of age bins; i.e., the first 4 entries for quarter-ages 1 through 4 will all be assigned to age bin 1.5; the next four to age bin 2.5; you cannot accomplish the same result by editing the age bin values because the standard deviation of ageing error is in terms of age bin.
@@ -147,8 +147,8 @@ The processes and calculations within SS3 can be complex and not transparent bas
 The jitter function has been updated with SS3.30. The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
 \begin{enumerate}
 	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
-	\item A jitter shift value, termed "\textit{K}", is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
-	\item A random value is drawn, "\textit{J}", from the range of \textit{K}-jitter to \textit{K}+jitter.
+	\item A jitter shift value, termed ``\textit{K}'', is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
+	\item A random value is drawn, ``\textit{J}'', from the range of \textit{K}-jitter to \textit{K}+jitter.
 	\item Any value which falls outside the 0-1 range (in the cumulative normal space) is mapped back from the bound to a point one-tenth of the way from the bound to the initial value.
 	\item \textit{J} is a new cumulative normal probability value.
 	\item Calculate a new parameter value, P\textsubscript{JITTERED}, such that pr(P\textsubscript{JITTERED}) = \textit{J}.

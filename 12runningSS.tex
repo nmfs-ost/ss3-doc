@@ -1,7 +1,7 @@
 \section{Running Stock Synthesis} \label{sec:RunningSS}
 
 \subsection{Command Line Interface}
-The name of the SS3 executable files often contains the phrase "safe" or "opt" (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named "ss.exe" is typically the safe version unless the result of renaming by the user.
+The name of the SS3 executable files often contains the phrase ``safe'' or ``opt'' (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named ``ss.exe'' is typically the safe version unless the result of renaming by the user.
 
 On Mac and Linux computers, the executable does not include an extension (like .exe on Windows).
 Running the executable on from the DOS command line in Windows simply require typing the executable name (without the .exe extension):
@@ -21,13 +21,13 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 	\end{verbatim}
 \end{quote}
 
-Additional ADMB commands can follow the executable name, such as "-nohess" to avoid calculating the Hessian matrix. To see a full list of options, add " -?" after the executable name (with a space in between).
+Additional ADMB commands can follow the executable name, such as ``-nohess'' to avoid calculating the Hessian matrix. To see a full list of options, add ``-?'' after the executable name (with a space in between).
 
 On all operating systems, a copy of the SS3 executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below.
 
 Often there is a need to run the model with no estimation. Alternative methods to run SS3 without estimating parameters are documented in the \hyperlink{NoEst}{Running Without Estimation section}. 
 
-As of ADMB 12.3, a new command called "-hess\_step" is available to use and documented in the \hyperlink{hess-step}{Using -hess\_step to do additional Newton steps using the inverse Hessian}
+As of ADMB 12.3, a new command called ``-hess\_step'' is available to use and documented in the \hyperlink{hess-step}{Using -hess\_step to do additional Newton steps using the inverse Hessian}
 
 \subsubsection{Example of DOS batch input file}
 One file management approach is to put ss.exe in its own folder (example:  C:\textbackslash SS\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS\_runs).  Then a DOS batch file in the SS\_runs folder can be run at the command line to start ss.exe.  All output will appear in SS\_runs folder.
@@ -62,7 +62,7 @@ An easy way to start a command line in your current directory (SS\_runs) is to c
 	\end{verbatim}
 \end{quote}
 
-An alternative shortcut is to have the executable within the model folder then use Ctrl+Shift+Right Click and then select either "Open powershell window here" or "Open command window here", depending upon your computer.  From the command window the executable name can be typed along with additional inputs (e.g., -nohess) and the model run.  If using the powershell type cmd and then hit enter prior to calling the model (ss). 
+An alternative shortcut is to have the executable within the model folder then use Ctrl+Shift+Right Click and then select either ``Open powershell window here'' or ``Open command window here'', depending upon your computer.  From the command window the executable name can be typed along with additional inputs (e.g., -nohess) and the model run.  If using the powershell type cmd and then hit enter prior to calling the model (ss). 
 
 
 \subsubsection{Simple Batch}
@@ -97,8 +97,8 @@ This second example processes 25 dat files from a different directory, each time
 	c:\admodel\ss\ss.exe
 	copy /Y ss.par A1-D1-A1-%%i.par
 	copy /Y ss.std A1-D1-A1-%%i.std
-	find "Number" A1-D1-A1-%%i.par >> Summary.txt
-	find "hessian" ss.cor >> Summary.txt)
+	find ``Number'' A1-D1-A1-%%i.par >> Summary.txt
+	find ``hessian'' ss.cor >> Summary.txt)
 	\end{verbatim}
 \end{quote}
 
@@ -127,7 +127,7 @@ where maxfun specifies the number of function calls and phase is the maximum pha
 
 However, the approaches above differ in subtle ways. First, if the maximum phase is set to 0 in the starter file the total likelihood will differ by a small amount (0.25 likelihood units) compared to the second approach which sets the maxfun and phase in the command window. This small difference is due a dummy parameter which is evaluated by the objective function when maximum phase in the starter is set to 0, resulting in a small contribution to the total likelihood of 0.25.  However, all other likelihood components should not change.  
 
-The second difference between the two no estimation approaches is the reported number of "Active\_count" of parameters in the Report file. If the command line approach is used (ss -maxfn 0 -phase 50 -nohess) then the active number of parameters will equal the number of parameters with positive phases, but because the model is started in a phase greater than the maximum phase in the model, these parameters do not move from the initial values in the control file (or the par file).  The first approach where the maximum phase is changed in the starter file will report the number of "Active\_count" parameters as 0.  
+The second difference between the two no estimation approaches is the reported number of ``Active\_count'' of parameters in the Report file. If the command line approach is used (ss -maxfn 0 -phase 50 -nohess) then the active number of parameters will equal the number of parameters with positive phases, but because the model is started in a phase greater than the maximum phase in the model, these parameters do not move from the initial values in the control file (or the par file).  The first approach where the maximum phase is changed in the starter file will report the number of ``Active\_count'' parameters as 0.  
 
 The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file.  If you start from the par file (specified in the starter file: 1=use ss.par) then all parameters, including parameter deviations, will be fixed at the estimated values.  However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
 
@@ -147,7 +147,7 @@ where -1 is the maximum phase for the model to run through (e.g., can be other v
 
 The optimizer in ADMB is designed to run until the maximum absolute gradient (mag) is small enough (e.g., 1e-05), after which it quits and does the uncertainty calculations. But if run for longer it cannot appreciably decrease this mag. In many cases it is interesting or advisable to get closer to the mode to confirm convergence of the model. 
 
-A new feature as of ADMB 12.3 called "-hess\_step" takes Newton steps to update the MLE using the information in the Hessian calculated as MLE\textsubscript{new}=MLE-(inverse~Hessian)*(gradient), where the Hessian and gradient are calculated from the original MLE. If the mag improves then this corroborates the optimizer has converged and that the negative log-likelihood surface is approximately quadratic at the mode as assumed in the asymptotic uncertainty calculations. The downside is the high computational cost due to the extra matrix calculations.
+A new feature as of ADMB 12.3 called ``-hess\_step'' takes Newton steps to update the MLE using the information in the Hessian calculated as MLE\textsubscript{new}=MLE-(inverse~Hessian)*(gradient), where the Hessian and gradient are calculated from the original MLE. If the mag improves then this corroborates the optimizer has converged and that the negative log-likelihood surface is approximately quadratic at the mode as assumed in the asymptotic uncertainty calculations. The downside is the high computational cost due to the extra matrix calculations.
 
 The feature is used by optimizing normally, and then from the command line running -hess\_step for defaults (recommended), -hess\_step N, or -hess\_step\_tol eps where N and eps are the maximum number of steps to take and the tolerance (i.e., a very small number like 1e-10) after which to stop. When running the Hessian first and then the -hess\_step, ADMB will prompt you to run it with -binp ss.bar.
 
@@ -242,7 +242,7 @@ If you have previously modified your path to add a non-standard location for the
 
 \begin{quote}
    \begin{verbatim}
-    Sys.setenv(PATH=paste(Sys.getenv("PATH"),"/my/folder",sep=":"))
+    Sys.setenv(PATH=paste(Sys.getenv(``PATH''),``/my/folder'',sep=``'':''))
     \end{verbatim}
 \end{quote}
 
@@ -276,8 +276,8 @@ Alternatively, use the function \texttt{run\_SS\_models} from the \texttt{r4ss} 
   \begin{verbatim}
   # run 2 models, in directories folder_1 and folder_2, using the SS3 executable
   # named ss3 that is in the path.
-  r4ss::run_SS_models(dirvec = c("folder_1", "folder_2"),
-                      model = "ss3",
+  r4ss::run_SS_models(dirvec = c(``folder_1'', ``folder_2''),
+                      model = ``ss3'',
                       exe_in_path = TRUE)
   \end{verbatim}
 \end{quote}
@@ -295,13 +295,13 @@ When input files are causing the program to crash or fail to produce sensible re
 	\item Turn the verbosity level to 2 in the starter.ss file.  This will cause the program to display the value of each likelihood component to the screen on each iteration.  So it the program is creating an illegal computation (e.g., divide by zero), it may show you which likelihood component contains the problematic calculation.  If the program is producing a Report.sso file, you may then see which observation is causing the illegal calculation.
 	\item Run the program with the command ss >>SSpipe.txt.  This will cause all screen display to go to the specified text file (note, delete this file before running because it will be appended to).  Examination of this file will show detailed statements produced during the reading and preprocessing of input files.
 	\item If the model fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the -nohess option so you can view the Report.sso to attempt to diagnose the problem.
-	\item If the problem is with reading one or more of the input files, please note that certain Mac line endings cannot be read by the model (although this is a rare occurance). Be sure to save the text files with Windows or Linux style line endings so that the executable can parse them.
+	\item If the problem is with reading one or more of the input files, please note that certain Mac line endings cannot be read by the model (although this is a rare occurrence). Be sure to save the text files with Windows or Linux style line endings so that the executable can parse them.
 \end{enumerate}
 
 \subsection{Keyboard Tips}
-Typing "N" during a run will cause ADMB to immediately advance to the next phase of estimation.
+Typing ``N'' during a run will cause ADMB to immediately advance to the next phase of estimation.
 
-Typing "Q"  during a run will cause ADMB to immediately go to the final phase.  This bypasses estimation of the Hessian and will produce all of the model outputs, which are coded in the FINAL\_SECTION.
+Typing ``Q''  during a run will cause ADMB to immediately go to the final phase.  This bypasses estimation of the Hessian and will produce all of the model outputs, which are coded in the FINAL\_SECTION.
 
 \subsection{Running MCMC}
  Running SS3 with MCMC can be done through command line options using the default ADMB MCMC algorithm (described below). Another possibility is using the R package adnuts. See the \href{https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html}{adnuts vignette} for more information. The \href{https://www.admb-project.org/developers/mcmc/mcmc-guide-for-admb.pdf}{MCMC guide for ADMB} provides the most comprehensive guidance available for using MCMC with ADMB models (such as SS3). Additional guidance is available in \citep{monnahan2019overcoming}.

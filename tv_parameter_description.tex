@@ -8,7 +8,7 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 \item Environmental or Density Dependent Link and variable (env\_var\&link; element 8)
 
 	\begin{itemize}
-	   \item The environmental or density dependent link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. Note that environmental variables can only be included on an annual basis, so seasonal models would have the same effect applied to all seasons. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the "-3" column which is ln(relative summary biomass). The other options for both elements are enumerated below.
+	   \item The environmental or density dependent link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. Note that environmental variables can only be included on an annual basis, so seasonal models would have the same effect applied to all seasons. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the ``-3'' column which is ln(relative summary biomass). The other options for both elements are enumerated below.
 	   \item The link function options (hundreds place) for the env\_var\&link input are:
 	   \begin{itemize}
 	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
@@ -87,7 +87,7 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 		\item $P_{base}$ is the base parameter value
 		\item $P_{\text{offset}}$ is the parameter offset value
 		\item $\phi$ is the standard cumulative normal distribution function
-		\item $P_{\text{infl}}$ is the inflection year (i.e., the year in which half of the total change from the base parameter has occured)
+		\item $P_{\text{infl}}$ is the inflection year (i.e., the year in which half of the total change from the base parameter has occurred)
 		\item $P_{width}$ is the standard deviation.
 	\end{itemize}
 In all cases, 3 parameters are estimated and hence 3 short parameter lines are required. These parameter lines differ amongst the trend options.
@@ -118,7 +118,7 @@ The input value options for element 13 are:
 \end{itemize}
 
 
-Code for the deviation link can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_timevaryparm.tpl}{SS\_timevaryparm.tpl}, search for "SS\_Label\_Info\_14.3".
+Code for the deviation link can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_timevaryparm.tpl}{SS\_timevaryparm.tpl}, search for ``SS\_Label\_Info\_14.3''.
 
 
 \subsubsection{Specification of Time-Varying Parameters: Short Parameter Lines} 
@@ -182,14 +182,14 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 \myparagraph{Environmental and density dependent linkages}
 
 \begin{itemize}
-	\item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as index number 1, the growth parameter $K$ (if using a von Bertalanffy growth equation) could be linked to the water temperature proxy data by specifying the code "201" in the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line is required after the "MG parameter" long parameter lines section.
-	\item Suppose for a fishery, selectivity is thought to shift depending on population size. Smaller fish are selected when there are lower population numbers, while larger fish are selected when there are higher population numbers. The selectivity parameter could be made time-varying using the code "-104" in the env\_var\&link option, which assumes a exponential scalar link between the base selectivity parameter and the time varying parameter value. One additional parameter line is required at the end of the selectivity long parameter lines section.
+	\item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as index number 1, the growth parameter $K$ (if using a von Bertalanffy growth equation) could be linked to the water temperature proxy data by specifying the code ``201'' in the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line is required after the ``MG parameter'' long parameter lines section.
+	\item Suppose for a fishery, selectivity is thought to shift depending on population size. Smaller fish are selected when there are lower population numbers, while larger fish are selected when there are higher population numbers. The selectivity parameter could be made time-varying using the code ``-104'' in the env\_var\&link option, which assumes a exponential scalar link between the base selectivity parameter and the time varying parameter value. One additional parameter line is required at the end of the selectivity long parameter lines section.
 \end{itemize}
 
 \myparagraph{Parameter Deviations}
 
 \begin{itemize}
-	\item Suppose a selectivity parameter is thought to drift every year during 2000-2010. This could be represented using a random walk link option available within the parameter deviations options. To implement this, the user could input 3 into the "dev link" input on the long parameter line for the selectivity parameter, and then input values 2000 and 2010 for "dev min yr" and "dev max yr", respectively. The dev phase could be set to 3. With this setup, 2 additional short parameter lines would be expected, one for the standard error and one for $\rho$. Both of these will be used since a random walk option is selected. To use a random walk without drift, $\rho$ is set at 1 with a negative phase.
+	\item Suppose a selectivity parameter is thought to drift every year during 2000-2010. This could be represented using a random walk link option available within the parameter deviations options. To implement this, the user could input 3 into the ``dev link'' input on the long parameter line for the selectivity parameter, and then input values 2000 and 2010 for ``dev min yr'' and ``dev max yr'', respectively. The dev phase could be set to 3. With this setup, 2 additional short parameter lines would be expected, one for the standard error and one for $\rho$. Both of these will be used since a random walk option is selected. To use a random walk without drift, $\rho$ is set at 1 with a negative phase.
 \end{itemize}
 
 \myparagraph{Time Blocks}
@@ -205,7 +205,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 \myparagraph{Trends}
 
 \begin{itemize}
-	\item Suppose natural mortality was thought to increase from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the "use block" column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for M could look like:
+	\item Suppose natural mortality was thought to increase from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the ``use block'' column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for M could look like:
 	\begin{center}
 		\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{1cm}  p{1.5cm}  p{1.5cm} p{1.5cm} p{3cm}}
 			

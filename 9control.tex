@@ -84,7 +84,7 @@ The full parameter line (14 in length) syntax for the mortality-growth, spawn-re
 
 
 \subsection{Terminology}
-The term COND appears in the "Typical Value" column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
+The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
 \subsection{Beginning of Control File Inputs}
 \begin{center}
@@ -491,7 +491,7 @@ The Schnute/Richards growth model is parameterized as:
 
 with parameters $L_{MIN}$, $L_{MAX}$, $k$, and $b$.
 
-The Richards model has $b$ < 0, the von Bertalanffy model has $b$ = 1. The general case of $b$ > 0 was called the "generalized von Bertalanffy" by \citet{schnute1981growth}. The Gompertz has $b$ = 0, where the equation is undefined as written above and must be replaced with: 
+The Richards model has $b$ < 0, the von Bertalanffy model has $b$ = 1. The general case of $b$ > 0 was called the ``generalized von Bertalanffy'' by \citet{schnute1981growth}. The Gompertz has $b$ = 0, where the equation is undefined as written above and must be replaced with: 
 
 \begin{equation}
 		L_t = y_1e\Big[log(y_2/y-1)\frac{1-e^{-k(t-A_1)}}{1-e{-k(A_2-A_1)}}\Big]
@@ -702,7 +702,7 @@ Parameter offset option 3 has an offset feature for the growth CV and for natura
 	 1 & & Parameter Offset Method: \Tstrut\Bstrut\\
 	   & & 1 = direct assignment; \\
 	   & & 2 = for each growth pattern by sex, parameter defines offset from sex 1, offsets are in exponential terms, so for example: $M_{\text{old male}} = M_{\text{old female}}*exp(M_{\text{old male}})$; and \\
-	   & & 3 = for each growth pattern by sex, parameter defines offset from growth pattern 1 sex 1. For females, given that ``natM option'' is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{\text{old female}} = M_{\text{young female}}*exp(M_{\text{old female}}$). For males, given that "natM option" is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{\text{old male}} = M_{\text{young female}}*exp(M_{\text{young male}})*exp(M_{\text{old male}})$). \Bstrut\\
+	   & & 3 = for each growth pattern by sex, parameter defines offset from growth pattern 1 sex 1. For females, given that ``natM option'' is breakpoint and there are two breakpoints, parameter defines offset from early age (e.g., $M_{\text{old female}} = M_{\text{young female}}*exp(M_{\text{old female}}$). For males, given that ``natM option'' is breakpoint and there are two breakpoints, parameter is defined as offset from females AND from early age (e.g., $M_{\text{old male}} = M_{\text{young female}}*exp(M_{\text{young male}})*exp(M_{\text{old male}})$). \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -728,7 +728,7 @@ These parameters are only included in the control file if one of the ageing erro
 	\item Power function coefficient for interpolating between those 2 values.
 \end{enumerate}
 
-\noindent Code for implementing vectors of mean age and standard deviation of age can be located online within the \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_miscfxn.tpl}{SS\_miscfxn.tpl} file, search for function "get\_age\_age" or "SS\_Label\_Function 45".
+\noindent Code for implementing vectors of mean age and standard deviation of age can be located online within the \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_miscfxn.tpl}{SS\_miscfxn.tpl} file, search for function ``get\_age\_age'' or ``SS\_Label\_Function 45''.
 
 \subsubsection{Sex ratio}
 The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish at recruitment. The parameter is specified in the fraction of female fish and is applied at settlement. The default option is a sex ratio of 0.50 with this parameter not being estimated. Any composition data input as type = 3, both sexes, will be informative to the sex ratio because it scales females and males together, not separately, for this data type input. Estimation of the sex ratio is a new feature and should be done with care with the user checking that the answer is reflective of the data.
@@ -736,9 +736,9 @@ The last line in the mortality-growth parameter section allows the user to fix o
 As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
 
 \subsubsection{Predator Fleet Mortality}
-The ability to define a predator fleet was first implemented in v.3.30.18. A parameter line for predator mortality is only required if a predator fleet has been defined in the data file. For each fleet that is designated as a predator, a new parameter line is created in the mortality-growth (MGparm) section in the control file. This parameter will have the label M2\_pred1, where the "1" is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect M2 to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each M2 parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times M2, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set M2 to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included. 
+The ability to define a predator fleet was first implemented in v.3.30.18. A parameter line for predator mortality is only required if a predator fleet has been defined in the data file. For each fleet that is designated as a predator, a new parameter line is created in the mortality-growth (MGparm) section in the control file. This parameter will have the label M2\_pred1, where the ``1'' is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect M2 to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each M2 parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times M2, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set M2 to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included. 
 
-M2 is age-specific, but not sex or morph specific. The value of the M2 parameter will be distributed across ages according to the selectivity for this fleet. In this example note that "pred1" refers to the first predator in the model, note the fleet number in which that predator has been 3 configured. The resultant age-specific M2 is added to the base M to create a total age-specific M that operates in the model exactly as M has always operated. 
+M2 is age-specific, but not sex or morph specific. The value of the M2 parameter will be distributed across ages according to the selectivity for this fleet. In this example note that ``pred1'' refers to the first predator in the model, note the fleet number in which that predator has been 3 configured. The resultant age-specific M2 is added to the base M to create a total age-specific M that operates in the model exactly as M has always operated. 
 
 Because M2 is a MGparm, it can be time-varying like any other MGparm. This is important because M2, as a component added to base M, will probably always need to be time-varying by blocks, random walk or linkage to external driver. A time series of M2 from an external source could be input by setting the M2 parameter to have a base value of 0.0 and linking to the time series in the environmental data section of the data file using an additive link. In addition, the relationship should have a fixed slope of 1.0 such that M2(y) = 0.0 + 1.0 * M2\_env\_input(y). 
 
@@ -1072,7 +1072,7 @@ h = 0.2e^{z_0z_{\text{frac}}(1-0.2^\beta)}<0.2e^{z_0}=\frac{1}{5S_0}=\frac{SB_0}
 
 Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$>0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$=0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.
 
-Code for the survival based recruitment can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_recruit.tpl}{SS\_recruit.tpl}, search for "SS\_Label\_43.3.7 survival based".
+Code for the survival based recruitment can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_recruit.tpl}{SS\_recruit.tpl}, search for ``SS\_Label\_43.3.7 survival based''.
 
 \myparagraph{Shepherd}
 \hypertarget{Shepherd}{The} Shepherd stock recruit curve is calculated as:
@@ -1273,7 +1273,7 @@ Simulation studies conducted by \cite{methot-adjusting-2011} compared three meth
 \end{longtable}
 
 \myparagraph{Recruitment Eras}
-Conceptually, the model treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum. The user has control of the break year between eras. Each era has its own vector. The early era is defined as a vector (prior to V3.10 this was a deviation vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations. The main era can be a vector of simple deviations, or a deviation vector but it is normally implemented as a deviation vector so that the spawner-recruitment function is its central tendency. The last era does not force a zero-centered deviation vector so it can have zeros during the actual forecast and non-zero values in last few years of the time series. The early and last eras are optional, but their use can help prevent balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years. When the 3 eras are used, it would be typically to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.
+Conceptually, the model treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum. The user has control of the break year between eras. Each era has its own vector. The early era is defined as a vector (prior to V3.10 this was a deviation vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations. The main era can be a vector of simple deviations, or a deviation vector but it is normally implemented as a deviation vector so that the spawner-recruitment function is its central tendency. The last era does not force a zero-centered deviation vector so it can have zeros during the actual forecast and non-zero values in last few years of the time series. The early and last eras are optional, but their use can help prevent balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years. When the 3 eras are used, it would be typical to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.
 
 \hypertarget{RecBias}{}
 \myparagraph{Recruitment Likelihood with Bias Adjustment}
@@ -1539,7 +1539,7 @@ Below is an example setup for fleets with a mirrored Q and offset from another f
 
 \hypertarget{FloatQ}{}
 \subsubsection{Float Q}
-The use and development of float in Q has evolved over time within SS3. The original approach in earlier versions of SS3 (version 3.24 and before) is that with Q "float" the units of the survey or fishery CPUE were treated as dimensionless so the Q was adjusted within each model iteration to maintain a mean difference of 0.0 between observed and expected (usually in natural log space). In contrast, Q as a parameter (float = 0) one had the ability to interpret the absolute scaling of Q and put a prior on it to help guide the model solution. Also, with Q as a parameter the code allowed for Q to be time-varying.
+The use and development of float in Q has evolved over time within SS3. The original approach in earlier versions of SS3 (version 3.24 and before) is that with Q ``float'' the units of the survey or fishery CPUE were treated as dimensionless so the Q was adjusted within each model iteration to maintain a mean difference of 0.0 between observed and expected (usually in natural log space). In contrast, Q as a parameter (float = 0) one had the ability to interpret the absolute scaling of Q and put a prior on it to help guide the model solution. Also, with Q as a parameter the code allowed for Q to be time-varying.
 
 Then midway through the evolution of the SS3 v.3.24 code lineage a new Q option was introduced based on user recommendations. This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
 
@@ -1752,7 +1752,7 @@ The currently defined selectivity patterns, and corresponding required number of
 \end{longtable}
 
 \myparagraph{Special Selectivity Options}
-Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey "units" (see the section on \hyperlink{IndexUnits}{Index units}).
+Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey ``units'' (see the section on \hyperlink{IndexUnits}{Index units}).
 
 \subsubsection{Selectivity Pattern Details}
 \myparagraph{Pattern 1 (size) and 12 (age) - Simple Logistic}
@@ -1852,7 +1852,7 @@ In typical usage:
 		\item To keep a constant rate of change in selectivity across a range of ages, use the -999 flag to keep the same rate of change in ln(selectivity) as for the previous age.
 	\end{itemize}
 
-Code for implementing random walk selectivity can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_selex.tpl}{SS\_selex.tpl}, search for "SS\_Label\_Info\_22.7.17".
+Code for implementing random walk selectivity can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_selex.tpl}{SS\_selex.tpl}, search for ``SS\_Label\_Info\_22.7.17''.
 
 \myparagraph{Pattern 22 (size) - Double Normal with Plateau}
 	\begin{itemize}
@@ -1956,19 +1956,19 @@ of those nodes, the parameter values at those nodes, and the slope of the
 function at the first and last node.
 
 An alternative to specifying or estimating the slope at the first and last
-nodes is to fix those values at 1e30 which will cause create a "natural
-cubic spline" which allows the slope (first derivative) to be flexible but
+nodes is to fix those values at 1e30 which will cause create a ``natural.cubic spline'' 
+which allows the slope (first derivative) to be flexible but
 sets the curvature (second derivative) to be 0 at the first and last nodes.
 
-The number of nodes is specified in the "special" column of the selectivity
+The number of nodes is specified in the ``special'' column of the selectivity
 set-up. The pattern number 27 is used to invoke cubic spline for size
 selectivity and for age selectivity; the input syntax is identical.
 	
 For a 3 node setup, the input parameters would be:
 	\begin{itemize}
 		\item p1 - 	Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
-		\item p2 - 	Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a "natural cubic spline")
-		\item p3 - 	Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a "natural cubic spline")
+		\item p2 - 	Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a ``natural cubic spline'')
+		\item p3 - 	Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a ``natural cubic spline'')
 		\item p4-p6 - The nodes in units of cm; must be in rank order and inside of the range of the population length bins. These must be held constant (not estimated, e.g., negative phase value) during a model run.
 		\item p7-p9 - The values at the nodes. Units are ln(selectivity) before rescaling.
 	\end{itemize}
@@ -1984,7 +1984,7 @@ Notes:
 	
 Code for implementing cubic spline selectivity can be found in
 \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_selex.tpl}{SS\_selex.tpl},
-search for "SS\_Label\_Info\_22.7.27".
+search for ``SS\_Label\_Info\_22.7.27''.
 
 One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial set-up code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this problem.
 
@@ -2095,7 +2095,7 @@ Similar to pattern 17 but with separate parameters for males and females. This s
 		\item p2 - The first age for which mean selectivity = 1.
 		\item p3 - The last age for which mean selectivity = 1.
 		\item p4 - Male mean selectivity relative to the female selectivity mean entered as ln(ratio) for the male relative female selectivity.
-		\item p5 - p\textsubscript{n} - Additional parameter lines for the natural log of the selectivity change between ages corresponding to the user specified number of changes in the "special" column for the selectivity specification for each sex with females entered first then males.
+		\item p5 - p\textsubscript{n} - Additional parameter lines for the natural log of the selectivity change between ages corresponding to the user specified number of changes in the ``special'' column for the selectivity specification for each sex with females entered first then males.
 		\item -999 input indicates to the model to keep the change unchanged from the previous age (keeps same rate of change).
 		\item -1000 input indicates used only for male selectivity indicates to the model to set the change in male selectivity equal to the female change in selectivity.
 	\end{itemize}
@@ -2231,7 +2231,7 @@ Discard mortality is calculated as:
 There are two approaches to specifying sex specific selectivity. One approach allows male selectivity to be specified as a fraction of female selectivity (or vice versa). This first approach can be used for any selectivity pattern. The other option allows for separate selectivity parameters for each sex plus an additional parameter to define the scaling of one sex's peak selectivity relative to the other sex's peak. This second approach has only been implemented for a few selectivity patterns.
 
 \myparagraph{Male Selectivity as a Fraction of Female Selectivity (or vice versa):}
-If the "domale" flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity. The two sexes switch roles if the "domale" flag is set to 2. Generally it is best to select the option so that the dependent sex has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0. Sex specific selectivity is done the same way for all size and age selectivity options.
+If the ``domale'' flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity. The two sexes switch roles if the ``domale'' flag is set to 2. Generally it is best to select the option so that the dependent sex has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0. Sex specific selectivity is done the same way for all size and age selectivity options.
 \begin{itemize}
 	\item p1 - size (age) at which a dogleg occurs (set to an integer at a bin boundary and do not estimate).
 	\item p2 - ln(relative selectivity) at minimum length or age = 0. Typically this will be set to a value of 0.0 (for no offset) and not estimated. It would be a rare circumstance in which the youngest/smallest fish had sex-specific selectivity.
@@ -2485,7 +2485,7 @@ Size-at-age input variance is the sample size for the N observations at each age
 Generalized size composition input variance is the sample size for each observation. The variance adjustment for each fleet is multiplied by these sample sizes. Set to 1.0 for no effect.
 		
 \myparagraph{Variance Adjustment Usage Notes}
-The report.sso output file contains information in the "FIT\_LEN\_COMPS" and "FIT\_AGE\_COMPS"  useful for determining if an adjustment of these input values is warranted to better match the scale of the average residual to the input variance scale.
+The report.sso output file contains information in the ``FIT\_LEN\_COMPS'' and ``FIT\_AGE\_COMPS''  useful for determining if an adjustment of these input values is warranted to better match the scale of the average residual to the input variance scale.
 	
 Because the actual input variance factors are modified, it is these modified variance factors that are used when creating parametric bootstrap data files. So, the control files used to analyze bootstrap generated data files should have the variance adjustment factors reset to null levels.
 
