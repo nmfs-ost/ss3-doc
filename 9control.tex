@@ -88,7 +88,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
 \subsection{Beginning of Control File Inputs}
 \begin{center}
-	\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+	\begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 		\hline
 		\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 		\hline
@@ -139,7 +139,7 @@ In older versions of SS3 one value of spawning biomass was calculated annually a
 Additional control of the seasonal timing was added in v.3.30 and now there now is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve but its timing can be at any specified time, not just the beginning of a season. Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.
 
 	
-\begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11cm}}
+\begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11.5cm}}
 		\hline
 		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options}\Tstrut\Bstrut\\
 		\hline
@@ -155,7 +155,7 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		
 		\endlastfoot
 		
-		1 \Tstrut & &\multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning. Options:}} \\ \\ \\
+		1 \Tstrut & &\multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning. Options:}} \\ \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{1 = no longer available (used the SS3 v.3.24 or earlier setup);}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{2 = main effects for growth pattern, settle timing, and area;}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{3 = each settle entity; and}} \\
@@ -164,10 +164,10 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		\hline
 		1 & & \multicolumn{2}{l}{Spawner-Recruitment (not implement yet, but required), options:} \Tstrut\\
 		& & \multicolumn{2}{l}{1 = global; and} \\
-		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing).}} \Bstrut\\\\
+		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing).}} \Bstrut\\
 		
 		\hline
-		1 \Tstrut & & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Number of recruitment settlement assignments. Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.}} \Bstrut\\\\\\
+		1 \Tstrut & & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Number of recruitment settlement assignments. Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.}} \Bstrut\\ \\
 		
 		\hline
 		0 \Tstrut & & \multicolumn{2}{l}{Future feature, not implement yet but required.} \Bstrut\\
@@ -183,7 +183,7 @@ The above example specifies settlement to mid-May (month 5.5). Note that normall
 
 Below is an example set-up where there are multiple settlement events, with one occurring the following year after spawning: 
 \begin{center}
-	\begin{tabular}{p{3cm} p{2cm} p{2cm} p{7cm}}
+	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{7cm}}
 		\hline
 		3 & \multicolumn{3}{l}{Number of recruitment settlement events} \Tstrut\\
 		0 & \multicolumn{3}{l}{Unused option} \Bstrut\\
@@ -241,7 +241,7 @@ At the time of settlement, fish are assigned a size equal to the lower edge of t
 \subsubsection{Movement}
 Here the movement of fish between areas are defined. This is a box transfer with no explicit adjacency of areas, so fish can move from any area to any other area in each time step. While not incorporated yet, there is a desire for future versions of SS3 to have the capability to allow sex-specific movement, and also to allow some sort of mirroring so that sexes and growth patterns can share the same movement parameters if desired.
 
-\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+\begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\hline
 	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
@@ -294,7 +294,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 \subsubsection{Time Blocks}
 \hypertarget{timeblocks}{}
 	
-\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+\begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 		\hline
 		\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 		\hline
@@ -325,7 +325,7 @@ Blocks and other time-vary parameter controls are operative during forecast year
 Auto-generation is a useful way to automatically create the required short time-varying parameter lines which will be written in the control.ss\_new file. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The control.ss\_new file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file. Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
 
 	
-\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+\begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\hline
 	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
 	\hline
@@ -511,7 +511,7 @@ This option creates age-specific K multipliers for each age of a user-specified 
 A growth cessation model was developed for the application to tropical tuna species \citep{maunder-growth-2018}. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.
 
 	
-\begin{longtable}{p{0.5cm} p{2cm} p{12cm}}
+\begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\multicolumn{3}{l}{Example growth specifications:} \Tstrut\Bstrut\\
 	\hline	
 	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
@@ -1189,8 +1189,8 @@ Simulation studies conducted by \cite{methot-adjusting-2011} compared three meth
 
 	1 \Tstrut & Do Recruitment Deviations & This selects the way in which recruitment deviations are coded: \\
 	  & & 0: None (so all recruitments come from spawner recruitment curve). \\
-	  & & 1: Deviation vector (previously the only option): the deviations are encoded as a deviation vector, so ADMB enforces a sum-to-zero constraint. \\
-	  & & 2: Simple deviations: the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero sum. The difference in model performance between options (1) and (2) has not been fully explored to date. \\
+	  & & 1: Deviation vector (previously the only option): the deviations during the main period are encoded as a deviation vector that enforces them to sum to zero for this period. \\
+	  & & 2: Simple deviations: the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero sum. The difference in model performance between options (1) and (2) has not been fully explored to date. This is the recommended option if doing MCMC (see the \href{https://github.com/admb-project/admb/issues/107}{issue 107} in the ADMB GitHub Repository for more information on this). \\
 	  & & 3: Deviation vector (added in v.3.30.13) where the estimated recruitment is equal to the R0 adjusted for blocks multiplied by a simple deviation vector of unconstrained deviations. The negative log likelihood from the deviation vector is equal to the natural log of the estimated recruitment divided by the expected recruitment by year adjusted for the spawner-recruit curve, regimes, environmental parameters, and bias-adjustment. The negative log likelihood between option 2 and 3 is approximately equal. \\
 	  & & 4: Similar to option 3 but includes a penalty based on the sum of the deviations (added in v.3.30.13). \\
 	  %& & Note: As of version 3.30.13 there is now an option to retain the last deviation estimated and apply that value into the forecast period. To specify this option add the value 2 before the deviation vector option (i.e., 21, 22, 23, or 24).\Bstrut\\
@@ -1199,7 +1199,7 @@ Simulation studies conducted by \cite{methot-adjusting-2011} compared three meth
 	1971 \Tstrut & Main recruitment deviations begin year & If begin year is less than the model start year, then the early deviations are used to modify the initial age composition. However, if set to be more than the population maximum age before start year, it is changed to equal to the maximum age before start year. \Bstrut\\
 	\hline
 
-	2017 \Tstrut & Main recruitment deviations end year & If recruitment deviations end year is later than retro year, it is reset to equal retro year. The final year to estimate main recruitment deviations should be set to a year where information about young fish in the data becomes limited. As example, if the model end year is 2020 and the fleet/survey only starts observing fish of age 2+, the last year to estimate main recruitment deviations could be set to 2018. Years after the main period but before the end model year will be estimated as late deviations \Bstrut\\
+	2017 \Tstrut & \hypertarget{RecDevEndYear}{Main recruitment deviations end year} & The final year to estimate main recruitment deviations should be set to a year where information about young fish in the data becomes limited. For example, if the model end year is 2020 and the fleet/survey only starts observing fish of age 2+, the last year to estimate main recruitment deviations could be set to 2018. Years after the main period but before the end model year will be estimated as late deviations. If recruitment deviations end year is later than retro year, it is reset to equal retro year. \Bstrut\\
 	\hline
 
 	3 \Tstrut & Main recruitment deviations phase. & \Bstrut\\
@@ -1210,17 +1210,17 @@ Simulation studies conducted by \cite{methot-adjusting-2011} compared three meth
 	\hline
 
 	\multicolumn{3}{l}{COND = 1 Beginning of advanced options} \Tstrut\Bstrut\\
-	& 1950 & Early Recruitment Deviation Start Year: \\
+	& 1950 & Early Recruitment Deviations Start Year: \\
 	& & 0: skip (default); \\
 	& & +year: absolute year (must be less than begin year of main recruitment deviations); and \\
 	& & -integer: set relative to main recruitment deviations start year. \\
 	& & Note: because this is a deviation vector, it should be long enough so that recruitment deviations for individual years are not unduly constrained. \\
 
-	\Tstrut & 6 & Early Recruitment Deviation Phase: \\
+	\Tstrut & 6 & Early Recruitment Deviations Phase: \\
 	& & Negative value: default value to not estimate early deviations. \\
 	& & Users may want to set to a late phase if there is not much early data. \\
 	
-	\Tstrut & 0 & Forecast Recruitment Phase: \\
+	\Tstrut & 0 & \hypertarget{FcastRecDevPhase}{Forecast Recruitment Deviations Phase}: \\
 			&   & 0 = Default value. \\
 			&   & Forecast recruitment deviations always begin in the first year after the end of the main recruitment deviations. Recruitment in the forecast period is deterministic derived from the specified stock-recruitment relationship. Setting their phase to 0 causes their phase to be set to max lambda phase +1 (so that they become active after rest of parameters have converged.). However, it is possible here to set an earlier phase for their estimation, or to set a negative phase to keep the forecast recruitment deviations at a constant level. \Bstrut\\
 
