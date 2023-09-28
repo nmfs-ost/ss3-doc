@@ -35,7 +35,7 @@ No aging error bias is assumed and aging is considered to be very precise.
 
 ### Natural mortality, growth, maturity, and sex ratio
 
-All parameters are assumed to be the same over time. Natural mortality is specified at 0.1. A von Bertalanfy growth curve is used with K estimated. Maturity is assumed to be length logistic with some specified parameter values. The sex ratio is assumed 50-50 female and male.
+All parameters are assumed to be the same over time. Natural mortality is specified at 0.1. A von Bertalanffy growth curve is used with K estimated. Maturity is assumed to be length logistic with some specified parameter values. The sex ratio is assumed 50-50 female and male.
 
 ### Spawner-Recruitment
 
@@ -144,7 +144,7 @@ Next comes specification for indices of abundance. First is the setup for all of
 3 0 0 0 # SURVEY2
 
 ```
-The column headers for this section are directly above the numbers. Note that all fleets are defined here (i.e., each fleet needs a line), including the fishery and are listed in the same order as when the fleet types were specified. Most importantly in this section, the units and error type that will be used when reading the the indices of abundance are specified. In this case, the fishery and survey 1 have units of biomass, wheras survey 2 is in numbers. Lognormal error is assumed for all 3 of the fleets.
+The column headers for this section are directly above the numbers. Note that all fleets are defined here (i.e., each fleet needs a line), including the fishery and are listed in the same order as when the fleet types were specified. Most importantly in this section, the units and error type that will be used when reading the indices of abundance are specified. In this case, the fishery and survey 1 have units of biomass, wheras survey 2 is in numbers. Lognormal error is assumed for all 3 of the fleets.
 
 Directly after its header, the indices of abundance data is included: 
 
@@ -342,7 +342,7 @@ Then, the setup lines for maturity, fecundity, and other specialized options:
 0 #_hermaphroditism option:  0=none; 1=female-to-male age-specific fxn; -1=male-to-female age-specific fxn
 1 #_parameter_offset_approach (1=none, 2= M, G, CV_G as offset from female-GP1, 3=like SS2 V1.x)
 ```
-The parameter lines resulting from the natural mortality, growth, and maturity (this section is sometimes called MG parms) are specified next. The number of paramter lines depends on the options selected in the setup lines. The parameters must also be specified in a particular order, with female parameters coming before male parameters in a 2-sex model:
+The parameter lines resulting from the natural mortality, growth, and maturity (this section is sometimes called MG parms) are specified next. The number of parameter lines depends on the options selected in the setup lines. The parameters must also be specified in a particular order, with female parameters coming before male parameters in a 2-sex model:
 ```{r eval = FALSE}
 #_ LO HI INIT PRIOR PR_SD PR_type PHASE env_var&link dev_link dev_minyr dev_maxyr dev_PH Block Block_Fxn
 # Sex: 1  BioPattern: 1  NatMort
@@ -406,7 +406,7 @@ Next, the Spawner recruitment setup and Spawner recruit long parameter lines are
 0  # 0/1 to use steepness in initial equ recruitment calculation
 0  #  future feature:  0/1 to make realized sigmaR a function of SR curvature
 ```
-which effects the number of SR parameter lines that follow:
+which affects the number of SR parameter lines that follow:
 ```{r eval = FALSE}
 #_          LO            HI          INIT         PRIOR         PR_SD       PR_type      PHASE    env-var    use_dev   dev_mnyr   dev_mxyr     dev_PH      Block    Blk_Fxn #  parm_name
              3            31       8.81505          10.3            10             0          1          0          0          0          0          0          0          0 # SR_LN(R0)
@@ -521,7 +521,7 @@ A selectivity pattern must be specified for both size and age selectivity for ea
 #_no timevary selex parameters
 #
 ```
-These paramter lines are specified in order, with the size (or length) selectivity lines specified before the age selectivity lines and the fleets in the same order as in the setup lines. Also, the selectivity pattern used determines the number of parameters needed to specify each fleets' size or age selectivity.
+These parameter lines are specified in order, with the size (or length) selectivity lines specified before the age selectivity lines and the fleets in the same order as in the setup lines. Also, the selectivity pattern used determines the number of parameters needed to specify each fleets' size or age selectivity.
 
 Some special features (2DAR selectivity, tagging data, variance adjusment, lambdas, and additional standard deviation reporting) in the control file are turned off for this model:
 ```{r eval = FALSE}
