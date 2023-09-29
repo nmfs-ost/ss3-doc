@@ -481,7 +481,7 @@ with parameters $L_{1}$, $L_\infty$, and $k$. The $L_\infty$ is calculated as:
 based on the input values of fixed age for first size-at-age ($A_1$) and fixed age for second size-at-age ($A_2$). 
 
 \myparagraph{Schnute/Richards growth function}
-The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for not only asymptotic growth but also linear, quadratic or exponential growth. The Schnute/Richards growth is invoked by entering option 2 in the growth type field. The Schnute/Richards growth function uses the standard growth parameters (e.g, Lmin, Linf, and $k$) and a fourth parameter that is read after reading the von Bertalanffy growth coefficient parameter ($k$). When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve. When this function was first introduced, it was required that A0 parameter be set to 0.0.
+The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for not only asymptotic growth but also linear, quadratic or exponential growth. The Schnute/Richards growth is invoked by entering option 2 in the growth type field. The Schnute/Richards growth function uses the standard growth parameters (e.g, Lmin, Linf, and $k$) and a fourth parameter that is read after reading the von Bertalanffy growth coefficient parameter ($k$). When this fourth parameter =has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve. When this function was first introduced, it was required that A0 parameter be set to 0.0.
 
 The Schnute/Richards growth model is parameterized as:
 
@@ -532,7 +532,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	  & & 1 = von Bertalanffy (3 parameters);\\
 	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters. Third parameter has null value of 1.0; \\
 	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature;\\
-	  & & 4 = age specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
+	  & & 4 = age-specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 6 = not implemented; \\
 	  & & 7 = not implemented; and \\
@@ -553,16 +553,24 @@ A growth cessation model was developed for the application to tropical tuna spec
 	0 & & Placeholder for future growth feature. \Tstrut\Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K \Tstrut\\
-	2 & & Number of K multipliers to read; \\
+	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K.  The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section.\Tstrut\\
+	3 & & Number of K multipliers to read; \\
 	& 5 & Minimum age for age-specific K; and \\
+	& 6 & Second age for age-specific K; and \\
 	& 7 & Maximum age for age-specific K. \Bstrut\\
 	
-	\multicolumn{2}{l}{COND = 4 or 5} & Growth model: age-specific K \Tstrut\\
-	2 & & Number of K multipliers to read; \\
+	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K.  The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
+	3 & & Number of K multipliers to read; \\
 	  & 7 & Maximum age for age-specific K; \\
 	  & 6 & Second age for age-specific K; and \\
 	  & 5 & Minimum age for age-specific K. \Bstrut\\
+	\hline
+	
+	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
+	3 & & Number of K multipliers to read; \\
+	& 7 & Maximum age for age-specific K; \\
+	& 6 & Second age for age-specific K; and \\
+	& 5 & Minimum age for age-specific K. \Bstrut\\
 	\hline
 
 	\Tstrut 0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0. \Bstrut\\
