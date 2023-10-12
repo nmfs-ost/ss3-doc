@@ -75,7 +75,7 @@ Seasonal quantities in the model are calculated and treated in the following met
 The treatment of subseasons in SS3 provide more precision in the timing of events compared to earlier model versions. In early versions, v.3.24 and before, there was effectively only two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.  
 
 Time steps can be broken into subseason and the ALK can be calculated multiple times over the course of a year:
-
+\vspace*{-\baselineskip}
 \begin{center}
 	\begin{tabular}{|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|}
 		\hline
@@ -83,7 +83,7 @@ Time steps can be broken into subseason and the ALK can be calculated multiple t
 		\hline
 		Subseason 1 & Subseason 2 & Subseason 3 & Subseason 4 & Subseason 5 & Subseason 6 \Tstrut\Bstrut\\		
 		\hline
-		\multicolumn{6}{l}{ALK* only re-calculated when there is a survey that subseason }\Tstrut\Bstrut\\		
+		\multicolumn{6}{l}{ALK* only re-calculated when there is a survey that subseason} \Tstrut\Bstrut\\		
 	\end{tabular}
 \end{center}
 
@@ -167,6 +167,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		2 \Tstrut & Total number of fishing and survey fleets (which now can be in any order).\\
 		\hline
 	\end{longtable}
+	\vspace*{-1.7\baselineskip}
 \end{center}
 
 
@@ -243,6 +244,7 @@ Bycatch fleets are not expected to be under the same type of fishery management 
 
 \noindent If a fleet above was set as a bycatch fleet (fleet type = 2), the following line is required: 
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{2.25cm} p{2.65cm} p{2.25cm} p{2.5cm} p{2.5cm} p{2cm}}
 
 		\multicolumn{6}{l}{Bycatch fleet input controls:} \\
@@ -344,6 +346,7 @@ In addition, it is possible to collapse the number of seasons. \ So, if a season
 The format for a 2 season model with 2 fisheries looks like the table below. Example is sorted by fleet, but the sort order does not matter. In data.ss\_new, the sort order is fleet, year, season.
 
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{3cm} p{3cm} p{3cm} p{4cm}}
 		\multicolumn{5}{l}{Catches by year, season for every fleet:} \\
 		\hline
@@ -376,6 +379,7 @@ The format for a 2 season model with 2 fisheries looks like the table below. Exa
 Indices are data that are compared to aggregate quantities in the model. Typically the index is a measure of selected fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model. The first section of the ``Indices'' setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
 
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{3cm} p{3cm} p{7cm}}
 		\multicolumn{4}{l}{Catch-per-unit-effort (CPUE) and Survey Abundance Observations:} \\
 		\hline
@@ -749,6 +753,7 @@ the range of values as follows:
 
 Example of a single length composition observation:
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{5cm}}
 		\multicolumn{7}{l}{} \\
 		\hline
@@ -799,6 +804,7 @@ The composition observations can be in any order and replicate observations by a
 \subsection{Age Composition Option}
 The age composition section begins by reading the number of age bins. If the value 0 is entered for the number of age bins, then skips reading the bin structure and all reading of other age composition data inputs.
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{13cm}}
 		\hline
 		17 \Tstrut & Number of age bins; can be equal to 0 if age data are not used; do not include a vector of agebins if the number of age bins is set equal to 0. \Bstrut\\
@@ -810,6 +816,7 @@ The age composition section begins by reading the number of age bins. If the val
 \subsubsection{Age Composition Bins}
 If a positive number of age bins is read, then reads the bin definition next.
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{13cm}}
 		\hline
 		1 2 3 ... 20 25 & Vector of ages \Tstrut\Bstrut\\
@@ -822,6 +829,7 @@ The bins are in terms of observed age (here age) and entered as the lower edge o
 Here, the capability to create a distribution of age (e.g., age with possible bias and imprecision) from true age is created. One or many ageing error definitions can be created. For each, the model will expect an input vector of mean age and a vector of standard deviations associated with the mean age. 
 
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{3.5cm} p{2.5cm}}
 		\hline
 		\multicolumn{1}{l}{2} & \multicolumn{5}{l}{Number of ageing error matrices to generate} \Tstrut\Bstrut\\
@@ -894,8 +902,6 @@ If age data are included in the model, the following set-up is required, similar
 
 Syntax for Sex, Partition, and data vector are same as for length. The data vector has female values then male values, just as for the length composition data.
 
-\pagebreak
-
 \myparagraph{Age Error}
 Age error (Age Err) identifies which ageing error matrix to use to generate expected value for this observation.
 
@@ -922,6 +928,7 @@ In a two sex model, it is best to enter these conditional age-at-length data as 
 
 Conditional age-at-length data are entered within the age composition data section and can be mixed with marginal age observations for other fleets of other years within a fleet. To treat age data as conditional on length, Lbin\_lo and Lbin\_hi are used to select a subset of the total size range. This is different than setting Lbin\_lo and Lbin\_hi both to -1 to select the entire size range, which treats the data entered on this line within the age composition data section as marginal age composition data. 
 
+\vspace*{-\baselineskip}
 \begin{tabular}{p{0.9cm} p{1cm} p{0.9cm} p{0.9cm} p{1.5cm} p{0.9cm} p{0.9cm} p{0.9cm} p{1cm} p{2.4cm}}
 	\multicolumn{10}{l}{} \\
 	\multicolumn{10}{l}{An example conditional age-at-length composition observations:} \\
@@ -975,6 +982,7 @@ The model also accepts input of mean length-at-age or mean body weight-at-age. T
 The model accepts input of time series of environmental data. Parameters can be made to be time-varying by making them a function of one of these environmental time series. In v.3.30.16 the option to specify the centering of environmental data by either using the mean of the by mean and the z-score. 
 
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{7.5cm}}
 		\multicolumn{4}{l}{Parameter values can be a function of an environmental data series:} \\
 		\hline
@@ -1140,7 +1148,7 @@ Predominant age at release for each tag group must be assigned; this requirement
 		\item <tfill> values are place holders and are replaced by program generated values for model time.
 		\item Analysis of the tag-recapture data has one negative log likelihood component for the distribution of recaptures across areas and another negative log likelihood component for the decay of tag recaptures from a group over time. Note the decay of tag recaptures from a group over time suggests information about mortality is available in the tag-recapture data. More on this is in the \hyperlink{tagrecapture}{control file documentation}.
 		\item  Do tags option 2 adds an additional input compared to do tags option 1, minimum recaptures. Minimum recaptures allows the user to exclude tag groups that have few recaptures after the mixing period from the likelihood. This may be useful when few tags from a group have been recaptured as an alternative to manually removing the groups with these low numbers of recaptured tags from the tagging data.
-		\item Warning for earlier versions of SS3: A shortcoming in the recapture calculations when also using Pope's F approach was identified and corrected in version 3.30.14.
+		\item Warning for earlier versions of SS3: A shortcoming in the recapture calculations when also using Pope's F approach was identified and corrected in v.3.30.14.
 	\end{itemize}
 
 \subsection{Stock (Morph) Composition Data}
@@ -1186,7 +1194,7 @@ It is sometimes possible to conduct field experiments or other studies to provid
 		\multicolumn{9}{l}{Selectivity data feature is under development for a future option and is not yet implemented.} \\
 		\multicolumn{9}{l}{The input line still must be specified in as follows:} \\
 		\hline
-		0 &  \multicolumn{8}{l}{Do data read for selectivity (future option)} \Tstrut\Bstrut\\
+		0 & \multicolumn{8}{l}{Do data read for selectivity (future option)} \Tstrut\Bstrut\\
         \hline
 		%& Year & Month & Fleet & Age/Size & Bin \# & Datum & Datum SE\Tstrut\Bstrut\\
 		%\hline
@@ -1221,6 +1229,7 @@ An expected value for the observation will be computed for each selected time pe
 Not all time steps within the extent of a super-period need be included. For example, in a three season model, a super-period could be set up to combine information from season 2 across 3 years, e.g., skip over the season 1 and season 3 for the purposes of calculating the expected value for the super-period. The key is to create a dummy observation (negative fleet value) for all time steps, except 1, that will be included in the super-period and to include one real observation (positive fleet value; which contains the real combined data from all the specified time steps).
 
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{9cm}}
 		\multicolumn{6}{l}{Super-period example:} \\
 		\hline
