@@ -59,18 +59,18 @@ The primary role of the control file is to define the parameters to be used by t
 		3 \Tstrut & INIT & Initial value for the parameter. If the phase (described below) for the parameter is negative the parameter is fixed at this value. If the ss.par file is read, it overwrites these INIT values.\\
 		4 \Tstrut & PRIOR & Expected value for the parameter. This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta). If the selected prior type (described below) is lognormal, this value is entered in log space. \\
 		5 \Tstrut & PRIOR SD & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. The standard deviation is in regular space regardless of the prior type.\\
-		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE} & 0 = none, \\
+		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE} & 0 = none; \\
 		& & 1 = symmetric beta; \\
 		& & 2 = full beta; \\
 		& & 3 = lognormal without bias adjustment; \\
 		& & 4 = lognormal with bias adjustment; \\
 		& & 5 = gamma; and \\
 		& & 6 = normal. \\
-		7 \Tstrut & PHASE & Phase in which parameter begins to be estimated. A negative value causes the parameter to retain its INIT value (or value read from the ss.par file).\Bstrut\\
-		8 \Tstrut & Env var \& Link & Create a linkage to an input environmental time-series\\
+		7 \Tstrut & PHASE & Phase in which parameter begins to be estimated. A negative value causes the parameter to retain its INIT value (or value read from the ss.par file). \Bstrut\\
+		8 \Tstrut & Env var \& Link & Create a linkage to an input environmental time-series \\
 		9 \Tstrut & Dev link & Invokes use of the deviation vector in the linkage function \\
 		10 \Tstrut & Dev min yr & Beginning year for the deviation vector \\
-		11 \Tstrut & Dev max yr & Ending year for the deviation vector\\
+		11 \Tstrut & Dev max yr & Ending year for the deviation vector \\
 		12 \Tstrut & Dev phase & Phase for estimation for elements in the deviation vector \\
 		13 \Tstrut & Block & Time block or trend to be applied \\
 		14 \Tstrut & Block function & Functional form for the block offset. \Bstrut\\
@@ -104,7 +104,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
 		\endlastfoot
 
-		\multicolumn{2}{l}{\#C comment }\Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
+		\multicolumn{2}{l}{\#C comment} \Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
 		\hline
 
 		0 & & 0 = Do not read the weight-at-age (wtatage.ss) file; \Tstrut\\
@@ -141,12 +141,12 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 	
 \begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11.5cm}}
 		\hline
-		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options}\Tstrut\Bstrut\\
+		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options} \Tstrut\Bstrut\\
 		\hline
 		\endfirsthead
 		
 		\hline
-		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options}\Tstrut\Bstrut\\
+		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options} \Tstrut\Bstrut\\
 		\hline
 		\endhead
 		
@@ -173,7 +173,7 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		0 \Tstrut & & \multicolumn{2}{l}{Future feature, not implement yet but required.} \Bstrut\\
 		
 		\hline
-		Growth Pattern & Month & Area & Age at settlement \Tstrut \\
+		Growth Pattern & Month & Area & Age at settlement \Tstrut\\
 		\hline
 		1 & 5.5 & 1 & 0 \Bstrut\\
 		\hline
@@ -327,12 +327,12 @@ Auto-generation is a useful way to automatically create the required short time-
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endhead
 
@@ -343,12 +343,12 @@ Auto-generation is a useful way to automatically create the required short time-
 
 	1 & & Environmental/Block/Deviation adjust method for all time-varying parameters. \Tstrut\\
 	  & & 1 = warning relative to base parameter bounds; and \\
-	  & & 3 = no bound check. Logistic bound check form from previous SS3 versions (e.g., SS3 v.3.24) is no longer an option.\Bstrut\\
+	  & & 3 = no bound check. Logistic bound check form from previous SS3 versions (e.g., SS3 v.3.24) is no longer an option. \Bstrut\\
 
-	\multicolumn{2}{l}{1 1 1 1 1} & Auto-generation of time-varying parameter lines. Five values control auto-generation for parameter block sections: 1-biology, 2-spawn-recruitment, 3-catchability, 4-tag (future), and 5-selectivity.\\
-	& 			& The accepted values are:\\
-	& 			& 0 = auto-generate all time-varying parameters (no time-varying parameters are expected);\\
-	& 			& 1 = read each time-varying parameter line as exists in the control file; and\\
+	\multicolumn{2}{l}{1 1 1 1 1} & Auto-generation of time-varying parameter lines. Five values control auto-generation for parameter block sections: 1-biology, 2-spawn-recruitment, 3-catchability, 4-tag (future), and 5-selectivity. \\
+	& 			& The accepted values are: \\
+	& 			& 0 = auto-generate all time-varying parameters (no time-varying parameters are expected); \\
+	& 			& 1 = read each time-varying parameter line as exists in the control file; and \\
 	&			& 2 = read each line and auto-generate if read if the time-varying parameter value for LO = -12345. Useful to generate reasonable starting values. \Bstrut\\
 	\hline
 \end{longtable}
@@ -401,12 +401,12 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 \myparagraph{Natural Mortality Options}
 \begin{longtable}{p{0.5cm} p{2cm} p{12.75cm}}
 	\hline	
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endhead
 	\hline
@@ -415,13 +415,13 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	
 	\endlastfoot
 
-	1 & & Natural Mortality Options:\Tstrut\\
-	  & & 0 = A single parameter;\\
-	  & & 1 = N breakpoints;\\
+	1 & & Natural Mortality Options: \Tstrut\\
+	  & & 0 = A single parameter; \\
+	  & & 1 = N breakpoints; \\
 	  & & 2 = Lorenzen; \\
-	  & & 3 = Read age specific M and do not do seasonal interpolation;\\
-	  & & 4 = Read age specific and do seasonal interpolation, if appropriate;\\
-	  & & 5 = age-specific M linked to age-specific length and maturity (experimental);\\
+	  & & 3 = Read age specific M and do not do seasonal interpolation; \\
+	  & & 4 = Read age specific and do seasonal interpolation, if appropriate; \\
+	  & & 5 = age-specific M linked to age-specific length and maturity (experimental); \\
 	  & & 6 = Age-range Lorenzen. \Bstrut\\
 	\hline
 
@@ -429,7 +429,7 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	\hline
 
 	\multicolumn{2}{l}{COND = 1} & \Tstrut\Bstrut\\
-	& 4 & Number of breakpoints. Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint.\\
+	& 4 & Number of breakpoints. Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint. \\
 
 	\multicolumn{2}{r}{2.5 4.5 9.0 15.0} & Vector of age breakpoints. \Bstrut\\
 	\hline
@@ -440,19 +440,19 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	
 	\multicolumn{2}{l}{COND = 3 or 4} \Tstrut & Do not read any natural mortality parameters in the mortality growth parameter section. With option 3, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.\\
 
-	& 0.20 0.25 ... 0.20 0.23 ... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern.\Bstrut\\
+	& 0.20 0.25 ... 0.20 0.23 ... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern. \Bstrut\\
 	\hline
 	
 	\multicolumn{2}{l}{COND = 5} \Tstrut & age-specific M linked to age-specific length and maturity suboptions. \\
 
 	&  & 1 = Requires 4 long parameter lines per sex x growth pattern using maturity. Must be used with maturity option 1; \\
 	&  & 2 = reserved for future option; \\
-	&  & 3 = Requires 6 long parameter lines per sex x growth pattern\Bstrut\\
+	&  & 3 = Requires 6 long parameter lines per sex x growth pattern \Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND = 6} \Tstrut & Read two additional integer values that are the age range for average M. Later, read one long parameter line for each sex x growth pattern that will be the average M over the reference age range. \\
-	& 0 \Tstrut & Minimum age of average M range for calculating Lorenzen natural mortality.\\
-	& 10 \Tstrut & Maximum age of average M range for calculating Lorenzen natural mortality.\\ 
+	& 0 \Tstrut & Minimum age of average M range for calculating Lorenzen natural mortality. \\
+	& 10 \Tstrut & Maximum age of average M range for calculating Lorenzen natural mortality. \\ 
 	\hline
 \end{longtable}
 
@@ -514,12 +514,12 @@ A growth cessation model was developed for the application to tropical tuna spec
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\multicolumn{3}{l}{Example growth specifications:} \Tstrut\Bstrut\\
 	\hline	
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endhead
 	\hline
@@ -529,14 +529,14 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\endlastfoot
 
 	1 & & Growth Model: \Tstrut\\
-	  & & 1 = von Bertalanffy (3 parameters);\\
+	  & & 1 = von Bertalanffy (3 parameters); \\
 	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters. Third parameter has null value of 1.0; \\
-	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature;\\
+	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 4 = age-specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 6 = not implemented; \\
 	  & & 7 = not implemented; and \\
-	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut \\
+	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut\\
 	\hline
 
 	\Tstrut 1 & & Growth Amin (A1): Reference age for first size-at-age L1 (post-settlement) parameter. First growth parameter is size at this age; linear growth below this. \Bstrut\\
@@ -553,20 +553,20 @@ A growth cessation model was developed for the application to tropical tuna spec
 	0 & & Placeholder for future growth feature. \Tstrut\Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K.  The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section.\Tstrut\\
+	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section.\Tstrut\\
 	3 & & Number of K multipliers to read; \\
 	& 5 & Minimum age for age-specific K; and \\
 	& 6 & Second age for age-specific K; and \\
 	& 7 & Maximum age for age-specific K. \Bstrut\\
 	
-	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K.  The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
+	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
 	3 & & Number of K multipliers to read; \\
 	  & 7 & Maximum age for age-specific K; \\
 	  & 6 & Second age for age-specific K; and \\
 	  & 5 & Minimum age for age-specific K. \Bstrut\\
 	\hline
 	
-	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
+	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
 	3 & & Number of K multipliers to read; \\
 	& 7 & Maximum age for age-specific K; \\
 	& 6 & Second age for age-specific K; and \\
@@ -776,7 +776,7 @@ Note that predator calculations probably will fail if tried with F Method=1 (Pop
 	\multicolumn{2}{l}{Females}\Tstrut & Female natural mortality and growth parameters in the following order by growth pattern. \\
 	& M & Natural mortality for female growth pattern 1, where the number of natural mortality parameters depends on the option selected. \Bstrut\\
 	\hline
-	\multicolumn{2}{l}{COND if M option = 1 } & \Tstrut\\
+	\multicolumn{2}{l}{COND if M option = 1} & \Tstrut\\
 	& N breakpoints & N-1 parameter lines as an exponential offsets from the previous reference age. \Bstrut\\
 	\hline
 
@@ -785,14 +785,14 @@ Note that predator calculations probably will fail if tried with F Method=1 (Pop
 	& VBK & von Bertalanffy growth coefficient (units are per year) for females, growth pattern 1. \Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND if growth type = 2 } & \Tstrut\\
+	\multicolumn{2}{l}{COND if growth type = 2} & \Tstrut\\
 	& Richards Coefficient & Only include this parameter if Richards growth function is used. If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to von Bertalanffy. \\
 
-	\multicolumn{2}{l}{COND if growth type >=3 } & Age-Specific K \\
+	\multicolumn{2}{l}{COND if growth type >=3} & Age-Specific K \\
 	& \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the ages specified above.} \Bstrut\\
 	\hline
 
-	\Tstrut & CV young & Variability for size at age <= Amin for females, growth pattern 1. Note that CV cannot vary over time, so do not set up env-link or a deviation vector. Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
+	\Tstrut & CV young & Variability for size at age <= Amin for females, growth pattern 1. Note that CV cannot vary over time, so do not set up env-link or a deviation vector. Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern. \\
 	& CV old & Variability for size at age >= Amax for females, growth pattern 1. For intermediate ages, do a linear interpolation of CV on means size-at-age. Note that the units for CV will depend on the CV pattern and the value of mortality-growth parameter as offset. The CV value cannot vary over time. \Bstrut\\
 	\hline
 
@@ -857,7 +857,7 @@ Note that predator calculations probably will fail if tried with F Method=1 (Pop
 	\multicolumn{2}{l}{Recruitment Dist. 2} & Recruitment apportionment parameter for the 2nd settlement event. \Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{Cohort growth deviation} \Tstrut & Set equal to 1.0 and do not estimate; it is deviations from this base that matter.\Bstrut\\
+	\multicolumn{2}{l}{Cohort growth deviation} \Tstrut & Set equal to 1.0 and do not estimate; it is deviations from this base that matter. \Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{2 x N selected movement pairs} & Movement parameters \Tstrut\Bstrut\\
@@ -1381,7 +1381,7 @@ Finally, the newer fleet-specific hybrid F method (F method 4) provides more fle
 	\hline
 
 	\multicolumn{3}{l}{COND: F method = 4} \Tstrut\\
-	& & Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only select a phase of 99. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line. Use a negative phase to set F as constant (i.e., not estimated) in v. 3.30.19 and higher. \Tstrut\\
+	& & Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only select a phase of 99. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line. Use a negative phase to set F as constant (i.e., not estimated) in v.3.30.19 and higher. \Tstrut\\
 	Fleet & Parameter Value & Phase \Tstrut\\
 	1 & 0.05 & 1 \\
 	2 & 0.01 & 1 \\

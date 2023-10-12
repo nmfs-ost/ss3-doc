@@ -1,13 +1,13 @@
 \section{Running Stock Synthesis} \label{sec:RunningSS}
 
 \subsection{Command Line Interface}
-The name of the SS3 executable files often contains the phrase ``safe'' or ``opt'' (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named ``ss.exe'' is typically the safe version unless the result of renaming by the user.
+The name of the SS3 executable files often contains the phrase ``safe'' or ``opt'' (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named ``ss3.exe'' is typically the safe version unless the result of renaming by the user.
 
 On Mac and Linux computers, the executable does not include an extension (like .exe on Windows).
 Running the executable on from the DOS command line in Windows simply require typing the executable name (without the .exe extension):
 \begin{quote}
 	\begin{verbatim}
-	> ss
+	> ss3
 	\end{verbatim}
 \end{quote}
 
@@ -16,8 +16,8 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 
 \begin{quote}
 	\begin{verbatim}
-	> chmod a+x ss
-	> ./ss
+	> chmod a+x ss3
+	> ./ss3
 	\end{verbatim}
 \end{quote}
 
@@ -30,13 +30,13 @@ Often there is a need to run the model with no estimation. Alternative methods t
 As of ADMB 12.3, a new command called ``-hess\_step'' is available to use and documented in the \hyperlink{hess-step}{Using -hess\_step to do additional Newton steps using the inverse Hessian}
 
 \subsubsection{Example of DOS batch input file}
-One file management approach is to put ss.exe in its own folder (example:  C:\textbackslash SS\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS\_runs).  Then a DOS batch file in the SS\_runs folder can be run at the command line to start ss.exe.  All output will appear in SS\_runs folder.
+One file management approach is to put ss3.exe in its own folder (example:  C:\textbackslash SS3\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS3\_runs). Then a DOS batch file in the SS3\_runs folder can be run at the command line to start ss3.exe.  All output will appear in SS3\_runs folder.
 
-A DOS batch file (e.g., SS.bat) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
+A DOS batch file (e.g., SS3.bat) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
 
 \begin{quote}
 	\begin{verbatim}
-	c:\SS_model\ss.exe -cbs 5000000000 -gbs 50000000000 \%1 \%2 \%3 \%4 
+	c:\SS3_model\ss3.exe -cbs 5000000000 -gbs 50000000000 \%1 \%2 \%3 \%4 
 	del ss.r0*
 	del ss.p0*
 	del ss.b0*
@@ -44,9 +44,9 @@ A DOS batch file (e.g., SS.bat) might contain some explicit ADMB commands, some 
 \end{quote}
 
 
-In this batch file, the -cbs and -gbs arguments allocate a large amount of memory for SS3 to use (you may need to edit these for your computer and SS3 configuration), and the \%1, \%2 etc. allows passing of command line arguments such as -nox or -nohess.  You add more items to the list of \% arguments as needed.
+In this batch file, the -cbs and -gbs arguments allocate a large amount of memory for SS3 to use (you may need to edit these for your computer and SS3 configuration), and the \%1, \%2 etc., allows passing of command line arguments such as -nox or -nohess.  You add more items to the list of \% arguments as needed.
 
-An easy way to start a command line in your current directory (SS\_runs) is to create a shortcut to the DOS command line prompt.  The shortcut's target would be:
+An easy way to start a command line in your current directory (SS3\_runs) is to create a shortcut to the DOS command line prompt. The shortcut's target would be:
 
 \begin{quote}
 	\begin{verbatim}
@@ -62,7 +62,7 @@ An easy way to start a command line in your current directory (SS\_runs) is to c
 	\end{verbatim}
 \end{quote}
 
-An alternative shortcut is to have the executable within the model folder then use Ctrl+Shift+Right Click and then select either ``Open powershell window here'' or ``Open command window here'', depending upon your computer.  From the command window the executable name can be typed along with additional inputs (e.g., -nohess) and the model run.  If using the powershell type cmd and then hit enter prior to calling the model (ss). 
+An alternative shortcut is to have the executable within the model folder then use Ctrl+Shift+Right Click and then select either ``Open powershell window here'' or ``Open command window here'', depending upon your computer. From the command window the executable name can be typed along with additional inputs (e.g., -nohess) and the model run. If using the powershell type cmd and then hit enter prior to calling the model (ss). 
 
 
 \subsubsection{Simple Batch}
@@ -74,7 +74,7 @@ This first example relies upon having a set of prototype SS3 input files, where 
 	del ss.cor
 	del ss.std
 	copy starter.r01 starter.ss
-	c:\admodel\ss\ss.exe -sdonly
+	c:\admodel\ss3\ss3.exe -sdonly
 	copy ss.std ss-std01.txt
 	\end{verbatim}
 \end{quote}
@@ -94,7 +94,7 @@ This second example processes 25 dat files from a different directory, each time
 	del ss.std
 	del ss.cor
 	del ss.par
-	c:\admodel\ss\ss.exe
+	c:\admodel\ss3\ss3.exe
 	copy /Y ss.par A1-D1-A1-%%i.par
 	copy /Y ss.std A1-D1-A1-%%i.std
 	find ``Number'' A1-D1-A1-%%i.par >> Summary.txt
@@ -111,7 +111,7 @@ The first approach requires the user to change the maximum phase value in the st
 
 \begin{quote}
 	\begin{verbatim}
-	ss -nohess
+	ss3 -nohess
 	\end{verbatim}
 \end{quote}
 
@@ -119,24 +119,24 @@ The second approach is done all through the command window using the following c
 
 \begin{quote}
 	\begin{verbatim}
-	ss -maxfn 0 -phase 50 -nohess
+	ss3 -maxfn 0 -phase 50 -nohess
 	\end{verbatim}
 \end{quote}
 
 where maxfun specifies the number of function calls and phase is the maximum phase for the model to start estimation where the number should be greater than the maximum phase for estimating parameters within the model. 
 
-However, the approaches above differ in subtle ways. First, if the maximum phase is set to 0 in the starter file the total likelihood will differ by a small amount (0.25 likelihood units) compared to the second approach which sets the maxfun and phase in the command window. This small difference is due a dummy parameter which is evaluated by the objective function when maximum phase in the starter is set to 0, resulting in a small contribution to the total likelihood of 0.25.  However, all other likelihood components should not change.  
+However, the approaches above differ in subtle ways. First, if the maximum phase is set to 0 in the starter file the total likelihood will differ by a small amount (0.25 likelihood units) compared to the second approach which sets the maxfun and phase in the command window. This small difference is due a dummy parameter which is evaluated by the objective function when maximum phase in the starter is set to 0, resulting in a small contribution to the total likelihood of 0.25. However, all other likelihood components should not change.  
 
-The second difference between the two no estimation approaches is the reported number of ``Active\_count'' of parameters in the Report file. If the command line approach is used (ss -maxfn 0 -phase 50 -nohess) then the active number of parameters will equal the number of parameters with positive phases, but because the model is started in a phase greater than the maximum phase in the model, these parameters do not move from the initial values in the control file (or the par file).  The first approach where the maximum phase is changed in the starter file will report the number of ``Active\_count'' parameters as 0.  
+The second difference between the two no estimation approaches is the reported number of ``Active\_count'' of parameters in the Report file. If the command line approach is used (ss3 -maxfn 0 -phase 50 -nohess) then the active number of parameters will equal the number of parameters with positive phases, but because the model is started in a phase greater than the maximum phase in the model, these parameters do not move from the initial values in the control file (or the par file). The first approach where the maximum phase is changed in the starter file will report the number of ``Active\_count'' parameters as 0.  
 
-The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file.  If you start from the par file (specified in the starter file: 1=use ss.par) then all parameters, including parameter deviations, will be fixed at the estimated values.  However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
+The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss.par) then all parameters, including parameter deviations, will be fixed at the estimated values.  However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
 
 \myparagraph{Generate .ss\_new files}
-There may be times a user would like to generate the .ss\_new files without running the model, with or without estimation. There are two approaches that a user can take.  The first is to manually change the maxphase in the starter.ss file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the starter.ss\_new file will be set to -1 and will need to be manually changed back if the intent is the replace the original (i.e., starter.ss) file with the new files (i.e., starter.ss\_new).  The second approach is to modify the maxphase via the command line or power shell input. Calling the model using the commands:
+There may be times a user would like to generate the .ss\_new files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the starter.ss file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the starter.ss\_new file will be set to -1 and will need to be manually changed back if the intent is the replace the original (i.e., starter.ss) file with the new files (i.e., starter.ss\_new).  The second approach is to modify the maxphase via the command line or power shell input. Calling the model using the commands:
 
 \begin{quote}
 	\begin{verbatim}
-	ss -stopph -1
+	ss3 -stopph -1
 	\end{verbatim}
 \end{quote}  
 
@@ -161,27 +161,27 @@ The second way is to create and run a batch file to profile over parameters. Thi
 
 %\begin{center}
 	\begin{longtable}{p{0.5cm} p{16cm}}		
-		& Create a profilevalues.ss file\\
-		& 2	\# number of parameters using profile feature\\
-		& 0.16	\# value for first selected parameter when runnumber equals 1\\
-		& 0.35	\# value for second selected parameter when runnumber equals 1\\
-		& 0.16	\# value for first selected parameter when runnumber equals 2\\
-		& 0.40	\# value for second selected parameter when runnumber equals 2\\
-		& 0.18	\# value for first selected parameter when runnumber equals 3\\
-		& 0.40	\# value for second selected parameter when runnumber equals 3\\
-		& etc.;  make it as long as you like.\\
+		& Create a profilevalues.ss file \\
+		& 2	\# number of parameters using profile feature \\
+		& 0.16	\# value for first selected parameter when runnumber equals 1 \\
+		& 0.35	\# value for second selected parameter when runnumber equals 1 \\
+		& 0.16	\# value for first selected parameter when runnumber equals 2 \\
+		& 0.40	\# value for second selected parameter when runnumber equals 2 \\
+		& 0.18	\# value for first selected parameter when runnumber equals 3 \\
+		& 0.40	\# value for second selected parameter when runnumber equals 3 \\
+		& etc.;  make it as long as you like. \\
 	\end{longtable}
 
-Create a batch file that looks something like this.  Or make it more complicated as in the example above.
+Create a batch file that looks something like this. Or make it more complicated as in the example above.
 
 
 \begin{quote}
 \begin{verbatim}
 	del cumreport.sso
 	copy /Y runnumber.zero runnumber.ss  % so you will start with runnumber=0 
-	C:\SS330\ss.exe 
-	C:\SS330\ss.exe 
-	C:\SS330\ss.exe 
+	C:\SS330\ss3.exe 
+	C:\SS330\ss3.exe 
+	C:\SS330\ss3.exe 
 \end{verbatim}
 \end{quote}
 
@@ -201,24 +201,24 @@ Instead of copying the SS3 executable to each model folder, SS3 can be put in yo
 
 \subsubsection{For Unix (OS X and Linux)}
 
-To check if SS3 is in your path, assuming the binary is named SS: open a Terminal window and type \texttt{which SS} and hit enter. If you get nothing returned, then SS3 (named SS or SS.exe) is not in your path. The easiest way to fix this is to move the SS3 binary to a folder that's already in your path. To find existing path folders type \texttt{echo \$PATH} in the terminal and hit enter. Now move the SS3 binary to one of these folders.
+To check if SS3 is in your path, assuming the binary is named SS3: open a Terminal window and type \texttt{which SS3} and hit enter. If you get nothing returned, then SS3 (named SS3 or SS3.exe) is not in your path. The easiest way to fix this is to move the SS3 binary to a folder that's already in your path. To find existing path folders type \texttt{echo \$PATH} in the terminal and hit enter. Now move the SS3 binary to one of these folders.
 
 For example, in a Terminal window type:
 
 \begin{quote}
    \begin{verbatim}
-    sudo cp ~/Downloads/SS /usr/bin/
+    sudo cp ~/Downloads/SS3 /usr/bin/
   \end{verbatim}
 \end{quote}
 
-to move an binary called SS from the Downloads folder to \texttt{/usr/bin}. You will need to use \texttt{sudo} and enter your password after to have permission to move a file to a folder like \texttt{/usr/bin/}, because doing so edits the system for other users also.
+to move an binary called SS3 from the Downloads folder to \texttt{/usr/bin}. You will need to use \texttt{sudo} and enter your password after to have permission to move a file to a folder like \texttt{/usr/bin/}, because doing so edits the system for other users also.
 
-Also note that you may need to add executable permissions to the SS binary after downloading it. You can do that by switching to the folder where you placed the binary
+Also note that you may need to add executable permissions to the SS3 binary after downloading it. You can do that by switching to the folder where you placed the binary
 (\texttt{cd /usr/bin/} if you followed the instructions above), and running the command:
 
 \begin{quote}
    \begin{verbatim}
-    sudo chmod +x SS
+    sudo chmod +x SS3
     \end{verbatim}
 \end{quote}
 
@@ -226,7 +226,7 @@ Check that SS3 is now executable and in your path:
 
 \begin{quote}
    \begin{verbatim}
-    which SS
+    which SS3
     \end{verbatim}
 \end{quote}
 
@@ -234,7 +234,7 @@ If you followed the instructions above, you will see the following line returned
 
 \begin{quote}
    \begin{verbatim}
-    /usr/bin/SS
+    /usr/bin/SS3
   \end{verbatim}
 \end{quote}
 
@@ -248,21 +248,21 @@ If you have previously modified your path to add a non-standard location for the
 
 \subsubsection{For Windows}
 
-To check if SS3 is in your path for Windows, open a DOS prompt (either Command Prompt or Powershell should work) and type \texttt{SS -?} and hit enter. If the prompt returns a message like \texttt{SS is not recognized...}, then SS3 is not in your path (assuming the SS3 executable is called SS.exe).
+To check if SS3 is in your path for Windows, open a DOS prompt (either Command Prompt or Powershell should work) and type \texttt{SS3 -?} and hit enter. If the prompt returns a message like \texttt{SS3 is not recognized...}, then SS3 is not in your path (assuming the SS3 executable is called SS3.exe).
 
 To add the SS3 binary file to your path, follow these steps:
 
 \begin{enumerate}
-  \item Find the correct version of the SS.exe binary on your computer (or download from the \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/releases}{SS3 releases}).
-  \item Move to and note the folder location. E.g., \texttt{C:/SS/}
+  \item Find the correct version of the SS3.exe binary on your computer (or download from the \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/releases}{SS3 releases}).
+  \item Move to and note the folder location. E.g., \texttt{C:/SS3/}
   \item Click on the start menu and type \texttt{environment}
   \item Choose \texttt{Edit environment variables for your account} under Control Panel
   \item Click on \texttt{PATH} if it exists, create it if does not exist 
   \item Choose `PATH` and click edit
   \item In the \texttt{Edit User Variable} window add to the end of the \texttt{Variable value} section a semicolon and the SS3 folder location you recorded earlier.
-     E.g., \texttt{;C:/SS}. Do not overwrite what was previously in the \texttt{PATH} variable.
+     E.g., \texttt{;C:/SS3}. Do not overwrite what was previously in the \texttt{PATH} variable.
   \item Restart your computer
-  \item Go back to the DOS prompt and try typing \texttt{SS -?} and hitting return again.
+  \item Go back to the DOS prompt and try typing \texttt{SS3 -?} and hitting return again.
 \end{enumerate}
 
 
@@ -284,8 +284,8 @@ Alternatively, use the function \texttt{run\_SS\_models} from the \texttt{r4ss} 
 
 Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{ss3sim}) or if \texttt{r4ss} is already used to read model output.
 
-\subsection{The Stock Synthesis GUI (SSI)}
-\href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots.
+% \subsection{The Stock Synthesis GUI (SSI)}
+% \href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots.
 
 \subsection{Debugging Tips}
 When input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem.  Before trying the steps below, examine the echoinput.sso file.  It is highly annotated, so you should be able to see if the model is interpreting your input files as you intended.  Additionally, users should check the warning.sso file when attempting to debug a non-running model.
@@ -293,7 +293,7 @@ When input files are causing the program to crash or fail to produce sensible re
 \begin{enumerate}
 	\item Set the turn\_off\_phase switch to 0 in the starter.ss file.  This will cause the mode to not attempt to adjust any parameters and simply converges a dummy parameter.  It will still produce a Report.sso file, which can be examined to see what has been calculated from the initial parameter values.
 	\item Turn the verbosity level to 2 in the starter.ss file.  This will cause the program to display the value of each likelihood component to the screen on each iteration.  So it the program is creating an illegal computation (e.g., divide by zero), it may show you which likelihood component contains the problematic calculation.  If the program is producing a Report.sso file, you may then see which observation is causing the illegal calculation.
-	\item Run the program with the command ss >>SSpipe.txt.  This will cause all screen display to go to the specified text file (note, delete this file before running because it will be appended to).  Examination of this file will show detailed statements produced during the reading and preprocessing of input files.
+	\item Run the program with the command ss3 >>SSpipe.txt.  This will cause all screen display to go to the specified text file (note, delete this file before running because it will be appended to).  Examination of this file will show detailed statements produced during the reading and preprocessing of input files.
 	\item If the model fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the -nohess option so you can view the Report.sso to attempt to diagnose the problem.
 	\item If the problem is with reading one or more of the input files, please note that certain Mac line endings cannot be read by the model (although this is a rare occurrence). Be sure to save the text files with Windows or Linux style line endings so that the executable can parse them.
 \end{enumerate}
@@ -315,7 +315,7 @@ Typing ``Q''  during a run will cause ADMB to immediately go to the final phase.
  	\item Recommended: Remove existing .psv files in run directory to generate a new chain.
  	\item Recommended: Before running, set the run detail switch in starter file to 0 to limit printing to the screen; reporting to screen will slow MCMC progress.
  	\item Optional: Add \texttt{-nohess} to use the existing Hessian file without re-estimating.
- 	\item Optional: To start the MCMC chain from specific values change the par file: run the model with estimation, adjust the par file to the values that the chain should start from, change within the starter file for the model to begin from the par file, and call the MCMC function using \texttt{ss -mcmc xxxx - mcsave yyyy -nohess -noest}.
+ 	\item Optional: To start the MCMC chain from specific values change the par file: run the model with estimation, adjust the par file to the values that the chain should start from, change within the starter file for the model to begin from the par file, and call the MCMC function using \texttt{ss3 -mcmc xxxx - mcsave yyyy -nohess -noest}.
  \end{itemize}
 	
 \noindent Run SS3 with argument -mceval to get more summaries
