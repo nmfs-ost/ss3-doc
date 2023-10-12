@@ -1,42 +1,42 @@
 \section{Output Files}
 
 \subsection{Custom Reporting}
-\hypertarget{custom}{Additional} user control for what is included in the Report.sso file was added in v.3.30.16.  This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file.  The numbering system for each item in the Report file is as follows:
+\hypertarget{custom}{Additional} user control for what is included in the Report.sso file was added in v.3.30.16. This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file. The numbering system for each item in the Report file is as follows:
 
 \begin{center}
 	\begin{longtable}{p{1cm} p{6.5cm}p{1cm} p{6cm}}
 		\hline
-		Num. & Report Item & Num. & Report Item\Tstrut\Bstrut\\
+		Num. & Report Item & Num. & Report Item \Tstrut\Bstrut\\
 		\hline
-1	& DEFINITIONS				    &	31	&	LEN	SELEX	\\			
-2	& LIKELIHOOD					&	32	&	AGE	SELEX	\\			
-3	& Input Variance Adjustment	    &	33	&	ENVIRONMENTAL	DATA	\\			
-4	& Parm devs detail			    &	34	&	TAG	Recapture	\\			
-5	& PARAMETERS					&	35	&	NUMBERS-AT-AGE	\\				
-6	& DERIVED	QUANTITIES			&	36	&	BIOMASS-AT-AGE	\\				
-7	& MGparm By Year after adjustments	&	37	& NUMBERS-AT-LENGTH	\\				
-8	& selparm(Size) By Year after adjustments & 38 & BIOMASS-AT-LENGTH	\\				
-9	& selparm(Age) By Year after adjustments  &	39 & F-AT-AGE	\\				
-10	& RECRUITMENT	DIST			&	40	& CATCH-AT-AGE	\\				
-11	& MORPH	INDEXING				&	41	& DISCARD-AT-AGE	\\				
+1	& DEFINITIONS				    &	31	&	LEN	SELEX \\			
+2	& LIKELIHOOD					&	32	&	AGE	SELEX \\			
+3	& Input Variance Adjustment	    &	33	&	ENVIRONMENTAL	DATA \\			
+4	& Parm devs detail			    &	34	&	TAG	Recapture \\			
+5	& PARAMETERS					&	35	&	NUMBERS-AT-AGE \\				
+6	& DERIVED	QUANTITIES			&	36	&	BIOMASS-AT-AGE \\				
+7	& MGparm By Year after adjustments &	37	& NUMBERS-AT-LENGTH	\\				
+8	& selparm(Size) By Year after adjustments & 38 & BIOMASS-AT-LENGTH \\				
+9	& selparm(Age) By Year after adjustments  &	39 & F-AT-AGE \\				
+10	& RECRUITMENT	DIST			&	40	& CATCH-AT-AGE \\				
+11	& MORPH	INDEXING				&	41	& DISCARD-AT-AGE \\				
 12	& SIZEFREQ	TRANSLATION			&	42	&	BIOLOGY	\\				
-13	& MOVEMENT					    &	43	&	Natural	Mortality	\\			
-14	& EXPLOITATION					&	44	&	AGE	SPECIFIC	K	\\		
-15	& CATCH					        &	45	&	Growth	Parameters	\\			
+13	& MOVEMENT					    &	43	&	Natural	Mortality \\			
+14	& EXPLOITATION					&	44	&	AGE	SPECIFIC	K \\		
+15	& CATCH					        &	45	&	Growth	Parameters \\			
 16	& TIME	SERIES				    &	46	&	Seas	Effects	\\			
-17	& SPR	SERIES				    &	47	&	Biology	at	age	in	endyr	\\
-18	& Kobe	Plot				    &	48	&	MEAN	BODY	WT(Begin)	\\		
-19	& SPAWN	RECRUIT				    &	49	&	MEAN	SIZE	TIMESERIES	\\		
+17	& SPR	SERIES				    &	47	&	Biology	at	age	in	endyr \\
+18	& Kobe	Plot				    &	48	&	MEAN	BODY	WT(Begin) \\		
+19	& SPAWN	RECRUIT				    &	49	&	MEAN	SIZE	TIMESERIES \\		
 20	& SPAWN	RECR	CURVE			&	50	&	AGE	LENGTH	KEY	\\		
 21	& INDEX	1				        &	51	&	AGE	AGE	KEY	\\		
-22	& INDEX	2				        &	52	&	COMPOSITION	DATABASE	\\			
-23	& INDEX	3				        &	53	&	SELEX	database	\\			
+22	& INDEX	2				        &	52	&	COMPOSITION	DATABASE \\			
+23	& INDEX	3				        &	53	&	SELEX	database \\			
 24	& DISCARD	SPECIFICATION		&	54	&	SPR/YPR	Profile	\\			
 25	& DISCARD	OUTPUT				&	55	&	GLOBAL	MSY	\\			
 26	& MEAN	BODY	WT	OUTPUT		&	56	&	SS\_summary.sso	\\				
-27	& FIT	LEN	COMPS			    &	57	&	rebuilder.sso	\\				
-28	& FIT	AGE	COMPS			    &	58	&	SIStable.sso	\\				
-29	& FIT	SIZE	COMPS			&	59	&	Dynamic	Bzero	\\			
+27	& FIT	LEN	COMPS			    &	57	&	rebuilder.sso \\				
+28	& FIT	AGE	COMPS			    &	58	&	SIStable.sso \\				
+29	& FIT	SIZE	COMPS			&	59	&	Dynamic	Bzero \\			
 30	& OVERALL	COMPS				&	60	&	wtatage.ss\_new	\\				
 \hline
 	\end{longtable}
@@ -45,18 +45,18 @@
 \subsection{Standard ADMB output files}
 Standard ADMB files are created by SS3. These are:
 
-ss.par - This file has the final parameter values.  They are listed in the order they are declared in SS3.  This file can be read back into SS3 to restart a run with these values (see \hyperref[sec:RunningSS]{Running Stock Synthesis} for more info).
+ss.par - This file has the final parameter values. They are listed in the order they are declared in SS3. This file can be read back into SS3 to restart a run with these values (see \hyperref[sec:RunningSS]{Running Stock Synthesis} for more info).
 
-ss.std - This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run.  It also contains the derived quantities declared as standard deviation report variables.  All of this information is also report in the covar.sso.  Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
+ss.std - This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run. It also contains the derived quantities declared as standard deviation report variables. All of this information is also report in the covar.sso. Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
 
 ss.rep - This report file is created between phases so, unlike Report.sso, will be created even if the hessian fails. It does not contain as much output as shown in Report.sso.
 
-ss.cor - This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret.  This same information is reported in covar.sso.
+ss.cor - This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret. This same information is reported in covar.sso.
 
 \subsection{Stock Synthesis Summary}
-The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place.  It is organized as a list. At the top of the file are descriptors, followed by the 1) likelihoods for each component, 2) parameters and their standard errors, and 3) derived quantities and their standard errors.  Total biomass, summary biomass, and catch were added to the quantities reported in this file in version 3.30.11 and later.
+The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place. It is organized as a list. At the top of the file are descriptors, followed by the 1) likelihoods for each component, 2) parameters and their standard errors, and 3) derived quantities and their standard errors. Total biomass, summary biomass, and catch were added to the quantities reported in this file in v.3.30.11 and later.
 
-Before 3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME\_SERIES table of Report.sso. The report file should be used instead of ss\_summary.sso for correct calculation of these quantities before 3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in report.sso for calculations done at times other than January 1.
+Before v.3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME\_SERIES table of Report.sso. The report file should be used instead of ss\_summary.sso for correct calculation of these quantities before v.3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in report.sso for calculations done at times other than January 1.
 
 \subsection{SIS table}
 The SIS\_table.sso is deprecated as of SS3 v.3.30.17. Please use the \hyperref[sec:r4ss]{r4ss} function \texttt{get\_SIS\_info()} instead. 
@@ -68,7 +68,7 @@ Before listing the derived quantities reported to the standard deviation report,
 
 \hypertarget{VirginUnfished}{}
 \subsubsection{Virgin Spawning Biomass vs Unfished Spawning Biomass}
-Unfished is the condition for which reference points (benchmark) are calculated.  Virgin Spawning Biomass (B0) is the initial condition on which the start of the time-series depends.If biology or spawner-recruitment parameters are time-varying, then the benchmark year input in the forecast file tells the model which years to average in order to calculate ``unfished''. In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as ``unfished'' for clarity.  Note that if ln(R0) is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SPB\_virgin and spawning biomass unfished is denoted as SPB\_unf in the report file.
+Unfished is the condition for which reference points (benchmark) are calculated. Virgin Spawning Biomass (B0) is the initial condition on which the start of the time-series depends. If biology or spawner-recruitment parameters are time-varying, then the benchmark year input in the forecast file tells the model which years to average in order to calculate ``unfished''. In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as ``unfished'' for clarity. Note that if ln(R0) is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SPB\_virgin and spawning biomass unfished is denoted as SPB\_unf in the report file.
 
 Virgin Spawning Biomass (B0) is used in four ways within SS3:
 \begin{enumerate}
@@ -83,9 +83,9 @@ However, if there is time-varying biology, then the 4th usage can have a differe
 A generic single metric of annual fishing mortality is difficult to define in a generalized model that admits multiple areas, multiple biological cohorts, dome-shaped selectivity in size and age for each of many fleets. Several separate indices are provided and others could be calculated by a user from the detailed information in Report.sso.
 
 \subsubsection{Equilibrium SPR}
-This index focuses on the effect of fishing on the spawning potential of the stock. It is calculated as the ratio of the equilibrium reproductive output per recruit that would occur with the current year's F intensities and biology, to the equilibrium reproductive output per recruit that would occur with the current year's biology and no fishing.  Thus it internalizes all seasonality, movement, weird selectivity patterns, and other factors. Because this index moves in the opposite direction than F intensity itself, it is usually reported as 1-SPR. A benefit of this index is that it is a direct measure of common proxies used for F\textsubscript{MSY}, such as F\textsubscript {40\%}. A shortcoming of this index is that it does not directly demonstrate the fraction of the stock that is caught each year. The SPR value is also calculated in the benchmarks (see below). 
+This index focuses on the effect of fishing on the spawning potential of the stock. It is calculated as the ratio of the equilibrium reproductive output per recruit that would occur with the current year's F intensities and biology, to the equilibrium reproductive output per recruit that would occur with the current year's biology and no fishing. Thus it internalizes all seasonality, movement, weird selectivity patterns, and other factors. Because this index moves in the opposite direction than F intensity itself, it is usually reported as 1-SPR. A benefit of this index is that it is a direct measure of common proxies used for F\textsubscript{MSY}, such as F\textsubscript {40\%}. A shortcoming of this index is that it does not directly demonstrate the fraction of the stock that is caught each year. The SPR value is also calculated in the benchmarks (see below). 
 
-The derived quantities report shows an annual SPR statistic.  The options, as specified in the starter.ss file, are:
+The derived quantities report shows an annual SPR statistic. The options, as specified in the starter.ss file, are:
 \begin{itemize}
 	\item 0 = skip
 	\item 1 = (1-SPR)/(1-SPR\textsubscript{TGT})
@@ -94,27 +94,27 @@ The derived quantities report shows an annual SPR statistic.  The options, as sp
 	\item 4 = raw SPR
 \end{itemize}
 
-The SPR approach to measuring fishing intensity was implemented because the concept of a single annual F does not exist in SS3 because F varies by age, sex, and growth morph and season and area.  There is no single F value that is applied to all ages unless you create a very simple model setup with knife-edge selectivity.  So, what you see in the options are various ways to calculate annual fishing intensity.  They can be broken down into three categories.  One is exploitation rate calculated simply as total catch divided by biomass from a defined age range. Another is SPR, which is a single measure of the equilibrium effect of fishing according to the F.  The third category are various ways to calculate an average F. Some measures of fishing intensity will be misleading if applied inappropriately. For example, the sum of the apical F's will be misleading if different fleets have very different selectivities or, worse, if they occur in different areas. The F=Z-M approach to getting fishing intensity is a way to have a single F that represents a number's weighted value across multiple areas, sexes, morphs, ages. An important distinction is that the exploitation rate and F-based approaches directly relate to the fraction of the population removed each year by fishing; whereas the SPR approach represents the cumulative effect of fishing so it's equivalent in F-space depends on M.
+The SPR approach to measuring fishing intensity was implemented because the concept of a single annual F does not exist in SS3 because F varies by age, sex, and growth morph and season and area. There is no single F value that is applied to all ages unless you create a very simple model setup with knife-edge selectivity. So, what you see in the options are various ways to calculate annual fishing intensity. They can be broken down into three categories.  One is exploitation rate calculated simply as total catch divided by biomass from a defined age range. Another is SPR, which is a single measure of the equilibrium effect of fishing according to the F. The third category are various ways to calculate an average F. Some measures of fishing intensity will be misleading if applied inappropriately. For example, the sum of the apical F's will be misleading if different fleets have very different selectivities or, worse, if they occur in different areas. The F=Z-M approach to getting fishing intensity is a way to have a single F that represents a number's weighted value across multiple areas, sexes, morphs, ages. An important distinction is that the exploitation rate and F-based approaches directly relate to the fraction of the population removed each year by fishing; whereas the SPR approach represents the cumulative effect of fishing so it's equivalent in F-space depends on M.
 
 \subsubsection{F std}
-This index provides a direct measure of fishing mortality.  The options are:
+This index provides a direct measure of fishing mortality. The options are:
 \begin{itemize}
 	\item 0 = skip
 	\item 1 = exploitation(Bio)
 	\item 2 = exploitation(Num)
 	\item 3 = sum(Frates)
 \end{itemize}
-The exploitation rates are calculated as the ratio of the total annual catch (in either biomass or numbers as specified) to the summary biomass or summary numbers on January 1.  The sum of the F rates is simply the sum of all the apical Fs.  This makes sense if the F method is in terms of instantaneous F (not Pope's approximation) and if there are not fleets with widely different size/age at peak selectivity, and if there is no seasonality, and especially if there is only one area.  In the derived quantities, there is an annual statistic that is the ratio of the can be annual F\_std value to the corresponding benchmark statistic.  The available options for the denominator are:
+The exploitation rates are calculated as the ratio of the total annual catch (in either biomass or numbers as specified) to the summary biomass or summary numbers on January 1. The sum of the F rates is simply the sum of all the apical Fs. This makes sense if the F method is in terms of instantaneous F (not Pope's approximation) and if there are not fleets with widely different size/age at peak selectivity, and if there is no seasonality, and especially if there is only one area. In the derived quantities, there is an annual statistic that is the ratio of the can be annual F\_std value to the corresponding benchmark statistic. The available options for the denominator are:
 \begin{itemize}
 	\item 0 = raw
 	\item 1 = F/F\textsubscript {SPR}
 	\item 2 = F/F\textsubscript {MSY}
 	\item 3 = F/F\textsubscript {Btarget}
-	\item >= 11  A new option to allow for the calculation of a multi-year trailing average in F was implemented in v. 3.30.16. This option is triggered by appending the number of years to calculate the average across where an input of 1 or 11 would result in the SPR\textsubscript{target} with no changes.  Alternatively a value of 21 would calculate F as SPR\textsubscript{target} with a 2-year trailing average.
+	\item >= 11  A new option to allow for the calculation of a multi-year trailing average in F was implemented in v.3.30.16. This option is triggered by appending the number of years to calculate the average across where an input of 1 or 11 would result in the SPR\textsubscript{target} with no changes. Alternatively a value of 21 would calculate F as SPR\textsubscript{target} with a 2-year trailing average.
 \end{itemize}
 
 \subsubsection{F-at-Age}
-Because the annual F is so difficult to interpret as a sum of individual F components, an indirect calculation of F-at-age is reported at the end of the report.sso file. This section of the report calculates Z-at-age simply as $ln(N_{a+1,t+1}/N_{a,t})$. This is done on an annual basis and summed over all areas. It is done once using the fishing intensities as estimated (to get Z), and once with the F intensities set to 0.0 to get M-at-age. This latter sequence also provides a measure of dynamic Bzero.  The user can then subtract the table of M-at-age/year from the table of Z-at-age/year to get a table of F-at-age/year. From this apical F, average F over a range of ages, or other user-desired statistics could be calculated.  Further work within SS3 with this table of values is anticipated.
+Because the annual F is so difficult to interpret as a sum of individual F components, an indirect calculation of F-at-age is reported at the end of the report.sso file. This section of the report calculates Z-at-age simply as $ln(N_{a+1,t+1}/N_{a,t})$. This is done on an annual basis and summed over all areas. It is done once using the fishing intensities as estimated (to get Z), and once with the F intensities set to 0.0 to get M-at-age. This latter sequence also provides a measure of dynamic Bzero. The user can then subtract the table of M-at-age/year from the table of Z-at-age/year to get a table of F-at-age/year. From this apical F, average F over a range of ages, or other user-desired statistics could be calculated. Further work within SS3 with this table of values is anticipated.
 
 \subsubsection{MSY and other Benchmark Items}
 The following quantities are included in the sdreport vector mgmt\_quantities, so obtain estimates of variance.  Some additional quantities can be found in the benchmarks section of the forecast\_report.sso.
@@ -122,12 +122,12 @@ The following quantities are included in the sdreport vector mgmt\_quantities, s
 \begin{center}
 	\begin{longtable}{p{4cm} p{11cm}}
 		\hline
-		Benchmark Item &  Description\Tstrut\Bstrut\\
+		Benchmark Item & Description \Tstrut\Bstrut\\
 		\hline
 		\endfirsthead
 
 		\hline
-		Benchmark Item &  Description\Tstrut\Bstrut\\
+		Benchmark Item & Description \Tstrut\Bstrut\\
 		\hline
 		\endhead
 		
@@ -135,22 +135,22 @@ The following quantities are included in the sdreport vector mgmt\_quantities, s
 		\hline		
 		\endlastfoot
 		
-		SSB\_Unfished \Tstrut& Unfished reproductive potential (SSB is commonly female mature spawning biomass).\\
-		TotBio\_Unfished \Tstrut& Total age 0+ biomass on January 1.\\
-		SmryBio\_Unfished \Tstrut& Biomass for ages at or above the summary age on January 1.\\
-		Recr\_Unfished \Tstrut& Unfished recruitment.\\
-		SSB\_Btgt \Tstrut& SSB at user specified SSB target.\\
-		SPR\_Btgt \Tstrut& Spawner potential ratio (SPR) at F intensity that produces user specified SSB target.\\
-		Fstd\_Btgt \Tstrut& F statistic at F intensity that produces user specified SSB target.\\
-		TotYield\_Btgt \Tstrut& Total yield at F intensity that produces user specified SSB target.\\
-		SSB\_SPRtgt \Tstrut& SSB at user specified SPR target (but taking into account the spawner-recruitment relationship).\\
-		Fstd\_SPRtgt \Tstrut& F intensity that produces user specified SPR target.\\
-		TotYield\_SPRtgt \Tstrut& Total yield at F intensity that produces user specified SPR target.\\
-		SSB\_MSY \Tstrut& SSB at F intensity that is associated with MSY; this F intensity may be directly calculated to produce MSY, or can be mapped to F\_SPR or F\_Btgt.\\
-		SPR\_MSY \Tstrut& Spawner potential ratio (SPR) at F intensity associated with MSY.\\
-		Fstd\_MSY \Tstrut& F statistic at F intensity associated with MSY.\\
-		TotYield\_MSY \Tstrut& Total yield (biomass) at MSY.\\
-		RetYield\_MSY \Tstrut& Retained yield (biomass) at MSY.\Bstrut\\ 
+		SSB\_Unfished \Tstrut & Unfished reproductive potential (SSB is commonly female mature spawning biomass). \\
+		TotBio\_Unfished \Tstrut & Total age 0+ biomass on January 1. \\
+		SmryBio\_Unfished \Tstrut & Biomass for ages at or above the summary age on January 1. \\
+		Recr\_Unfished \Tstrut & Unfished recruitment. \\
+		SSB\_Btgt \Tstrut & SSB at user specified SSB target. \\
+		SPR\_Btgt \Tstrut & Spawner potential ratio (SPR) at F intensity that produces user specified SSB target. \\
+		Fstd\_Btgt \Tstrut & F statistic at F intensity that produces user specified SSB target. \\
+		TotYield\_Btgt \Tstrut & Total yield at F intensity that produces user specified SSB target. \\
+		SSB\_SPRtgt \Tstrut & SSB at user specified SPR target (but taking into account the spawner-recruitment relationship). \\
+		Fstd\_SPRtgt \Tstrut & F intensity that produces user specified SPR target. \\
+		TotYield\_SPRtgt \Tstrut & Total yield at F intensity that produces user specified SPR target. \\
+		SSB\_MSY \Tstrut & SSB at F intensity that is associated with MSY; this F intensity may be directly calculated to produce MSY, or can be mapped to F\_SPR or F\_Btgt. \\
+		SPR\_MSY \Tstrut & Spawner potential ratio (SPR) at F intensity associated with MSY. \\
+		Fstd\_MSY \Tstrut & F statistic at F intensity associated with MSY. \\
+		TotYield\_MSY \Tstrut & Total yield (biomass) at MSY. \\
+		RetYield\_MSY \Tstrut & Retained yield (biomass) at MSY. \Bstrut\\ 
 	\end{longtable}
 \end{center}
 
@@ -159,14 +159,14 @@ Cum\_Report.sso: contains a brief version of the run output, which is appended t
 
 \hypertarget{bootstrap}{}
 \subsection{Bootstrap Data Files}
-It is possible to create bootstrap data files for SS3 where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. Starting in version 3.30.19, bootstrap data files are output separated in single numbered files (e.g., data\_boot\_001.ss). In version prior to version 3.30.19 a single file called data.ss\_new was output that contained multiple sections:  the original data echoed out, the expected data values based on the model fit, and then subsequent bootstrap data files. 
+It is possible to create bootstrap data files for SS3 where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. Starting in v.3.30.19, bootstrap data files are output separated in single numbered files (e.g., data\_boot\_001.ss). In version prior to v.3.30.19 a single file called data.ss\_new was output that contained multiple sections:  the original data echoed out, the expected data values based on the model fit, and then subsequent bootstrap data files. 
 
-Specifying the number of bootstrap data files has remained the same across model versions.  Creating bootstrap data files is specified in the starter file via the ``Number of datafiles to produce'' line where a value of 3 or greater will create three files: the original data file, data\_echo.ss\_new, a data file with the model expected values, data\_expval.ss, and single bootstrap data file, data\_boot\_001.ss.  The first output provides the unaltered input data file (with annotations added).  The second provides the expected values for only the data elements used in the model run.  The third and subsequent outputs provide parametric bootstraps around the expected values. 
+Specifying the number of bootstrap data files has remained the same across model versions. Creating bootstrap data files is specified in the starter file via the ``Number of datafiles to produce'' line where a value of 3 or greater will create three files: the original data file, data\_echo.ss\_new, a data file with the model expected values, data\_expval.ss, and single bootstrap data file, data\_boot\_001.ss. The first output provides the unaltered input data file (with annotations added). The second provides the expected values for only the data elements used in the model run. The third and subsequent outputs provide parametric bootstraps around the expected values. 
 
 The bootstrapping procedure within SS3 is done via the following steps:
 
 \begin{itemize}
-	\item Expected values of all input data are calculated (these are also used in the likelihood which compares observed to expected values for all data). The calculation of these expected values is described in detail under the ``Observation Model'' section of the appendix to \citet{methotstock2013}. \
+	\item Expected values of all input data are calculated (these are also used in the likelihood which compares observed to expected values for all data). The calculation of these expected values is described in detail under the ``Observation Model'' section of the appendix to \citet{methotstock2013}.
 	
 	\item Parametric bootstrap data are calculated for each observation by sampling from a probability distribution corresponding to the likelihood for that data type using the expected values noted above. Examples of how this happens include the following:
 	
@@ -198,30 +198,30 @@ Given this, there are some assumptions implicit in the bootstrapping procedure (
 \end{itemize}
 
 \subsection{Forecast and Reference Points (Forecast-report.sso)}
-The Forecast-report file contains output of fishery reference points and forecasts.  It is designed to meet the needs of the Pacific Fishery Management Council's Groundfish Fishery Management Plan, but it should be quite feasible to develop other regionally specific variants of this output.
+The Forecast-report file contains output of fishery reference points and forecasts. It is designed to meet the needs of the Pacific Fishery Management Council's Groundfish Fishery Management Plan, but it should be quite feasible to develop other regionally specific variants of this output.
 
-The vector of forecast recruitment deviations is estimated during an additional model estimation phase.  This vector includes any years after the end of the recruitment deviation time series and before or at the end year. When this vector starts before the ending year of the time series, then the estimates of these recruitments will be influenced by the data in these final years. This is problematic, because the original reason for not estimating these recruitments at the end of the time series was the poor signal/noise ratio in the available data. It is not that these data are worse than data from earlier in the time series, but the low amount of data accumulated for each cohort allows an individual datum to dominate the model's fit. Thus, an additional control is provided so that forecast recruitment deviations during these years can receive an extra weighting in order to counter-balance the influence of noisy data at the end of the time series.
+The vector of forecast recruitment deviations is estimated during an additional model estimation phase. This vector includes any years after the end of the recruitment deviation time series and before or at the end year. When this vector starts before the ending year of the time series, then the estimates of these recruitments will be influenced by the data in these final years. This is problematic, because the original reason for not estimating these recruitments at the end of the time series was the poor signal/noise ratio in the available data. It is not that these data are worse than data from earlier in the time series, but the low amount of data accumulated for each cohort allows an individual datum to dominate the model's fit. Thus, an additional control is provided so that forecast recruitment deviations during these years can receive an extra weighting in order to counter-balance the influence of noisy data at the end of the time series.
 
-An additional control is provided for the fraction of the log-bias adjustment to apply to the forecast recruitments. Recall that R is the expected mean level of recruitment for a particular year as specified by the spawner-recruitment curve and R' is the geometric mean recruitment level calculated by discounting R with the log-bias correction factor $e-0.5s^2$. Thus a lognormal distribution of recruitment deviations centered on R' will produce a mean level of recruitment equal to R. During the modeled time series, the virgin recruitment level and any recruitments prior to the first year of recruitment deviations are set at the level of R, and the lognormal recruitment deviations are centered on the R' level.  For the forecast recruitments, the fraction control can be set to 1.0 so that 100\% of the log-bias correction is applied and the forecast recruitment deviations will be based on the R' level. This is certainly the configuration to use when the model is in MCMC mode. Setting the fraction to 0.0 during maximum likelihood forecasts would center the recruitment deviations, which all have a value of 0.0 in maximum likelihood mode, on R. Thus would provide a mean forecast that would be more comparable to the mean of the ensemble of forecasts produced in MCMC mode.  Further work on this topic is underway.
+An additional control is provided for the fraction of the log-bias adjustment to apply to the forecast recruitments. Recall that R is the expected mean level of recruitment for a particular year as specified by the spawner-recruitment curve and R' is the geometric mean recruitment level calculated by discounting R with the log-bias correction factor $e-0.5s^2$. Thus a lognormal distribution of recruitment deviations centered on R' will produce a mean level of recruitment equal to R. During the modeled time series, the virgin recruitment level and any recruitments prior to the first year of recruitment deviations are set at the level of R, and the lognormal recruitment deviations are centered on the R' level. For the forecast recruitments, the fraction control can be set to 1.0 so that 100\% of the log-bias correction is applied and the forecast recruitment deviations will be based on the R' level. This is certainly the configuration to use when the model is in MCMC mode. Setting the fraction to 0.0 during maximum likelihood forecasts would center the recruitment deviations, which all have a value of 0.0 in maximum likelihood mode, on R. Thus would provide a mean forecast that would be more comparable to the mean of the ensemble of forecasts produced in MCMC mode.  Further work on this topic is underway.
 
 Note:
 \begin{itemize}
 	\item Cohorts continue growing according to their specific growth parameters in the forecast period rather than staying static at the end year values.
-	\item Environmental data entered for future years can be used to adjust expected recruitment levels.  However, environmental data will not affect growth or selectivity parameters in the forecast.
+	\item Environmental data entered for future years can be used to adjust expected recruitment levels. However, environmental data will not affect growth or selectivity parameters in the forecast.
 \end{itemize}
 
 The top of the Forecast-report file shows the search for F\textsubscript {SPR}  and the search for F\textsubscript {MSY}, allowing the user to verify convergence. Note: if the STD file shows aberrant results, such as all the standard deviations being the same value for all recruitments, then check the F\textsubscript {MSY} search for convergence. The F\textsubscript {MSY} can be calculated, or set equal to one of the other F reference points per the selection made in starter.ss.
 
 
 \subsection{Main Output File, Report.sso}
-This is the primary output file.  Its major sections (as of SS3 v.3.30.16) are listed below.  
+This is the primary output file. Its major sections (as of SS3 v.3.30.16) are listed below.  
 
 The sections of the output file are:
 \begin{itemize}
-	\item SS3 version number with date compiled.  Time and date of model run.  This info appears at the top of all output files.
+	\item SS3 version number with date compiled. Time and date of model run. This info appears at the top of all output files.
 	\item Comments
 		\begin{itemize}
-			\item 	Input file lines starting with \#C are echoed here.
+			\item Input file lines starting with \#C are echoed here.
 		\end{itemize}
 	\item Keywords
 		\begin{itemize}
@@ -245,7 +245,7 @@ The sections of the output file are:
 		\end{itemize}
 	\item Parameters
 		\begin{itemize}
-			\item The parameters are listed here.  For the estimated parameters, the display shows: Num (count of parameters), Label (as internally generated by SS3), Value, Active\_Cnt, Phase, Min, Max, Init, Prior, Prior\_type, Prior\_SD, Prior\_Like, Parm\_StD (standard deviation of parameter as calculated from inverse Hessian), Status (e.g., near bound), and Pr\_atMin (value of prior penalty if parameter was near bound).  The Active\_Cnt entry is a count of the parameters in the same order they appear in the ss.cor file.
+			\item The parameters are listed here. For the estimated parameters, the display shows: Num (count of parameters), Label (as internally generated by SS3), Value, Active\_Cnt, Phase, Min, Max, Init, Prior, Prior\_type, Prior\_SD, Prior\_Like, Parm\_StD (standard deviation of parameter as calculated from inverse Hessian), Status (e.g., near bound), and Pr\_atMin (value of prior penalty if parameter was near bound). The Active\_Cnt entry is a count of the parameters in the same order they appear in the ss.cor file.
 		\end{itemize}
 	\item Derived Quantities
 		\begin{itemize}
@@ -258,7 +258,7 @@ The sections of the output file are:
 		\end{itemize}
 \end{itemize}
 
-Then the time series of output, with standard deviation of estimates, are produced with internally generated labels.  Note that these time series extend through the forecast era.  The order of the output is: spawning biomass, recruitment, SPRratio, Fratio, Bratio, management quantities, forecast catch (as a target level), forecast catch as a limit level (OFL), Selex\_std, Grow\_std, NatAge\_std.  For the three ``ratio'' quantities, there is an additional column of output showing a Z-score calculation of the probability that the ratio differs from 1.0. The ``management quantities'' section is designed to meet the terms of reference for west coast groundfish assessments; other formats could be made available upon request. The standard deviation quantities at the end are set up according to specifications at the end of the control input file. In some cases, a user may specify that no derived quantity output of a certain type be produced. In those cases, SS3 substitutes a repeat output of the virgin spawning biomass so that vectors of null length are not created.
+Then the time series of output, with standard deviation of estimates, are produced with internally generated labels. Note that these time series extend through the forecast era. The order of the output is: spawning biomass, recruitment, SPRratio, Fratio, Bratio, management quantities, forecast catch (as a target level), forecast catch as a limit level (OFL), Selex\_std, Grow\_std, NatAge\_std. For the three ``ratio'' quantities, there is an additional column of output showing a Z-score calculation of the probability that the ratio differs from 1.0. The ``management quantities'' section is designed to meet the terms of reference for west coast groundfish assessments; other formats could be made available upon request. The standard deviation quantities at the end are set up according to specifications at the end of the control input file. In some cases, a user may specify that no derived quantity output of a certain type be produced. In those cases, SS3 substitutes a repeat output of the virgin spawning biomass so that vectors of null length are not created.
 
 \begin{itemize}
 	\item Mortality and growth parameters by year after adjustments
@@ -279,11 +279,11 @@ Then the time series of output, with standard deviation of estimates, are produc
 	\end{itemize}
 	\item Growth Morph Indexing
 	\begin{itemize}
-		\item This block shows the internal index values for various quantities.  It can be a useful reference for complex model setups. The vocabulary is: Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index. If recruitment occurs in multiple seasons, then birth season is the index for that factor. The index labeled ``Platoon'' is used as a continuous index across all the other factor-specific indices. If sub-platoons are used, they are nested within the Bio\_Pattern x Sex x Birth Season platoon. However, some of the output tables use the column label ``platoon'' as a continuous index across platoons and sub-platoons. Note that there is no index here for area. Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
+		\item This block shows the internal index values for various quantities. It can be a useful reference for complex model setups. The vocabulary is: Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index. If recruitment occurs in multiple seasons, then birth season is the index for that factor. The index labeled ``Platoon'' is used as a continuous index across all the other factor-specific indices. If sub-platoons are used, they are nested within the Bio\_Pattern x Sex x Birth Season platoon. However, some of the output tables use the column label ``platoon'' as a continuous index across platoons and sub-platoons. Note that there is no index here for area. Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
 	\end{itemize}
 	\item Size Frequency Translation
 	\begin{itemize}
-		\item If the generalized size frequency approach is used, this block shows the translation probabilities between population length bins and the units of the defined size frequency method.  If the method uses body weight as the accumulator, then output is in corresponding units.
+		\item If the generalized size frequency approach is used, this block shows the translation probabilities between population length bins and the units of the defined size frequency method. If the method uses body weight as the accumulator, then output is in corresponding units.
 	\end{itemize}
 	\item Movement
 	\begin{itemize}
@@ -365,7 +365,7 @@ Then the time series of output, with standard deviation of estimates, are produc
 	\item F at Age
 	\item Catch at Age
 	\begin{itemize}
-		\item The output is shown for each fleet.  It is not necessary to show by area because each fleet operates in only one area.
+		\item The output is shown for each fleet. It is not necessary to show by area because each fleet operates in only one area.
 	\end{itemize}
 	\item Discard at Age
 	\item Biology
@@ -381,7 +381,7 @@ Then the time series of output, with standard deviation of estimates, are produc
 	\item Seasonal Effects
 	\item Biology at Age
 	\begin{itemize}
-		\item This section shows derived size-at-age and other quantities. As of v3.30.21 sex ratio is reported by area in this output table.
+		\item This section shows derived size-at-age and other quantities. As of v.3.30.21 sex ratio is reported by area in this output table.
 	\end{itemize}
 	\item Mean Body Wt (begin)
 	\begin{itemize}
@@ -401,7 +401,7 @@ Then the time series of output, with standard deviation of estimates, are produc
 	\end{itemize}
 	\item Composition Database
 	\begin{itemize}
-		\item Contains the length composition, age composition, and mean size-at-age observed and expected values.  It is arranged in a database format, rather than an array of vectors.
+		\item Contains the length composition, age composition, and mean size-at-age observed and expected values. It is arranged in a database format, rather than an array of vectors.
 	\end{itemize}
 	\item Selectivity Database
 	\begin{itemize}
