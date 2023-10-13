@@ -669,10 +669,10 @@ If the value for fleet is negative, then the vector of inputs is copied to all p
 %\pagebreak
 
 \myparagraph{Minimum Tail Compression}
-Compress tails of composition until observed proportion is greater than this value; negative value causes no compression; Advise using no compression if data are very sparse, and especially if the set-up is using age composition within length bins because of the sparseness of these data.
+Compress tails of composition until observed proportion is greater than this value; negative value causes no compression; Advise using no compression if data are very sparse, and especially if the set-up is using age composition within length bins because of the sparseness of these data. A single fish being observed with tail compression on will cause the entire vector to be collapsed to that bin.
 
 \myparagraph{Added Constant to Proportions}
-Constant added to observed and expected proportions at length and age to make logL calculations more robust.  Tail compression occurs before adding this constant.  Proportions are renormalized to sum to 1.0 after constant is added.
+Constant added to observed and expected proportions at length and age to make logL calculations more robust. Tail compression occurs before adding this constant. Proportions are renormalized to sum to 1.0 after constant is added. An added constant of 0.01 or 0.001 is typical. Note that if tail compression is not on, then a long tail of bins with zero fish will get the constant added, so will appear non-zero in output
 
 \myparagraph{Combine Males \& Females}
 Combine males into females at or below this bin number.  This is useful if the sex determination of very small fish is doubtful so allows the small fish to be treated as combined sex.  If Combine Males \& Females > 0, then add males into females for bins 1 through this number, zero out the males, set male data to start at the first bin above this bin.  Note that Combine Males \& Females > 0 is entered as a bin index, not as the size associated with that bin.  Comparable option is available for age composition data.
@@ -693,13 +693,15 @@ The options are:
 	\begin{itemize}
 		\item This parameterization of the Dirichlet-multinomial Error has not been tested, so this option should be used with caution. The Dirichlet Multinomial Error data weighting approach will calculate the effective sample size based on equation 12 from \citet{thorson-model-based-2017} where the estimated parameter will now be in terms of $\beta$. The application of this method should follow the same steps detailed above for option 1. 
 	\end{itemize}
-	\item 3 = Multivariate Tweedie.
+	% \item 3 = Multivariate Tweedie. (add when MV Tweedie is implemented)
 \end{itemize}
 
 %\pagebreak
 
 \myparagraph{Parameter Select}	
-Value that indicates the groups of composition data for estimation of the Dirichlet or Multivariate Tweedie parameter for weighting composition data.
+Value that indicates the groups of composition data for estimation of the Dirichlet 
+% or Multivariate Tweedie (add when MV Tweedie is implemented)
+parameter for weighting composition data.
 
 \begin{itemize}
 	\item 0 = Default; and
@@ -748,6 +750,7 @@ the range of values as follows:
 \end{center}
 
 Example of a single length composition observation:
+\vspace*{-1cm} % used this because the spacing was off in the pdf
 \begin{center}
 	\begin{tabular}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{5cm}}
 		\multicolumn{7}{l}{} \\
@@ -822,29 +825,32 @@ The bins are in terms of observed age (here age) and entered as the lower edge o
 Here, the capability to create a distribution of age (e.g., age with possible bias and imprecision) from true age is created. One or many ageing error definitions can be created. For each, the model will expect an input vector of mean age and a vector of standard deviations associated with the mean age. 
 
 \begin{center}
-	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{3.5cm} p{2.5cm} }
+	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{3.5cm} p{2.5cm}}
 		\hline
 		\multicolumn{1}{l}{2} & \multicolumn{5}{l}{Number of ageing error matrices to generate}\Tstrut\Bstrut\\
 		\hline\\
-		\multicolumn{6}{l}{Example with no bias and very little uncertainty at age:}\Tstrut\Bstrut\\
+		\multicolumn{6}{l}{Example with no bias and very little uncertainty at age:} \Tstrut\Bstrut\\
 		\hline
 		Age-0 & Age-1 & Age-2  &  ... & Max Age & \Tstrut\Bstrut\\
 		\hline
-		-1 & -1 & -1  & ... & -1  & \#Mean Age\Tstrut\\
-		0.001 & 0.001 & 0.001 & ... & 0.001 & \#SD\Bstrut\\
+		-1 & -1 & -1  & ... & -1  & \#Mean Age \Tstrut\\
+		0.001 & 0.001 & 0.001 & ... & 0.001 & \#SD \Bstrut\\
 		\hline\\
-		\multicolumn{6}{l}{Example with no bias and some uncertainty at age:}\Tstrut\Bstrut\\
+		\multicolumn{6}{l}{Example with no bias and some uncertainty at age:} \Tstrut\Bstrut\\
 		\hline
-		0.5 & 1.5 & 2.5 & ... & Max Age + 0.5 & \#Mean Age\Tstrut\\
-		0.5 & 0.65 & 0.67 & ... & 4.3 & \#SD Age\Bstrut\\
-		\hline\\
-		\multicolumn{6}{l}{Example with bias and uncertainty at age:}\Tstrut\Bstrut\\
+		0.5 & 1.5 & 2.5 & ... & Max Age + 0.5 & \#Mean Age \Tstrut\\
+		0.5 & 0.65 & 0.67 & ... & 4.3 & \#SD Age \Bstrut\\
+		% \hline\\
 		\hline
-		0.5 & 1.4 & 2.3 & ... & Max Age + Age Bias & \#Mean Age\Tstrut\\
-		0.5 & 0.65 & 0.67 & ... & 4.3 & \#SD Age\Bstrut\\
+		\pagebreak
+		\multicolumn{6}{l}{Example with bias and uncertainty at age:} \Tstrut\Bstrut\\
 		\hline
-	\end{tabular}
+		0.5 & 1.4 & 2.3 & ... & Max Age + Age Bias & \#Mean Age \Tstrut\\
+		0.5 & 0.65 & 0.67 & ... & 4.3 & \#SD Age \Bstrut\\
+		\hline
+	\end{longtable}
 \end{center}
+\vspace*{-1.2cm}
 
 In principle, one could have year or laboratory specific matrices for ageing error. For each matrix, enter a vector with mean age for each true age; if there is no ageing bias, then set age equal to true age + 0.5.  Alternatively, -1 value for mean age means to set it equal to true age plus 0.5.  The addition of +0.5 is needed so that fish will get assigned to the intended integer age. The length of the input vector is equal to the population maximum age plus one (0-max age), with the first entry being for age 0 fish and the last for fish of population maximum age even if the maximum age bin for the data is lower than the population maximum age. The following line is a a vector with the standard deviation of age for each true age with a normal distribution assumption.
 
@@ -882,19 +888,19 @@ If age data are included in the model, the following set-up is required, similar
 
 
 \begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{2.1cm}}
-	\multicolumn{10}{l}{ }\\
-	\multicolumn{10}{l}{An example age composition observation:}\\
+	\multicolumn{10}{l}{ } \\
+	\multicolumn{10}{l}{An example age composition observation:} \\
 	\hline
 	Year & Month & Fleet & Sex & Partition & Age Err & Lbin lo & Lbin hi & Nsamp & Data Vector \Tstrut\\
 	\hline
-	1987 & 1 & 1 & 3 & 0 & 2 & -1 & -1 & 79 & <enter data values>\Tstrut\\
-	-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0\Bstrut\\
+	1987 & 1 & 1 & 3 & 0 & 2 & -1 & -1 & 79 & <enter data values> \Tstrut\\
+	-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \Bstrut\\
 	\hline
 \end{tabular}
 
 Syntax for Sex, Partition, and data vector are same as for length. The data vector has female values then male values, just as for the length composition data.
 
-\pagebreak
+% \pagebreak
 
 \myparagraph{Age Error}
 Age error (Age Err) identifies which ageing error matrix to use to generate expected value for this observation.
@@ -1028,24 +1034,29 @@ The generalized approach to size composition information was designed initially 
 
 \begin{center}
 	\begin{tabular}{p{1.4cm} p{0.7cm} p{12.8 cm}}
-		\multicolumn{3}{l}{Example entry:}\\
+		\multicolumn{3}{l}{Example entry:} \\
 		\hline
-		2 &  & Number (N) of size frequency methods to be read. If this value is 0, then omit all entries below. A value of -1 (or any negative value) triggers expanded optional inputs below that allow for either Dirichlet of two parameter Multivariate (MV) Tweedie likelihood for fitting these data. \Tstrut\Bstrut\\
+		2 & & Number (N) of size frequency methods to be read. If this value is 0, then omit all entries below. A value of -1 (or any negative value) triggers expanded optional inputs below that allow for Dirichlet 
+		% or two parameter Multivariate (MV) Tweedie likelihood (add when MV Tweedie is implemented)
+		for fitting these data. \Tstrut\Bstrut\\
 		\hline
-		\multicolumn{3}{l}{COND < 0 - Number of size frequency }  \Tstrut\\
+		\multicolumn{3}{l}{COND < 0 - Number of size frequency} \Tstrut\\
 		\multicolumn{2}{l}{2} & Number of size frequency methods to read \Tstrut\\
-		\multicolumn{3}{l}{END COND < 0}  \Bstrut\\
+		\multicolumn{3}{l}{END COND < 0} \Bstrut\\
 		\hline
-		\multicolumn{2}{r}{25 15} & Number of bins per method\Tstrut\\
-		\multicolumn{2}{r}{2 2} & Units per each method (1 = biomass, 2 = numbers)\\
-		\multicolumn{2}{r}{3 3} & Scale per each method (1 = kg, 2 = lbs, 3 = cm, 4 = inches)\\
-		\multicolumn{2}{r}{1e-9 1e-9} & Min compression to add to each observation (entry for each method)\\
+		\multicolumn{2}{r}{25 15} & Number of bins per method \Tstrut\\
+		\multicolumn{2}{r}{2 2} & Units per each method (1 = biomass, 2 = numbers) \\
+		\multicolumn{2}{r}{3 3} & Scale per each method (1 = kg, 2 = lbs, 3 = cm, 4 = inches) \\
+		\multicolumn{2}{r}{1e-9 1e-9} & Min compression to add to each observation (entry for each method) \\
 		\multicolumn{2}{r}{2 2} & Number of observations per weight frequency method \Bstrut\\
 		\hline
-		\multicolumn{3}{l}{COND < 0 - Number of size frequency }  \Tstrut\\
-		\multicolumn{2}{r}{1 1} & Composition error structure (0 = multinomial, 1 = Dirichlet using Theta*n, 2 = Dirichlet using beta, 3 = MV Tweedie)\Tstrut\\
-		\multicolumn{2}{r}{1 1} & Parameter select consecutive index for Dirichlet or MV Tweedie composition error\Bstrut\\
-		\multicolumn{3}{l}{END COND < 0}  \Tstrut\\
+		\multicolumn{3}{l}{COND < 0 - Number of size frequency} \Tstrut\\
+		\multicolumn{2}{r}{1 1} & Composition error structure (0 = multinomial, 1 = Dirichlet using Theta*n, 2 = Dirichlet using beta) \Tstrut\\
+		% , 3 = MV Tweedie (add when MV Tweedie is implemented)
+		\multicolumn{2}{r}{1 1} & Parameter select consecutive index for Dirichlet 
+		% or MV Tweedie (add when MV Tweedie is implemented)
+		composition error \Bstrut\\
+		\multicolumn{3}{l}{END COND < 0} \Tstrut\\
 		\hline
 	\end{tabular}
 \end{center}
