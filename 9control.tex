@@ -54,11 +54,11 @@ The primary role of the control file is to define the parameters to be used by t
 		\hline
 		Column & Element & Description \Tstrut\Bstrut\\
 		\hline
-		1 & LO & Minimum value for the parameter\Tstrut\\
-		2 & HI & Maximum value for the parameter\Tstrut\\
+		1 & LO & Minimum value for the parameter \Tstrut\\
+		2 & HI & Maximum value for the parameter \Tstrut\\
 		3 \Tstrut & INIT & Initial value for the parameter. If the phase (described below) for the parameter is negative the parameter is fixed at this value. If the ss.par file is read, it overwrites these INIT values.\\
 		4 \Tstrut & PRIOR & Expected value for the parameter. This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta). If the selected prior type (described below) is lognormal, this value is entered in log space. \\
-		5 \Tstrut & PRIOR SD & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. The standard deviation is in regular space regardless of the prior type.\\
+		5 \Tstrut & PRIOR SD & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. The standard deviation is in regular space regardless of the prior type. \\
 		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE} & 0 = none; \\
 		& & 1 = symmetric beta; \\
 		& & 2 = full beta; \\
@@ -177,12 +177,14 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		\hline
 		1 & 5.5 & 1 & 0 \Bstrut\\
 		\hline
-\end{longtable} 
+\end{longtable}
+\vspace*{-\baselineskip}
 
 The above example specifies settlement to mid-May (month 5.5). Note that normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning. 
 
 Below is an example set-up where there are multiple settlement events, with one occurring the following year after spawning: 
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{7cm}}
 		\hline
 		3 & \multicolumn{3}{l}{Number of recruitment settlement events} \Tstrut\\
@@ -270,6 +272,8 @@ Here the movement of fish between areas are defined. This is a box transfer with
 	\\
 	\hline
 	\end{longtable}
+	\vspace*{-\baselineskip}
+	
 
 Two parameters will be entered later for each growth pattern, area pair, and season.
 \begin{itemize}
@@ -317,6 +321,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12cm}[-0.10cm]{Beginning and ending years for blocks in design 3.} \Bstrut\\
 		\hline
 \end{longtable}
+\vspace*{-\baselineskip}
 
 Blocks and other time-vary parameter controls are operative during forecast years, so care should be taken when setting the end year of the last block in a pattern. If that end year is set to the last year in the time series, then the parameter will revert to the base value for the forecast. If the user wants to continue the last block through the forecast, it is advisable to set the last block's end year value to -2 to cause SS3 to reset it to the last year of the forecast. Using the value -1 will set the block's end year to the last year of the time series and leave the forecast at the base parameter value. Note that additional controls on time-varying parameters in forecast years are in the forecast section.
 
@@ -510,7 +515,7 @@ This option creates age-specific K multipliers for each age of a user-specified 
 \myparagraph{Growth cessation}
 A growth cessation model was developed for the application to tropical tuna species \citep{maunder-growth-2018}. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.
 
-	
+\vspace*{-\baselineskip}	
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\multicolumn{3}{l}{Example growth specifications:} \Tstrut\Bstrut\\
 	\hline	
@@ -632,7 +637,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\hline
 \end{longtable}
 
-\pagebreak
+% \pagebreak
 
 \subsubsection{Hermaphroditism}
 
@@ -671,6 +676,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	&    & 1 = simple addition of males to females. \Bstrut\\
 	\hline
 \end{longtable}
+\vspace*{-\baselineskip}
 
 The hermaphroditism option requires three full parameter lines in the mortality growth section: 
 \begin{enumerate}
@@ -1162,6 +1168,7 @@ Example set-up of the spawner-recruitment section:
 		\hline
 	\end{longtable}
 \end{center}
+\vspace*{-1.7\baselineskip}
 
 \subsubsection{Spawner-Recruitment Time-Varying Parameters}
 
@@ -1974,9 +1981,9 @@ selectivity and for age selectivity; the input syntax is identical.
 	
 For a 3 node setup, the input parameters would be:
 	\begin{itemize}
-		\item p1 - 	Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
-		\item p2 - 	Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a ``natural cubic spline'')
-		\item p3 - 	Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a ``natural cubic spline'')
+		\item p1 - Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
+		\item p2 - Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a ``natural cubic spline'')
+		\item p3 - Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a ``natural cubic spline'')
 		\item p4-p6 - The nodes in units of cm; must be in rank order and inside of the range of the population length bins. These must be held constant (not estimated, e.g., negative phase value) during a model run.
 		\item p7-p9 - The values at the nodes. Units are ln(selectivity) before rescaling.
 	\end{itemize}
@@ -2454,17 +2461,16 @@ To avoid having to specify mirrored parameter lines, the tag parameters can be a
 \subsection{Variance Adjustment Factors}
 When doing iterative re-weighting of the input variance factors, it is convenient to do this in the control file, rather than the data file. This section creates that capability.
 
+\begin{longtable}{p{3cm} p{3cm} p{2.5cm} p{6.25cm}}
 
-\begin{longtable}{p{3cm} p{3cm} p{2.5cm} p{6.25cm} }
-
-	\multicolumn{4}{l}{Read variance adjustment factors to be applied:}\\
+	\multicolumn{4}{l}{Read variance adjustment factors to be applied:} \\
 	\hline
 	Factor & Fleet & Value & Description \Tstrut\Bstrut\\
 	\hline
 	1 & 2 & 0.5 & \# Survey CV for survey/fleet 2 \Tstrut\\
 	4 & 1 & 0.25 & \# Length data for fleet 1 \\
-	4 & 2 & 0.75 & \# Length data for fleet 2\\
-	-9999 & 0 & 0 & \# End read\Bstrut\\
+	4 & 2 & 0.75 & \# Length data for fleet 2 \\
+	-9999 & 0 & 0 & \# End read \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -2524,9 +2530,9 @@ The reading of the lambda values has been substantially altered with SS3 v.3.30.
 
 \begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
 
-	\multicolumn{5}{l}{Read the lambda adjustments by fleet and data type:}\\
+	\multicolumn{5}{l}{Read the lambda adjustments by fleet and data type:} \\
 	\hline
-	Likelihood &       &       & Lambda & SizeFreq\Tstrut\\
+	Likelihood &       &       & Lambda & SizeFreq \Tstrut\\
 	Component  & Fleet & Phase & Value  & Method \Bstrut\\
 	\hline
 	1 & 2 & 2 & 1.5 & 1 \Tstrut\\
@@ -2542,13 +2548,13 @@ The reading of the lambda values has been substantially altered with SS3 v.3.30.
 		\multicolumn{2}{l}{The codes for component are:}\\
 		\hline
 		1 = survey  				   & 10 = recruitment deviations \Tstrut\\	
-		2 = discard 				   & 11 = parameter priors\\		
-		3 = mean weight 			   & 12 = parameter deviations\\	
-		4 = length 					   & 13 = crash penalty\\		
-		5 = age 					   & 14 = morph composition\\
-		6 = size frequency  		   & 15 = tag composition\\		
-		7 = size-at-age 			   & 16 = tag negative binomial\\
-		8 = catch 					   & 17 = F ballpark\\		
+		2 = discard 				   & 11 = parameter priors \\		
+		3 = mean weight 			   & 12 = parameter deviations \\	
+		4 = length 					   & 13 = crash penalty \\		
+		5 = age 					   & 14 = morph composition \\
+		6 = size frequency  		   & 15 = tag composition \\		
+		7 = size-at-age 			   & 16 = tag negative binomial \\
+		8 = catch 					   & 17 = F ballpark \\		
 		9 = initial equilibrium catch (see note below) & 18 = regime shift \Bstrut\\
 		\hline
 	\end{longtable}
@@ -2564,15 +2570,15 @@ Additional standard deviation reported may be selected:
 \begin{longtable}{p{1.1cm} p{1.4cm} p{1.2cm} p{1.2cm} p{1.3cm} p{1.6cm} p{1.4cm} p{1.4cm} p{1.4cm}}
 
 	\hline
-	\multicolumn{3}{l}{Typical Value} & \multicolumn{6}{l}{Description and Options}\Tstrut\Bstrut\\
+	\multicolumn{3}{l}{Typical Value} & \multicolumn{6}{l}{Description and Options} \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 
 	\multicolumn{3}{l}{0} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read specification for reporting stdev for selectivity, size, numbers; and}\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size, numbers, }\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, dynamic B0, and Summary Bio}\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read specification for reporting stdev for selectivity, size, numbers; and} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size, numbers,} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, dynamic B0, and Summary Bio} \Bstrut\\
 	\hline
 
 \end{longtable}
@@ -2640,13 +2646,13 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 \begin{longtable}{p{1.1cm} p{1.4cm} p{1.2cm} p{1.2cm} p{1.3cm} p{1.6cm} p{1.4cm} p{1.4cm} p{1.4cm}}
 	
 	\hline
-	\multicolumn{9}{l}{Example Input:}\Tstrut\Bstrut\\
+	\multicolumn{9}{l}{Example Input:} \Tstrut\Bstrut\\
 	\hline
 	
 	\multicolumn{3}{l}{2} & \multicolumn{6}{l}{\# 0 = No additional std dev reporting;} \Tstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 1 = read values below; and}\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size,numbers, and }\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# natural mortality.}\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 1 = read values below; and} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size,numbers, and} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# natural mortality.} \Bstrut\\
 	\hline
 	
 	\multicolumn{4}{l}{1 1 -1 5}  & \multicolumn{5}{l}{\# Selectivity} \Bstrut\\
@@ -2656,12 +2662,12 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 	\multicolumn{4}{l}{1}         & \multicolumn{5}{l}{\# Dynamic Bzero} \Bstrut\\
 	\multicolumn{4}{l}{1}         & \multicolumn{5}{l}{\# Summary Biomass} \Bstrut\\
 	
-	\multicolumn{4}{l}{5 15 25 35 38} & \multicolumn{5}{l}{\# Vector with selectivity std bins (-1 in first bin to self-generate)}\Bstrut\\
-	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with growth std ages picks (-1 in first bin to self-generate)}\Bstrut\\
-	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with numbers-at-age std ages (-1 in first bin to self-generate)}\Bstrut\\
-	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with M-at-age std ages (-1 in first bin to self-generate)}\Bstrut\\
+	\multicolumn{4}{l}{5 15 25 35 38} & \multicolumn{5}{l}{\# Vector with selectivity std bins (-1 in first bin to self-generate)} \Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with growth std ages picks (-1 in first bin to self-generate)} \Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with numbers-at-age std ages (-1 in first bin to self-generate)} \Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with M-at-age std ages (-1 in first bin to self-generate)} \Bstrut\\
 	
 	\hline
-	\bfseries{999} & \multicolumn{8}{l}{\#End of the control file input}\Tstrut\Bstrut\\
+	\bfseries{999} & \multicolumn{8}{l}{\#End of the control file input} \Tstrut\Bstrut\\
 	\hline			
 \end{longtable}
