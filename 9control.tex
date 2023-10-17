@@ -78,7 +78,7 @@ The primary role of the control file is to define the parameters to be used by t
 	\end{tabular}
 \end{center}
 
-Note that relative to SS3 v.3.24, the order of PRIOR SD and PRIOR TYPE have been switched and the PRIOR TYPE options have been renumbered.
+Note that relative to Stock Synthesis v.3.24, the order of PRIOR SD and PRIOR TYPE have been switched and the PRIOR TYPE options have been renumbered.
 
 The full parameter line (14 in length) syntax for the mortality-growth, spawn-recruitment, catchability, and selectivity sections provides additional controls to give the parameter time-varying properties. If a parameter (a full parameter line of length 14) is set up to be time-varying (i.e., parameter time blocks, annual deviations), short parameter lines, the first 7 elements, are required to be specified immediately after the main parameter block (i.e., mortality-growth parameter section). Additional information regard time-varying parameters and how to implement them is in the \hyperlink{TVpara}{Using Time-Varying Parameters} section.
 
@@ -156,7 +156,7 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		\endlastfoot
 		
 		1 \Tstrut & &\multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning. Options:}} \\ \\
-		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{1 = no longer available (used the SS3 v.3.24 or earlier setup);}} \\
+		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{1 = no longer available (used the Stock Synthesis v.3.24 or earlier setup);}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{2 = main effects for growth pattern, settle timing, and area;}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{3 = each settle entity; and}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{4 = none, no parameters (only if growth pattern x settlement x area = 1).}} \Bstrut\\
@@ -348,7 +348,7 @@ Auto-generation is a useful way to automatically create the required short time-
 
 	1 & & Environmental/Block/Deviation adjust method for all time-varying parameters. \Tstrut\\
 	  & & 1 = warning relative to base parameter bounds; and \\
-	  & & 3 = no bound check. Logistic bound check form from previous SS3 versions (e.g., SS3 v.3.24) is no longer an option. \Bstrut\\
+	  & & 3 = no bound check. Logistic bound check form from previous SS3 versions (e.g., v.3.24) is no longer an option. \Bstrut\\
 
 	\multicolumn{2}{l}{1 1 1 1 1} & Auto-generation of time-varying parameter lines. Five values control auto-generation for parameter block sections: 1-biology, 2-spawn-recruitment, 3-catchability, 4-tag (future), and 5-selectivity. \\
 	& 			& The accepted values are: \\
@@ -506,7 +506,7 @@ Thus, if $b$ will be estimated as a free parameter, it might be necessary to inc
 
 	
 \myparagraph{Mean size-at-maximum age}
-The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In SS3 v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in a the future version.
+The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in a the future version.
 	
 \myparagraph{Age-specific K}
 This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex. The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current age's multiplier. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect. Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year. There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
@@ -550,9 +550,9 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age L2 (post-settlement) parameter. Use 999 to treat as L infinity. \Bstrut\\
 	\hline
 	
-	\Tstrut 0.20 & & Exponential decay for growth above maximum age (plus group: fixed at 0.20 in SS3 v.3.24; should approximate initial Z). Alternative Options: \\
-				 & & -998 = Disable growth above maximum age (plus group) similar to earlier versions of SS3 (prior to SS3 v.3.24); and \\
-				 & & -999 = Replicate the simpler calculation done in SS3 v.3.24. \Bstrut\\
+	\Tstrut 0.20 & & Exponential decay for growth above maximum age (plus group: fixed at 0.20 in v.3.24; should approximate initial Z). Alternative Options: \\
+				 & & -998 = Disable growth above maximum age (plus group) similar to earlier versions of SS3 (prior to v.3.24); and \\
+				 & & -999 = Replicate the simpler calculation done in v.3.24. \Bstrut\\
 	\hline
 	
 	0 & & Placeholder for future growth feature. \Tstrut\Bstrut\\
@@ -1145,7 +1145,7 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated. Thus the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hypertarget{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
 	%\hline
 
-	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in SS3 v.3.24 and earlier. \Bstrut\\
+	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier. \Bstrut\\
 	\hline
 
 	0 & Autocorrelation & Autocorrelation in recruitment. \Tstrut\Bstrut\\
@@ -1556,7 +1556,7 @@ Below is an example setup for fleets with a mirrored Q and offset from another f
 \subsubsection{Float Q}
 The use and development of float in Q has evolved over time within SS3. The original approach in earlier versions of SS3 (version 3.24 and before) is that with Q ``float'' the units of the survey or fishery CPUE were treated as dimensionless so the Q was adjusted within each model iteration to maintain a mean difference of 0.0 between observed and expected (usually in natural log space). In contrast, Q as a parameter (float = 0) one had the ability to interpret the absolute scaling of Q and put a prior on it to help guide the model solution. Also, with Q as a parameter the code allowed for Q to be time-varying.
 
-Then midway through the evolution of the SS3 v.3.24 code lineage a new Q option was introduced based on user recommendations. This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
+Then midway through the evolution of the v.3.24 code lineage a new Q option was introduced based on user recommendations. This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
 
 Currently, in v.3.30, that float with prior capability is fully embraced. All fleets that have any survey or CPUE options need to have a catchability specification and get a base Q parameter in the list. Any of these Q's can be either:
 
@@ -1571,13 +1571,13 @@ Currently, in v.3.30, that float with prior capability is fully embraced. All fl
 
 Q relates the units of the survey or CPUE to the population abundance, not the population density per unit area. But many surveys and most fishery CPUE is a proportional to mean fish density per unit area. This does not have any impact in a one area model because the role of area is absorbed into the value of Q. In a multi-area model, one may want to assert that the relative difference in CPUE between two areas is informative about the relative abundance between the areas. However, CPUE is a measure of fish density per unit area, so one may want to multiply CPUE by area before putting the data into the model so that asserting the same Q for the two areas will be informative about relative abundance.
 
-In SS3 v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area. The offset is a parameter and, hence, can be estimated and have a prior. This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
+In v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area. The offset is a parameter and, hence, can be estimated and have a prior. This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
 
 \subsubsection{Catchabilty Time-Varying Parameters}
 Time-Varying catchability can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
-\subsubsection{Q Conversion Issues Between SS3 v.3.24 and v.3.30}
-In SS3 v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (sstrans.exe) cannot convert this, but an analogous approach is available in SS3 v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in SS3 v.3.24 were survey specific (so no parameter for years with no survey). In SS3 v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
+\subsubsection{Q Conversion Issues Between Stock Synthesis v.3.24 and v.3.30}
+In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (sstrans.exe) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention. 
@@ -1634,7 +1634,7 @@ Special (0/value): This value is used in different ways depending on the context
 \myparagraph{Age Selectivity}
 For each fleet and survey, read a definition line for age selectivity. The 4 values to be read are the same as for the size-selectivity. 
 
-As of SS3 v.3.30.15, for some selectivity patterns the user can specify the minimum age of selected fish. Most selectivity curves by default select age 0 fish (i.e., inherently specify the minimum age of selected fish as 0). However, it is fairly common for the age bins specified in the data file to start at age 1. This means that any age 0 fish selected are pooled up into the age 1' bin, which will have a detrimental effect on fitting age-composition data. In order to prevent the selection of age 0 (or older) fish, the user can specify the minimum selected age for some selectivity patterns (12, 13, 14, 16, 18, 26, or 27) in versions of SS3 v.3.30.15 and later. For example, if the minimum selected age is 1 (so that age 0 fish are not selected), selectivity pattern type can be specified as 1XX, where XX is the selectivity pattern. A more specific example is if selectivity is age-logistic and the minimum selected age desired is 1, the selectivity pattern would be specified as 112 (the regular age-logistic selectivity pattern is option 12). The user can also select higher minimum selected ages, if desired; for example, 212 would be the age-logistic selectivity pattern with a minimum selected age of 2 (so that age 0 and 1 fish are not selected).
+As of v.3.30.15, for some selectivity patterns the user can specify the minimum age of selected fish. Most selectivity curves by default select age 0 fish (i.e., inherently specify the minimum age of selected fish as 0). However, it is fairly common for the age bins specified in the data file to start at age 1. This means that any age 0 fish selected are pooled up into the age 1' bin, which will have a detrimental effect on fitting age-composition data. In order to prevent the selection of age 0 (or older) fish, the user can specify the minimum selected age for some selectivity patterns (12, 13, 14, 16, 18, 26, or 27) in versions of v.3.30.15 and later. For example, if the minimum selected age is 1 (so that age 0 fish are not selected), selectivity pattern type can be specified as 1XX, where XX is the selectivity pattern. A more specific example is if selectivity is age-logistic and the minimum selected age desired is 1, the selectivity pattern would be specified as 112 (the regular age-logistic selectivity pattern is option 12). The user can also select higher minimum selected ages, if desired; for example, 212 would be the age-logistic selectivity pattern with a minimum selected age of 2 (so that age 0 and 1 fish are not selected).
 
 \subsubsection{Reading the Selectivity and Retention Parameters}
 Read the required number of parameter setup lines as specified by the definition lines above. The complete order of the parameter setup lines is:
@@ -2525,7 +2525,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 \myparagraph{Lambda Usage Notes}
 \hypertarget{SaAlambda}{If} the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stddev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
 
-The reading of the lambda values has been substantially altered with SS3 v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0.  After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS3.  First read an integer for the number of changes.
+The reading of the lambda values has been substantially altered with v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0.  After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS3.  First read an integer for the number of changes.
 
 
 \begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
@@ -2560,7 +2560,7 @@ The reading of the lambda values has been substantially altered with SS3 v.3.30.
 	\end{longtable}
 \end{center}
 
-Starting in SS3 v.3.30.16, the application of a lambda to initial equilibrium catch is now fleet specific.  In previous versions, a single lambda was applied in the same manner across all fleets with an initial equilibrium catch specified.
+Starting in v.3.30.16, the application of a lambda to initial equilibrium catch is now fleet specific. In previous versions, a single lambda was applied in the same manner across all fleets with an initial equilibrium catch specified.
 
 \pagebreak
 

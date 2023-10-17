@@ -59,7 +59,7 @@ The ss\_summary.sso file (available for versions 3.30.08.03 and later) is design
 Before v.3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME\_SERIES table of Report.sso. The report file should be used instead of ss\_summary.sso for correct calculation of these quantities before v.3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in report.sso for calculations done at times other than January 1.
 
 \subsection{SIS table}
-The SIS\_table.sso is deprecated as of SS3 v.3.30.17. Please use the \hyperref[sec:r4ss]{r4ss} function \texttt{get\_SIS\_info()} instead. 
+The SIS\_table.sso is deprecated as of v.3.30.17. Please use the \hyperref[sec:r4ss]{r4ss} function \texttt{get\_SIS\_info()} instead. 
 
 The SIS\_table.sso file contains model output formatted for reading into the NMFS Species Information System (\href{https://www.st.nmfs.noaa.gov/sis/}{SIS}). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees.
 
@@ -193,7 +193,7 @@ Given this, there are some assumptions implicit in the bootstrapping procedure (
 	
 	\item Often there is need to explore the removal (not include in the model fitting) of specific years in a data set which can be done by specifying a negative fleet number. If bootstrapping a data file, note that specifying a negative fleet in the data inputs for indices, length composition, or age composition will include the ``observation'' in the model (hence generating predicted values and bootstrap data sets for the data), but not in the negative log likelihood. The ``observation values'' used with negative fleet do not influence the predicted values, except when using tail compression with length or age composition. Non-zero values greater than the minimum tail compression should be used for the observation values when tail compression is being used, as using zeros or values smaller than the minimum tail compression can cause the predicted values to be reported as zero and shift predictions to other bins.
 	
-	\item As of SS3 v.3.30.15, age and length composition data that use the Dirichlet-Multinomial distribution in the model are generated using the Dirichlet-Multinomial in bootstrap data sets.
+	\item As of v.3.30.15, age and length composition data that use the Dirichlet-Multinomial distribution in the model are generated using the Dirichlet-Multinomial in bootstrap data sets.
 	
 \end{itemize}
 
@@ -214,7 +214,7 @@ The top of the Forecast-report file shows the search for F\textsubscript {SPR}  
 
 
 \subsection{Main Output File, Report.sso}
-This is the primary output file. Its major sections (as of SS3 v.3.30.16) are listed below.  
+This is the primary output file. Its major sections (as of v.3.30.16) are listed below.  
 
 The sections of the output file are:
 \begin{itemize}

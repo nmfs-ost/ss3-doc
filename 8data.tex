@@ -103,7 +103,7 @@ Time steps can be broken into subseason and the ALK can be calculated multiple t
 		\item Survey body weight and size composition is calculated using the nearest subseason.
 		\item Reproductive output now has specified spawn timing (in months fraction) and interpolates growth to that timing.
 		\item Survey numbers calculated at cruise survey timing using $e^{-z}$.
-		\item Continuous Z for entire season.  Same as applied in version v.3.24.
+		\item Continuous Z for entire season. Same as applied in version v.3.24.
 	\end{itemize}
 
 \subsection{Terminology}
@@ -115,8 +115,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		\hline
 		\textbf{Value} & \textbf{Description} \Tstrut\Bstrut\\
 		\hline
-		\#V3.30.XX.XX & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Model version number.  This is written by SS3 in the  new files and a good idea to keep updated in the input files.}} \Tstrut\\
-		&  \Bstrut\\
+		\#V3.30.XX.XX & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Model version number. This is written by SS3 in the  new files and a good idea to keep updated in the input files.}} \Tstrut\\
+		& \Bstrut\\
 
 		\hline
 		\#C data using new survey & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Data file comment. Must start with \#C to be retained then written to top of various output files. These comments can occur anywhere in the data file, but must have \#C in columns 1-2.}} \Tstrut\\
@@ -172,7 +172,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
 
 \subsection{Fleet Definitions}
-\hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up. The fleet setup input is transposed so each fleet is now a row. Previous versions (SS3 v.3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets. In SS3 all fleets have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions). Available types are; catch fleet, bycatch only fleet, or survey.  
+\hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up. The fleet setup input is transposed so each fleet is now a row. Previous versions (v.3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets. In SS3 all fleets have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions). Available types are; catch fleet, bycatch only fleet, or survey.  
 
 \begin{center}
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{4cm}}
@@ -196,7 +196,7 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 	  \begin{itemize}
 	  	\item 1 = fleet with input catches;
 	  	\item 2 = bycatch fleet (all catch discarded) and invoke extra input for treatment in equilibrium and forecast;
-	  	\item 3 = survey: assumes no catch removals even if associated catches are specified below.  If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in the ``Timing'' section); and 
+	  	\item 3 = survey: assumes no catch removals even if associated catches are specified below. If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in the ``Timing'' section); and 
 	  	\item 4 = predator (M2) fleet that adds additional mortality without a fleet F (added in v.3.30.18). Ideal for modeling large mortality events such as fish kills or red tide. Requires additional long parameter lines for a second mortality component (M2) in the control file after the natural mortality/growth parameter lines (entered immediately after the fraction female parameter line).
 	  \end{itemize}
 
@@ -234,7 +234,7 @@ Invokes use of a catch multiplier, which is then entered as a parameter in the m
 A catch multiplier can be useful when trying to explore historical unrecorded catches or ongoing illegal and unregulated catches. The catch multiplier is a full parameter line in the control file and has the ability to be time-varying.  
 
 \subsection{Bycatch Fleets}
-The option to include bycatch fleets was introduced in SS3 v.3.30.10. This is an optional input and if no bycatch is to be included in to the catches this section can be ignored.
+The option to include bycatch fleets was introduced in v.3.30.10. This is an optional input and if no bycatch is to be included in to the catches this section can be ignored.
 
 A fishing fleet is designated as a bycatch fleet by indicating that its fleet type is 2. A bycatch fleet creates a fishing mortality, same as a fleet of type 1, but a bycatch fleet has all catch discarded so the input value for retained catch is ignored. However, an input value for retained catch is still needed to indicate that the bycatch fleet was active in that year and season. A catch multiplier cannot be used with bycatch fleets because catch multiplier works on retained catch. SS3 will expect that the retention function for this fleet will be set in the selectivity section to type 3, indicating that all selected catch is discarded dead. It is necessary to specify a selectivity pattern for the bycatch fleet and, due to generally lack of data, to externally derive values for the parameters of this selectivity.
 
@@ -523,7 +523,7 @@ The four options for discard error are:
 	\item 0 = normal distribution, value of error in data file is interpreted as CV of the observation;
 	\item -1 = normal distribution, value of error in data file is interpreted as standard error of the observation;
 	\item -2 = lognormal distribution, value of error in data file is interpreted as standard error of the observation in log space; and 
-	\item -3 = truncated normal distribution (new with SS3 v.3.30, needs further testing), value of error in data file is interpreted as standard error of the observation. This is a good option for low observed discard rates.
+	\item -3 = truncated normal distribution (new with v.3.30, needs further testing), value of error in data file is interpreted as standard error of the observation. This is a good option for low observed discard rates.
 \end{itemize}
 
 \myparagraph{Discard Notes}
@@ -533,7 +533,7 @@ The four options for discard error are:
 	\item Zero (0.0) is a legitimate discard observation, unless lognormal error structure is used.
 	\item Duplicate discard observations from a fleet for the same year are not allowed.
 	\item Observations can be entered in any order, except if the super-period feature is used. 
-	\item Note that in the control file you will enter information for retention such that 1-retention is the amount discarded. All discard is assumed dead, unless you enter information for discard mortality. Retention and discard mortality can be either size-based or age-based (new with SS3 v.3.30).
+	\item Note that in the control file you will enter information for retention such that 1-retention is the amount discarded. All discard is assumed dead, unless you enter information for discard mortality. Retention and discard mortality can be either size-based or age-based (new with v.3.30).
 \end{itemize}
 	
 \myparagraph{Cautionary Note}
@@ -713,7 +713,7 @@ parameter for weighting composition data.
 \end{itemize}	
 
 \myparagraph{Minimum Sample Size}
-The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. SS3 v.3.24 had an implicit minimum sample size value of 1.
+The minimum value (floor) for all sample sizes. This value must be at least 0.001. Conditional age-at-length data may have observations with sample sizes less than 1. Version 3.24 had an implicit minimum sample size value of 1.
 
 \myparagraph{Additional information on Dirichlet Parameter Number and Effective Sample Sizes}
 If the Dirichlet-multinomial error distribution is selected, indicate here which of a list of Dirichlet-multinomial parameters will be used for this fleet. So each fleet could use a unique Dirichlet-multinomial parameter, or all could share the same, or any combination of unique and shared. The requested number of Dirichlet-multinomial parameters are specified as parameter lines in the control file immediately after the selectivity parameter section. Please note that age-compositions Dirichlet-multinomial parameters are continued after length-compositions, so a model with one fleet and both data types would presumably require two new Dirichlet-multinomial parameters.  	
@@ -798,7 +798,7 @@ Partition indicates samples from either discards,retained, or combined.
 \myparagraph{Note}
 When processing data to be input into SS3, all observed fish of sizes smaller than the first bin should be added to the first bin and all observed fish larger than the last bin should be condensed into the last bin.	
 
-The number of length composition data lines no longer needs to be specified in order to read the length (or age) composition data. Starting in SS3 v.3.30, the model will continue to read length composition data until an pre-specified exit line is read. The exit line is specified by entering -9999 at the end of the data matrix. The -9999 indicates to the model the end of length composition lines to be read.
+The number of length composition data lines no longer needs to be specified in order to read the length (or age) composition data. Starting in v.3.30, the model will continue to read length composition data until an pre-specified exit line is read. The exit line is specified by entering -9999 at the end of the data matrix. The -9999 indicates to the model the end of length composition lines to be read.
 
 Each observation can be stored as one row for ease of data management in a spreadsheet and for sorting of the observations. However, the 6 header values, the female vector and the male vector could each be on a separate line because ADMB reads values consecutively from the input file and will move to the next line as necessary to read additional values.
 
