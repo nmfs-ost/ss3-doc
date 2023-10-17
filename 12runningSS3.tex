@@ -44,7 +44,7 @@ A DOS batch file (e.g., SS3.bat) might contain some explicit ADMB commands, some
 \end{quote}
 
 
-In this batch file, the -cbs and -gbs arguments allocate a large amount of memory for SS3 to use (you may need to edit these for your computer and SS3 configuration), and the \%1, \%2 etc., allows passing of command line arguments such as -nox or -nohess.  You add more items to the list of \% arguments as needed.
+In this batch file, the -cbs and -gbs arguments allocate a large amount of memory for SS3 to use (you may need to edit these for your computer and SS3 configuration), and the \%1, \%2 etc., allows passing of command line arguments such as -nox or -nohess. You add more items to the list of \% arguments as needed.
 
 An easy way to start a command line in your current directory (SS3\_runs) is to create a shortcut to the DOS command line prompt. The shortcut's target would be:
 
@@ -82,7 +82,7 @@ This first example relies upon having a set of prototype SS3 input files, where 
 The commands could be repeated again, except the output should be copied to a different file, e.g., ss-std02.txt. This sequence can be repeated an unlimited number of times.
 
 \subsubsection{Complicated Batch}
-This second example processes 25 dat files from a different directory, each time using the same ctl and nam file.  The loop index is used in the file names, and the output is searched for particular keywords to accumulate a few key results into the file SUMMARY.TXT.  Comparable batch processing can be accomplished by using R or other script processing programs.
+This second example processes 25 dat files from a different directory, each time using the same ctl and nam file. The loop index is used in the file names, and the output is searched for particular keywords to accumulate a few key results into the file SUMMARY.TXT. Comparable batch processing can be accomplished by using R or other script processing programs.
 
 \begin{quote}
 	\begin{verbatim}
@@ -129,10 +129,10 @@ However, the approaches above differ in subtle ways. First, if the maximum phase
 
 The second difference between the two no estimation approaches is the reported number of ``Active\_count'' of parameters in the Report file. If the command line approach is used (ss3 -maxfn 0 -phase 50 -nohess) then the active number of parameters will equal the number of parameters with positive phases, but because the model is started in a phase greater than the maximum phase in the model, these parameters do not move from the initial values in the control file (or the par file). The first approach where the maximum phase is changed in the starter file will report the number of ``Active\_count'' parameters as 0.  
 
-The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss.par) then all parameters, including parameter deviations, will be fixed at the estimated values.  However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
+The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss.par) then all parameters, including parameter deviations, will be fixed at the estimated values. However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
 
 \myparagraph{Generate .ss\_new files}
-There may be times a user would like to generate the .ss\_new files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the starter.ss file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the starter.ss\_new file will be set to -1 and will need to be manually changed back if the intent is the replace the original (i.e., starter.ss) file with the new files (i.e., starter.ss\_new).  The second approach is to modify the maxphase via the command line or power shell input. Calling the model using the commands:
+There may be times a user would like to generate the .ss\_new files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the starter.ss file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the starter.ss\_new file will be set to -1 and will need to be manually changed back if the intent is the replace the original (i.e., starter.ss) file with the new files (i.e., starter.ss\_new). The second approach is to modify the maxphase via the command line or power shell input. Calling the model using the commands:
 
 \begin{quote}
 	\begin{verbatim}
@@ -157,7 +157,7 @@ Users will often want to run profiles over specific parameter to evaluate the in
 
 The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output.  The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
 
-The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to -9999.  Edit starter.ss to refer to this control file and the appropriate data file.
+The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to -9999. Edit starter.ss to refer to this control file and the appropriate data file.
 
 %\begin{center}
 	\begin{longtable}{p{0.5cm} p{16cm}}		
@@ -187,10 +187,10 @@ Create a batch file that looks something like this. Or make it more complicated 
 
 
 Repeat as many times as you have set up conditions in the profilevalues.ss file.
-The summary results will all be collected in the cumreport.sso file.  Each step of the profile will have an unique run number and its output will include the values of the natural mortality and steepness parameters for that run.
+The summary results will all be collected in the cumreport.sso file. Each step of the profile will have an unique run number and its output will include the values of the natural mortality and steepness parameters for that run.
 
 \subsubsection{Re-Starting a Run}
-Model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause the model to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted.  However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter -binp ss.bar as one of the command line options.
+Model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause the model to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted. However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter -binp ss.bar as one of the command line options.
 
 \subsubsection{Optional Output Subfolders}
 As of v.3.30.19, users can optionally send .sso and .ss\_new extension files to subfolders. To send files with a .sso extension to a subfolder within the model folder, create a subfolder called sso before running the model. To send files with a .ss\_new extension to a separate subfolder, create a folder called ssnew before running the model.
@@ -288,20 +288,20 @@ Running SS3 from within R may be desirable for setting up simulations where many
 \href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.
 
 \subsection{Debugging Tips}
-When input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem. Before trying the steps below, examine the echoinput.sso file.  It is highly annotated, so you should be able to see if the model is interpreting your input files as you intended.  Additionally, users should check the warning.sso file when attempting to debug a non-running model.
+When input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem. Before trying the steps below, examine the echoinput.sso file. It is highly annotated, so you should be able to see if the model is interpreting your input files as you intended.  Additionally, users should check the warning.sso file when attempting to debug a non-running model.
 
 \begin{enumerate}
-	\item Set the turn\_off\_phase switch to 0 in the starter.ss file.  This will cause the mode to not attempt to adjust any parameters and simply converges a dummy parameter.  It will still produce a Report.sso file, which can be examined to see what has been calculated from the initial parameter values.
-	\item Turn the verbosity level to 2 in the starter.ss file.  This will cause the program to display the value of each likelihood component to the screen on each iteration.  So it the program is creating an illegal computation (e.g., divide by zero), it may show you which likelihood component contains the problematic calculation.  If the program is producing a Report.sso file, you may then see which observation is causing the illegal calculation.
-	\item Run the program with the command ss3 >>SSpipe.txt.  This will cause all screen display to go to the specified text file (note, delete this file before running because it will be appended to).  Examination of this file will show detailed statements produced during the reading and preprocessing of input files.
-	\item If the model fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION.  If this happens, you can do a run with the -nohess option so you can view the Report.sso to attempt to diagnose the problem.
+	\item Set the turn\_off\_phase switch to 0 in the starter.ss file. This will cause the mode to not attempt to adjust any parameters and simply converges a dummy parameter. It will still produce a Report.sso file, which can be examined to see what has been calculated from the initial parameter values.
+	\item Turn the verbosity level to 2 in the starter.ss file. This will cause the program to display the value of each likelihood component to the screen on each iteration. So it the program is creating an illegal computation (e.g., divide by zero), it may show you which likelihood component contains the problematic calculation. If the program is producing a Report.sso file, you may then see which observation is causing the illegal calculation.
+	\item Run the program with the command ss3 >>SSpipe.txt. This will cause all screen display to go to the specified text file (note, delete this file before running because it will be appended to). Examination of this file will show detailed statements produced during the reading and preprocessing of input files.
+	\item If the model fails to achieve a proper Hessian it exits without writing the detailed outputs in the FINAL\_SECTION. If this happens, you can do a run with the -nohess option so you can view the Report.sso to attempt to diagnose the problem.
 	\item If the problem is with reading one or more of the input files, please note that certain Mac line endings cannot be read by the model (although this is a rare occurrence). Be sure to save the text files with Windows or Linux style line endings so that the executable can parse them.
 \end{enumerate}
 
 \subsection{Keyboard Tips}
 Typing ``N'' during a run will cause ADMB to immediately advance to the next phase of estimation.
 
-Typing ``Q''  during a run will cause ADMB to immediately go to the final phase.  This bypasses estimation of the Hessian and will produce all of the model outputs, which are coded in the FINAL\_SECTION.
+Typing ``Q''  during a run will cause ADMB to immediately go to the final phase. This bypasses estimation of the Hessian and will produce all of the model outputs, which are coded in the FINAL\_SECTION.
 
 \subsection{Running MCMC}
  Running SS3 with MCMC can be done through command line options using the default ADMB MCMC algorithm (described below). Another possibility is using the R package adnuts. See the \href{https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html}{adnuts vignette} for more information. The \href{https://www.admb-project.org/developers/mcmc/mcmc-guide-for-admb.pdf}{MCMC guide for ADMB} provides the most comprehensive guidance available for using MCMC with ADMB models (such as SS3). Additional guidance is available in \citep{monnahan2019overcoming}.
