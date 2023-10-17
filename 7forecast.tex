@@ -59,16 +59,18 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   \multicolumn{1}{r}{-9999 0 0 0} & & \\
     & & \\
     & & \\
-    & & \Bstrut\\
+    & & \\
+    & & \\
 
   \hline
   0.45 & SPR\textsubscript{target} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to the unfished value.}} \Tstrut\\
-    & & \\
+    & & \Bstrut\\
   
   \hline
   0.40 & Relative Biomass Target & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the F multiplier that will produce this level of spawning biomass relative to unfished value. This is not ``per recruit'' and takes into account the spawner-recruitment relationship.}} \Tstrut\Bstrut\\
-    & & \Tstrut\Bstrut\\
-    
+    & & \\
+    & & \\
+
   \hline 
   \multicolumn{2}{l}{COND: \hyperlink{Bmarks_RefPoints}{Benchmarks} = 3} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{B\textsubscript{LIMIT} as a fraction of the B\textsubscript{MSY} where a negative value will be applied as a fraction of B0}} \Tstrut\\
     & -0.25 & \\
@@ -79,8 +81,9 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & -999: start year; & \\
     & >0: absolute year; and & \\
     & <= 0: year relative to end year. & \Bstrut\\
-    & & \Bstrut\\
-    & & \Bstrut\\
+    & & \\
+    & & \\
+    & & \\
 
   % \pagebreak
   \hline
@@ -109,18 +112,21 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   
   % \pagebreak
   \hline
-  \multicolumn{3}{l}{There are 2 options for entering \hypertarget{FcastYears}{Forecast Years}:} \Tstrut\Bstrut\\
+  \multicolumn{3}{l}{There are 2 options for entering \hypertarget{FcastYears}{Forecast Years}:} \Tstrut\\
   
   Option 1: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18.5cm}{This approach for forecast year ranges is no longer recommended because blocks, random effects, and other time-varying parameter changes can now operate on forecast years and the new approach provides better control averaging.}}} \Tstrut\Bstrut\\
-   & & \Tstrut\Bstrut\\
+   & & \Tstrut\\
 
   0 0 0 0 0 0 & Enter 6 Forecast Year Values & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{To continue to use this pre-v.3.20.22 approach, enter 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution. These are used to create means over the specified range of years. Values can be entered as the actual year, -999 for start year, or values of 0 or -integer to be relative endyr. It is important to note:}} \Tstrut\Bstrut\\
+   & & \\
+   & & \\
    & & \Tstrut\Bstrut\\
-   & & \Tstrut\Bstrut\\
+
    \pagebreak
    & & -- Relative F for bycatch only fleets is scaled just like other fleets.\Tstrut\\
    & & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{-- For selectivity averaging with the new approach the method code is ``1'', whereas with the old Forecast Selectivity Option, the code was ``1'' for using time-varying parameters. SS3 accounts for this change internally.}} \Bstrut\\
-   & & \Bstrut\\
+   & & \\
+   & & \\
    & & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{-- Whenever calculating means, the calculated mean will have artificially low variance than if a minimal range of years is selected.}} \\
    & & \\
 
@@ -134,7 +140,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   -12345 & Invoke New Forecast Format & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Biology and selectivity vectors are updated annually in the forecast according to their time-varying parameters. Be sure to check the end year of the blocks and the deviation vectors. Input in this section directs the creation of means over historical years to override any time-varying changes. To invoke taking the mean of a range of historical recruitments after all adjustments and deviations were applied, see the \hyperlink{FcastRecruitment}{Base recruitment in forecast} option. See the Example New Forecast Format Input below.}} \Bstrut\\
    & & \\
-   & & \\
+   & & \Tstrut\Bstrut\\
    & & \Tstrut\Bstrut\\
    & & \Tstrut\Bstrut\\
   
@@ -167,8 +173,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
    & Start Year & Enter the actual year or values of 0, -999 to be styr, or -integer to be relative endyr. \\
    & End Year & Enter the actual year or values of 0 or -integer to be relative endyr. \Bstrut\\
   
-  \pagebreak
-  % \hline
+  % \pagebreak
+  \hline
   1 & Control Rule Method: & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Used to apply reductions (``buffer'') to either the catch or F based on the control rule during the forecast period. The buffer value is specified below via the Control Rule Buffer.}} \Tstrut\\
     & 0 = none (additional control rule inputs will be ignored); & \\
     & 1 = catch as function of SSB, buffer on F; & \\
@@ -188,6 +194,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   \hline
   % \pagebreak
   0.75 \Tstrut & Control Rule Buffer (multiplier between 0-1.0 or -1) & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{Control rule catch or F\textsubscript{target} as a fraction of selected catch or F\textsubscript{MSY} proxy. The buffer will be applied to reduce catch from the estimated overfishing limit. The buffer value is a value between 0-1.0 where a value of 1.0 would set catch equal to the overfishing limit. As example if the buffer is applied to catch (Control Rule option 3 or 4 above) the catch will equal the buffer times the overfishing limit. Alternatively a value of -1 will allow the user to input a forecast year specific control rule fraction (added in v.3.30.13).}} \Bstrut\\ 
+    & & \Bstrut\\
     & & \Bstrut\\
     & & \Bstrut\\
     & & \Bstrut\\
