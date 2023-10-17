@@ -63,7 +63,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & & \\
 
   \hline
-  0.45 & SPR\textsubscript{target} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to the unfished value.}} \Tstrut\\
+  0.45 & SPR\textsubscript{target} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to the unfished value.}} \Tstrut\Bstrut\\
     & & \Bstrut\\
   
   \hline
@@ -85,13 +85,13 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & & \\
     & & \\
 
-  % \pagebreak
-  \hline
+  \pagebreak
+  % \hline
   1 & Benchmark Relative F Basis: & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{The specification does not affect year range for selectivity and biology.}} \Tstrut\\
     & 1 = use year range; and & \\
     & 2 = set range for relF same as \hyperlink{Fcast}{Forecast}. & \Bstrut\\
 
-  \pagebreak
+ x
   \hline
   2 & \hypertarget{Fcast}{Forecast}: & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{This input is required but is ignored if benchmarks are turned off. This determines how forecast catches are calculated and removed from the population which is separate from the ``MSY Method'' above. If F\textsubscript{MSY} is selected, it uses whatever proxy (e.g., F\textsubscript{SPR} or F\textsubscript{BTGT}) is selected in the ``MSY Method'' row.}} \Tstrut\\
     & -1 = none, no forecast years; & \\
@@ -119,7 +119,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   0 0 0 0 0 0 & Enter 6 Forecast Year Values & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{To continue to use this pre-v.3.20.22 approach, enter 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution. These are used to create means over the specified range of years. Values can be entered as the actual year, -999 for start year, or values of 0 or -integer to be relative endyr. It is important to note:}} \Tstrut\Bstrut\\
    & & \\
-   & & \\
+   & & \Bstrut\\
    & & \Tstrut\Bstrut\\
 
    \pagebreak
@@ -138,7 +138,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   % \hline
   Option 2: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18.5cm}{To use the new approach, enter a single value of -12345 and omit entry of the \hyperlink{FcastSelectivity}{Forecast Selectivity Option}.}}} \Tstrut\Bstrut\\
 
-  -12345 & Invoke New Forecast Format & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Biology and selectivity vectors are updated annually in the forecast according to their time-varying parameters. Be sure to check the end year of the blocks and the deviation vectors. Input in this section directs the creation of means over historical years to override any time-varying changes. To invoke taking the mean of a range of historical recruitments after all adjustments and deviations were applied, see the \hyperlink{FcastRecruitment}{Base recruitment in forecast} option. See the Example New Forecast Format Input below.}} \Bstrut\\
+  -12345 & Invoke New Forecast Format & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Biology and selectivity vectors are updated annually in the forecast according to their time-varying parameters. Be sure to check the end year of the blocks and the deviation vectors. Input in this section directs the creation of means over historical years to override any time-varying changes. To invoke taking the mean of a range of historical recruitments after all adjustments and deviations were applied, see the \hyperlink{FcastRecruitment}{Base recruitment in forecast} option. See the Example New Forecast Format Input below.}} \Tstrut\Bstrut\\
    & & \\
    & & \Tstrut\Bstrut\\
    & & \Tstrut\Bstrut\\
@@ -171,7 +171,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
    & 1 = use means of derived factor; & \\
    & 2 (future) = means parameter then apply as if time\_vary & \\
    & Start Year & Enter the actual year or values of 0, -999 to be styr, or -integer to be relative endyr. \\
-   & End Year & Enter the actual year or values of 0 or -integer to be relative endyr. \Bstrut\\
+   & End Year & Enter the actual year or values of 0 or -integer to be relative endyr. \\
   
   % \pagebreak
   \hline
@@ -223,8 +223,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & & \\
     & & \\
 
-  \hline
-  %\pagebreak
+  % \hline
+  \pagebreak
   1 \Tstrut & \hyperlink{ForeSpawn}{Base recruitment in forecast:} \hypertarget{FcastRecruitment}{} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{This option controls the base recruitment (to which deviations are applied) in the forecast, or taking the mean of a range of historical recruitments after all adjustments and deviations were applied. For options 1 and 2, the next value read is a scalar applied to the base. Option 4 requires the user set the \hyperlink{FcastRecDevPhase}{forecast recruitment deviation phase} to negative (specifically -1 to get constant mean in MCMC) and the \hyperlink{RecDevEndYear}{last year of recruitment deviations} is the \hyperlink{EndYear}{end year}.}} \\
     & 0 = spawner recruit curve; & \\
     & 1 = value*(spawner recruit curve); & \\
@@ -271,8 +271,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 1 = use first-last allocation year; and & \\
     & 2 = read season(row) x fleet (column) set below. & \Bstrut\\
 
-  % \hline 
-  \pagebreak
+  \hline 
+  % \pagebreak
   2 & Basis for maximum forecast catch: & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{The maximum basis for forecasted catch will be implemented for the for the ``First year for caps and allocations'' selected above. The maximum catch (biomass or numbers) by fleet is specified below on the ``Maximum total forecast catch by fleet'' line.}} \Tstrut\\
     & 2 = total catch biomass; & \\
     & 3 = retained catch biomass; & \\
