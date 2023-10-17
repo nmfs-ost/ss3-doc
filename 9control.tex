@@ -368,7 +368,7 @@ Lorenzen natural mortality is based on the concept that natural mortality is dri
 
 \myparagraph{Age-specific M Linked to Age-Specific Length and Maturity}
 
-This is an experimental option available as of 3.30.17. 
+This is an experimental option available as of v.3.30.17. 
 
 A general model for age- and sex-specific natural mortality expands a model developed by \citet{maunder2010bigeye} and \citet{maunder2011M} and is based on the following some assumptions:
 
@@ -731,7 +731,7 @@ C_{exp} = \frac{C_{obs}}{c_{mult}}
 where $C_{obs}$ is the input catch by fleet (observed catch) within the data file and $c_{mult}$ is the estimated (or fixed) catch multiplier. It has year-specific, not season-specific, time-varying capabilities. In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{obs}$ before being compared to the observed retained catch as modified by the $c_{mult}$.
 
 \subsubsection{Ageing Error Parameters}
-These parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition). As of version 3.30.12, these parameters now have time-varying capability. Seven additional full parameter lines are required. The parameter lines specify:
+These parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition). As of v.3.30.12, these parameters now have time-varying capability. Seven additional full parameter lines are required. The parameter lines specify:
 \begin{enumerate}
 	\item Age at which the estimated pattern begins (just linear below this age), this is the start age.
 	\item Bias at start age (as additive offset from unbiased age).
@@ -1006,8 +1006,8 @@ The spawner-recruitment section starts by specification of the functional relati
 	  &                     & 6: Beverton-Holt with flat-top beyond Bzero, 2 parameters: ln(R0) and steepness; \\
 	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: ln(R0), $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are <= population production; \\
 	 %&                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: ln(R0), steepness, and shape parameter, $c$;\\
-	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to version 3.30.11 and is in beta mode); and \\
-	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: ln(R0), steepness, and Ricker power, $\gamma$ (added to version 3.30.11 and is in beta mode). \Bstrut\\
+	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); and \\
+	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: ln(R0), steepness, and Ricker power, $\gamma$ (added to v.3.30.11 and is in beta mode). \Bstrut\\
 	\hline
 
 	1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
@@ -1328,11 +1328,11 @@ When the model is configured such that seasons are modeled as years, the concept
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year. These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series. The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector. If the number of estimated ages in the initial age composition is less than maximum age, then the older ages will retain their equilibrium levels. Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
 \subsection{Fishing Mortality Method}
-There are four methods available for calculation of fishing mortality (F): 1) Pope's approximation, 2) Baranov's continuous F with each F as a model parameter, 3) a hybrid F method, and 4) a fleet-specific parameter hybrid F approach (introduced in version 3.30.18).
+There are four methods available for calculation of fishing mortality (F): 1) Pope's approximation, 2) Baranov's continuous F with each F as a model parameter, 3) a hybrid F method, and 4) a fleet-specific parameter hybrid F approach (introduced in v.3.30.18).
 
-A new fleet-specific parameter hybrid F approach was introduced in version 3.30.18 and is now the recommended approach for most models. With this approach, some fleets can stay in hybrid F mode while others transition to parameters. For example, bycatch fleets must start with parameters in phase 1, while other fishing fleets can use hybrid F or start with hybrid and transition to parameters at a fleet-specific designated phase. We believe this new method 4 is a superior super-set to current methods 2 (all use parameters and all can start hybrid then switch to parameters) and method 3 (all hybrid for all phases). However, during testing specific situations were identified when this approach may not be the best selection. If there is uncertainty around annual input catch values (e.g., se = 0.15) and some fleets have discard data being fit to as well, the treatment of F as parameters (method 2) may allow for better model fits to the data.
+A new fleet-specific parameter hybrid F approach was introduced in v.3.30.18 and is now the recommended approach for most models. With this approach, some fleets can stay in hybrid F mode while others transition to parameters. For example, bycatch fleets must start with parameters in phase 1, while other fishing fleets can use hybrid F or start with hybrid and transition to parameters at a fleet-specific designated phase. We believe this new method 4 is a superior super-set to current methods 2 (all use parameters and all can start hybrid then switch to parameters) and method 3 (all hybrid for all phases). However, during testing specific situations were identified when this approach may not be the best selection. If there is uncertainty around annual input catch values (e.g., se = 0.15) and some fleets have discard data being fit to as well, the treatment of F as parameters (method 2) may allow for better model fits to the data.
 
-The hybrid F method does a Pope's approximation to provide initial values for iterative adjustment of the Baranov continuous F values to closely approximate the observed catch. Prior to version 3.30.18, the hybrid method (method 3) was recommended in most cases. With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters. In a 2 fishery model, low F case (e.g., similar to natural mortality or lower), the hybrid method is just as fast as the Pope approximation and produces identical results. 
+The hybrid F method does a Pope's approximation to provide initial values for iterative adjustment of the Baranov continuous F values to closely approximate the observed catch. Prior to v.3.30.18, the hybrid method (method 3) was recommended in most cases. With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters. In a 2 fishery model, low F case (e.g., similar to natural mortality or lower), the hybrid method is just as fast as the Pope approximation and produces identical results. 
 
 However, when F is very high, the problem becomes quite computationally stiff for Pope's approximation and the hybrid method so convergence in ADMB may slow due to more sensitive gradients in the log likelihood. In these high F cases it may be better to use F option 2, continuous F as full parameters. It is also advisable to allow the model to start with good values for the F parameters. This can be done by specifying a later phase (>1) under the conditional input for F method = 2 where early phases will use the hybrid method, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.
 
@@ -1558,7 +1558,7 @@ The use and development of float in Q has evolved over time within SS3. The orig
 
 Then midway through the evolution of the SS3 v.3.24 code lineage a new Q option was introduced based on user recommendations. This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
 
-Currently, in 3.30, that float with prior capability is fully embraced. All fleets that have any survey or CPUE options need to have a catchability specification and get a base Q parameter in the list. Any of these Q's can be either:
+Currently, in v.3.30, that float with prior capability is fully embraced. All fleets that have any survey or CPUE options need to have a catchability specification and get a base Q parameter in the list. Any of these Q's can be either:
 
 \begin{itemize}
 	\item Fixed: by not floating and not estimating.
@@ -1782,7 +1782,7 @@ where $L_l$ is the length bin. If age based selectivity is selected then the len
 \end{itemize}
 
 \myparagraph{Pattern 2 (size) - Older version of selectivity pattern 24 for backward compatibility}
-Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in \hyperlink{MaleSelectivityOffset}{Male Selectivity Estimated as Offsets from Female Selectivity} for more information. Pattern 24 was changed in version 3.30.19 with the old parameterization now provided in Pattern 2.
+Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in \hyperlink{MaleSelectivityOffset}{Male Selectivity Estimated as Offsets from Female Selectivity} for more information. Pattern 24 was changed in v.3.30.19 with the old parameterization now provided in Pattern 2.
 
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
 Two parameters select the min and max bin number (not min max size) of the source selectivity pattern. If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value <=0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
@@ -2206,7 +2206,7 @@ Retention is defined as a logistic function of size or age. It does not apply to
 	\begin{itemize}
 		\item p1 - ascending inflection,
 		\item p2 - ascending slope,
-		\item p3 - maximum retention controlling the height of the asymptote (smaller values result in lower asymptotes), often a time-varying quantity to match the observed amount of discard. As of v. 3.30.01, this parameter is now input in logit space ranging between -10 and 10. A fixed value of -999 would assume no retention of fish and a value of 999 would set asymptotic retention equal to 1.0,
+		\item p3 - maximum retention controlling the height of the asymptote (smaller values result in lower asymptotes), often a time-varying quantity to match the observed amount of discard. As of v.3.30.01, this parameter is now input in logit space ranging between -10 and 10. A fixed value of -999 would assume no retention of fish and a value of 999 would set asymptotic retention equal to 1.0,
 		\item p4 - male offset to ascending inflection (arithmetic, not multiplicative),
 	\end{itemize}
 	\item Dome-shaped (add the following 3 parameters):
@@ -2279,7 +2279,7 @@ If the size selectivity pattern is 2, 20, 23 or 24 (double normal), then:
 Notes:
 \begin{itemize}
 	\item Male selectivity offsets currently cannot be time-varying because they are offsets from female selectivity, they inherit the time-varying characteristics of the female selectivity.
-    \item Prior to version 3.30.19 male parameter 5 in pattern 24 scaled only the apical selectivity. This sometimes resulted in strange shapes when the final selectivity, which was shared between females and males in that parameterization, was higher than the estimated apical selectivity. For backwards compatibility to the pattern 24 parameterization prior to 3.30.19, use selectivity pattern 2.
+    \item Prior to v.3.30.19 male parameter 5 in pattern 24 scaled only the apical selectivity. This sometimes resulted in strange shapes when the final selectivity, which was shared between females and males in that parameterization, was higher than the estimated apical selectivity. For backwards compatibility to the pattern 24 parameterization prior to v.3.30.19, use selectivity pattern 2.
 \end{itemize}
 
 \hypertarget{Dirichletparameter}{}
@@ -2445,10 +2445,10 @@ The tagging reporting rate parameter is transformed during estimation to maintai
 
 Currently, tag parameters cannot be time-varying.
 
-A shortcoming was identified in the recapture calculations when using Pope's F Method and multiple seasons in SS3 prior to v.3.30.14. The internal calculations were corrected in version 3.30.14. Now the Z-at-age is applied internally for calculations of fishing pressure on the population when using the Pope calculations.
+A shortcoming was identified in the recapture calculations when using Pope's F Method and multiple seasons in SS3 prior to v.3.30.14. The internal calculations were corrected in v.3.30.14. Now the Z-at-age is applied internally for calculations of fishing pressure on the population when using the Pope calculations.
 
 \myparagraph{Mirroring of Tagging Parameters}
-In version 3.30.14, the ability to mirror the tagging parameters from another tag group or fleet was added. With this approach, the user can have just one parameter value for each of the five tagging parameter types and mirror all other parameters. Note that parameter lines are still required for the mirrored parameters and only lower numbered parameters can be mirrored. Mirroring is evoked through the phase input in the tagging parameter section.  The options are:
+In v.3.30.14, the ability to mirror the tagging parameters from another tag group or fleet was added. With this approach, the user can have just one parameter value for each of the five tagging parameter types and mirror all other parameters. Note that parameter lines are still required for the mirrored parameters and only lower numbered parameters can be mirrored. Mirroring is evoked through the phase input in the tagging parameter section.  The options are:
 \begin{itemize}
 	\item No mirroring among tag groups or fleets: phase > -1000,
 	\item Mirror the next lower (i.e., already specified) tag group or fleet: phase = -1000 and set other parameter values the same as next lower Tag Group or fleet,
