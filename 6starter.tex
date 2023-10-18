@@ -187,8 +187,8 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
  \hline
  1 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SB\textsubscript{y}/(X*SB0). \Tstrut\Bstrut\\
 
- \hline
- %\pagebreak
+%  \hline
+ \pagebreak
  1 & SPR report basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{SPR is the equilibrium SB per recruit that would result from the current year's pattern and intensity of F's. The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section. Then the one specified here is used as the selected.}} \Tstrut\\
    & 0 = skip; & \\
    & 1 = use 1-SPR\textsubscript{target}; & \\
@@ -196,8 +196,8 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
    & 3 = use 1-SPR at B\textsubscript{target}; and & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Denominator in a ratio with the annual value of (1 - SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}} \Tstrut\\
    & 4 = no denominator, so report actual 1-SPR values. & \\
   
- \pagebreak
-% \hline 
+%  \pagebreak
+\hline 
  4 & Annual F units: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In addition to SPR, an additional proxy for annual F can be specified here. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector. Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas. But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring. Option 3 is a simple sum of the full F's by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below). The F is calculated as Z-M where Z and M are each calculated an ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
    & 0 = skip; & \\
    & 1 = exploitation rate in biomass; & \\
@@ -217,8 +217,8 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
  \multicolumn{2}{l}{COND: If F std reporting $\geq$ 4} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.}} \Tstrut\\
  \multicolumn{1}{r}{3 7}  & Age range if F std reporting = 4. & \Tstrut\Bstrut\\
 
- \hline
- %\pagebreak
+%  \hline
+ \pagebreak
  1 & F report basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the denominator to use when reporting the F std report values. A new option to allow for the calculation of a multi-year trailing average in F was implemented in v.3.30.16. This option is triggered by appending the number of years to calculate the average across where an input of 1 or 11 would result in the SPR\textsubscript{target} with no changes. Alternatively a value of 21 would calculate F as SPR\textsubscript{target} with a 2-year trailing average.}} \Tstrut\\
    & 0 = not relative, report raw values; & \\
    & 1 = use F std value relative to SPR\textsubscript{target}; & \\
