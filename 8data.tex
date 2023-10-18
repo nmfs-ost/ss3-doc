@@ -111,7 +111,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
 \subsection{Model Dimensions}
 \begin{center}
-	\begin{longtable}{p{4cm} p{12cm}}
+	\begin{longtable}{p{3cm} p{12cm}}
 		\hline
 		\textbf{Value} & \textbf{Description} \Tstrut\Bstrut\\
 		\hline
@@ -246,7 +246,7 @@ Bycatch fleets are not expected to be under the same type of fishery management 
 \noindent If a fleet above was set as a bycatch fleet (fleet type = 2), the following line is required: 
 \begin{center}
 	\vspace*{-\baselineskip}
-	\begin{tabular}{p{2.25cm} p{2.65cm} p{2.25cm} p{2.5cm} p{2.5cm} p{2cm}}
+	\begin{tabular}{p{2.25cm} p{2.5cm} p{2.25cm} p{2.5cm} p{2.5cm} p{2cm}}
 
 		\multicolumn{6}{l}{Bycatch fleet input controls:} \\
 		\hline
@@ -347,8 +347,7 @@ In addition, it is possible to collapse the number of seasons. \ So, if a season
 The format for a 2 season model with 2 fisheries looks like the table below. Example is sorted by fleet, but the sort order does not matter. In data.ss\_new, the sort order is fleet, year, season.
 
 \begin{center}
-	\vspace*{-\baselineskip}
-	\begin{tabular}{p{2cm} p{3cm} p{2cm} p{3cm} p{3cm}}
+	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
 		\multicolumn{5}{l}{Catches by year, season for every fleet:} \\
 		\hline
 		Year & Season & Fleet & Catch & Catch SE \Tstrut\Bstrut\\
@@ -382,8 +381,7 @@ The format for a 2 season model with 2 fisheries looks like the table below. Exa
 Indices are data that are compared to aggregate quantities in the model. Typically the index is a measure of selected fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model. The first section of the ``Indices'' setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
 
 \begin{center}
-	\vspace*{-\baselineskip}
-	\begin{tabular}{p{3cm} p{3cm} p{3cm} p{4cm}}
+	\begin{tabular}{p{3cm} p{3cm} p{4cm} p{4cm}}
 		\multicolumn{4}{l}{Catch-per-unit-effort (CPUE) and Survey Abundance Observations:} \\
 		\hline
 		Fleet/ &       & Error        & \Tstrut\\
@@ -547,7 +545,7 @@ The use of CV as the measure of variance can cause a small discard value to appe
 This is the overall mean body weight or length across all selected sizes and ages. This may be useful in situations where individual fish are not measured but mean weight is obtained by counting the number of fish in a specified sample (e.g., a 25 kg basket).    
 
 \begin{center}
-	\begin{tabular}{p{1.75cm} p{1.75cm} p{1.75cm} p{1.75cm} p{1.75cm} p{2cm} p{2cm}}
+	\begin{tabular}{p{1.75cm} p{1.75cm} p{1.75cm} p{1.75cm} p{1.75cm} p{2cm} p{1cm}}
 		\multicolumn{7}{l}{Mean Body Weight Data Section:} \\
 		\hline
 		1  & \multicolumn{6}{l}{Use mean body size data (0/1)} \Tstrut\Bstrut\\
@@ -630,7 +628,7 @@ There are some items for users to consider when setting up population length bin
 
 
 \subsection{Length Composition Data Structure}
-\begin{tabular}{p{2cm} p{14cm}}
+\begin{tabular}{p{2cm} p{13cm}}
 		\multicolumn{2}{l}{Enter a code to indicate whether or not length composition data will be used:} \Tstrut\Bstrut\\
 		\hline	
 		1 & Use length composition data (0/1/2) \Tstrut\Bstrut\\
@@ -641,7 +639,7 @@ If the value 0 is entered, then skip all length related inputs below and skip to
 
 If the value for fleet is negative, then the vector of inputs is copied to all partitions (0 = combined, 1 = discard, and 2 = retained) for that fleet and all higher numbered fleets. This as a good practice so that the user controls the values used for all fleets.
 
-\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1cm} p{1cm}}
+\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1cm}}
 	\multicolumn{7}{l}{Example table of length composition settings when ``Use length composition data'' = 1 (where here} \\
 	\multicolumn{7}{l}{the first fleet has multinomial error structure with no associated parameter, and the second fleet} \\ 
 	\multicolumn{7}{l}{uses Dirichlet-multinomial structure):} \\
@@ -656,7 +654,7 @@ If the value for fleet is negative, then the vector of inputs is copied to all p
 \end{tabular}
 
 
-\begin{tabular}{p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
+\begin{tabular}{p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
 		\multicolumn{9}{l}{Example table of length composition settings when ``Use length composition data'' = 2 (where here} \\
 		\multicolumn{9}{l}{the -1 in the fleet column applies the first parameter to all partitions for fleet 1 while fleet 2 has} \\
 		\multicolumn{9}{l}{separate parameters for discards and retained fish):} \\
@@ -936,7 +934,7 @@ In a two sex model, it is best to enter these conditional age-at-length data as 
 Conditional age-at-length data are entered within the age composition data section and can be mixed with marginal age observations for other fleets of other years within a fleet. To treat age data as conditional on length, Lbin\_lo and Lbin\_hi are used to select a subset of the total size range. This is different than setting Lbin\_lo and Lbin\_hi both to -1 to select the entire size range, which treats the data entered on this line within the age composition data section as marginal age composition data.  
 
 \vspace*{-\baselineskip}
-\begin{tabular}{p{0.9cm} p{1cm} p{0.9cm} p{0.9cm} p{1.5cm} p{0.9cm} p{0.9cm} p{0.9cm} p{1cm} p{2.4cm}}
+\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{2.5cm}}
 	\multicolumn{10}{l}{} \\
 	\multicolumn{10}{l}{An example conditional age-at-length composition observations:} \\
 	\hline
@@ -990,7 +988,7 @@ The model accepts input of time series of environmental data. Parameters can be 
 
 \begin{center}
 	\vspace*{-\baselineskip}
-	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{4cm}}
+	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{3cm}}
 		\multicolumn{4}{l}{Parameter values can be a function of an environmental data series:} \\
 		\hline
 		1 & \multicolumn{3}{l}{Number of environmental variables} \Tstrut\Bstrut\\
