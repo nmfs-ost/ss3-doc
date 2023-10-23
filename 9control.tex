@@ -736,7 +736,7 @@ These parameters are only included in the control file if one of the ageing erro
 	\item Power function coefficient for interpolating between those 2 values.
 \end{enumerate}
 
-\noindent Code for implementing vectors of mean age and standard deviation of age can be located online within the \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_miscfxn.tpl}{SS\_miscfxn.tpl} file, search for function ``get\_age\_age'' or ``SS\_Label\_Function 45''.
+\noindent Code for implementing vectors of mean age and standard deviation of age can be located online within the \href{https://github.com/nmfs-stock-synthesis/ss3-source-code/blob/main/SS_miscfxn.tpl}{SS\_miscfxn.tpl} file, search for function ``get\_age\_age'' or ``SS\_Label\_Function 45''.
 
 \subsubsection{Sex ratio}
 The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish at recruitment. The parameter is specified in the fraction of female fish and is applied at settlement. The default option is a sex ratio of 0.50 with this parameter not being estimated. Any composition data input as type = 3, both sexes, will be informative to the sex ratio because it scales females and males together, not separately, for this data type input. Estimation of the sex ratio is a new feature and should be done with care with the user checking that the answer is reflective of the data.
@@ -1080,7 +1080,7 @@ h = 0.2e^{z_0z_{\text{frac}}(1-0.2^\beta)}<0.2e^{z_0}=\frac{1}{5S_0}=\frac{SB_0}
 
 Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$>0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$=0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.
 
-Code for the survival based recruitment can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_recruit.tpl}{SS\_recruit.tpl}, search for ``SS\_Label\_43.3.7 survival based''.
+Code for the survival based recruitment can be found in \href{https://github.com/nmfs-stock-synthesis/ss3-source-code/blob/main/SS_recruit.tpl}{SS\_recruit.tpl}, search for ``SS\_Label\_43.3.7 survival based''.
 
 \myparagraph{Shepherd}
 \hypertarget{Shepherd}{The} Shepherd stock recruit curve is calculated as:
@@ -1860,7 +1860,7 @@ In typical usage:
 		\item To keep a constant rate of change in selectivity across a range of ages, use the -999 flag to keep the same rate of change in ln(selectivity) as for the previous age.
 	\end{itemize}
 
-Code for implementing random walk selectivity can be found in \href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_selex.tpl}{SS\_selex.tpl}, search for ``SS\_Label\_Info\_22.7.17''.
+Code for implementing random walk selectivity can be found in \href{https://github.com/nmfs-stock-synthesis/ss3-source-code/blob/main/SS_selex.tpl}{SS\_selex.tpl}, search for ``SS\_Label\_Info\_22.7.17''.
 
 \myparagraph{Pattern 22 (size) - Double Normal with Plateau}
 	\begin{itemize}
@@ -1991,7 +1991,7 @@ Notes:
 	\end{itemize}
 	
 Code for implementing cubic spline selectivity can be found in
-\href{https://github.com/nmfs-stock-synthesis/stock-synthesis/blob/main/SS_selex.tpl}{SS\_selex.tpl},
+\href{https://github.com/nmfs-stock-synthesis/ss3-source-code/blob/main/SS_selex.tpl}{SS\_selex.tpl},
 search for ``SS\_Label\_Info\_22.7.27''.
 
 One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial set-up code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this problem.
