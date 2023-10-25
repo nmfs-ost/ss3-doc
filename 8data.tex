@@ -566,8 +566,9 @@ This is the overall mean body weight or length across all selected sizes and age
 
 \myparagraph{Partition}
 Mean weight data and composition data require specification of what group the sample originated from (e.g., discard, retained, discard + retained).
+Note: if retention is not defined in the selectivity section, observations with Partition = 2 will be changed to Partition = 0.
 \begin{itemize}
-	\item 0 = whole catch in units of weight (discard + retained);
+	\item 0 = combined catch in units of weight (whole, e.g. discard + retained);
 	\item 1 = discarded catch in units of weight; and
 	\item 2 = retained catch in units of weight.
 \end{itemize}
@@ -782,9 +783,10 @@ In a 2 sex model, the data vector always has female data followed by male data, 
 	\end{itemize}
 
 \myparagraph{Partition}
-Partition indicates samples from either discards,retained, or combined.
+Partition indicates samples from either combined, discards, or retained catch. 
+Note: if retention is not defined in the selectivity section, observations with Partition = 2 will be changed to Partition = 0.
 	\begin{itemize}
-		\item 0 = combined;
+		\item 0 = combined (whole, e.g. discard + retained);
 		\item 1 = discard; and
 		\item 2 = retained.
 	\end{itemize}
@@ -1025,7 +1027,7 @@ The generalized approach to size composition information was designed initially 
 	\item Each method has ``units'' so the frequencies can be in units of biomass or numbers.
 	\item Each method has ``scale'' so the bins can be in terms of weight or length (including ability to convert bin definitions in pounds or inches to kg or cm). 
 	\item The composition data is input as females then males, just like all other composition data in SS3. In a two-sex model, the new composition data can be combined sex, single sex, or both sex.
-	\item The generalized size composition data can be from the combined discard and retained, discard only, or retained only.
+	\item The generalized size composition data can be from the combined discard and retained (i.e., whole), discard only, or retained only.
 	\item There are two options for treating fish that in population size bins are smaller than the smallest size frequency bin.
 	\begin{itemize}
 		\item Option 1: By default, these fish are excluded (unlike length composition data where the small fish are automatically accumulated up into the first bin).
