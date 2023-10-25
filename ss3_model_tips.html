@@ -165,7 +165,7 @@ pre code {
 
 <h1 class="title toc-ignore">Developing your first Stock Synthesis (SS3) model</h1>
 <h4 class="author">SS3 Development Team</h4>
-<h4 class="date">Last Updated: October 13, 2023</h4>
+<h4 class="date">Last Updated: October 25, 2023</h4>
 
 </div>
 
@@ -173,7 +173,7 @@ pre code {
 <div id="scope" class="section level1" number="1">
 <h1><span class="header-section-number">1</span> Scope</h1>
 <p>The developing your first SS3 model guide teaches users how to develop a basic Stock Synthesis model. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS3 model.</p>
-<p>If you are a new SS3 user who is not yet comfortable running an SS3 model, we suggest trying to run an example working model using advice in the <a href="https://nmfs-stock-synthesis.github.io/doc/Getting_Started_SS.html">Getting Started guide</a> before attempting to develop and run your own model as outlined here.</p>
+<p>If you are a new SS3 user who is not yet comfortable running an SS3 model, we suggest trying to run an example working model using advice in the <a href="https://nmfs-stock-synthesis.github.io/doc/Getting_Started_SS3.html">Getting Started guide</a> before attempting to develop and run your own model as outlined here.</p>
 <p>By the end of using this guide, you should be able to:</p>
 <ol style="list-style-type: decimal">
 <li>Develop your own SS3 model development workflow based on the tools and methods suggested</li>
@@ -191,17 +191,18 @@ pre code {
 </ol>
 <p>Some commonly used tools for editing the SS3 input files are:</p>
 <ol style="list-style-type: decimal">
-<li><a href="https://github.com/nmfs-stock-synthesis/ssi"><strong>Stock Synthesis Interface (SSI; the SS3 GUI)</strong></a>. The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI.</li>
+<li><a href="https://github.com/nmfs-stock-synthesis/ssi"><strong>Stock Synthesis Interface (SSI; the SS3 GUI)</strong></a>. The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.</li>
 <li><strong>Your favorite text editor</strong>.</li>
 <li><strong>The <code>SS_read*</code> and <code>SS_write*</code> functions in the R package <a href="https://github.com/r4ss/r4ss">r4ss</a></strong>. These functions allow you to read in SS3 input files to R, manipulate them from within R, then write them out to a file. The <a href="https://r4ss.github.io/r4ss/vignettes/r4ss-intro-vignette.html#scripting-stock-synthesis-workflows-with-r4ss">r4ss vignette</a> demonstrates how to use these functions</li>
+<li><strong>Stock Assessment Continuum Tool</strong>. Available through github at <a href="https://github.com/shcaba/SS-DL-tool" class="uri">https://github.com/shcaba/SS-DL-tool</a>.</li>
 </ol>
 </div>
 <div id="guidance-on-model-specification" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Guidance on model specification</h1>
 <p>SS3 has a rich set of features. Some required inputs are conditional on other inputs, so it is important to be mindful that changing an option might result in SS3 expecting a different number of values in the input files than it did previously. Most of the time, these conditional inputs are read right after the option.</p>
 <p>The <a href="https://github.com/nmfs-stock-synthesis/doc/releases">SS3 user manual</a> can be used as a guide to help you edit your model. Conditional inputs are noted in the manual. The SSI can also help guide you through changes in model inputs required as you select different SS3 model options.</p>
-<p>If you are unsure if you got the setup right (e.g., adding the correct number of parameter lines for a chosen catchability setup), try running the model with <code>maxphase = 0</code> in the starter file and ADMB option <code>-nohess</code> (or for SS3 3.30.16 and greater, run the model with command line options <code>-stopph 0 -nohess</code>, no need to change the starter file). If the model run completes, you can compare the <strong>control.ss_new</strong> file and the first data set in <strong>data.ss_new</strong> to your SS3 input files to make sure SS3 interpreted the values as intended. If the run exits before completion, you can look at <strong>warning.sso</strong> and <strong>echoinput.sso</strong> for clues as to what was wrong with your setup.</p>
-<p>For additional help with model specification, please post your questions on the vlab <a href="https://vlab.noaa.gov/web/stock-synthesis/public-forums">forums</a> (for registered SS3 users) or send an email to the SS3 team at <a href="mailto:NMFS.Stock.Synthesis@noaa.gov" class="email">NMFS.Stock.Synthesis@noaa.gov</a>.</p>
+<p>If you are unsure if you got the setup right (e.g., adding the correct number of parameter lines for a chosen catchability setup), try running the model with <code>maxphase = 0</code> in the starter file and ADMB option <code>-nohess</code> (or for v.3.30.16 and greater, run the model with command line options <code>-stopph 0 -nohess</code>, no need to change the starter file). If the model run completes, you can compare the <strong>control.ss_new</strong> file and the first data set in <strong>data.ss_new</strong> to your SS3 input files to make sure SS3 interpreted the values as intended. If the run exits before completion, you can look at <strong>warning.sso</strong> and <strong>echoinput.sso</strong> for clues as to what was wrong with your setup.</p>
+<p>For additional help with model specification, please post your questions in the GitHub <a href="https://github.com/nmfs-stock-synthesis/stock-synthesis/discussions">discussions</a> or on the vlab <a href="https://vlab.noaa.gov/web/stock-synthesis/public-forums">forums</a> (for registered SS3 users) or send an email to the SS3 team at <a href="mailto:NMFS.Stock.Synthesis@noaa.gov" class="email">NMFS.Stock.Synthesis@noaa.gov</a>.</p>
 </div>
 <div id="phases-in-ss3-and-admb" class="section level1" number="4">
 <h1><span class="header-section-number">4</span> Phases in SS3 and ADMB</h1>
@@ -313,7 +314,7 @@ pre code {
 <div id="where-to-get-additional-help" class="section level1" number="11">
 <h1><span class="header-section-number">11</span> Where to get additional help</h1>
 <ul>
-<li>Post questions to the <a href="https://vlab.noaa.gov/web/stock-synthesis/public-forums">forums</a> or send an emails to the team at <a href="mailto:NMFS.Stock.Synthesis@noaa.gov" class="email">NMFS.Stock.Synthesis@noaa.gov</a> for assistance.</li>
+<li>Post questions in the GitHub <a href="https://github.com/nmfs-stock-synthesis/stock-synthesis/discussions">discussions</a> or to the <a href="https://vlab.noaa.gov/web/stock-synthesis/public-forums">forums</a> or send an emails to the team at <a href="mailto:NMFS.Stock.Synthesis@noaa.gov" class="email">NMFS.Stock.Synthesis@noaa.gov</a> for assistance.</li>
 <li><a href="https://doi.org/10.1016/j.fishres.2021.105959">Carvalho et al. 2021</a> contains guidance on developing stock assessments.</li>
 </ul>
 </div>

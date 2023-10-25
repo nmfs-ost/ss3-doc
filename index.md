@@ -1,8 +1,8 @@
 # Stock Synthesis Documentation
 
 ## Links to Documentation
-* [Getting Started Tutorial](Getting_Started_SS.html)
-* [Building Your First SS3 Model Tutorial](ss_model_tips.html)
+* [Getting Started Tutorial](Getting_Started_SS3.html)
+* [Building Your First SS3 Model Tutorial](ss3_model_tips.html)
 * [Current User Manual (html)](SS330_User_Manual_release.html)
 * [Current User Manual (pdf)](https://github.com/nmfs-stock-synthesis/stock-synthesis/releases/download/v3.30.21/SS330_User_Manual.pdf)
 

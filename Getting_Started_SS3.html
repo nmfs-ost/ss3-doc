@@ -165,7 +165,7 @@ pre code {
 
 <h1 class="title toc-ignore">Getting Started with Stock Synthesis (SS3)</h1>
 <h4 class="author">SS3 Development Team</h4>
-<h4 class="date">Last Updated: October 13, 2023</h4>
+<h4 class="date">Last Updated: October 25, 2023</h4>
 
 </div>
 
@@ -228,7 +228,7 @@ Figure 1. SS3 input and output files, and associated tools. Note that some tools
 <p>SS3 uses text input files and produces text output files. In this section, the SS3 input and output files are described, as are tools that can be used with these files. See how they relate in Figure 1.</p>
 <div id="ss3-files-required-inputs" class="section level2" number="2.1">
 <h2><span class="header-section-number">2.1</span> SS3 files: Required inputs</h2>
-<p>Four required input files are read by the SS3 executable. Throughout this document, we will refer to the SS3 executable as ss.exe. Keep in mind that the Linux and Mac versions of SS3 have no file extension (e.g., ss), and the executable can be renamed by the user as desired (e.g., ss_win.exe, ss_3.30.18.exe). These input files are:</p>
+<p>Four required input files are read by the SS3 executable. Throughout this document, we will refer to the SS3 executable as ss3.exe. Keep in mind that the Linux and Mac versions of SS3 have no file extension (e.g., ss3), and the executable can be renamed by the user as desired (e.g.,ss3.exe, ss_win.exe, ss_3.30.18.exe). These input files are:</p>
 <ol style="list-style-type: decimal">
 <li><strong>starter.ss:</strong> Required file containing file names of the data file and the control file plus other run controls. Must be named starter.ss.</li>
 <li><strong>data file:</strong> File containing model dimensions and the data. The data file can have any name, as specified in the starter file, but typically ends in .ss or .dat.</li>
@@ -258,13 +258,14 @@ Figure 1. SS3 input and output files, and associated tools. Note that some tools
 <ul>
 <li><p><strong>Any text editor</strong> can be used to view and edit SS3 input and output files. Defining a custom syntax highlighting scheme for SS3 files may improve SS3 file readability. Some commonly used text editors include Atom, Emacs, Notepad++, and Sublime Text.</p></li>
 <li><p><strong>r4ss</strong>: An R package to plot SS3 model results and manipulate SS3 input and output files. Available at: <a href="https://github.com/r4ss/r4ss" class="uri">https://github.com/r4ss/r4ss</a></p></li>
-<li><p><strong>SSI</strong>: Stock Synthesis Interface (i.e., the SS3 GUI). The <a href="https://github.com/nmfs-stock-synthesis/ssi/releases/latest">latest version of SSI</a> can be downloaded from GitHub. SSI can be used to edit, save, run, and visualize model inputs and outputs.</p></li>
+<li><p><strong>SSI</strong>: Stock Synthesis Interface (i.e., the SS3 GUI). The <a href="https://github.com/nmfs-stock-synthesis/ssi/releases/latest">latest version of SSI</a> can be downloaded from GitHub. SSI can be used to edit, save, run, and visualize model inputs and outputs. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.</p></li>
+<li><p><strong>Stock Assessment Continuum Tool</strong>: Available through github at <a href="https://github.com/shcaba/SS-DL-tool" class="uri">https://github.com/shcaba/SS-DL-tool</a>, the Stock Assessment Continuum Tool (previously known as the Stock Synthesis Data-limited Tool) is a Shiny-based application that provides an interface to upload catch time-series, age composition, length composition, and abundance index data and define model options within the application, which then writes the Stock Synthesis input files.</p></li>
 </ul>
 </div>
 </div>
 <div id="running-ss3" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Running SS3</h1>
-<p>SS3 is typically run through the command line (although it can also be run indirctly via the commandline through an R console). We will introduce the one folder approach, where SS3 is in the same folder as the model files. Other possible approaches to running SS3 include, which are detailed in the <a href="https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#sec:RunningSS">“Running Stock Synthesis” section of the user manual</a>.</p>
+<p>SS3 is typically run through the command line (although it can also be run indirctly via the commandline through an R console). We will introduce the one folder approach, where SS3 is in the same folder as the model files. Other possible approaches to running SS3 include, which are detailed in the <a href="https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#sec:RunningSS3">“Running Stock Synthesis” section of the user manual</a>.</p>
 <div id="the-one-folder-approach-and-demonstration-of-an-ss3-model-run" class="section level2" number="3.1">
 <h2><span class="header-section-number">3.1</span> The one folder approach and demonstration of an SS3 model run</h2>
 <p>The one folder approach is so named because the model input files and SS3 executable are in the same folder. The one folder approach is the simplest way to run SS3 via the command line, so we will walk through an example run using this approach.</p>
@@ -275,7 +276,7 @@ Figure 1. SS3 input and output files, and associated tools. Note that some tools
 <li>Control File (Must match name in starter.ss)</li>
 <li>Data File (Must match name in starter.ss)</li>
 <li>forecast.ss</li>
-<li>ss.exe</li>
+<li>ss3.exe</li>
 <li>starter.ss</li>
 <li>Conditional files: wtatage.ss (if doing empirical wt-at-age approach) and/or ss.par (to continue from a previous run)</li>
 </ul>
@@ -285,7 +286,7 @@ Figure 1. SS3 input and output files, and associated tools. Note that some tools
 <div id="run-ss3" class="section level3" number="3.1.2">
 <h3><span class="header-section-number">3.1.2</span> Run SS3</h3>
 <p>Once all of the model files and the SS3 executable are in the same folder, you can open your command window of choice at the location of the model files.</p>
-<p>To do this, you can typically click to highlight the folder the model files are in, then shift + right click on the same folder and select the option from the menu to open the command line of choice (e.g., Windows Powershell). This should bring up a command window. Then, type <code>ss</code> (or other name of the ss exe) into the command prompt and hit enter. Note that if you are using Windows Powershell, you will need to type <code>./ss</code>.</p>
+<p>To do this, you can typically click to highlight the folder the model files are in, then shift + right click on the same folder and select the option from the menu to open the command line of choice (e.g., Windows Powershell). This should bring up a command window. Then, type <code>ss3</code> (or other name of the ss3 exe) into the command prompt and hit enter. Note that if you are using Windows Powershell, you will need to type <code>./ss3</code>.</p>
 <p>The exact instructions for running SS3 can differ depending on the command window used. If you have trouble, search for resources that describe running an executable for your specific command line.</p>
 <p>If you still have issues, double-check that you are calling the correct exe name (e.g., you would need to type <code>ss_win</code> to run an executable called <code>ss_win.exe</code>.) and that the command line has the correct directory.</p>
 <p>After starting the run, you should see output to the command line similar to:</p>
@@ -310,9 +311,9 @@ Figure 1. SS3 input and output files, and associated tools. Note that some tools
 <h1><span class="header-section-number">4</span> Options for running SS3</h1>
 <div id="options" class="section level2" number="4.1">
 <h2><span class="header-section-number">4.1</span> Command line options</h2>
-<p>ADMB options can be added to the run when calling the SS3 executable from the command line. The most commonly used option is <code>ss -nohess</code> to skip standard errors (for quicker results or to get Report.sso if the hessian does not invert).</p>
-<p>To list all command line options, use one of these calls: <code>SS -?</code> or <code>SS -help</code>. More info about the ADMB command line options is available in the <a href="http://www.admb-project.org/docs/manuals/">ADMB Manual</a> (Chapter 12: Command line options).</p>
-<p>To run SS3 without estimation use: <code>ss -stopph 0</code>. This will speed up your run by not optimizing. Often <code>-stopph 0</code> is used with the <code>-nohess</code> option to speed up the run even more. To run SS3 with no estimation in SS3.30.15 and earlier, change the max phase in the starter.ss file to 0 and run the exe with the <code>–nohess</code> option.</p>
+<p>ADMB options can be added to the run when calling the SS3 executable from the command line. The most commonly used option is <code>ss3 -nohess</code> to skip standard errors (for quicker results or to get Report.sso if the hessian does not invert).</p>
+<p>To list all command line options, use one of these calls: <code>SS3 -?</code> or <code>SS3 -help</code>. More info about the ADMB command line options is available in the <a href="http://www.admb-project.org/docs/manuals/">ADMB Manual</a> (Chapter 12: Command line options).</p>
+<p>To run SS3 without estimation use: <code>ss3 -stopph 0</code>. This will speed up your run by not optimizing. Often <code>-stopph 0</code> is used with the <code>-nohess</code> option to speed up the run even more. To run SS3 with no estimation in v.3.30.15 and earlier, change the max phase in the starter.ss file to 0 and run the exe with the <code>–nohess</code> option.</p>
 </div>
 <div id="using-ss.par-for-initial-values" class="section level2" number="4.2">
 <h2><span class="header-section-number">4.2</span> Using ss.par for initial values</h2>
@@ -344,12 +345,13 @@ SS_plots(replist)# create plots for SS3 run</code></pre>
 <li>Check that starter.ss references the correct names of the control and data files.</li>
 <li>If SS3 starts to read files and then crashes, check warnings.sso and echoinput.sso. The warnings.sso will reveal potential issues with the model, while echoinput.sso will show how far SS3 was able to run. Work backwards from the bottom of echoinput.sso, looking for where SS3 stopped and if the inputs are being read corectly or not.</li>
 </ul>
-<p>For further information on troubleshooting, please refer to the SS3 User Manual <a href="https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#sec:RunningSS">“Running Stock Synthesis” subsections</a>, especially <a href="https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#re-starting-a-run">“Re-Starting a Run”</a> and <a href="https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#debugging-tips">“Debugging Tips”</a>.</p>
+<p>For further information on troubleshooting, please refer to the SS3 User Manual <a href="https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#sec:RunningSS3">“Running Stock Synthesis” subsections</a>, especially <a href="https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#re-starting-a-run">“Re-Starting a Run”</a> and <a href="https://nmfs-stock-synthesis.github.io/doc/SS330_User_Manual.html#debugging-tips">“Debugging Tips”</a>.</p>
 </div>
 </div>
 <div id="where-to-get-additional-help" class="section level1" number="6">
 <h1><span class="header-section-number">6</span> Where to get additional help</h1>
 <ul>
+<li>Post to the Stock Synthesis <a href="https://github.com/nmfs-stock-synthesis/stock-synthesis/discussions">discussion boards on GitHub</a></li>
 <li>The <a href="https://vlab.noaa.gov/web/stock-synthesis">SS3 vlab website</a> resources, including the SS3 user manual and the SSI user guide</li>
 <li>Post questions to the <a href="https://vlab.noaa.gov/web/stock-synthesis/public-forums">forums</a></li>
 <li>Email questions to <a href="mailto:nmfs.stock.synthesis@noaa.gov" class="email">nmfs.stock.synthesis@noaa.gov</a></li>
