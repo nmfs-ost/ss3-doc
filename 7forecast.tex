@@ -59,16 +59,18 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   \multicolumn{1}{r}{-9999 0 0 0} & & \\
     & & \\
     & & \\
-    & & \Bstrut\\
+    & & \\
+    & & \\
 
   \hline
-  0.45 & SPR\textsubscript{target} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to the unfished value.}} \Tstrut\\
-    & & \\
+  0.45 & SPR\textsubscript{target} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the F multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to the unfished value.}} \Tstrut\Bstrut\\
+    & & \Bstrut\\
   
   \hline
   0.40 & Relative Biomass Target & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the F multiplier that will produce this level of spawning biomass relative to unfished value. This is not ``per recruit'' and takes into account the spawner-recruitment relationship.}} \Tstrut\Bstrut\\
-    & & \Tstrut\Bstrut\\
-    
+    & & \\
+    & & \\
+
   \hline 
   \multicolumn{2}{l}{COND: \hyperlink{Bmarks_RefPoints}{Benchmarks} = 3} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{B\textsubscript{LIMIT} as a fraction of the B\textsubscript{MSY} where a negative value will be applied as a fraction of B0}} \Tstrut\\
     & -0.25 & \\
@@ -79,16 +81,16 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & -999: start year; & \\
     & >0: absolute year; and & \\
     & <= 0: year relative to end year. & \Bstrut\\
-    & & \Bstrut\\
-    & & \Bstrut\\
+    & & \\
+    & & \\
+    & & \\
 
-  % \pagebreak
-  \hline
+  \pagebreak
+  % \hline
   1 & Benchmark Relative F Basis: & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{The specification does not affect year range for selectivity and biology.}} \Tstrut\\
     & 1 = use year range; and & \\
     & 2 = set range for relF same as \hyperlink{Fcast}{Forecast}. & \Bstrut\\
 
-  \pagebreak
   \hline
   2 & \hypertarget{Fcast}{Forecast}: & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{This input is required but is ignored if benchmarks are turned off. This determines how forecast catches are calculated and removed from the population which is separate from the ``MSY Method'' above. If F\textsubscript{MSY} is selected, it uses whatever proxy (e.g., F\textsubscript{SPR} or F\textsubscript{BTGT}) is selected in the ``MSY Method'' row.}} \Tstrut\\
     & -1 = none, no forecast years; & \\
@@ -100,7 +102,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 5 = input annual F scalar. & \Bstrut\\
 
   \hline
-  10 & N forecast years (must be >= 1) & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{At least one forecast year now required if the Forecast option above is >=0 (Note: SS3 v.3.24 allowed zero forecast years).}} \Tstrut\\
+  10 & N forecast years (must be >= 1) & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{At least one forecast year now required if the Forecast option above is >=0 (Note: v.3.24 allowed zero forecast years).}} \Tstrut\\
     & & \\
 
   \hline
@@ -109,32 +111,36 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   
   % \pagebreak
   \hline
-  \multicolumn{3}{l}{There are 2 options for entering \hypertarget{FcastYears}{Forecast Years}:} \Tstrut\Bstrut\\
+  \multicolumn{3}{l}{There are 2 options for entering \hypertarget{FcastYears}{Forecast Years}:} \Tstrut\\
   
   Option 1: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18.5cm}{This approach for forecast year ranges is no longer recommended because blocks, random effects, and other time-varying parameter changes can now operate on forecast years and the new approach provides better control averaging.}}} \Tstrut\Bstrut\\
-   & & \Tstrut\Bstrut\\
+   & & \Tstrut\\
 
-  0 0 0 0 0 0 & Enter 6 Forecast Year Values & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{To continue to use this pre-SS3.20.22 approach, enter 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution. These are used to create means over the specified range of years. Values can be entered as the actual year, -999 for start year, or values of 0 or -integer to be relative endyr. It is important to note:}} \Tstrut\Bstrut\\
-   & & \Tstrut\Bstrut\\
-   & & \Tstrut\Bstrut\\
-   \pagebreak
+  \pagebreak
+  0 0 0 0 0 0 & Enter 6 Forecast Year Values & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{To continue to use this pre-v.3.20.22 approach, enter 6 values: beginning and ending years for selectivity, relative Fs, and recruitment distribution. These are used to create means over the specified range of years. Values can be entered as the actual year, -999 for start year, or values of 0 or -integer to be relative endyr. It is important to note:}} \Tstrut\Bstrut\\
+   & & \\
+   & & \\
+   & & \Bstrut\\
+
+  %  \pagebreak
    & & -- Relative F for bycatch only fleets is scaled just like other fleets.\Tstrut\\
    & & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{-- For selectivity averaging with the new approach the method code is ``1'', whereas with the old Forecast Selectivity Option, the code was ``1'' for using time-varying parameters. SS3 accounts for this change internally.}} \Bstrut\\
-   & & \Bstrut\\
+   & & \\
+   & & \\
    & & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{-- Whenever calculating means, the calculated mean will have artificially low variance than if a minimal range of years is selected.}} \\
    & & \\
 
   0 & \hypertarget{FcastSelectivity}{Forecast Selectivity Option}: & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Determines selectivity used in the forecast years. Selecting 1 will allow for application of time-varying selectivity parameters (e.g., random walk) to continue into the forecast period. This setting is not included in Option 2.}} \\
     & 0 = forecast selectivity means from year range; and & \\
-    % & \multirow{1}{1cm}[-0.15cm]{\parbox{6.5cm}{1 = forecast selectivity from annual time-varying parameters.}} & \\
     & 1 = forecast selectivity from annual time-varying parameters. & \\
 
   % \hline
-  Option 2: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18.5cm}{To use the new approach, enter a single value of -12345 and omit entry of the \hyperlink{FcastSelectivity}{Forecast Selectivity Option}.}}} \Tstrut\Bstrut\\
+  Option 2: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18.5cm}{To use the new approach, enter -12345 and omit entry of the \hyperlink{FcastSelectivity}{Forecast Selectivity Option}.}}} \\
 
-  -12345 & Invoke New Forecast Format & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Biology and selectivity vectors are updated annually in the forecast according to their time-varying parameters. Be sure to check the end year of the blocks and the deviation vectors. Input in this section directs the creation of means over historical years to override any time-varying changes. To invoke taking the mean of a range of historical recruitments after all adjustments and deviations were applied, see the \hyperlink{FcastRecruitment}{Base recruitment in forecast} option. See the Example New Forecast Format Input below.}} \Bstrut\\
+  % \pagebreak
+  -12345 & Invoke New Forecast Format & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Biology and selectivity vectors are updated annually in the forecast according to their time-varying parameters. Be sure to check the end year of the blocks and the deviation vectors. Input in this section directs the creation of means over historical years to override any time-varying changes. To invoke taking the mean of a range of historical recruitments after all adjustments and deviations were applied, see the \hyperlink{FcastRecruitment}{Base recruitment in forecast} option. See the Example New Forecast Format Input below.}} \Tstrut\Bstrut\\
    & & \\
-   & & \\
+   & & \Bstrut\\
    & & \Tstrut\Bstrut\\
    & & \Tstrut\Bstrut\\
   
@@ -150,7 +156,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   -9999 & -1 \hspace{25mm} -1 & -1 \Bstrut\\
 
   % \hline
-   & Factor & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Factors implemented thus far. Terminate with -9999.}} \Tstrut\\
+   & Factor & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Factors implemented thus far. Terminate with -9999.}} \\
    & 1 = natural mortality (M); & \\
    & 4 = recruitment distribution; & \\
    & 5 = migration; & \\
@@ -165,7 +171,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
    & 1 = use means of derived factor; & \\
    & 2 (future) = means parameter then apply as if time\_vary & \\
    & Start Year & Enter the actual year or values of 0, -999 to be styr, or -integer to be relative endyr. \\
-   & End Year & Enter the actual year or values of 0 or -integer to be relative endyr. \Bstrut\\
+   & End Year & Enter the actual year or values of 0 or -integer to be relative endyr. \\
   
   \pagebreak
   % \hline
@@ -187,12 +193,13 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   \hline
   % \pagebreak
-  0.75 \Tstrut & Control Rule Buffer (multiplier between 0-1.0 or -1) & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{Control rule catch or F\textsubscript{target} as a fraction of selected catch or F\textsubscript{MSY} proxy. The buffer will be applied to reduce catch from the estimated overfishing limit. The buffer value is a value between 0-1.0 where a value of 1.0 would set catch equal to the overfishing limit. As example if the buffer is applied to catch (Control Rule option 3 or 4 above) the catch will equal the buffer times the overfishing limit. Alternatively a value of -1 will allow the user to input a forecast year specific control rule fraction (added in v. 3.30.13).}} \Bstrut\\ 
+  0.75 \Tstrut & Control Rule Buffer (multiplier between 0-1.0 or -1) & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{Control rule catch or F\textsubscript{target} as a fraction of selected catch or F\textsubscript{MSY} proxy. The buffer will be applied to reduce catch from the estimated overfishing limit. The buffer value is a value between 0-1.0 where a value of 1.0 would set catch equal to the overfishing limit. As example if the buffer is applied to catch (Control Rule option 3 or 4 above) the catch will equal the buffer times the overfishing limit. Alternatively a value of -1 will allow the user to input a forecast year specific control rule fraction (added in v.3.30.13).}} \Bstrut\\ 
+    & & \Bstrut\\
     & & \Bstrut\\
     & & \Bstrut\\
     & & \Bstrut\\
 
-  %\pagebreak %
+  \pagebreak
   %\hline
   \multicolumn{2}{l}{COND -1: Conditional input for annual control rule buffer} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{Year and control rule buffer value. Can enter a value for each year, or starting sequence of years. The final control rule buffer value will apply to all sequent forecast years.}} \\
   \multicolumn{1}{r}{2019 0.8} & & \\
@@ -216,8 +223,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & & \\
     & & \\
 
-  \hline
-  %\pagebreak
+  % \hline
+  \pagebreak
   1 \Tstrut & \hyperlink{ForeSpawn}{Base recruitment in forecast:} \hypertarget{FcastRecruitment}{} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{This option controls the base recruitment (to which deviations are applied) in the forecast, or taking the mean of a range of historical recruitments after all adjustments and deviations were applied. For options 1 and 2, the next value read is a scalar applied to the base. Option 4 requires the user set the \hyperlink{FcastRecDevPhase}{forecast recruitment deviation phase} to negative (specifically -1 to get constant mean in MCMC) and the \hyperlink{RecDevEndYear}{last year of recruitment deviations} is the \hyperlink{EndYear}{end year}.}} \\
     & 0 = spawner recruit curve; & \\
     & 1 = value*(spawner recruit curve); & \\
@@ -247,8 +254,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 0 = omit U.S. West Coast rebuilder output; and & \\
     & 1 = do abbreviated U.S. West Coast rebuilder output \Bstrut\\
 
-  \hline
-  %\pagebreak
+  % \hline
+  \pagebreak
   2004 & Rebuilder catch (Year Declared): & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Input line is required even if Rebuilder = 0, specified in the line above.}} \Tstrut\\
     & > 0 = year first catch should be set to zero; and & \\
     & -1 = set to 1999. & \Bstrut\\
@@ -264,8 +271,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 1 = use first-last allocation year; and & \\
     & 2 = read season(row) x fleet (column) set below. & \Bstrut\\
 
-  % \hline 
-  \pagebreak
+  \hline 
+  % \pagebreak
   2 & Basis for maximum forecast catch: & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{The maximum basis for forecasted catch will be implemented for the for the ``First year for caps and allocations'' selected above. The maximum catch (biomass or numbers) by fleet is specified below on the ``Maximum total forecast catch by fleet'' line.}} \Tstrut\\
     & 2 = total catch biomass; & \\
     & 3 = retained catch biomass; & \\
@@ -279,7 +286,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   \multicolumn{1}{r}{1 2 0.4} & & \\
   \multicolumn{1}{r}{-9999 0 0} & Terminator line & \Bstrut\\ 
 
-  \hline
+  \pagebreak
+  % \hline
   1 50 & \multirow{1}{1cm}[-0.25cm]{\parbox{7cm}{Maximum total forecast catch by fleet (in units specified above total catch/numbers, retained catch/numbers)}} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{Enter fleet number and its maximum value. Last line of the entry must have fleet number = -9999.}} \Tstrut\Bstrut\\
   -9999 -1 & & \Bstrut\\
    & & \Bstrut\\
@@ -298,15 +306,16 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   \multicolumn{1}{r}{2002 1} & Allocation to each group for each year of the forecast & \\
   \multicolumn{1}{r}{-9999 1} & & \Bstrut\\
 
-  %\hline
-  \pagebreak
+  \hline
+  % \pagebreak
   -1 & Basis for forecast catch: & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{The dead or retained value in the forecast catch inputs will be interpreted in terms of numbers or biomass based on the units of the input catch for each fleet.}} \Tstrut\\
     & -1 = Read basis with each observation, allows for a mixture of dead, retained, or F basis by different fleets for the fixed catches below; & \\
     & 2 = Dead catch (retained + discarded); & \\
     & 3 = Retained catch; and & \\
     & 99 = Input apical F (the apical F value for the model years can be found in the EXPLOITATION section in the Report file). & \Bstrut\\
-
-  \hline
+  
+  \pagebreak
+  % \hline
   \multicolumn{1}{l}{COND: == -1} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch} \Tstrut\\
   \multicolumn{1}{r}{2012 1 1 1200 2} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis} \\
   \multicolumn{1}{r}{2013 1 1 1400 3} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis} \\
@@ -348,7 +357,6 @@ Each of the potential reference points is calculated by searching across a range
 \myparagraph{Calculations}
 The calculation of equilibrium biomass and catch uses the same code that is used to calculate the virgin conditions and the initial equilibrium conditions. This equilibrium calculation code takes into account all morph, timing, biology, selectivity, and movement conditions as they apply while doing the time series calculations. You can verify this by running SS3 to calculate F\textsubscript{MSY} then hardwire initial F to equal this value, use the F\_method approach 2 so each annual F is equal to F\textsubscript{MSY} and then set forecast F to be the same F\textsubscript{MSY}. Then run SS3 without estimation and no recruitment deviations. You should see that the population has an initial equilibrium abundance equal to B\textsubscript{MSY} and stays at this level during the time series and forecast.
 
-\pagebreak
 \myparagraph{Catch Units}
 For each fleet, SS3 always calculates catch in terms of biomass (mt) and numbers (1000s) for encountered (selected) catch, dead catch, and retained catch. These three categories differ only when some fleets have discarding or are designated as a bycatch fleet. SS3 uses total dead catch biomass as the quantity that is principally reported and the quantity that is optimized when searching for F\textsubscript{MSY}. The quantity ``dead catch'' may occasionally be referred to as ``yield''.
 

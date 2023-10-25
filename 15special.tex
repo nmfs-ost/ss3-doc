@@ -6,7 +6,7 @@
 \hypertarget{tvOrder}{}
 \subsubsection{Time-Varying Parameters}
 
-Starting in SS3.30, mortality-growth, some stock-recruitment, catchability, and selectivity base parameters can be time varying. Note that as of SS3.30.16, time-varying parameters cannot be used with tagging parameters. There are four ways a parameter can be time-varying in SS3:
+Starting in v.3.30, mortality-growth, some stock-recruitment, catchability, and selectivity base parameters can be time varying. Note that as of v.3.30.16, time-varying parameters cannot be used with tagging parameters. There are four ways a parameter can be time-varying in SS3:
 \begin{enumerate}
     \item Environmental or Density dependent Linkages: Links the base parameter with environmental data or a model derived quantity.
 	\item Parameter deviations: Creates annual deviations from the base parameter during a user-specified range of years.
@@ -30,7 +30,7 @@ Environmental and density dependent linkages, parameter deviations, and either t
 \subsubsection{Time-Varying Growth Considerations}
 When time-varying growth is used, there are some additional considerations to be aware of:
 \begin{itemize}
-	\item Growth in the forecast with time blocks: Growth deviations propagate into the forecast because growth is by cohort according to the current year's growth parameters. The user can select which growth parameters get used during the forecast by setting the end year of the last block, if using time blocks. If the last block ends in the model's end year, then the growth parameters in effect during the forecast will be the base parameters.  By setting the end year of the last block to one year past the model end year (endyr), the model will continue the last block's growth parameter levels throughout the forecast.
+	\item Growth in the forecast with time blocks: Growth deviations propagate into the forecast because growth is by cohort according to the current year's growth parameters. The user can select which growth parameters get used during the forecast by setting the end year of the last block, if using time blocks. If the last block ends in the model's end year, then the growth parameters in effect during the forecast will be the base parameters. By setting the end year of the last block to one year past the model end year (endyr), the model will continue the last block's growth parameter levels throughout the forecast.
 	\item The equilibrium benchmark quantities (MSY, F40\%, etc.) previously used the model end year's (endyr) body size-at-age, which is not in equilibrium. Through the forecast file, it is possible to specify a range of years over which to average the size-at-age used in the benchmark calculations. An option to create equilibrium growth from averaged growth parameters would be a more realistic option and is under consideration, but is not yet available.
 	% Which input in forecast?? The benchmark years input? I couldn't find this option...
 	% Details about a potentially better solution.
@@ -116,11 +116,11 @@ as a measure of how rich the composition data is regarding estimating selectivit
 
 Second, fix $\sigma_s$ at the value iteratively tuned in the previous step and estimate $\epsilon_{a,t}$. Plot both Pearson residuals and $\epsilon_{a,t}$ out on the age-year surface to check their 2D dimensions. If their distributions seems to be not random but rather be autocorrelated (deviation estimates have the same sign several ages and/or years in a row), users should consider estimating and then including the autocorrelations in $\epsilon_{a,t}$.
 
-Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, the model should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the  autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
+Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, the model should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
 
 \hypertarget{continuous-seasonal-recruitment-sec}{}
 \subsection{Continuous seasonal recruitment}
-Setting up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year is awkward in SS3.  Instead, SS3 can be set up so that each quarter appears as a year (i.e., a seasons as years model).  All the data and parameters are set up to treat quarters as if they were years. Note that setting up a seasons as years model also requires that all rate parameters be re-scaled to correctly account for the quarters being treated as years.
+Setting up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year is awkward in SS3. Instead, SS3 can be set up so that each quarter appears as a year (i.e., a seasons as years model). All the data and parameters are set up to treat quarters as if they were years. Note that setting up a seasons as years model also requires that all rate parameters be re-scaled to correctly account for the quarters being treated as years.
 
 Other adjustments to make when using seasons as years include:
 
@@ -144,7 +144,7 @@ The processes and calculations within SS3 can be complex and not transparent bas
 
 \subsection{Jitter}
 \hypertarget{Jitter}{}
-The jitter function has been updated with SS3.30. The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
+The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
 \begin{enumerate}
 	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
 	\item A jitter shift value, termed ``\textit{K}'', is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
@@ -174,15 +174,15 @@ Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid
 
 \hypertarget{PriorDescrip}{}
 \subsection{Parameter Priors}
-Priors on parameters fulfill two roles in SS3.  First, for parameters provided with an informative prior, SS3 is receiving additional information about the true value of the parameter.  This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate.  Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution.  For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function.  In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity.  The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly.  A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds.  Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds.  When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value.  Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
+Priors on parameters fulfill two roles in SS3. First, for parameters provided with an informative prior, SS3 is receiving additional information about the true value of the parameter. This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate. Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution. For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function. In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity. The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly. A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds. Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds. When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value. Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
 
 The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. The Prior Likelihoods below represent the negative log likelihood in all cases.
 
 \myparagraph{Prior Types}
-Note that the numbering in SS3 v.3.30 is different from that used in SS3 v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
+Note that the numbering in v.3.30 is different from that used in v.3.24 (where confusingly -1 indicated no prior and 0 indicated a normal prior). The calculation of the negative log likelihood is provided below for each prior types, as a function of the following inputs:
 
 \begin{tabular}{ll}
-	$P_\text{init}$ & The value of the parameter for which a prior is being calculated where init can either be\\
+	$P_\text{init}$ & The value of the parameter for which a prior is being calculated where init can either be \\
 	                & the initial un-estimated value or the estimated value (3rd column in control or \\
 	                & control.ss\_new file)       \\
 	$P_\text{LB}$   & The lower bound of the parameter (1st column in control file)     \\
@@ -196,7 +196,7 @@ Note that the numbering in SS3 v.3.30 is different from that used in SS3 v.3.24 
 	In a Bayesian context this is equivalent to a uniform prior between the parameter bounds.
 	
 	\item  \textbf{Prior Type = 1 = Symmetric beta prior} \\ 
-	The symmetric beta is scaled between parameter bounds, imposing a larger penalty near the bounds.  Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior. The prior input is ignored for this prior type.
+	The symmetric beta is scaled between parameter bounds, imposing a larger penalty near the bounds. Prior standard deviation of 0.05 is very diffuse and a value of 5.0 provides a smooth U-shaped prior. The prior input is ignored for this prior type.
 	\begin{equation} 
 		\mu = -P_\text{PRSD} \cdot ln\left(\frac{P_\text{UB}+P_\text{LB}}{2} - P_\text{LB} \right) - P_\text{PRSD} \cdot ln(0.5)
 	\end{equation}
@@ -216,7 +216,7 @@ Note that the numbering in SS3 v.3.30 is different from that used in SS3 v.3.24 
 	\end{figure}	
 
 	
-	\item \textbf{Prior Type = 2 = Beta prior}  \\ 
+	\item \textbf{Prior Type = 2 = Beta prior} \\ 
 	The definition of $\mu$ is consistent with CASAL's formulation with the $\beta_\text{PR}$ and $\alpha_\text{PR}$ corresponding to the $m$ and $n$ parameters.
 	\begin{equation}
 		\mu = \frac{P_\text{PR}-P_\text{LB}}{P_\text{UB}-P_\text{LB}} 

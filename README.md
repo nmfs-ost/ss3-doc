@@ -6,7 +6,7 @@ Source code for the stock synthesis manual and other supplementary documentation
 
 The documentation includes:
 - The Stock Synthesis user manual source code, in .tex files
-- Getting started guide and Introduction to building an ss model guide, available in the [User_Guides subdirectory](https://github.com/nmfs-stock-synthesis/doc/tree/main/User_Guides)
+- Getting started guide and Introduction to building an ss3 model guide, available in the [User_Guides subdirectory](https://github.com/nmfs-stock-synthesis/doc/tree/main/User_Guides)
 
 ## Where can I find compiled versions of the documentation?
 

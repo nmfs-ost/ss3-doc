@@ -49,7 +49,7 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 			\item $X_y = \rho*X_{y-1} + \text{dev}_y*\text{dev}_{se}$
 			\item $P_y = P_{base,y} + X_y$
 		\end{itemize}
-		\item 5 = mean reverting random walk with $\rho$ and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in SS3 v.3.30.16)
+		\item 5 = mean reverting random walk with $\rho$ and a logit transformation to stay within the minimum and maximum parameter bounds (approach added in v.3.30.16)
 	    \begin{itemize}
 		    \item $X_1 = \text{dev}_1*\text{dev}_{se}$
 			\item $R = P_{max} - P_{min}$
@@ -60,7 +60,7 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 			\item $P_1 = P_{min} + \frac{R}{1 + e^{-Y_y - X_y }}$. For years after the first year.
 		\end{itemize}
 		\item 6 = mean reverting random walk with penalty to keep the root mean squared error (RMSE) near 1.0. Same as case 4, but with penalty applied.
-		\item The option of extending the final model year deviation value subsequent years (i.e., into the forecast period) was added in v. 3.30.13.  This new option is specified by selecting the appropriate deviation link option and appending a 2 at the front (e.g, 25), which will use the final year deviation value for all forecast years.
+		\item The option of extending the final model year deviation value subsequent years (i.e., into the forecast period) was added in v.3.30.13. This new option is specified by selecting the appropriate deviation link option and appending a 2 at the front (e.g, 25), which will use the final year deviation value for all forecast years.
 	\end{itemize}
 	where: 
 	\begin{itemize}
@@ -127,9 +127,9 @@ If a time-varying specification set up in the long parameter lines for a particu
 
 For example, if two parameters were specified to have environmental linkages in the MG parameter section, below the MG parameters would be two parameter lines (when not auto-generating these lines), which is an environmental linkage parameter for each time-varying base parameter:
 
-\begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}  }
+\begin{longtable}{p{0.7cm} p{0.7cm} p{0.7cm} p{1cm} p{1.4cm} p{1cm} p{1cm} p{6.7cm}}
 	\hline
-	&    &      & Prior &  Prior & Prior & & \Tstrut\\
+	&    &      & Prior &  Prior & Prior &  & \Tstrut\\
 	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
 	\hline
 	\endfirsthead
@@ -145,19 +145,19 @@ For example, if two parameters were specified to have environmental linkages in 
 	\endlastfoot
 	
 	\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \Tstrut\\
-	-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add\Tstrut\\
-	-99   & 99  & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add\Bstrut\\
+	-99 & 99 & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add \Tstrut\\
+	-99 & 99 & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add \Bstrut\\
 	\hline
 \end{longtable}
 
-In SS3 v.3.30, the time-varying input short parameter lines are organized such that all parameters that affect a base parameter are clustered together with time blocks (or trend) first, then environmental linkages, then parameter deviations. For example, if the mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
+In Stock Synthesis v.3.30, the time-varying input short parameter lines are organized such that all parameters that affect a base parameter are clustered together with time blocks (or trend) first, then environmental linkages, then parameter deviations. For example, if the mortality-growth (MG) base parameters 3 and 7 had time varying changes, the order would look like:
  
  \begin{center}
  	\begin{longtable}{p{5cm} p{10cm}}
  		\hline
- 		MG base parameter 3 & Block parameter 3-1\Tstrut\\
- 		& Block parameter 3-2\\
- 		& Environmental link parameter 3-1\\
+ 		MG base parameter 3 & Block parameter 3-1 \Tstrut\\
+ 		& Block parameter 3-2 \\
+ 		& Environmental link parameter 3-1 \\
  		& Deviation se parameter 3 \\
  		& Deviation $\rho$ parameter 3 \Bstrut\\
  		MG base parameter 7 & Block parameter 7-1 \\
@@ -195,7 +195,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 \myparagraph{Time Blocks}
 
 \begin{itemize}
-	\item Offset approach: One or more time blocks are created and cover all or a subset of the years. Each block gets a parameter that is used as an offset from the base parameter (time block functional form 1). In this situation, typically the base parameter and each of the offset parameters are estimated. In years not covered by blocks, the base parameter alone is used.  However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all years covered by blocks or to fix the base parameter value at a reasonable level when doing offsets for all years.	
+	\item Offset approach: One or more time blocks are created and cover all or a subset of the years. Each block gets a parameter that is used as an offset from the base parameter (time block functional form 1). In this situation, typically the base parameter and each of the offset parameters are estimated. In years not covered by blocks, the base parameter alone is used. However, if blocks cover all the years, then the value of the block parameter is completely correlated with the mean of the block offsets, so model convergence and variance estimation could be affected.  The recommended approach when using offsets is to not have all years covered by blocks or to fix the base parameter value at a reasonable level when doing offsets for all years.	
 	
 	\item Replacement approach, Option A: Time blocks are created which cover a subset of the years. The base parameter is used in the non-block years and the value of the base parameter is replaced by the block parameter in each respective block (time block functional form 2). In this situation, typically the base parameter and each of the block parameters are estimated.	
 	
@@ -207,27 +207,27 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 \begin{itemize}
 	\item Suppose natural mortality was thought to increase from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the ``use block'' column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for M could look like:
 	\begin{center}
-		\begin{longtable}{p{1cm} p{1cm} p{1cm}  p{1.5cm}  p{1cm}  p{1.5cm}  p{1.5cm} p{1.5cm} p{3cm}}
+		\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{3cm}}
 			
 			\hline
-			LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Use\_Block & Block Fxn & Parameter Label\Bstrut\\
+			LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Use\_Block & Block Fxn & Parameter Label \Bstrut\\
 			\hline
-			0          & 4 & 0.1 &  \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & -2 & 0 & \#M \Bstrut\\
+			0          & 4 & 0.1 & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & -2 & 0 & \#M \Bstrut\\
 			\hline
 		\end{longtable}
 	\end{center}
 
 	\item Three short parameter lines are then expected after the mortality-growth long parameter lines, one for the final value, one for the inflection year and one for the width. The final value could be fixed by using 0.2 as the final value on the short parameter line and a negative phase value. The inflection year could be fixed at 2005 by inputting 2005 for the inflection year in the short parameter line with a negative phase. Finally, the width value (i.e., standard deviation of the cumulative normal distribution) could be set at 3 years. The short parameter lines could look like:
 	
-	\begin{longtable}{ p{0.7cm} p{0.7cm} p{0.7cm}  p{1cm}  p{1.4cm}  p{1cm} p{1cm} p{6.7cm}}
+	\begin{longtable}{p{0.7cm} p{0.7cm} p{0.7cm} p{1cm} p{1.4cm} p{1cm} p{1cm} p{6.7cm}}
 	\hline
-	&    &      & Prior &  Prior & Prior & & \Tstrut\\
+	&  &      & Prior &  Prior & Prior &  & \Tstrut\\
 	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
 	\hline
 	\endfirsthead
 	
 	\hline
-	&    &      & Prior &  Prior & Prior &  & \Tstrut\\
+	&  &      & Prior &  Prior & Prior &  & \Tstrut\\
 	LO & HI & INIT & Value &  SD    & Type  & Phase & Parameter Label \Bstrut\\
 	\hline
 	\endhead
@@ -236,9 +236,9 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 	
 	\endlastfoot
 	
-	0.001 & 4    & 0.2  & 0 & 0.01 & 0 & -1 &\#M\_TrendFinal\Tstrut\\
-	1999  & 2011 & 2005 & 0 & 0.01 & 0 & -1 &\#M\_TrendInfl\Bstrut\\
-	-99   & 99   & 3    & 0 & 0.01 & 0 & -1 &\#M\_TrendWidth\_yrs\Bstrut\\
+	0.001 & 4    & 0.2  & 0 & 0.01 & 0 & -1 & \#M\_TrendFinal \Tstrut\\
+	1999  & 2011 & 2005 & 0 & 0.01 & 0 & -1 & \#M\_TrendInfl \Bstrut\\
+	-99   & 99   & 3    & 0 & 0.01 & 0 & -1 & \#M\_TrendWidth\_yrs \Bstrut\\
 	\hline
 \end{longtable}
 \end{itemize}

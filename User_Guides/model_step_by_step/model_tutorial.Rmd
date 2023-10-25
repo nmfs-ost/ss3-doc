@@ -1,6 +1,6 @@
 ---
 title: "Model building tutorial"
-author: "SS Development Team"
+author: "SS3 Development Team"
 date: "10/23/2019"
 output: word_document
 ---
@@ -11,9 +11,9 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # Scope
 <!-- Note that this guide is not yet complete! -->
-This is a tutorial illustrating how different data and parameters familiar to stock assessment scientists can be added to Stock Synthesis input files. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS model.
+This is a tutorial illustrating how different data and parameters familiar to stock assessment scientists can be added to Stock Synthesis input files. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS3 model.
 
-If you are a new SS user who is not yet comfortable running an SS model, we suggest trying to run a working example model using advice in the **Getting Started** document before attempting to develop and run your own model as outlined here. You can also get more general model building advice in the **Developing your first Stock Synthesis model** guide.
+If you are a new SS3 user who is not yet comfortable running an SS3 model, we suggest trying to run a working example model using advice in the **Getting Started** document before attempting to develop and run your own model as outlined here. You can also get more general model building advice in the **Developing your first Stock Synthesis model** guide.
 
 Throughout this example, we use an even simpler version of the Stock Synthesis example model "Simple". To get the most out of this tutorial, it is best to download the model files to look at during the tutorial. It may also be useful to run the model and plot the results using the R package [r4ss](github.com/r4ss/r4ss).
 
@@ -80,7 +80,7 @@ In the case of this example, data.ss is the name of the data file, while control
 This is where the data inputs are specified. At the top, general information about the model is specified: the model years, number of seasons, number of sexes, maximum age, number of areas, number of fleets:
 
 ```{R eval = FALSE}
-#Stock Synthesis (SS) is a work of the U.S. Government and is not subject to copyright protection in the United States.
+#Stock Synthesis (SS3) is a work of the U.S. Government and is not subject to copyright protection in the United States.
 #Foreign copyrights may apply. See copyright.txt for more information.
 1971 #_StartYr
 2001 #_EndYr
@@ -129,7 +129,7 @@ Next, the catch is specified:
 -9999 0 0 0 0
 ```
 
-The first line of the above code chunk shows the column headers for the catch data. Note that all catch comes from the fishery. The line `-999 1 1 0 0.01` specifies equilibirum catch for years before the model starts - in this case, there is no equilibrium catch because the catch column is 0. To terminate this catch data section the line `-9999 0 0 0 0` is needed. This tells SS that it can stop reading catch data.
+The first line of the above code chunk shows the column headers for the catch data. Note that all catch comes from the fishery. The line `-999 1 1 0 0.01` specifies equilibirum catch for years before the model starts - in this case, there is no equilibrium catch because the catch column is 0. To terminate this catch data section the line `-9999 0 0 0 0` is needed. This tells SS3 that it can stop reading catch data.
 
 Next comes specification for indices of abundance. First is the setup for all of the fleets: 
 
@@ -161,7 +161,7 @@ Directly after its header, the indices of abundance data is included:
 -9999 1 1 1 1 # terminator for survey observations 
 
 ```
-Like the catch data, a terminator line is needed to tell SS when to stop reading the indices. 
+Like the catch data, a terminator line is needed to tell SS3 when to stop reading the indices. 
 
 Next, discards and mean body size data could be specified, but they are 0 in this example:
 ```{r eval = FALSE}
@@ -221,7 +221,7 @@ Age composition data follows. First, the age bins and ageerror definitions are e
  0.5 1.5 2.5 3.5 4.5 5.5 6.5 7.5 8.5 9.5 10.5 11.5 12.5 13.5 14.5 15.5 16.5 17.5 18.5 19.5 20.5 21.5 22.5 23.5 24.5 25.5 26.5 27.5 28.5 29.5 30.5 31.5 32.5 33.5 34.5 35.5 36.5 37.5 38.5 39.5 40.5
  0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
 ```
-For the age bins, SS reads in the number (17 in this case) and then expects that number of inputs for the age bins (the 17 values below it). Next, SS reads the age error definitions. In this case, there is only 1 definition, so SS expects 2 vectors, each which contain the max number of ages + 1 values (41 values per vector in this case). The first line defines the *bias* for the aging error, while the second vector defines the *standard deviation* of the aging error. This example has no aging bias and very high aging precision (low standard deviation), so this is close to assuming no aging error.
+For the age bins, SS3 reads in the number (17 in this case) and then expects that number of inputs for the age bins (the 17 values below it). Next, SS3 reads the age error definitions. In this case, there is only 1 definition, so SS3 expects 2 vectors, each which contain the max number of ages + 1 values (41 values per vector in this case). The first line defines the *bias* for the aging error, while the second vector defines the *standard deviation* of the aging error. This example has no aging bias and very high aging precision (low standard deviation), so this is close to assuming no aging error.
 
 Next comes the age composition setup lines:
 ```{r eval = FALSE}
@@ -246,9 +246,9 @@ which includes the length bin method for ages. Finally, the age composition data
 -9999 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 
 ```
-One important note here is the using Lbin_lo and Lbin_hi = -1 selects the entire length bin as being used for the ages. Similar to the length composition data, SS expect 1 value for females in each data bin, followed by values for males in each data bin (in this case, there are 34 values in the data vector)
+One important note here is the using Lbin_lo and Lbin_hi = -1 selects the entire length bin as being used for the ages. Similar to the length composition data, SS3 expect 1 value for females in each data bin, followed by values for males in each data bin (in this case, there are 34 values in the data vector)
 
-SS has some additional options that we have not used here and thus set to 0:
+SS3 has some additional options that we have not used here and thus set to 0:
 ```{r eval = FALSE}
 0 #_Use_MeanSize-at-Age_obs (0/1)
 #
@@ -266,7 +266,7 @@ SS has some additional options that we have not used here and thus set to 0:
 0  #  Do dataread for selectivity priors(0/1)
 
 ```
-And finally, the data file must end in `999` to tell SS to stop reading.
+And finally, the data file must end in `999` to tell SS3 to stop reading.
 ```{r eval = FALSE}
 999
 ```
@@ -277,11 +277,11 @@ The control file contains the setup for model parameter values (both fixed value
 0  # 0 means do not read wtatage.ss; 1 means read and use wtatage.ss and also read and use growth parameters
 ```
 
-In this case, it is not being used, so is set to 0. If empirical weight at age were used, SS would ignore all inputs relating to growth, maturity, and fecundity that are specified later in the control file (although it does still expect inputs).
+In this case, it is not being used, so is set to 0. If empirical weight at age were used, SS3 would ignore all inputs relating to growth, maturity, and fecundity that are specified later in the control file (although it does still expect inputs).
 
 Next are options for number of growth patterns and platoons. These are set to 1 because we assume the whole population is the same growth pattern, and there are not platoons within the growth patterns.
 ```{r eval = FALSE}
-1  #_N_Growth_Patterns (Growth Patterns, Morphs, Bio Patterns, GP are terms used interchangeably in SS)
+1  #_N_Growth_Patterns (Growth Patterns, Morphs, Bio Patterns, GP are terms used interchangeably in SS3)
 1 #_N_platoons_Within_GrowthPattern 
 ```
 
@@ -327,7 +327,7 @@ Option 0 is used for natural mortality because only 1 value is being assumed. Gr
 1 # GrowthModel: 1=vonBert with L1&L2; 2=Richards with L1&L2; 3=age_specific_K_incr; 4=age_specific_K_decr; 5=age_specific_K_each; 6=NA; 7=NA; 8=growth cessation
 0 #_Age(post-settlement)_for_L1;linear growth below this
 25 #_Growth_Age_for_L2 (999 to use as Linf)
--999 #_exponential decay for growth above maxage (value should approx initial Z; -999 replicates 3.24; -998 to not allow growth above maxage)
+-999 #_exponential decay for growth above maxage (value should approx initial Z; -999 replicates v.3.24; -998 to not allow growth above maxage)
 0  #_placeholder for future growth feature
 #
 0 #_SD_add_to_LAA (set to 0.1 for SS2 V1.x compatibility)
@@ -383,7 +383,7 @@ The parameter lines resulting from the natural mortality, growth, and maturity (
  1e-006 0.999999 0.5 0.5 0.5 0 -99 0 0 0 0 0 0 0 # FracFemale_GP_1
 
 ```
-Note that the first line in the block of SS input above shows the column headers. All sections with long parameter lines within the control file have these same headings. There are a lot of specifications in these long parameter lines, but a few of particular note are:
+Note that the first line in the block of SS3 input above shows the column headers. All sections with long parameter lines within the control file have these same headings. There are a lot of specifications in these long parameter lines, but a few of particular note are:
 
 - Anything with negative phase (7th value in a long parameter line) is not estimated and is set at the initial value (3rd value in the line), while positivie phases are estimated. 
 - Natural mortality for both males and females is specified at 0.1.
@@ -433,7 +433,7 @@ These define the main recruitment devitations, which in this case last from the 
  1900 #_last_yr_nobias_adj_in_MPD; begin of ramp
  1900 #_first_yr_fullbias_adj_in_MPD; begin of plateau
  2001 #_last_yr_fullbias_adj_in_MPD
- 2002 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS sets bias_adj to 0.0 for fcast yrs)
+ 2002 #_end_yr_for_ramp_in_MPD (can be in forecast to shape ramp, but SS3 sets bias_adj to 0.0 for fcast yrs)
  1 #_max_bias_adj_in_MPD (-1 to override ramp and set biasadj=1.0 for all estimated recdevs)
  0 #_period of cycles in recruitment (N parms read below)
  -5 #min rec_dev
@@ -441,7 +441,7 @@ These define the main recruitment devitations, which in this case last from the 
  0 #_read_recdevs
 #_end of advanced SR options
 ```
-The advanced options allow the user to bias adjust the recruitment deviations. There is more on bias adjustment in the SS user manual, but the general idea is to account for the fact that earlier and later recruitment deviations likely have less information informing them than the ones in the middle. The bias adjustment ramp accounts for this and is typically "tuned" by looking at bias ramp in the model results after it is run, respecifying the bias ramp as needed, and rerunning the model. 
+The advanced options allow the user to bias adjust the recruitment deviations. There is more on bias adjustment in the SS3 user manual, but the general idea is to account for the fact that earlier and later recruitment deviations likely have less information informing them than the ones in the middle. The bias adjustment ramp accounts for this and is typically "tuned" by looking at bias ramp in the model results after it is run, respecifying the bias ramp as needed, and rerunning the model. 
 
 Fishing mortality info is next specified:
 ```{r eval = FALSE}
@@ -544,14 +544,14 @@ Some special features (2DAR selectivity, tagging data, variance adjusment, lambd
 #
 0 # (0/1) read specs for more stddev reporting 
 ```
-Varaiance adjustment factors and/or lambdas can be used for data weighting, but in this case they have not yet been used. The control file then ends with 999 so that SS knows it can stop reading: 
+Varaiance adjustment factors and/or lambdas can be used for data weighting, but in this case they have not yet been used. The control file then ends with 999 so that SS3 knows it can stop reading: 
 ```{r eval = FALSE}
 999
 ```
 
 # Running the model and afterwards
 
-The model was run using Stock Synthesis 3.30.14 and no additional ADMB command line options. The model should have no issues running, but if you have issues, please see debugging sections in the **Getting Started** and **Developing your first Stock Synthesis model** guides. 
+The model was run using Stock Synthesis v.3.30.14 and no additional ADMB command line options. The model should have no issues running, but if you have issues, please see debugging sections in the **Getting Started** and **Developing your first Stock Synthesis model** guides. 
 
 ## Checks for convergence
 After running the model, open the warning.sso file to check for any warnings from Stock Synthesis. This file shows no warnings:
@@ -559,7 +559,7 @@ After running the model, open the warning.sso file to check for any warnings fro
  N warnings: 0
 Number_of_active_parameters_on_or_near_bounds: 0
 ```
-which suggests that the model is not misspecified in a way that SS knows to warn about.
+which suggests that the model is not misspecified in a way that SS3 knows to warn about.
 
 Next, we want to quickly check for any evidence that the model did not converge. In Report.sso, underneath information about the data file and control file names is information about the convergence level:
 ```{r eval = FALSE}
@@ -603,9 +603,9 @@ SS_writestarter(starter, dir = mydir, overwrite = TRUE) # write modified starter
 ```
 Next, the jitter can be run:
 ```{r eval = FALSE}
-SS_RunJitter(mydir = "simpler", model = "ss", Njitter = 100)
+SS_RunJitter(mydir = "simpler", model = "ss3", Njitter = 100)
 ```
-The previous code assumes that the model directory `mydir` is called "simpler", which is a folder within the working directory. The `model` argument specifies the name of the ss executable, so in this case, it assumes that the SS executable is within the "simpler" folder and called "ss.exe". Finally, `Njitter` tells the function how many times to run the function. For west coast stock assessment jitters, 100 runs is a common value to use, but note that the run time is not trivial (it depends on the model, but may take an hour or more to run).
+The previous code assumes that the model directory `mydir` is called "simpler", which is a folder within the working directory. The `model` argument specifies the name of the ss executable, so in this case, it assumes that the SS3 executable is within the "simpler" folder and called "ss.exe". Finally, `Njitter` tells the function how many times to run the function. For west coast stock assessment jitters, 100 runs is a common value to use, but note that the run time is not trivial (it depends on the model, but may take an hour or more to run).
 
 After the jitter is run, the final likelihood values are the most important part of the results to look at. If the original model run has found a global minimum, you would expect all likelihood values from the jitter to be the same or higher than the original model run. If there are any likehood values that are lower than the original model run, this indicates that the model run did not find a global minimum. Investigating the run or runs with lower likelihood values would be the next step in figuring out what the "final" model run will be.
 

@@ -23,7 +23,7 @@ The ``Length\_Comp\_Fit\_Summary'' and ``Age\_Comp\_Fit\_Summary'' sections in t
 
 A convenient way to process these values into the format required by the control file is to use the function:
 
-\texttt{ SS\_tune\_comps(replist, option = ``MI'') }
+\texttt{SS\_tune\_comps(replist, option = ``MI'')}
 
 where the input ``replist'' is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called ``suggested\_tuning.ss'' to the directory where the model was run.
 
@@ -39,7 +39,7 @@ If the tuning has been implemented, the green lines in the figure below would ap
 		\includegraphics[scale = 0.65]{appendixB_McAllister_Ianelli}\\
 	\end{center}
 
-	\caption{ The relationship between the observed sample size (the input sample number) versus the effective sample size where the effective sample size is the product of the input sample size and the data weighting applied to the data set. }
+	\caption{The relationship between the observed sample size (the input sample number) versus the effective sample size where the effective sample size is the product of the input sample size and the data weighting applied to the data set.}
 	\label{(fig:mcallister)}
 \end{figure}
 
@@ -192,7 +192,7 @@ relatively little impact on the maximum likelihood estimates.
       \end{minipage}
     \end{small}
 	
-\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In 3.24 this means setting the values to 1, in SS3 v.3.30, you can simply delete or comment-out the rows with the adjustments.
+\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In v.3.24 this means setting the values to 1, in v.3.30, you can simply delete or comment-out the rows with the adjustments.
 \end{itemize}
 
 The \texttt{SS\_output} function in r4ss returns table like the following:
@@ -210,7 +210,7 @@ The ratio shown in the final column is the estimated multiplier which can be com
 
 If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that the model is trying to tune the sample size as high as possible. In this case, the $ln(\theta)$ parameters should be fixed at a high value, like the upper bound of 20, which will result in 100\% weight being applied to the input sample sizes. An alternative would be to manually change the input sample sizes to a higher value so that the estimated weighting will be less than 100%.
 
-Note that a constant of integration was added to the Dirichlet-multinomial likelihood equation in SS3 v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versions of SS3.
+Note that a constant of integration was added to the Dirichlet-multinomial likelihood equation in v.3.30.17. This will change the likelihood value, but parameter estimates and expected values should remain the same as in previous versions of SS3.
 
 Some challenges posed by the Dirichlet-multinomial data-weighting approach:
 \begin{enumerate}

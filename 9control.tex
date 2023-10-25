@@ -54,23 +54,23 @@ The primary role of the control file is to define the parameters to be used by t
 		\hline
 		Column & Element & Description \Tstrut\Bstrut\\
 		\hline
-		1 & LO & Minimum value for the parameter\Tstrut\\
-		2 & HI & Maximum value for the parameter\Tstrut\\
+		1 & LO & Minimum value for the parameter \Tstrut\\
+		2 & HI & Maximum value for the parameter \Tstrut\\
 		3 \Tstrut & INIT & Initial value for the parameter. If the phase (described below) for the parameter is negative the parameter is fixed at this value. If the ss.par file is read, it overwrites these INIT values.\\
 		4 \Tstrut & PRIOR & Expected value for the parameter. This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta). If the selected prior type (described below) is lognormal, this value is entered in log space. \\
-		5 \Tstrut & PRIOR SD & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. The standard deviation is in regular space regardless of the prior type.\\
-		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE} & 0 = none, \\
+		5 \Tstrut & PRIOR SD & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. The standard deviation is in regular space regardless of the prior type. \\
+		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE} & 0 = none; \\
 		& & 1 = symmetric beta; \\
 		& & 2 = full beta; \\
 		& & 3 = lognormal without bias adjustment; \\
 		& & 4 = lognormal with bias adjustment; \\
 		& & 5 = gamma; and \\
 		& & 6 = normal. \\
-		7 \Tstrut & PHASE & Phase in which parameter begins to be estimated. A negative value causes the parameter to retain its INIT value (or value read from the ss.par file).\Bstrut\\
-		8 \Tstrut & Env var \& Link & Create a linkage to an input environmental time-series\\
+		7 \Tstrut & PHASE & Phase in which parameter begins to be estimated. A negative value causes the parameter to retain its INIT value (or value read from the ss.par file). \Bstrut\\
+		8 \Tstrut & Env var \& Link & Create a linkage to an input environmental time-series \\
 		9 \Tstrut & Dev link & Invokes use of the deviation vector in the linkage function \\
 		10 \Tstrut & Dev min yr & Beginning year for the deviation vector \\
-		11 \Tstrut & Dev max yr & Ending year for the deviation vector\\
+		11 \Tstrut & Dev max yr & Ending year for the deviation vector \\
 		12 \Tstrut & Dev phase & Phase for estimation for elements in the deviation vector \\
 		13 \Tstrut & Block & Time block or trend to be applied \\
 		14 \Tstrut & Block function & Functional form for the block offset. \Bstrut\\
@@ -78,7 +78,7 @@ The primary role of the control file is to define the parameters to be used by t
 	\end{tabular}
 \end{center}
 
-Note that relative to SS3 v.3.24, the order of PRIOR SD and PRIOR TYPE have been switched and the PRIOR TYPE options have been renumbered.
+Note that relative to Stock Synthesis v.3.24, the order of PRIOR SD and PRIOR TYPE have been switched and the PRIOR TYPE options have been renumbered.
 
 The full parameter line (14 in length) syntax for the mortality-growth, spawn-recruitment, catchability, and selectivity sections provides additional controls to give the parameter time-varying properties. If a parameter (a full parameter line of length 14) is set up to be time-varying (i.e., parameter time blocks, annual deviations), short parameter lines, the first 7 elements, are required to be specified immediately after the main parameter block (i.e., mortality-growth parameter section). Additional information regard time-varying parameters and how to implement them is in the \hyperlink{TVpara}{Using Time-Varying Parameters} section.
 
@@ -104,7 +104,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
 		\endlastfoot
 
-		\multicolumn{2}{l}{\#C comment }\Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
+		\multicolumn{2}{l}{\#C comment} \Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
 		\hline
 
 		0 & & 0 = Do not read the weight-at-age (wtatage.ss) file; \Tstrut\\
@@ -128,6 +128,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		& 0.2 0.6 0.2 & Distribution among platoons. Enter either a custom vector or enter a vector of length N with the first value of -1 to get a normal approximation: (0.15, 0.70, 0.15) for 3 platoons, or 5 platoons (0.031, 0.237, 0.464, 0.237, 0.031). \Bstrut\\
 		\hline
 	\end{longtable}
+	\vspace*{-\baselineskip}
 \end{center}
 
 \subsubsection{Weight-at-Age}
@@ -141,12 +142,12 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 	
 \begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11.5cm}}
 		\hline
-		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options}\Tstrut\Bstrut\\
+		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options} \Tstrut\Bstrut\\
 		\hline
 		\endfirsthead
 		
 		\hline
-		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options}\Tstrut\Bstrut\\
+		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options} \Tstrut\Bstrut\\
 		\hline
 		\endhead
 		
@@ -155,8 +156,10 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		
 		\endlastfoot
 		
-		1 \Tstrut & &\multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning. Options:}} \\ \\
-		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{1 = no longer available (used the SS3 v.3.24 or earlier setup);}} \\
+		1 \Tstrut & &\multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning. Options:}} \\
+		& & \\
+		& & \\
+		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{1 = no longer available (used the Stock Synthesis v.3.24 or earlier setup);}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{2 = main effects for growth pattern, settle timing, and area;}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{3 = each settle entity; and}} \\
 		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{4 = none, no parameters (only if growth pattern x settlement x area = 1).}} \Bstrut\\
@@ -173,16 +176,18 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		0 \Tstrut & & \multicolumn{2}{l}{Future feature, not implement yet but required.} \Bstrut\\
 		
 		\hline
-		Growth Pattern & Month & Area & Age at settlement \Tstrut \\
+		Growth Pattern & Month & Area & Age at settlement \Tstrut\\
 		\hline
 		1 & 5.5 & 1 & 0 \Bstrut\\
 		\hline
-\end{longtable} 
+\end{longtable}
+\vspace*{-\baselineskip}
 
 The above example specifies settlement to mid-May (month 5.5). Note that normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning. 
 
 Below is an example set-up where there are multiple settlement events, with one occurring the following year after spawning: 
 \begin{center}
+	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{7cm}}
 		\hline
 		3 & \multicolumn{3}{l}{Number of recruitment settlement events} \Tstrut\\
@@ -270,6 +275,8 @@ Here the movement of fish between areas are defined. This is a box transfer with
 	\\
 	\hline
 	\end{longtable}
+	\vspace*{-\baselineskip}
+	
 
 Two parameters will be entered later for each growth pattern, area pair, and season.
 \begin{itemize}
@@ -317,6 +324,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12cm}[-0.10cm]{Beginning and ending years for blocks in design 3.} \Bstrut\\
 		\hline
 \end{longtable}
+\vspace*{-\baselineskip}
 
 Blocks and other time-vary parameter controls are operative during forecast years, so care should be taken when setting the end year of the last block in a pattern. If that end year is set to the last year in the time series, then the parameter will revert to the base value for the forecast. If the user wants to continue the last block through the forecast, it is advisable to set the last block's end year value to -2 to cause SS3 to reset it to the last year of the forecast. Using the value -1 will set the block's end year to the last year of the time series and leave the forecast at the base parameter value. Note that additional controls on time-varying parameters in forecast years are in the forecast section.
 
@@ -327,12 +335,12 @@ Auto-generation is a useful way to automatically create the required short time-
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endhead
 
@@ -343,12 +351,12 @@ Auto-generation is a useful way to automatically create the required short time-
 
 	1 & & Environmental/Block/Deviation adjust method for all time-varying parameters. \Tstrut\\
 	  & & 1 = warning relative to base parameter bounds; and \\
-	  & & 3 = no bound check. Logistic bound check form from previous SS3 versions (e.g., SS3 v.3.24) is no longer an option.\Bstrut\\
+	  & & 3 = no bound check. Logistic bound check form from previous SS3 versions (e.g., v.3.24) is no longer an option. \Bstrut\\
 
-	\multicolumn{2}{l}{1 1 1 1 1} & Auto-generation of time-varying parameter lines. Five values control auto-generation for parameter block sections: 1-biology, 2-spawn-recruitment, 3-catchability, 4-tag (future), and 5-selectivity.\\
-	& 			& The accepted values are:\\
-	& 			& 0 = auto-generate all time-varying parameters (no time-varying parameters are expected);\\
-	& 			& 1 = read each time-varying parameter line as exists in the control file; and\\
+	\multicolumn{2}{l}{1 1 1 1 1} & Auto-generation of time-varying parameter lines. Five values control auto-generation for parameter block sections: 1-biology, 2-spawn-recruitment, 3-catchability, 4-tag (future), and 5-selectivity. \\
+	& 			& The accepted values are: \\
+	& 			& 0 = auto-generate all time-varying parameters (no time-varying parameters are expected); \\
+	& 			& 1 = read each time-varying parameter line as exists in the control file; and \\
 	&			& 2 = read each line and auto-generate if read if the time-varying parameter value for LO = -12345. Useful to generate reasonable starting values. \Bstrut\\
 	\hline
 \end{longtable}
@@ -363,7 +371,7 @@ Lorenzen natural mortality is based on the concept that natural mortality is dri
 
 \myparagraph{Age-specific M Linked to Age-Specific Length and Maturity}
 
-This is an experimental option available as of 3.30.17. 
+This is an experimental option available as of v.3.30.17. 
 
 A general model for age- and sex-specific natural mortality expands a model developed by \citet{maunder2010bigeye} and \citet{maunder2011M} and is based on the following some assumptions:
 
@@ -401,12 +409,12 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 \myparagraph{Natural Mortality Options}
 \begin{longtable}{p{0.5cm} p{2cm} p{12.75cm}}
 	\hline	
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endhead
 	\hline
@@ -415,13 +423,13 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	
 	\endlastfoot
 
-	1 & & Natural Mortality Options:\Tstrut\\
-	  & & 0 = A single parameter;\\
-	  & & 1 = N breakpoints;\\
+	1 & & Natural Mortality Options: \Tstrut\\
+	  & & 0 = A single parameter; \\
+	  & & 1 = N breakpoints; \\
 	  & & 2 = Lorenzen; \\
-	  & & 3 = Read age specific M and do not do seasonal interpolation;\\
-	  & & 4 = Read age specific and do seasonal interpolation, if appropriate;\\
-	  & & 5 = age-specific M linked to age-specific length and maturity (experimental);\\
+	  & & 3 = Read age specific M and do not do seasonal interpolation; \\
+	  & & 4 = Read age specific and do seasonal interpolation, if appropriate; \\
+	  & & 5 = age-specific M linked to age-specific length and maturity (experimental); \\
 	  & & 6 = Age-range Lorenzen. \Bstrut\\
 	\hline
 
@@ -429,7 +437,7 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	\hline
 
 	\multicolumn{2}{l}{COND = 1} & \Tstrut\Bstrut\\
-	& 4 & Number of breakpoints. Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint.\\
+	& 4 & Number of breakpoints. Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint. \\
 
 	\multicolumn{2}{r}{2.5 4.5 9.0 15.0} & Vector of age breakpoints. \Bstrut\\
 	\hline
@@ -440,19 +448,19 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	
 	\multicolumn{2}{l}{COND = 3 or 4} \Tstrut & Do not read any natural mortality parameters in the mortality growth parameter section. With option 3, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.\\
 
-	& 0.20 0.25 ... 0.20 0.23 ... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern.\Bstrut\\
+	& 0.20 0.25 ... 0.20 0.23 ... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern. \Bstrut\\
 	\hline
 	
 	\multicolumn{2}{l}{COND = 5} \Tstrut & age-specific M linked to age-specific length and maturity suboptions. \\
 
 	&  & 1 = Requires 4 long parameter lines per sex x growth pattern using maturity. Must be used with maturity option 1; \\
 	&  & 2 = reserved for future option; \\
-	&  & 3 = Requires 6 long parameter lines per sex x growth pattern\Bstrut\\
+	&  & 3 = Requires 6 long parameter lines per sex x growth pattern \Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND = 6} \Tstrut & Read two additional integer values that are the age range for average M. Later, read one long parameter line for each sex x growth pattern that will be the average M over the reference age range. \\
-	& 0 \Tstrut & Minimum age of average M range for calculating Lorenzen natural mortality.\\
-	& 10 \Tstrut & Maximum age of average M range for calculating Lorenzen natural mortality.\\ 
+	& 0 \Tstrut & Minimum age of average M range for calculating Lorenzen natural mortality. \\
+	& 10 \Tstrut & Maximum age of average M range for calculating Lorenzen natural mortality. \\ 
 	\hline
 \end{longtable}
 
@@ -501,7 +509,7 @@ Thus, if $b$ will be estimated as a free parameter, it might be necessary to inc
 
 	
 \myparagraph{Mean size-at-maximum age}
-The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In SS3 v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in a the future version.
+The mean size of fish in the max age age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in a the future version.
 	
 \myparagraph{Age-specific K}
 This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern / sex. The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current age's multiplier. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect. Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year. There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
@@ -510,16 +518,16 @@ This option creates age-specific K multipliers for each age of a user-specified 
 \myparagraph{Growth cessation}
 A growth cessation model was developed for the application to tropical tuna species \citep{maunder-growth-2018}. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.
 
-	
+\vspace*{-\baselineskip}	
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\multicolumn{3}{l}{Example growth specifications:} \Tstrut\Bstrut\\
 	\hline	
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options\Tstrut\Bstrut\\
+	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
 	\hline
 	\endhead
 	\hline
@@ -529,14 +537,14 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\endlastfoot
 
 	1 & & Growth Model: \Tstrut\\
-	  & & 1 = von Bertalanffy (3 parameters);\\
+	  & & 1 = von Bertalanffy (3 parameters); \\
 	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters. Third parameter has null value of 1.0; \\
-	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature;\\
+	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 4 = age-specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 6 = not implemented; \\
 	  & & 7 = not implemented; and \\
-	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut \\
+	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut\\
 	\hline
 
 	\Tstrut 1 & & Growth Amin (A1): Reference age for first size-at-age L1 (post-settlement) parameter. First growth parameter is size at this age; linear growth below this. \Bstrut\\
@@ -545,28 +553,28 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age L2 (post-settlement) parameter. Use 999 to treat as L infinity. \Bstrut\\
 	\hline
 	
-	\Tstrut 0.20 & & Exponential decay for growth above maximum age (plus group: fixed at 0.20 in SS3 v.3.24; should approximate initial Z). Alternative Options: \\
-				 & & -998 = Disable growth above maximum age (plus group) similar to earlier versions of SS3 (prior to SS3 v.3.24); and \\
-				 & & -999 = Replicate the simpler calculation done in SS3 v.3.24. \Bstrut\\
+	\Tstrut 0.20 & & Exponential decay for growth above maximum age (plus group: fixed at 0.20 in v.3.24; should approximate initial Z). Alternative Options: \\
+				 & & -998 = Disable growth above maximum age (plus group) similar to earlier versions of SS3 (prior to v.3.24); and \\
+				 & & -999 = Replicate the simpler calculation done in v.3.24. \Bstrut\\
 	\hline
 	
 	0 & & Placeholder for future growth feature. \Tstrut\Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K.  The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section.\Tstrut\\
+	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section.\Tstrut\\
 	3 & & Number of K multipliers to read; \\
 	& 5 & Minimum age for age-specific K; and \\
 	& 6 & Second age for age-specific K; and \\
 	& 7 & Maximum age for age-specific K. \Bstrut\\
 	
-	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K.  The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
+	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
 	3 & & Number of K multipliers to read; \\
 	  & 7 & Maximum age for age-specific K; \\
 	  & 6 & Second age for age-specific K; and \\
 	  & 5 & Minimum age for age-specific K. \Bstrut\\
 	\hline
 	
-	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value.  For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
+	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \Tstrut\\
 	3 & & Number of K multipliers to read; \\
 	& 7 & Maximum age for age-specific K; \\
 	& 6 & Second age for age-specific K; and \\
@@ -632,7 +640,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\hline
 \end{longtable}
 
-\pagebreak
+% \pagebreak
 
 \subsubsection{Hermaphroditism}
 
@@ -671,6 +679,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	&    & 1 = simple addition of males to females. \Bstrut\\
 	\hline
 \end{longtable}
+\vspace*{-\baselineskip}
 
 The hermaphroditism option requires three full parameter lines in the mortality growth section: 
 \begin{enumerate}
@@ -725,7 +734,7 @@ C_{exp} = \frac{C_{obs}}{c_{mult}}
 where $C_{obs}$ is the input catch by fleet (observed catch) within the data file and $c_{mult}$ is the estimated (or fixed) catch multiplier. It has year-specific, not season-specific, time-varying capabilities. In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{obs}$ before being compared to the observed retained catch as modified by the $c_{mult}$.
 
 \subsubsection{Ageing Error Parameters}
-These parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition). As of version 3.30.12, these parameters now have time-varying capability. Seven additional full parameter lines are required. The parameter lines specify:
+These parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition). As of v.3.30.12, these parameters now have time-varying capability. Seven additional full parameter lines are required. The parameter lines specify:
 \begin{enumerate}
 	\item Age at which the estimated pattern begins (just linear below this age), this is the start age.
 	\item Bias at start age (as additive offset from unbiased age).
@@ -776,7 +785,7 @@ Note that predator calculations probably will fail if tried with F Method=1 (Pop
 	\multicolumn{2}{l}{Females}\Tstrut & Female natural mortality and growth parameters in the following order by growth pattern. \\
 	& M & Natural mortality for female growth pattern 1, where the number of natural mortality parameters depends on the option selected. \Bstrut\\
 	\hline
-	\multicolumn{2}{l}{COND if M option = 1 } & \Tstrut\\
+	\multicolumn{2}{l}{COND if M option = 1} & \Tstrut\\
 	& N breakpoints & N-1 parameter lines as an exponential offsets from the previous reference age. \Bstrut\\
 	\hline
 
@@ -785,14 +794,14 @@ Note that predator calculations probably will fail if tried with F Method=1 (Pop
 	& VBK & von Bertalanffy growth coefficient (units are per year) for females, growth pattern 1. \Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND if growth type = 2 } & \Tstrut\\
+	\multicolumn{2}{l}{COND if growth type = 2} & \Tstrut\\
 	& Richards Coefficient & Only include this parameter if Richards growth function is used. If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to von Bertalanffy. \\
 
-	\multicolumn{2}{l}{COND if growth type >=3 } & Age-Specific K \\
+	\multicolumn{2}{l}{COND if growth type >=3} & Age-Specific K \\
 	& \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the ages specified above.} \Bstrut\\
 	\hline
 
-	\Tstrut & CV young & Variability for size at age <= Amin for females, growth pattern 1. Note that CV cannot vary over time, so do not set up env-link or a deviation vector. Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern.\\
+	\Tstrut & CV young & Variability for size at age <= Amin for females, growth pattern 1. Note that CV cannot vary over time, so do not set up env-link or a deviation vector. Also, units are either as CV or as standard deviation, depending on assigned value of CV pattern. \\
 	& CV old & Variability for size at age >= Amax for females, growth pattern 1. For intermediate ages, do a linear interpolation of CV on means size-at-age. Note that the units for CV will depend on the CV pattern and the value of mortality-growth parameter as offset. The CV value cannot vary over time. \Bstrut\\
 	\hline
 
@@ -857,7 +866,7 @@ Note that predator calculations probably will fail if tried with F Method=1 (Pop
 	\multicolumn{2}{l}{Recruitment Dist. 2} & Recruitment apportionment parameter for the 2nd settlement event. \Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{Cohort growth deviation} \Tstrut & Set equal to 1.0 and do not estimate; it is deviations from this base that matter.\Bstrut\\
+	\multicolumn{2}{l}{Cohort growth deviation} \Tstrut & Set equal to 1.0 and do not estimate; it is deviations from this base that matter. \Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{2 x N selected movement pairs} & Movement parameters \Tstrut\Bstrut\\
@@ -1000,8 +1009,8 @@ The spawner-recruitment section starts by specification of the functional relati
 	  &                     & 6: Beverton-Holt with flat-top beyond Bzero, 2 parameters: ln(R0) and steepness; \\
 	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: ln(R0), $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are <= population production; \\
 	 %&                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: ln(R0), steepness, and shape parameter, $c$;\\
-	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to version 3.30.11 and is in beta mode); and \\
-	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: ln(R0), steepness, and Ricker power, $\gamma$ (added to version 3.30.11 and is in beta mode). \Bstrut\\
+	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); and \\
+	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: ln(R0), steepness, and Ricker power, $\gamma$ (added to v.3.30.11 and is in beta mode). \Bstrut\\
 	\hline
 
 	1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
@@ -1139,7 +1148,7 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated. Thus the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hypertarget{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
 	%\hline
 
-	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in SS3 v.3.24 and earlier. \Bstrut\\
+	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier. \Bstrut\\
 	\hline
 
 	0 & Autocorrelation & Autocorrelation in recruitment. \Tstrut\Bstrut\\
@@ -1162,6 +1171,7 @@ Example set-up of the spawner-recruitment section:
 		\hline
 	\end{longtable}
 \end{center}
+\vspace*{-1.7\baselineskip}
 
 \subsubsection{Spawner-Recruitment Time-Varying Parameters}
 
@@ -1321,11 +1331,11 @@ When the model is configured such that seasons are modeled as years, the concept
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year. These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series. The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector. If the number of estimated ages in the initial age composition is less than maximum age, then the older ages will retain their equilibrium levels. Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
 \subsection{Fishing Mortality Method}
-There are four methods available for calculation of fishing mortality (F): 1) Pope's approximation, 2) Baranov's continuous F with each F as a model parameter, 3) a hybrid F method, and 4) a fleet-specific parameter hybrid F approach (introduced in version 3.30.18).
+There are four methods available for calculation of fishing mortality (F): 1) Pope's approximation, 2) Baranov's continuous F with each F as a model parameter, 3) a hybrid F method, and 4) a fleet-specific parameter hybrid F approach (introduced in v.3.30.18).
 
-A new fleet-specific parameter hybrid F approach was introduced in version 3.30.18 and is now the recommended approach for most models. With this approach, some fleets can stay in hybrid F mode while others transition to parameters. For example, bycatch fleets must start with parameters in phase 1, while other fishing fleets can use hybrid F or start with hybrid and transition to parameters at a fleet-specific designated phase. We believe this new method 4 is a superior super-set to current methods 2 (all use parameters and all can start hybrid then switch to parameters) and method 3 (all hybrid for all phases). However, during testing specific situations were identified when this approach may not be the best selection. If there is uncertainty around annual input catch values (e.g., se = 0.15) and some fleets have discard data being fit to as well, the treatment of F as parameters (method 2) may allow for better model fits to the data.
+A new fleet-specific parameter hybrid F approach was introduced in v.3.30.18 and is now the recommended approach for most models. With this approach, some fleets can stay in hybrid F mode while others transition to parameters. For example, bycatch fleets must start with parameters in phase 1, while other fishing fleets can use hybrid F or start with hybrid and transition to parameters at a fleet-specific designated phase. We believe this new method 4 is a superior super-set to current methods 2 (all use parameters and all can start hybrid then switch to parameters) and method 3 (all hybrid for all phases). However, during testing specific situations were identified when this approach may not be the best selection. If there is uncertainty around annual input catch values (e.g., se = 0.15) and some fleets have discard data being fit to as well, the treatment of F as parameters (method 2) may allow for better model fits to the data.
 
-The hybrid F method does a Pope's approximation to provide initial values for iterative adjustment of the Baranov continuous F values to closely approximate the observed catch. Prior to version 3.30.18, the hybrid method (method 3) was recommended in most cases. With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters. In a 2 fishery model, low F case (e.g., similar to natural mortality or lower), the hybrid method is just as fast as the Pope approximation and produces identical results. 
+The hybrid F method does a Pope's approximation to provide initial values for iterative adjustment of the Baranov continuous F values to closely approximate the observed catch. Prior to v.3.30.18, the hybrid method (method 3) was recommended in most cases. With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters. In a 2 fishery model, low F case (e.g., similar to natural mortality or lower), the hybrid method is just as fast as the Pope approximation and produces identical results. 
 
 However, when F is very high, the problem becomes quite computationally stiff for Pope's approximation and the hybrid method so convergence in ADMB may slow due to more sensitive gradients in the log likelihood. In these high F cases it may be better to use F option 2, continuous F as full parameters. It is also advisable to allow the model to start with good values for the F parameters. This can be done by specifying a later phase (>1) under the conditional input for F method = 2 where early phases will use the hybrid method, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.
 
@@ -1381,7 +1391,7 @@ Finally, the newer fleet-specific hybrid F method (F method 4) provides more fle
 	\hline
 
 	\multicolumn{3}{l}{COND: F method = 4} \Tstrut\\
-	& & Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only select a phase of 99. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line. Use a negative phase to set F as constant (i.e., not estimated) in v. 3.30.19 and higher. \Tstrut\\
+	& & Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only select a phase of 99. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line. Use a negative phase to set F as constant (i.e., not estimated) in v.3.30.19 and higher. \Tstrut\\
 	Fleet & Parameter Value & Phase \Tstrut\\
 	1 & 0.05 & 1 \\
 	2 & 0.01 & 1 \\
@@ -1549,9 +1559,9 @@ Below is an example setup for fleets with a mirrored Q and offset from another f
 \subsubsection{Float Q}
 The use and development of float in Q has evolved over time within SS3. The original approach in earlier versions of SS3 (version 3.24 and before) is that with Q ``float'' the units of the survey or fishery CPUE were treated as dimensionless so the Q was adjusted within each model iteration to maintain a mean difference of 0.0 between observed and expected (usually in natural log space). In contrast, Q as a parameter (float = 0) one had the ability to interpret the absolute scaling of Q and put a prior on it to help guide the model solution. Also, with Q as a parameter the code allowed for Q to be time-varying.
 
-Then midway through the evolution of the SS3 v.3.24 code lineage a new Q option was introduced based on user recommendations. This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
+Then midway through the evolution of the v.3.24 code lineage a new Q option was introduced based on user recommendations. This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
 
-Currently, in 3.30, that float with prior capability is fully embraced. All fleets that have any survey or CPUE options need to have a catchability specification and get a base Q parameter in the list. Any of these Q's can be either:
+Currently, in v.3.30, that float with prior capability is fully embraced. All fleets that have any survey or CPUE options need to have a catchability specification and get a base Q parameter in the list. Any of these Q's can be either:
 
 \begin{itemize}
 	\item Fixed: by not floating and not estimating.
@@ -1564,13 +1574,13 @@ Currently, in 3.30, that float with prior capability is fully embraced. All flee
 
 Q relates the units of the survey or CPUE to the population abundance, not the population density per unit area. But many surveys and most fishery CPUE is a proportional to mean fish density per unit area. This does not have any impact in a one area model because the role of area is absorbed into the value of Q. In a multi-area model, one may want to assert that the relative difference in CPUE between two areas is informative about the relative abundance between the areas. However, CPUE is a measure of fish density per unit area, so one may want to multiply CPUE by area before putting the data into the model so that asserting the same Q for the two areas will be informative about relative abundance.
 
-In SS3 v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area. The offset is a parameter and, hence, can be estimated and have a prior. This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
+In v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area. The offset is a parameter and, hence, can be estimated and have a prior. This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
 
 \subsubsection{Catchabilty Time-Varying Parameters}
 Time-Varying catchability can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
-\subsubsection{Q Conversion Issues Between SS3 v.3.24 and v.3.30}
-In SS3 v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (sstrans.exe) cannot convert this, but an analogous approach is available in SS3 v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in SS3 v.3.24 were survey specific (so no parameter for years with no survey). In SS3 v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
+\subsubsection{Q Conversion Issues Between Stock Synthesis v.3.24 and v.3.30}
+In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (sstrans.exe) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention. 
@@ -1627,7 +1637,7 @@ Special (0/value): This value is used in different ways depending on the context
 \myparagraph{Age Selectivity}
 For each fleet and survey, read a definition line for age selectivity. The 4 values to be read are the same as for the size-selectivity. 
 
-As of SS3 v.3.30.15, for some selectivity patterns the user can specify the minimum age of selected fish. Most selectivity curves by default select age 0 fish (i.e., inherently specify the minimum age of selected fish as 0). However, it is fairly common for the age bins specified in the data file to start at age 1. This means that any age 0 fish selected are pooled up into the age 1' bin, which will have a detrimental effect on fitting age-composition data. In order to prevent the selection of age 0 (or older) fish, the user can specify the minimum selected age for some selectivity patterns (12, 13, 14, 16, 18, 26, or 27) in versions of SS3 v.3.30.15 and later. For example, if the minimum selected age is 1 (so that age 0 fish are not selected), selectivity pattern type can be specified as 1XX, where XX is the selectivity pattern. A more specific example is if selectivity is age-logistic and the minimum selected age desired is 1, the selectivity pattern would be specified as 112 (the regular age-logistic selectivity pattern is option 12). The user can also select higher minimum selected ages, if desired; for example, 212 would be the age-logistic selectivity pattern with a minimum selected age of 2 (so that age 0 and 1 fish are not selected).
+As of v.3.30.15, for some selectivity patterns the user can specify the minimum age of selected fish. Most selectivity curves by default select age 0 fish (i.e., inherently specify the minimum age of selected fish as 0). However, it is fairly common for the age bins specified in the data file to start at age 1. This means that any age 0 fish selected are pooled up into the age 1' bin, which will have a detrimental effect on fitting age-composition data. In order to prevent the selection of age 0 (or older) fish, the user can specify the minimum selected age for some selectivity patterns (12, 13, 14, 16, 18, 26, or 27) in versions of v.3.30.15 and later. For example, if the minimum selected age is 1 (so that age 0 fish are not selected), selectivity pattern type can be specified as 1XX, where XX is the selectivity pattern. A more specific example is if selectivity is age-logistic and the minimum selected age desired is 1, the selectivity pattern would be specified as 112 (the regular age-logistic selectivity pattern is option 12). The user can also select higher minimum selected ages, if desired; for example, 212 would be the age-logistic selectivity pattern with a minimum selected age of 2 (so that age 0 and 1 fish are not selected).
 
 \subsubsection{Reading the Selectivity and Retention Parameters}
 Read the required number of parameter setup lines as specified by the definition lines above. The complete order of the parameter setup lines is:
@@ -1775,7 +1785,7 @@ where $L_l$ is the length bin. If age based selectivity is selected then the len
 \end{itemize}
 
 \myparagraph{Pattern 2 (size) - Older version of selectivity pattern 24 for backward compatibility}
-Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in \hyperlink{MaleSelectivityOffset}{Male Selectivity Estimated as Offsets from Female Selectivity} for more information. Pattern 24 was changed in version 3.30.19 with the old parameterization now provided in Pattern 2.
+Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in \hyperlink{MaleSelectivityOffset}{Male Selectivity Estimated as Offsets from Female Selectivity} for more information. Pattern 24 was changed in v.3.30.19 with the old parameterization now provided in Pattern 2.
 
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
 Two parameters select the min and max bin number (not min max size) of the source selectivity pattern. If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value <=0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
@@ -1974,9 +1984,9 @@ selectivity and for age selectivity; the input syntax is identical.
 	
 For a 3 node setup, the input parameters would be:
 	\begin{itemize}
-		\item p1 - 	Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
-		\item p2 - 	Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a ``natural cubic spline'')
-		\item p3 - 	Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a ``natural cubic spline'')
+		\item p1 - Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
+		\item p2 - Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a ``natural cubic spline'')
+		\item p3 - Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a ``natural cubic spline'')
 		\item p4-p6 - The nodes in units of cm; must be in rank order and inside of the range of the population length bins. These must be held constant (not estimated, e.g., negative phase value) during a model run.
 		\item p7-p9 - The values at the nodes. Units are ln(selectivity) before rescaling.
 	\end{itemize}
@@ -2199,7 +2209,7 @@ Retention is defined as a logistic function of size or age. It does not apply to
 	\begin{itemize}
 		\item p1 - ascending inflection,
 		\item p2 - ascending slope,
-		\item p3 - maximum retention controlling the height of the asymptote (smaller values result in lower asymptotes), often a time-varying quantity to match the observed amount of discard. As of v. 3.30.01, this parameter is now input in logit space ranging between -10 and 10. A fixed value of -999 would assume no retention of fish and a value of 999 would set asymptotic retention equal to 1.0,
+		\item p3 - maximum retention controlling the height of the asymptote (smaller values result in lower asymptotes), often a time-varying quantity to match the observed amount of discard. As of v.3.30.01, this parameter is now input in logit space ranging between -10 and 10. A fixed value of -999 would assume no retention of fish and a value of 999 would set asymptotic retention equal to 1.0,
 		\item p4 - male offset to ascending inflection (arithmetic, not multiplicative),
 	\end{itemize}
 	\item Dome-shaped (add the following 3 parameters):
@@ -2272,7 +2282,7 @@ If the size selectivity pattern is 2, 20, 23 or 24 (double normal), then:
 Notes:
 \begin{itemize}
 	\item Male selectivity offsets currently cannot be time-varying because they are offsets from female selectivity, they inherit the time-varying characteristics of the female selectivity.
-    \item Prior to version 3.30.19 male parameter 5 in pattern 24 scaled only the apical selectivity. This sometimes resulted in strange shapes when the final selectivity, which was shared between females and males in that parameterization, was higher than the estimated apical selectivity. For backwards compatibility to the pattern 24 parameterization prior to 3.30.19, use selectivity pattern 2.
+    \item Prior to v.3.30.19 male parameter 5 in pattern 24 scaled only the apical selectivity. This sometimes resulted in strange shapes when the final selectivity, which was shared between females and males in that parameterization, was higher than the estimated apical selectivity. For backwards compatibility to the pattern 24 parameterization prior to v.3.30.19, use selectivity pattern 2.
 \end{itemize}
 
 \hypertarget{Dirichletparameter}{}
@@ -2438,10 +2448,10 @@ The tagging reporting rate parameter is transformed during estimation to maintai
 
 Currently, tag parameters cannot be time-varying.
 
-A shortcoming was identified in the recapture calculations when using Pope's F Method and multiple seasons in SS3 prior to v.3.30.14. The internal calculations were corrected in version 3.30.14. Now the Z-at-age is applied internally for calculations of fishing pressure on the population when using the Pope calculations.
+A shortcoming was identified in the recapture calculations when using Pope's F Method and multiple seasons in SS3 prior to v.3.30.14. The internal calculations were corrected in v.3.30.14. Now the Z-at-age is applied internally for calculations of fishing pressure on the population when using the Pope calculations.
 
 \myparagraph{Mirroring of Tagging Parameters}
-In version 3.30.14, the ability to mirror the tagging parameters from another tag group or fleet was added. With this approach, the user can have just one parameter value for each of the five tagging parameter types and mirror all other parameters. Note that parameter lines are still required for the mirrored parameters and only lower numbered parameters can be mirrored. Mirroring is evoked through the phase input in the tagging parameter section.  The options are:
+In v.3.30.14, the ability to mirror the tagging parameters from another tag group or fleet was added. With this approach, the user can have just one parameter value for each of the five tagging parameter types and mirror all other parameters. Note that parameter lines are still required for the mirrored parameters and only lower numbered parameters can be mirrored. Mirroring is evoked through the phase input in the tagging parameter section.  The options are:
 \begin{itemize}
 	\item No mirroring among tag groups or fleets: phase > -1000,
 	\item Mirror the next lower (i.e., already specified) tag group or fleet: phase = -1000 and set other parameter values the same as next lower Tag Group or fleet,
@@ -2454,17 +2464,16 @@ To avoid having to specify mirrored parameter lines, the tag parameters can be a
 \subsection{Variance Adjustment Factors}
 When doing iterative re-weighting of the input variance factors, it is convenient to do this in the control file, rather than the data file. This section creates that capability.
 
+\begin{longtable}{p{3cm} p{3cm} p{2.5cm} p{6.25cm}}
 
-\begin{longtable}{p{3cm} p{3cm} p{2.5cm} p{6.25cm} }
-
-	\multicolumn{4}{l}{Read variance adjustment factors to be applied:}\\
+	\multicolumn{4}{l}{Read variance adjustment factors to be applied:} \\
 	\hline
 	Factor & Fleet & Value & Description \Tstrut\Bstrut\\
 	\hline
 	1 & 2 & 0.5 & \# Survey CV for survey/fleet 2 \Tstrut\\
 	4 & 1 & 0.25 & \# Length data for fleet 1 \\
-	4 & 2 & 0.75 & \# Length data for fleet 2\\
-	-9999 & 0 & 0 & \# End read\Bstrut\\
+	4 & 2 & 0.75 & \# Length data for fleet 2 \\
+	-9999 & 0 & 0 & \# End read \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -2519,14 +2528,14 @@ These values are multiplied by the corresponding likelihood component to calcula
 \myparagraph{Lambda Usage Notes}
 \hypertarget{SaAlambda}{If} the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stddev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
 
-The reading of the lambda values has been substantially altered with SS3 v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0.  After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS3.  First read an integer for the number of changes.
+The reading of the lambda values has been substantially altered with v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0.  After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS3.  First read an integer for the number of changes.
 
 
 \begin{longtable}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
 
-	\multicolumn{5}{l}{Read the lambda adjustments by fleet and data type:}\\
+	\multicolumn{5}{l}{Read the lambda adjustments by fleet and data type:} \\
 	\hline
-	Likelihood &       &       & Lambda & SizeFreq\Tstrut\\
+	Likelihood &       &       & Lambda & SizeFreq \Tstrut\\
 	Component  & Fleet & Phase & Value  & Method \Bstrut\\
 	\hline
 	1 & 2 & 2 & 1.5 & 1 \Tstrut\\
@@ -2542,19 +2551,19 @@ The reading of the lambda values has been substantially altered with SS3 v.3.30.
 		\multicolumn{2}{l}{The codes for component are:}\\
 		\hline
 		1 = survey  				   & 10 = recruitment deviations \Tstrut\\	
-		2 = discard 				   & 11 = parameter priors\\		
-		3 = mean weight 			   & 12 = parameter deviations\\	
-		4 = length 					   & 13 = crash penalty\\		
-		5 = age 					   & 14 = morph composition\\
-		6 = size frequency  		   & 15 = tag composition\\		
-		7 = size-at-age 			   & 16 = tag negative binomial\\
-		8 = catch 					   & 17 = F ballpark\\		
+		2 = discard 				   & 11 = parameter priors \\		
+		3 = mean weight 			   & 12 = parameter deviations \\	
+		4 = length 					   & 13 = crash penalty \\		
+		5 = age 					   & 14 = morph composition \\
+		6 = size frequency  		   & 15 = tag composition \\		
+		7 = size-at-age 			   & 16 = tag negative binomial \\
+		8 = catch 					   & 17 = F ballpark \\		
 		9 = initial equilibrium catch (see note below) & 18 = regime shift \Bstrut\\
 		\hline
 	\end{longtable}
 \end{center}
 
-Starting in SS3 v.3.30.16, the application of a lambda to initial equilibrium catch is now fleet specific.  In previous versions, a single lambda was applied in the same manner across all fleets with an initial equilibrium catch specified.
+Starting in v.3.30.16, the application of a lambda to initial equilibrium catch is now fleet specific. In previous versions, a single lambda was applied in the same manner across all fleets with an initial equilibrium catch specified.
 
 \pagebreak
 
@@ -2564,15 +2573,15 @@ Additional standard deviation reported may be selected:
 \begin{longtable}{p{1.1cm} p{1.4cm} p{1.2cm} p{1.2cm} p{1.3cm} p{1.6cm} p{1.4cm} p{1.4cm} p{1.4cm}}
 
 	\hline
-	\multicolumn{3}{l}{Typical Value} & \multicolumn{6}{l}{Description and Options}\Tstrut\Bstrut\\
+	\multicolumn{3}{l}{Typical Value} & \multicolumn{6}{l}{Description and Options} \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 
 	\multicolumn{3}{l}{0} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read specification for reporting stdev for selectivity, size, numbers; and}\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size, numbers, }\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, dynamic B0, and Summary Bio}\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read specification for reporting stdev for selectivity, size, numbers; and} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size, numbers,} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, dynamic B0, and Summary Bio} \Bstrut\\
 	\hline
 
 \end{longtable}
@@ -2640,13 +2649,13 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 \begin{longtable}{p{1.1cm} p{1.4cm} p{1.2cm} p{1.2cm} p{1.3cm} p{1.6cm} p{1.4cm} p{1.4cm} p{1.4cm}}
 	
 	\hline
-	\multicolumn{9}{l}{Example Input:}\Tstrut\Bstrut\\
+	\multicolumn{9}{l}{Example Input:} \Tstrut\Bstrut\\
 	\hline
 	
 	\multicolumn{3}{l}{2} & \multicolumn{6}{l}{\# 0 = No additional std dev reporting;} \Tstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 1 = read values below; and}\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size,numbers, and }\Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# natural mortality.}\Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 1 = read values below; and} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size,numbers, and} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# natural mortality.} \Bstrut\\
 	\hline
 	
 	\multicolumn{4}{l}{1 1 -1 5}  & \multicolumn{5}{l}{\# Selectivity} \Bstrut\\
@@ -2656,12 +2665,12 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 	\multicolumn{4}{l}{1}         & \multicolumn{5}{l}{\# Dynamic Bzero} \Bstrut\\
 	\multicolumn{4}{l}{1}         & \multicolumn{5}{l}{\# Summary Biomass} \Bstrut\\
 	
-	\multicolumn{4}{l}{5 15 25 35 38} & \multicolumn{5}{l}{\# Vector with selectivity std bins (-1 in first bin to self-generate)}\Bstrut\\
-	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with growth std ages picks (-1 in first bin to self-generate)}\Bstrut\\
-	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with numbers-at-age std ages (-1 in first bin to self-generate)}\Bstrut\\
-	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with M-at-age std ages (-1 in first bin to self-generate)}\Bstrut\\
+	\multicolumn{4}{l}{5 15 25 35 38} & \multicolumn{5}{l}{\# Vector with selectivity std bins (-1 in first bin to self-generate)} \Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with growth std ages picks (-1 in first bin to self-generate)} \Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with numbers-at-age std ages (-1 in first bin to self-generate)} \Bstrut\\
+	\multicolumn{4}{l}{1 2 5 10 15}  & \multicolumn{5}{l}{\# Vector with M-at-age std ages (-1 in first bin to self-generate)} \Bstrut\\
 	
 	\hline
-	\bfseries{999} & \multicolumn{8}{l}{\#End of the control file input}\Tstrut\Bstrut\\
+	\bfseries{999} & \multicolumn{8}{l}{\#End of the control file input} \Tstrut\Bstrut\\
 	\hline			
 \end{longtable}
