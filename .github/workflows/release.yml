@@ -28,8 +28,6 @@ jobs:
 
       - name: Setup pandoc
         uses: r-lib/actions/setup-pandoc@v2
-        with:
-            pandoc-version: '2.14.0.3'
 
       - name: Install rmarkdown
         run: install.packages("rmarkdown")
@@ -38,10 +36,10 @@ jobs:
 # Get previous version and then create the next version   
       - name: Application Version
         id: version
-        uses: paulhatch/semantic-version@v5.0.2
+        uses: paulhatch/semantic-version@v5.3.0
         with:
           tag_prefix: "v"
-          version_format: "v${major}.${minor}.${patch}"
+          version_format: "${major}.${minor}.${patch}"
 
 # Create version.txt to use when changing the version in the index.md
       - name: Create version.txt
@@ -51,7 +49,6 @@ jobs:
       - name: Update version and date in manual
         run: |
           version <- readLines("version.txt", encoding = "UTF-8")
-          version <- gsub("v", "", version)
           manual_tex <- readLines("SS330_User_Manual.tex")
           manual_tex[grep("Version", manual_tex)] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, manual_tex[grep("Version", manual_tex)])
           date_line <- manual_tex[grep("date[{]", manual_tex)]
@@ -208,7 +205,6 @@ jobs:
         run: |
           version <- readLines("version.txt", encoding = "UTF-8")
           index <- readLines("docs/index.md", encoding = "UTF-8")         
-          version <- gsub("v", "", version)
           index <- gsub("v[0-9]\\.[0-9]{2}\\.[0-9]{2}", version, index)
           writeLines(index, "docs/index.md")
         shell: Rscript {0}
