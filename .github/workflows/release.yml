@@ -61,16 +61,6 @@ jobs:
             pattern = "\\{[A-Za-z0-9, ]+",
             replacement = paste0("{", todays_date),
             x = manual_tex[date_line]
-
-          # manual_tex[grep("Version", manual_tex)] <- gsub("[0-9].[0-9][0-9].[0-9][0-9]", version, manual_tex[grep("Version", manual_tex)])
-          # date_line <- manual_tex[grep("date[{]", manual_tex)]
-          # todays_month <- format(Sys.Date(), "%B")
-          # todays_day <- format(Sys.Date(), "%d")
-          # todays_year <- format(Sys.Date(), "%Y")
-          # todays_date <- paste0("{", todays_month, " ", todays_day, ", ", todays_year, "}")
-          # date_line <- gsub("\\{[^{}]*\\}", todays_date, date_line)
-          # manual_tex[grep("date[{]", manual_tex)]<- date_line
-          # writeLines(manual_tex, "SS330_User_Manual.tex")
         shell: Rscript {0}
       
       - name: Commit date and version changes in SS330_User_Manual.tex
