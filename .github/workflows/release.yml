@@ -61,6 +61,7 @@ jobs:
             pattern = "\\{[A-Za-z0-9, ]+",
             replacement = paste0("{", todays_date),
             x = manual_tex[date_line]
+          writeLines(text = manual_tex, con = "SS330_User_Manual.tex")
         shell: Rscript {0}
       
       - name: Commit date and version changes in SS330_User_Manual.tex
