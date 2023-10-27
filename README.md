@@ -1,18 +1,18 @@
 # doc
 
-Source code for the stock synthesis manual and other supplementary documentation 
+Source code for the stock synthesis manual and other supplementary documentation.
 
 ## What documentation is available in this repository?
 
 The documentation includes:
 - The Stock Synthesis user manual source code, in .tex files
-- Getting started guide and Introduction to building an ss model guide, available in the [User_Guides subdirectory](https://github.com/nmfs-stock-synthesis/doc/tree/main/User_Guides)
+- Getting started guide and Introduction to building an ss3 model guide, available in the [User_Guides subdirectory](https://github.com/nmfs-stock-synthesis/doc/tree/main/User_Guides)
 
 ## Where can I find compiled versions of the documentation?
 
-See the [documentation index page](https://nmfs-stock-synthesis.github.io/doc/) for links to the latest compiled documentation.
+See the [documentation index page](https://nmfs-stock-synthesis.github.io/doc/) for links to a PDF and HTML version of the compiled documentation from the latest Stock Synthesis release.
 
-PDF versions of the user manual are available in the [ss3 manuals folder on the vlab website](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132).
+PDF versions of the user manual are also available in the [ss3 manuals folder on the vlab website](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132).
 
 The [contributing guide](https://github.com/nmfs-stock-synthesis/doc/blob/main/CONTRIBUTING.md) contains information on [how to compile locally or with github actions](https://github.com/nmfs-stock-synthesis/doc/blob/main/CONTRIBUTING.md#compiling-the-stock-synthesis-manual).
 
@@ -22,7 +22,7 @@ Please open an [issue](https://github.com/nmfs-stock-synthesis/doc/issues) or su
 
 ## Where should I ask a question about Stock Synthesis?
 
-If you have a question related to Stock Synthesis, please ask it on the [Stock Synthesis forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums), post an issue [in the Stock Synthesis github repository for model questions](https://github.com/nmfs-stock-synthesis/stock-synthesis/issues) and [in the Stock Synthesis document github repository for questions about the manual](https://github.com/nmfs-stock-synthesis/doc/issues), or email it to the Stock Synthesis team at nmfs.stock.synthesis@noaa.gov .
+If you have a question related to Stock Synthesis, please post an issue [in the Stock Synthesis GitHub repository for model questions](https://github.com/nmfs-stock-synthesis/stock-synthesis/issues) or ask it on the [Stock Synthesis forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums). If you have a question about the manual, please post an issue in the [Stock Synthesis documentation GitHub repository](https://github.com/nmfs-stock-synthesis/doc/issues), or email it to the Stock Synthesis team at nmfs.stock.synthesis@noaa.gov.
 
 ## How can I contribute to the Stock Synthesis documentation?
 
