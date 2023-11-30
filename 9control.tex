@@ -1331,19 +1331,31 @@ When the model is configured such that seasons are modeled as years, the concept
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year. These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series. The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector. If the number of estimated ages in the initial age composition is less than maximum age, then the older ages will retain their equilibrium levels. Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
 \subsection{Fishing Mortality Method}
-There are four methods available for calculation of fishing mortality (F): 1) Pope's approximation, 2) Baranov's continuous F with each F as a model parameter, 3) a hybrid F method, and 4) a fleet-specific parameter hybrid F approach (introduced in v.3.30.18).
+There are two approaches for estimating fishing mortality (F) in Stock Synthesis. One provides a mid-season harvest rate using Pope’s approximation, the other provides a season-long F rate using the Baranov catch equation. Pope’s harvest rate is implemented as F\_Method = 1. The subsequent options model F as a season-long rate using the Baranov catch equation.
+\begin{itemize}
+	\item F\_Method = 2 represents F as a parameter, $F_{par}$, for all fishing fleets. Because it is a parameter, it's estimation is influenced by all data in the model, with retained catch and discard catch having the greatest influence depending on the standard error for these observations. Starting values for the $F_{par}$ can be calculated in early model phases using the hybrid approach (below), then copying those $F_{hyb}$ values into the $F_{par}$ values beginning in a specified phase for all fleets;
+	\item  F\_Method = 3 represents F as a tuned factor, $F_{hyb}$ using Pope's and Baranov catch equations sequentially in what is termed the hybrid method. The tuning is based on the retained catch for each fishing fleet;
+	\item  F\_Method = 4 is a fleet-specific superset of F\_Methods 2 and 3 and is the recommended method for modeling F in Stock Synthesis.
+\end{itemize}
 
-A new fleet-specific parameter hybrid F approach was introduced in v.3.30.18 and is now the recommended approach for most models. With this approach, some fleets can stay in hybrid F mode while others transition to parameters. For example, bycatch fleets must start with parameters in phase 1, while other fishing fleets can use hybrid F or start with hybrid and transition to parameters at a fleet-specific designated phase. We believe this new method 4 is a superior super-set to current methods 2 (all use parameters and all can start hybrid then switch to parameters) and method 3 (all hybrid for all phases). However, during testing specific situations were identified when this approach may not be the best selection. If there is uncertainty around annual input catch values (e.g., se = 0.15) and some fleets have discard data being fit to as well, the treatment of F as parameters (method 2) may allow for better model fits to the data.
+The $F_{hyb}$ approach works by:
+\begin{enumerate}[a.]
+	\item Applying the Pope’s method to get a harvest rate for each fleet in the current season;
+	\item Converting that harvest rate to the equivalent $F_{hyb}$. This is exact with one fleet and approximate with multiple fleets;
+	\item Adjusting those $F_{hyb}$ values over a fixed number of iterations (2-4) using the ratio of observed to calculated catch for each fleet; and
+	\item Proceeding with those $F_{hyb}$ values into subsequent model steps. $F_{par}$ and $F_{hyb}$ values are used in the same Baranov catch equation and a catch log-likelihood is calculated based on the observed retained catch and the annual standard error of the catch.
+\end{enumerate}
 
-The hybrid F method does a Pope's approximation to provide initial values for iterative adjustment of the Baranov continuous F values to closely approximate the observed catch. Prior to v.3.30.18, the hybrid method (method 3) was recommended in most cases. With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters. In a 2 fishery model, low F case (e.g., similar to natural mortality or lower), the hybrid method is just as fast as the Pope approximation and produces identical results. 
-
-However, when F is very high, the problem becomes quite computationally stiff for Pope's approximation and the hybrid method so convergence in ADMB may slow due to more sensitive gradients in the log likelihood. In these high F cases it may be better to use F option 2, continuous F as full parameters. It is also advisable to allow the model to start with good values for the F parameters. This can be done by specifying a later phase (>1) under the conditional input for F method = 2 where early phases will use the hybrid method, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.
-
-F as parameter is also preferred for situations where catch is known imprecisely and it is acceptable to have a solution in which the final F values do not reproduce the input catch levels exactly. 
-
-The calculation of the catch log-likelihood for the Baranov F method (method 2) and the Hybrid F method (method 3) is identical with the only difference between the methods is how the expected catch is calculated. With F method 2, F is a parameter (or set of parameters for all the fleets). The model uses that parameter(s) to go straight to calculating expected catch for each fleet, then to the log-likelihood. F method 2 includes option to do F method 3 in early phases and then transition to F method 2 to finish (which can be faster in high F, many fleet situations). With F method 3, the model does a Pope's (F method 1) to get each F in right ballpark and then adjusts it through a few iterations to get closer to matching the observed catch. It then finishes through the F method 2 code to calculate the final iteration of expected catch and then log-likelihood. At high F and/or with many fleets it may not get to an exact match to the observed catch.
-
-Finally, the newer fleet-specific hybrid F method (F method 4) provides more flexibility in that some fleets can do hybrid and other fleets (particularly high F fleets) can do parameters starting at a fleet-specific phase. This new approach is considered the prefer F method.
+Some notes:
+\begin{itemize}
+	\item At moderate F levels, hybrid should get a near exact match to the retained catch even if the catch standard error is high. This may result in poor fit to discard catch data if it exists.
+	\item At high F and/or with many fleets, the hybrid approach may not get to an exact match to the observed catch.
+	\item At high F, the problem becomes quite computationally stiff for Pope’s approximation and the hybrid method so convergence in ADMB may slow due to more sensitive gradients in the log likelihood with regard to other model parameters. Whereas, ADMB adjusts the $F_{par}$ values slowly over the entire sequence of iterations, so it may converge with fewer iterations.
+	\item The hybrid approach performs best when the catch is known with high precision (standard error < ~ 0.05) and the total F across all fleets is not much greater than natural mortality. The F as parameter approach works best when total F is high; also where a fleet has both retained catch and discarded catch, because the F is influenced by both. 
+	\item With F\_Method 4, fleets with low F can apply $F_{hyb}$ across all model phases and high F fleets can switch to $F_{par}$ during later phases.
+	\item It is always advisable to allow the model to start with good starting values for parameters. This can be done by specifying a later phase (>1) under the conditional input for F\_Method = 2 where early phases will use the hybrid method, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values. Same advice for using the F\_Method = 4. However, bycatch fleets do not have retained catch, so cannot use the hybrid method. They must use $F_{par}$ with user-specified starting value starting in phase 1.
+	\item Tests have demonstrated that the F approach has negligible impact on the variance of derived quantities, such as spawning biomass in the final year.
+\end{itemize}
 
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	\multicolumn{3}{l}{Control file continued:} \\
@@ -1377,28 +1389,28 @@ Finally, the newer fleet-specific hybrid F method (F method 4) provides more fle
 	\hline
 
 	2.9 \Tstrut & & Maximum F \\
-	 & & This maximum is applied within each season and area. A value of 0.9 is recommended for F method 1, and a value of about 4 is recommended for F method 2 and 3. \Bstrut\\
+	 & & This maximum is applied within each season and area. A value of 0.9 is recommended for F Method 1, and a value of about 4 is recommended for F Methods 2 and 3. \Bstrut\\
 	\hline
 
-	\multicolumn{3}{l}{COND: F method = 1, no additional input for Pope's approximation.} \Tstrut\Bstrut\\
+	\multicolumn{3}{l}{COND: F Method = 1, no additional input for Pope's approximation.} \Tstrut\Bstrut\\
 	\hline
 
-	\multicolumn{3}{l}{COND: F method = 2: } \Tstrut\\
-	& 0.10  1  0 & Initial F value, phase, and the number of F detail setup lines to read (example has 0). \\
+	\multicolumn{3}{l}{COND: F Method = 2:} \Tstrut\\
+	& 0.10 1 0 & Initial F value, phase, and the number of F detail setup lines to read (example has 0). \\
 	&  & For phases prior to the phase of the F value becoming active, the hybrid option will be used and the F values so calculated become the starting values for the F parameters when this phase is reached. \\
-	\multicolumn{3}{l}{If F method = 2 and N for F detail is > 0} \Tstrut\\
+	\multicolumn{3}{l}{If F Method = 2 and N for F detail is > 0} \Tstrut\\
 	\multicolumn{2}{l}{1 1980 1 0.20 0.05 4} & Fleet, year, season, F, SE, phase - these values override the catch standard error values in the data file and the overall starting F value and phase read just above. \Bstrut\\
 	\hline
 
-	\multicolumn{3}{l}{COND: F method = 4} \Tstrut\\
-	& & Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only select a phase of 99. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line. Use a negative phase to set F as constant (i.e., not estimated) in v.3.30.19 and higher. \Tstrut\\
+	\multicolumn{3}{l}{COND: F Method = 4} \Tstrut\\
+	& & Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only either select a phase of 99 or do not enter a parameter line for that fleet. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line. Use a negative phase to set F as constant (i.e., not estimated) in v.3.30.19 and higher. \Tstrut\\
 	Fleet & Parameter Value & Phase \Tstrut\\
-	1 & 0.05 & 1 \\
-	2 & 0.01 & 1 \\
+	1 & 0.05 & 2 \\
+	2 & 0.01 & 1 \# bycatch fleet \\
 	-9999 & 1 & 1 \Bstrut\\
 	\hline
  
-	\multicolumn{3}{l}{COND: F method = 3 or 4} \Tstrut\\
+	\multicolumn{3}{l}{COND: F Method = 3 or 4} \Tstrut\\
 	& 4 & Number of tuning iterations in hybrid fleets. A value of 3 is sufficient with a single fleet and low Fs. A value of 5 or so may be needed to match the catch near exactly when there are many fleets and high F. \Bstrut\\
 	\hline
 \end{longtable}
@@ -1458,7 +1470,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 		\item 4 = mirror Q with offset (2 parameter lines required). The mirrored Q with offset for with be reported as base Q + offset value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. See \hyperlink{MirrorQoffset}{mirrored Q with offset} below for example set up.
 		\item If the parameter is for an index of a deviation vector (index units = 35), use this column to enter the index of the deviation vector to which the index is related.
 	\end{enumerate}
-	\item Extra input for link information (i.e., mirror fleet)
+	\item \hypertarget{link_info}{Extra input for link information (i.e., mirror fleet)}
 	\begin{enumerate}
 		\item >0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number)
 		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
