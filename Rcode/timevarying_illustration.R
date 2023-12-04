@@ -66,7 +66,7 @@ yrs <- 1980:YrMax
 parm_timevary <- NA * yrs
 
 # calculations below adapted from
-# https://github.com/nmfs-stock-synthesis/ss3-source-code/blob/cf0ce2f2f6e0e5e3e6a11805f1a9668f3449e916/SS_timevaryparm.tpl#L166-L177
+# https://github.com/nmfs-ost/ss3-source-code/blob/cf0ce2f2f6e0e5e3e6a11805f1a9668f3449e916/SS_timevaryparm.tpl#L166-L177
 
 norm_styr <- pnorm(styr -infl_year)/slope
 temp <- (endtrend - baseparm) / (pnorm((endyr - infl_year) / slope) - norm_styr) # delta in cum_norm between styr and endyr

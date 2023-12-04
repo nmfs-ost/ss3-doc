@@ -19,7 +19,7 @@ knitr::opts_chunk$set(echo = FALSE)
 
 The developing your first SS3 model guide teaches users how to develop a basic Stock Synthesis model. We assume that these users have had previous population dynamics modeling experience and already understand how to run an existing SS3 model.
 
-If you are a new SS3 user who is not yet comfortable running an SS3 model, we suggest trying to run an example working model using advice in the [Getting Started guide](https://nmfs-stock-synthesis.github.io/doc/Getting_Started_SS3.html) before attempting to develop and run your own model as outlined here.
+If you are a new SS3 user who is not yet comfortable running an SS3 model, we suggest trying to run an example working model using advice in the [Getting Started guide](https://nmfs-ost.github.io/ss3-doc/Getting_Started_SS3.html) before attempting to develop and run your own model as outlined here.
 
 By the end of using this guide, you should be able to:
 
@@ -32,12 +32,12 @@ By the end of using this guide, you should be able to:
 
 There are many potential workflows for developing a new SS3 model, but a common technique is to start with an existing model and change it in a piece-wise fashion. The basic technique is:
 
-1. Find an existing working model (perhaps one of the SS3 example models available in the [ss3-user-examples repository](https://github.com/nmfs-stock-synthesis/ss3-user-examples) or perhaps a model more similar in form to the model you plan to create).
+1. Find an existing working model (perhaps one of the SS3 example models available in the [ss3-user-examples repository](https://github.com/nmfs-ost/ss3-user-examples) or perhaps a model more similar in form to the model you plan to create).
 2. Edit portions of the model and try running as you go to check that your inputs can be read correctly by SS3 and make logical sense (tip: use options ```-stopph 0 -nohess``` to reduce run time with each iteration of checking inputs by not estimating anything and not inverting the hessian).
 
 Some commonly used tools for editing the SS3 input files are:
 
-1. [**Stock Synthesis Interface (SSI; the SS3 GUI)**](https://github.com/nmfs-stock-synthesis/ssi). The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.
+1. [**Stock Synthesis Interface (SSI; the SS3 GUI)**](https://github.com/nmfs-ost/ssi). The SSI allows you to read in a model, performs some checks to ensure valid inputs, make modifications to the model, and offers visualizations of inputs. You can also run models from SSI. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.
 2. **Your favorite text editor**.
 3. **The ```SS_read*``` and ```SS_write*``` functions in the R package [r4ss](https://github.com/r4ss/r4ss)**. These functions allow you to read in SS3 input files to R, manipulate them from within R, then write them out to a file. The [r4ss vignette](https://r4ss.github.io/r4ss/vignettes/r4ss-intro-vignette.html#scripting-stock-synthesis-workflows-with-r4ss) demonstrates how to use these functions
 4. **Stock Assessment Continuum Tool**. Available through github at https://github.com/shcaba/SS-DL-tool.
@@ -46,11 +46,11 @@ Some commonly used tools for editing the SS3 input files are:
 
 SS3 has a rich set of features. Some required inputs are conditional on other inputs, so it is important to be mindful that changing an option might result in SS3 expecting a different number of values in the input files than it did previously. Most of the time, these conditional inputs are read right after the option.
 
-The [SS3 user manual](https://github.com/nmfs-stock-synthesis/doc/releases) can be used as a guide to help you edit your model. Conditional inputs are noted in the manual. The SSI can also help guide you through changes in model inputs required as you select different SS3 model options.
+The [SS3 user manual](https://github.com/nmfs-ost/ss3-doc/releases) can be used as a guide to help you edit your model. Conditional inputs are noted in the manual. The SSI can also help guide you through changes in model inputs required as you select different SS3 model options.
 
 If you are unsure if you got the setup right (e.g., adding the correct number of parameter lines for a chosen catchability setup), try running the model with ```maxphase = 0``` in the starter file and ADMB option ```-nohess``` (or for v.3.30.16 and greater, run the model with command line options ```-stopph 0 -nohess```, no need to change the starter file). If the model run completes, you can compare the **control.ss_new** file and the first data set in **data.ss_new** to your SS3 input files to make sure SS3 interpreted the values as intended. If the run exits before completion, you can look at **warning.sso** and **echoinput.sso** for clues as to what was wrong with your setup.
 
-For additional help with model specification, please post your questions in the GitHub [discussions](https://github.com/nmfs-stock-synthesis/stock-synthesis/discussions) or on the vlab [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) (for registered SS3 users) or send an email to the SS3 team at NMFS.Stock.Synthesis@noaa.gov.
+For additional help with model specification, please post your questions in the GitHub [discussions](https://github.com/nmfs-ost/ss3-source-code/discussions) or on the vlab [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) (for registered SS3 users) or send an email to the SS3 team at NMFS.Stock.Synthesis@noaa.gov.
 
 # Phases in SS3 and ADMB
 
@@ -161,7 +161,7 @@ For a fixed value of sigmaR, a section of the output will provide diagnostics to
 
 # Where to get additional help
 
-+ Post questions in the GitHub [discussions](https://github.com/nmfs-stock-synthesis/stock-synthesis/discussions) or to the [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) or send an emails to the team at NMFS.Stock.Synthesis@noaa.gov for assistance.
++ Post questions in the GitHub [discussions](https://github.com/nmfs-ost/ss3-source-code/discussions) or to the [forums](https://vlab.noaa.gov/web/stock-synthesis/public-forums) or send an emails to the team at NMFS.Stock.Synthesis@noaa.gov for assistance.
 + [Carvalho et al. 2021](https://doi.org/10.1016/j.fishres.2021.105959) contains guidance on developing stock assessments.
 
 
