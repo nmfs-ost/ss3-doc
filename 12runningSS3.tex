@@ -21,6 +21,14 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 	\end{verbatim}
 \end{quote}
 
+An additional command has been added that allows users to specify the name of the .par file. Prior to v.3.30.22.1, the default exe name was `ss' and the default .par file name was ss.par. The code now produces a ss3.par file by default instead of a ss.par file. If you would still like to produce a ss.par file or a .par file with a different name, for example `ss4you.par', you will need to add ``modelname ss4you'' after the executable name such as:
+
+\begin{quote}
+	\begin{verbatim}
+	> ./ss3 modelname ss4you
+	\end{verbatim}
+\end{quote}
+
 Additional ADMB commands can follow the executable name, such as ``-nohess'' to avoid calculating the Hessian matrix. To see a full list of options, add ``-?'' after the executable name (with a space in between).
 
 On all operating systems, a copy of the SS3 executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below.
@@ -153,11 +161,11 @@ The feature is used by optimizing normally, and then from the command line runni
 
 
 \subsubsection{Running Parameter Profiles}
-Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood.  There are two ways this can be done.
+Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood. There are two ways this can be done.
 
-The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output.  The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
+The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output. The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
 
-The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to -9999. Edit starter.ss to refer to this control file and the appropriate data file.
+The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course. Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to -9999. Edit starter.ss to refer to this control file and the appropriate data file.
 
 %\begin{center}
 	\begin{longtable}{p{0.5cm} p{16cm}}		
@@ -270,19 +278,20 @@ To add the SS3 binary file to your path, follow these steps:
 
 Use \texttt{system(``path/to/ss3'')} to run Stock Synthesis from within the R console, where \texttt{path/to/ss3} is the path to and name of the Stock Synthesis binary.
 
-Alternatively, use the function \texttt{run\_SS\_models} from the \texttt{r4ss} package within the R console:
+Alternatively, use the function \texttt{run} from the \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} package within the R console:
 
 \begin{quote}
   \begin{verbatim}
-  # run 2 models, in directories folder_1 and folder_2, using the SS3 executable
+  # run model, in directory folder_1, using the SS3 executable
   # named ss3 that is in the path.
-  r4ss::run_SS_models(dirvec = c(``folder_1'', ``folder_2''),
-                      model = ``ss3'',
-                      exe_in_path = TRUE)
+  r4ss::run(dir = ``folder_1'',
+            exe = ``ss3'')
   \end{verbatim}
 \end{quote}
 
-Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{ss3sim}) or if \texttt{r4ss} is already used to read model output.
+
+
+Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{\texttt{ss3sim}}) or if \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} is already used to read model output.
 
 \subsection{The Stock Synthesis GUI (SSI)}
 \href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.
