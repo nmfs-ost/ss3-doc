@@ -111,7 +111,7 @@ After starting the run, you should see output to the command line similar to:
 
 If the output gets past `Estimating…please wait…`, then the structure of the SS3 inputs is correct. The volume of information displayed during the run within the command window is controlled in starter.ss file on the line with the comment `# run display detail (0,1,2)`. The 0 setting is the least verbose option, while the 2 setting is the most verbose.
 
-SS3 always opens and reads files in the same order (starter.ss,  data file, forecast.ss, control, then wtatage.ss if using, and finally ss.par if using), writing to echoinput.sso (a file for debugging runs) and warnings.sso (a file which collects warnings from SS3) as it reads. SS3 inputs are read in order by value, without reference to comments (i.e., anything after `#` on a line). Linebreaks and whitespace are both treated as separators. Depending on which options are selected, SS3 will expect a particular number of values in a certain order, so failing to provide them will result in errors or at least a different model specification than intended.
+SS3 always opens and reads files in the same order (starter.ss,  data file, forecast.ss, control, then wtatage.ss if using, and finally ss3.par if using), writing to echoinput.sso (a file for debugging runs) and warnings.sso (a file which collects warnings from SS3) as it reads. SS3 inputs are read in order by value, without reference to comments (i.e., anything after `#` on a line). Linebreaks and whitespace are both treated as separators. Depending on which options are selected, SS3 will expect a particular number of values in a certain order, so failing to provide them will result in errors or at least a different model specification than intended.
 
 After reading, SS3 proceeds immediately to pre-processing the data and creating internal parameter labels. As SS3 executes, it continues to write debugging output to echoinput.sso and warnings to warnings.sso.
 
@@ -140,16 +140,16 @@ ADMB options can be added to the run when calling the SS3 executable from the co
 
 To list all command line options, use one of these calls: `SS3 -?` or `SS3 -help`. More info about the ADMB command line options is available in the [ADMB Manual](http://www.admb-project.org/docs/manuals/) (Chapter 12: Command line options).
 
-To run SS3 without estimation use: `ss3 -stopph 0`. This will speed up your run by not optimizing. Often `-stopph 0` is used with the `-nohess` option to speed up the run even more. To run SS3 with no estimation in v.3.30.15 and earlier, change the max phase in the starter.ss file to 0 and run the exe with the `–nohess` option. Prior to version v.3.30.22.1, the par file name was ss.par, but now the default name is ss3.par. To have SS3 create a par file with a different name, such as ss4you.par, use: `ss3 modelname ss4you`.
+To run SS3 without estimation use: `ss3 -stopph 0`. This will speed up your run by not optimizing. Often `-stopph 0` is used with the `-nohess` option to speed up the run even more. To run SS3 with no estimation in v.3.30.15 and earlier, change the max phase in the starter.ss file to 0 and run the exe with the `–nohess` option. Prior to version v.3.30.22.1, the par file name was ss3.par, but now the default name is ss3.par. To have SS3 create a par file with a different name, such as ss4you.par, use: `ss3 modelname ss4you`.
 
-## Using ss.par for initial values
+## Using ss3.par (previously ss.par) for initial values
 
-Typically, SS3 uses initial parameter values as specified in the parameter lines of the control file. However, initial values can be read from the ss.par file instead.
-To use ss.par, in starter.ss below the names of the data and control files, set the value to 1 rather than 0 on the line with comment: 
+Typically, SS3 uses initial parameter values as specified in the parameter lines of the control file. However, initial values can be read from the ss3.par file (prior to v.3.30.22.1 this was the ss.par file) instead.
+To use ss3.par, in starter.ss below the names of the data and control files, set the value to 1 rather than 0 on the line with comment: 
 
-`# 0=use init values in control file; 1=use ss.par`.
+`# 0=use init values in control file; 1=use ss3.par`.
 
-Using the ss.par file is helpful when you want to use different initial values without modifying the control file. An ss.par file is an output file created during each model run and contains the ending parameter values. Using this ss.par file from a previous model run with a similar model (that still has the same parameters) will speed up run time because the initial values are likely closer to the maximum likelihood estimation (MLE) parameter estimates.
+Using the ss3.par file is helpful when you want to use different initial values without modifying the control file. An ss3.par file is an output file created during each model run and contains the ending parameter values. Using this ss3.par file from a previous model run with a similar model (that still has the same parameters) will speed up run time because the initial values are likely closer to the maximum likelihood estimation (MLE) parameter estimates.
 
 ## Using wtatage.ss
 
