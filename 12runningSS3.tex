@@ -21,6 +21,14 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 	\end{verbatim}
 \end{quote}
 
+An additional command has been added that allows users to specify the name of the .par file that is both read and output. Prior to v.3.30.22.1, the default exe name was `ss' and the default .par file name was ss.par. The code now produces a ss3.par file by default instead of an ss.par file. The code will search for the default ss3.par file first, and then look for an ss.par file in order to have backwards compatibility and will by default output a ss3.par file (not an ss.par file). If you would like to read a differently named .par file and produce a .par file with the same name, you will need to add the ``modelname'' command. See the below example of using ``modelname'' to read and produce a .par file with the name ``ss4you''.:
+
+\begin{quote}
+	\begin{verbatim}
+	> ./ss3 modelname ss4you
+	\end{verbatim}
+\end{quote}
+
 Additional ADMB commands can follow the executable name, such as ``-nohess'' to avoid calculating the Hessian matrix. To see a full list of options, add ``-?'' after the executable name (with a space in between).
 
 On all operating systems, a copy of the SS3 executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below.
@@ -93,9 +101,9 @@ This second example processes 25 dat files from a different directory, each time
 	copy /Y ..\MakeData\A1-D1-%%i.dat  Asel.dat
 	del ss.std
 	del ss.cor
-	del ss.par
+	del ss3.par
 	c:\admodel\ss3\ss3.exe
-	copy /Y ss.par A1-D1-A1-%%i.par
+	copy /Y ss3.par A1-D1-A1-%%i.par
 	copy /Y ss.std A1-D1-A1-%%i.std
 	find ``Number'' A1-D1-A1-%%i.par >> Summary.txt
 	find ``hessian'' ss.cor >> Summary.txt)
@@ -129,7 +137,7 @@ However, the approaches above differ in subtle ways. First, if the maximum phase
 
 The second difference between the two no estimation approaches is the reported number of ``Active\_count'' of parameters in the Report file. If the command line approach is used (ss3 -maxfn 0 -phase 50 -nohess) then the active number of parameters will equal the number of parameters with positive phases, but because the model is started in a phase greater than the maximum phase in the model, these parameters do not move from the initial values in the control file (or the par file). The first approach where the maximum phase is changed in the starter file will report the number of ``Active\_count'' parameters as 0.  
 
-The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss.par) then all parameters, including parameter deviations, will be fixed at the estimated values. However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
+The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss3.par) then all parameters, including parameter deviations, will be fixed at the estimated values. However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
 
 \myparagraph{Generate .ss\_new files}
 There may be times a user would like to generate the .ss\_new files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the starter.ss file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the starter.ss\_new file will be set to -1 and will need to be manually changed back if the intent is the replace the original (i.e., starter.ss) file with the new files (i.e., starter.ss\_new). The second approach is to modify the maxphase via the command line or power shell input. Calling the model using the commands:
@@ -153,11 +161,11 @@ The feature is used by optimizing normally, and then from the command line runni
 
 
 \subsubsection{Running Parameter Profiles}
-Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood.  There are two ways this can be done.
+Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood. There are two ways this can be done.
 
-The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output.  The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
+The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output. The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
 
-The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course.  Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to -9999. Edit starter.ss to refer to this control file and the appropriate data file.
+The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course. Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to -9999. Edit starter.ss to refer to this control file and the appropriate data file.
 
 %\begin{center}
 	\begin{longtable}{p{0.5cm} p{16cm}}		
@@ -190,7 +198,7 @@ Repeat as many times as you have set up conditions in the profilevalues.ss file.
 The summary results will all be collected in the cumreport.sso file. Each step of the profile will have an unique run number and its output will include the values of the natural mortality and steepness parameters for that run.
 
 \subsubsection{Re-Starting a Run}
-Model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause the model to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted. However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter -binp ss.bar as one of the command line options.
+Model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause the model to read the file ss3.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss3.par. The file ss3.par can be edited with a text editor, so values can be changed and rows can be added or deleted. However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss3.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from ss.bar which is the binary version of ss3.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter -binp ss.bar as one of the command line options.
 
 \subsubsection{Optional Output Subfolders}
 As of v.3.30.19, users can optionally send .sso and .ss\_new extension files to subfolders. To send files with a .sso extension to a subfolder within the model folder, create a subfolder called sso before running the model. To send files with a .ss\_new extension to a separate subfolder, create a folder called ssnew before running the model.
@@ -270,19 +278,20 @@ To add the SS3 binary file to your path, follow these steps:
 
 Use \texttt{system(``path/to/ss3'')} to run Stock Synthesis from within the R console, where \texttt{path/to/ss3} is the path to and name of the Stock Synthesis binary.
 
-Alternatively, use the function \texttt{run\_SS\_models} from the \texttt{r4ss} package within the R console:
+Alternatively, use the function \texttt{run} from the \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} package within the R console:
 
 \begin{quote}
   \begin{verbatim}
-  # run 2 models, in directories folder_1 and folder_2, using the SS3 executable
+  # run model, in directory folder_1, using the SS3 executable
   # named ss3 that is in the path.
-  r4ss::run_SS_models(dirvec = c(``folder_1'', ``folder_2''),
-                      model = ``ss3'',
-                      exe_in_path = TRUE)
+  r4ss::run(dir = ``folder_1'',
+            exe = ``ss3'')
   \end{verbatim}
 \end{quote}
 
-Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{ss3sim}) or if \texttt{r4ss} is already used to read model output.
+
+
+Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{\texttt{ss3sim}}) or if \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} is already used to read model output.
 
 \subsection{The Stock Synthesis GUI (SSI)}
 \href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.
