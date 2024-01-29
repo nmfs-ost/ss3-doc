@@ -10,8 +10,8 @@
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Gugliotti, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2023-10-31" />
+  <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
+  <meta name="dcterms.date" content="2024-01-29" />
   <title>Stock Synthesis User Manual Version 3.30.22</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel = "stylesheet" type = "text/css" href="html_usermanual.css" />
@@ -25,12 +25,12 @@
 <h1 class="title"><span style="color: 1.00,0.83,0.41,0.36">Stock Synthesis User Manual<br />
 Version 3.30.22</span></h1>
 <p class="author">Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering,<br />
-Elizabeth F. Gugliotti, and Kelli F. Johnson<br />
+Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">October 31, 2023</p>
+<p class="date">January 29, 2024</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
@@ -164,7 +164,7 @@ Seattle, WA</p>
 <li><a href="#profilevalues.ss"><span class="toc-section-number">9.3</span> profilevalues.ss</a></li>
 </ul></li>
 <li><a href="#likelihood-components"><span class="toc-section-number">10</span> Likelihood components</a></li>
-<li><a href="#sec:RunningSS"><span class="toc-section-number">11</span> Running Stock Synthesis</a>
+<li><a href="#sec:RunningSS3"><span class="toc-section-number">11</span> Running Stock Synthesis</a>
 <ul>
 <li><a href="#command-line-interface"><span class="toc-section-number">11.1</span> Command Line Interface</a>
 <ul>
@@ -264,7 +264,7 @@ Seattle, WA</p>
 <li><p>datafile: file containing model dimensions and the data (required)</p></li>
 <li><p>control file: file containing set-up for the parameters (required)</p></li>
 <li><p>forecast.ss: file containing specifications for reference points and forecasts (required)</p></li>
-<li><p>ss.par: previously created parameter file that can be read to overwrite the initial parameter values in the control file (optional)</p></li>
+<li><p>ss3.par (previously ss.par): previously created parameter file that can be read to overwrite the initial parameter values in the control file (optional)</p></li>
 <li><p>wtatage.ss: file containing empirical input of body weight by fleet and population and empirical fecundity-at-age (optional)</p></li>
 <li><p>runnumber.ss: file containing a single number used as run number in output to CumReport.sso and in the processing of profilevalues.ss (optional)</p></li>
 <li><p>profilevalues.ss: file contain special conditions for batch file processing (optional)</p></li>
@@ -285,7 +285,7 @@ Seattle, WA</p>
 <li><p>Forecast-report.sso: Output of management quantities and for forecasts.</p></li>
 <li><p>CumReport.sso: This file contains a brief version of the run output, output is appended to current content of file so results of several runs can be collected together. This is useful when a batch of runs is being processed.</p></li>
 <li><p>Covar.sso: This file replaces the standard ADMB ss.cor with an output of the parameter and derived quantity correlations in database format.</p></li>
-<li><p>ss.par: This file contains all estimated and fixed parameters from the model run.</p></li>
+<li><p>ss3.par (previously ss.par): This file contains all estimated and fixed parameters from the model run.</p></li>
 <li><p>ss.std, ss.rep, ss.cor etc.: Standard ADMB output files.</p></li>
 <li><p>checkup.sso: Contains details of selectivity parameters and resulting vectors. This is written during the first call of the objective function.</p></li>
 <li><p>Gradient.dat: New for v.3.30, this file shows parameter gradients at the end of the run.</p></li>
@@ -301,7 +301,7 @@ Seattle, WA</p>
 
 </div>
 <h1 data-number="4" id="converting-files-from-stock-synthesis-v.3.24"><span class="header-section-number">4</span> Converting Files from Stock Synthesis v.3.24</h1>
-<p>Converting files from version 3.24 to version 3.30 can be performed by using the program ss_trans.exe. This executable takes v.3.24 files as input and will output v.3.30 input and output files. SS_trans executables are available for v.3.30.01 - v.3.30.17. The transitional executable was phased out with v.3.30.18. If a model needs to be converted from v.3.24 to a recent version, one should use the v.3.30.17 ss_trans.exe available from the <a href="https://github.com/nmfs-ost/ss3-source-code/releases/tag/v3.30.17">v.3.30.17 release page on GitHub</a> to convert the files and then any additional adjustments needed between v.3.30.17 and newer versions should be done by hand.</p>
+<p>Converting files from version 3.24 to version 3.30 can be performed by using the program ss_trans.exe. This executable takes v.3.24 files as input and will output v.3.30 input and output files. SS_trans executables are available for v.3.30.01 - v.3.30.17. The transitional executable was phased out with v.3.30.18. If a model needs to be converted from v.3.24 to a recent version, one should use the v.3.30.17 ss_trans.exe available from the <a href="https://github.com/nmfs-ost/ss3-source-code/releases/tag/v3.30.17">v.3.30.17 release page on GitHub</a> to convert the files and then any additional adjustments needed between v.3.30.17 and newer versions should be done by hand. To see the changes that need to be made between v.3.30.17 and the latest release of SS3, please see the <a href="https://github.com/orgs/nmfs-ost/projects/11">change log for v.3.30.19 onward</a> as well as the <a href="https://github.com/nmfs-ost/ss3-source-code/blob/v3.30.19/Change_log_for_SS_3.30.xlsx?raw=true">Excel version of the change log</a> for versions prior to v.3.30.19.</p>
 <p>The following file structure and steps are recommended for converting model files:</p>
 <ol>
 <li><p>Create “transition” folder. Place the 4 main model files (control, data, starter, and forecast) from version SS3 v.3.24 within the transition folder along with the SS3 transition executable (ss_trans.exe). One tip is to use the control.ss_new from the SS3 v.3.24 estimated model rather than the control.ss file which will set all parameter values at the previous estimated maximum likelihood estimated (MLE) parameters. Run the transition executable with phase = 0 within the starter file with the read par file turned off (option 0).</p></li>
@@ -359,7 +359,7 @@ Seattle, WA</p>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Initial Parameter Values:</td>
-<td style="text-align: left;">Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the ss.par file. Values in ss.par can be edited, carefully. Do not run ss_trans.exe from a ss.par from v.3.24.</td>
+<td style="text-align: left;">Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the ss3.par file. Values in ss3.par can be edited, carefully. Do not run ss_trans.exe from a ss3.par from v.3.24.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -368,7 +368,7 @@ Seattle, WA</p>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">1 = use ss.par after reading setup in the control file.</td>
+<td style="text-align: left;">1 = use ss3.par after reading setup in the control file.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
@@ -562,313 +562,313 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">Number of Data Files to Output:</td>
 <td style="text-align: left;">All output files are sequentially output to data_echo.ss_new and need to be parsed by the user into separate data files. The output of the input data file makes no changes, retaining the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to data_echo.ss_new. As of v.3.30.19, the output file names have changed; now a separate file is created for the echoed data (data_echo.ss_new), the expected data values given the model fit (data_expval.ss), and any requested bootstrap data files (data_boot_x.ss where x is the bootstrap number). In versions before v.3.30.19, each of these outputs was printed to a single file called data.ss_new.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = none; As of v.3.30.16, none of the .ss_new files will be produced;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = output an annotated replicate of the input data file;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = add a second data file containing the model’s expected values with no added error. ; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3+ = add N-2 parametric bootstrap data files.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">8</td>
 <td style="text-align: left;">Turn off estimation:</td>
 <td style="text-align: left;">The 0 option is useful for (-1) quickly reading in a messy set of input files and producing the annotated control.ss_new and data_echo.ss_new files, or (0) examining model output based solely on input parameter values. Similarly, the value option allows examination of model output after completing a specified phase. Also see usage note for restarting from a specified phase.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">-1 = exit after reading input files;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = exit after one call to the calculation routines and production of sso and ss_new files; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">&lt;positive value&gt; = exit after completing this phase.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">1000</td>
 <td style="text-align: left;">MCMC burn interval</td>
 <td style="text-align: left;">Number of iterations to discard at the start of an MCMC run.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">200</td>
 <td style="text-align: left;">MCMC thin interval</td>
 <td style="text-align: left;">Number of iterations to remove between the main period of the MCMC run.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">0.0</td>
 <td style="text-align: left;"><a href="#Jitter">Jitter:</a></td>
 <td style="text-align: left;">The jitter function has been revised with v.3.30. Starting values are now jittered based on a normal distribution with the pr(P<sub>MIN</sub>) = 0.1% and the pr(P<sub>MAX</sub>) = 99.9%. A positive value here will add a small random jitter to the initial parameter values. When using the jitter option, care should be given when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = no jitter done to starting values; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">&gt;0 starting values will vary with larger jitter values resulting in larger changes from the parameter values in the control or par file.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">-1</td>
 <td style="text-align: left;">SD Report Start:</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">-1 = begin annual SD report in start year; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">&lt;year&gt; = begin SD report this year.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">-1</td>
 <td style="text-align: left;">SD Report End:</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">-1 = end annual SD report in end year;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">-2 = end annual SD report in last forecast year; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">&lt;value&gt; = end SD report in this year.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">2</td>
 <td style="text-align: left;">Extra SD Report Years:</td>
 <td style="text-align: left;">In a long time series application, the model variance calculations will be smaller and faster if not all years are included in the SD reporting. For example, the annual SD reporting could start in 1960 and the extra option could select reporting in each decade before then.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = none; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">&lt;value&gt; = number of years to read.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;" colspan="3">COND: If Extra SD report years &gt; 0</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">1940 1950</td>
 <td style="text-align: left;">Vector of years for additional SD reporting. The number of years need to equal the value specified in the above line (Extra SD Reporting).</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">0.0001</td>
 <td style="text-align: left;">Final convergence</td>
 <td style="text-align: left;">This is a reasonable default value for the change in log likelihood denoting convergence. For applications with much data and thus a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence</td>
 </tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Retrospective year:</td>
 <td style="text-align: left;">Adjusts the model end year and disregards data after this year. May not handle time varying parameters completely.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = none; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">-x = retrospective year relative to end year.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Summary biomass min age</td>
 <td style="text-align: left;">Minimum integer age for inclusion in the summary biomass used for reporting and for calculation of total exploitation rate.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">Depletion basis:</td>
 <td style="text-align: left;">Selects the basis for the denominator when calculating degree of depletion in SB. The calculated values are reported to the SD report.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = skip;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = X*SB0;</td>
 <td style="text-align: left;">Relative to virgin spawning biomass.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = X*SB<sub>MSY</sub>;</td>
 <td style="text-align: left;">Relative to spawning biomass that achieves MSY.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = X*SB<sub>styr</sub>; and</td>
 <td style="text-align: left;">Relative to model start year spawning biomass.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = X*SB<sub>endyr</sub>.</td>
 <td style="text-align: left;">Relative to spawning biomass in the model end year.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">5 = X*Dynamic SB0</td>
 <td style="text-align: left;">Relative to the calculated dynamic SB0.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">use tens digit (1-9) to invoke multi-year (up to 9 yrs)</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">use 1 as hundreds digit to invoke log(ratio)</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">Fraction (X) for depletion denominator</td>
 <td style="text-align: left;">Value for use in the calculation of the ratio for SB<sub>y</sub>/(X*SB0).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">SPR report basis:</td>
 <td style="text-align: left;">SPR is the equilibrium SB per recruit that would result from the current year’s pattern and intensity of F’s. The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section. Then the one specified here is used as the selected.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = skip;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = use 1-SPR<sub>target</sub>;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = use 1-SPR at MSY;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = use 1-SPR at B<sub>target</sub>; and</td>
 <td style="text-align: left;">Denominator in a ratio with the annual value of (1 - SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = no denominator, so report actual 1-SPR values.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">4</td>
 <td style="text-align: left;">Annual F units:</td>
 <td style="text-align: left;">In addition to SPR, an additional proxy for annual F can be specified here. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector. Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas. But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring. Option 3 is a simple sum of the full F’s by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below). The F is calculated as Z-M where Z and M are each calculated an ln(N<sub>t+1</sub>/N<sub>t</sub>) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = skip;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = exploitation rate in biomass;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = exploitation rate in numbers;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = sum(apical F’s by fleet);</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = population F for range of ages; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">5 = unweighted average F for range of ages.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
@@ -890,72 +890,82 @@ Seattle, WA</p>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;" colspan="2">COND: If F std reporting <span class="math inline">\(\geq\)</span> 4</td>
 <td style="text-align: left;">Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;">3 7</td>
 <td style="text-align: left;">Age range if F std reporting = 4.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">F report basis:</td>
 <td style="text-align: left;">Selects the denominator to use when reporting the F std report values. A new option to allow for the calculation of a multi-year trailing average in F was implemented in v.3.30.16. This option is triggered by appending the number of years to calculate the average across where an input of 1 or 11 would result in the SPR<sub>target</sub> with no changes. Alternatively a value of 21 would calculate F as SPR<sub>target</sub> with a 2-year trailing average.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = not relative, report raw values;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = use F std value relative to SPR<sub>target</sub>;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = use F std value relative to F<sub>MSY</sub>; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = use F std value relative to F<sub>Btarget</sub>.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">use tens digit (1-9) to invoke multi-year (up to 9 yrs) F std</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">use 1 as hundreds digit to invoke log(ratio)</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0.01</td>
 <td style="text-align: left;">MCMC output detail:</td>
 <td style="text-align: left;">Specify format of MCMC output. This input requires the specification of two items; the output detail and a bump value to be added to the ln(R0) in the first call to MCMC. A bias adjustment of 1.0 is applied to recruitment deviations in the MCMC phase, which could result in reduced recruitment estimates relative to the MLE when a lower bias adjustment value is applied. A small value, called the “bump,” is added to the ln(R0) for the first call to MCMC in order to prevent the stock from hitting the lower bounds when switching from MLE to MCMC. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = default;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = output likelihood components and associated lambda values;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = write report for each mceval; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = make output subdirectory for each MCMC vector.</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
@@ -1000,7 +1010,7 @@ Seattle, WA</p>
 <p>3.30</p>
 </div></td>
 <td style="text-align: left;">Model version check value.</td>
-<td style="text-align: left;">A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The ss_trans.exe executable should be used and will convert the v.3.24 files the control.ss_new and data_echo.ss_new files to the new format. All ss_new files are in the v.3.30 format, so starter.ss_new has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a ss.par file produced by v.3.24 and earlier, so ensure that read par file option at the top of the starter file is set to 0. The <a href="#ConvIssues">Converting Files from Stock Synthesis v.3.24</a> section has additional information on model features that may impede file conversion.</td>
+<td style="text-align: left;">A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The ss_trans.exe executable should be used and will convert the v.3.24 files the control.ss_new and data_echo.ss_new files to the new format. All ss_new files are in the v.3.30 format, so starter.ss_new has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a ss3.par file produced by v.3.24 and earlier, so ensure that read par file option at the top of the starter file is set to 0. The <a href="#ConvIssues">Converting Files from Stock Synthesis v.3.24</a> section has additional information on model features that may impede file conversion.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -2680,7 +2690,7 @@ The options for units for input data are:</p>
 <li><p>34 = depletion (spawning biomass/virgin spawning biomass);</p>
 <ul>
 <li><p>Special survey option 34 automatically adjusts phases of parameters. To use the depletion survey approach, the user will need to make the following revisions to the SS3 data file: 1) add a new survey fleet, 2) define the survey type as option 34, 3) add two depletion survey data points, and initial unfished set equal to 1 for an unfished modeled year and one for a later year with the depletion estimates, 4) set the input CV value for each survey data point to a low value (e.g., 0.0001) to force the model to fit these data, and in the control file 5) add the survey to the control file in the Q set-up and selectivity sections with float set to 0 with parameter value set to 0.</p></li>
-<li><p>There are options for additional control over this in the control file catchability setup section under the “link information” column where:</p>
+<li><p>There are options for additional control over this in the control file catchability setup section under the <a href="#link_info">link information</a> bullet where:</p>
 <ul>
 <li><p>0 = add 1 to phases of all parameters. Only R0 active in new phase 1. Mimics the default option of previous model versions;</p></li>
 <li><p>1 = only R0 active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters. Essentially, this option allows SS3 to mimic DB-SRA; and</p></li>
@@ -2700,7 +2710,7 @@ The options for error distribution form are:</p>
 <li><p>0 = lognormal error; and</p></li>
 <li><p>&gt;0 = Student’s t-distribution in log space with degrees of freedom equal to this value. For DF&gt;30, results will be nearly identical to that for lognormal distribution. A DF value of about 4 gives a fat-tail to the distribution. The standard error values entered in the data file must be the standard error in log<sub>e</sub> space.</p></li>
 </ul>
-<p>Abundance indices typically have a lognormal error structure with units of standard error of log<sub>e</sub>(index). If the variance of the observations is available only as a coefficient of variation (CV), then the value of standard error can be approximated as <span class="math inline">\(\sqrt{(log_e(1+(CV)^2))}\)</span> where the CV is the standard error of the observation divided by the mean value of the observation.</p>
+<p>Abundance indices typically assumed to have a lognormal error structure with units of standard error of log<sub>e</sub>(index). If the variance of the observations is available only as a coefficient of variation (CV = standard error of the observation divided by the mean value of the observation in natural space), then the value of standard error in log space can be calculated as <span class="math inline">\(\sqrt{(log_e(1+(CV)^2))}\)</span>.</p>
 <p>For the normal error structure, the entered values for standard error are interpreted directly as a standard error in arithmetic space and not as a CV. Thus switching from a lognormal to a normal error structure forces the user to provide different values for the standard error input in the data file.</p>
 <p>If the data exist as a set of normalized Z-scores, you can assert a lognormal error structure after entering the data as exp(Z-score) because it will be logged by SS3. Preferably, the Z-scores would be entered directly and the normal error structure would be used.</p>
 <h4 data-number="7.10.0.3" id="enable-sd-report"><span class="header-section-number">7.10.0.3</span> Enable SD Report</h4>
@@ -4602,7 +4612,7 @@ As with the length composition data, a negative year value causes the observatio
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">3</td>
 <td style="text-align: left;">INIT</td>
-<td style="text-align: left;">Initial value for the parameter. If the phase (described below) for the parameter is negative the parameter is fixed at this value. If the ss.par file is read, it overwrites these INIT values.</td>
+<td style="text-align: left;">Initial value for the parameter. If the phase (described below) for the parameter is negative the parameter is fixed at this value. If the ss3.par file is read, it overwrites these INIT values.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">4</td>
@@ -4652,7 +4662,7 @@ As with the length composition data, a negative year value causes the observatio
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">7</td>
 <td style="text-align: left;">PHASE</td>
-<td style="text-align: left;">Phase in which parameter begins to be estimated. A negative value causes the parameter to retain its INIT value (or value read from the ss.par file).</td>
+<td style="text-align: left;">Phase in which parameter begins to be estimated. A negative value causes the parameter to retain its INIT value (or value read from the ss3.par file).</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">8</td>
@@ -5159,7 +5169,7 @@ Recruits are apportioned according to:</p>
 <p>Natural mortality (M) options include some options that are referenced to integer age and other options to real age since settlement. If using an option that references M to real age since settlement, M varies by age and will change by season (e.g., cohorts born early in the year will have different M than cohorts born later in the year).</p>
 <h4 data-number="8.5.1.1" id="lorenzen-natural-mortality"><span class="header-section-number">8.5.1.1</span> Lorenzen Natural Mortality</h4>
 <p><br />
-Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish. In this implementation, a reference age and M value are read in, and other ages will have an M scaled to its body size-at-age. However, if platoons are used, all will have the same M as their growth pattern. Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated. Be careful in using Lorenzen when there is time-varying growth.</p>
+Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish. In this implementation, a reference age and M value are read in, and other ages will have an M scaled to its body size-at-age. However, if platoons are used, all will have the same M as their growth pattern. Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time-series, the M is not further updated. Additionally, the M is linked to the length-at-age from the growth parameters and can’t be used for an empirical weight-at-age model. Be careful in using Lorenzen when there is time-varying growth.</p>
 <h4 data-number="8.5.1.2" id="age-specific-m-linked-to-age-specific-length-and-maturity"><span class="header-section-number">8.5.1.2</span> Age-specific M Linked to Age-Specific Length and Maturity</h4>
 <p><br />
 This is an experimental option available as of v.3.30.17.</p>
@@ -7064,13 +7074,29 @@ When the model is configured such that seasons are modeled as years, the concept
 <p><br />
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year. These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series. The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F’s to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector. If the number of estimated ages in the initial age composition is less than maximum age, then the older ages will retain their equilibrium levels. Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.</p>
 <h2 data-number="8.7" id="fishing-mortality-method"><span class="header-section-number">8.7</span> Fishing Mortality Method</h2>
-<p>There are four methods available for calculation of fishing mortality (F): 1) Pope’s approximation, 2) Baranov’s continuous F with each F as a model parameter, 3) a hybrid F method, and 4) a fleet-specific parameter hybrid F approach (introduced in v.3.30.18).</p>
-<p>A new fleet-specific parameter hybrid F approach was introduced in v.3.30.18 and is now the recommended approach for most models. With this approach, some fleets can stay in hybrid F mode while others transition to parameters. For example, bycatch fleets must start with parameters in phase 1, while other fishing fleets can use hybrid F or start with hybrid and transition to parameters at a fleet-specific designated phase. We believe this new method 4 is a superior super-set to current methods 2 (all use parameters and all can start hybrid then switch to parameters) and method 3 (all hybrid for all phases). However, during testing specific situations were identified when this approach may not be the best selection. If there is uncertainty around annual input catch values (e.g., se = 0.15) and some fleets have discard data being fit to as well, the treatment of F as parameters (method 2) may allow for better model fits to the data.</p>
-<p>The hybrid F method does a Pope’s approximation to provide initial values for iterative adjustment of the Baranov continuous F values to closely approximate the observed catch. Prior to v.3.30.18, the hybrid method (method 3) was recommended in most cases. With the hybrid method, the final values are in terms of continuous F, but do not need to be specified as full parameters. In a 2 fishery model, low F case (e.g., similar to natural mortality or lower), the hybrid method is just as fast as the Pope approximation and produces identical results.</p>
-<p>However, when F is very high, the problem becomes quite computationally stiff for Pope’s approximation and the hybrid method so convergence in ADMB may slow due to more sensitive gradients in the log likelihood. In these high F cases it may be better to use F option 2, continuous F as full parameters. It is also advisable to allow the model to start with good values for the F parameters. This can be done by specifying a later phase (&gt;1) under the conditional input for F method = 2 where early phases will use the hybrid method, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values.</p>
-<p>F as parameter is also preferred for situations where catch is known imprecisely and it is acceptable to have a solution in which the final F values do not reproduce the input catch levels exactly.</p>
-<p>The calculation of the catch log-likelihood for the Baranov F method (method 2) and the Hybrid F method (method 3) is identical with the only difference between the methods is how the expected catch is calculated. With F method 2, F is a parameter (or set of parameters for all the fleets). The model uses that parameter(s) to go straight to calculating expected catch for each fleet, then to the log-likelihood. F method 2 includes option to do F method 3 in early phases and then transition to F method 2 to finish (which can be faster in high F, many fleet situations). With F method 3, the model does a Pope’s (F method 1) to get each F in right ballpark and then adjusts it through a few iterations to get closer to matching the observed catch. It then finishes through the F method 2 code to calculate the final iteration of expected catch and then log-likelihood. At high F and/or with many fleets it may not get to an exact match to the observed catch.</p>
-<p>Finally, the newer fleet-specific hybrid F method (F method 4) provides more flexibility in that some fleets can do hybrid and other fleets (particularly high F fleets) can do parameters starting at a fleet-specific phase. This new approach is considered the prefer F method.</p>
+<p>There are two approaches for estimating fishing mortality (F) in Stock Synthesis. One provides a mid-season harvest rate using Pope’s approximation, the other provides a season-long F rate using the Baranov catch equation. Pope’s harvest rate is implemented as F_Method = 1. The subsequent options model F as a season-long rate using the Baranov catch equation.</p>
+<ul>
+<li><p>F_Method = 2 represents F as a parameter, <span class="math inline">\(F_{par}\)</span>, for all fishing fleets. Because it is a parameter, it’s estimation is influenced by all data in the model, with retained catch and discard catch having the greatest influence depending on the standard error for these observations. Starting values for the <span class="math inline">\(F_{par}\)</span> can be calculated in early model phases using the hybrid approach (below), then copying those <span class="math inline">\(F_{hyb}\)</span> values into the <span class="math inline">\(F_{par}\)</span> values beginning in a specified phase for all fleets;</p></li>
+<li><p>F_Method = 3 represents F as a tuned factor, <span class="math inline">\(F_{hyb}\)</span> using Pope’s and Baranov catch equations sequentially in what is termed the hybrid method. The tuning is based on the retained catch for each fishing fleet;</p></li>
+<li><p>F_Method = 4 is a fleet-specific superset of F_Methods 2 and 3 and is the recommended method for modeling F in Stock Synthesis.</p></li>
+</ul>
+<p>The <span class="math inline">\(F_{hyb}\)</span> approach works by:</p>
+<ol type="a">
+<li><p>Applying the Pope’s method to get a harvest rate for each fleet in the current season;</p></li>
+<li><p>Converting that harvest rate to the equivalent <span class="math inline">\(F_{hyb}\)</span>. This is exact with one fleet and approximate with multiple fleets;</p></li>
+<li><p>Adjusting those <span class="math inline">\(F_{hyb}\)</span> values over a fixed number of iterations (2-4) using the ratio of observed to calculated catch for each fleet; and</p></li>
+<li><p>Proceeding with those <span class="math inline">\(F_{hyb}\)</span> values into subsequent model steps. <span class="math inline">\(F_{par}\)</span> and <span class="math inline">\(F_{hyb}\)</span> values are used in the same Baranov catch equation and a catch log-likelihood is calculated based on the observed retained catch and the annual standard error of the catch.</p></li>
+</ol>
+<p>Some notes:</p>
+<ul>
+<li><p>At moderate F levels, hybrid should get a near exact match to the retained catch even if the catch standard error is high. This may result in poor fit to discard catch data if it exists.</p></li>
+<li><p>At high F and/or with many fleets, the hybrid approach may not get to an exact match to the observed catch.</p></li>
+<li><p>At high F, the problem becomes quite computationally stiff for Pope’s approximation and the hybrid method so convergence in ADMB may slow due to more sensitive gradients in the log likelihood with regard to other model parameters. Whereas, ADMB adjusts the <span class="math inline">\(F_{par}\)</span> values slowly over the entire sequence of iterations, so it may converge with fewer iterations.</p></li>
+<li><p>The hybrid approach performs best when the catch is known with high precision (standard error &lt;   0.05) and the total F across all fleets is not much greater than natural mortality. The F as parameter approach works best when total F is high; also where a fleet has both retained catch and discarded catch, because the F is influenced by both.</p></li>
+<li><p>With F_Method 4, fleets with low F can apply <span class="math inline">\(F_{hyb}\)</span> across all model phases and high F fleets can switch to <span class="math inline">\(F_{par}\)</span> during later phases.</p></li>
+<li><p>It is always advisable to allow the model to start with good starting values for parameters. This can be done by specifying a later phase (&gt;1) under the conditional input for F_Method = 2 where early phases will use the hybrid method, then switch to F as parameter in later phases and transfer the hybrid F values to the parameter initial values. Same advice for using the F_Method = 4. However, bycatch fleets do not have retained catch, so cannot use the hybrid method. They must use <span class="math inline">\(F_{par}\)</span> with user-specified starting value starting in phase 1.</p></li>
+<li><p>Tests have demonstrated that the F approach has negligible impact on the variance of derived quantities, such as spawning biomass in the final year.</p></li>
+</ul>
 <table>
 <thead>
 <tr class="header">
@@ -7139,13 +7165,13 @@ A non-equilibrium initial age composition is achieved by setting the first year 
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">This maximum is applied within each season and area. A value of 0.9 is recommended for F method 1, and a value of about 4 is recommended for F method 2 and 3.</td>
+<td style="text-align: left;">This maximum is applied within each season and area. A value of 0.9 is recommended for F Method 1, and a value of about 4 is recommended for F Methods 2 and 3.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;" colspan="3">COND: F method = 1, no additional input for Pope’s approximation.</td>
+<td style="text-align: left;" colspan="3">COND: F Method = 1, no additional input for Pope’s approximation.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;" colspan="3">COND: F method = 2:</td>
+<td style="text-align: left;" colspan="3">COND: F Method = 2:</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -7158,19 +7184,19 @@ A non-equilibrium initial age composition is achieved by setting the first year 
 <td style="text-align: left;">For phases prior to the phase of the F value becoming active, the hybrid option will be used and the F values so calculated become the starting values for the F parameters when this phase is reached.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;" colspan="3">If F method = 2 and N for F detail is &gt; 0</td>
+<td style="text-align: left;" colspan="3">If F Method = 2 and N for F detail is &gt; 0</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;" colspan="2">1 1980 1 0.20 0.05 4</td>
 <td style="text-align: left;">Fleet, year, season, F, SE, phase - these values override the catch standard error values in the data file and the overall starting F value and phase read just above.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;" colspan="3">COND: F method = 4</td>
+<td style="text-align: left;" colspan="3">COND: F Method = 4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only select a phase of 99. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line. Use a negative phase to set F as constant (i.e., not estimated) in v.3.30.19 and higher.</td>
+<td style="text-align: left;">Read list of fleets needing parameters, starting F values, and phases. To treat a fleet F as hybrid only either select a phase of 99 or do not enter a parameter line for that fleet. A parameter line is not required for all fleets and if not specified will be treated as hybrid across all phases, except for bycatch fleets which are required to have an input parameter line. Use a negative phase to set F as constant (i.e., not estimated) in v.3.30.19 and higher.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">Fleet</td>
@@ -7180,12 +7206,12 @@ A non-equilibrium initial age composition is achieved by setting the first year 
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">0.05</td>
-<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">2</td>
 <td style="text-align: left;">0.01</td>
-<td style="text-align: left;">1</td>
+<td style="text-align: left;">1 # bycatch fleet</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">-9999</td>
@@ -7193,7 +7219,7 @@ A non-equilibrium initial age composition is achieved by setting the first year 
 <td style="text-align: left;">1</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;" colspan="3">COND: F method = 3 or 4</td>
+<td style="text-align: left;" colspan="3">COND: F Method = 3 or 4</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -7311,7 +7337,9 @@ A non-equilibrium initial age composition is achieved by setting the first year 
 <li><p>4 = mirror Q with offset (2 parameter lines required). The mirrored Q with offset for with be reported as base Q + offset value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. See <a href="#MirrorQoffset">mirrored Q with offset</a> below for example set up.</p></li>
 <li><p>If the parameter is for an index of a deviation vector (index units = 35), use this column to enter the index of the deviation vector to which the index is related.</p></li>
 </ol></li>
-<li><p>Extra input for link information (i.e., mirror fleet)</p>
+<li><div id="link_info">
+<p>Extra input for link information (i.e., mirror fleet)</p>
+</div>
 <ol>
 <li><p>&gt;0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number)</p></li>
 <li><p>If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:</p>
@@ -7326,7 +7354,7 @@ A non-equilibrium initial age composition is achieved by setting the first year 
 <li><p>0 = skip (typical); and</p></li>
 <li><p>1 = estimate a parameter that will contain an additive constant to be added to the input standard deviation of the survey variability.</p></li>
 </ol></li>
-<li><p>Bias adjustment - adjusts for log-normal bias when using an informative prior on Q.</p>
+<li><p>Bias adjustment - adjusts for log-normal bias when using an informative prior on Q. <strong>NOTE: Bias adjustment to Q is ONLY applied when also using the float approach. See below for Q float specifications.</strong> An expanded bias adjustment approach is under development.</p>
 <ol>
 <li><p>0 = no bias adjustment applied; and</p></li>
 <li><p>1 = apply bias adjustment. Bias correction will be applied to the estimated Q value.</p></li>
@@ -8948,7 +8976,7 @@ A new sex selectivity option (3 or 4) has been implemented for size selectivity 
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">COND = 1</td>
-<td style="text-align: left;">Then read a specification line for the first fleet that uses 2DAR, then any short parameter lines invoked by those specifications, then enter another specification for next fleet using 2DAR (if any) and its parameter lines, then finish with a specification line containing negative value for the fleet</td>
+<td style="text-align: left;">Then read a specification line for the first fleet that uses 2DAR, then any short parameter lines invoked by those specifications, then enter another specification for next fleet using 2DAR (if any) and its parameter lines, then finish with a specification line containing negative value for the fleet.</td>
 </tr>
 </tbody>
 </table>
@@ -9339,7 +9367,7 @@ In v.3.30.14, the ability to mirror the tagging parameters from another tag grou
 <ul>
 <li><p>No mirroring among tag groups or fleets: phase &gt; -1000,</p></li>
 <li><p>Mirror the next lower (i.e., already specified) tag group or fleet: phase = -1000 and set other parameter values the same as next lower Tag Group or fleet,</p></li>
-<li><p>Mirror a lower (i.e., already specified) tag group of fleet x: phase = -100x and set other parameter values the same as the mirrored tag group or fleet( i.e., if you would like to mirror fleet 1 then the phase should -1001).</p></li>
+<li><p>Mirror a lower (i.e., already specified) tag group of fleet x: phase = -100x and set other parameter values the same as the mirrored tag group or fleet (i.e., if you would like to mirror fleet 1 then the phase should -1001).</p></li>
 </ul>
 <p>To avoid having to specify mirrored parameter lines, the tag parameters can be auto-generated. The control.ss_new file created after running this model will have a full set of tagging parameter lines to use in future model runs.</p>
 <div id="GcompVar">
@@ -9447,6 +9475,8 @@ The report.sso output file contains information in the “FIT_LEN_COMPS” and �
 <p><br />
 <span id="SaAlambda">If</span> the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stddev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.</p>
 <p>The reading of the lambda values has been substantially altered with v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0. After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS3. First read an integer for the number of changes.</p>
+<p>You can put any placeholder value like 0 or 999 for fleet if the likelihood component is not fleet specific (like recdevs).</p>
+<p>You can also put any placeholder value like 0 or 999 for the SizeFreq Method unless the likelihood component you are changing the lambda for is 6 = size frequency, in which case you need to have a row for each size frequency method you want to modify and put the associated method number in that fourth column.</p>
 <table>
 <thead>
 <tr class="header">
@@ -9483,13 +9513,34 @@ The report.sso output file contains information in the “FIT_LEN_COMPS” and �
 <td style="text-align: left;">1</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;">4</td>
+<td style="text-align: left;white-space: nowrap;">10</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;">#not_fleet_specific 6</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1.5</td>
+<td style="text-align: left;">1</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;">#size_frequency_method_1 6</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">2</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;">#size_frequency_method_2 4</td>
 <td style="text-align: left;">2</td>
 <td style="text-align: left;">3</td>
 <td style="text-align: left;">0.2</td>
 <td style="text-align: left;">1</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">-9999</td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">1</td>
@@ -9956,7 +10007,7 @@ The report.sso output file contains information in the “FIT_LEN_COMPS” and �
 </tr>
 </tbody>
 </table>
-<h1 data-number="11" id="sec:RunningSS"><span class="header-section-number">11</span> Running Stock Synthesis</h1>
+<h1 data-number="11" id="sec:RunningSS3"><span class="header-section-number">11</span> Running Stock Synthesis</h1>
 <h2 data-number="11.1" id="command-line-interface"><span class="header-section-number">11.1</span> Command Line Interface</h2>
 <p>The name of the SS3 executable files often contains the phrase “safe” or “opt” (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named “ss3.exe” is typically the safe version unless the result of renaming by the user.</p>
 <p>On Mac and Linux computers, the executable does not include an extension (like .exe on Windows). Running the executable on from the DOS command line in Windows simply require typing the executable name (without the .exe extension):</p>
@@ -9968,6 +10019,11 @@ The report.sso output file contains information in the “FIT_LEN_COMPS” and �
 <blockquote>
 <pre><code>	&gt; chmod a+x ss3
 	&gt; ./ss3
+	</code></pre>
+</blockquote>
+<p>An additional command has been added that allows users to specify the name of the .par file that is both read and output. Prior to v.3.30.22.1, the default exe name was ‘ss’ and the default .par file name was ss.par. The code now produces a ss3.par file by default instead of an ss.par file. The code will search for the default ss3.par file first, and then look for an ss.par file in order to have backwards compatibility and will by default output a ss3.par file (not an ss.par file). If you would like to read a differently named .par file and produce a .par file with the same name, you will need to add the “modelname” command. See the below example of using “modelname” to read and produce a .par file with the name “ss4you.”:</p>
+<blockquote>
+<pre><code>	&gt; ./ss3 modelname ss4you
 	</code></pre>
 </blockquote>
 <p>Additional ADMB commands can follow the executable name, such as “-nohess” to avoid calculating the Hessian matrix. To see a full list of options, add “-?” after the executable name (with a space in between).</p>
@@ -10017,9 +10073,9 @@ The report.sso output file contains information in the “FIT_LEN_COMPS” and �
 	copy /Y ..\MakeData\A1-D1-%%i.dat  Asel.dat
 	del ss.std
 	del ss.cor
-	del ss.par
+	del ss3.par
 	c:\admodel\ss3\ss3.exe
-	copy /Y ss.par A1-D1-A1-%%i.par
+	copy /Y ss3.par A1-D1-A1-%%i.par
 	copy /Y ss.std A1-D1-A1-%%i.std
 	find ``Number&#39;&#39; A1-D1-A1-%%i.par &gt;&gt; Summary.txt
 	find ``hessian&#39;&#39; ss.cor &gt;&gt; Summary.txt)
@@ -10043,7 +10099,7 @@ The report.sso output file contains information in the “FIT_LEN_COMPS” and �
 <p>where maxfun specifies the number of function calls and phase is the maximum phase for the model to start estimation where the number should be greater than the maximum phase for estimating parameters within the model.</p>
 <p>However, the approaches above differ in subtle ways. First, if the maximum phase is set to 0 in the starter file the total likelihood will differ by a small amount (0.25 likelihood units) compared to the second approach which sets the maxfun and phase in the command window. This small difference is due a dummy parameter which is evaluated by the objective function when maximum phase in the starter is set to 0, resulting in a small contribution to the total likelihood of 0.25. However, all other likelihood components should not change.</p>
 <p>The second difference between the two no estimation approaches is the reported number of “Active_count” of parameters in the Report file. If the command line approach is used (ss3 -maxfn 0 -phase 50 -nohess) then the active number of parameters will equal the number of parameters with positive phases, but because the model is started in a phase greater than the maximum phase in the model, these parameters do not move from the initial values in the control file (or the par file). The first approach where the maximum phase is changed in the starter file will report the number of “Active_count” parameters as 0.</p>
-<p>The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss.par) then all parameters, including parameter deviations, will be fixed at the estimated values. However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file).</p>
+<p>The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss3.par) then all parameters, including parameter deviations, will be fixed at the estimated values. However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file).</p>
 <h4 data-number="11.1.4.1" id="generate-.ss_new-files"><span class="header-section-number">11.1.4.1</span> Generate .ss_new files</h4>
 <p><br />
 There may be times a user would like to generate the .ss_new files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the starter.ss file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the starter.ss_new file will be set to -1 and will need to be manually changed back if the intent is the replace the original (i.e., starter.ss) file with the new files (i.e., starter.ss_new). The second approach is to modify the maxphase via the command line or power shell input. Calling the model using the commands:</p>
@@ -10113,7 +10169,7 @@ There may be times a user would like to generate the .ss_new files without runni
 </blockquote>
 <p>Repeat as many times as you have set up conditions in the profilevalues.ss file. The summary results will all be collected in the cumreport.sso file. Each step of the profile will have an unique run number and its output will include the values of the natural mortality and steepness parameters for that run.</p>
 <h3 data-number="11.1.7" id="re-starting-a-run"><span class="header-section-number">11.1.7</span> Re-Starting a Run</h3>
-<p>Model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause the model to read the file ss.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss.par. The file ss.par can be edited with a text editor, so values can be changed and rows can be added or deleted. However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from ss.bar which is the binary version of ss.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter -binp ss.bar as one of the command line options.</p>
+<p>Model runs can be restarted from a previously estimated set of parameter values. In the starter.ss file, enter a value of 1 on the first numeric input line. This will cause the model to read the file ss3.par and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file ss3.par. The file ss3.par can be edited with a text editor, so values can be changed and rows can be added or deleted. However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because ss3.par is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from ss.bar which is the binary version of ss3.par. In order to do this, the user must make the change described above to the starter.ss file and must also enter -binp ss.bar as one of the command line options.</p>
 <h3 data-number="11.1.8" id="optional-output-subfolders"><span class="header-section-number">11.1.8</span> Optional Output Subfolders</h3>
 <p>As of v.3.30.19, users can optionally send .sso and .ss_new extension files to subfolders. To send files with a .sso extension to a subfolder within the model folder, create a subfolder called sso before running the model. To send files with a .ss_new extension to a separate subfolder, create a folder called ssnew before running the model.</p>
 <h2 data-number="11.2" id="putting-stock-synthesis-in-your-path"><span class="header-section-number">11.2</span> Putting Stock Synthesis in your PATH</h2>
@@ -10157,15 +10213,14 @@ There may be times a user would like to generate the .ss_new files without runni
 </ol>
 <h2 data-number="11.3" id="running-stock-synthesis-from-r"><span class="header-section-number">11.3</span> Running Stock Synthesis from R</h2>
 <p>Use <code>system(“path/to/ss3”)</code> to run Stock Synthesis from within the R console, where <code>path/to/ss3</code> is the path to and name of the Stock Synthesis binary.</p>
-<p>Alternatively, use the function <code>run_SS_models</code> from the <code>r4ss</code> package within the R console:</p>
+<p>Alternatively, use the function <code>run</code> from the <a href="https://r4ss.github.io/r4ss/index.html"><code>r4ss</code></a> package within the R console:</p>
 <blockquote>
-<pre><code>  # run 2 models, in directories folder_1 and folder_2, using the SS3 executable
+<pre><code>  # run model, in directory folder_1, using the SS3 executable
   # named ss3 that is in the path.
-  r4ss::run_SS_models(dirvec = c(``folder_1&#39;&#39;, ``folder_2&#39;&#39;),
-                      model = ``ss3&#39;&#39;,
-                      exe_in_path = TRUE)</code></pre>
+  r4ss::run(dir = ``folder_1&#39;&#39;,
+            exe = ``ss3&#39;&#39;)</code></pre>
 </blockquote>
-<p>Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., <a href="https://github.com/ss3sim/ss3sim">ss3sim</a>) or if <code>r4ss</code> is already used to read model output.</p>
+<p>Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., <a href="https://github.com/ss3sim/ss3sim"><code>ss3sim</code></a>) or if <a href="https://r4ss.github.io/r4ss/index.html"><code>r4ss</code></a> is already used to read model output.</p>
 <h2 data-number="11.4" id="the-stock-synthesis-gui-ssi"><span class="header-section-number">11.4</span> The Stock Synthesis GUI (SSI)</h2>
 <p><a href="https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951">Stock Synthesis Interface</a> (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.</p>
 <h2 data-number="11.5" id="the-stock-assessment-continuum-tool"><span class="header-section-number">11.5</span> The Stock Assessment Continuum Tool</h2>
@@ -10404,7 +10459,7 @@ There may be times a user would like to generate the .ss_new files without runni
 </div>
 <h2 data-number="12.2" id="standard-admb-output-files"><span class="header-section-number">12.2</span> Standard ADMB output files</h2>
 <p>Standard ADMB files are created by SS3. These are:</p>
-<p>ss.par - This file has the final parameter values. They are listed in the order they are declared in SS3. This file can be read back into SS3 to restart a run with these values (see <a href="#sec:RunningSS3">Running Stock Synthesis</a> for more info).</p>
+<p>ss3.par (previously ss.par) - This file has the final parameter values. They are listed in the order they are declared in SS3. This file can be read back into SS3 to restart a run with these values (see <a href="#sec:RunningSS3">Running Stock Synthesis</a> for more info).</p>
 <p>ss.std - This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run. It also contains the derived quantities declared as standard deviation report variables. All of this information is also report in the covar.sso. Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.</p>
 <p>ss.rep - This report file is created between phases so, unlike Report.sso, will be created even if the hessian fails. It does not contain as much output as shown in Report.sso.</p>
 <p>ss.cor - This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret. This same information is reported in covar.sso.</p>
