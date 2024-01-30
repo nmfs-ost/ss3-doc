@@ -11,7 +11,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2024-01-29" />
+  <meta name="dcterms.date" content="2024-01-30" />
   <title>Stock Synthesis User Manual Version 3.30.22.1</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel = "stylesheet" type = "text/css" href="html_usermanual.css" />
@@ -30,7 +30,7 @@ Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">January 29, 2024</p>
+<p class="date">January 30, 2024</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
@@ -3028,6 +3028,9 @@ There are some items for users to consider when setting up population length bin
 <li><p>While exploring the performance of models with finer bin structure, a potentially pathological situation has been identified. When the bin structure is coarse (note that some applications have used 10 cm bin widths for the largest fish), it is possible for a selectivity slope parameter or a retention parameter to become so steep that all of the action occurs within the range of a single size bin. In this case, the model will see zero gradient of the log likelihood with respect to that parameter and convergence will be hampered.</p></li>
 <li><p>A value read near the end of the starter.ss file defines the degree of tail compression used for the age-length key, called ALK tolerance. If this is set to 0.0, then no compression is used and all cells of the age-length key are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age. With tail compression of, say 0.0001, the model, at the beginning of each phase, will calculate the min and max length bin to process for each age of each morphs ALK and compress accordingly. Depending on how many extra bins are outside this range, you may see speed increases near 10-20%. Large values of ALK tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence. It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time. The user is encouraged to explore this feature.</p></li>
 </ul>
+<div id="length-comp-structure">
+
+</div>
 <h2 data-number="7.14" id="length-composition-data-structure"><span class="header-section-number">7.14</span> Length Composition Data Structure</h2>
 <table>
 <thead>
@@ -3209,6 +3212,7 @@ Compress tails of composition until observed proportion is greater than this val
 <h4 data-number="7.14.0.2" id="added-constant-to-proportions"><span class="header-section-number">7.14.0.2</span> Added Constant to Proportions</h4>
 <p><br />
 Constant added to observed and expected proportions at length and age to make logL calculations more robust. Tail compression occurs before adding this constant. Proportions are renormalized to sum to 1.0 after constant is added.</p>
+<p>The constant should be greater than 0. Commonly used values range from 0.00001 to 0.01. Larger values will cause differences among bins with smaller values to be less influential, leading to greater relative influence of the bins with largest proportions of the compositions.</p>
 <h4 data-number="7.14.0.3" id="combine-males-females"><span class="header-section-number">7.14.0.3</span> Combine Males &amp; Females</h4>
 <p><br />
 Combine males into females at or below this bin number. This is useful if the sex determination of very small fish is doubtful so allows the small fish to be treated as combined sex. If Combine Males &amp; Females &gt; 0, then add males into females for bins 1 through this number, zero out the males, set male data to start at the first bin above this bin. Note that Combine Males &amp; Females &gt; 0 is entered as a bin index, not as the size associated with that bin. Comparable option is available for age composition data.</p>
@@ -3529,7 +3533,7 @@ When processing data to be input into SS3, all observed fish of sizes smaller th
 <p>The model is able to create one ageing error matrix from parameters, rather than from an input vector. The range of conditions in which this new feature will perform well has not been evaluated, so it should be considered as a preliminary implementation and subject to modification. To invoke this option, for the selected ageing error vector, set the standard deviation of ageing error to a negative value for age 0. This will cause creation of an ageing error matrix from parameters and any age or size-at-age data that specify use of this age error pattern will use this matrix. Then in the control file, add a full parameter line below the cohort growth deviation parameter (or the movement parameter lines if used) in the mortality growth parameter section. These parameters are described in the control file section of this manual.</p>
 <p>Code for ageing error calculation can be found in <a href="https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_miscfxn.tpl">SS_miscfxn.tpl</a>, search for function “get_age_age” or “SS_Label_Function 45.”</p>
 <h3 data-number="7.16.3" id="age-composition-specification"><span class="header-section-number">7.16.3</span> Age Composition Specification</h3>
-<p>If age data are included in the model, the following set-up is required, similar to the length data section.</p>
+<p>If age data are included in the model, the following set-up is required, similar to the length data section. See <a href="#length-comp-structure">Length Composition Data Structure</a> for details on each of these inputs.</p>
 <table>
 <thead>
 <tr class="header">
