@@ -627,7 +627,7 @@ There are some items for users to consider when setting up population length bin
 	\item A value read near the end of the starter.ss file defines the degree of tail compression used for the age-length key, called ALK tolerance. If this is set to 0.0, then no compression is used and all cells of the age-length key are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age. With tail compression of, say 0.0001, the model, at the beginning of each phase, will calculate the min and max length bin to process for each age of each morphs ALK and compress accordingly. Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%. Large values of ALK tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence. It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time. The user is encouraged to explore this feature.
 \end{itemize}
 
-
+\hypertarget{length-comp-structure}{}
 \subsection{Length Composition Data Structure}
 \begin{tabular}{p{2cm} p{13cm}}
 		\multicolumn{2}{l}{Enter a code to indicate whether or not length composition data will be used:} \Tstrut\Bstrut\\
@@ -679,6 +679,8 @@ Compress tails of composition until observed proportion is greater than this val
 
 \myparagraph{Added Constant to Proportions}
 Constant added to observed and expected proportions at length and age to make logL calculations more robust. Tail compression occurs before adding this constant. Proportions are renormalized to sum to 1.0 after constant is added.
+
+The constant should be greater than 0. Commonly used values range from 0.00001 to 0.01. Larger values will cause differences among bins with smaller values to be less influential, leading to greater relative influence of the bins with largest proportions of the compositions.
 
 \myparagraph{Combine Males \& Females}
 Combine males into females at or below this bin number. This is useful if the sex determination of very small fish is doubtful so allows the small fish to be treated as combined sex. If Combine Males \& Females > 0, then add males into females for bins 1 through this number, zero out the males, set male data to start at the first bin above this bin. Note that Combine Males \& Females > 0 is entered as a bin index, not as the size associated with that bin. Comparable option is available for age composition data.
@@ -866,7 +868,7 @@ The model is able to create one ageing error matrix from parameters, rather than
 Code for ageing error calculation can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_miscfxn.tpl}{SS\_miscfxn.tpl}, search for function ``get\_age\_age'' or ``SS\_Label\_Function 45''.
 
 \subsubsection{Age Composition Specification}
-If age data are included in the model, the following set-up is required, similar to the length data section.
+If age data are included in the model, the following set-up is required, similar to the length data section. See \hyperlink{length-comp-structure}{Length Composition Data Structure} for details on each of these inputs.
 
 \begin{tabular}{p{2cm} p{2cm} p{2cm} p{1.5cm} p{1.5cm} p{2cm} p{2cm}}
 		\multicolumn{7}{l}{Specify bin compression and error structure for age composition data for each fleet:} \\
