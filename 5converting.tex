@@ -4,20 +4,20 @@ Converting files from version 3.24 to version 3.30 can be performed by using the
 
 The following file structure and steps are recommended for converting model files:
 \begin{enumerate}
-	\item Create ``transition'' folder.  Place the 4 main model files (control, data, starter, and forecast) from version SS3 v.3.24 within the transition folder along with the SS3 transition executable (ss\_trans.exe).  One tip is to use the control.ss\_new from the SS3 v.3.24 estimated model rather than the control.ss file which will set all parameter values at the previous estimated maximum likelihood estimated (MLE) parameters.  Run the transition executable with phase = 0 within the starter file with the read par file turned off (option 0).
+	\item Create ``transition'' folder.  Place the 4 main model files (control, data, starter, and forecast) from version SS3 v.3.24 within the transition folder along with the SS3 transition executable (ss\_trans.exe).  One tip is to use the control.ss\_new from the SS3 v.3.24 estimated model rather than the control.ss file which will set all parameter values at the previous estimated maximum likelihood estimated (MLE) parameters.  In the starter file set the phase = 0 and make sure the read par file is turned off (option 0) then run the transition executatable with "-no hess".
 	
 	\item Create ``converted'' folder.  Place the ss\_new (data.ss\_new, control.ss\_new, starter.ss\_new, forecast.ss\_new) files created by the transition executable contained within the ``transition'' folder into this new folder.  Rename the ss\_new files to the appropriate suffixes and change the names in the starter.ss file accordingly.
 	
-	\item Review the control (control.ss\_new) file to determine that all model functions converted correctly.  The structural changes and assumptions for a couple of the advanced model features are too complicated to convert automatically.  See below for some known features that may not convert. When needed, it is recommended to modify the control.ss\_new file, the converted control file, for only the features that failed to convert properly.
+	\item Review the control (control.ss\_new) file to determine that all model functions converted correctly.  The structural changes and assumptions for some advanced model features are too complicated to convert automatically.  See below for some known features that may not convert. When needed, it is recommended to modify the control.ss\_new file, the converted control file, for only the features that failed to convert properly.
 	
-	\item Change the max phase to a value greater than the last phase in which the a parameter is set to estimated within the control file.  Run the new v.3.30 executable (ss3.exe) within the ``converted'' folder using the renamed ss\_new files created from the transition executable.
+	\item Change the max phase to a value greater than the last phase in which the parameter is set to be estimated within the control file.  Run the new v.3.30 executable (ss3.exe) within the ``converted'' folder using the renamed ss\_new files created from the transition executable.
 	
 	\item Compare likelihood and model estimates between the v.3.24 and v.3.30 model versions.
 	
 	\item If desired, update to versions of Stock Synthesis > v.3.30.17 by running the new v.3.30 input files with the higher executable.
 \end{enumerate}
 
-\noindent There are some options that have been substantially changed in v.3.30, which impedes the automatic converting of v.3.24 model files. Known examples of v.3.24 options that cannot be converted, but for which better alternatives are available in v.3.30 are:
+\noindent Some options have been substantially changed in v.3.30, which impedes the automatic converting of v.3.24 model files. Known examples of v.3.24 options that cannot be converted, but for which better alternatives are available in v.3.30 are:
 \begin{enumerate}
 	\item The use of Q deviations,
 	\item Complex birth seasons,
