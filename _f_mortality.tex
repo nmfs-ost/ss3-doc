@@ -1,14 +1,13 @@
 \subsection{Fishing Mortality in Stock Synthesis}
 
-The implementation and reporting of fishing mortality rate, $F$, in SS3 has some aspects that can be confusing.  This description provides an overview of the ways in which $F$ is calculated, used, and reported.  
+The implementation and reporting of fishing mortality rate, $F$, in SS3 has some aspects that are more complex than in simpler models.  This description provides an overview of the ways in which $F$ is calculated, used, and reported.  
 
 \myparagraph{Rationale}
-Fishery management systems expect to have a measure of annual fishing mortality that describes the intensity of the fishery such that an optimal level of $F$ can be articulated and accountability measures can be invoked if $F$ is too high, e.g., overfishing.  This concept is simple and straightforward if the model is a simple biomass dynamics such that a single annual $F$ value operates on the entirety of a non-age structured population. It also is simple for age-structured models that have a single fishing fleet and knife-edge selectivity beginning at some specified age.
-
-The simplicity of $F$ disappears quickly as models invoke a variety of realistic complexities such as: allowing the $F$ to differ among ages or to be based on size; using a collection of fleets with different $F$ levels and different age patterns for $F$; spreading the population across areas and allowing different fleets with different $F$ among the areas.  An unambiguous measure of annual fishing intensity that represents the cumulative effect of all that complexity has not been defined.  This problem has not been solved with SS3, but some logical alternatives have been made available.
+Fishery management systems expect to have a measure of annual fishing mortality that describes the intensity of the fishery such that an optimal level of $F$ can be articulated and accountability measures can be invoked if $F$ is too high, e.g., overfishing.  This concept is simple and straightforward if the model is a simple biomass dynamics such that a single annual $F$ value operates on the entirety of a non-age structured population. It also is simple for age-structured models that have a single fishing fleet and knife-edge selectivity beginning at some specified age. The simplicity of $F$ disappears quickly as models invoke a variety of realistic complexities such as: allowing the $F$ to differ among ages or to be based on size; using a collection of fleets with different $F$ levels and different age patterns for $F$; spreading the population across areas and allowing different fleets with different $F$ among the areas.  An unambiguous measure of annual fishing intensity that represents the cumulative effect of all that complexity is a challenge.  This problem has not been solved with SS3, but some logical alternatives have been made available.
 
 \myparagraph{Nomenclature}
-The nomenclature below ignores sex, morphs and areas for simplicity. The quantities associated with $F$ calculations are defined as:
+
+The quantities associated with $F$ calculations are defined as:
 
 $f$ is fleet.
 
@@ -18,22 +17,18 @@ $a$ is age.
 
 $C_{t,f}$ is fleet-specific catch in a time step.
 
-$B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by fleet-specific age selectivity, $s_{t,f,a}$.
+$s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity due to length-selectivity is calculated as the dot product across length bins of length selectivity and the normal (or lognormal) distribution of length-at-age.  If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity.  This compound age selectivity is used in the mortality calculations and is reported as $Asel2$ in report:32 of report.sso.  See appendix to \citet{methotstock2013} for more detail on this.
 
-$s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity is calculated as the dot product across length bins of length selectivity and the normal (or lognormal) distribution of length-at-age.  If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity.  This compound age selectivity is used in the mortality calculations and is reported as asel2 in report file.  See appendix to \citet{methotstock2013} for more detail on this.
+Selectivity can be sex-specific, and different growth morphs and platoons can have different age-selectivity due to the effect of length-selectivity on their unique size-at-age. This added dimension, g, for biological group is not included in the nomenclature here but exists in all the SS3 calculations.
 
-$F_{t,f}'$ is the apical fishing mortality for a fleet. This means that it is the rate for the age that has selectivity equal to 1.0 (if the selectivity curve has a max of 1.0, especially double logistic and double normal; some logistic selectivity curves may have a shallow slope causing it to not reach a max of 1.0). If your model is using $F'$s as parameters, then the parameter values are for $F'$. Apical F is not explicit in any internal calculation in SS3, it is just for reporting.
+$B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by fleet-specific age selectivity, $s_{t,f,a}$.  Note that this is not adjusted by the $max(s_{t,f,a})$.
 
-$F_{t,f,a}$ is age and fleet-specific fishing mortality rate equal to $F_{t,f}' * s_{t,f,a}$. Note that it is possible for no age to have a selectivity equal to 1.0. In this case, $F'$ is still the rate for the hypothetical age that has selectivity equal to 1.0. The reported $F'$ values are not rescaled to be an $F$ for the age with peak selectivity. Users need to take this into account if they are comparing reported $F'$ values to reported vector of $F_{t,f,a}$ values.
+$F_{t,f}'$ is a fleet's fishing mortality for the age that has selectivity equal to 1.0.  This is termed F_scalar or  $F'$ in the SS3 system. If your model is using $F'$s as parameters, then the parameter values are for the $F'$. Note that some selectivity curves, like double normal, are explicit about having a maximum of 1.0.  But other curves like logistic and combinations of length-selectivity and growth, may produce an age-selectivity curve that never reaches 1.0 and some situations, especially 2DAR, will produce selectivity >1.0 routinely.  In all cases, the resultant $F_{t,f,a}$ comes from $F_{t,f}' * s_{t,f,a}$. $F_{t,f,a}$ is output in report:32 with the rows labelled simply as "F". The reported $F'$ values are never rescaled to be the $F$ for the age with peak selectivity. Users need to take this into account if they are comparing reported $F'$ values to reported vector of true $F_{t,f,a}$ values.
 
-$\text{ann}F_y$ is a measure of the total fishing intensity for a year, based on one of several user-specified options (see below).
-
-$F\text{std}_y$ is a standardized measure of the total fishing intensity for a year and is reported in the derived quantities, so variance is calculated for this quantity. See below for how it relates to $annF$.
-
-Terminology and reporting of $\text{ann}F$ and $F\text{std}$ has been slightly revised for clarity in v.3.30.15.00 and the description here follows the new conventions.
+Apical selectivity is the maximum age-specific selectivity and is not explicit in any internal calculation in SS3, it is just for reporting. If selectivity has a maximum value of 1.0, then apical_F and F_scalar are identical. You can find apical selectivity reported as $maximum_ASEL2$, immediately after report:32.
 
 \myparagraph{$F$ Calculation}
-SS3 allows for three approaches to estimate the $F'$ that will match the input values for retained catch. Note that SS3 is calculating the $F'$ to match the retained catch conditional on the fraction of total catch that is retained, e.g., the total catch is partitioned into retained and discarded portions.
+SS3 allows for three approaches to estimate the $F'$ that will match the input values for retained catch. Note that SS3 is calculating the $F'$ to match the retained catch conditional on the fraction of total catch that is retained, e.g., the total catch can be partitioned into retained and discarded portions.
 
 \begin{enumerate}
 	\item Pope's method decays the numbers-at-age to the middle of the season, calculates a harvest rate for each fleet, $H_{t,f}$, that is the ratio of $C_{t,f}$ to $B_{t,f}$, then decays the survivors to the end of the season. The total mortality, $Z_{t,a}$, from the ratio of survivors to initial numbers, is then calculated. The $Z$ is subsequently used for in-season interpolation to get expected values for observations.
@@ -50,24 +45,10 @@ Items to note:
 	\item With Pope's method, the $H$ values are fraction caught, so duration of the season does not matter. Parameter and hybrid treat $F'$ identically and multiply the $F'$ values by season duration (which has units of fraction of a year) as it is used. Each of the $F$ methods ends up with a $Z_{t,f}$ that is used for in-season interpolation.
 \end{itemize}
 
-\myparagraph{Relative $F$ and $F$mult}
-The $F'$ is fleet-specific, so it is useful to have a concept of relative $F$, $\text{rel}F_f$, among fleets. In SS3, $\text{rel}F_f= F_{t,f}'/\sum_{f}^{}F_{t,f}'$ for a single time period $t$. In the benchmark and forecast routines, SS3 can calculate $\text{rel}F_f$ using $F_{t,f}'$ over a range of years, or the user can input custom $\text{rel}F$ values for benchmark and forecast in the forecast.ss file. Note that in a multi-season model setup, $\text{rel}F_f$ is implemented as $\text{rel}F_{s,f}$ where $s$ is the season. These get multiplied by season duration as they are used.
+\myparagraph{Annual_$F$ and $F_std$ reporting}
+SS3 provides several options for reporting overall annual fishing intensity.  $F\text{std}_y$ is an ADMB-specific derived quantities, so its variance is calculated.  ann$F$ is a building block for  $F_std$ and provides additional reporting of some of the same quantities.
 
-In the benchmark section of the code, SS3 searches for an $F$mult to achieve various management reference points (often referred to as benchmarks). In this search, SS3 calculates a benchmark $F$ as  $F_{ben,f}' = F\text{mult} * \text{rel}F_f$, then calculates equilibrium yield and spawning biomass per recruit (SPR). SS3 searches for the $F$mult that satisfies the search conditions, first for user-specified SPR, then for user-specified spawning biomass at a management target (B\textsubscript{TGT} or $F_{0.1}$), then for MSY. The resultant benchmark quantities are reported in the derived quantities, but $F$mult and $F_{ben,f}'$ are only reported in the Forecast\_report.sso file. SS3 stores the benchmark $F$mult values so that user can invoke them for the forecast.
-
-\myparagraph{Annual $F$}
-The annual\_$F$, also seen to as ann$F$ in the Report file, is a single annual value across all fleets and areas. If there are many fleets, across several areas and with very different selectivity patterns, ann$F$ can have a complicated relationship to apical $F$.
-
-The ann$F$ is calculated for each year of the estimated time series and of the forecast. Additionally, an ann$F$ is calculated in the benchmark calculations to provide equilibrium values that have the same units as ann$F$ from the time series. In versions previous to v.3.30.15, it was labeled inaccurately as $F$std in the output, not ann$F$. For example, in the Management Quantities section of derived quantities prior to v.3.30.15, there is a quantity labeled Fstd\_Btgt. This is more accurately labeled as the ann$F$ associated with the biomass target, ann\_F\_Btgt, in v.3.30.15.
-
-\myparagraph{$F$std}
-$F$std is a single annual value based on ann$F$ according to the F\_std\_reporting\_units specified in the starter.ss file. The F\_std\_reporting\_units specification allows user to calculate it using $F'$ directly, use exploitation rate, or be derived from $Z$-at-age.
-
-% While F is a simple concept in a biomass dynamics model with a single fishing fleet, the concept of "F" as a single number is very incomplete when there are multiple fleets, some with length-based and/or dome-shaped selectivity. In SS3, the F multiplier is multiplied first by fleet-specific relative F's to get the F for each fleet, then that fleet-specific F is multiplied by the age-selectivity to get F at age. Depending on the choice of selectivity pattern, these age-specific F's may or may not peak at 1.0 and can even exceed 1.0 in some circumstances. The realized F-at-age for each fleet is (F multiplier) * (relative F) * (age-selectivity). You can see the results in the F\_AT\_AGE section of the Report file. 
-
-% While F multiplier is always done as just described, the user has various options for the reporting of the realized F. These are in starter.ss and described in the manual.
-
-$F$std reporting unit specification in the starter.ss file:
+The options for $F$std reporting are in the starter.ss file:
 \begin{center}
 	\begin{longtable}{p{2cm} p{12cm}}
 		\hline
@@ -75,7 +56,7 @@ $F$std reporting unit specification in the starter.ss file:
 		  & 0 = skip; \\
 		  & 1 = exploitation(Bio); \\
 		  & 2 = exploitation(Num); \\ 
-		  & 3 = sum(Apical\_F's); \\
+		  & 3 = sum(\_F scalars*seas); \\
 		  & 4 = mean F for range of ages (numbers weighted); \\
 		  & 5 = unweighted mean F for range of ages. \Bstrut\\
 		\hline
@@ -84,9 +65,11 @@ $F$std reporting unit specification in the starter.ss file:
 	\end{longtable}
 \end{center}
 
-For options 4 and 5 of F\_std\_reporting\_units, the $F$ is calculated as $Z-M$ where $Z$ is calculated as $ln(N_{t+1,a+1}/N_{t,a})$, thus $Z$ subsumes the effect of $F$.
-
-The $F$std reporting units and the relationship of $F$std to ann$F$ are specified in the starter.ss file as F\_std\_reporting\_units and F\_std\_scaling respectively. The F\_std\_scaling specification allows users, for example, to rescale the time series of ann$F$s by the benchmark ann$F$ to become a time series of standardized values representing the intensity of fishing, $F$std.
+For options 1 and 2, the numerator is retained catch numbers or biomass, and the denominator is summary numbers or summary biomass.
+For option 3, the result is simply the season weighted sum of the F's (except no season weighting if using Pope's harvest rate approach). Option 3 will be misleading in a multi-area model as the calculation is insensitive to the proportion of the population in the area where the F is being applied.
+For options 4 and 5, the $F$ is calculated as $Z-M$ where $Z$ is calculated as $ln(N_{t+1,a+1}/N_{t,a})$, thus $Z$ subsumes the effect of $F$.  In a multi-area model, the N values are summed across areas so counters the shortcoming of option 3, but the reported value is buffered if there in a large portion of the population in a lightly fished area.
+The $F_std$ is calculated for each year of the estimated time series and of the forecast. Additionally, a value with the same units is calculated in the benchmark calculations to provide a basis for scaling the output. These benchmark values are reported in the Mgmt_Quantity section of derived quantities with labels like annF_Btgt. 
+ Prior to v.3.30.15, these quantites were inaccurately labeled Fstd\_Btgt.
 
 $F$std scaling is selected in the starter file as:
 \begin{center}
@@ -104,7 +87,18 @@ $F$std scaling is selected in the starter file as:
 
 Note that F means annual F\_std, F\textsubscript{MSY} means F\_std at MSY.
 
-For example, if user selects option 1, $F$ / $F_\text{SPR}$, the time series of ann$F$ will be divided by each value by the ann$F$ calculated in benchmark.
+The results of these calculations is displayed most explicitly in the report.sso table "EXPLOITATION report:14".  Here, the table columns are:
+Yr Seas Seas_dur F_std annual_F annual_M <each fleet's F_scalar>.
+In this table, the displayed value for annual_F will be from the F=Z-M method regardless of which option was chosen for F_std.  If F_std uses option 4 or 5, then the annual_F will use the same range of ages.  Otherwise, annual_F will be for the age that is the mid-age of the age range.
+
+% While F is a simple concept in a biomass dynamics model with a single fishing fleet, the concept of "F" as a single number is very incomplete when there are multiple fleets, some with length-based and/or dome-shaped selectivity. In SS3, the F multiplier is multiplied first by fleet-specific relative F's to get the F for each fleet, then that fleet-specific F is multiplied by the age-selectivity to get F at age. Depending on the choice of selectivity pattern, these age-specific F's may or may not peak at 1.0 and can even exceed 1.0 in some circumstances. The realized F-at-age for each fleet is (F multiplier) * (relative F) * (age-selectivity). You can see the results in the F\_AT\_AGE section of the Report file. 
+
+% While F multiplier is always done as just described, the user has various options for the reporting of the realized F. These are in starter.ss and described in the manual.
+
+\myparagraph{Relative $F$ and $F$mult}
+The $F'$ is fleet-specific, so it is useful to have a concept of relative $F$, $\text{rel}F_f$, among fleets. In SS3, $\text{rel}F_f= F_{t,f}'/\sum_{f}^{}F_{t,f}'$ for a single time period $t$. In the benchmark and forecast routines, SS3 can calculate $\text{rel}F_f$ using $F_{t,f}'$ over a range of years, or the user can input custom $\text{rel}F$ values for benchmark and forecast in the forecast.ss file. Note that in a multi-season model setup, $\text{rel}F_f$ is implemented as $\text{rel}F_{s,f}$ where $s$ is the season. These get multiplied by season duration as they are used.
+
+In the benchmark section of the code, SS3 searches for an $F$mult to achieve various management reference points (often referred to as benchmarks). In this search, SS3 calculates a benchmark $F$ as  $F_{ben,f}' = F\text{mult} * \text{rel}F_f$, then calculates equilibrium yield and spawning biomass per recruit (SPR). SS3 searches for the $F$mult that satisfies the search conditions, first for user-specified SPR, then for user-specified spawning biomass at a management target (B\textsubscript{TGT} or $F_{0.1}$), then for MSY. The resultant benchmark quantities are reported in the derived quantities, but $F$mult and $F_{ben,f}'$ are only reported in the Forecast\_report.sso file. SS3 stores the benchmark $F$mult values so that user can invoke them for the forecast.
 
 \myparagraph{Units for Stock Synthesis inputs related to $F$}
 Below is a list of items to consider in terms of units for $F$ in SS3:
