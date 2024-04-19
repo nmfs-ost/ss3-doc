@@ -1,7 +1,38 @@
 
 \section{Starter File}
 
-SS3 begins by reading the file starter.ss. The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
+\subsection{Reading the Manual's format}
+SS3 begins by reading the file starter.ss. The starter file contains need information on the names of the control and data files, run conditions, and output specifications. The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
+
+\subsection{Terminology for Fishing Mortality, F}
+Here we introduce some terminology related to fishing mortality, $F$. This will provide context for some of the quantities that will be read from the starter file.
+
+$f$ is fleet.
+
+$t$ is a time step; continuous across years $y$ and seasons $s$; equivalent to year if only 1 season.
+
+$a$ is age.
+
+$s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity due to length-selectivity is calculated as the dot product across length bins of length selectivity and the normal (or lognormal) distribution of length-at-age. If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity. This compound age selectivity is used in the mortality calculations and is reported as $Asel2$ in report:32 of report.sso. See appendix to \citet{methotstock2013} for more detail on this. Selectivity can be sex-specific, and different growth morphs and platoons can have different age-selectivity due to the effect of length-selectivity on their unique size-at-age. This added dimension, $g$, for biological group is not included in the nomenclature here but exists in all the SS3 calculations.
+
+$F_{t,f,a}$ is fishing mortality at age for fleet f.  There is no subscript for area because each fleet is defined to operate in only one area.
+
+$F_{t,f}'$ is a fleet's fishing mortality for the age that has selectivity equal to 1.0. This is also termed F\_scalar or full_F in the SS3 system. If your model is using parameters for $F$, then the parameter values are for the $F'$. Note that some selectivity curves, like double normal, are explicit about having a maximum of 1.0. But other curves like logistic and combinations of length-selectivity and growth, may produce an age-selectivity curve that never reaches 1.0 and time-varying non-parametric selectivity will produce values >1.0 routinely. In all cases, the resultant $F_{t,f,a}$ comes from $F_{t,f}' * s_{t,f,a}$, so the range of the $F'$ compensates for the scale of the $s$.
+
+Apical selectivity is the maximum age-specific selectivity and is not explicit in any internal calculation in SS3, it is just for reporting. If selectivity has a maximum value of 1.0, then apical\_F and F\_scalar are identical.
+
+Fully-selected age range is not explicitly used in SS3, especially because SS3 applications routinely have multiple fleets with different selectivity patterns that may have little overlap.
+
+$F$bar is the average $F$ over a user specified range of ages, implicitly the fully-selected range for the total $F$ from all the fleets.  Some SS3 output options will display $F$bar.
+
+Annual_F is essentially the same as $F$bar and is an output quantity.
+
+$F\_std$ is an output quantity that may be based on Annual_F or other calculated quantities like exploitation rate.  Importantly, the output values of $F\_std$ may be presented as a ratio relative to an equivalent benchmark (reference point) quantity; e.g. $F / F\_MSY$.  Further, the variance of $F\_std$ will be calculated and output.
+
+$C_{t,f}$ is fleet-specific catch in a time step.
+
+$B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by fleet-specific age selectivity, $s_{t,f,a}$. Note that this is not adjusted by the $max(s_{t,f,a})$.
+
 
 {
 \setlength\extrarowheight{4pt}
@@ -191,22 +222,22 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
 
 %  \hline
  \pagebreak
- 1 & SPR report basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{SPR is the equilibrium SB per recruit that would result from the current year's pattern and intensity of F's. The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section. Then the one specified here is used as the selected.}} \Tstrut\\
+ 1 & SPR report scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{SPR is the equilibrium SB per recruit that would result from the current year's F-at-age. The quantities identified by 1, 2, and 3 here are calculated in the benchmarks section. Then the one specified here is used as the selected }} \Tstrut\\
    & 0 = skip; & \\
    & 1 = use 1-SPR\textsubscript{target}; & \\
    & 2 = use 1-SPR at MSY; & \Tstrut\\
-   & 3 = use 1-SPR at B\textsubscript{target}; and & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Denominator in a ratio with the annual value of (1 - SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}} \Tstrut\\
+   & 3 = use 1-SPR at B\textsubscript{target}; and & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{denominator in a ratio with the annual value of (1 - SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}} \Tstrut\\
    & 4 = no denominator, so report actual 1-SPR values. & \\
   
 %  \pagebreak
 \hline 
- 4 & Annual F units: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In addition to SPR, an additional proxy for annual F can be specified here. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector. Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas. But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring. Option 3 is a simple sum of the full F's by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below). The F is calculated as Z-M where Z and M are each calculated an ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
+ 4 & F reporting units (F_std): & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In addition to SPR, an additional proxy for annual F can be specified here. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector. Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas. But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring. Option 3 is a simple sum of the full F's by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below). The F is calculated as Z-M where Z and M are each calculated an ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
    & 0 = skip; & \\
    & 1 = exploitation rate in biomass; & \\
    & 2 = exploitation rate in numbers; & \\
    & 3 = sum(apical F's by fleet); & \\
-   & 4 = population F for range of ages; and & \\
-   & 5 = unweighted average F for range of ages. & \\
+   & 4 = Fbar: numbers weighted F for range of ages; and & \\
+   & 5 = Fbar: unweighted average F for range of ages. & \\
    & & \\
    & & \\
    & & \Bstrut\Bstrut\\
