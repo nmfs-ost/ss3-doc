@@ -144,10 +144,10 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
     & <value> = end SD report in this year. & \Bstrut\\
 	   
  \hline
- 2 & Extra SD Report Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In a long time series application, the model variance calculations will be smaller and faster if not all years are included in the SD reporting. For example, the annual SD reporting could start in 1960 and the extra option could select reporting in each decade before then.}} \Tstrut\\
+ 2 & Extra SD Report Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In a long time series application, the model variance calculations will be smaller and faster if not all years are included in the SD reporting. For example, the annual SD reporting could start in 1960 and the extra option could select reporting in each decade before then.}} \Tstrut \Bstrut\\
    & 0 = none; and & \\
-   & <value> = number of years to read. &  \\
-   & & \\
+   & <value> = number of years to read. & \Bstrut\\
+  %  & & \\
 
  %\pagebreak 
  \hline  
@@ -155,11 +155,11 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
 
  %\pagebreak
  %\hline
- \multicolumn{1}{r}{1940 1950} & \multirow{1}{1cm}[-0.25cm]{\parbox{19.5cm}{Vector of years for additional SD reporting. The number of years need to equal the value specified in the above line (Extra SD Reporting).}} \Tstrut\\
+ \multicolumn{1}{r}{1940 1950} & \multirow{1}{1cm}[-0.25cm]{\parbox{19.5cm}{Vector of years for additional SD reporting. The number of years need to equal the value specified in the above line (Extra SD Report Years).}} \\
   & & \\
  
  \hline
- 0.0001 & Final convergence & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This is a reasonable default value for the change in log likelihood denoting convergence. For applications with much data and thus a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence}} \Tstrut\Bstrut\\
+ 0.0001 & Final convergence & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This is a reasonable default value for the change in log likelihood denoting convergence. For applications with much data and thus a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence.}} \Tstrut\Bstrut\\
    & & \Bstrut\\
    & & \Bstrut\\
 	%  & & \\ 
@@ -182,8 +182,9 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
    & 3 = X*SB\textsubscript{styr}; and & Relative to model start year spawning biomass. \\
    & 4 = X*SB\textsubscript{endyr}. & Relative to spawning biomass in the model end year. \\
    & 5 = X*Dynamic SB0 & Relative to the calculated dynamic SB0. \\
-   & use tens digit (1-9) to invoke multi-year (up to 9 yrs) & \\
-   & use 1 as hundreds digit to invoke log(ratio) & \Bstrut\\
+   & & Use hundreds and tens place to invoke multi-year trailing average, the ones place for depletion basis value, and the decimal place invoke log(ratio). This approach for multi-year log(ratio) was implemented with v.3.30.24 (2024). \\
+   & & Example: 122.1 invokes a 12 year trailing average for X*SB\textsubscript{MSY} using log(ratio). \\
+   & & Note that the trailing average always goes up to the endyr and once it gets to the first forecast year it stops the trailing average. \Bstrut\\
   
  \hline
  1 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SB\textsubscript{y}/(X*SB0). \Tstrut\Bstrut\\
