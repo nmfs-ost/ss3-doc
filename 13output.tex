@@ -80,31 +80,6 @@ Virgin Spawning Biomass (B0) is used in four ways within SS3:
 However, if there is time-varying biology, then the 4th usage can have a different B0 calculation compared to the other usages.
 
 \subsubsection{Metric for Fishing Mortality}
-The implementation and reporting of fishing mortality, $F$, in SS3 is more complex than in simpler models and can be confusing. This description provides an overview of the ways in which $F$ is calculated, used, and reported.
-
-
-\myparagraph{Nomenclature}
-
-The nomenclature below ignores sex, morphs and areas for simplicity. The quantities associated with $F$ calculations are defined as:The quantities associated with $F$ calculations are defined as:
-
-\begin{itemitze}
-\item $f$ is fleet.
-\item $t$ is a time step; continuous across years $y$ and seasons $s$; equivalent to year if only 1 season.
-\item $a$ is age.
-\item $C_{t,f}$ is fleet-specific catch in a time step.
-\item $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by fleet-specific age selectivity, $s_{t,f,a}$.
-\item $s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity is calculated as the dot product across length bins of length selectivity and the normal (or lognormal) distribution of length-at-age. If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity. This compound age selectivity is used in the mortality calculations and is reported as $Asel2$ in report:32 of report.sso. See appendix to \citet{methotstock2013} for more detail on this.
-\item $F_{t,f}'$ is the fully-selected fishing mortality for a fleet. The manual will refer to it as $F’$ or $\text{full\_}F$. If your model is using $F'$s as parameters, then the parameter values are for $F'$.
-\item $\text{apical\_}F$ is the maximum $F$ among the ages. It is not used explicitly in SS3 although some sections of the manual may state $\text{apical\_}F$ instead of the correct term, full\_$F$.
-\item $F_{t,f,a}$ is age and fleet-specific fishing mortality rate equal to $F_{t,f}' * s_{t,f,a}$. Note that it is possible for no age to have a selectivity equal to 1.0. Some selectivity curves are forced to have maximum selectivity = 1.0 such that $\text{apical\_}F$ and $\text{full\_}F$ will be the same, but some curves never reach 1.0 and some non-parametric forms allow selectivity > 1.0. In all cases, $F'$ is still the rate for the hypothetical age that has selectivity equal to 1.0. The reported $F'$ values are not rescaled to be an $F$ for the age with peak selectivity. Users need to take this into account if they are comparing reported $F'$ values to reported vector of $F_{t,f,a}$ values.
-\item $\text{ann}F_y$ is a measure of the total fishing intensity for a year, based on one of several user-specified options (see below).
-\item $F\text{std}_y$ is a standardized measure of the total fishing intensity for a year and is reported in the derived quantities, so variance is calculated for this quantity. See below for how it relates to $\text{ann}F$.
-\item SPR\_y is the equilibrium spawning biomass per recruit that would result from fishing at the current year’s $F$ level and selectivity.
-
-\end{itemize}
-
-Terminology and reporting of $\text{ann}F$ and $F\text{\_std}$ has been slightly revised for clarity in v.3.30.15.00 and the description here follows the new conventions.
-
 \myparagraph{Equilibrium SPR}
 This index focuses on the effect of fishing on the spawning potential of the stock. It is calculated as the ratio of the equilibrium reproductive output per recruit that would occur with the current year's F intensities and biology, to the equilibrium reproductive output per recruit that would occur with the current year's biology and no fishing. Thus it internalizes all seasonality, movement, weird selectivity patterns, and other factors. Because this index moves in the opposite direction than F intensity itself, it is usually reported as 1-SPR. A benefit of this index is that it is a direct measure of common proxies used for F\textsubscript{MSY}, such as F\textsubscript{40\%}. A shortcoming of this index is that it does not directly demonstrate the fraction of the stock that is caught each year. The SPR value is also calculated in the benchmarks (see below). 
 
