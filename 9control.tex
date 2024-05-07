@@ -1440,6 +1440,18 @@ Some notes:
 	\hline
 \end{longtable}
 
+\subsubsection{Equilibrium SPR}
+$SPR_y$ is the equilibrium spawning biomass per recruit that would result from fishing at the current year’s $F$ level and selectivity. It is a measure of the expected long-term effect of fishing. It is calculated as the ratio of the equilibrium reproductive output per recruit that would occur with the current year's $F$ intensities and biology, to the equilibrium reproductive output per recruit that would occur with the current year's biology and no fishing. Thus it internalizes all seasonality, movement, weird selectivity patterns, and other factors. Because this index moves in the opposite direction than $F$ itself, it is usually reported as $1-SPR$. A benefit of this index is that it is a direct measure of common proxies used for F\textsubscript{MSY}, such as F\textsubscript {40\%}. A shortcoming of this index is that it does not directly demonstrate the fraction of the stock that is caught each year. The SPR value is also calculated in the benchmarks (see below). 
+
+The derived quantities report shows an annual SPR statistic. The options, as specified in the starter.ss file, are:
+\begin{itemize}
+	\item 0 = skip
+	\item 1 = (1-SPR)/(1-SPR\textsubscript{TGT})
+	\item 2 = (1-SPR)/(1-SPR\textsubscript{MSY})
+	\item 3 = (1-SPR)/(1-SPR\textsubscript{Btarget})
+	\item 4 = raw SPR
+\end{itemize}
+
 \hypertarget{InitF}{}
 \subsubsection{Initial Fishing Mortality}
 Read a short parameter setup line for each fishery and season when there is non-zero eqilibirium catch in a season for the fleet (equilibrium catches are input in the \hyperlink{CatchFormat}{catch section of the data file}). The parameters are the fishing mortalities for the initial equilibrium catches. Do not try to estimate parameters for fisheries with zero initial equilibrium catch - no parameter line is needed fleets and seasons with zero equilibirium catch.
