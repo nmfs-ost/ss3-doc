@@ -1464,12 +1464,12 @@ For each fleet that has index observations, enter a row with six entries as desc
 
 \begin{enumerate}
 	\item Fleet Number
-	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation.
+	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation. See \hyperlink{QParam}{example Q parameter lines} below for an example set up for link types 4-6.
 	\begin{enumerate}
 		\item 1 = simple Q, e.g. proportional: $y=Q*x$ where $x$ is a model quantity, like selected biomass, and $y$ is the expected value for the index.
 		\item 2 = mirror simple Q - this will mirror the Q value from another fleet. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q (example: fleet 3 mirror fleet 2). Requires a Q parameter line for the fleet but will not be used.
 		\item 3 = power function to allow non-linearity in the expected value for the index: $y=Qx^{(1+c)}$. Therefore, $c > 0$ leads to hypter-stability and $c < 0$ leads to hyper-depletion. The power function option cannot be used with deviation surveys (type 35 or 36) because of negative values in the deviation vectors.
-		\item 4 = mirror Q with scale (2 parameter lines required) with the second parameter (scale) being added to the Q being mirrored. The mirrored Q will be reported as base Q + scale value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. An example usage is when the CPUE of a fleet in one area is assumed to have the same catchability as the CPUE for a comparable fleet operating in another area. The scale parameter could be used to adjust for the relative spatial areas because Q relates CPUE to area-specific population abundance, not population density per area. See \hyperlink{MirrorQScale}{mirrored Q with scale} below for example set up.
+		\item 4 = mirror Q with scale (2 parameter lines required) with the second parameter (scale) being added to the Q being mirrored. The mirrored Q will be reported as base Q + scale value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. An example usage is when the CPUE of a fleet in one area is assumed to have the same catchability as the CPUE for a comparable fleet operating in another area. The scale parameter could be used to adjust for the relative spatial areas because Q relates CPUE to area-specific population abundance, not population density per area.
 		\item 5 = offset (2 parameter lines required). This option, new with v.3.30.23, requires a second parameter that is added to the expected values before multiplying Q. This is most useful for survey types 35 and 36, even if those survey input vectors have already been zero centered. $y=Q*(x+B)$
 		\item 6 = offset and power (3 parameter lines requrired). This requires 2 parameters in addition to the Q parameter. The first is for the offset and the second is for the power, $y=Q*(x+b)^{(1+c)}$.
 	\end{enumerate}
@@ -1537,8 +1537,8 @@ For each fleet that has index observations, enter a row with six entries as desc
 
 If the Q base parameter specifies that it is time-varying by the annual deviation method, short parameter lines to specify the specifications of the deviation vector come after all the base Q parameters.
 
-\hypertarget{MirrorQScale}{}
-\subsubsection{Mirrored Q with scale}
+\hypertarget{QParams}{}
+\subsubsection{Example Q parameter lines}
 Below is an example setup for fleets with a mirrored Q and scale from another fleet (link type = 4), scale from another fleet with offset (link type = 5), and scale from another fleet with offset and power (link type = 5):
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{7.6cm}}
 	\multicolumn{7}{l}{For a setup with a single survey, the Q setup matrix could be:} \\
