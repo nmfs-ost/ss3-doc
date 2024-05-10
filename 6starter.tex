@@ -206,18 +206,18 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
  \hline
 %  \pagebreak
- 1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in SB. The calculated values are reported to the SD report.}} \Tstrut\\
+ 1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in reproductive output (aka spawning biomass, aka B). The calculated values are reported to the SD report relative to a fraction, X, of a comparable quantity calculated in the benchmark section or elsewhere.}} \Tstrut\\
    & 0 = skip; & \\
-   & 1 = X*SB0; & Relative to virgin spawning biomass. \\
-   & 2 = X*SB\textsubscript{MSY}; & Relative to spawning biomass that achieves MSY. \\
-   & 3 = X*SB\textsubscript{styr}; and & Relative to model start year spawning biomass. \\
-   & 4 = X*SB\textsubscript{endyr}. & Relative to spawning biomass in the model end year. \\
-   & 5 = X*Dynamic SB0 & Relative to the calculated dynamic SB0. \\
-   & use tens digit (1-9) to invoke multi-year (up to 9 yrs) & \\
-   & use 1 as hundreds digit to invoke log(ratio) & \Bstrut\\
+   & 1 = X*B0; & Relative to virgin spawning biomass. \\
+   & 2 = X*B\textsubscript{MSY}; & Relative to spawning biomass that achieves MSY. \\
+   & 3 = X*B\textsubscript{styr}; and & Relative to model start year spawning biomass. \\
+   & 4 = X*B\textsubscript{endyr}. & Relative to spawning biomass in the model end year. \\
+   & 5 = X*Dynamic B0 & Relative to the calculated dynamic B0. \\
+   & use tens and hundreds digits to invoke multi-year trailing average & \\
+   & append 0.1 to invoke log(ratio) & \Bstrut\\
   
  \hline
- 1 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SB\textsubscript{y}/(X*SB0). \Tstrut\Bstrut\\
+ 1.0 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SB\textsubscript{y}/(X*SB0). \Tstrut\Bstrut\\
 
 %  \hline
  \pagebreak
@@ -230,12 +230,12 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
   
 %  \pagebreak
 \hline 
- 4 & F reporting units (F\_std): & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In addition to SPR, an additional proxy for annual\_F can be specified here. As with SPR, the selected quantity will be calculated annually in the benchmarks section. The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector. Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so it combines seasons and areas. But, if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the $F$ in the area where the catch occurs. Option 3 is a simple sum of the full $F$'s by fleet, so may provide non-intuitive results when there are multiple areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real annual\_F calculated as a numbers weighted $F$ for a specified range of ages (read below). The $F$ is calculated as $Z-M$ where $Z$ and $M$ are each calculated as ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without $F$ active, respectively. The numbers are summed over all biology morphs and areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
+ 4 & F\_std reporting units: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{An additional proxy for fishing intensity is based on the fraction of the population that is caught. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector as F\_std. Options 1 and 2 ignore details of age-structure and are simply based on annual exploitation rate across all areas. If most catch occurs in one area and there is little movement between areas, this ratio is not informative about the $F$ in the area where the catch occurs. Option 3 is a simple sum of the full $F$'s by fleet, so may provide non-intuitive results when there are multiple areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real annual\_F calculated as a numbers weighted $F$ for a specified range of ages. The $F$ for each age is calculated as $Z-M$ where $Z$ and $M$ are each calculated as ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without $F$ active, respectively. The numbers are summed over all biology morphs and areas for the beginning of the year, so subsumes any seasonal pattern. Note that these $F$ statistics do not depend upon whether the $F$ approach uses midseason exploitation rate (Pope's), or continuous F; nor whether the continuous $F$ is based on parameters or the hybrid calculation method.  Read more about the $F$ method in the control file secion of the report. For more information on $F$ reporting, see Metrics for Fishing Mortality in the output section.}} \Tstrut\Bstrut\\
    & 0 = skip; & \\
    & 1 = exploitation rate in biomass; & \\
    & 2 = exploitation rate in numbers; & \\
    & 3 = sum(apical $F$'s by fleet); & \\
-   & 4 = Fbar: numbers weighted $F$ for range of ages; and & \\
+   & 4 = Fbar: numbers weighted $F$ for range of ages using $Z$-$M$ approach; and & \\
    & 5 = Fbar: unweighted average $F$ for range of ages. & \\
    & & \\
    & & \Bstrut\\
@@ -250,13 +250,13 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
 %  \hline
  \pagebreak
- 1 & F report basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the denominator to use when reporting the F\_std report values. A new option to allow for the calculation of a multi-year trailing average in $F$ was implemented in v.3.30.16. This option is triggered by appending the number of years to calculate the average across where an input of 1 or 11 would result in the SPR\textsubscript{target} with no changes. Alternatively a value of 21 would calculate $F$ as SPR\textsubscript{target} with a 2-year trailing average.}} \Tstrut\\
+ 1 & F\_std scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{F\_std is typically reported as a ratio to the value of an equivalent F calculation that would occur at the benchmark level of fishing. Here the user selects the denominator for that ratio. This ratio can be done as a multi-year trailing average in $F$. It also can be presented as the log(ratio). For example, 122.1 would do a 12 year trailing average of the ratio using F\textsubscript{MSY} and present the result as the log(ratio).}} \Tstrut\\
    & 0 = not relative, report raw values; & \\
    & 1 = use F\_std value relative to SPR\textsubscript{target}; & \\
    & 2 = use F\_std value relative to F\textsubscript{MSY}; and & \\
    & 3 = use F\_std value relative to F\textsubscript{Btarget}. & \\
-   & use tens digit (1-9) to invoke multi-year (up to 9 yrs) F\_std & \\
-   & use 1 as hundreds digit to invoke log(ratio) & \Bstrut\\
+   & use tens and hundreds digits to invoke multi-year averaged F\_std & \\
+   & append 0.1 to the integer to invoke log(ratio) & \Bstrut\\
 
   \hline
   %\pagebreak
