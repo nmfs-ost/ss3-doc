@@ -3,9 +3,9 @@ name: Build SS3 user manual using texlive
 on:
   workflow_dispatch:
   push:
-    paths:
-      - '**.tex'
-      - '**.yml'
+    # paths:
+    #   - '**.tex'
+    #   - '**.yml'
   pull_request:
     paths:
       - '**.tex'
@@ -32,8 +32,19 @@ jobs:
           rm -rf SS330_User_Manual.pdf
           ls
      # - name: add lua filter to the repository
-     #   run: wget https://raw.githubusercontent.com/klpn/accpdf/master/common/tagged-filter.lua      
-        
+     #   run: wget https://raw.githubusercontent.com/klpn/accpdf/master/common/tagged-filter.lua 
+
+      - name: Spellcheck LaTeX document
+        uses: ChiefGokhlayeh/textidote-action@v5
+        id: spellcheck
+        with:
+          root_file: SS330_User_Manual.tex
+          args: --check en --dict en_US.dict
+
+      # - name: Throw error if spellcheck warnings exist
+      #   if: ${{ steps.spellcheck.outputs.num_warnings != 0 }}
+      #   run: 'echo "::error file=main.tex::num_warnings: ${{ steps.spellcheck.outputs.num_warnings }}"; exit 1;'
+
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
@@ -53,3 +64,9 @@ jobs:
         with: 
           name: SS330_User_Manual.log
           path: SS330_User_Manual.log
+          
+      - name: Upload TeXtidote report
+        uses: actions/upload-artifact@v4
+        with:
+          name: textidote_report
+          path: report.html
