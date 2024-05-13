@@ -114,14 +114,14 @@ In this table, the displayed value for annual\_F will be from the $F=Z-M$ method
 
 \myparagraph{$F\text{-at-Age}$}
 $F\text{-at-Age}$ for each fleet is presented in report.sso as table 39.  Its header looks like:
-F_AT_AGE report:39
+F\_AT\_AGE report:39
 Area Fleet Sex Morph Yr Seas Era 0 1 2
 
-In addition to the $F\_std$ and annual_F outputs, info on total $F\text{-at-Age}$ across all fleets is reported at the end of the report.sso file. This section of the report calculates $Z\text{-at-Age}$ as $ln(N_{a+1,t+1}/N_{a,t})$. This is done for numbers at the beginning of each year and the N values are summed over all areas. It is done once using the fishing intensities as estimated (to get $Z\text{-at-Age}$), and once with the $F$ intensities set to 0.0 to get $M\text{-at-Age}$. This latter sequence also provides a measure of dynamic Bzero. The user can then subtract the table of $M\text{-at-Age/year}$ from the table of $Z\text{-at-Age/year}$ to get a table of $F\text{-at-Age/year}$/. From this $\text{apical\_}F$, average F over a range of ages, or other user-desired statistics could be calculated.  The header for this table looks like:
-Z_AT_AGE_Annual_2 With_fishery
-Bio_Pattern Sex Yr  0 1 2
+In addition to the $F\_std$ and annual\_F outputs, info on total $F\text{-at-Age}$ across all fleets is reported at the end of the report.sso file. This section of the report calculates $Z\text{-at-Age}$ as $ln(N_{a+1,t+1}/N_{a,t})$. This is done for numbers at the beginning of each year and the N values are summed over all areas. It is done once using the fishing intensities as estimated (to get $Z\text{-at-Age}$), and once with the $F$ intensities set to 0.0 to get $M\text{-at-Age}$. This latter sequence also provides a measure of dynamic Bzero. The user can then subtract the table of $M\text{-at-Age/year}$ from the table of $Z\text{-at-Age/year}$ to get a table of $F\text{-at-Age/year}$. From this $\text{apical\_}F$, average F over a range of ages, or other user-desired statistics could be calculated. The header for this table looks like:
+Z\_AT\_AGE\_Annual\_2 With\_fishery
+Bio\_Pattern Sex Yr  0 1 2
 
-A more detailed report provides $Z$ for each area, bio group (sex, morph, platoon) and age.  It is titled something like "Report_Z_by_area_morph_platoon_1 No_fishery".  This table is done with and without the $F$ turned on, so that pair pf reports could be processed to get total $F$ by area, bio, age.
+A more detailed report provides $Z$ for each area, bio group (sex, morph, platoon) and age. It is titled something like "Report\_Z\_by\_area\_morph\_platoon\_1 No\_fishery". This table is done with and without the $F$ turned on, so that pair pf reports could be processed to get total $F$ by area, bio, age.
 
 \myparagraph{Relative $F$ and $F\text{mult}$}
 The $F'$ is fleet-specific, so it is useful to have a concept of relative $F$, $\text{rel}F_f$, among fleets. In SS3, $\text{rel}F_f= F_{t,f}'/\sum_{f}^{}F_{t,f}'$ for a single time period $t$. In the benchmark and forecast routines, SS3 can calculate $\text{rel}F_f$ using $F_{t,f}'$ over a range of years, or the user can input custom $\text{rel}F$ values for benchmark and forecast in the forecast.ss file. Note that in a multi-season model setup, $\text{rel}F_f$ is implemented as $\text{rel}F_{s,f}$ where $s$ is the season. These get multiplied by season duration as they are used.
@@ -161,7 +161,7 @@ Below is a list of items to consider in terms of units for $F$ in SS3:
 	\item If F\_ballpark is specified in the control.ss file, its units are the same as $\text{ann}F$, so is not fleet-specific.
 	\item $F$ as parameter values has units of fleet-specific $\text{apical\_}F'$.
 	\item In the forecast.ss file there is an option to input a vector of $\text{rel}F$ values. These are dimensionless and will be rescaled to sum to 1.0.
-	\item In the forecast.ss file there is an option to specify an $F$ scalar for the forecast. The units of $F$ scalar are the same as the $F\text{mult}$ values calculated in benchmark. There are a full set of options for forecast $F$ scalar that can be selected in the forecast file 
+	\item In the forecast.ss file there is an option to specify an $F$ scalar for the forecast. The units of $F$ scalar are the same as the $F\text{mult}$ values calculated in benchmark. There are a full set of options for forecast $F$ scalar that can be selected in the forecast file.
 	%(-1 = none; 0 = simple; 1 = F\textsubscript{SPR}; 2 = F\textsubscript{MSY} 3 = F\textsubscript{BTGT} or F\textsubscript{0.1}; 4 = Ave F (uses first-last relative F years); and 5 = input annual F scalar). 
 	If the forecast $F$ scalar is set as $F_\text{SPR}$, then SS3 will use $\text{SPR\_}F\text{mult}$ calculated in benchmark and reported in Forecast-report.sso. If user selects the option to input an annual $F$ scalar, option 5, then the value is input on a following line. Whichever method the user selects for forecast $F$ scalar ($F\text{mult}$), SS3 will start the forecast by creating a fleet-specific vector of $\text{apical\_}F$ values from $F\text{mult}*\text{rel}F_f$.
 	\item Also in the forecast.ss file, the last section of inputs allows for input of time and fleet specific $\text{apical\_}F_{t,f}'$ values that override the basic forecast $F$ specification described above.
