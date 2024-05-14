@@ -1,7 +1,7 @@
 \section{Optional Inputs}
 
 \hypertarget{WAA}{}
-\subsection{Empirical Weight-at-Age (\verb|wtatage.ss|)}
+\subsection{Empirical Weight-at-Age (\texttt{wtatage.ss})}
 The model has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. Selection of this option is done by setting an explicit switch near the top of the control file. The values are read from a separate file named, \verb|wtatage.ss|. This file is only required to exist if this option is selected.
 
 The first value read is a single integer for the maximum age used in reading this file. So if the maximum age is 40, there will be 41 columns of weight-at-age entries to read, with the first column being for age 0. If the number of ages specified in this table is greater than maximum age in the model, the extra weight-at-age values are ignored. If the number of ages in this table is less than maximum age in the model, the weight-at-age data for the number of ages in the file is filled in for all unread ages out to maximum age.
@@ -58,10 +58,10 @@ where:
 		\end{itemize}
 
 
-\subsection{\verb|runnumber.ss|}
+\subsection{\texttt{runnumber.ss}}
 This file contains a single integer value. It is read when the program starts, incremented by 1, used when processing the profile value inputs (see below), used as an identifier in the batch output, then saved with the incremented value. Note that this incrementation may not occur if a run crashes.
 
-\subsection{\verb|profilevalues.ss|}	
+\subsection{\texttt{profilevalues.ss}}	
 This file contains information for changing the value of selected parameters for each run in a batch. In the control file, each parameter that will be subject to modification by \verb|profilevalues.ss| is designated by setting its phase to -9999.
 
 The first value in \verb|profilevalues.ss| is the number of parameters to be batched. This value MUST match the number of parameters with phase set equal to -9999 in the control file. The program performs no checks for this equality. If the value is zero in the first field, then nothing else will be read. Otherwise, the model will read runnumber * Nparameters values and use the last Nparameters of these to replace the initial values of parameters designated with phase = --9999 in the control file.
