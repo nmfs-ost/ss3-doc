@@ -1,8 +1,8 @@
 \section{Optional Inputs}
 
 \hypertarget{WAA}{}
-\subsection{Empirical Weight-at-Age (wtatage.ss)}
-The model has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. Selection of this option is done by setting an explicit switch near the top of the control file. The values are read from a separate file named, wtatage.ss. This file is only required to exist if this option is selected.
+\subsection{Empirical Weight-at-Age (\verb|wtatage.ss|)}
+The model has the capability to read empirical body weight at age for the population and each fleet, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. Selection of this option is done by setting an explicit switch near the top of the control file. The values are read from a separate file named, \verb|wtatage.ss|. This file is only required to exist if this option is selected.
 
 The first value read is a single integer for the maximum age used in reading this file. So if the maximum age is 40, there will be 41 columns of weight-at-age entries to read, with the first column being for age 0. If the number of ages specified in this table is greater than maximum age in the model, the extra weight-at-age values are ignored. If the number of ages in this table is less than maximum age in the model, the weight-at-age data for the number of ages in the file is filled in for all unread ages out to maximum age.
 
@@ -43,7 +43,7 @@ where:
 
 \myparagraph{Caveats}
 		 \begin{itemize}
-			\item The growth curves is calculated from the input parameters and can still calculate size-selectivity and can still examine size-composition data.
+			\item The growth curve is calculated from the input parameters and can still calculate size-selectivity and can still examine size-composition data.
 			\item However, there is no calculation of weight-at-age from the growth input, so there is no way to compare the input weight-at-age from the weight-at-age derived from the growth parameters.
 			\item If weight-at-age is read and size-selectivity is used, a warning is generated.
 			\item If weight-at-age is read and discard/retention is invoked, then a warning is generated because of untested consequences for the body weight of discarded fish.
@@ -52,21 +52,21 @@ where:
 
 \myparagraph{User Testing}
 		\begin{itemize}
-			\item Setup a model with age-maturity (option 2) and only age selectivity.
-			\item Take the output calculation of weight-at-age and fecundity-at-age  from report.sso and put into wtatage.ss (as shown above).
-			\item Re-run the model with this input weight-at-age (Maturity\_ Option 5) to see if identical results are produced relative to the run that had generated the weight-at-age from the growth parameters.
+			\item Set-up a model with age-maturity (option 2) and only age selectivity.
+			\item Take the output calculation of weight-at-age and fecundity-at-age  from \verb|report.sso| and put into \verb|wtatage.ss| (as shown above).
+			\item Re-run the model with this input weight-at-age (Maturity\_Option 5) to see if identical results are produced relative to the run that had generated the weight-at-age from the growth parameters.
 		\end{itemize}
 
 
-\subsection{runnumber.ss}
+\subsection{\verb|runnumber.ss|}
 This file contains a single integer value. It is read when the program starts, incremented by 1, used when processing the profile value inputs (see below), used as an identifier in the batch output, then saved with the incremented value. Note that this incrementation may not occur if a run crashes.
 
-\subsection{profilevalues.ss}	
-This file contains information for changing the value of selected parameters for each run in a batch. In the control file, each parameter that will be subject to modification by profilevalues.ss is designated by setting its phase to -9999.
+\subsection{\verb|profilevalues.ss|}	
+This file contains information for changing the value of selected parameters for each run in a batch. In the control file, each parameter that will be subject to modification by \verb|profilevalues.ss| is designated by setting its phase to -9999.
 
-The first value in profilevalues.ss is the number of parameters to be batched. This value MUST match the number of parameters with phase set equal to -9999 in the control file. The program performs no checks for this equality. If the value is zero in the first field, then nothing else will be read. Otherwise, the model will read runnumber * Nparameters values and use the last Nparameters of these to replace the initial values of parameters designated with phase = --9999 in the control file.
+The first value in \verb|profilevalues.ss| is the number of parameters to be batched. This value MUST match the number of parameters with phase set equal to -9999 in the control file. The program performs no checks for this equality. If the value is zero in the first field, then nothing else will be read. Otherwise, the model will read runnumber * Nparameters values and use the last Nparameters of these to replace the initial values of parameters designated with phase = --9999 in the control file.
 
-Usage Note: If one of the batch runs crashes before saving the updated value of runnumber.ss, then the processing of the profilevalue.ss will not proceed as expected. Check the output carefully until a more robust procedure is developed. Also, this options was created before use of R became widespread. You probably can create a more flexible approach using R today.
+Usage Note: If one of the batch runs crashes before saving the updated value of \verb|runnumber.ss|, then the processing of the \verb|profilevalues.ss| will not proceed as expected. Check the output carefully until a more robust procedure is developed. Also, this options was created before use of R became widespread. You probably can create a more flexible approach using R today.
 
 
 \pagebreak

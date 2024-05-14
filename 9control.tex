@@ -107,9 +107,9 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		\multicolumn{2}{l}{\#C comment} \Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
 		\hline
 
-		0 & & 0 = Do not read the weight-at-age (wtatage.ss) file; \Tstrut\\
-		  & & 1 = Read the weight-at-age (wtatage.ss) file, also read and use the growth parameters; and \\
-		  & & 2 = Future option to read the weight-at-age (wtatage.ss) file, then omit reading and using growth parameters and all length-based data. \\
+		0 & & 0 = Do not read the weight-at-age (\verb|wtatage.ss|) file; \Tstrut\\
+		  & & 1 = Read the weight-at-age (\verb|wtatage.ss|) file, also read and use the growth parameters; and \\
+		  & & 2 = Future option to read the weight-at-age (\verb|wtatage.ss|) file, then omit reading and using growth parameters and all length-based data. \\
 		  & & Additional information on the weight-at-age file and the expected formatting can be found in the \hyperlink{WAA}{Empirical Weight-at-Age} section. \Bstrut\\
 
 		%\hline
@@ -132,12 +132,12 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 \end{center}
 
 \subsubsection{Weight-at-Age}
-The capability to read empirical body weight-at-age for the population and each fleet was added starting in v.3.04, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. The values are read from a separate file named, wtatage.ss. This file is only required to exist if this option is selected. See the \hyperlink{WAA}{Empirical Weight-at-Age} section for additional information on file formatting for empirical weight-at-age.
+The capability to read empirical body weight-at-age for the population and each fleet was added starting in v.3.04, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. The values are read from a separate file named, \verb|wtatage.ss|. This file is only required to exist if this option is selected. See the \hyperlink{WAA}{Empirical Weight-at-Age} section for additional information on file formatting for empirical weight-at-age.
 
 \subsubsection{Settlement Timing for Recruits and Distribution}
 In older versions of SS3 one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produced one annual total recruitment value. The annual recruitment value was then distributed among seasons, areas, and growth types according to other model parameters.
 
-Additional control of the seasonal timing was added in v.3.30 and now there now is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve but its timing can be at any specified time, not just the beginning of a season. Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.
+Additional control of the seasonal timing was added in v.3.30 and now there now is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve, but its timing can be at any specified time, not just the beginning of a season. Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.
 
 	
 \begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11.5cm}}
@@ -211,7 +211,7 @@ Details regarding settlement of recruits and timing:
 		\item Growth and natural mortality of the platoon begins at time of settlement, which is its real age 0.0 for growth; but pre-settlement fish exist from the beginning of the season of settlement, so can be caught if selected.
 		\item Age at recruitment now user-controlled (should be 0 if in year of spawning).
 		\item All fish become integer age 1 (for age determination) on their first January 1st.
-		\item Recruitment can occur >12 months after spawning which is achieved by setting the settlement age to a value greater than 1.0.		
+		\item Recruitment can occur > 12 months after spawning which is achieved by setting the settlement age to a value greater than 1.0.		
 	\end{itemize}
 
 The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each growth pattern, then for each area, then for each settlement. All of these are required, but only those growth pattern x area x settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation. For the recruitment apportionment, the parameter values are the natural log of apportionment weight. The sum of all apportionment weights is calculated for each growth pattern x area x settlements that have been designated to receive recruits in the recruitment design matrix. Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. Additionally, these distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular growth pattern, area, or settlement can change from year to year. To specify annual variation in the distribution or recruits by area add a start and end year in the deviation min year and max year columns. Similar to the apportionment of recruits by area, one should be fixed while the other area(s) can deviate relative to the one area. If annual deviations are specified then two additional short parameter lines will be required to specify the standard error and the autocorrelation for each area with deviations.
@@ -330,7 +330,7 @@ Blocks and other time-vary parameter controls are operative during forecast year
 
 \hypertarget{autogen}{}
 \subsubsection{Auto-generation}
-Auto-generation is a useful way to automatically create the required short time-varying parameter lines which will be written in the control.ss\_new file. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The control.ss\_new file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file. Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
+Auto-generation is a useful way to automatically create the required short time-varying parameter lines which will be written in the \verb|control.ss\_new file|. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The \verb|control.ss\_new| file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file. Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
 
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
@@ -448,7 +448,7 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	
 	\multicolumn{2}{l}{COND = 3 or 4} \Tstrut & Do not read any natural mortality parameters in the mortality growth parameter section. With option 3, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.\\
 
-	& 0.20 0.25 ... 0.20 0.23 ... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern. \Bstrut\\
+	& 0.20 0.25...0.20 0.23... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern. \Bstrut\\
 	\hline
 	
 	\multicolumn{2}{l}{COND = 5} \Tstrut & age-specific M linked to age-specific length and maturity sub-options. \\
@@ -489,7 +489,7 @@ with parameters $L_{1}$, $L_\infty$, and $k$. The $L_\infty$ is calculated as:
 based on the input values of fixed age for first size-at-age ($A_1$) and fixed age for second size-at-age ($A_2$). 
 
 \myparagraph{Schnute/Richards growth function}
-The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for not only asymptotic growth but also linear, quadratic or exponential growth. The Schnute/Richards growth is invoked by entering option 2 in the growth type field. The Schnute/Richards growth function uses the standard growth parameters (e.g, Lmin, Linf, and $k$) and a fourth parameter that is read after reading the von Bertalanffy growth coefficient parameter ($k$). When this fourth parameter =has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve. When this function was first introduced, it was required that A0 parameter be set to 0.0.
+The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for not only asymptotic growth but also linear, quadratic or exponential growth. The Schnute/Richards growth is invoked by entering option 2 in the growth type field. The Schnute/Richards growth function uses the standard growth parameters (e.g., Lmin, Linf, and $k$) and a fourth parameter that is read after reading the von Bertalanffy growth coefficient parameter ($k$). When this fourth parameter =has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve. When this function was first introduced, it was required that A0 parameter be set to 0.0.
 
 The Schnute/Richards growth model is parameterized as:
 
@@ -623,15 +623,15 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\hline
 
 	\multicolumn{2}{l}{COND = 3 or 4} & Maturity Option \Tstrut\\
-	\multicolumn{2}{r}{0 0.05 0.10 ...} & Vector of age-specific maturity or fecundity. One row of length Nages + 1 based on the maximum population age for each female growth pattern. \Bstrut\\
+	\multicolumn{2}{r}{0 0.05 0.10...} & Vector of age-specific maturity or fecundity. One row of length Nages + 1 based on the maximum population age for each female growth pattern. \Bstrut\\
 	\multicolumn{2}{l}{COND = 6} & Maturity Option \Tstrut\\
-	\multicolumn{2}{r}{0 0.05 0.10 ...} & Vector of length-specific maturity or fecundity, based on the population length bins. One row of length equal to the number of population length bins (defined in the data file) for each female growth pattern. \Bstrut\\
+	\multicolumn{2}{r}{0 0.05 0.10...} & Vector of length-specific maturity or fecundity, based on the population length bins. One row of length equal to the number of population length bins (defined in the data file) for each female growth pattern. \Bstrut\\
 	\hline
 	
-	\Tstrut 1 & & First Mature Age: all ages below the first mature age will have maturity set to zero. This value is overridden if maturity option is 3 or 4 or if empirical weight-at-age (wtatage.ss) is used, but still must exist here. \Bstrut\\
+	\Tstrut 1 & & First Mature Age: all ages below the first mature age will have maturity set to zero. This value is overridden if maturity option is 3 or 4 or if empirical weight-at-age (\verb|wtatage.ss|) is used, but still must exist here. \Bstrut\\
 	\hline
 
-	\Tstrut 1 & & Fecundity Option (irrelevant if maturity option is 4 or wtatage.ss is used): \\
+	\Tstrut 1 & & Fecundity Option (irrelevant if maturity option is 4 or \verb|wtatage.ss| is used): \\
 	  & & 1 = to interpret the 2 egg parameters as linear eggs/kg on body weight (current default), so fecundity = $wt * (a+b*wt)$, so value of a=1, b=0 causes eggs to be equivalent to spawning biomass; \\
 	  & & 2 = to set fecundity= $a*L^ b$; \\
 	  & & 3 = to set fecundity= $a*W^ b$, so values of a=1, b=1 causes fecundity to be equivalent to spawning biomass; \\
@@ -767,12 +767,12 @@ Note that predator calculations probably will fail if tried with F Method=1 (Pop
 
 \begin{longtable}{p{1cm} p{2.25cm} p{10cm}}
 	\hline
-	Parameter& & Description \Tstrut\Bstrut\\
+	Parameter & & Description \Tstrut\Bstrut\\
 	\hline
 	\endfirsthead
 
 	\hline
-	Parameter& & Description \Tstrut\Bstrut\\
+	Parameter & & Description \Tstrut\Bstrut\\
 	\hline
 	\endhead
 
@@ -934,11 +934,11 @@ Parameters marked with COND are conditional on selecting that feature:
 	-5   & 5    & -4   & 1    & \multicolumn{1}{c}{...} & 0 & \#Move\_A\_seas1\_GP1\_from\_1to2 (COND) \\
     -5   & 5    & -4   & 1    & \multicolumn{1}{c}{...} & 0 & \#Move\_B\_seas1\_GP1\_from\_1to2 (COND) \\
 	-99  & 99   &  1   & 0    & \multicolumn{1}{c}{...} & 0 & \#AgeKeyParm1 (COND) \\
-	-99  & 99   &  0.288  & 0 & ... & 0 & \#Age\_Key\_Parms 2 to 5 (COND) \\
-	-99  & 99   &  0.715  & 0 & ... & 0 & \#Age\_Key\_Parm6 (COND) \\	
-	0.2  & 3.0  &  1.0    & 0 & ... & 0 & \#Catch\_mult\_fleet1 (COND) \\
-	0.001 & 0.999 & 0.5 & 0.5 & ... & 0 & \#Frac\_Female\_GP\_1 \\
-	-1.0 & 2 & 0 & 0    & ... & 0 & \#PredM2\_4 \Bstrut\\		
+	-99  & 99   & 0.288 &  0  &...& 0 & \#Age\_Key\_Parms 2 to 5 (COND) \\
+	-99  & 99   & 0.715 &  0  &...& 0 & \#Age\_Key\_Parm6 (COND) \\	
+	0.2  & 3.0  & 1.0   &  0  &...& 0 & \#Catch\_mult\_fleet1 (COND) \\
+	0.001 & 0.999 & 0.5 & 0.5 &...& 0 & \#Frac\_Female\_GP\_1 \\
+	-1.0 & 2 & 0 & 0    &...& 0 & \#PredM2\_4 \Bstrut\\		
 	\hline
 \end{longtable}
 
@@ -1062,7 +1062,7 @@ which is the negative of the natural log of the equilibrium survival $S_0$, and 
 \begin{equation}
 z_{\text{min}}=-ln(S_{\text{max}})=z_0(1-z_{\text{frac}})
 \end{equation}
-which is the negative of the natural log of the maximum pre-recruit survival rate ($S_{\text{max}}$, the limit as spawning output approaches 0), and is parameterized as a function of $z_{\text{frac}}$ (which represents the reduction in mortality as a fraction of $z_0$) so the expression is well defined over the parameter range 0<$z_{\text{frac}}$<1.
+which is the negative of the natural log of the maximum pre-recruit survival rate ($S_{\text{max}}$, the limit as spawning output approaches 0), and is parameterized as a function of $z_{\text{frac}}$ (which represents the reduction in mortality as a fraction of $z_0$) so the expression is well-defined over the parameter range 0<$z_{\text{frac}}$<1.
 
 Recruitment at age 0 for each year in the time series is calculated as:
 \begin{equation}{ R_y = SB_ye^{\Big(-z_0 + (z_0-z_{min})\big(1-(SB_y/SB_0)^\beta \big)\Big)}e^{\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
@@ -1088,7 +1088,7 @@ h = 0.2e^{z_0z_{\text{frac}}(1-0.2^\beta)}<0.2e^{z_0}=\frac{1}{5S_0}=\frac{SB_0}
 
 Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$>0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$=0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.
 
-Code for the survival based recruitment can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_recruit.tpl}{SS\_recruit.tpl}, search for ``SS\_Label\_43.3.7 survival based''.
+Code for the survival based recruitment can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_recruit.tpl}{\verb|SS\_recruit.tpl|}, search for ``SS\_Label\_43.3.7 survival based''.
 
 \myparagraph{Shepherd}
 \hypertarget{Shepherd}{The} Shepherd stock recruit curve is calculated as:
@@ -1119,7 +1119,7 @@ where $temp$ stabilizes recruitment at $R_0$ if $SB_y > SB_0$.
 
 
 \subsubsection{Spawner-Recruitment Parameter Setup}
-Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE). These parameters are:
+Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE,..., and BLOCK TYPE). These parameters are:
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	\hline
 	Value & Label & Description \Tstrut\Bstrut\\
@@ -1144,7 +1144,7 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 	& 3rd Parameter & Optional depending on which spawner-recruitment relationship function is used. \Bstrut\\
 	\hline
 
-	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated. Thus, the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hypertarget{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
+	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated). Thus, the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hypertarget{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
 	%\hline
 
 	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier. \Bstrut\\
@@ -1178,13 +1178,13 @@ The R0, steepness, and regime shift parameters can be time-varying by blocks, tr
 
 \subsubsection{Tuning $\sigma_R$}
 \hyperlink{TuneSigmaR}{}
-The $\sigma_R$ value is generally not estimatable and it is recommended practice to tune input $\sigma_R$ values based on the variance in estimated recruitments post running SS3. The R package \texttt{r4ss} designed to read and visualize SS3 model results provides recommendations on adjusting $\sigma_R$ values in the \texttt{sigma\_R\_info} object in the list created by the \texttt{r4ss::SS\_output()} function. An alternative $\sigma_R$ value is provided based on equation:
+The $\sigma_R$ value is typically not estimatable and it is recommended practice to tune input $\sigma_R$ values based on the variance in estimated recruitments post running SS3. The R package \texttt{r4ss} designed to read and visualize SS3 model results provides recommendations on adjusting $\sigma_R$ values in the \texttt{sigma\_R\_info} object in the list created by the \texttt{r4ss::SS\_output()} function. An alternative $\sigma_R$ value is provided based on equation:
 
 \begin{equation}
 	\sigma_R^2 = Var(\hat{r}) + \overline{SE(\hat{r}_y)}^2
 \end{equation}
 
-Simulation studies conducted by \cite{methot-adjusting-2011} compared three methods of tuning $\sigma_R$ with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates.
+Simulation studies conducted by \citet{methot-adjusting-2011} compared three methods of tuning $\sigma_R$ with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates.
 
 \subsubsection{Recruitment Deviation Setup}
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
@@ -1290,19 +1290,19 @@ Simulation studies conducted by \cite{methot-adjusting-2011} compared three meth
 \end{longtable}
 
 \myparagraph{Recruitment Eras}
-Conceptually, the model treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum. The user has control of the break year between eras. Each era has its own vector. The early era is defined as a vector (prior to V3.10 this was a deviation vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations. The main era can be a vector of simple deviations, or a deviation vector but it is normally implemented as a deviation vector so that the spawner-recruitment function is its central tendency. The last era does not force a zero-centered deviation vector so that it can have zeros during the actual forecast and non-zero values in last few years of the time series. The early and last eras are optional, but their use can help prevent balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years. When the 3 eras are used, it would be typical to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.
+Conceptually, the model treats the early, data-poor period, the main data-rich period, and the recent/forecast time period as three eras along a continuum. The user has control of the break year between eras. Each era has its own vector. The early era is defined as a vector (prior to V3.10 this was a deviation vector) so it can have zeros during the earliest years not informed by data and then a few years with non-zero values without imposing a zero-centering on this collection of deviations. The main era can be a vector of simple deviations, or a deviation vector, but it is normally implemented as a deviation vector so that the spawner-recruitment function is its central tendency. The last era does not force a zero-centered deviation vector so that it can have zeros during the actual forecast and non-zero values in last few years of the time series. The early and last eras are optional, but their use can help prevent balancing a preponderance of negative deviations in early years against a preponderance of positive deviations in later years. When the 3 eras are used, it would be typical to turn on the main era during an early model phase, turn on the early era during a later phase, then have the last era turn on in the final phase.
 
 \hypertarget{RecBias}{}
 \myparagraph{Recruitment Likelihood with Bias Adjustment}
 For each year in the total recruitment deviation time series (early, mid, late/forecast) the contribution of that year to the log likelihood is equal to: $dev^2/(2.0*\sigma^2_R)+offset*ln(\sigma_R)$ where offset is the recruitment bias adjustment between the arithmetic and geometric mean of expected recruitment for that year. With this approach, years with a zero or small offset value do not contribute to the second component. $\sigma_R$ may be estimable when there is good data to establish the time series of recruitment deviations.
 
-The implemented recruitment bias adjustment is based upon the work documented in \citet{methot-adjusting-2011} and following the work of \citet{maunder-estimation-2003}. The concept is based upon the following logic. The $\sigma_R$ represents the true variability of recruitment in the population. It provides the constraining penalty for the estimates of recruitment deviations and it is not affected by data. Where data that are informative about recruitment deviations are available, the total variability in recruitment, $\sigma_R$, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate calculated as:
+The implemented recruitment bias adjustment is based upon the work documented in \citet{methot-adjusting-2011} and following the work of \citet{maunder-estimation-2003}. The concept is based upon the following logic. The $\sigma_R$ represents the true variability of recruitment in the population. It provides the constraining penalty for the estimates of recruitment deviations, and it is not affected by data. Where data that are informative about recruitment deviations are available, the total variability in recruitment, $\sigma_R$, is partitioned into a signal (the variability among the recruitment estimates) and the residual, the variance of each recruitment estimate calculated as:
 
 \begin{equation}
 SE(\hat{r}_y)^2 + SD(\hat{r})^2=\Bigg( \bigg( \frac{1}{\sigma^2_d}+\frac{1}{\sigma^2_R}\bigg)^{-1/2}\Bigg)^2+\Bigg( \frac{\sigma^2_R}{(\sigma^2_R+\sigma^2_d)^{1/2}}\Bigg)^2=\sigma^2_R
 \end{equation}
 
-Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches $\sigma_R$. Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach $\sigma_R$ and the variance of each recruitment deviation will approach zero. Perfect data will estimate the recruitment time series signal perfectly. Of course, we never have perfect data so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
+Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches $\sigma_R$. Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach $\sigma_R$ and the variance of each recruitment deviation will approach zero. Perfect data will estimate the recruitment time series signal perfectly. Of course, we never have perfect data, so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
 
 
 The correct offset (bias adjustment) to apply to the expected value for recruitment is based on the concept that a time series of estimated recruitments should be mean unbiased, not median unbiased, because the biomass of a stock depends upon the cumulative number of recruits, which is dominated by the large recruitments. The degree of offset depends upon the degree of recruitment signal that can be estimated. Where no recruitment signal can be estimated, the median recruitment is the same as the mean recruitment, so no offset is applied. Where lognormal recruitment signal can be estimated, the mean recruitment will be greater than the median recruitment. The value:
@@ -1495,7 +1495,7 @@ It is possible to use the initial $F$ method to achieve an estimate of the initi
 \subsection{Catchability}
 Catchability is the model process that converts selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet. In SS3, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the time series of deviations for some parameter. Thus, the concept of catchability is expanded to include a family of link functions beyond simple proportionality.
 
-Collectively, all factors that need a catchability are considered to be an index. Note that the catchability options entered in this section of the control file have a strong relationship with the index units (i.e. biomass vs. numbers vs. deviations) and index error type (i.e. normal vs. T-distribution) as entered in the data file.
+Collectively, all factors that need a catchability are considered to be an index. Note that the catchability options entered in this section of the control file have a strong relationship with the index units (i.e., biomass vs. numbers vs. deviations) and index error type (i.e., normal vs. T-distribution) as entered in the data file.
 
 For each fleet that has index observations, enter a row with six entries as described below. Fleets with no index observations are omitted.
 
@@ -1503,7 +1503,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 	\item Fleet Number
 	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation. See \hyperlink{QParams}{example Q parameter lines} below for an example set up for link types 4-6.
 	\begin{enumerate}[(a)]
-		\item 1 = simple Q, e.g. proportional: $y=Q*x$ where $x$ is a model quantity, like selected biomass, and $y$ is the expected value for the index.
+		\item 1 = simple Q, e.g., proportional: $y=Q*x$ where $x$ is a model quantity, like selected biomass, and $y$ is the expected value for the index.
 		\item 2 = mirror simple Q - this will mirror the Q value from another fleet. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q (example: fleet 3 mirror fleet 2). Requires a Q parameter line for the fleet but will not be used.
 		\item 3 = power function to allow non-linearity in the expected value for the index: $y=Qx^{(1+c)}$. Therefore, $c > 0$ leads to hyper-stability and $c < 0$ leads to hyper-depletion. The power function option cannot be used with deviation surveys (type 35 or 36) because of negative values in the deviation vectors.
 		\item 4 = mirror Q with scale (2 parameter lines required) with the second parameter (scale) being added to the Q being mirrored. The mirrored Q will be reported as base Q + scale value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. An example usage is when the CPUE of a fleet in one area is assumed to have the same catchability as the CPUE for a comparable fleet operating in another area. The scale parameter could be used to adjust for the relative spatial areas because Q relates CPUE to area-specific population abundance, not population density per area.
@@ -1593,7 +1593,7 @@ Below is an example setup for fleets with a mirrored Q and scale from another fl
 
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.75cm} p{4cm}}
-	\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e. Q)} \\
+	\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e., Q)} \\
 	\hline
 	LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Block Fxn & Parameter Label \Bstrut\\
 	\hline
@@ -1630,11 +1630,11 @@ Q relates the units of the survey or CPUE to the population abundance, not the p
 
 In v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area. The offset is a parameter and, hence, can be estimated and have a prior. This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
 
-\subsubsection{Catchabilty Time-Varying Parameters}
+\subsubsection{Catchability Time-Varying Parameters}
 Time-Varying catchability can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
 \subsubsection{Q Conversion Issues Between Stock Synthesis v.3.24 and v.3.30}
-In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (sstrans.exe) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
+In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (\verb|sstrans.exe|) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention. 
@@ -1680,8 +1680,8 @@ Male specific selectivity options:
 \begin{itemize}
 	\item Option = 0: no male specific selectivity parameters required. Male and female selectivity will be the same.
 	\item Option = 1: program will read 4 additional parameters to define the male selectivity relative to the female selectivity. Anytime the male selectivity is caused to be greater than 1.0; the entire male/female matrix of selectivity values is scaled by the max so that the realized max is 1.0. Note, this may cause gradient problems.
-	\item Option 2: main selectivity parameters define male selectivity and female selectivity is estimated as an offset from male selectivity.This alternative is preferable if female selectivity is less than male selectivity.
-	\item Option 3: only available if the selectivity pattern is 1, 20, or 24 and it causes the male selectivity parameters to be offset from the female parameters, rather than the male selectivity being an offset from the female selectivity.
+	\item Option 2: main selectivity parameters define male selectivity and female selectivity is estimated as an offset from male selectivity. This alternative is preferable if female selectivity is less than male selectivity.
+	\item Option 3: only available if the selectivity pattern is 1, 20, or 24, and it causes the male selectivity parameters to be offset from the female parameters, rather than the male selectivity being an offset from the female selectivity.
 	\item Option 4: similar to Option 3 only with the female parameters offset from the male parameters.
 \end{itemize}
 
@@ -1730,7 +1730,7 @@ Read the required number of parameter setup lines as specified by the definition
 	0.1   & 1    & 0.6  & 0.6 & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_infl\_fishery 1 \\
 	-2    & 2    & 0    & 0   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_width\_fishery 1 \\
 	20    & 70   & 40   & 40  & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_level\_old\_fishery 1 \\
-	0.1   & 10   & 1    & 1   & \multicolumn{1}{c}{...}  & 0   & \#DiscMortt\_L\_male\_offset\_fishery 1 \\
+	0.1   & 10   & 1    & 1   & \multicolumn{1}{c}{...}  & 0   & \#DiscMort\_L\_male\_offset\_fishery 1 \\
 	19    & 80   & 53.5 & 50  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p1 survey 1 \\
 	0.01  & 60   & 18.9 & 15  & \multicolumn{1}{c}{...}  & 0   & \#SizeSel p2 survey 1 \\
 	0     & 40   & 0    & 5   & \multicolumn{1}{c}{...}  & 0   & \#AgeSel p1 fishery 1 \\
@@ -1765,23 +1765,23 @@ The currently defined selectivity patterns, and corresponding required number of
 		
 	Pattern & N Parameters & Description \Tstrut\Bstrut\\
 	\hline
-	0 \Tstrut& 0 & Selectivity = 1.0 for all sizes. \\
-	1 \Tstrut& 2 & Logistic selectivity. \\
-	2 \Tstrut& 6 & Older version of selectivity pattern 24 for backward compatibility in treatment of sex-specific scaling \\
-	5 \Tstrut& 2 & Mirror another selectivity. The two parameters select bin range. \\
-	6 \Tstrut& 2 + special & Non-parametric \\
-	8 \Tstrut& 8 & Double logistic, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1. Recommend using pattern 24 instead. \\
-	9 \Tstrut& 6 & Simple double logistic with no defined peak. \\
-	11 \Tstrut& 2 & Selectivity = 1.0 for a specified length-bin range. \\
-	15 \Tstrut& 0 & Mirror another selectivity (same as for age selectivity). \\
-	21 \Tstrut& 2 & Non-parametric size selectivity \\
-	22 \Tstrut& 4 & Double normal; similar to CASAL. \\
-	23 \Tstrut& 6 & Same as the double normal pattern 24 except the final selectivity is now directly interpreted as the terminal selectivity value. Cannot be used with Pope's F method because maximum selectivity may be greater than 1. \\
-	24 \Tstrut& 6 & Double normal with defined initial and final selectivity level - Recommended option. \\
-	25 \Tstrut& 3 & Exponential-logistic. \\
-	27 \Tstrut& 3 + 2*N nodes & Cubic spline with N nodes. \\
-	42 \Tstrut& 5 + 2*x & Selectivity pattern 27 but with 2 additional scaling parameters. \\
-	43 \Tstrut& 4 + x & Selectivity pattern 6 but with 2 additional scaling parameters. \Bstrut\\
+	0 \Tstrut & 0 & Selectivity = 1.0 for all sizes. \\
+	1 \Tstrut & 2 & Logistic selectivity. \\
+	2 \Tstrut & 6 & Older version of selectivity pattern 24 for backward compatibility in treatment of sex-specific scaling \\
+	5 \Tstrut & 2 & Mirror another selectivity. The two parameters select bin range. \\
+	6 \Tstrut & 2 + special & Non-parametric \\
+	8 \Tstrut & 8 & Double logistic, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1. Recommend using pattern 24 instead. \\
+	9 \Tstrut & 6 & Simple double logistic with no defined peak. \\
+	11 \Tstrut & 2 & Selectivity = 1.0 for a specified length-bin range. \\
+	15 \Tstrut & 0 & Mirror another selectivity (same as for age selectivity). \\
+	21 \Tstrut & 2 & Non-parametric size selectivity \\
+	22 \Tstrut & 4 & Double normal; similar to CASAL. \\
+	23 \Tstrut & 6 & Same as the double normal pattern 24 except the final selectivity is now directly interpreted as the terminal selectivity value. Cannot be used with Pope's F method because maximum selectivity may be greater than 1. \\
+	24 \Tstrut & 6 & Double normal with defined initial and final selectivity level - Recommended option. \\
+	25 \Tstrut & 3 & Exponential-logistic. \\
+	27 \Tstrut & 3 + 2*N nodes & Cubic spline with N nodes. \\
+	42 \Tstrut & 5 + 2*x & Selectivity pattern 27 but with 2 additional scaling parameters. \\
+	43 \Tstrut & 4 + x & Selectivity pattern 6 but with 2 additional scaling parameters. \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -1802,24 +1802,24 @@ The currently defined selectivity patterns, and corresponding required number of
 	\hline
 	Pattern & N Parameters & Description \Tstrut\Bstrut\\
 	\hline
-	0  \Tstrut& 0 & Selectivity = 1.0 for ages 0+.\\
-	10 \Tstrut& 0 & Selectivity = 1.0 for all ages beginning at age 1. If it is desired that age-0 fish be selected, then use pattern \#11 and set minimum age to 0.0. \\
-	11 \Tstrut& 2 & Selectivity = 1.0 for a specified age range. \\
-	12 \Tstrut& 2 & Logistic selectivity. \\
-	13 \Tstrut& 8 & Double logistic, IF joiners. Use discouraged. Use pattern 18 instead. \\
-	14 \Tstrut& nages + 1 & Separate parameter for each age (empirical), value at age is $\frac{1}{1+exp(-x)}$. \\
-	15 \Tstrut& 0 & Mirror another age-specific selectivity pattern. \\
-	16 \Tstrut& 2 & Coleraine single Gaussian. \\
-	17 \Tstrut& nages + 1 or special + 1 & Empirical as a random walk from previous age. \\
-	18 \Tstrut& 8 & Double logistic, with defined peak, uses smooth joiners. \\
-	19 \Tstrut& 6 & Simple double logistic with no defined peak. \\
-	20 \Tstrut& 6 & Double normal with defined initial and final level. Recommended option. \\
-	26 \Tstrut& 3 & Exponential logistic. \\
-	27 \Tstrut& 3 + 2*N nodes & Cubic spline in age based on N nodes. \\
-	41 \Tstrut& 2 + nages + 1 & Selectivity pattern 17 but with 2 additional scaling parameters. \\
-	42 \Tstrut& 5 + 2*N nodes & Selectivity pattern 27 but with 2 additional scaling parameters. \\
-	44 \Tstrut& 4 + nages & Similar to age selectivity pattern 17 but with separate parameters for males and with revised controls. \\
-	45 \Tstrut& 4 + nages & Similar to age selectivity pattern 14 but with separate parameters for males and with revised controls. \Bstrut\\
+	0  \Tstrut & 0 & Selectivity = 1.0 for ages 0+.\\
+	10 \Tstrut & 0 & Selectivity = 1.0 for all ages beginning at age 1. If it is desired that age-0 fish be selected, then use pattern \#11 and set minimum age to 0.0. \\
+	11 \Tstrut & 2 & Selectivity = 1.0 for a specified age range. \\
+	12 \Tstrut & 2 & Logistic selectivity. \\
+	13 \Tstrut & 8 & Double logistic, IF joiners. Use discouraged. Use pattern 18 instead. \\
+	14 \Tstrut & nages + 1 & Separate parameter for each age (empirical), value at age is $\frac{1}{1+exp(-x)}$. \\
+	15 \Tstrut & 0 & Mirror another age-specific selectivity pattern. \\
+	16 \Tstrut & 2 & Coleraine single Gaussian. \\
+	17 \Tstrut & nages + 1 or special + 1 & Empirical as a random walk from previous age. \\
+	18 \Tstrut & 8 & Double logistic, with defined peak, uses smooth joiners. \\
+	19 \Tstrut & 6 & Simple double logistic with no defined peak. \\
+	20 \Tstrut & 6 & Double normal with defined initial and final level. Recommended option. \\
+	26 \Tstrut & 3 & Exponential logistic. \\
+	27 \Tstrut & 3 + 2*N nodes & Cubic spline in age based on N nodes. \\
+	41 \Tstrut & 2 + nages + 1 & Selectivity pattern 17 but with 2 additional scaling parameters. \\
+	42 \Tstrut & 5 + 2*N nodes & Selectivity pattern 27 but with 2 additional scaling parameters. \\
+	44 \Tstrut & 4 + nages & Similar to age selectivity pattern 17 but with separate parameters for males and with revised controls. \\
+	45 \Tstrut & 4 + nages & Similar to age selectivity pattern 14 but with separate parameters for males and with revised controls. \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -1842,7 +1842,7 @@ where $L_l$ is the length bin. If age based selectivity is selected then the len
 Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in \hyperlink{MaleSelectivityOffset}{Male Selectivity Estimated as Offsets from Female Selectivity} for more information. Pattern 24 was changed in v.3.30.19 with the old parameterization now provided in Pattern 2.
 
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
-Two parameters select the min and max bin number (not min max size) of the source selectivity pattern. If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value $<=$ 0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
+Two parameters select the min and max bin number (not min max size) of the source selectivity pattern. If first parameter has value $<=$ 0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value $<=$ 0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must be from a lower fleet number (e.g., already specified before the mirrored fleet).
 
 
 \myparagraph{Pattern 6 (size) - Non-parametric Selectivity}
@@ -1857,7 +1857,7 @@ Users are discouraged from using the double logistic selectivity. The double nor
 		\item p3 - inflection: a logit transform $(1/(1+exp(-x))$ is used so that the transformed value will be between 0 and 1. So a p1 value of -1.1 will be transformed to 0.25 and used to set the selectivity equal to 0.5 at a size (age) equal to 0.25 of the way between minimum length and peak. 
 		\item p4 - slope1: ln(slope) of left side (ascending) selectivity.
 		\item p5 - final: logit transform for selectivity at maximum length (or maximum age).
-		\item p6 - inflection2: logit transform for size (age) at right side selectivity equal to half way between peak + peak width and maximum length (or maximum age).
+		\item p6 - inflection2: logit transform for size (age) at right side selectivity equal to halfway between peak + peak width and maximum length (or maximum age).
 		\item p7 - slop2: ln(slope) of right side (descending) selectivity.
 		\item p8 - peak width: width of flattop.
 	\end{itemize}
@@ -1914,24 +1914,24 @@ This formulation has the properties that the maximum selectivity equals 1, posit
 	
 The condition that maximum selectivity equals 1 results in one fewer degree of freedom than the number of estimated $p_a$. Therefore, at least one parameter should be fixed at an arbitrary value, typically $p_{A_{\text{min}}}=0$.
 
-The number of parameters lines required to the control file for pattern 17 is nages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to nages.Input to the special column is used to reduce the number of parameters lines needed (selectivity is constant above the age represented by the last parameter value read when using special). 
+The number of parameters lines required to the control file for pattern 17 is nages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to nages. Input to the special column is used to reduce the number of parameters lines needed (selectivity is constant above the age represented by the last parameter value read when using special). 
 	
 In typical usage:
 	\begin{itemize}
 		\item First parameter (for age 0) could have a value of -1000 so that the age 0 fish would get a selectivity of 0.0;
 		\item Second parameter (for age 1) could have a value of 0.0 and not be estimated, so age 1 is the reference age against which subsequent changes occur.
 		\item Next parameters get estimated values. To assure that selectivity increases for the younger ages, the parameter min for these parameters could be set to 0.0 or a slightly negative value.
-		\item If dome-shaped selectivity is expected, then the parameters for older ages could have a range with the max set to 0.0 so they cannot increase further.
+		\item If dome-shaped selectivity is expected, then the parameters for older ages could have a range with the max set to 0.0, so they cannot increase further.
 		\item To keep selectivity at a particular age the same as selectivity at the next younger age, set its parameter value to 0.0 and not estimated. This allows for all older ages to have the same selectivity.
 		\item To keep a constant rate of change in selectivity across a range of ages, use the -999 flag to keep the same rate of change in ln(selectivity) as for the previous age.
 	\end{itemize}
 
-Code for implementing random walk selectivity can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_selex.tpl}{SS\_selex.tpl}, search for ``SS\_Label\_Info\_22.7.17''.
+Code for implementing random walk selectivity can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_selex.tpl}{\verb|SS\_selex.tpl|}, search for ``SS\_Label\_Info\_22.7.17''.
 
 \myparagraph{Pattern 22 (size) - Double Normal with Plateau}
 	\begin{itemize}
 		\item p1 - peak1: beginning size for the plateau (in cm).
-		\item p2 - peak2: ending size for the plateau. Calculated as a fraction of the distance between peak1 and 99\% of the lower edge of the last size bin in the model. Transformed as (1/(1+exp(-p2)). So a value of 0 results in peak2 being halfway between peak1 and 99\% of the last bin.
+		\item p2 - peak2: ending size for the plateau. Calculated as a fraction of the distance between peak1 and 99\% of the lower edge of the last size bin in the model. Transformed as 1/(1+exp(-p2)). So a value of 0 results in peak2 being halfway between peak1 and 99\% of the last bin.
 		\item p3 - upslope: ln(variance) on ascending side.
 		\item p4 - downslope: ln(variance) on descending side.
 	\end{itemize}
@@ -1948,7 +1948,7 @@ Code for implementing random walk selectivity can be found in \href{https://gith
 	
 Notes for Double Normal with Defined Peak and Tail Controls:
 	\begin{itemize}
-		\item Selectivity calculations are made based on the mid\_length of a population size bin. The start bin is set to the larger of bin 1 or the first population length bin that overlaps with the data length bin.
+		\item Selectivity calculations are made based on the mid-length of a population size bin. The start bin is set to the larger value in bin 1 or the first population length bin that overlaps with the data length bin.
 		\item For the initial selectivity parameter
 		\begin{itemize}
 			\item p5 $>$ -999: use p5 with p1 and p3 to do logistic calculations,
@@ -1960,11 +1960,11 @@ Notes for Double Normal with Defined Peak and Tail Controls:
 			\item p6 $=$ -999 or -1000: ignore the final selectivity algorithm and simply decay the large fish selectivity according to parameter 4,
 			\item p6 $<$ -1000: set selectivity constant for bins greater than bin number $=$ -1000 - value.
 		\end{itemize}
-		\item If start\_bin $<$ 1 and p5 $\geq$ -1000, then selectivity for lengths less than start\_bin are decayed according to the square of their mid length.
+		\item If start\_bin $<$ 1 and p5 $\geq$ -1000, then selectivity for lengths less than start\_bin are decayed according to the square of their mid-length.
 	\end{itemize}
 
 \myparagraph{Pattern 15 (size or age) - Mirror}
-No parameters. Whole age range is mirrored from another fleet. The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
+No parameters. Whole age range is mirrored from another fleet. The mirrored selectivity pattern must be from a lower fleet number (e.g., already specified before the mirrored fleet).
 
 \myparagraph{Pattern 16 (age) - Gaussian (similar to Coleraine)}
 	\begin{itemize}
@@ -1977,7 +1977,7 @@ No parameters. Whole age range is mirrored from another fleet. The mirrored sele
 
 This pattern has 4 parameters and 2 fixed input values.
 
-The shape of the selectivity is provided by the function (here in terms of age $a$ but similarly applicable to length bin $l$)
+The shape of the selectivity is provided by the function (here in terms of age $a$, but similarly applicable to length bin $l$)
 
 \begin{equation}
     S'_a =  
@@ -2006,7 +2006,7 @@ The shape of the selectivity is provided by the function (here in terms of age $
 	\end{itemize}
 
 \myparagraph{Pattern 25 (size) and 26 (age) - Exponential logistic}
-The exponential logistic included is based on the exponential logistic selectivity detailed by \citet{thompson-confounding-1994}; however, the parameterization within SS3 differs. Explorations using this selectivity form has shown that the estimation of p1 can be highly unstable. Users are strongly encourage to use the double normal selectivity rather than the exponential logistic selectivity.
+The exponential logistic included is based on the exponential logistic selectivity detailed by \citet{thompson-confounding-1994}; however, the parameterization within SS3 differs. Explorations using this selectivity form has shown that the estimation of p1 can be highly unstable. Users are strongly encouraged to use the double normal selectivity rather than the exponential logistic selectivity.
 	\begin{itemize}
 		\item p1 - ascending rate, min: 0.02, max: 1.0, reasonable start value: 0.1.
 		\item p2 - peak, as fraction of way between min size and max size. Parameter min value: 0.01; max: 0.99; reasonable start value: 0.5.
@@ -2030,7 +2030,7 @@ of those nodes, the parameter values at those nodes, and the slope of the
 function at the first and last node.
 
 An alternative to specifying or estimating the slope at the first and last
-nodes is to fix those values at 1e30 which will cause create a ``natural.cubic spline'' 
+nodes is to fix those values at 1e30 which will cause create a \verb|natural.cubic spline| 
 which allows the slope (first derivative) to be flexible but
 sets the curvature (second derivative) to be 0 at the first and last nodes.
 
@@ -2040,10 +2040,10 @@ selectivity and for age selectivity; the input syntax is identical.
 	
 For a 3 node setup, the input parameters would be:
 	\begin{itemize}
-		\item p1 - Code for initial set-up which controls whether or not auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
+		\item p1 - Code for initial set-up which controls whether auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
 		\item p2 - Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a ``natural cubic spline'')
 		\item p3 - Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a ``natural cubic spline'')
-		\item p4-p6 - The nodes in units of cm; must be in rank order and inside of the range of the population length bins. These must be held constant (not estimated, e.g., negative phase value) during a model run.
+		\item p4-p6 - The nodes in units of cm; must be in rank order and inside the range of the population length bins. These must be held constant (not estimated, e.g., negative phase value) during a model run.
 		\item p7-p9 - The values at the nodes. Units are ln(selectivity) before rescaling.
 	\end{itemize}
 
@@ -2057,7 +2057,7 @@ Notes:
 	\end{itemize}
 	
 Code for implementing cubic spline selectivity can be found in
-\href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_selex.tpl}{SS\_selex.tpl},
+\href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_selex.tpl}{\verb|SS\_selex.tpl|},
 search for ``SS\_Label\_Info\_22.7.27''.
 
 One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial set-up code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this problem.
@@ -2074,11 +2074,11 @@ Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered wit
 	
 With either the auto-generate option 1, 2 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
 	
-Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in echoinput.sso and in a new OVERALL\_COMPS section of report.sso.
+Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in \verb|echoinput.sso| and in a new OVERALL\_COMPS section of \verb|report.sso|.
 	
-When the nodes are auto-generated, the first node is placed at the size corresponding to the 2.5\% percentile of the cumulative size distribution, the last is placed at the 97.5\% percentile of the size distribution, and the remainder are placed at equally spaced percentiles along the cumulative size distribution. These calculated node values are output into control.ss\_new. So, the user could extract these nodes from control.ss\_new, edit them to desired values, then, insert them into the input control file. Remember to turn off auto-generation in the revised control file.
+When the nodes are auto-generated, the first node is placed at the size corresponding to the 2.5\% percentile of the cumulative size distribution, the last is placed at the 97.5\% percentile of the size distribution, and the remainder are placed at equally spaced percentiles along the cumulative size distribution. These calculated node values are output into \verb|control.ss\_new|. So, the user could extract these nodes from \verb|control.ss\_new|, edit them to desired values, then, insert them into the input control file. Remember to turn off auto-generation in the revised control file.
 	
-When the complete auto-generation is selected, the control.ss\_new would look like the table below:	
+When the complete auto-generation is selected, the \verb|control.ss\_new| would look like the table below:	
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
 	\hline
@@ -2105,7 +2105,7 @@ When the complete auto-generation is selected, the control.ss\_new would look li
 
 
 \myparagraph{Pattern 41 (age) - Random Walk with User-Defined Scaling}
-Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
 		\hline
@@ -2125,7 +2125,7 @@ Selectivity pattern 17 with two additional parameters. The two additional parame
 
 
 \myparagraph{Pattern 42 (size or age) - Cubic Spline with User-Defined Scaling}
-Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
 		\hline
@@ -2144,7 +2144,7 @@ Selectivity pattern 27 with two additional parameters. The two additional parame
 	\end{longtable}
 
 \myparagraph{Pattern 43 (size) - Non-parametric with User-Defined Scaling}
-Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All of the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 	
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
 		\hline
@@ -2282,7 +2282,7 @@ Retention is defined as a logistic function of size or age. It does not apply to
 where $P3' = 1/(1+e^{-P3})$ is the asymptotic retention calculated from the $P3$ parameter which is in logit space.
 
 \subsubsection{Discard Mortality}
-Discard mortality is defined as a logistic function of size such that mortality declines from 1.0 to an asymptotic level as fish get larger. It does not apply to surveys and it does not affect the calculation of expected values for discard data. It is applied so that the total mortality rate is:
+Discard mortality is defined as a logistic function of size such that mortality declines from 1.0 to an asymptotic level as fish get larger. It does not apply to surveys, and it does not affect the calculation of expected values for discard data. It is applied so that the total mortality rate is:
 \begin{center}
 	dead fish = selectivity * (retain + (1.0-retain)*discard mortality)
 \end{center}
@@ -2308,7 +2308,7 @@ There are two approaches to specifying sex specific selectivity. One approach al
 If the ``domale'' flag is set to 1, then the selectivity parameters define female selectivity and the offset defined below sets male selectivity relative to female selectivity. The two sexes switch roles if the ``domale'' flag is set to 2. Generally it is best to select the option so that the dependent sex has lower selectivity, thus obviating the need to rescale for selectivities that are greater than 1.0. Sex specific selectivity is done the same way for all size and age selectivity options.
 \begin{itemize}
 	\item p1 - size (age) at which a dogleg occurs (set to an integer at a bin boundary and do not estimate).
-	\item p2 - ln(relative selectivity) at minimum length or age = 0. Typically this will be set to a value of 0.0 (for no offset) and not estimated. It would be a rare circumstance in which the youngest/smallest fish had sex-specific selectivity.
+	\item p2 - ln(relative selectivity) at minimum length or age = 0. Typically, this will be set to a value of 0.0 (for no offset) and not estimated. It would be a rare circumstance in which the youngest/smallest fish had sex-specific selectivity.
 	\item p3 - ln(relative selectivity) at the dogleg.
 	\item p4 - ln(relative selectivity) at maximum length or max age.
 \end{itemize}
@@ -2372,7 +2372,7 @@ Time-Varying selectivity can be used. Details on how to specify time-varying par
 \subsubsection{Two-Dimensional Auto-Regressive Selectivity (2DAR; Semi-parametric selectivity)}
 This features combines a baseline parametric selectivity per existing options with a matrix of auto-correlated deviations by year and age (or length) to achieve semi-parametric selectivity as described in \citet{xu-new-2019}. For brevity, only ages will be referred to here. With 2DAR, these deviations are not in the selectivity parameters themselves. Instead, the deviations are exponentiated then used as year and age-specific multipliers on the chosen baseline selectivity.
 
-There are a range of controls for this feature. The deviations can be applied to either the age selectivity or the length selectivity over a specified range of ages (or lengths) and years. The variance of the devs can be the same for all ages, or can be age-specific up to a specified age, then constant variance for all older ages that are within the 2DAR range. Ages outside of the 2DAR range revert to the parametric selectivity. The user can select a range of years for which devs will be created and can specify whether selectivity for years outside this range revert to the parametric selectivity or continue with the semi-parametric from the terminal year with devs; thus devs could be defined for just one year, the first year, then mirrored for all subsequent years. Finally, the controls allow for there to be a user-specified level of auto-correlation along the age dimension separate from a user-specified level of auto-correlation in the year dimension.
+There are a range of controls for this feature. The deviations can be applied to either the age selectivity or the length selectivity over a specified range of ages (or lengths) and years. The variance of the devs can be the same for all ages, or can be age-specific up to a specified age, then constant variance for all older ages that are within the 2DAR range. Ages outside the 2DAR range revert to the parametric selectivity. The user can select a range of years for which devs will be created and can specify whether selectivity for years outside this range revert to the parametric selectivity or continue with the semi-parametric from the terminal year with devs; thus devs could be defined for just one year, the first year, then mirrored for all subsequent years. Finally, the controls allow for there to be a user-specified level of auto-correlation along the age dimension separate from a user-specified level of auto-correlation in the year dimension.
 
 When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the 2DAR deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic or exponential logistic would be a reasonable choice. The 2DAR option has not yet been explored adequately to provide guidance on best practices.
 
@@ -2407,7 +2407,7 @@ Following each fleet-specific specification line are short parameter lines for t
 \begin{enumerate}
 	\item Short parameter line for sigma\_selex at Amin;
 	\item If Sigma\_Amax > Amin, then additional parameter lines for each age up to Sigma\_Amax;
-	\item If Use Rho = 1, then one parameter line for rho in the year direction and one parameter line for rho in the age (length) direction. These must be set to have a negative phase.
+	\item If Use\_Rho = 1, then one parameter line for rho in the year direction and one parameter line for rho in the age (length) direction. These must be set to have a negative phase.
 \end{enumerate}
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
@@ -2423,7 +2423,7 @@ Following each fleet-specific specification line are short parameter lines for t
 	\hline
 	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, first age} \Tstrut\\
 	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, second age} \Tstrut\\
-	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, ... age} \Tstrut\\
+	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1,... age} \Tstrut\\
 	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1} \\
 	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1} \\
 	\hline
@@ -2438,7 +2438,7 @@ Following each fleet-specific specification line are short parameter lines for t
 	\hline
 	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, first age} \Tstrut\\
 	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, second age} \Tstrut\\
-	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, ... age} \Tstrut\\
+	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1,... age} \Tstrut\\
 	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1} \\
 	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1} \\
 	\hline
@@ -2459,7 +2459,7 @@ Specify if tagging data are being used:
 	\hline
 	\multicolumn{3}{l}{1} & \multicolumn{4}{l}{Tagging Data Present:} \Tstrut\\
 	\multicolumn{3}{l}{}  & \multicolumn{4}{l}{0 = No tagging data, or if tagging data is present in the data file, a value of 0} \\
-	\multicolumn{3}{l}{}  & \multicolumn{4}{l}{here will auto-generate the tag parameter section in the control.ss\_new file.} \\
+	\multicolumn{3}{l}{}  & \multicolumn{4}{l}{here will auto-generate the tag parameter section in the \verb|control.ss\_new file|.} \\
 	\multicolumn{3}{l}{}  & \multicolumn{4}{l}{1 = Read following lines of tagging data.} \Bstrut\\
 
 
@@ -2486,7 +2486,7 @@ Specify if tagging data are being used:
 	 \hline
 \end{longtable}
 
-If there are multiple tagging groups or multiple fleets reporting tagged fish the additional needed parameter lines should be entered in order for each parameter type (i.e, TG loss init 1, TG loss init 2, TG loss chronic 1, TG loss chronic 2,..., TG report decay 1, TG report decay 2). 
+If there are multiple tagging groups or multiple fleets reporting tagged fish the additional needed parameter lines should be entered in order for each parameter type (i.e., TG loss init 1, TG loss init 2, TG loss chronic 1, TG loss chronic 2,..., TG report decay 1, TG report decay 2). 
 
 Five parameter types are required for tagging data. Both the tag loss parameters and the reporting rate parameters are input as any real number and a logistic transformation is used to keep the resulting rates between 0 and 1:
 \begin{itemize}
@@ -2514,7 +2514,7 @@ In v.3.30.14, the ability to mirror the tagging parameters from another tag grou
 	\item Mirror a lower (i.e., already specified) tag group of fleet x: phase = -100x and set other parameter values the same as the mirrored tag group or fleet (i.e., if you would like to mirror fleet 1 then the phase should -1001).
 \end{itemize}
 
-To avoid having to specify mirrored parameter lines, the tag parameters can be auto-generated. The control.ss\_new file created after running this model will have a full set of tagging parameter lines to use in future model runs.
+To avoid having to specify mirrored parameter lines, the tag parameters can be auto-generated. The \verb|control.ss\_new| file created after running this model will have a full set of tagging parameter lines to use in future model runs.
 
 \hypertarget{GcompVar}{}
 \subsection{Variance Adjustment Factors}
@@ -2558,7 +2558,7 @@ Size-at-age input variance is the sample size for the N observations at each age
 Generalized size composition input variance is the sample size for each observation. The variance adjustment for each fleet is multiplied by these sample sizes. Set to 1.0 for no effect.
 		
 \myparagraph{Variance Adjustment Usage Notes}
-The report.sso output file contains information in the ``FIT\_LEN\_COMPS'' and ``FIT\_AGE\_COMPS''  useful for determining if an adjustment of these input values is warranted to better match the scale of the average residual to the input variance scale.
+The \verb|report.sso| output file contains information in the ``FIT\_LEN\_COMPS'' and ``FIT\_AGE\_COMPS''  useful for determining if an adjustment of these input values is warranted to better match the scale of the average residual to the input variance scale.
 	
 Because the actual input variance factors are modified, it is these modified variance factors that are used when creating parametric bootstrap data files. So, the control files used to analyze bootstrap generated data files should have the variance adjustment factors reset to null levels.
 
@@ -2582,9 +2582,9 @@ These values are multiplied by the corresponding likelihood component to calcula
 \pagebreak
 
 \myparagraph{Lambda Usage Notes}
-\hypertarget{SaAlambda}{If} the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stddev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
+\hypertarget{SaAlambda}{If} the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stdev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
 
-The reading of the lambda values has been substantially altered with v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0. After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data but you had set the lambda to 0.0 in a previous version of SS3. First read an integer for the number of changes.
+The reading of the lambda values has been substantially altered with v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0. After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data, but you had set the lambda to 0.0 in a previous version of SS3. First read an integer for the number of changes.
 
 You can put any placeholder value like 0 or 999 for fleet if the likelihood component is not fleet specific (like recdevs).
 
@@ -2716,8 +2716,7 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 	
 	\multicolumn{3}{l}{2} & \multicolumn{6}{l}{\# 0 = No additional std dev reporting;} \Tstrut\\
 	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 1 = read values below; and} \Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size,numbers, and} \Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# natural mortality.} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size, numbers, and natural mortality.} \Bstrut\\
 	\hline
 	
 	\multicolumn{4}{l}{1 1 -1 5}  & \multicolumn{5}{l}{\# Selectivity} \Bstrut\\
