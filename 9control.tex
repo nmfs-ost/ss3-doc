@@ -1501,11 +1501,11 @@ For each fleet that has index observations, enter a row with six entries as desc
 
 \begin{enumerate}
 	\item Fleet Number
-	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation. See \hyperlink{QParam}{example Q parameter lines} below for an example set up for link types 4-6.
+	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation. See \hyperlink{QParams}{example Q parameter lines} below for an example set up for link types 4-6.
 	\begin{enumerate}[(a)]
 		\item 1 = simple Q, e.g. proportional: $y=Q*x$ where $x$ is a model quantity, like selected biomass, and $y$ is the expected value for the index.
 		\item 2 = mirror simple Q - this will mirror the Q value from another fleet. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q (example: fleet 3 mirror fleet 2). Requires a Q parameter line for the fleet but will not be used.
-		\item 3 = power function to allow non-linearity in the expected value for the index: $y=Qx^{(1+c)}$. Therefore, $c > 0$ leads to hypter-stability and $c < 0$ leads to hyper-depletion. The power function option cannot be used with deviation surveys (type 35 or 36) because of negative values in the deviation vectors.
+		\item 3 = power function to allow non-linearity in the expected value for the index: $y=Qx^{(1+c)}$. Therefore, $c > 0$ leads to hyper-stability and $c < 0$ leads to hyper-depletion. The power function option cannot be used with deviation surveys (type 35 or 36) because of negative values in the deviation vectors.
 		\item 4 = mirror Q with scale (2 parameter lines required) with the second parameter (scale) being added to the Q being mirrored. The mirrored Q will be reported as base Q + scale value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. An example usage is when the CPUE of a fleet in one area is assumed to have the same catchability as the CPUE for a comparable fleet operating in another area. The scale parameter could be used to adjust for the relative spatial areas because Q relates CPUE to area-specific population abundance, not population density per area.
 		\item 5 = offset (2 parameter lines required). This option, new with v.3.30.23, requires a second parameter that is added to the expected values before multiplying Q. This is most useful for survey types 35 and 36, even if those survey input vectors have already been zero centered. $y=Q*(x+B)$
 		\item 6 = offset and power (3 parameter lines required). This requires 2 parameters in addition to the Q parameter. The first is for the offset and the second is for the power, $y=Q*(x+b)^{(1+c)}$.
@@ -1513,7 +1513,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 	\item \hypertarget{link_info}{Extra input for link information (i.e., mirror fleet)}
 	\begin{enumerate}[(a)]
 		\item > 0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number).
-		\item If the parameter is for an index of a deviation vector (index units = 35), use this column to enter the endex of the deviation vector to which the index is related. 
+		\item If the parameter is for an index of a deviation vector (index units = 35), use this column to enter the index of the deviation vector to which the index is related. 
 		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
 		\begin{itemize}
 			\item 0 = add 1 to phases of all parameters. Only R0 active in new phase 1. Mimics the default option of previous model versions;
@@ -1620,7 +1620,7 @@ Currently, in v.3.30, that float with prior capability is fully embraced. All fl
 \begin{itemize}
 	\item Fixed: by not floating and not estimating.
 
-	\item Floating: not estimated as an active parameter, set phase to negative, and not capable of being time-varying. Can have a prior, or not. Future versions may allow Q to be time-varying and then rescaling that Q vector according to the float logic but this is not yet currently implemented.
+	\item Floating: not estimated as an active parameter, set phase to negative, and not capable of being time-varying. Can have a prior, or not. Future versions may allow Q to be time-varying and then rescaling that Q vector according to the float logic, but this is not yet currently implemented.
 
 	\item Estimated as active parameter: so not floating. Can be time-varying and can have a prior.
 \end{itemize}
@@ -1842,7 +1842,7 @@ where $L_l$ is the length bin. If age based selectivity is selected then the len
 Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in \hyperlink{MaleSelectivityOffset}{Male Selectivity Estimated as Offsets from Female Selectivity} for more information. Pattern 24 was changed in v.3.30.19 with the old parameterization now provided in Pattern 2.
 
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
-Two parameters select the min and max bin number (not min max size) of the source selectivity pattern. If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value <=0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
+Two parameters select the min and max bin number (not min max size) of the source selectivity pattern. If first parameter has value <=0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value $<=$ 0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must have be from a lower fleet number (e.g., already specified before the mirrored fleet).
 
 
 \myparagraph{Pattern 6 (size) - Non-parametric Selectivity}
