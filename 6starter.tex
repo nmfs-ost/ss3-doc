@@ -17,9 +17,9 @@ $s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-sp
 
 $F_{t,f,a}$ is fishing mortality at age for fleet $f$. There is no subscript for area because each fleet is defined to operate in only one area.
 
-$F_{t,f}'$ is a fleet's fishing mortality for the age that has selectivity equal to 1.0. This is also termed F\_scalar or full\_F in the SS3 system. If your model is using parameters for $F$, then the parameter values are for the $F'$. Note that some selectivity curves, like double normal, are explicit about having a maximum of 1.0. But other curves like logistic and combinations of length-selectivity and growth, may produce an age-selectivity curve that never reaches 1.0 and time-varying non-parametric selectivity will produce values > 1.0 routinely. In all cases, the resultant $F_{t,f,a}$ comes from $F_{t,f}' * s_{t,f,a}$, so the range of the $F'$ compensates for the scale of the $s$.
+$F_{t,f}'$ is a fleet's fishing mortality for the age that has selectivity equal to 1.0. This is also termed F' or full\_F in the SS3 system. If your model is using parameters for $F$, then the parameter values are for the $F'$. Note that some selectivity curves, like double normal, are explicit about having a maximum of 1.0. But other curves like logistic and combinations of length-selectivity and growth, may produce an age-selectivity curve that never reaches 1.0 and time-varying non-parametric selectivity will produce values > 1.0 routinely. In all cases, the resultant $F_{t,f,a}$ comes from $F_{t,f}' * s_{t,f,a}$, so the range of the $F'$ compensates for the scale of the $s$.
 
-Apical selectivity is the maximum age-specific selectivity and is not explicit in any internal calculation in SS3, it is just for reporting. If selectivity has a maximum value of 1.0, then apical\_F and F\_scalar are identical.
+Apical selectivity is the maximum age-specific selectivity and is not explicit in any internal calculation in SS3, it is just for reporting. If selectivity has a maximum value of 1.0, then apical\_F and full_F are identical.
 
 Fully-selected age range is not explicitly used in SS3, especially because SS3 applications routinely have multiple fleets with different selectivity patterns that may have little overlap.
 

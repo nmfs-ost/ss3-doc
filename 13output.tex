@@ -100,7 +100,7 @@ In this table, the displayed value for annual\_F will be from the $F=Z-M$ method
 %	\item 2 = exploitation(Num)
 %	\item 3 = sum(Frates)
 %\end{itemize}
-%The exploitation rates are calculated as the ratio of the total annual catch (in either biomass or numbers as specified) to the summary biomass or summary numbers on January 1. The sum of the $F$ rates is simply the sum of all the $\text{apical\_}F$s. This makes sense if the F method is in terms of instantaneous $F$ (not Pope's approximation) and if there are not fleets with widely different size/age at peak selectivity, and if there is no seasonality, and especially if there is only one area. 
+%The exploitation rates are calculated as the ratio of the total annual catch (in either biomass or numbers as specified) to the summary biomass or summary numbers on January 1. The sum of the $F$ rates is simply the sum of all the $\text{full\_}F$s. This makes sense if the F method is in terms of instantaneous $F$ (not Pope's approximation) and if there are not fleets with widely different size/age at peak selectivity, and if there is no seasonality, and especially if there is only one area. 
 
 %$F\text{\_std}$ is a single annual value based on $\text{ann}F$ and the relationship to $\text{ann}F$ is specified by F\_report\_basis in the starter.ss file. The benchmark $\text{ann}F$ may be used to rescale the time series of $\text{ann}F$s to become a time series of standardized values representing the intensity of fishing, $F\text{\_std}$. The report basis (the available options for the denominator) is selected in the starter file as:
 
@@ -163,7 +163,7 @@ Below is a list of items to consider in terms of units for $F$ in SS3:
 	\item In the forecast.ss file there is an option to input a vector of $\text{rel}F$ values. These are dimensionless and will be rescaled to sum to 1.0.
 	\item In the forecast.ss file there is an option to specify an $F$ scalar for the forecast. The units of $F$ scalar are the same as the $F\text{mult}$ values calculated in benchmark. There are a full set of options for forecast $F$ scalar that can be selected in the forecast file.
 	%(-1 = none; 0 = simple; 1 = F\textsubscript{SPR}; 2 = F\textsubscript{MSY} 3 = F\textsubscript{BTGT} or F\textsubscript{0.1}; 4 = Ave F (uses first-last relative F years); and 5 = input annual F scalar). 
-	If the forecast $F$ scalar is set as $F_\text{SPR}$, then SS3 will use $\text{SPR\_}F\text{mult}$ calculated in benchmark and reported in Forecast-report.sso. If user selects the option to input an annual $F$ scalar, option 5, then the value is input on a following line. Whichever method the user selects for forecast $F$ scalar ($F\text{mult}$), SS3 will start the forecast by creating a fleet-specific vector of $\text{apical\_}F$ values from $F\text{mult}*\text{rel}F_f$.
+	If the forecast $F$ scalar is set as $F_\text{SPR}$, then SS3 will use $\text{SPR\_}F\text{mult}$ calculated in benchmark and reported in Forecast-report.sso. If user selects the option to input an annual $F$ scalar, option 5, then the value is input on a following line. Whichever method the user selects for forecast $F$ scalar ($F\text{mult}$), SS3 will start the forecast by creating a fleet-specific vector of $\text{full\_}F$ values from $F\text{mult}*\text{rel}F_f$.
 	\item Also in the forecast.ss file, the last section of inputs allows for input of time and fleet specific $F_{t,f}'$ values that override the basic forecast $F$ specification described above.
 \end{itemize}
 
