@@ -1,10 +1,10 @@
 \section{Running Stock Synthesis} \label{sec:RunningSS3}
 
 \subsection{Command Line Interface}
-The name of the SS3 executable files often contains the phrase ``safe'' or ``opt'' (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named ``ss3.exe'' is typically the safe version unless the result of renaming by the user.
+The name of the SS3 executable files often contains the phrase ``safe'' or ``opt'' (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named \texttt{ss3.exe} is typically the safe version unless the result of renaming by the user.
 
-On Mac and Linux computers, the executable does not include an extension (like .exe on Windows).
-Running the executable on from the DOS command line in Windows simply require typing the executable name (without the .exe extension):
+On Mac and Linux computers, the executable does not include an extension (like \texttt{.exe} on Windows).
+Running the executable on from the DOS command line in Windows simply require typing the executable name (without the \texttt{.exe} extension):
 \begin{quote}
 	\begin{verbatim}
 	> ss3
@@ -21,7 +21,7 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 	\end{verbatim}
 \end{quote}
 
-An additional command has been added that allows users to specify the name of the .par file that is both read and output. Prior to v.3.30.22.1, the default exe name was `ss' and the default .par file name was ss.par. The code now produces a ss3.par file by default instead of an ss.par file. The code will search for the default ss3.par file first, and then look for an ss.par file in order to have backwards compatibility and will by default output a ss3.par file (not an ss.par file). If you would like to read a differently named .par file and produce a .par file with the same name, you will need to add the ``modelname'' command. See the below example of using ``modelname'' to read and produce a .par file with the name ``ss4you''.:
+An additional command has been added that allows users to specify the name of the \texttt{.par} file that is both read and output. Prior to v.3.30.22.1, the default exe name was `ss' and the default \texttt{.par} file name was \texttt{ss.par}. The code now produces a \texttt{ss3.par} file by default instead of a \texttt{ss.par} file. The code will search for the default \texttt{ss3.par} file first, and then look for a \texttt{ss.par} file in order to have backwards compatibility and will by default output a \texttt{ss3.par} file (not a \texttt{ss.par} file). If you would like to read a differently named \texttt{.par} file and produce a \texttt{.par} file with the same name, you will need to add the ``modelname'' command. See the below example of using ``modelname'' to read and produce a \texttt{.par} file with the name ``ss4you''.:
 
 \begin{quote}
 	\begin{verbatim}
@@ -38,9 +38,9 @@ Often there is a need to run the model with no estimation. Alternative methods t
 As of ADMB 12.3, a new command called ``-hess\_step'' is available to use and documented in the \hyperlink{hess-step}{Using -hess\_step to do additional Newton steps using the inverse Hessian}
 
 \subsubsection{Example of DOS batch input file}
-One file management approach is to put ss3.exe in its own folder (example:  C:\textbackslash SS3\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS3\_runs). Then a DOS batch file in the SS3\_runs folder can be run at the command line to start ss3.exe.  All output will appear in SS3\_runs folder.
+One file management approach is to put \texttt{ss3.exe} in its own folder (example:  C:\textbackslash SS3\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS3\_runs). Then a DOS batch file in the SS3\_runs folder can be run at the command line to start \texttt{ss3.exe}. All output will appear in SS3\_runs folder.
 
-A DOS batch file (e.g., SS3.bat) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
+A DOS batch file (e.g., \texttt{SS3.bat}) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
 
 \begin{quote}
 	\begin{verbatim}
@@ -70,12 +70,12 @@ An easy way to start a command line in your current directory (SS3\_runs) is to 
 	\end{verbatim}
 \end{quote}
 
-An alternative shortcut is to have the executable within the model folder then use Ctrl+Shift+Right Click and then select either ``Open powershell window here'' or ``Open command window here'', depending upon your computer. From the command window the executable name can be typed along with additional inputs (e.g., -nohess) and the model run. If using the powershell type cmd and then hit enter prior to calling the model (ss). 
+An alternative shortcut is to have the executable within the model folder then use Ctrl+Shift+Right Click and then select either ``Open powershell window here'' or ``Open command window here'', depending upon your computer. From the command window the executable name can be typed along with additional inputs (e.g., -nohess) and the model run. If using the powershell type cmd and then hit enter prior to calling the model (ss3). 
 
 
 \subsubsection{Simple Batch}
 
-This first example relies upon having a set of prototype SS3 input files, where a starter file named starter.r01 can be renamed to starter.ss and then used in the SS3 run. The example also copies one of the output files, ss.std, to a new name, ss-std01.txt, to save it from being overwritten in subsequent runs. The example code should be put in a batch file, which can have any name with the .bat extension. Note that brief output from each run will be appended to cumreport.sso (see below).
+This first example relies upon having a set of prototype SS3 input files, where a starter file named \texttt{starter.r01} can be renamed to \texttt{starter.ss} and then used in the SS3 run. The example also copies one of the output files, \texttt{ss.std}, to a new name, \texttt{ss-std01.txt}, to save it from being overwritten in subsequent runs. The example code should be put in a batch file, which can have any name with the \texttt{.bat} extension. Note that brief output from each run will be appended to \texttt{cumreport.sso} (see below).
 
 \begin{quote}
 	\begin{verbatim}
@@ -87,7 +87,7 @@ This first example relies upon having a set of prototype SS3 input files, where 
 	\end{verbatim}
 \end{quote}
 
-The commands could be repeated again, except the output should be copied to a different file, e.g., ss-std02.txt. This sequence can be repeated an unlimited number of times.
+The commands could be repeated, except the output should be copied to a different file, e.g., ss-std02.txt. This sequence can be repeated an unlimited number of times.
 
 \subsubsection{Complicated Batch}
 This second example processes 25 dat files from a different directory, each time using the same ctl and nam file. The loop index is used in the file names, and the output is searched for particular keywords to accumulate a few key results into the file SUMMARY.TXT. Comparable batch processing can be accomplished by using R or other script processing programs.
@@ -115,7 +115,7 @@ This second example processes 25 dat files from a different directory, each time
 \subsubsection{Running Without Estimation}
 There may be time when users will want to run the model without parameter estimation. The ADMB command -noest will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS3 and ADMB.  
 
-The first approach requires the user to change the maximum phase value in the starter.ss file to 0 then running the model via the command widow as without calculating the hessian:
+The first approach requires the user to change the maximum phase value in the \texttt{starter.ss} file to 0 then running the model via the command widow as without calculating the hessian:
 
 \begin{quote}
 	\begin{verbatim}
@@ -139,8 +139,8 @@ The second difference between the two no estimation approaches is the reported n
 
 The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss3.par) then all parameters, including parameter deviations, will be fixed at the estimated values. However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
 
-\myparagraph{Generate .ss\_new files}
-There may be times a user would like to generate the .ss\_new files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the starter.ss file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the starter.ss\_new file will be set to -1 and will need to be manually changed back if the intent is the replace the original (i.e., starter.ss) file with the new files (i.e., starter.ss\_new). The second approach is to modify the maxphase via the command line or power shell input. Calling the model using the commands:
+\myparagraph{Generate \texttt{.ss\_new} files}
+There may be times a user would like to generate the \texttt{.ss\_new} files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the \texttt{starter.ss} file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the \texttt{starter.ss\_new} file will be set to -1 and will need to be manually changed back if the intent is to replace the original (i.e., \texttt{starter.ss}) file with the new files (i.e., \texttt{starter.ss\_new}). The second approach is to modify the maxphase via the command line or powershell input. Calling the model using the commands:
 
 \begin{quote}
 	\begin{verbatim}
@@ -148,7 +148,7 @@ There may be times a user would like to generate the .ss\_new files without runn
 	\end{verbatim}
 \end{quote}  
 
-where -1 is the maximum phase for the model to run through (e.g., can be other values if a user would like to only run through a specific parameter phase). This approach will create all the new files with the starter.ss\_new reflecting the original maxphase value in the starter.ss file. This approach is available in v.3.30.16 and later.
+where -1 is the maximum phase for the model to run through (e.g., can be other values if a user would like to only run through a specific parameter phase). This approach will create all the new files with the \texttt{starter.ss\_new} reflecting the original maxphase value in the \texttt{starter.ss} file. This approach is available in v.3.30.16 and later.
 
 \hypertarget{hess-step}{}
 \subsubsection{Using -hess\_step to do additional Newton steps using the inverse Hessian}

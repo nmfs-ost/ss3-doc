@@ -52,7 +52,7 @@ where:
 
 \myparagraph{User Testing}
 		\begin{itemize}
-			\item Set-up a model with age-maturity (option 2) and only age selectivity.
+			\item Setup a model with age-maturity (option 2) and only age selectivity.
 			\item Take the output calculation of weight-at-age and fecundity-at-age  from \verb|report.sso| and put into \verb|wtatage.ss| (as shown above).
 			\item Re-run the model with this input weight-at-age (Maturity\_Option 5) to see if identical results are produced relative to the run that had generated the weight-at-age from the growth parameters.
 		\end{itemize}
@@ -62,11 +62,11 @@ where:
 This file contains a single integer value. It is read when the program starts, incremented by 1, used when processing the profile value inputs (see below), used as an identifier in the batch output, then saved with the incremented value. Note that this incrementation may not occur if a run crashes.
 
 \subsection{\texttt{profilevalues.ss}}	
-This file contains information for changing the value of selected parameters for each run in a batch. In the control file, each parameter that will be subject to modification by \verb|profilevalues.ss| is designated by setting its phase to -9999.
+This file contains information for changing the value of selected parameters for each run in a batch. In the control file, each parameter that will be subject to modification by \texttt{profilevalues.ss} is designated by setting its phase to -9999.
 
-The first value in \verb|profilevalues.ss| is the number of parameters to be batched. This value MUST match the number of parameters with phase set equal to -9999 in the control file. The program performs no checks for this equality. If the value is zero in the first field, then nothing else will be read. Otherwise, the model will read runnumber * Nparameters values and use the last Nparameters of these to replace the initial values of parameters designated with phase = --9999 in the control file.
+The first value in \texttt{profilevalues.ss} is the number of parameters to be batched. This value MUST match the number of parameters with phase set equal to -9999 in the control file. The program performs no checks for this equality. If the value is zero in the first field, then nothing else will be read. Otherwise, the model will read runnumber * Nparameters values and use the last Nparameters of these to replace the initial values of parameters designated with phase = --9999 in the control file.
 
-Usage Note: If one of the batch runs crashes before saving the updated value of \verb|runnumber.ss|, then the processing of the \verb|profilevalues.ss| will not proceed as expected. Check the output carefully until a more robust procedure is developed. Also, this options was created before use of R became widespread. You probably can create a more flexible approach using R today.
+Usage Note: If one of the batch runs crashes before saving the updated value of \texttt{runnumber.ss}, then the processing of the \verb|profilevalues.ss| will not proceed as expected. Check the output carefully until a more robust procedure is developed. Also, this options was created before use of R became widespread. You probably can create a more flexible approach using R today.
 
 
 \pagebreak

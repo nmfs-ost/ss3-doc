@@ -177,7 +177,7 @@ Below is a list of items to consider in terms of units for $F$ in SS3:
 \end{itemize}
 
 \subsubsection{MSY and other Benchmark Items}
-The following quantities are included in the sdreport vector mgmt\_quantities, so obtain estimates of variance. Some additional quantities can be found in the benchmarks section of the forecast\_report.sso.
+The following quantities are included in the sdreport vector mgmt\_quantities, so obtain estimates of variance. Some additional quantities can be found in the benchmarks section of the \texttt{forecast\_report.sso}.
 
 \begin{center}
 	\begin{longtable}{p{4cm} p{11cm}}
@@ -219,9 +219,9 @@ Cum\_Report.sso: contains a brief version of the run output, which is appended t
 
 \hypertarget{bootstrap}{}
 \subsection{Bootstrap Data Files}
-It is possible to create bootstrap data files for SS3 where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. Starting in v.3.30.19, bootstrap data files are output separated in single numbered files (e.g., data\_boot\_001.ss). In version prior to v.3.30.19 a single file called data.ss\_new was output that contained multiple sections:  the original data echoed out, the expected data values based on the model fit, and then subsequent bootstrap data files. 
+It is possible to create bootstrap data files for SS3 where an internal parametric bootstrap function generates a simulated data set by parametric bootstrap sampling the expected values given the input observation error. Starting in v.3.30.19, bootstrap data files are output separated in single numbered files (e.g., \texttt{data\_boot\_001.ss}). In version prior to v.3.30.19 a single file called \texttt{data.ss\_new} was output that contained multiple sections:  the original data echoed out, the expected data values based on the model fit, and then subsequent bootstrap data files. 
 
-Specifying the number of bootstrap data files has remained the same across model versions. Creating bootstrap data files is specified in the starter file via the ``Number of datafiles to produce'' line where a value of 3 or greater will create three files: the original data file, data\_echo.ss\_new, a data file with the model expected values, data\_expval.ss, and single bootstrap data file, data\_boot\_001.ss. The first output provides the unaltered input data file (with annotations added). The second provides the expected values for only the data elements used in the model run. The third and subsequent outputs provide parametric bootstraps around the expected values. 
+Specifying the number of bootstrap data files has remained the same across model versions. Creating bootstrap data files is specified in the starter file via the ``Number of datafiles to produce'' line where a value of 3 or greater will create three files: the original data file, \texttt{data\_echo.ss\_new}, a data file with the model expected values, \texttt{data\_expval.ss}, and single bootstrap data file, \texttt{data\_boot\_001.ss}. The first output provides the unaltered input data file (with annotations added). The second provides the expected values for only the data elements used in the model run. The third and subsequent outputs provide parametric bootstraps around the expected values. 
 
 The bootstrapping procedure within SS3 is done via the following steps:
 
@@ -257,12 +257,12 @@ Given this, there are some assumptions implicit in the bootstrapping procedure (
 	
 \end{itemize}
 
-\subsection{Forecast and Reference Points (Forecast-report.sso)}
+\subsection{Forecast and Reference Points (\texttt{Forecast-report.sso})}
 The Forecast-report file contains output of fishery reference points and forecasts. It is designed to meet the needs of the Pacific Fishery Management Council's Groundfish Fishery Management Plan, but it should be quite feasible to develop other regionally specific variants of this output.
 
 The vector of forecast recruitment deviations is estimated during an additional model estimation phase. This vector includes any years after the end of the recruitment deviation time series and before or at the end year. When this vector starts before the ending year of the time series, then the estimates of these recruitments will be influenced by the data in these final years. This is problematic, because the original reason for not estimating these recruitments at the end of the time series was the poor signal/noise ratio in the available data. It is not that these data are worse than data from earlier in the time series, but the low amount of data accumulated for each cohort allows an individual datum to dominate the model's fit. Thus, an additional control is provided so that forecast recruitment deviations during these years can receive an extra weighting in order to counter-balance the influence of noisy data at the end of the time series.
 
-An additional control is provided for the fraction of the log-bias adjustment to apply to the forecast recruitments. Recall that R is the expected mean level of recruitment for a particular year as specified by the spawner-recruitment curve and R' is the geometric mean recruitment level calculated by discounting R with the log-bias correction factor $e-0.5s^2$. Thus a lognormal distribution of recruitment deviations centered on R' will produce a mean level of recruitment equal to R. During the modeled time series, the virgin recruitment level and any recruitments prior to the first year of recruitment deviations are set at the level of R, and the lognormal recruitment deviations are centered on the R' level. For the forecast recruitments, the fraction control can be set to 1.0 so that 100\% of the log-bias correction is applied and the forecast recruitment deviations will be based on the R' level. This is certainly the configuration to use when the model is in MCMC mode. Setting the fraction to 0.0 during maximum likelihood forecasts would center the recruitment deviations, which all have a value of 0.0 in maximum likelihood mode, on R. Thus would provide a mean forecast that would be more comparable to the mean of the ensemble of forecasts produced in MCMC mode.  Further work on this topic is underway.
+An additional control is provided for the fraction of the log-bias adjustment to apply to the forecast recruitments. Recall that R is the expected mean level of recruitment for a particular year as specified by the spawner-recruitment curve and R' is the geometric mean recruitment level calculated by discounting R with the log-bias correction factor $e-0.5s^2$. Thus, a lognormal distribution of recruitment deviations centered on R' will produce a mean level of recruitment equal to R. During the modeled time series, the virgin recruitment level and any recruitments prior to the first year of recruitment deviations are set at the level of R, and the lognormal recruitment deviations are centered on the R' level. For the forecast recruitments, the fraction control can be set to 1.0 so that 100\% of the log-bias correction is applied and the forecast recruitment deviations will be based on the R' level. This is certainly the configuration to use when the model is in MCMC mode. Setting the fraction to 0.0 during maximum likelihood forecasts would center the recruitment deviations, which all have a value of 0.0 in maximum likelihood mode, on R. Thus would provide a mean forecast that would be more comparable to the mean of the ensemble of forecasts produced in MCMC mode.  Further work on this topic is underway.
 
 Note:
 \begin{itemize}
@@ -270,10 +270,10 @@ Note:
 	\item Environmental data entered for future years can be used to adjust expected recruitment levels. However, environmental data will not affect growth or selectivity parameters in the forecast.
 \end{itemize}
 
-The top of the Forecast-report file shows the search for F\textsubscript {SPR}  and the search for F\textsubscript {MSY}, allowing the user to verify convergence. Note: if the STD file shows aberrant results, such as all the standard deviations being the same value for all recruitments, then check the F\textsubscript {MSY} search for convergence. The F\textsubscript {MSY} can be calculated, or set equal to one of the other F reference points per the selection made in starter.ss.
+The top of the Forecast-report file shows the search for F\textsubscript{SPR}  and the search for F\textsubscript{MSY}, allowing the user to verify convergence. Note: if the STD file shows aberrant results, such as all the standard deviations being the same value for all recruitments, then check the F\textsubscript{MSY} search for convergence. The F\textsubscript{MSY} can be calculated, or set equal to one of the other F reference points per the selection made in \texttt{starter.ss}.
 
 
-\subsection{Main Output File, Report.sso}
+\subsection{Main Output File, \texttt{Report.sso}}
 This is the primary output file. Its major sections (as of v.3.30.16) are listed below.  
 
 The sections of the output file are:
@@ -305,11 +305,11 @@ The sections of the output file are:
 		\end{itemize}
 	\item Parameters
 		\begin{itemize}
-			\item The parameters are listed here. For the estimated parameters, the display shows: Num (count of parameters), Label (as internally generated by SS3), Value, Active\_Cnt, Phase, Min, Max, Init, Prior, Prior\_type, Prior\_SD, Prior\_Like, Parm\_StD (standard deviation of parameter as calculated from inverse Hessian), Status (e.g., near bound), and Pr\_atMin (value of prior penalty if parameter was near bound). The Active\_Cnt entry is a count of the parameters in the same order they appear in the ss.cor file.
+			\item The parameters are listed here. For the estimated parameters, the display shows: Num (count of parameters), Label (as internally generated by SS3), Value, Active\_Cnt, Phase, Min, Max, Init, Prior, Prior\_type, Prior\_SD, Prior\_Like, Parm\_StD (standard deviation of parameter as calculated from inverse Hessian), Status (e.g., near bound), and Pr\_atMin (value of prior penalty if parameter was near bound). The Active\_Cnt entry is a count of the parameters in the same order they appear in the \texttt{ss.cor} file.
 		\end{itemize}
 	\item Derived Quantities
 		\begin{itemize}
-			\item This section starts by showing the options selected from the starter.ss and forecast.ss input files:
+			\item This section starts by showing the options selected from the \texttt{starter.ss} and \texttt{forecast.ss} input files:
 				\begin{itemize}
 					\item SPR ratio basis
 					\item F report basis
@@ -339,7 +339,7 @@ Then the time series of output, with standard deviation of estimates, are produc
 	\end{itemize}
 	\item Growth Morph Indexing
 	\begin{itemize}
-		\item This block shows the internal index values for various quantities. It can be a useful reference for complex model setups. The vocabulary is: Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index. If recruitment occurs in multiple seasons, then birth season is the index for that factor. The index labeled ``Platoon'' is used as a continuous index across all the other factor-specific indices. If sub-platoons are used, they are nested within the Bio\_Pattern x Sex x Birth Season platoon. However, some of the output tables use the column label ``platoon'' as a continuous index across platoons and sub-platoons. Note that there is no index here for area. Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
+		\item This block shows the internal index values for various quantities. It can be a useful reference for complex model setups. The vocabulary is: Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index. If recruitment occurs in multiple seasons, then birth season is the index for that factor. The index labeled ``Platoon'' is used as a continuous index across all the other factor-specific indices. If sub-platoons are used, they are nested within the Bio\_Pattern x Sex x Birth Season platoon. However, some output tables use the column label ``platoon'' as a continuous index across platoons and sub-platoons. Note that there is no index here for area. Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.
 	\end{itemize}
 	\item Size Frequency Translation
 	\begin{itemize}

@@ -107,9 +107,9 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		\multicolumn{2}{l}{\#C comment} \Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
 		\hline
 
-		0 & & 0 = Do not read the weight-at-age (\verb|wtatage.ss|) file; \Tstrut\\
-		  & & 1 = Read the weight-at-age (\verb|wtatage.ss|) file, also read and use the growth parameters; and \\
-		  & & 2 = Future option to read the weight-at-age (\verb|wtatage.ss|) file, then omit reading and using growth parameters and all length-based data. \\
+		0 & & 0 = Do not read the weight-at-age (\texttt{wtatage.ss}) file; \Tstrut\\
+		  & & 1 = Read the weight-at-age (\texttt{wtatage.ss}) file, also read and use the growth parameters; and \\
+		  & & 2 = Future option to read the weight-at-age (\texttt{wtatage.ss}) file, then omit reading and using growth parameters and all length-based data. \\
 		  & & Additional information on the weight-at-age file and the expected formatting can be found in the \hyperlink{WAA}{Empirical Weight-at-Age} section. \Bstrut\\
 
 		%\hline
@@ -132,7 +132,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 \end{center}
 
 \subsubsection{Weight-at-Age}
-The capability to read empirical body weight-at-age for the population and each fleet was added starting in v.3.04, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. The values are read from a separate file named, \verb|wtatage.ss|. This file is only required to exist if this option is selected. See the \hyperlink{WAA}{Empirical Weight-at-Age} section for additional information on file formatting for empirical weight-at-age.
+The capability to read empirical body weight-at-age for the population and each fleet was added starting in v.3.04, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. The values are read from a separate file named, \texttt{wtatage.ss}. This file is only required to exist if this option is selected. See the \hyperlink{WAA}{Empirical Weight-at-Age} section for additional information on file formatting for empirical weight-at-age.
 
 \subsubsection{Settlement Timing for Recruits and Distribution}
 In older versions of SS3 one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produced one annual total recruitment value. The annual recruitment value was then distributed among seasons, areas, and growth types according to other model parameters.
@@ -330,7 +330,7 @@ Blocks and other time-vary parameter controls are operative during forecast year
 
 \hypertarget{autogen}{}
 \subsubsection{Auto-generation}
-Auto-generation is a useful way to automatically create the required short time-varying parameter lines which will be written in the \verb|control.ss\_new file|. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The \verb|control.ss\_new| file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file. Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
+Auto-generation is a useful way to automatically create the required short time-varying parameter lines which will be written in the \texttt{control.ss\_new} file. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The \texttt{control.ss\_new} file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file. Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
 
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
@@ -628,10 +628,10 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\multicolumn{2}{r}{0 0.05 0.10...} & Vector of length-specific maturity or fecundity, based on the population length bins. One row of length equal to the number of population length bins (defined in the data file) for each female growth pattern. \Bstrut\\
 	\hline
 	
-	\Tstrut 1 & & First Mature Age: all ages below the first mature age will have maturity set to zero. This value is overridden if maturity option is 3 or 4 or if empirical weight-at-age (\verb|wtatage.ss|) is used, but still must exist here. \Bstrut\\
+	\Tstrut 1 & & First Mature Age: all ages below the first mature age will have maturity set to zero. This value is overridden if maturity option is 3 or 4 or if empirical weight-at-age (\texttt{wtatage.ss}) is used, but still must exist here. \Bstrut\\
 	\hline
 
-	\Tstrut 1 & & Fecundity Option (irrelevant if maturity option is 4 or \verb|wtatage.ss| is used): \\
+	\Tstrut 1 & & Fecundity Option (irrelevant if maturity option is 4 or \texttt{wtatage.ss} is used): \\
 	  & & 1 = to interpret the 2 egg parameters as linear eggs/kg on body weight (current default), so fecundity = $wt * (a+b*wt)$, so value of a=1, b=0 causes eggs to be equivalent to spawning biomass; \\
 	  & & 2 = to set fecundity= $a*L^ b$; \\
 	  & & 3 = to set fecundity= $a*W^ b$, so values of a=1, b=1 causes fecundity to be equivalent to spawning biomass; \\
@@ -1119,7 +1119,7 @@ where $temp$ stabilizes recruitment at $R_0$ if $SB_y > SB_0$.
 
 
 \subsubsection{Spawner-Recruitment Parameter Setup}
-Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE,..., and BLOCK TYPE). These parameters are:
+Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE). These parameters are:
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	\hline
 	Value & Label & Description \Tstrut\Bstrut\\
@@ -1634,7 +1634,7 @@ In v.3.30.13, a new catchability option has been added that allows Q to be mirro
 Time-Varying catchability can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
 \subsubsection{Q Conversion Issues Between Stock Synthesis v.3.24 and v.3.30}
-In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (\verb|sstrans.exe|) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
+In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (\texttt{sstrans.exe}) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention. 
@@ -2030,7 +2030,7 @@ of those nodes, the parameter values at those nodes, and the slope of the
 function at the first and last node.
 
 An alternative to specifying or estimating the slope at the first and last
-nodes is to fix those values at 1e30 which will cause create a \verb|natural.cubic spline| 
+nodes is to fix those values at 1e30 which will cause create a \texttt{natural.cubic spline} 
 which allows the slope (first derivative) to be flexible but
 sets the curvature (second derivative) to be 0 at the first and last nodes.
 
@@ -2074,11 +2074,11 @@ Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered wit
 	
 With either the auto-generate option 1, 2 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
 	
-Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in \verb|echoinput.sso| and in a new OVERALL\_COMPS section of \verb|report.sso|.
+Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in \texttt{echoinput.sso} and in a new OVERALL\_COMPS section of \texttt{report.sso}.
 	
-When the nodes are auto-generated, the first node is placed at the size corresponding to the 2.5\% percentile of the cumulative size distribution, the last is placed at the 97.5\% percentile of the size distribution, and the remainder are placed at equally spaced percentiles along the cumulative size distribution. These calculated node values are output into \verb|control.ss\_new|. So, the user could extract these nodes from \verb|control.ss\_new|, edit them to desired values, then, insert them into the input control file. Remember to turn off auto-generation in the revised control file.
+When the nodes are auto-generated, the first node is placed at the size corresponding to the 2.5\% percentile of the cumulative size distribution, the last is placed at the 97.5\% percentile of the size distribution, and the remainder are placed at equally spaced percentiles along the cumulative size distribution. These calculated node values are output into \texttt{control.ss\_new}. So, the user could extract these nodes from \texttt{control.ss\_new}, edit them to desired values, then, insert them into the input control file. Remember to turn off auto-generation in the revised control file.
 	
-When the complete auto-generation is selected, the \verb|control.ss\_new| would look like the table below:	
+When the complete auto-generation is selected, the \texttt{control.ss\_new} would look like the table below:	
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
 	\hline
@@ -2514,7 +2514,7 @@ In v.3.30.14, the ability to mirror the tagging parameters from another tag grou
 	\item Mirror a lower (i.e., already specified) tag group of fleet x: phase = -100x and set other parameter values the same as the mirrored tag group or fleet (i.e., if you would like to mirror fleet 1 then the phase should -1001).
 \end{itemize}
 
-To avoid having to specify mirrored parameter lines, the tag parameters can be auto-generated. The \verb|control.ss\_new| file created after running this model will have a full set of tagging parameter lines to use in future model runs.
+To avoid having to specify mirrored parameter lines, the tag parameters can be auto-generated. The \texttt{control.ss\_new} file created after running this model will have a full set of tagging parameter lines to use in future model runs.
 
 \hypertarget{GcompVar}{}
 \subsection{Variance Adjustment Factors}
@@ -2558,7 +2558,7 @@ Size-at-age input variance is the sample size for the N observations at each age
 Generalized size composition input variance is the sample size for each observation. The variance adjustment for each fleet is multiplied by these sample sizes. Set to 1.0 for no effect.
 		
 \myparagraph{Variance Adjustment Usage Notes}
-The \verb|report.sso| output file contains information in the ``FIT\_LEN\_COMPS'' and ``FIT\_AGE\_COMPS''  useful for determining if an adjustment of these input values is warranted to better match the scale of the average residual to the input variance scale.
+The \texttt{report.sso} output file contains information in the ``FIT\_LEN\_COMPS'' and ``FIT\_AGE\_COMPS''  useful for determining if an adjustment of these input values is warranted to better match the scale of the average residual to the input variance scale.
 	
 Because the actual input variance factors are modified, it is these modified variance factors that are used when creating parametric bootstrap data files. So, the control files used to analyze bootstrap generated data files should have the variance adjustment factors reset to null levels.
 

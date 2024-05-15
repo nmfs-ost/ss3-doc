@@ -7,7 +7,7 @@ Stock Synthesis v.3.20 introduced substantial upgrades to the benchmark and fore
 \begin{itemize}
 	\item The average selectivity and relative F was the same for the benchmark and the forecast calculations;
 	\item The biology-at-age in endyr+1 was used as the biology for the benchmark, but biology-at-age propagated forward in the forecast if there was time-varying growth;
-	\item The forecast module had a inefficient approach to calculation of overfishing limit (OFL) conditioned on previously catching ABC;
+	\item The forecast module had an inefficient approach to calculation of overfishing limit (OFL) conditioned on previously catching ABC;
 	\item The forecast module implementation of catch caps was incomplete and applied some caps on a seasonally, rather than the more logical annual basis;
 	\item The Fmult scalar for fishing intensity presented a confusing concept for many users;
 	\item No provision for specification of catch allocation among fleets;
@@ -81,7 +81,7 @@ The sequence of multiple forecast passes is as follows:
 \end{enumerate}
 
 \myparagraph{Example Effects on Correlations}
-An example that illustrates the above process was conducted. The situation was a low M, late-maturing species, so changes are not dramatic. The example conducted a 10 year forecast and examined correlations with derived quantities in the last year of the forecast. This was done once with the full set of 3 passes as described above, and again with only 2 passes and stochastic recruitment occurring in pass 2, rather than 3. This alternative setup is more similar to forecasts done using previous model versions.
+An example that illustrates the above process was conducted. The situation was a low M, late-maturing species, so changes are not dramatic. The example conducted a 10-year forecast and examined correlations with derived quantities in the last year of the forecast. This was done once with the full set of 3 passes as described above, and again with only 2 passes and stochastic recruitment occurring in pass 2, rather than 3. This alternative setup is more similar to forecasts done using previous model versions.
 
 \begin{center}
 	\begin{longtable}{p{0.4cm} p{2.75cm} p{3cm} p{1cm} p{0.4cm} p{2.75cm} p{2cm} p{1cm}}
@@ -94,7 +94,7 @@ An example that illustrates the above process was conducted. The situation was a
 		A1 & F 2011 & RecrDev 2002 & -0.126 & A2 & F 2011 & RecrDev 2002 & 0.090 \\
 		B1 & F 2011 & Recr 2002 & 0.312 & B2 & F 2011 & Recr 2002 & 0.518 \\
 		C1 & ForeCatch 2011 & RecrDev 2002 & 0.000 & C2 & ForeCatch 2011 & RecrDev 2002 & 0.129 \\
-		D1 & ForeCatch 2011 & Recr 2002 & 0.455 & D2 & Forecatch 2011 & Recr 2002 & 0.555 \\
+		D1 & ForeCatch 2011 & Recr 2002 & 0.455 & D2 & ForeCatch 2011 & Recr 2002 & 0.555 \\
 		\hline		
 	\end{longtable}
 \end{center}
@@ -113,8 +113,8 @@ Correlation C2 shows a positive correlation between recruitment deviation in 200
 	\item Testing without inflection in control rule
 	\item Consider separating implementation error into a pass \#4 so results will more clearly show effect of assessment uncertainty separate from implementation uncertainty
 	\item Consider adding a random ``assessment'' error which essentially is a random variable that scales population abundance before passing into the forecast stage. Complication is figuring out how to link it to the correlated error in the benchmark quantities
-	\item Because all of these calculations occur only in the standard deviation phase (sdphase) or the MCMC evaluation (mceval) phase, it would be feasible for mceval calls to add an additional pass that is implemented many times and in which random forecast recruitment draws are made.
-	\item Factors like selectivity and fleet relative F levels are calculated as an average of these values during the time series. This is internally consistent if these factors do not vary during the time series (although clearly this is a stiff model that will underestimate process variance. However, if these factors do vary over time, then the average used for the forecast will under-represent the variance. A better approach would be to set up the parameters of selectivity as a random process that extends throughout the forecast period, and to update estimated selectivity in each year of the forecast based upon the random realization of these parameters.
+	\item Because all of these calculations occur only in the standard deviation phase (sdphase) or the MCMC evaluation (mceval) phase, it would be feasible for mceval calls to add a pass that is implemented many times and in which random forecast recruitment draws are made.
+	\item Factors like selectivity and fleet relative F levels are calculated as an average of these values during the time series. This is internally consistent if these factors do not vary during the time series (although clearly this is a stiff model that will underestimate process variance). However, if these factors do vary over time, then the average used for the forecast will under-represent the variance. A better approach would be to set up the parameters of selectivity as a random process that extends throughout the forecast period, and to update estimated selectivity in each year of the forecast based upon the random realization of these parameters.
 \end{itemize}
 
 	
