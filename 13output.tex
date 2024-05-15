@@ -1,7 +1,7 @@
 \section{Output Files}
 
 \subsection{Custom Reporting}
-\hypertarget{custom}{Additional} user control for what is included in the Report.sso file was added in v.3.30.16. This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file. The numbering system for each item in the Report file is as follows:
+\hypertarget{custom}{Additional} user control for what is included in the \texttt{Report.sso} file was added in v.3.30.16. This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file. The numbering system for each item in the Report file is as follows:
 
 \begin{center}
 	\begin{longtable}{p{1cm} p{6.5cm}p{1cm} p{6cm}}
@@ -33,11 +33,11 @@
 23	& INDEX	3				        &	53	&	SELEX	database \\			
 24	& DISCARD	SPECIFICATION		&	54	&	SPR/YPR	Profile	\\			
 25	& DISCARD	OUTPUT				&	55	&	GLOBAL	MSY	\\			
-26	& MEAN	BODY	WT	OUTPUT		&	56	&	SS\_summary.sso	\\				
-27	& FIT	LEN	COMPS			    &	57	&	rebuilder.sso \\				
-28	& FIT	AGE	COMPS			    &	58	&	SIStable.sso \\				
+26	& MEAN	BODY	WT	OUTPUT		&	56	&	\texttt{SS\_summary.sso} \\				
+27	& FIT	LEN	COMPS			    &	57	&	\texttt{rebuilder.sso} \\				
+28	& FIT	AGE	COMPS			    &	58	&	\texttt{SIStable.sso} \\				
 29	& FIT	SIZE	COMPS			&	59	&	Dynamic	Bzero \\			
-30	& OVERALL	COMPS				&	60	&	wtatage.ss\_new	\\				
+30	& OVERALL	COMPS				&	60	&	\texttt{wtatage.ss\_new}	\\				
 \hline
 	\end{longtable}
 \end{center}
@@ -45,23 +45,23 @@
 \subsection{Standard ADMB output files}
 Standard ADMB files are created by SS3. These are:
 
-ss3.par (previously ss.par) - This file has the final parameter values. They are listed in the order they are declared in SS3. This file can be read back into SS3 to restart a run with these values (see \hyperref[sec:RunningSS3]{Running Stock Synthesis} for more info).
+\texttt{ss3.par} (previously \texttt{ss.par}) - This file has the final parameter values. They are listed in the order they are declared in SS3. This file can be read back into SS3 to restart a run with these values (see \hyperref[sec:RunningSS3]{Running Stock Synthesis} for more info).
 
-ss.std - This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run. It also contains the derived quantities declared as standard deviation report variables. All of this information is also report in the covar.sso. Also, the parameter section of Report.sso lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
+\texttt{ss.std} - This file has the parameter values and their estimated standard deviation for those parameters that were active during the model run. It also contains the derived quantities declared as standard deviation report variables. All of this information is also reported in the \texttt{covar.sso}. Also, the parameter section of \texttt{Report.sso} lists all the parameters with their SS3 generated names, denotes which were active in the reported run, displays the parameter standard deviations, then displays the derived quantities with their standard deviations.
 
-ss.rep - This report file is created between phases so, unlike Report.sso, will be created even if the hessian fails. It does not contain as much output as shown in Report.sso.
+\texttt{ss.rep} - This report file is created between phases so, unlike \texttt{Report.sso}, will be created even if the hessian fails. It does not contain as much output as shown in \texttt{Report.sso}.
 
-ss.cor - This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret. This same information is reported in covar.sso.
+\texttt{ss.cor} - This is the standard ADMB report for parameter and standard deviation report correlations. It is in matrix form and challenging to interpret. This same information is reported in \texttt{covar.sso}.
 
 \subsection{Stock Synthesis Summary}
-The ss\_summary.sso file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place. It is organized as a list. At the top of the file are descriptors, followed by the 1) likelihoods for each component, 2) parameters and their standard errors, and 3) derived quantities and their standard errors. Total biomass, summary biomass, and catch were added to the quantities reported in this file in v.3.30.11 and later.
+The \texttt{ss\_summary.sso} file (available for versions 3.30.08.03 and later) is designed to put key model outputs all in one concise place. It is organized as a list. At the top of the file are descriptors, followed by the 1) likelihoods for each component, 2) parameters and their standard errors, and 3) derived quantities and their standard errors. Total biomass, summary biomass, and catch were added to the quantities reported in this file in v.3.30.11 and later.
 
-Before v.3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME\_SERIES table of Report.sso. The report file should be used instead of ss\_summary.sso for correct calculation of these quantities before v.3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in report.sso for calculations done at times other than January 1.
+Before v.3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME\_SERIES table of \texttt{Report.sso}. The report file should be used instead of \texttt{ss\_summary.sso} for correct calculation of these quantities before v.3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in \texttt{Report.sso} for calculations done at times other than January 1.
 
 \subsection{SIS table}
-The SIS\_table.sso is deprecated as of v.3.30.17. Please use the \hyperref[sec:r4ss]{r4ss} function \texttt{get\_SIS\_info()} instead. 
+The \texttt{SIS\_table.sso} is deprecated as of v.3.30.17. Please use the \hyperref[sec:r4ss]{r4ss} function \texttt{get\_SIS\_info()} instead. 
 
-The SIS\_table.sso file contains model output formatted for reading into the NMFS Species Information System (\href{https://www.st.nmfs.noaa.gov/sis/}{SIS}). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees.
+The \texttt{SIS\_table.sso} file contains model output formatted for reading into the NMFS Species Information System (\href{https://www.st.nmfs.noaa.gov/sis/}{SIS}). This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the SIS database. A time-series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the SIS database is granted to all NOAA employees.
 
 \subsection{Derived Quantities}
 Before listing the derived quantities reported to the standard deviation report, there are a couple of topics that deserve further explanation.
