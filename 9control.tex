@@ -1493,23 +1493,27 @@ It is possible to use the initial $F$ method to achieve an estimate of the initi
 
 \hypertarget{Qsetup}{}
 \subsection{Catchability}
-Catchability is the scaling factor that relates a model quantity to the expected value for some type of data (index). Typically this is used to converted selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet. In SS3, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the time series of deviations for some parameter. This flexibility means that a family of link functions beyond simple proportionality is needed.
+Catchability is the model process that converts selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet. In SS3, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the time series of deviations for some parameter. Thus, the concept of catchability is expanded to include a family of link functions beyond simple proportionality.
 
-For each fishery and survey with an index, enter a row with the entries as described below:
+Collectively, all factors that need a catchability are considered to be an index. Note that the catchability options entered in this section of the control file have a strong relationship with the index units (i.e. biomass vs. numbers vs. deviations) and index error type (i.e. normal vs. T-distribution) as entered in the data file.
+
+For each fleet that has index observations, enter a row with six entries as described below. Fleets with no index observations are omitted.
 
 \begin{enumerate}
 	\item Fleet Number
-	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation.
-	\begin{enumerate}
-		\item 1 = simple Q, proportional assumption about Q: $y=q*x$.
+	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation. See \hyperlink{QParam}{example Q parameter lines} below for an example set up for link types 4-6.
+	\begin{enumerate}[(a)]
+		\item 1 = simple Q, e.g. proportional: $y=Q*x$ where $x$ is a model quantity, like selected biomass, and $y$ is the expected value for the index.
 		\item 2 = mirror simple Q - this will mirror the Q value from another fleet. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q (example: fleet 3 mirror fleet 2). Requires a Q parameter line for the fleet but will not be used.
-		\item 3 = Q with power, 2 parameters establish a parameter for non-linearity in survey-abundance linkage. Assumes proportional with offset and power function: $y=qx^c$ where $q = exp(lnQ_{base}))$ thus the $c$ is not related to expected biomass but vulnerable biomass to Q. Therefore, $c > 0$ leads to hyper-stability and $c < 0$ leads to hyper-depletion.
-		\item 4 = mirror Q with offset (2 parameter lines required). The mirrored Q with offset for with be reported as base Q + offset value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. See \hyperlink{MirrorQoffset}{mirrored Q with offset} below for example set up.
-		\item If the parameter is for an index of a deviation vector (index units = 35), use this column to enter the index of the deviation vector to which the index is related.
+		\item 3 = power function to allow non-linearity in the expected value for the index: $y=Qx^{(1+c)}$. Therefore, $c > 0$ leads to hypter-stability and $c < 0$ leads to hyper-depletion. The power function option cannot be used with deviation surveys (type 35 or 36) because of negative values in the deviation vectors.
+		\item 4 = mirror Q with scale (2 parameter lines required) with the second parameter (scale) being added to the Q being mirrored. The mirrored Q will be reported as base Q + scale value. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q. An example usage is when the CPUE of a fleet in one area is assumed to have the same catchability as the CPUE for a comparable fleet operating in another area. The scale parameter could be used to adjust for the relative spatial areas because Q relates CPUE to area-specific population abundance, not population density per area.
+		\item 5 = offset (2 parameter lines required). This option, new with v.3.30.23, requires a second parameter that is added to the expected values before multiplying Q. This is most useful for survey types 35 and 36, even if those survey input vectors have already been zero centered. $y=Q*(x+B)$
+		\item 6 = offset and power (3 parameter lines required). This requires 2 parameters in addition to the Q parameter. The first is for the offset and the second is for the power, $y=Q*(x+b)^{(1+c)}$.
 	\end{enumerate}
 	\item \hypertarget{link_info}{Extra input for link information (i.e., mirror fleet)}
-	\begin{enumerate}
-		\item >0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number)
+	\begin{enumerate}[(a)]
+		\item > 0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number).
+		\item If the parameter is for an index of a deviation vector (index units = 35), use this column to enter the endex of the deviation vector to which the index is related. 
 		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
 		\begin{itemize}
 			\item 0 = add 1 to phases of all parameters. Only R0 active in new phase 1. Mimics the default option of previous model versions;
@@ -1517,18 +1521,18 @@ For each fishery and survey with an index, enter a row with the entries as descr
 			\item 2 = no phase adjustments, can be used when profiling on fixed R0.
 		\end{itemize}
 	\end{enumerate}
-	\item Estimate extra standard error for an index
-	\begin{enumerate}
+	\item Extra\_se: Estimatable extra standard error for an index
+	\begin{enumerate}[(a)]
 		\item 0 = skip (typical); and
-		\item 1 = estimate a parameter that will contain an additive constant to be added to the input standard deviation of the survey variability.
+		\item 1 = include a parameter that will contain a value to be added to the input standard deviation of the survey variability.
 	\end{enumerate}
-	\item Bias adjustment - adjusts for log-normal bias when using an informative prior on Q. \textbf{NOTE: Bias adjustment to Q is ONLY applied when also using the float approach. See below for Q float specifications.} An expanded bias adjustment approach is under development.
-	\begin{enumerate}
+	\item Bias\_adj: Adjusts for log-normal bias when using an informative prior on Q. \textbf{NOTE: Bias adjustment to Q is ONLY applied when also using the float approach. See below for Q float specifications.} An expanded bias adjustment approach is under development.
+	\begin{enumerate}[(a)]
 		\item 0 = no bias adjustment applied; and
 		\item 1 = apply bias adjustment. Bias correction will be applied to the estimated Q value.
 	\end{enumerate}
-	\item Q float
-	\begin{enumerate}
+	\item Float: Allows Q parameter to be automatically calculated to maintain no deviation between the index and the expected value. Only available for link = 1.
+	\begin{enumerate}[(a)]
 		\item 0 = no float, parameter is estimated; and
 		\item 1 = float, analytical solution is used, but parameter line still required.
 		\item Additional information regarding the use of and appropriate application of float in Q can be found in the \hyperlink{FloatQ}{Float Q} section below.
@@ -1555,7 +1559,7 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	\endfirsthead
 
 	\hline
-	LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> &Block Fxn & Parameter Label \Bstrut\\
+	LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Block Fxn & Parameter Label \Bstrut\\
 	\hline
 	\endhead
 
@@ -1563,44 +1567,45 @@ For each fishery and survey with an index, enter a row with the entries as descr
 	\endfoot
 	\endlastfoot
 
-	-5 & 5 & -0.12 & \multicolumn{1}{c}{...} & 1 & \multicolumn{1}{c}{...} & 0 & \#Survey1 LnQ base \Tstrut\\
-	0 & 0.5 & 0.1 & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Survey1 Extra SD \Bstrut\\
+	-5 & 5 & -0.12 & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Survey1 LnQ base \Tstrut\\
+	 0 & 0.5 & 0.1 & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Survey1 Extra SD \Bstrut\\
 	\hline
 \end{longtable}
 
 If the Q base parameter specifies that it is time-varying by the annual deviation method, short parameter lines to specify the specifications of the deviation vector come after all the base Q parameters.
 
-\hypertarget{MirrorQoffset}{}
-\subsubsection{Mirrored Q with offset}
-Below is an example setup for fleets with a mirrored Q and offset from another fleet (link type = 4):
-\begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.3cm} p{2.3cm}}
+\hypertarget{QParams}{}
+\subsubsection{Example Q parameter lines}
+Below is an example setup for fleets with a mirrored Q and scale from another fleet (link type = 4), scale from another fleet with offset (link type = 5), and scale from another fleet with offset and power (link type = 5):
+\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{7.6cm}}
 	\multicolumn{7}{l}{For a setup with a single survey, the Q setup matrix could be:} \\
 	\hline
 	Fleet \Tstrut & Link & Link & Extra & Bias   & & \\
 	Num.          & Type & Info & SD    & Adjust & Float & Label \Bstrut\\
 	\hline
 	1 & 1 & 0 & 1 & 0 & 0 & \#Fleet 1 \Tstrut\\
-	2 & 4 & 1 & 0 & 0 & 0 & \#Fleet 2 \Tstrut\\
+	2 & 4 & 1 & 0 & 0 & 0 & \#Fleet 2 \\
+	3 & 5 & 0 & 0 & 0 & 0 & \#Fleet 3 using Q with offset parameter \\
+    4 & 6 & 0 & 0 & 0 & 0 & \#Fleet 4 using Q with offset and power parameters \\
 	-9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \Bstrut\\
 	\hline
 \end{longtable}
 
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.75cm} p{4cm}}
-	\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e. Q) and for the} \\
+	\multicolumn{8}{l}{A long parameter line is expected for each link parameter (i.e. Q)} \\
 	\hline
 	LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Block Fxn & Parameter Label \Bstrut\\
 	\hline
-	\endfirsthead
-	
-	\hline
-	\endfoot
-	\endlastfoot
-	
-	-7 & 5   & 0.51 & \multicolumn{1}{c}{...} & 1  & \multicolumn{1}{c}{...} & 0 & \#Fleet 1 LnQ base\Tstrut\\
-	0  & 0.5 & 0.1  & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 1 Extra SD\Tstrut\\
-	-7 & 5   & -6   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 2 LnQ base\Bstrut\\
-	-8 & 5   & -7   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 2 Mirror Q offset\Bstrut\\
+	-7  & 5   & 0.51 & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 1 LnQ base \Tstrut\\
+	 0  & 0.5 & 0.1  & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 1 Extra SD \\
+	-7  & 5   & -6   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 2 LnQ base \\
+	-8  & 5   & -7   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 2 Mirror Q offset \\
+	-15 & 15  & 0.84 & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 3 Q base \\
+    -15 & 15  & 0    & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 3 Q offset \\
+	-10 & 10  & 0.74 & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 4 Q base \\
+    -10 & 10  & 0    & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 4 Q offset \\
+    0.2 & 3.0 & 0.5  & \multicolumn{1}{c}{...} &  3 & \multicolumn{1}{c}{...} & 0 & \#Fleet 4 Q power \Bstrut\\
 	\hline
 \end{longtable}
 
