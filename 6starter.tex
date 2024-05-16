@@ -4,7 +4,7 @@
 \subsection{Reading the Manual's format}
 SS3 begins by reading the file starter.ss. The starter file contains need information on the names of the control and data files, run conditions, and output specifications. The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
-\subsection{Terminology for Fishing Mortality, F}
+\subsection{Terminology for Fishing Mortality, $F$}
 Here we introduce some terminology related to fishing mortality, $F$. This will provide context for some of the quantities that will be read from the starter file and used throughout the document
 
 $f$ is fleet.
@@ -17,17 +17,17 @@ $s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-sp
 
 $F_{t,f,a}$ is fishing mortality at age for fleet $f$. There is no subscript for area because each fleet is defined to operate in only one area.
 
-$F_{t,f}'$ is a fleet's fishing mortality for the age that has selectivity equal to 1.0. This is also termed F' or full\_F in the SS3 system. If your model is using parameters for $F$, then the parameter values are for the $F'$. Note that some selectivity curves, like double normal, are explicit about having a maximum of 1.0. But other curves like logistic and combinations of length-selectivity and growth, may produce an age-selectivity curve that never reaches 1.0 and time-varying non-parametric selectivity will produce values > 1.0 routinely. In all cases, the resultant $F_{t,f,a}$ comes from $F_{t,f}' * s_{t,f,a}$, so the range of the $F'$ compensates for the scale of the $s$.
+$F_{t,f}'$ is a fleet's fishing mortality for the age that has selectivity equal to 1.0. This is also termed F' or $\text{full\_}F$ in the SS3 system. If your model is using parameters for $F$, then the parameter values are for the $F'$. Note that some selectivity curves, like double normal, are explicit about having a maximum of 1.0. But other curves like logistic and combinations of length-selectivity and growth, may produce an age-selectivity curve that never reaches 1.0 and time-varying non-parametric selectivity will produce values > 1.0 routinely. In all cases, the resultant $F_{t,f,a}$ comes from $F_{t,f}' * s_{t,f,a}$, so the range of the $F'$ compensates for the scale of the $s$.
 
-Apical selectivity is the maximum age-specific selectivity and is not explicit in any internal calculation in SS3, it is just for reporting. If selectivity has a maximum value of 1.0, then apical\_F and full\_F are identical.
+Apical selectivity is the maximum age-specific selectivity and is not explicit in any internal calculation in SS3, it is just for reporting. If selectivity has a maximum value of 1.0, then $\text{apical\_}F$ and $\text{full\_}F$ are identical.
 
 Fully-selected age range is not explicitly used in SS3, especially because SS3 applications routinely have multiple fleets with different selectivity patterns that may have little overlap.
 
 Fbar is the average $F$ over a user specified range of ages, implicitly the fully-selected range for the total $F$ from all the fleets. Some SS3 output options will display Fbar.
 
-Annual\_F is essentially the same as Fbar and is an output quantity.
+$\text{Annual\_}F$ is essentially the same as Fbar and is an output quantity.
 
-F\_std is an output quantity that may be based on Annual\_F or other calculated quantities like exploitation rate. Importantly, the output values of F\_std may be presented as a ratio relative to an equivalent benchmark (reference point) quantity; e.g. $F / F_{MSY}$. Further, the variance of F\_std will be calculated and output.
+F\_std is an output quantity that may be based on $\text{annual\_}F$ or other calculated quantities like exploitation rate. Importantly, the output values of F\_std may be presented as a ratio relative to an equivalent benchmark (reference point) quantity; e.g. $F / F_{MSY}$. Further, the variance of $F\text{\_std}$ will be calculated and output.
 
 $C_{t,f}$ is fleet-specific catch in a time step.
 
