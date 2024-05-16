@@ -1,7 +1,38 @@
 
 \section{Starter File}
 
-SS3 begins by reading the file starter.ss. The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
+\subsection{Reading the Manual's format}
+SS3 begins by reading the file starter.ss. The starter file contains need information on the names of the control and data files, run conditions, and output specifications. The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
+
+\subsection{Terminology for Fishing Mortality, $F$}
+Here we introduce some terminology related to fishing mortality, $F$. This will provide context for some of the quantities that will be read from the starter file and used throughout the document
+
+$f$ is fleet.
+
+$t$ is a time step; continuous across years $y$ and seasons $s$; equivalent to year if only 1 season.
+
+$a$ is age.
+
+$s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity due to length-selectivity is calculated as the dot product across length bins of length selectivity and the normal (or lognormal) distribution of length-at-age. If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity. This compound age selectivity is used in the mortality calculations and is reported as Asel2 in report:32 of report.sso. Selectivity can be sex-specific, and different growth morphs and platoons can have different age-selectivity due to the effect of length-selectivity on their unique size-at-age. This added dimension, $g$, for biological group is not included in the nomenclature here but exists in all the SS3 calculations.
+
+$F_{t,f,a}$ is fishing mortality at age for fleet $f$. There is no subscript for area because each fleet is defined to operate in only one area.
+
+$F_{t,f}'$ is a fleet's fishing mortality for the age that has selectivity equal to 1.0. This is also termed F' or $\text{full\_}F$ in the SS3 system. If your model is using parameters for $F$, then the parameter values are for the $F'$. Note that some selectivity curves, like double normal, are explicit about having a maximum of 1.0. But other curves like logistic and combinations of length-selectivity and growth, may produce an age-selectivity curve that never reaches 1.0 and time-varying non-parametric selectivity will produce values > 1.0 routinely. In all cases, the resultant $F_{t,f,a}$ comes from $F_{t,f}' * s_{t,f,a}$, so the range of the $F'$ compensates for the scale of the $s$.
+
+Apical selectivity is the maximum age-specific selectivity and is not explicit in any internal calculation in SS3, it is just for reporting. If selectivity has a maximum value of 1.0, then $\text{apical\_}F$ and $\text{full\_}F$ are identical.
+
+Fully-selected age range is not explicitly used in SS3, especially because SS3 applications routinely have multiple fleets with different selectivity patterns that may have little overlap.
+
+Fbar is the average $F$ over a user specified range of ages, implicitly the fully-selected range for the total $F$ from all the fleets. Some SS3 output options will display Fbar.
+
+$\text{Annual\_}F$ is essentially the same as Fbar and is an output quantity.
+
+F\_std is an output quantity that may be based on $\text{annual\_}F$ or other calculated quantities like exploitation rate. Importantly, the output values of F\_std may be presented as a ratio relative to an equivalent benchmark (reference point) quantity; e.g. $F / F_{MSY}$. Further, the variance of $F\text{\_std}$ will be calculated and output.
+
+$C_{t,f}$ is fleet-specific catch in a time step.
+
+$B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by fleet-specific age selectivity, $s_{t,f,a}$. Note that this is not adjusted by the $max(s_{t,f,a})$.
+
 
 {
 \setlength\extrarowheight{4pt}
@@ -97,17 +128,17 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
    & 1 = use. & \\
    & & \\
    & & \\
-   & & \\
-   & & \\
+  %  & & \\
+  %  & & \\
 
- \pagebreak
-%  \hline
- 1 & Number of Data Files to Output: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{All output files are sequentially output to data\_echo.ss\_new and need to be parsed by the user into separate data files. The output of the input data file makes no changes, retaining the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to data\_echo.ss\_new. As of v.3.30.19, the output file names have changed; now a separate file is created for the echoed data (data\_echo.ss\_new), the expected data values given the model fit (data\_expval.ss), and any requested bootstrap data files (data\_boot\_x.ss where x is the bootstrap number). In versions before v.3.30.19, each of these outputs was printed to a single file called data.ss\_new.}} \Tstrut\Bstrut\\
+%  \pagebreak
+ \hline
+ 1 & Number of Data Files to Output: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{All output files are sequentially output to data\_echo.ss\_new and need to be parsed by the user into separate data files. The output of the input data file makes no changes, retaining the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to data\_echo.ss\_new. As of v.3.30.19, the output file names have changed; a separate file is created for the echoed data (data\_echo.ss\_new), the expected data values given the model fit (data\_expval.ss), and any requested bootstrap data files (data\_boot\_x.ss where x is the bootstrap number). In versions before v.3.30.19, these outputs were printed to a single file called data.ss\_new.}} \Tstrut\Bstrut\\
    & 0 = none; As of v.3.30.16, none of the .ss\_new files will be produced;& \Bstrut\\
    & 1 = output an annotated replicate of the input data file; & \Tstrut\Bstrut\\
-   & 2 = add a second data file containing the model's expected values with no added error. ; and & \Tstrut\Bstrut\\
+   & 2 = add a second data file containing the model's expected values with no added error; and & \Tstrut\Bstrut\\
    & 3+ = add N-2 parametric bootstrap data files. & \Tstrut\\
-   & & \Bstrut\\
+  %  & & \Bstrut\\
   %  & & \\
 
  \hline
@@ -124,12 +155,12 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
  %\pagebreak
  200 & MCMC thin interval & Number of iterations to remove between the main period of the MCMC run. \Tstrut\\
 	
- \pagebreak
-%  \hline 
- 0.0 & \hyperlink{Jitter}{Jitter:} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The jitter function has been revised with v.3.30. Starting values are now jittered based on a normal distribution with the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%. A positive value here will add a small random jitter to the initial parameter values. When using the jitter option, care should be given when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.}} \Tstrut\\ 
-	 & 0 = no jitter done to starting values; and & \\
-	 & >0 starting values will vary with larger jitter values resulting in larger changes from the parameter values in the control or par file. & \\
-	 & & \\
+%  \pagebreak
+ \hline 
+ 0.0 & \hyperlink{Jitter}{Jitter:} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The jitter function has been revised with v.3.30. Starting values are now jittered based on a normal distribution with the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%. A positive value here will add a small random jitter to the initial parameter values. When using the jitter option, take care when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.}} \Tstrut\Bstrut\\ 
+	 & 0 = no jitter done to starting values; and & \Bstrut\\
+	 & > 0 starting values will vary with larger jitter values resulting in larger changes from the parameter values in the control or par file. & \Bstrut\\
+	%  & & \\
 	
  \hline
  -1 & SD Report Start: & \Tstrut\\
@@ -159,7 +190,7 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
   & & \\
  
  \hline
- 0.0001 & Final convergence & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This is a reasonable default value for the change in log likelihood denoting convergence. For applications with much data and thus a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence.}} \Tstrut\Bstrut\\
+ 0.0001 & Final convergence & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This is a reasonable default value for the change in log likelihood denoting convergence. For applications with much data and a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence.}} \Tstrut\Bstrut\\
    & & \Bstrut\\
    & & \Bstrut\\
 	%  & & \\ 
@@ -175,59 +206,58 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
 
  \hline
 %  \pagebreak
- 1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in SB. The calculated values are reported to the SD report.}} \Tstrut\\
-   & 0 = skip; & \\
-   & 1 = X*SB0; & Relative to virgin spawning biomass. \\
-   & 2 = X*SB\textsubscript{MSY}; & Relative to spawning biomass that achieves MSY. \\
-   & 3 = X*SB\textsubscript{styr}; and & Relative to model start year spawning biomass. \\
-   & 4 = X*SB\textsubscript{endyr}. & Relative to spawning biomass in the model end year. \\
-   & 5 = X*Dynamic SB0 & Relative to the calculated dynamic SB0. \\
-   & & Use hundreds and tens place to invoke multi-year trailing average, the ones place for depletion basis value, and the decimal place invoke log(ratio). This approach for multi-year log(ratio) was implemented with v.3.30.24 (2024). \\
-   & & Example: 122.1 invokes a 12 year trailing average for X*SB\textsubscript{MSY} using log(ratio). \\
-   & & Note that the trailing average always goes up to the endyr and once it gets to the first forecast year it stops the trailing average. \Bstrut\\
+ 1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in reproductive output (aka spawning biomass, aka B). The calculated values are reported to the SD report relative to a fraction, X, of a comparable quantity calculated in the benchmark section or elsewhere.}} \Tstrut\\
+   & & \Bstrut \\
+   & 0 = skip; & \Tstrut \\
+   & 1 = X*B0; & Relative to virgin spawning biomass. \\
+   & 2 = X*B\textsubscript{MSY}; & Relative to spawning biomass that achieves MSY. \\
+   & 3 = X*B\textsubscript{styr}; and & Relative to model start year spawning biomass. \\
+   & 4 = X*B\textsubscript{endyr}. & Relative to spawning biomass in the model end year. \\
+   & 5 = X*Dynamic B0 & Relative to the calculated dynamic B0. \\
+   & use tens and hundreds digits to invoke multi-year trailing average & \\
+   & append 0.1 to invoke log(ratio) & \Bstrut\\
   
  \hline
- 1 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SB\textsubscript{y}/(X*SB0). \Tstrut\Bstrut\\
+ 1.0 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for SB\textsubscript{y}/(X*SB0). \Tstrut\Bstrut\\
 
-%  \hline
- \pagebreak
- 1 & SPR report basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{SPR is the equilibrium SB per recruit that would result from the current year's pattern and intensity of F's. The quantities identified by 1, 2, and 3 here are all calculated in the benchmarks section. Then the one specified here is used as the selected.}} \Tstrut\\
+ \hline
+%  \pagebreak
+ 1 & SPR report scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{SPR is the equilibrium SB per recruit that would result from the current year's F-at-age. The quantities identified by 1, 2, and 3 here are calculated in the benchmarks section. Then the one specified here is used as the selected denominator in a ratio with the annual value of (1 - SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}} \Tstrut\\
    & 0 = skip; & \\
    & 1 = use 1-SPR\textsubscript{target}; & \\
    & 2 = use 1-SPR at MSY; & \Tstrut\\
-   & 3 = use 1-SPR at B\textsubscript{target}; and & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Denominator in a ratio with the annual value of (1 - SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}} \Tstrut\\
+   & 3 = use 1-SPR at B\textsubscript{target}; and &  \Tstrut\\
    & 4 = no denominator, so report actual 1-SPR values. & \\
   
-%  \pagebreak
-\hline 
- 4 & Annual F units: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In addition to SPR, an additional proxy for annual F can be specified here. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see F report basis below) benchmark value is reported to the SD report vector. Options 1 and 2 use total catch for the year and summary abundance at the beginning of the year, so combines seasons and areas. But if most catch occurs in one area and there is little movement between areas, this ratio is not informative about the F in the area where the catch is occurring. Option 3 is a simple sum of the full F's by fleet, so may provide non-intuitive results when there are multi areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real annual F calculated as a numbers weighted F for a specified range of ages (read below). The F is calculated as Z-M where Z and M are each calculated an ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without F active, respectively. The numbers are summed over all biology morphs and all areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
+ \pagebreak
+% \hline 
+ 4 & $F\text{\_std}$ reporting units: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{An additional proxy for fishing intensity is based on the fraction of the population that is caught. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see $F$ report basis below) benchmark value is reported to the SD report vector as $F\text{\_std}$. Options 1 and 2 ignore details of age-structure and are simply based on annual exploitation rate across all areas. If most catch occurs in one area and there is little movement between areas, this ratio is not informative about the $F$ in the area where the catch occurs. Option 3 is a simple sum of the full $F$'s by fleet, so may provide non-intuitive results when there are multiple areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real $\text{annual\_}F$ calculated as a numbers weighted $F$ for a specified range of ages. The $F$ for each age is calculated as $Z-M$ where $Z$ and $M$ are each calculated as ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without $F$ active, respectively. The numbers are summed over all biology morphs and areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
    & 0 = skip; & \\
    & 1 = exploitation rate in biomass; & \\
    & 2 = exploitation rate in numbers; & \\
-   & 3 = sum(apical F's by fleet); & \\
-   & 4 = population F for range of ages; and & \\
-   & 5 = unweighted average F for range of ages. & \\
+   & 3 = sum($F$'s by fleet); & \\
+   & 4 = Fbar: numbers weighted $F$ for range of ages using $Z$-$M$ approach; and & \\
+   & 5 = Fbar: unweighted average $F$ for range of ages. & \\
    & & \\
-   & & \\
-   & & \Bstrut\Bstrut\\
-   & & \Bstrut\Bstrut\\
-   & & \Bstrut\\ 
+   & & \Bstrut\\
+   & & \Bstrut\\
+   & & Note that these $F$ statistics do not depend upon whether the $F$ approach uses midseason exploitation rate (Pope's), or continuous $F$; nor whether the continuous $F$ is based on parameters or the hybrid calculation method. Read more about the $F$ method in the control file section of the report. For more information on $F$ reporting, see \hyperlink{FMortality}{Metrics for Fishing Mortality}. \Bstrut\\ 
   %  & & \\ 
   
  \hline
- %\pagebreak
- \multicolumn{2}{l}{COND: If F std reporting $\geq$ 4} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.}} \Tstrut\\
- \multicolumn{1}{r}{3 7}  & Age range if F std reporting = 4. & \Tstrut\Bstrut\\
+%  \pagebreak
+ \multicolumn{2}{l}{COND: If $F\text{\_std}$ reporting $\geq$ 4} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify range of ages. Upper age must be less than max age because of incomplete handling of the accumulator age for this calculation.}} \Tstrut\\
+ \multicolumn{1}{r}{3 7}  & Age range if $F\text{\_std}$ reporting = 4. & \Tstrut\Bstrut\\
 
 %  \hline
  \pagebreak
- 1 & F report basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the denominator to use when reporting the F std report values. A new option to allow for the calculation of a multi-year trailing average in F was implemented in v.3.30.16. This option is triggered by appending the number of years to calculate the average across where an input of 1 or 11 would result in the SPR\textsubscript{target} with no changes. Alternatively a value of 21 would calculate F as SPR\textsubscript{target} with a 2-year trailing average.}} \Tstrut\\
+ 1 & $F\text{\_std}$ scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{$F\text{\_std}$ is typically reported as a ratio to the value of an equivalent $F$ calculation that would occur at the benchmark level of fishing. Here the user selects the denominator for that ratio. This ratio can be presented as a multi-year trailing average in $F$ or as a log(ratio). For example, 122.1 would do a 12 year trailing average of the ratio using $F_{MSY}$ and present the result as the log(ratio).}} \Tstrut\\
    & 0 = not relative, report raw values; & \\
-   & 1 = use F std value relative to SPR\textsubscript{target}; & \\
-   & 2 = use F std value relative to F\textsubscript{MSY}; and & \\
-   & 3 = use F std value relative to F\textsubscript{Btarget}. & \\
-   & use tens digit (1-9) to invoke multi-year (up to 9 yrs) F std & \\
-   & use 1 as hundreds digit to invoke log(ratio) & \Bstrut\\
+   & 1 = use $F\text{\_std}$ value relative to $SPR_{target}$; & \\
+   & 2 = use $F\text{\_std}$ value relative to $F_{MSY}$; and & \\
+   & 3 = use $F\text{\_std}$ value relative to $F_{Btarget}$. & \\
+   & use tens and hundreds digits to invoke multi-year averaged $F\text{\_std}$ & \\
+   & append 0.1 to the integer to invoke log(ratio) & \Bstrut\\
 
   \hline
   %\pagebreak
@@ -237,27 +267,28 @@ SS3 begins by reading the file starter.ss. The term COND appears in the ``Typica
   & 2 = write report for each mceval; and & \\		 
   & 3 = make output subdirectory for each MCMC vector. & \Bstrut\\
   & & \Tstrut\Bstrut\\
-  & & \\ 
-  & & \\ 
+  % & & \\ 
+  % & & \\ 
   % & & \\  		 
   
+  % \pagebreak
   \hline
-  \hypertarget{ALK}{0} & Age-length-key (ALK) tolerance level & This effect is disabled in code, enter 0. \Tstrut\Bstrut\\
+  \raisebox{0.1\ht\strutbox}{\hypertarget{ALK}{0}} & Age-length-key (ALK) tolerance level & This effect is disabled in code, enter 0. \Tstrut\Bstrut\\
   % \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Value of 0 will not apply any compression.  Values > 0 (e.g., 0.0001) will apply compression to the ALK which will increase the speed of calculations.  The size of this value will impact the run time of your model, but one should be careful to ensure that the value used does not appreciably impact the estimated quantities relative to no compression of the ALK.  The suggested value if applied is 0.0001.}} \Tstrut\Bstrut\\ 
   % & & \\
   % & & \Tstrut\\
   % & & \Tstrut\Bstrut\\
 
-  \pagebreak
-  % \hline  
+  % \pagebreak
+  \hline  
   \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)}& \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to v.3.30.15 This is an optional input value allowing for the specification of a random number seed value. If you do not want to specify a seed, skip this input line and end the starter file with the check value (3.30).}} \Tstrut\Bstrut\\
   & & \\ 
   & & \Bstrut\\
   & & \\
   
-%  \pagebreak
- \hline
- \hypertarget{Convert}{3.30} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The ss\_trans.exe executable should be used and will convert the v.3.24 files the control.ss\_new and data\_echo.ss\_new files to the new format. All ss\_new files are in the v.3.30 format, so starter.ss\_new has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a ss3.par file produced by v.3.24 and earlier, so ensure that read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from Stock Synthesis v.3.24} section has additional information on model features that may impede file conversion.}} \Tstrut\Bstrut\\
+ \pagebreak
+%  \hline
+ \raisebox{0.1\ht\strutbox}{\hypertarget{Convert}{3.30}} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The ss\_trans.exe executable should be used and will convert the v.3.24 files the control.ss\_new and data\_echo.ss\_new files to the new format. All ss\_new files are in the v.3.30 format, so starter.ss\_new has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a ss3.par file produced by v.3.24 and earlier, so ensure that read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from Stock Synthesis v.3.24} section has additional information on model features that may impede file conversion.}} \Tstrut\Bstrut\\
      & & \\  
      & & \\  
 	   & & \\
