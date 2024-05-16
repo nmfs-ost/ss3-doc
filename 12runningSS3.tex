@@ -21,7 +21,7 @@ On Mac and Linux computers, the executable name must be preceded by a period and
 	\end{verbatim}
 \end{quote}
 
-An additional command has been added that allows users to specify the name of the \texttt{.par} file that is both read and output. Prior to v.3.30.22.1, the default exe name was `ss' and the default \texttt{.par} file name was \texttt{ss.par}. The code now produces a \texttt{ss3.par} file by default instead of a \texttt{ss.par} file. The code will search for the default \texttt{ss3.par} file first, and then look for a \texttt{ss.par} file in order to have backwards compatibility and will by default output a \texttt{ss3.par} file (not a \texttt{ss.par} file). If you would like to read a differently named \texttt{.par} file and produce a \texttt{.par} file with the same name, you will need to add the ``modelname'' command. See the below example of using ``modelname'' to read and produce a \texttt{.par} file with the name ``ss4you''.:
+An additional command has been added that allows users to specify the name of the \texttt{.par} file that is both read and output. Prior to v.3.30.22.1, the default exe name was `ss' and the default \texttt{.par} file name was \texttt{ss.par}. The code now produces a \texttt{ss3.par} file by default instead of a \texttt{ss.par} file. The code will search for the default \texttt{ss3.par} file first, and then look for a \texttt{ss.par} file in order to have backwards compatibility and will by default output a \texttt{ss3.par} file (not a \texttt{ss.par} file). If you would like to read a differently named \texttt{.par} file and produce a \texttt{.par} file with the same name, you will need to add the \texttt{modelname} command. See the below example of using \texttt{modelname} to read and produce a \texttt{.par} file with the name \texttt{ss4you}.
 
 \begin{quote}
 	\begin{verbatim}
@@ -29,13 +29,13 @@ An additional command has been added that allows users to specify the name of th
 	\end{verbatim}
 \end{quote}
 
-Additional ADMB commands can follow the executable name, such as \texttt{-nohess} to avoid calculating the Hessian matrix. To see a full list of options, add ``-?'' after the executable name (with a space in between).
+Additional ADMB commands can follow the executable name, such as \texttt{-nohess} to avoid calculating the Hessian matrix. To see a full list of options, add \texttt{-?} after the executable name (with a space in between).
 
 On all operating systems, a copy of the SS3 executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below.
 
 Often there is a need to run the model with no estimation. Alternative methods to run SS3 without estimating parameters are documented in the \hyperlink{NoEst}{Running Without Estimation section}. 
 
-As of ADMB 12.3, a new command called ``-hess\_step'' is available to use and documented in the \hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}
+As of ADMB 12.3, a new command called \texttt{-hess\_step} is available to use and documented in the \hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}
 
 \subsubsection{Example of DOS batch input file}
 One file management approach is to put \texttt{ss3.exe} in its own folder (example:  C:\textbackslash SS3\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS3\_runs). Then a DOS batch file in the SS3\_runs folder can be run at the command line to start \texttt{ss3.exe}. All output will appear in SS3\_runs folder.
@@ -113,7 +113,7 @@ This second example processes 25 data files from a different directory, each tim
 
 \hypertarget{NoEst}{}
 \subsubsection{Running Without Estimation}
-There may be time when users will want to run the model without parameter estimation. The ADMB command -noest will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS3 and ADMB.  
+There may be time when users will want to run the model without parameter estimation. The ADMB command \texttt{-noest} will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS3 and ADMB.  
 
 The first approach requires the user to change the maximum phase value in the \texttt{starter.ss} file to 0 then running the model via the command widow as without calculating the hessian:
 
