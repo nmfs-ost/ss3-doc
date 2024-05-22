@@ -470,7 +470,7 @@ Indices with SD Report enabled will have the expected values for their historica
 		\item If the fishery or survey has time-varying selectivity, then this changing selectivity will be taken into account when calculating expected values for the CPUE or survey index.
 		\item Year values that are before start year or after end year are excluded from model, so the easiest way to include provisional data in a data file is to put a negative sign on its year value.
 		\item Duplicate survey observations for the same year are not allowed.
-		\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID. Previously the code for not using observations was to enter the observation itself as a negative value. However, that old approach prevented use of a Z-score environmental index as a ``survey''. This approach is best for single or select years from an index rather than an approach to remove a whole index. Removing a whole index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
+		\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID. Previously the code for not using observations was to enter the observation itself as a negative value. However, that old approach prevented use of a Z-score environmental index as a ``survey''. This approach is best for single or select years from an index rather than an approach to remove a whole index. Removing an index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
 		\item Observations can be entered in any order, except if the super-year feature is used.
 		\item Super-periods are turned on and then turned back off again by putting a negative sign on the season. Previously, super-periods were started and stopped by entering -9999 and the -9998 in the SE field. See the \hyperlink{SuperPeriod}{Data Super-Period} section of this manual for more information.
 		\item If the statistical analysis used to create the CPUE index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery's size and age composition, then you may want to enter the CPUE as if it was a separate survey and with a selectivity that differs from the fishery's estimated selectivity. The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the CPUE should be derived through an area-weighted approach to better serve as a survey of stock abundance.
@@ -551,8 +551,8 @@ This is the overall mean body weight or length across all selected sizes and age
 		1  & \multicolumn{6}{l}{Use mean body size data (0/1)} \Tstrut\Bstrut\\
 		\hline
 		\multicolumn{7}{l}{COND > 0:}\Tstrut\\
-		30 & \multicolumn{6}{l}{Degrees of freedom for Student's t-distribution used to evaluate mean body weight} \\
-		  & \multicolumn{6}{l}{deviation.} \Bstrut\\
+		30 & \multicolumn{6}{l}{Degrees of freedom for Student's t-distribution used to evaluate mean body} \\
+		  & \multicolumn{6}{l}{weight deviation.} \Bstrut\\
 		\hline
 		Year & Month & Fleet & Partition & Type & Observation & CV \Tstrut\Bstrut\\
 		\hline
@@ -640,14 +640,14 @@ If the value 0 is entered, then skip all length related inputs below and skip to
 
 If the value for fleet is negative, then the vector of inputs is copied to all partitions (0 = combined, 1 = discard, and 2 = retained) for that fleet and all higher numbered fleets. This as a good practice so that the user controls the values used for all fleets.
 
-\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1cm}}
-	\multicolumn{7}{l}{Example table of length composition settings when ``Use length composition data'' = 1 (where here} \\
-	\multicolumn{7}{l}{the first fleet has multinomial error structure with no associated parameter, and the second fleet} \\ 
-	\multicolumn{7}{l}{uses Dirichlet-multinomial structure):} \\
+\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.5cm} p{1.5cm}}
+	\multicolumn{7}{l}{Example table of length composition settings when ``Use length composition data'' = 1} \\
+	\multicolumn{7}{l}{(where here the first fleet has multinomial error structure with no associated parameter,} \\ 
+	\multicolumn{7}{l}{and the second fleet uses Dirichlet-multinomial structure):} \\
 	\hline
-	Min.      & Constant & Combine   &           & Comp. &           & Min. \Tstrut\\
-	Tail      & added    & males \&  & Compress. & Error & Param.    & Sample \\
-	Compress. & to prop. & females   & Bins      & Dist. & Select    & Size \Bstrut\\
+	Min.      & Constant & Combine  &           & Comp. &        & Min. \Tstrut\\
+	Tail      & added    & males \& & Compress. & Error & Param. & Sample \\
+	Compress. & to prop. & females  & Bins      & Dist. & Select & Size \Bstrut\\
 	\hline
 	0 & 0.0001 & 0 & 0 & 0 & 0 & 0.1 \Tstrut\\
 	0 & 0.0001 & 0 & 0 & 1 & 1 & 0.1 \Bstrut\\
@@ -655,14 +655,14 @@ If the value for fleet is negative, then the vector of inputs is copied to all p
 \end{tabular}
 
 
-\begin{tabular}{p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm}}
-		\multicolumn{9}{l}{Example table of length composition settings when ``Use length composition data'' = 2 (where here} \\
-		\multicolumn{9}{l}{the -1 in the fleet column applies the first parameter to all partitions for fleet 1 while fleet 2 has} \\
-		\multicolumn{9}{l}{separate parameters for discards and retained fish):} \\
+\begin{tabular}{p{1cm} p{1.5cm} p{1.75cm} p{1.5cm} p{1.5cm} p{1.75cm} p{1.25cm} p{1.25cm} p{1.5cm}}
+		\multicolumn{9}{l}{Example table of length composition settings when ``Use length composition data'' = 2}\\
+		\multicolumn{9}{l}{(where here the -1 in the fleet column applies the first parameter to all partitions} \\
+		\multicolumn{9}{l}{for fleet 1 while fleet 2 has separate parameters for discards and retained fish):} \\
 		\hline
-		          &           & Min.      & Constant & Combine   &           & Comp. &           & Min. \Tstrut\\
-		          &           & Tail      & added    & males \&  & Compress. & Error & Param.    & Sample \\
-		Fleet     & Partition & Compress. & to prop. & females   & Bins      & Dist. & Select    & Size \Bstrut\\
+		        &           & Min.      & Constant & Combine  &           & Comp. &        & Min. \Tstrut\\
+		        &           & Tail      & added    & males \& & Compress. & Error & Param. & Sample \\
+		Fleet   & Partition & Compress. & to prop. & females  & Bins      & Dist. & Select & Size \Bstrut\\
 		\hline
 		-1 & 0 & 0 & 0.0001 & 0 & 0 & 1 & 1 & 0.1 \Tstrut\\
 		2 & 1 & 0 & 0.0001 & 0 & 0 & 1 & 2 & 0.1 \\
@@ -992,12 +992,13 @@ The model accepts input of time series of environmental data. Parameters can be 
 
 \begin{center}
 	\vspace*{-\baselineskip}
-	\begin{tabular}{p{1cm} p{3cm} p{3cm} p{3cm}}
+	\begin{tabular}{p{1cm} p{2cm} p{2cm} p{1cm}}
 		\multicolumn{4}{l}{Parameter values can be a function of an environmental data series:} \\
 		\hline
 		1 & \multicolumn{3}{l}{Number of environmental variables} \Tstrut\Bstrut\\
-		\multicolumn{4}{l}{The environmental data can be centered by subtracting the mean and dividing by stdev (z-score, -1) or} \\
-		\multicolumn{4}{l}{by subtracting the mean of the environmental variable (-2) based on the year column value.} \\
+		\multicolumn{4}{l}{The environmental data can be centered by subtracting the mean and dividing by stdev} \\
+		\multicolumn{4}{l}{(z-score, -1) or by subtracting the mean of the environmental variable (-2) based on} \\
+		\multicolumn{4}{l}{the year column value.} \\
 		\hline
 		\multicolumn{4}{l}{COND > 0  Example of 2 environmental observations:} \Tstrut\\
 		  & Year & Variable & Value \Bstrut\\
@@ -1111,7 +1112,7 @@ Inside the model, the tagged cohort is apportioned across all growth patterns in
 Predominant age at release for each tag group must be assigned; this requirement keeps SS3 efficient. By assigning a tag group to a single age rather than distributing it across all possible ages according to the size composition of the release group, the tag group can be tracked as a single cohort through the age by time matrix with minimal overhead to the rest of the model. Tags are released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
 
 \begin{center}
-	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3cm}}
+	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3cm}}
 		\multicolumn{9}{l}{Example set-up for tagging data:} \\
 		\hline
 		1 & & \multicolumn{7}{l}{Do tags - 0/1/2. If this value is 0, then omit all entries below.} \\
@@ -1131,7 +1132,7 @@ Predominant age at release for each tag group must be assigned; this requirement
 		 &    & \multicolumn{7}{l}{accumulator} \Bstrut\\
 		 \hline
 		 \multicolumn{9}{l}{COND = 2} \Tstrut\\
-		 &  2 &  \multicolumn{7}{l}{Minimum recaptures. The number of recaptures >= mixperiod must be} \\
+		 &  2 &  \multicolumn{7}{l}{Minimum recaptures. The number of recaptures >= maxperiod must be} \\
 		 &    &  \multicolumn{7}{l}{>= min tags recaptured specified to include tag group in log likelihood}\Bstrut\\
 		 
 		 \hline
@@ -1154,7 +1155,7 @@ Predominant age at release for each tag group must be assigned; this requirement
 		 & 3 & & 1986 & & 1 & & 1 & 7 \\
 		 & 3 & & 1986 & & 2 & & 1 & 5 \Bstrut\\
 		 \hline
-	\end{tabular}
+	\end{longtable}
 \end{center}
 
 \myparagraph{Note}

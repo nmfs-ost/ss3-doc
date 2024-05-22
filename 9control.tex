@@ -104,7 +104,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
 		\endlastfoot
 
-		\multicolumn{2}{l}{\#C comment} \Tstrut & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
+		\#C \Tstrut & comment & Comments beginning with \#C at the top of the file will be retained and included in output. \Bstrut\\
 		\hline
 
 		0 & & 0 = Do not read the weight-at-age (\texttt{wtatage.ss}) file; \Tstrut\\
@@ -139,8 +139,8 @@ In older versions of SS3 one value of spawning biomass was calculated annually a
 
 Additional control of the seasonal timing was added in v.3.30 and now there now is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve, but its timing can be at any specified time, not just the beginning of a season. Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.
 
-	
-\begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11.5cm}}
+\begin{center}
+	\begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11.5cm}}
 		\hline
 		\multicolumn{2}{l}{Typical Value} & \multicolumn{2}{l}{Description and Options} \Tstrut\Bstrut\\
 		\hline
@@ -156,21 +156,23 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		
 		\endlastfoot
 		
-		1 \Tstrut & &\multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning. Options:}} \\
+		1 & & \multicolumn{2}{l}{\parbox{12.5cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning. Options:}} \Tstrut\\
 		& & \\
-		& & \\
-		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{1 = no longer available (used the Stock Synthesis v.3.24 or earlier setup);}} \\
-		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{2 = main effects for growth pattern, settle timing, and area;}} \\
-		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{3 = each settle entity; and}} \\
-		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{4 = none, no parameters (only if growth pattern x settlement x area = 1).}} \Bstrut\\
+		% & & \\
+		& & \multicolumn{2}{l}{\parbox{12.5cm}{1 = no longer available (used the Stock Synthesis v.3.24 or earlier setup);}} \\
+		& & \multicolumn{2}{l}{\parbox{12.5cm}{2 = main effects for growth pattern, settle timing, and area;}} \\
+		& & \multicolumn{2}{l}{\parbox{12.5cm}{3 = each settle entity; and}} \\
+		& & \multicolumn{2}{l}{\parbox{12.5cm}{4 = none, no parameters (only if growth pattern x settlement x area = 1).}} \Tstrut\Bstrut\\
 		
 		\hline
 		1 & & \multicolumn{2}{l}{Spawner-Recruitment (not implement yet, but required), options:} \Tstrut\\
 		& & \multicolumn{2}{l}{1 = global; and} \\
-		& & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing).}} \Bstrut\\
+		& & \multicolumn{2}{l}{\parbox{12.5cm}{2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing).}} \\
+		& & \\
 		
 		\hline
-		1 \Tstrut & & \multirow{2}{4cm}[-0.1cm]{\parbox{12cm}{Number of recruitment settlement assignments. Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.}} \Bstrut\\ \\
+		1 & & \multicolumn{2}{l}{\parbox{12.5cm}{Number of recruitment settlement assignments. Must be at least 1 even if only 1 settlement and 1 area because the timing of that settlement must be specified.}} \Tstrut\Bstrut\\ 
+		& & \\
 		
 		\hline
 		0 \Tstrut & & \multicolumn{2}{l}{Future feature, not implement yet but required.} \Bstrut\\
@@ -180,8 +182,10 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		\hline
 		1 & 5.5 & 1 & 0 \Bstrut\\
 		\hline
-\end{longtable}
-\vspace*{-\baselineskip}
+	\end{longtable}
+	\vspace*{-\baselineskip}
+\end{center}
+
 
 The above example specifies settlement to mid-May (month 5.5). Note that normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning. 
 
@@ -307,21 +311,21 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 		\hline
 		\endfirsthead
 		
-		3 \Tstrut & & \multirow{1}{4cm}[-0.1cm]{\parbox{12cm}{Number of block patterns. These patterns can be referred to in the parameter sections to create a separate parameter value for each block.}} \Bstrut\\
+		3 \Tstrut & & \multirow{1}{4cm}[-0.1cm]{\parbox{12.5cm}{Number of block patterns. These patterns can be referred to in the parameter sections to create a separate parameter value for each block.}} \Bstrut\\
 		\\
 
 		\hline
 		\multicolumn{2}{l}{COND > 0:} \Tstrut & \multicolumn{1}{l}{Following inputs are omitted if the number of block patterns equals 0.} \\
-		& \multirow{1}{2cm}[-0.1cm]{3 2 1} & Blocks per pattern: \\ \\
+		& \multirow{1}{2cm}[-0.1cm]{3 2 1} & Blocks per pattern: \Bstrut\\
 
-		& \multirow{1}{2cm}[-0.1cm]{1975 1985 1986 1990 1995 2001} & \multirow{3}{12cm}[-0.1cm]{Beginning and ending years for blocks in design 1; years not assigned to a block period retain the baseline value for a parameter that uses this pattern.} \\
+		& \multirow{1}{2cm}[-0.1cm]{1975 1985 1986 1990 1995 2001} & \multirow{3}{12.5cm}[-0.1cm]{Beginning and ending years for blocks in design 1; years not assigned to a block period retain the baseline value for a parameter that uses this pattern.} \Bstrut\\
 		\\
+		\Bstrut\\
+		% \\
+		& \multirow{1}{2cm}[-0.1cm]{1987 1990 1995 2001} & \multirow{1}{12.5cm}[-0.1cm]{Beginning and ending years for blocks in design 2.} \Bstrut\\
 		\\
-		\\
-		& \multirow{1}{2cm}[-0.1cm]{1987 1990 1995 2001} & \multirow{1}{12cm}[-0.1cm]{Beginning and ending years for blocks in design 2.} \\
-		\\
-		\\
-		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12cm}[-0.10cm]{Beginning and ending years for blocks in design 3.} \Bstrut\\
+		% \\
+		& \multirow{1}{2cm}[-0.1cm]{1999 2002} & \multirow{1}{12.5cm}[-0.10cm]{Beginning and ending years for blocks in design 3.} \Bstrut\\
 		\hline
 \end{longtable}
 \vspace*{-\baselineskip}
@@ -451,10 +455,10 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	& 0.20 0.25...0.20 0.23... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern. \Bstrut\\
 	\hline
 	
-	\multicolumn{2}{l}{COND = 5} \Tstrut & age-specific M linked to age-specific length and maturity sub-options. \\
+	\multicolumn{2}{l}{COND = 5} \Tstrut & Age-specific M linked to age-specific length and maturity sub-options. \\
 
 	&  & 1 = Requires 4 long parameter lines per sex x growth pattern using maturity. Must be used with maturity option 1; \\
-	&  & 2 = reserved for future option; \\
+	&  & 2 = Reserved for future option; \\
 	&  & 3 = Requires 6 long parameter lines per sex x growth pattern \Bstrut\\
 	\hline
 
@@ -640,7 +644,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\hline
 \end{longtable}
 
-\pagebreak
+% \pagebreak
 \subsubsection{Hermaphroditism}
 
 \begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
@@ -688,7 +692,7 @@ The hermaphroditism option requires three full parameter lines in the mortality 
 \end{enumerate}
 These parameter lines are entered directly after the weight-at-length parameters for males.
 
-\pagebreak
+% \pagebreak
 \hypertarget{offset}{}
 \subsubsection{Natural Mortality and Growth Parameter Offset Method}
 
@@ -1145,9 +1149,9 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 	\hline
 
 	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated). Thus, the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hypertarget{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
-	%\hline
+	\hline
 
-	0\Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier. \Bstrut\\
+	0 \Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier. \Bstrut\\
 	\hline
 
 	0 & Autocorrelation & Autocorrelation in recruitment. \Tstrut\Bstrut\\
@@ -1187,7 +1191,7 @@ The $\sigma_R$ value is typically not estimatable and it is recommended practice
 Simulation studies conducted by \citet{methot-adjusting-2011} compared three methods of tuning $\sigma_R$ with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates.
 
 \subsubsection{Recruitment Deviation Setup}
-\begin{longtable}{p{1cm} p{3cm} p{11cm}}
+\begin{longtable}{p{1cm} p{3cm} p{12cm}}
 	\multicolumn{3}{l}{Control file continued:} \\
 
 	\hline
@@ -1216,7 +1220,7 @@ Simulation studies conducted by \citet{methot-adjusting-2011} compared three met
 	1971 \Tstrut & Main recruitment deviations begin year & If begin year is less than the model start year, then the early deviations are used to modify the initial age composition. However, if set to be more than the population maximum age before start year, it is changed to equal to the maximum age before start year. \Bstrut\\
 	\hline
 
-	2017 \Tstrut & \raisebox{0.1\ht\strutbox}{\hypertarget{RecDevEndYear}{Main recruitment deviations end year}} & The final year to estimate main recruitment deviations should be set to a year when information about young fish in the data becomes limited. For example, if the model end year is 2020 and the fleet/survey only starts observing fish of age 2+, the last year to estimate main recruitment deviations could be set to 2018. Years after the main period but before the end model year will be estimated as late deviations. If recruitment deviations end year is later than retro year, it is reset to equal retro year. \Bstrut\\
+	2017 \Tstrut & \hypertarget{RecDevEndYear}{Main recruitment deviations end year} & The final year to estimate main recruitment deviations should be set to a year when information about young fish in the data becomes limited. For example, if the model end year is 2020 and the fleet/survey only starts observing fish of age 2+, the last year to estimate main recruitment deviations could be set to 2018. Years after the main period but before the end model year will be estimated as late deviations. If recruitment deviations end year is later than retro year, it is reset to equal retro year. \Bstrut\\
 	\hline
 
 	3 \Tstrut & Main recruitment deviations phase. & \Bstrut\\
@@ -1273,14 +1277,15 @@ Simulation studies conducted by \citet{methot-adjusting-2011} compared three met
 	\Tstrut & <parameter line> & Full parameter line for each of the N periods of recruitment cycle. \Bstrut\\
 	\hline
 
-	\multicolumn{3}{l}{COND = If the number of recruitment deviations to read is > 0, then enter a total number of lines} \Tstrut\\
-	\multicolumn{3}{l}{equal to that specified above. A year and a deviation value is expected as:} \Bstrut\\
+	\multicolumn{3}{l}{COND = If the number of recruitment deviations to read is > 0, then enter a total} \Tstrut\\
+	\multicolumn{3}{l}{number of lines equal to that specified above. A year and a deviation value is expected as:} \Bstrut\\
 	& 2010 1.27 & Enter year and deviation. \\
-	& 2011 -0.45 & \multirow{1}{1cm}[-0.25cm]{\parbox{11cm}{Two example recruitment deviations being read. Note: the model will rescale the entire vector of recruitment deviation after reading these deviations, so by reading two positive values, all other recruitment deviations will be scaled to a small negative value to achieve a sum to zero condition before starting model estimation.}} \\
+	& 2011 -0.45 & \multirow{1}{1cm}[-0.25cm]{\parbox{10cm}{Two example recruitment deviations being read. Note: the model will rescale the entire vector of recruitment deviation after reading these deviations, so by reading two positive values, all other recruitment deviations will be scaled to a small negative value to achieve a sum to zero condition before starting model estimation.}} \\
 	& 2012 -0.25 & \\
 	& 2013 0.67 & \\
 	& 2014 0.20 & \\
-	& 2015 -0.11 & \Bstrut\\
+	& 2015 -0.11 & \\
+	& & \\
 	\hline
 	
 		
@@ -1464,7 +1469,7 @@ It is possible to use the initial $F$ method to achieve an estimate of the initi
 	\item Control File: Add an initial $F$ parameter line (short parameter line) for each fleet and season with initial equilibrium catch to be estimated immediately after the Fishing Mortality set-up. It will be influenced by the early age and size comps which should have some information about the early levels of $Z$.
 \end{enumerate}
 
-\begin{longtable}{p{1.3cm} p{1.3cm} p{1.3cm} p{1.3cm} p{1.5cm} p{1.5cm} p{1.4cm} p{2.3cm}}
+\begin{longtable}{p{1.3cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1.2cm} p{1cm} p{2.5cm}}
 	\multicolumn{8}{l}{An example setup with two fishery fleets and two seasons with initial equilibrium catches:} \\
 	\hline
 	0.1 & \multicolumn{7}{l}{\# F ballpark} \Tstrut\Bstrut\\
@@ -1480,13 +1485,13 @@ It is possible to use the initial $F$ method to achieve an estimate of the initi
 	\multicolumn{8}{l}{\# Initial F parameters} \Tstrut\Bstrut\\
 	LO & HI & INIT & Prior & Pr. SD & Pr. Type & Phase & Label \Bstrut\\
 	\hline
-	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_1\_fleet\_1 \Tstrut\Bstrut\\
+	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_1\_fleet\_1 \Tstrut\\
 	\hline
-	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_1\_fleet\_2 \Tstrut\Bstrut\\
+	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_1\_fleet\_2 \Tstrut\\
 	\hline
-	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_2\_fleet\_1 \Tstrut\Bstrut\\
+	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_2\_fleet\_1 \Tstrut\\
 	\hline
-	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_2\_fleet\_2 \Tstrut\Bstrut\\
+	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_2\_fleet\_2 \Tstrut\\
 	\hline
 \end{longtable}
 
@@ -1538,7 +1543,6 @@ For each fleet that has index observations, enter a row with six entries as desc
 		\item Additional information regarding the use of and appropriate application of float in Q can be found in the \hyperlink{FloatQ}{Float Q} section below.
 	\end{enumerate}
 \end{enumerate}
-
 
 \begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.3cm} p{2.3cm}}
 	\multicolumn{7}{l}{For a setup with a single survey, the Q setup matrix could be:} \\
@@ -1634,7 +1638,7 @@ In v.3.30.13, a new catchability option has been added that allows Q to be mirro
 Time-Varying catchability can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
 \subsubsection{Q Conversion Issues Between Stock Synthesis v.3.24 and v.3.30}
-In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (\texttt{sstrans.exe}) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
+In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (\texttt{ss\_trans.exe}) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
 \subsection{Selectivity and Discard}
 For each fleet and survey, read a definition line for size selectivity and retention. 
@@ -1709,7 +1713,7 @@ Read the required number of parameter setup lines as specified by the definition
 \end{enumerate}
 
 
-\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{2.9cm} p{1.9cm} p{4.2cm}}
+\begin{longtable}{p{0.75cm} p{0.75cm} p{0.75cm} p{1.25cm} p{2.75cm} p{1.75cm} p{5cm}}
 	\multicolumn{7}{l}{The list of parameters to be read from the above setup would be:} \\
 	\hline
 	LO \Tstrut & HI & INIT & PRIOR & <other entries> & Block Fxn & Parameter Label \Bstrut\\
@@ -2579,8 +2583,6 @@ These values are multiplied by the corresponding likelihood component to calcula
 	\hline
 \end{tabular}
 
-\pagebreak
-
 \myparagraph{Lambda Usage Notes}
 \hypertarget{SaAlambda}{If} the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stdev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
 
@@ -2626,8 +2628,6 @@ You can also put any placeholder value like 0 or 999 for the SizeFreq Method unl
 \end{center}
 
 Starting in v.3.30.16, the application of a lambda to initial equilibrium catch is now fleet specific. In previous versions, a single lambda was applied in the same manner across all fleets with an initial equilibrium catch specified.
-
-\pagebreak
 
 \subsection{Controls for Variance of Derived Quantities}
 Additional standard deviation reported may be selected:
@@ -2716,7 +2716,8 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 	
 	\multicolumn{3}{l}{2} & \multicolumn{6}{l}{\# 0 = No additional std dev reporting;} \Tstrut\\
 	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 1 = read values below; and} \Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size, numbers, and natural mortality.} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{\# 2 = read specification for reporting stdev for selectivity, size, numbers,} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{and natural mortality.} \Bstrut\\
 	\hline
 	
 	\multicolumn{4}{l}{1 1 -1 5}  & \multicolumn{5}{l}{\# Selectivity} \Bstrut\\
@@ -2735,3 +2736,5 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 	\bfseries{999} & \multicolumn{8}{l}{\#End of the control file input} \Tstrut\Bstrut\\
 	\hline			
 \end{longtable}
+
+\pagebreak
