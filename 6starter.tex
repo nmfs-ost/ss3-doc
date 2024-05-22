@@ -2,7 +2,7 @@
 \section{Starter File}
 
 \subsection{Reading the Manual's format}
-SS3 begins by reading the file starter.ss. The starter file contains need information on the names of the control and data files, run conditions, and output specifications. The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
+SS3 begins by reading the file \texttt{starter.ss}. The starter file contains need information on the names of the control and data files, run conditions, and output specifications. The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
 \subsection{Terminology for Fishing Mortality, $F$}
 Here we introduce some terminology related to fishing mortality, $F$. This will provide context for some of the quantities that will be read from the starter file and used throughout the document
@@ -13,7 +13,7 @@ $t$ is a time step; continuous across years $y$ and seasons $s$; equivalent to y
 
 $a$ is age.
 
-$s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity due to length-selectivity is calculated as the dot product across length bins of length selectivity and the normal (or lognormal) distribution of length-at-age. If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity. This compound age selectivity is used in the mortality calculations and is reported as Asel2 in report:32 of report.sso. Selectivity can be sex-specific, and different growth morphs and platoons can have different age-selectivity due to the effect of length-selectivity on their unique size-at-age. This added dimension, $g$, for biological group is not included in the nomenclature here but exists in all the SS3 calculations.
+$s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity due to length-selectivity is calculated as the dot product across length bins of length selectivity and the normal (or lognormal) distribution of length-at-age. If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity. This compound age selectivity is used in the mortality calculations and is reported as Asel2 in report:32 of \texttt{Report.sso}. Selectivity can be sex-specific, and different growth morphs and platoons can have different age-selectivity due to the effect of length-selectivity on their unique size-at-age. This added dimension, $g$, for biological group is not included in the nomenclature here but exists in all the SS3 calculations.
 
 $F_{t,f,a}$ is fishing mortality at age for fleet $f$. There is no subscript for area because each fleet is defined to operate in only one area.
 
@@ -27,7 +27,7 @@ Fbar is the average $F$ over a user specified range of ages, implicitly the full
 
 $\text{Annual\_}F$ is essentially the same as Fbar and is an output quantity.
 
-F\_std is an output quantity that may be based on $\text{annual\_}F$ or other calculated quantities like exploitation rate. Importantly, the output values of F\_std may be presented as a ratio relative to an equivalent benchmark (reference point) quantity; e.g. $F / F_{MSY}$. Further, the variance of $F\text{\_std}$ will be calculated and output.
+$F\text{\_std}$ is an output quantity that may be based on $\text{annual\_}F$ or other calculated quantities like exploitation rate. Importantly, the output values of $F\text{\_std}$ may be presented as a ratio relative to an equivalent benchmark (reference point) quantity; e.g., $F / F_{MSY}$. Further, the variance of $F\text{\_std}$ will be calculated and output.
 
 $C_{t,f}$ is fleet-specific catch in a time step.
 
@@ -37,7 +37,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 {
 \setlength\extrarowheight{4pt}
 \begin{landscape}
-\subsection{Starter File Options (starter.ss)}	
+\subsection{Starter File Options (\texttt{starter.ss})}	
 %\centerline{\large{STARTER.SS}} 
 %\vspace{0.1in}
 %{\renewcommand{\arraystretch}{1.1}
@@ -65,18 +65,18 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \#C this is a starter comment & Must begin with \#C then rest of the line is free form & All lines in this file beginning with \#C will be retained and written to the top of several output files \Tstrut\\
 		
  \hline
- data\_ file.dat &  & File name of the data file \Tstrut\\
+ \texttt{data\_file.dat} &  & File name of the data file \Tstrut\\
 		
  \hline
- control\_ file.ctl &  & File name of the control file \Tstrut\\
+ \texttt{control\_file.ctl} &  & File name of the control file \Tstrut\\
    
  \hline		
- 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the ss3.par file. Values in ss3.par can be edited, carefully. Do not run ss\_trans.exe from a ss3.par from v.3.24.}}\Tstrut\\
- & 0 = use values in control file; and&  \\
- & 1 = use ss3.par after reading setup in the control file. & \\
+ 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the \texttt{ss3.par} file. Values in \texttt{ss3.par} can be edited, carefully. Do not run \texttt{ss\_trans.exe} from a \texttt{ss3.par} from v.3.24.}}\Tstrut\\
+ & 0 = use values in control file; and &  \\
+ & 1 = use \texttt{ss3.par} after reading setup in the control file. & \\
 		
  \hline
- 1 & Run display detail: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{With option 2, the display shows value of each -logL component for each iteration and it displays where crash penalties are created}} \Tstrut\\
+ 1 & Run display detail: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{With option 2, the display shows value of each -logL component for each iteration, and it displays where crash penalties are created}} \Tstrut\\
    & 0 = none other than ADMB outputs; & \\
    & 1 = one brief line of display for each iteration; and & \\
    & 2 = fuller display per iteration. & \\
@@ -84,7 +84,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \hline
  1 & Detailed age-structure report: & \multirow{1}{1cm}[-0.15cm]{\parbox{12.5cm}{Option 0 will forgo the writing of the Report file, but the ss\_summary file will be written that has minimal derived and estimated quantities. This is a useful option for some data-limited assessment approaches (e.g., XSSS or SSS). Option 1 will write out the full Report file. Option 2 will write out select items in the Report file and will omit some more detailed sections (e.g., numbers-at-age).}} \Tstrut\\
    & 0 = minimal output for data-limited methods; & \\
-   & 1 = include all output (with wtatage.ss\_new); &  \\
+   & 1 = include all output (with \texttt{wtatage.ss\_new}); & \\
    & 2 = brief output, no growth;  and &  \\	
    & 3 = custom output & \\
  \pagebreak
@@ -100,10 +100,10 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \hline
  0 & Write 1st iteration details: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This output is largely unformatted and undocumented and is mostly used by the developer.}} \Tstrut\\
    & 0 = omit; and & \\
-   & 1 = write detailed intermediate calculations to echoinput.sso during first call. & \Bstrut\\
+   & 1 = write detailed intermediate calculations to \texttt{echoinput.sso} during first call. & \Bstrut\\
 
  \hline
- 0 & Parameter Trace: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This controls the output to parmtrace.sso. The contents of this output can be used to determine which values are changing when a model approaches a crash condition.  It also can be used to investigate patterns of parameter changes as model convergence slowly moves along a ridge. In order to access parameter gradients option 4 should be selected which will write the gradient of each parameter with respect to each likelihood component}} \Tstrut\\
+ 0 & Parameter Trace: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This controls the output to \texttt{parmtrace.sso}. The contents of this output can be used to determine which values are changing when a model approaches a crash condition. It also can be used to investigate patterns of parameter changes as model convergence slowly moves along a ridge. In order to access parameter gradients option 4 should be selected which will write the gradient of each parameter with respect to each likelihood component}} \Tstrut\\
    & 0 = omit; & \\
    & 1 = write good iteration and active parameters; & \\
    & 2 = write good iterations and all parameters; & \\
@@ -112,7 +112,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \hline
  
  \pagebreak
- 1 & Cumulative Report: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Controls reporting to the file Cumreport.sso. This cumulative report is most useful when accumulating summary information from likelihood profiles or when simply accumulating a record of all model runs within the current subdirectory}} \Tstrut\\
+ 1 & Cumulative Report: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Controls reporting to the file \texttt{Cumreport.sso}. This cumulative report is most useful when accumulating summary information from likelihood profiles or when simply accumulating a record of all model runs within the current subdirectory}} \Tstrut\\
    & 0 = omit;  & \\
    & 1 = brief; and & \\
    & 2 = full. & \\
@@ -133,8 +133,8 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
 %  \pagebreak
  \hline
- 1 & Number of Data Files to Output: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{All output files are sequentially output to data\_echo.ss\_new and need to be parsed by the user into separate data files. The output of the input data file makes no changes, retaining the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to data\_echo.ss\_new. As of v.3.30.19, the output file names have changed; a separate file is created for the echoed data (data\_echo.ss\_new), the expected data values given the model fit (data\_expval.ss), and any requested bootstrap data files (data\_boot\_x.ss where x is the bootstrap number). In versions before v.3.30.19, these outputs were printed to a single file called data.ss\_new.}} \Tstrut\Bstrut\\
-   & 0 = none; As of v.3.30.16, none of the .ss\_new files will be produced;& \Bstrut\\
+ 1 & Number of Data Files to Output: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{All output files are sequentially output to \texttt{data\_echo.ss\_new} and need to be parsed by the user into separate data files. The output of the input data file makes no changes, retaining the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to \texttt{data\_echo.ss\_new}. As of v.3.30.19, the output file names have changed; a separate file is created for the echoed data (\texttt{data\_echo.ss\_new}), the expected data values given the model fit (\texttt{data\_expval.ss}), and any requested bootstrap data files (\texttt{data\_boot\_x.ss} where x is the bootstrap number). In versions before v.3.30.19, these outputs were printed to a single file called \texttt{data.ss\_new}.}} \Tstrut\Bstrut\\
+   & 0 = none; As of v.3.30.16, none of the \texttt{.ss\_new} files will be produced; & \Bstrut\\
    & 1 = output an annotated replicate of the input data file; & \Tstrut\Bstrut\\
    & 2 = add a second data file containing the model's expected values with no added error; and & \Tstrut\Bstrut\\
    & 3+ = add N-2 parametric bootstrap data files. & \Tstrut\\
@@ -143,7 +143,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
  \hline
  %\pagebreak
- 8 & Turn off estimation: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The 0 option is useful for (-1) quickly reading in a messy set of input files and producing the annotated control.ss\_new and data\_echo.ss\_new files, or (0) examining model output based solely on input parameter values. Similarly, the value option allows examination of model output after completing a specified phase. Also see usage note for restarting from a specified phase.}} \Tstrut\\
+ 8 & Turn off estimation: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The 0 option is useful for (-1) quickly reading in a messy set of input files and producing the annotated \texttt{control.ss\_new} and \texttt{data\_echo.ss\_new} files, or (0) examining model output based solely on input parameter values. Similarly, the value option allows examination of model output after completing a specified phase. Also see usage note for restarting from a specified phase.}} \Tstrut\\
    & -1 = exit after reading input files; & \\
    & 0 = exit after one call to the calculation routines and production of sso and ss\_new files; and & \\
    & <positive value> = exit after completing this phase. & \Bstrut\\	  
@@ -186,7 +186,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
  %\pagebreak
  %\hline
- \multicolumn{1}{r}{1940 1950} & \multirow{1}{1cm}[-0.25cm]{\parbox{19.5cm}{Vector of years for additional SD reporting. The number of years need to equal the value specified in the above line (Extra SD Report Years).}} \\
+ \multicolumn{1}{r}{1940 1950} & \multirow{1}{1cm}[-0.25cm]{\parbox{19.5cm}{Vector of years for additional SD reporting. The number of years needs to equal the value specified in the above line (Extra SD Report Years).}} \\
   & & \\
  
  \hline
@@ -241,7 +241,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & & \\
    & & \Bstrut\\
    & & \Bstrut\\
-   & & Note that these $F$ statistics do not depend upon whether the $F$ approach uses midseason exploitation rate (Pope's), or continuous $F$; nor whether the continuous $F$ is based on parameters or the hybrid calculation method. Read more about the $F$ method in the control file section of the report. For more information on $F$ reporting, see \hyperlink{FMortality}{Metrics for Fishing Mortality}. \Bstrut\\ 
+   & & Note that these $F$ statistics do not depend upon whether the $F$ approach uses mid-season exploitation rate (Pope's), or continuous $F$; nor whether the continuous $F$ is based on parameters or the hybrid calculation method. Read more about the $F$ method in the control file section of the report. For more information on $F$ reporting, see \hyperlink{FMortality}{Metrics for Fishing Mortality}. \Bstrut\\ 
   %  & & \\ 
   
  \hline
@@ -251,7 +251,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
 %  \hline
  \pagebreak
- 1 & $F\text{\_std}$ scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{$F\text{\_std}$ is typically reported as a ratio to the value of an equivalent $F$ calculation that would occur at the benchmark level of fishing. Here the user selects the denominator for that ratio. This ratio can be presented as a multi-year trailing average in $F$ or as a log(ratio). For example, 122.1 would do a 12 year trailing average of the ratio using $F_{MSY}$ and present the result as the log(ratio).}} \Tstrut\\
+ 1 & $F\text{\_std}$ scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{$F\text{\_std}$ is typically reported as a ratio to the value of an equivalent $F$ calculation that would occur at the benchmark level of fishing. Here the user selects the denominator for that ratio. This ratio can be presented as a multi-year trailing average in $F$ or as a log(ratio). For example, 122.1 would do a 12-year trailing average of the ratio using $F_{MSY}$ and present the result as the log(ratio).}} \Tstrut\\
    & 0 = not relative, report raw values; & \\
    & 1 = use $F\text{\_std}$ value relative to $SPR_{target}$; & \\
    & 2 = use $F\text{\_std}$ value relative to $F_{MSY}$; and & \\
@@ -288,7 +288,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
   
  \pagebreak
 %  \hline
- \raisebox{0.1\ht\strutbox}{\hypertarget{Convert}{3.30}} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The ss\_trans.exe executable should be used and will convert the v.3.24 files the control.ss\_new and data\_echo.ss\_new files to the new format. All ss\_new files are in the v.3.30 format, so starter.ss\_new has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a ss3.par file produced by v.3.24 and earlier, so ensure that read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from Stock Synthesis v.3.24} section has additional information on model features that may impede file conversion.}} \Tstrut\Bstrut\\
+ \raisebox{0.1\ht\strutbox}{\hypertarget{Convert}{3.30}} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The \texttt{ss\_trans.exe} executable should be used and will convert the v.3.24 files the \texttt{control.ss\_new} and \texttt{data\_echo.ss\_new} files to the new format. All ss\_new files are in the v.3.30 format, so \texttt{starter.ss\_new} has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a \texttt{ss3.par} file produced by v.3.24 and earlier, so ensure that read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from Stock Synthesis v.3.24} section has additional information on model features that may impede file conversion.}} \Tstrut\Bstrut\\
      & & \\  
      & & \\  
 	   & & \\

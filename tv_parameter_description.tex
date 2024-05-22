@@ -8,7 +8,7 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 \item Environmental or Density Dependent Link and variable (env\_var\&link; element 8)
 
 	\begin{itemize}
-	   \item The environmental or density dependent link and variable input is two inputs specified using a single three digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. Note that environmental variables can only be included on an annual basis, so seasonal models would have the same effect applied to all seasons. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the ``-3'' column which is ln(relative summary biomass). The other options for both elements are enumerated below.
+	   \item The environmental or density dependent link and variable input is two inputs specified using a single three-digit number. The hundreds place contains the option for the link function, while the tens and ones place is used to specify the environmental variable or derived quantity to which the parameter is linked. Note that environmental variables can only be included on an annual basis, so seasonal models would have the same effect applied to all seasons. If the environmental link and variable input is positive, then the parameter is linked to a variable specified in the data file environmental data; if it is negative, then the parameter is linked to a derived quantity. For example, env\_var\&link input 103 would use link type 1 and apply it to environmental data column 3, while the input -103  would use link type 1 and apply it to the ``-3'' column which is ln(relative summary biomass). The other options for both elements are enumerated below.
 	   \item The link function options (hundreds place) for the env\_var\&link input are:
 	   \begin{itemize}
 	       \item 1 = exponential scalar: $P_{y} = P_{base}e^{P_{t}E_{y}}$
@@ -60,7 +60,7 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 			\item $P_1 = P_{min} + \frac{R}{1 + e^{-Y_y - X_y }}$. For years after the first year.
 		\end{itemize}
 		\item 6 = mean reverting random walk with penalty to keep the root mean squared error (RMSE) near 1.0. Same as case 4, but with penalty applied.
-		\item The option of extending the final model year deviation value subsequent years (i.e., into the forecast period) was added in v.3.30.13. This new option is specified by selecting the appropriate deviation link option and appending a 2 at the front (e.g, 25), which will use the final year deviation value for all forecast years.
+		\item The option of extending the final model year deviation value subsequent years (i.e., into the forecast period) was added in v.3.30.13. This new option is specified by selecting the appropriate deviation link option and appending a 2 at the front (e.g., 25), which will use the final year deviation value for all forecast years.
 	\end{itemize}
 	where: 
 	\begin{itemize}
@@ -96,8 +96,8 @@ The input value options for element 13 are:
 	\begin{itemize}
 % TODO: add more information about how the above equation relates to theoptions -1 and -3.
 		\item >0: time block index for parameter. See the \hyperlink{timeblocks}{time blocks section} of the control file for more information on specifying time blocks.
-		\item -1: Trend Offset option. Three parameters are estimated: end trend value as a logistic offset (input as $ln(P_{\text{offset}})$), inflection year logistic offset (input as $ln(P_{\text{infl}})$, and width ($P_{width}$. Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Width is directly specified.
-		\item -2: Trend Direct input option. In this case, $P_{\text{offset}} = 1$. Three parameters are input via short parameter lines: end trend parameter value ($P_y$ where $y$ is the final year), inflection year ($P_{\text{infl}}$, and width ($P_{width}$). 
+		\item -1: Trend Offset option. Three parameters are estimated: end trend value as a logistic offset (input as $ln(P_{\text{offset}})$), inflection year logistic offset (input as $ln(P_{\text{infl}})$), and width ($P_{width}$). Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Width is directly specified.
+		\item -2: Trend Direct input option. In this case, $P_{\text{offset}} = 1$. Three parameters are input via short parameter lines: end trend parameter value ($P_y$ where $y$ is the final year), inflection year ($P_{\text{infl}}$), and width ($P_{width}$). 
 		\item -3: Trend Fractional option. In this case, $P_{\text{offset}} = 1$. Three parameters will be estimated: end trend parameter value as a fraction of base parameter maximum - minimum, inflection year as a fraction of end year - start year, and width ($P_{width}$). Width is directly input.
 	\end{itemize}
 	
@@ -118,12 +118,12 @@ The input value options for element 13 are:
 \end{itemize}
 
 
-Code for the deviation link can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_timevaryparm.tpl}{SS\_timevaryparm.tpl}, search for ``SS\_Label\_Info\_14.3''.
+Code for the deviation link can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_timevaryparm.tpl}{\texttt{SS\_timevaryparm.tpl}}, search for ``SS\_Label\_Info\_14.3''.
 
 
 \subsubsection{Specification of Time-Varying Parameters: Short Parameter Lines} 
 
-If a time-varying specification set up in the long parameter lines for a particular section requires additional parameters, short parameter lines need to be created following the long parameter lines for the section (unless \hyperlink{autogen}{autogeneration} is used, which creates short parameter lines in control.ss\_new upon running the model). The number of parameter lines required depends on the time-varying parameter specification.
+If a time-varying specification set up in the long parameter lines for a particular section requires additional parameters, short parameter lines need to be created following the long parameter lines for the section (unless \hyperlink{autogen}{autogeneration} is used, which creates short parameter lines in \verb|control.ss\_new| upon running the model). The number of parameter lines required depends on the time-varying parameter specification.
 
 For example, if two parameters were specified to have environmental linkages in the MG parameter section, below the MG parameters would be two parameter lines (when not auto-generating these lines), which is an environmental linkage parameter for each time-varying base parameter:
 
@@ -183,7 +183,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 
 \begin{itemize}
 	\item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as index number 1, the growth parameter $K$ (if using a von Bertalanffy growth equation) could be linked to the water temperature proxy data by specifying the code ``201'' in the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line is required after the ``MG parameter'' long parameter lines section.
-	\item Suppose for a fishery, selectivity is thought to shift depending on population size. Smaller fish are selected when there are lower population numbers, while larger fish are selected when there are higher population numbers. The selectivity parameter could be made time-varying using the code ``-104'' in the env\_var\&link option, which assumes a exponential scalar link between the base selectivity parameter and the time varying parameter value. One additional parameter line is required at the end of the selectivity long parameter lines section.
+	\item Suppose for a fishery, selectivity is thought to shift depending on population size. Smaller fish are selected when there are lower population numbers, while larger fish are selected when there are higher population numbers. The selectivity parameter could be made time-varying using the code ``-104'' in the env\_var\&link option, which assumes an exponential scalar link between the base selectivity parameter and the time varying parameter value. One additional parameter line is required at the end of the selectivity long parameter lines section.
 \end{itemize}
 
 \myparagraph{Parameter Deviations}

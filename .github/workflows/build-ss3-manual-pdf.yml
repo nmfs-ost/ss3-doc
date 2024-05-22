@@ -3,9 +3,9 @@ name: Build SS3 user manual using texlive
 on:
   workflow_dispatch:
   push:
-    paths:
-      - '**.tex'
-      - '**.yml'
+    # paths:
+    #   - '**.tex'
+    #   - '**.yml'
   pull_request:
     paths:
       - '**.tex'
@@ -32,8 +32,24 @@ jobs:
           rm -rf SS330_User_Manual.pdf
           ls
      # - name: add lua filter to the repository
-     #   run: wget https://raw.githubusercontent.com/klpn/accpdf/master/common/tagged-filter.lua      
-        
+     #   run: wget https://raw.githubusercontent.com/klpn/accpdf/master/common/tagged-filter.lua 
+
+      - name: Spellcheck LaTeX document
+        uses: ChiefGokhlayeh/textidote-action@v5
+        id: spellcheck
+        with:
+          root_file: SS330_User_Manual.tex
+          args: --check en --dict dictionary.txt --ignore sh:nobreak,sh:stacked,sh:nsubdiv,sh:seclen,sh:nonp,sh:hctab,sh:figref,lt:en:UNIT_SPACE,lt:en:UPPERCASE_SENTENCE_START,lt:en:COMMA_COMPOUND_SENTENCE_2,lt:en:COMMA_COMPOUND_SENTENCE,lt:en:ENGLISH_WORD_REPEAT_BEGINNING_RULE,lt:en:ENGLISH_WORD_REPEAT_RULE,lt:en:ENTER_IN,lt:en:CD_NN,lt:en:PHRASE_REPETITION,lt:en:SETUP_VERB,lt:en:ONES
+
+      - name: Print number of spellcheck warnings
+        run: 'echo "Number of spellcheck warnings: ${{ steps.spellcheck.outputs.num_warnings }}"'
+
+      - name: Throw error if spellcheck warnings exist
+        # If the number of warnings goes up (in the previous step) and cannot be rectified, you can change 
+        # the number below and increase the number of warnings that will trigger the action to fail
+        if: ${{ steps.spellcheck.outputs.num_warnings > 444 }}
+        run: 'echo "::error file=main.tex::num_warnings: ${{ steps.spellcheck.outputs.num_warnings }}"; exit 1;'
+
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
@@ -53,3 +69,9 @@ jobs:
         with: 
           name: SS330_User_Manual.log
           path: SS330_User_Manual.log
+          
+      - name: Upload TeXtidote report
+        uses: actions/upload-artifact@v4
+        with:
+          name: textidote_report
+          path: report.html

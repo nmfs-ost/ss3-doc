@@ -73,7 +73,7 @@ When the two-dimensional autoregressive selectivity feature is turned on for a f
 \hat{S}_{a,t} = S_aexp^{\epsilon_{a,t}}
 \end{equation}
 
-where $S_a$ is specified in the corresponding age/length selectivity types section and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS3); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2D AR1) process:
+where $S_a$ is specified in the corresponding age/length selectivity types section, and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS3); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2D AR1) process:
 
 \begin{equation}
 vec(\epsilon) \sim MVN(\mathbf{0},\sigma_s^2\mathbf{R_{total}})
@@ -120,7 +120,7 @@ Third, extract the estimated selectivity deviation samples from the previous ste
 
 \hypertarget{continuous-seasonal-recruitment-sec}{}
 \subsection{Continuous seasonal recruitment}
-Setting up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year is awkward in SS3. Instead, SS3 can be set up so that each quarter appears as a year (i.e., a seasons as years model). All the data and parameters are set up to treat quarters as if they were years. Note that setting up a seasons as years model also requires that all rate parameters be re-scaled to correctly account for the quarters being treated as years.
+Setting up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year is awkward in SS3. Instead, SS3 can be set up so that each quarter appears as a year (i.e., a seasons-as-years model). All the data and parameters are set up to treat quarters as if they were years. Note that setting up a seasons-as-years model also requires that all rate parameters be re-scaled to correctly account for the quarters being treated as years.
 
 Other adjustments to make when using seasons as years include:
 
@@ -128,7 +128,7 @@ Other adjustments to make when using seasons as years include:
 	\item Re-index all ``year seas'' inputs to be in terms of quarter-year because all are now season 1; increase end year (endyr) value in sync with this.
 	\item Increase max age because age is now in quarters.
 	\item In the age error definitions, increase the number of entries to reflect that age is now in quarters.
-	\item In the age error definitions, recode so that each quarter-age gets assigned to the correct age bin. This is because the age data are still in terms of age bins; i.e., the first 4 entries for quarter-ages 1 through 4 will all be assigned to age bin 1.5; the next four to age bin 2.5; you cannot accomplish the same result by editing the age bin values because the standard deviation of ageing error is in terms of age bin.
+	\item In the age error definitions, re-code so that each quarter-age gets assigned to the correct age bin. This is because the age data are still in terms of age bins; i.e., the first 4 entries for quarter-ages 1 through 4 will all be assigned to age bin 1.5; the next four to age bin 2.5; you cannot accomplish the same result by editing the age bin values because the standard deviation of ageing error is in terms of age bin.
 	\item In the control file, multiply the natural mortality age breakpoints and growth Amin and Amax values by 1/season duration.
 	\item Decrease the R0 parameter starting value because it is now the average number of recruitments per quarter year.
 	\item Edit the recruitment deviation (rec\_dev) start and end years to be in terms of quarter year.
@@ -157,18 +157,18 @@ The following steps are now performed to determine the jittered starting paramet
 \begin{figure}[ht]
 	\begin{center}
 		\includegraphics[scale = 0.75]{jitter_illustration}\\
-		\caption{Illustration of the jitter algorithm}
+		\caption{Illustration of the jitter algorithm.}
 		\label{fig:jitter}
 	\end{center}
 \end{figure}
 
 In SS3, the jitter fraction defines a uniform distribution in cumulative normal space +/- the jitter fraction from the initial value (in cumulative normal space). The normal distribution for each parameter, for this purpose, is defined such that the minimum bound is at 0.001, and the maximum at 0.999 of the cumulative distribution. If the jitter faction and original initial value are such that a portion of the uniform distribution goes beyond 0.001 or 0.999 of the cumulative normal, the new value is set to one-tenth of the way from the bound to the original initial value. 
 
-Therefore sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, CV (= sigma/original initial value) may be a better measure. 
+Therefore, sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, CV (= sigma/original initial value) may be a better measure. 
 
 If the original initial value is at or near the middle of the min-max range, then for each 0.1 of jitter, the range of jitters extends about 0.25 sigmas to either side of the original value (though as the total jitter increases the relationship varies more than this), and the average absolute jitter is about half of that.  For values far from the middle of the min-max range, the resulting jitter is skewed in parameter space, and may hit the bound, invoking the resetting mentioned above. 
 
-To evaluate the jittering, the bounds, and the original initial values, a jitter\_info table is available from r4ss, including sigma, CV and InitLocation columns (the latter referring to location within the cumulative normal - too close to 0 or 1 indicates a potential issue).
+To evaluate the jittering, the bounds, and the original initial values, a jitter\_info table is available from \texttt{r4ss}, including sigma, CV and InitLocation columns (the latter referring to location within the cumulative normal - too close to 0 or 1 indicates a potential issue).
 
 Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid unreasonable values (a warning is produced to indicate this).
 
