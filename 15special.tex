@@ -1,10 +1,11 @@
-\section{Advanced Stock Synthesis Configuration Settings and Advice}
+\hypertarget{AdvancedSettings}{}
+\section[Advanced Stock Synthesis Configuration Settings and Advice]{\protect\hyperlink{AdvancedSettings}{Advanced Stock Synthesis Configuration Settings and Advice}}
 
 \hypertarget{TVpara}{}
-\subsection{Using Time-Varying Parameters}
+\subsection[Using Time-Varying Parameters]{\protect\hyperlink{TVpara}{Using Time-Varying Parameters}}
 
 \hypertarget{tvOrder}{}
-\subsubsection{Time-Varying Parameters}
+\subsubsection[Time-Varying Parameters]{\protect\hyperlink{tvOrder}{Time-Varying Parameters}}
 
 Starting in v.3.30, mortality-growth, some stock-recruitment, catchability, and selectivity base parameters can be time varying. Note that as of v.3.30.16, time-varying parameters cannot be used with tagging parameters. There are four ways a parameter can be time-varying in SS3:
 \begin{enumerate}
@@ -27,7 +28,7 @@ Environmental and density dependent linkages, parameter deviations, and either t
 \input{tv_parameter_description}
 
 \hypertarget{tvgrowth}{}
-\subsubsection{Time-Varying Growth Considerations}
+\subsubsection[Time-Varying Growth Considerations]{\protect\hyperlink{tvgrowth}{Time-Varying Growth Considerations}}
 When time-varying growth is used, there are some additional considerations to be aware of:
 \begin{itemize}
 	\item Growth in the forecast with time blocks: Growth deviations propagate into the forecast because growth is by cohort according to the current year's growth parameters. The user can select which growth parameters get used during the forecast by setting the end year of the last block, if using time blocks. If the last block ends in the model's end year, then the growth parameters in effect during the forecast will be the base parameters. By setting the end year of the last block to one year past the model end year (endyr), the model will continue the last block's growth parameter levels throughout the forecast.
@@ -38,7 +39,7 @@ When time-varying growth is used, there are some additional considerations to be
 \end{itemize}
 
 \hypertarget{tv-sr}{}
-\subsubsection{Time-Varying Stock-Recruitment Considerations}
+\subsubsection[Time-Varying Stock-Recruitment Considerations]{\protect\hyperlink{tv-sr}{Time-Varying Stock-Recruitment Considerations}}
 \begin{itemize}
 	
 	\item The $\sigma_R$ and autocorrelation parameters cannot be time-varying. 
@@ -57,8 +58,8 @@ When time-varying growth is used, there are some additional considerations to be
 
 \end{itemize}
 
-
-\subsubsection{Forecast Considerations with Time-Varying Parameters}
+\hypertarget{ForecastTV}{}
+\subsubsection[Forecast Considerations with Time-Varying Parameters]{\protect\hyperlink{ForecastTV}{Forecast Considerations with Time-Varying Parameters}}
 
 Users should judiciously consider which parameter values are applied during forecast years. SS3 will default to use all base parameter values during the forecast period, but alternatively, which years of selectivity, relative F, and recruitment should be used during the forecast period by specifying in the \hyperlink{fore-specify}{forecast file}.
 
@@ -66,7 +67,7 @@ Time-varying parameters can extend into the forecast period. For example, a para
 
 
 \hypertarget{2DAR}{}
-\subsection{Parameterizing the Two-Dimensional Autoregressive Selectivity}
+\subsection[Parameterizing the Two-Dimensional Autoregressive Selectivity]{\protect\hyperlink{2DAR}{Parameterizing the Two-Dimensional Autoregressive Selectivity}}
 When the two-dimensional autoregressive selectivity feature is turned on for a fleet, the selectivity is calculated as a product of the assumed selectivity pattern and a non-parametric deviation term deviating from this assumed pattern:
 
 \begin{equation}
@@ -119,7 +120,7 @@ Second, fix $\sigma_s$ at the value iteratively tuned in the previous step and e
 Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, the model should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
 
 \hypertarget{continuous-seasonal-recruitment-sec}{}
-\subsection{Continuous seasonal recruitment}
+\subsection[Continuous seasonal recruitment]{\protect\hyperlink{continuous-seasonal-recruitment-sec}{Continuous seasonal recruitment}}
 Setting up a seasonal model such that recruitment can occur with similar and independent probability in any season of any year is awkward in SS3. Instead, SS3 can be set up so that each quarter appears as a year (i.e., a seasons-as-years model). All the data and parameters are set up to treat quarters as if they were years. Note that setting up a seasons-as-years model also requires that all rate parameters be re-scaled to correctly account for the quarters being treated as years.
 
 Other adjustments to make when using seasons as years include:
@@ -138,12 +139,13 @@ Other adjustments to make when using seasons as years include:
 
 \pagebreak
 
-\section{Detailed Information on Stock Synthesis Processes}
+\hypertarget{SS3Processes}{}
+\section[Detailed Information on Stock Synthesis Processes]{\protect\hyperlink{SS3Processes}{Detailed Information on Stock Synthesis Processes}}
 
 The processes and calculations within SS3 can be complex and not transparent based on the model input files. Here, additional information on processes within SS3 is provided.
 
-\subsection{Jitter}
 \hypertarget{Jitter}{}
+\subsection[Jitter]{\protect\hyperlink{Jitter}{Jitter}}
 The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
 \begin{enumerate}
 	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
@@ -173,7 +175,7 @@ To evaluate the jittering, the bounds, and the original initial values, a jitter
 Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid unreasonable values (a warning is produced to indicate this).
 
 \hypertarget{PriorDescrip}{}
-\subsection{Parameter Priors}
+\subsection[Parameter Priors]{\protect\hyperlink{PriorDescrip}{Parameter Priors}}
 Priors on parameters fulfill two roles in SS3. First, for parameters provided with an informative prior, SS3 is receiving additional information about the true value of the parameter. This information works with the information in the data through the overall log likelihood function to arrive at the final parameter estimate. Second, diffuse priors provide only weak information about the value of a prior and serve to manage model performance during execution. For example, some selectivity parameters may become unimportant depending upon the values of other parameters of that selectivity function. In the double normal selectivity function, the parameters controlling the width of the peak and the slope of the descending side become redundant if the parameter controlling the final selectivity moves to a value indicating asymptotic selectivity. The width and slope parameters would no longer have any effect on the log likelihood, so they would have no gradient in the log likelihood and would drift aimlessly. A diffuse prior would then steer them towards a central value and avoid them crashing into the bounds. Another benefit of diffuse priors is the control of parameters that are given unnaturally wide bounds. When a parameter is given too broad of a bound, then early in a model run it could drift into this tail and potentially get into a situation where the gradient with respect that parameter approaches zero even though it is not at its global best value. Here the diffuse prior helps move the parameter back towards the middle of its range where it presumably will be more influential and estimable.  
 
 The options for parameter priors are described as a function of $Pval$, the value of the parameter for which a prior is being calculated, as well as the parameter bounds in the case of the beta distribution ($Pmax$ and $Pmin$), and the input values for $Prior$ and $Pr\_SD$, which in some cases are the mean and standard deviation, but interpretation depends on the prior type. The Prior Likelihoods below represent the negative log likelihood in all cases.
@@ -241,13 +243,13 @@ Note that the numbering in v.3.30 is different from that used in v.3.24 (where c
 	\end{equation}	
 
 	
-	\item \textbf{Prior Type 3 = Lognormal prior} \\ 
+	\item \textbf{Prior Type 3 = Log-normal prior} \\ 
 	Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0. The prior value is input into the parameter line in natural log space while the initial parameter value is defined in normal space (e.g., init = 0.20, prior = -1.609438).
 	\begin{equation}
 		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(P_\text{init})-P_\text{PR}}{P_\text{PRSD}}\right)^2
 	\end{equation}
 	
-	\item \textbf{Prior Type 4 = Lognormal prior with bias correction} \\ 
+	\item \textbf{Prior Type 4 = Log-normal prior with bias correction} \\ 
 	This option allows the prior mean value to be entered as the ln(mean). Note that this is undefined for $p <= 0$ so the lower bound on the parameter must be > 0.
 	\begin{equation}
 		\text{Prior Likelihood} = \frac{1}{2} \left(\frac{ln(P_\text{init})-P_\text{PR} + \frac{1}{2}{P_\text{PRSD}}^2}{P_\text{PRSD}}\right)^2

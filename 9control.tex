@@ -1,5 +1,7 @@
-\section{Control File}
-\subsection{Overview of Control File}
+\hypertarget{ControlFile}{}
+\section[Control File]{\protect\hyperlink{ControlFile}{Control File}}
+\hypertarget{OverviewControl}{}
+\subsection[Overview of Control File]{\protect\hyperlink{OverviewControl}{Overview of Control File}}
 These listed model features are denoted in the control file in the following order:
 	\begin{enumerate}
 		\item Number of growth patterns and platoons
@@ -45,7 +47,8 @@ These listed model features are denoted in the control file in the following ord
 	\end{enumerate}
 The order in which they appear in the control file has grown over time rather opportunistically, so it may not appear particularly logical at this time, especially various aspects of recruitment distribution and growth. When the same information is entered via the SS3 GUI, it is organized more logically and then written in this form to the text control file.
 
-\subsection{Parameter Line Elements}
+\hypertarget{ParameterLine}{}
+\subsection[Parameter Line Elements]{\protect\hyperlink{ParameterLine}{Parameter Line Elements}}
 The primary role of the control file is to define the parameters to be used by the model. The general syntax of the 14 elements of a long parameter line is described here. If used, time-varying parameter lines use only the first seven elements of a parameter line and will be referred to as a short parameter line. Three types of time-varying properties can be applied to a base parameter: blocks or trend, environmental linkage, and random deviation. Each parameter line contains:
 
 \hypertarget{Priors}{} \hypertarget{paraOrder}{}
@@ -57,13 +60,13 @@ The primary role of the control file is to define the parameters to be used by t
 		1 & LO & Minimum value for the parameter \Tstrut\\
 		2 & HI & Maximum value for the parameter \Tstrut\\
 		3 \Tstrut & INIT & Initial value for the parameter. If the phase (described below) for the parameter is negative the parameter is fixed at this value. If the ss3.par file is read, it overwrites these INIT values.\\
-		4 \Tstrut & PRIOR & Expected value for the parameter. This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta). If the selected prior type (described below) is lognormal, this value is entered in log space. \\
+		4 \Tstrut & PRIOR & Expected value for the parameter. This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta). If the selected prior type (described below) is log-normal, this value is entered in log space. \\
 		5 \Tstrut & PRIOR SD & Standard deviation for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. The standard deviation is in regular space regardless of the prior type. \\
 		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE} & 0 = none; \\
 		& & 1 = symmetric beta; \\
 		& & 2 = full beta; \\
-		& & 3 = lognormal without bias adjustment; \\
-		& & 4 = lognormal with bias adjustment; \\
+		& & 3 = log-normal without bias adjustment; \\
+		& & 4 = log-normal with bias adjustment; \\
 		& & 5 = gamma; and \\
 		& & 6 = normal. \\
 		7 \Tstrut & PHASE & Phase in which parameter begins to be estimated. A negative value causes the parameter to retain its INIT value (or value read from the ss3.par file). \Bstrut\\
@@ -82,11 +85,12 @@ Note that relative to Stock Synthesis v.3.24, the order of PRIOR SD and PRIOR TY
 
 The full parameter line (14 in length) syntax for the mortality-growth, spawn-recruitment, catchability, and selectivity sections provides additional controls to give the parameter time-varying properties. If a parameter (a full parameter line of length 14) is set up to be time-varying (i.e., parameter time blocks, annual deviations), short parameter lines, the first 7 elements, are required to be specified immediately after the main parameter block (i.e., mortality-growth parameter section). Additional information regard time-varying parameters and how to implement them is in the \hyperlink{TVpara}{Using Time-Varying Parameters} section.
 
-
-\subsection{Terminology}
+\hypertarget{ControlTerminology}{}
+\subsection[Terminology]{\protect\hyperlink{ControlTerminology}{Terminology}}
 The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
-\subsection{Beginning of Control File Inputs}
+\hypertarget{ControlInputs}{}
+\subsection[Beginning of Control File Inputs]{\protect\hyperlink{ControlInputs}{Beginning of Control File Inputs}}
 \begin{center}
 	\begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 		\hline
@@ -131,10 +135,12 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 	\vspace*{-\baselineskip}
 \end{center}
 
-\subsubsection{Weight-at-Age}
+\hypertarget{WatA}{}
+\subsubsection[Weight-at-Age]{\protect\hyperlink{WatA}{Weight-at-Age}}
 The capability to read empirical body weight-at-age for the population and each fleet was added starting in v.3.04, in lieu of generating these weights internally from the growth parameters, weight-at-length, and size-selectivity. The values are read from a separate file named, \texttt{wtatage.ss}. This file is only required to exist if this option is selected. See the \hyperlink{WAA}{Empirical Weight-at-Age} section for additional information on file formatting for empirical weight-at-age.
 
-\subsubsection{Settlement Timing for Recruits and Distribution}
+\hypertarget{SettlementTiming}{}
+\subsubsection[Settlement Timing for Recruits and Distribution]{\protect\hyperlink{SettlementTiming}{Settlement Timing for Recruits and Distribution}}
 In older versions of SS3 one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produced one annual total recruitment value. The annual recruitment value was then distributed among seasons, areas, and growth types according to other model parameters.
 
 Additional control of the seasonal timing was added in v.3.30 and now there now is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve, but its timing can be at any specified time, not just the beginning of a season. Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.
@@ -247,7 +253,8 @@ Seasonal recruitment is coded to work smoothly with growth. If the recruitment o
 	
 At the time of settlement, fish are assigned a size equal to the lower edge of the first population size bin, and they grow linearly until they reach the age A1. A warning is generated if the first population length bin is greater than 10 cm as this seems an unreasonably large value for a larval fish. A1 is in terms of real age elapsed since birth. All fish advance to the next integer age on January 1, regardless of birth season. For example, consider a 2 season model with some recruitment in each season and with each season's recruits coming from the same GP. At the end of the first year, the early born fish will be larger but both of the seasonal cohorts will advance to an integer age of 1 on Jan 1 of the next year. The full growth curve is still calculated below A1, but the size-at-age used is the linear replacement. Because the linear growth trajectory can never go negative, there is no need for the additive constant to the standard deviation (necessary for the growth model used in SS2 V1.x), but the option to add a constant has been retained in the model.
 
-\subsubsection{Movement}
+\hypertarget{Movement}{}
+\subsubsection[Movement]{\protect\hyperlink{Movement}{Movement}}
 Here the movement of fish between areas are defined. This is a box transfer with no explicit adjacency of areas, so fish can move from any area to any other area in each time step. While not incorporated yet, there is a desire for future versions of SS3 to have the capability to allow sex-specific movement, and also to allow some sort of mirroring so that sexes and growth patterns can share the same movement parameters if desired.
 
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
@@ -301,9 +308,8 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 	\item The resultant movement rates are multiplied by season duration in a seasonal model.	
 \end{itemize}
 
-
-\subsubsection{Time Blocks}
 \hypertarget{timeblocks}{}
+\subsubsection[Time Blocks]{\protect\hyperlink{timeblocks}{Time Blocks}}
 	
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 		\hline
@@ -333,7 +339,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 Blocks and other time-vary parameter controls are operative during forecast years, so care should be taken when setting the end year of the last block in a pattern. If that end year is set to the last year in the time series, then the parameter will revert to the base value for the forecast. If the user wants to continue the last block through the forecast, it is advisable to set the last block's end year value to -2 to cause SS3 to reset it to the last year of the forecast. Using the value -1 will set the block's end year to the last year of the time series and leave the forecast at the base parameter value. Note that additional controls on time-varying parameters in forecast years are in the forecast section.
 
 \hypertarget{autogen}{}
-\subsubsection{Auto-generation}
+\subsubsection[Auto-generation]{\protect\hyperlink{autogen}{Auto-generation}}
 Auto-generation is a useful way to automatically create the required short time-varying parameter lines which will be written in the \texttt{control.ss\_new} file. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The \texttt{control.ss\_new} file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file. Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
 
 	
@@ -365,9 +371,10 @@ Auto-generation is a useful way to automatically create the required short time-
 	\hline
 \end{longtable}
 
-
-\subsection{Biology}
-\subsubsection{Natural Mortality}
+\hypertarget{Biology}{}
+\subsection[Biology]{\protect\hyperlink{Biology}{Biology}}
+\hypertarget{NatM}{}
+\subsubsection[Natural Mortality]{\protect\hyperlink{NatM}{Natural Mortality}}
 Natural mortality (M) options include some options that are referenced to integer age and other options to real age since settlement. If using an option that references M to real age since settlement, M varies by age and will change by season (e.g., cohorts born early in the year will have different M than cohorts born later in the year).
 
 \myparagraph{Lorenzen Natural Mortality}
@@ -468,7 +475,8 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	\hline
 \end{longtable}
 
-\subsubsection{Growth}
+\hypertarget{Growth}{}
+\subsubsection[Growth]{\protect\hyperlink{Growth}{Growth}}
 
 \myparagraph{Timing} 
 When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin. The fish then grow linearly until they reach a real age equal to the input value ``growth-at-age for L1'' and have a size equal to the parameter value for L1 (the minimum length parameter). As they age further, they grow according the selected growth equation. The growth curve is calibrated to go through the size L2 parameter when they reach the age of maximum length.
@@ -593,12 +601,12 @@ A growth cessation model was developed for the application to tropical tuna spec
 	  & & 1: CV=f(A), so interpolation is a function of age; \\
 	  & & 2: SD=f(LAA), so parameters define the standard deviations of length-at-age and interpolation is a function of mean length-at-age; \\
 	  & & 3: SD=f(A); and \\
-	  & & 4: Lognormal distribution of size-at-age. Input parameters will specify the standard deviation of natural log size-at-age (e.g., entered values will typically be between 0.05 and 0.15). A bias adjustment is applied so the lognormal distribution of size-at-age will have the same mean size as when a normal distribution is used. \Bstrut\\
+	  & & 4: Log-normal distribution of size-at-age. Input parameters will specify the standard deviation of natural log size-at-age (e.g., entered values will typically be between 0.05 and 0.15). A bias adjustment is applied so the log-normal distribution of size-at-age will have the same mean size as when a normal distribution is used. \Bstrut\\
 	\hline
 \end{longtable}
 
-
-\subsubsection{Maturity-Fecundity}
+\hypertarget{Mat-Fec}{}
+\subsubsection[Maturity-Fecundity]{\protect\hyperlink{Mat-Fec}{Maturity-Fecundity}}
 
 \begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
 	\hline	
@@ -645,7 +653,8 @@ A growth cessation model was developed for the application to tropical tuna spec
 \end{longtable}
 
 % \pagebreak
-\subsubsection{Hermaphroditism}
+\hypertarget{Hermaphroditism}{}
+\subsubsection[Hermaphroditism]{\protect\hyperlink{Hermaphroditism}{Hermaphroditism}}
 
 \begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
 	\hline	
@@ -694,7 +703,7 @@ These parameter lines are entered directly after the weight-at-length parameters
 
 % \pagebreak
 \hypertarget{offset}{}
-\subsubsection{Natural Mortality and Growth Parameter Offset Method}
+\subsubsection[Natural Mortality and Growth Parameter Offset Method]{\protect\hyperlink{offset}{Natural Mortality and Growth Parameter Offset Method}}
 
 The most common set-up for natural mortality and growth parameters for two-sex models is direct assignment (option 1) which allows for independent estimation (or fixing) of natural mortality and growth parameters by sex. Within the direct assignment option there is functionality to set male parameters equal to the corresponding female parameter if the male INIT value is set to 0 and the phase is negative. 
 
@@ -726,8 +735,8 @@ Parameter offset option 3 has an offset feature for the growth CV and for natura
 	\hline
 \end{longtable}
 
-
-\subsubsection{Catch Multiplier}
+\hypertarget{CatchMult}{}
+\subsubsection[Catch Multiplier]{\protect\hyperlink{CatchMult}{Catch Multiplier}}
 These parameter lines are only included in the control file if the catch multiplier field in the data file is set to 1 for a fleet. The model expected catch $C_{exp}$ by fleet is estimated by:
 
 \begin{equation}
@@ -736,7 +745,8 @@ C_{exp} = \frac{C_{obs}}{c_{mult}}
 
 where $C_{obs}$ is the input catch by fleet (observed catch) within the data file and $c_{mult}$ is the estimated (or fixed) catch multiplier. It has year-specific, not season-specific, time-varying capabilities. In the catch likelihood calculation, expected catch is multiplied by the catch multiplier by year and fishery to get $C_{obs}$ before being compared to the observed retained catch as modified by the $c_{mult}$.
 
-\subsubsection{Ageing Error Parameters}
+\hypertarget{AgeErrorParam}{}
+\subsubsection[Ageing Error Parameters]{\protect\hyperlink{AgeErrorParam}{Ageing Error Parameters}}
 These parameters are only included in the control file if one of the ageing error definitions in the data file has requested this feature (by putting a negative value for the ageing error of the age zero fish of one ageing error definition). As of v.3.30.12, these parameters now have time-varying capability. Seven additional full parameter lines are required. The parameter lines specify:
 \begin{enumerate}
 	\item Age at which the estimated pattern begins (just linear below this age), this is the start age.
@@ -750,7 +760,8 @@ These parameters are only included in the control file if one of the ageing erro
 
 \noindent Code for implementing vectors of mean age and standard deviation of age can be located online within the \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_miscfxn.tpl}{SS\_miscfxn.tpl} file, search for function ``get\_age\_age'' or ``SS\_Label\_Function 45''.
 
-\subsubsection{Sex ratio}
+\hypertarget{SexRatio}{}
+\subsubsection[Sex Ratio]{\protect\hyperlink{SexRatio}{Sex Ratio}}
 The last line in the mortality-growth parameter section allows the user to fix or estimate the sex ratio between female and male fish at recruitment. The parameter is specified in the fraction of female fish and is applied at settlement. The default option is a sex ratio of 0.50 with this parameter not being estimated. Any composition data input as type = 3, both sexes, will be informative to the sex ratio because it scales females and males together, not separately, for this data type input. Estimation of the sex ratio is a new feature and should be done with care with the user checking that the answer is reflective of the data.
 
 As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
@@ -766,7 +777,8 @@ Note that all existing reports of natural mortality are the total (base M + M2) 
 
 Note that predator calculations probably will fail if tried with F Method=1 (Pope's), even though the Pope calculation is built into the hybrid F approach.
 
-\subsubsection{Read Biology Parameters}
+\hypertarget{ReadBioParams}{}
+\subsubsection[Read Biology Parameters]{\protect\hyperlink{ReadBioParams}{Read Biology Parameters}}
 \hypertarget{MGorder}{Next}, the model reads the mortality-growth (MG) parameters in generally the following order (may vary based on selected options):
 
 \begin{longtable}{p{1cm} p{2.25cm} p{10cm}}
@@ -950,10 +962,12 @@ Parameters marked with COND are conditional on selecting that feature:
 \myparagraph{Setting Male Parameters Equal to Females}
 The model allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2), and the growth coefficient (K) when using offset option = 1 (the \hyperlink{offset}{offset section} has information on the options available). If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the corresponding female parameter value for the males.
 
-\subsubsection{Time-varying Parameters}
+\hypertarget{TVParams}{}
+\subsubsection[Time-varying Parameters]{\protect\hyperlink{TVParams}{Time-varying Parameters}}
 Please see \hyperlink{tvOrder}{the Time-Varying Parameter Specification and Setup section} for details on how to set up time varying parameters. In short, additional short parameter lines will be needed after the long parameter lines. There are some \hyperlink{tvgrowth}{additional considerations} for time-varying growth.
 
-\subsubsection{Seasonal Biology Parameters}
+\hypertarget{SeasBio}{}
+\subsubsection[Seasonal Biology Parameters]{\protect\hyperlink{SeasBio}{Seasonal Biology Parameters}}
 Seasonal effects are available for weight-length parameters, maturity, fecundity, and for the growth parameter K. The seasonal parameter values adjust the base parameter value for that season.
 \begin{equation}
 P'=P*exp(\text{seas\_value})
@@ -986,7 +1000,7 @@ P'=P*exp(\text{seas\_value})
 \end{longtable}
 
 \hypertarget{SRR}{} 
-\subsection{Spawner-Recruitment}
+\subsection[Spawner-Recruitment]{\protect\hyperlink{SRR}{Spawner-Recruitment}}
 The spawner-recruitment section starts by specification of the functional relationship that will be used. 
 
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
@@ -1028,7 +1042,8 @@ In principle, steepness should always be used when calculating equilibrium recru
 
 Steepness should be used in the equilibrium calculation whenever you believe that the initial equilibrium catch was large enough to have reduced expected recruitment below R0. Note that when using this option, the initial equilibrium catch cannot be greater than MSY. SS3 uses the identical code for initial equilibrium catch and for MSY calculation, so it is axiomatic that MSY will be $<=$ initial equilibrium catch. So, SS3 will estimate a R0 large enough to make MSY < initial equilibrium catch. Alternatively, you can elect to not use this option and instead add many years to the beginning of the time series with that same level of initial catch. In this case, it is not equilibrium, so the catch can reduce the population below B\textsubscript{MSY}.
 
-\subsubsection{Spawner-Recruitment Functions}
+\hypertarget{SRRFunc}{}
+\subsubsection[Spawner-Recruitment Functions]{\protect\hyperlink{SRRFunc}{Spawner-Recruitment Functions}}
 The number of age-0 fish is related to spawning biomass according to a stock-recruitment relationship. There are a number of options for the shape of the spawner-recruitment relationship: Beverton-Holt, Ricker, Hockey-Stick, and a survival-based stock recruitment relationship.
 
 \hypertarget{BH}{}
@@ -1037,7 +1052,7 @@ The Beverton-Holt Stock Recruitment curve is calculated as:
 \begin{equation}{R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
 \end{equation}
 
-where $R_0$ is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (corresponding to $R_0$), $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, is the standard deviation among recruitment deviations in natural log space, and is the lognormal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot-adjusting-2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
+where $R_0$ is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (corresponding to $R_0$), $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, is the standard deviation among recruitment deviations in natural log space, and is the log-normal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot-adjusting-2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
 
 \hypertarget{Ricker}{}
 \myparagraph{Ricker}
@@ -1121,8 +1136,8 @@ temp =
 \end{equation}
 where $temp$ stabilizes recruitment at $R_0$ if $SB_y > SB_0$. 
 
-
-\subsubsection{Spawner-Recruitment Parameter Setup}
+\hypertarget{SRRParam}{}
+\subsubsection[Spawner-Recruitment Parameter Setup]{\protect\hyperlink{SRRParam}{Spawner-Recruitment Parameter Setup}}
 Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE). These parameters are:
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	\hline
@@ -1176,12 +1191,13 @@ Example set-up of the spawner-recruitment section:
 \end{center}
 \vspace*{-1.7\baselineskip}
 
-\subsubsection{Spawner-Recruitment Time-Varying Parameters}
+\hypertarget{SRR-TV}{}
+\subsubsection[Spawner-Recruitment Time-Varying Parameters]{\protect\hyperlink{SRR-TV}{Spawner-Recruitment Time-Varying Parameters}}
 
 The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviations. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section. However, not all of these options make sense for all parameters; please see additional details in the section on \hyperlink{tv-sr}{Time-Varying Stock-Recruitment Considerations}.
 
-\subsubsection{Tuning $\sigma_R$}
-\hyperlink{TuneSigmaR}{}
+\hypertarget{TuneSigmaR}{}
+\subsubsection[Tuning $\sigma_R$]{\protect\hyperlink{TuneSigmaR}{Tuning $\sigma_R$}}
 The $\sigma_R$ value is typically not estimatable and it is recommended practice to tune input $\sigma_R$ values based on the variance in estimated recruitments post running SS3. The R package \texttt{r4ss} designed to read and visualize SS3 model results provides recommendations on adjusting $\sigma_R$ values in the \texttt{sigma\_R\_info} object in the list created by the \texttt{r4ss::SS\_output()} function. An alternative $\sigma_R$ value is provided based on equation:
 
 \begin{equation}
@@ -1190,7 +1206,8 @@ The $\sigma_R$ value is typically not estimatable and it is recommended practice
 
 Simulation studies conducted by \citet{methot-adjusting-2011} compared three methods of tuning $\sigma_R$ with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates.
 
-\subsubsection{Recruitment Deviation Setup}
+\hypertarget{RecDevSetup}{}
+\subsubsection[Recruitment Deviation Setup]{\protect\hyperlink{RecDevSetup}{Recruitment Deviation Setup}}
 \begin{longtable}{p{1cm} p{3cm} p{12cm}}
 	\multicolumn{3}{l}{Control file continued:} \\
 
@@ -1310,7 +1327,7 @@ SE(\hat{r}_y)^2 + SD(\hat{r})^2=\Bigg( \bigg( \frac{1}{\sigma^2_d}+\frac{1}{\sig
 Where there are no data, no signal can be estimated and the individual recruitment deviations collapse towards 0.0 and the variance of each recruitment deviation approaches $\sigma_R$. Conversely, where there highly informative data about the recruitment deviations, then the variability among the estimated recruitment deviations will approach $\sigma_R$ and the variance of each recruitment deviation will approach zero. Perfect data will estimate the recruitment time series signal perfectly. Of course, we never have perfect data, so we should always expect the estimated signal (variability among the recruitment deviations) to be less than the true population recruitment variability.
 
 
-The correct offset (bias adjustment) to apply to the expected value for recruitment is based on the concept that a time series of estimated recruitments should be mean unbiased, not median unbiased, because the biomass of a stock depends upon the cumulative number of recruits, which is dominated by the large recruitments. The degree of offset depends upon the degree of recruitment signal that can be estimated. Where no recruitment signal can be estimated, the median recruitment is the same as the mean recruitment, so no offset is applied. Where lognormal recruitment signal can be estimated, the mean recruitment will be greater than the median recruitment. The value:
+The correct offset (bias adjustment) to apply to the expected value for recruitment is based on the concept that a time series of estimated recruitments should be mean unbiased, not median unbiased, because the biomass of a stock depends upon the cumulative number of recruits, which is dominated by the large recruitments. The degree of offset depends upon the degree of recruitment signal that can be estimated. Where no recruitment signal can be estimated, the median recruitment is the same as the mean recruitment, so no offset is applied. Where log-normal recruitment signal can be estimated, the mean recruitment will be greater than the median recruitment. The value:
 
 \begin{equation}
 	b_y=\frac{E\Big( SD(\hat{r}_y)\Big)^2}{\sigma^2_R}=1-\frac{SE(\hat{r}_y)^2}{\sigma^2_R}
@@ -1318,7 +1335,7 @@ The correct offset (bias adjustment) to apply to the expected value for recruitm
 
 \noindent of the offset then depends upon the partitioning of $\sigma_R$ into between and within recruitment variability. The most appropriate degree of bias adjustment can be approximated from the relationship among $\sigma_R$, recruitment variability (the signal), and recruitment residual error. Because the quantity and quality of data varies during a time series, the user can control the rate at which the offset is ramped in during the early, data-poor years, and then ramped back to zero for the forecast years. On output, the mean bias adjustment during the early and main eras is calculated, comparing this value to the RMSE of estimated recruitment deviations in the report.sso file. A warning is generated if the RMSE is small and the bias adjustment is larger than 2.0 times the ratio of $RMSE^2$ to $\sigma^2_R$. Additional information on recruitment bias adjustment can be found in the \hyperlink{BiasCorrect}{Recruitment Variability and Bias Correction section}.
 
-In MCMC mode, the model still draws recruitment deviations from the lognormal distribution, so the full offset is used such that the expected mean recruitment from this lognormal distribution will stay equal to the mean from the spawner-recruitment curve. When the model reaches the MCMC and MCEVAL phases, all bias adjustment values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full lognormal distribution of each recruitment.
+In MCMC mode, the model still draws recruitment deviations from the log-normal distribution, so the full offset is used such that the expected mean recruitment from this log-normal distribution will stay equal to the mean from the spawner-recruitment curve. When the model reaches the MCMC and MCEVAL phases, all bias adjustment values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full log-normal distribution of each recruitment.
 
 \myparagraph{Recruitment Cycle}
 When the model is configured such that seasons are modeled as years, the concept of season within year disappears. However, there may be reason to still want to model a repeating pattern in expected recruitment to track an actual seasonal cycle in recruitment. If the recruitment cycle factor is set to a positive integer, this value is interpreted as the number of time units in the cycle and this number of full parameter lines will be read. The cyclic effect is modeled as an exp(p) factor times R0, so a parameter value of 0.0 has nil effect. In order to maintain the same number of total recruits over the duration of the cycle, a penalty is introduced so that the cumulative effect of the cycle produces the same number of recruits as Ncycles * R0. Because the cyclic factor operates as an exponential, this penalty is different from a penalty that would cause the sum of the cyclic factors to be 0.0. This is done by adding a penalty to the parameter likelihood. %, where:
@@ -1334,7 +1351,8 @@ When the model is configured such that seasons are modeled as years, the concept
 \myparagraph{Initial Age Composition}
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year. These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series. The model first applies the initial F level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the F's to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector. If the number of estimated ages in the initial age composition is less than maximum age, then the older ages will retain their equilibrium levels. Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
 
-\subsection{Fishing Mortality Method}
+\hypertarget{FMethod}{}
+\subsection[Fishing Mortality Method]{\protect\hyperlink{FMethod}{Fishing Mortality Method}}
 The implementation and reporting of fishing mortality, $F$, in SS3 is more complex than in simpler models and can be confusing. The description provides an overview of the ways in which $F$ is calculated, used, and reported.
 
 \myparagraph{Nomenclature}
@@ -1347,7 +1365,7 @@ The nomenclature below ignores sex, morphs and areas for simplicity. The quantit
 	\item $a$ is age.
 	\item $C_{t,f}$ is fleet-specific catch in a time step.
 	\item $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by fleet-specific age selectivity, $s_{t,f,a}$.
-	\item $s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity is calculated as the dot product across length bins of length selectivity and the normal (or lognormal) distribution of length-at-age. If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity. This compound age selectivity is used in the mortality calculations and is reported as $Asel2$ in report:32 of \texttt{Report.sso}. See appendix to \citet{methotstock2013} for more detail on this.
+	\item $s_{t,f,a}$ is age-specific selectivity for a fleet. If selectivity is length-specific, then age-specific selectivity is calculated as the dot product across length bins of length selectivity and the normal (or log-normal) distribution of length-at-age. If selectivity is both length- and age-based, which is an entirely normal concept in SS3, then age selectivity due to length selectivity is calculated first, then multiplied by the direct age selectivity. This compound age selectivity is used in the mortality calculations and is reported as $Asel2$ in report:32 of \texttt{Report.sso}. See appendix to \citet{methotstock2013} for more detail on this.
 	\item $F_{t,f}'$ is the fully-selected fishing mortality for a fleet. The manual will refer to it as $F'$ or $\text{full\_}F$. If your model is using $F'\text{s}$ as parameters, then the parameter values are for $F'$.
 	\item $\text{apical\_}F$ is the maximum $F$ among the ages. It is not used explicitly in SS3 although some sections of the manual may state $\text{apical\_}F$ instead of the correct term, full\_$F$.
 	\item $F_{t,f,a}$ is age and fleet-specific fishing mortality rate equal to $F_{t,f}' * s_{t,f,a}$. Note that it is possible for no age to have a selectivity equal to 1.0. Some selectivity curves are forced to have maximum selectivity = 1.0 such that $\text{apical\_}F$ and $\text{full\_}F$ will be the same, but some curves never reach 1.0 and some non-parametric forms allow selectivity > 1.0. In all cases, $F'$ is still the rate for the hypothetical age that has selectivity equal to 1.0. The reported $F'$ values are not rescaled to be an $F$ for the age with peak selectivity. Users need to take this into account if they are comparing reported $F'$ values to reported vector of $F_{t,f,a}$ values.
@@ -1445,7 +1463,8 @@ Some notes:
 	\hline
 \end{longtable}
 
-\subsubsection{Equilibrium SPR}
+\hypertarget{EquilSPR}{}
+\subsubsection[Equilibrium SPR]{\protect\hyperlink{EquilSPR}{Equilibrium SPR}}
 $SPR_y$ is the equilibrium spawning biomass per recruit that would result from fishing at the current year’s $F$ level and selectivity. It is a measure of the expected long-term effect of fishing. It is calculated as the ratio of the equilibrium reproductive output per recruit that would occur with the current year's $F$ intensities and biology, to the equilibrium reproductive output per recruit that would occur with the current year's biology and no fishing. Thus, it internalizes all seasonality, movement, weird selectivity patterns, and other factors. Because this index moves in the opposite direction than $F$ itself, it is usually reported as $1-SPR$. A benefit of this index is that it is a direct measure of common proxies used for F\textsubscript{MSY}, such as F\textsubscript{40\%}. A shortcoming of this index is that it does not directly demonstrate the fraction of the stock that is caught each year. The SPR value is also calculated in the benchmarks (see below). 
 
 The derived quantities report shows an annual SPR statistic. The options, as specified in the starter.ss file, are:
@@ -1458,7 +1477,7 @@ The derived quantities report shows an annual SPR statistic. The options, as spe
 \end{itemize}
 
 \hypertarget{InitF}{}
-\subsubsection{Initial Fishing Mortality}
+\subsubsection[Initial Fishing Mortality]{\protect\hyperlink{InitF}{Initial Fishing Mortality}}
 Read a short parameter setup line for each fishery and season when there is non-zero equilibrium catch in a season for the fleet (equilibrium catches are input in the \hyperlink{CatchFormat}{catch section of the data file}). The parameters are the fishing mortalities for the initial equilibrium catches. Do not try to estimate parameters for fisheries with zero initial equilibrium catch - no parameter line is needed fleets and seasons with zero equilibrium catch.
 
 If there is catch, then give a starting value greater than zero, and it generally is best to estimate the parameter in phase 1. The initial $F$ parameter lines are ordered as shown in the example below - by season, then within a season, by fleet.
@@ -1497,7 +1516,7 @@ It is possible to use the initial $F$ method to achieve an estimate of the initi
 
 
 \hypertarget{Qsetup}{}
-\subsection{Catchability}
+\subsection[Catchability]{\protect\hyperlink{Qsetup}{Catchability}}
 Catchability is the model process that converts selected numbers or biomass for a fleet into the expected value for a survey or CPUE by that fleet. In SS3, the concept has been extended so that, for example, a time series of an environmental factor could be treated as a survey of the time series of deviations for some parameter. Thus, the concept of catchability is expanded to include a family of link functions beyond simple proportionality.
 
 Collectively, all factors that need a catchability are considered to be an index. Note that the catchability options entered in this section of the control file have a strong relationship with the index units (i.e., biomass vs. numbers vs. deviations) and index error type (i.e., normal vs. T-distribution) as entered in the data file.
@@ -1579,7 +1598,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 If the Q base parameter specifies that it is time-varying by the annual deviation method, short parameter lines to specify the specifications of the deviation vector come after all the base Q parameters.
 
 \hypertarget{QParams}{}
-\subsubsection{Example Q parameter lines}
+\subsubsection[Example Q parameter lines]{\protect\hyperlink{QParams}{Example Q parameter lines}}
 Below is an example setup for fleets with a mirrored Q and scale from another fleet (link type = 4), scale from another fleet with offset (link type = 5), and scale from another fleet with offset and power (link type = 5):
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{7.6cm}}
 	\multicolumn{7}{l}{For a setup with a single survey, the Q setup matrix could be:} \\
@@ -1614,7 +1633,7 @@ Below is an example setup for fleets with a mirrored Q and scale from another fl
 \end{longtable}
 
 \hypertarget{FloatQ}{}
-\subsubsection{Float Q}
+\subsubsection[Float Q]{\protect\hyperlink{FloatQ}{Float Q}}
 The use and development of float in Q has evolved over time within SS3. The original approach in earlier versions of SS3 (version 3.24 and before) is that with Q ``float'' the units of the survey or fishery CPUE were treated as dimensionless so the Q was adjusted within each model iteration to maintain a mean difference of 0.0 between observed and expected (usually in natural log space). In contrast, Q as a parameter (float = 0) one had the ability to interpret the absolute scaling of Q and put a prior on it to help guide the model solution. Also, with Q as a parameter the code allowed for Q to be time-varying.
 
 Then midway through the evolution of the v.3.24 code lineage a new Q option was introduced based on user recommendations. This option allowed Q to float and to compare the resulting Q value to a prior, hence the information in that prior would pull the model solution in direction of a floated Q that came close to the prior.
@@ -1634,13 +1653,16 @@ Q relates the units of the survey or CPUE to the population abundance, not the p
 
 In v.3.30.13, a new catchability option has been added that allows Q to be mirrored and to add an offset to ln(Q) of the primary area when calculating the ln(Q) for the dependent area. The offset is a parameter and, hence, can be estimated and have a prior. This option allows the CPUE data to stay in density units and the effect of relative stock area is contained in the value of the ln(Q) offset.
 
-\subsubsection{Catchability Time-Varying Parameters}
+\hypertarget{Q-TV}{}
+\subsubsection[Catchability Time-Varying Parameters]{\protect\hyperlink{Q-TV}{Catchability Time-Varying Parameters}}
 Time-Varying catchability can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
-\subsubsection{Q Conversion Issues Between Stock Synthesis v.3.24 and v.3.30}
+\hypertarget{QConversion}{}
+\subsubsection[Q Conversion Issues Between Stock Synthesis v.3.24 and v.3.30]{\protect\hyperlink{QConversion}{Q Conversion Issues Between Stock Synthesis v.3.24 and v.3.30}}
 In v.3.24 it was common to use the deviation approach implemented as if it was survey specific blocks to create a time-varying Q for a single survey. In some cases, only one year's deviation was made active in order to implement, in effect, a block for Q. The transition executable (\texttt{ss\_trans.exe}) cannot convert this, but an analogous approach is available in v.3.30 because true blocks can now be used, as well as environmental links and annual deviations. Also note that deviations in v.3.24 were survey specific (so no parameter for years with no survey). In v.3.30, deviations are always year-specific, so you might have a deviation created for a year with no survey.
 
-\subsection{Selectivity and Discard}
+\hypertarget{SelDiscard}{}
+\subsection[Selectivity and Discard]{\protect\hyperlink{SelDiscard}{Selectivity and Discard}}
 For each fleet and survey, read a definition line for size selectivity and retention. 
 
 \begin{center}
@@ -1697,7 +1719,8 @@ For each fleet and survey, read a definition line for age selectivity. The 4 val
 
 As of v.3.30.15, for some selectivity patterns the user can specify the minimum age of selected fish. Most selectivity curves by default select age 0 fish (i.e., inherently specify the minimum age of selected fish as 0). However, it is fairly common for the age bins specified in the data file to start at age 1. This means that any age 0 fish selected are pooled up into the age 1' bin, which will have a detrimental effect on fitting age-composition data. In order to prevent the selection of age 0 (or older) fish, the user can specify the minimum selected age for some selectivity patterns (12, 13, 14, 16, 18, 26, or 27) in versions of v.3.30.15 and later. For example, if the minimum selected age is 1 (so that age 0 fish are not selected), selectivity pattern type can be specified as 1XX, where XX is the selectivity pattern. A more specific example is if selectivity is age-logistic and the minimum selected age desired is 1, the selectivity pattern would be specified as 112 (the regular age-logistic selectivity pattern is option 12). The user can also select higher minimum selected ages, if desired; for example, 212 would be the age-logistic selectivity pattern with a minimum selected age of 2 (so that age 0 and 1 fish are not selected).
 
-\subsubsection{Reading the Selectivity and Retention Parameters}
+\hypertarget{SelRetParam}{}
+\subsubsection[Reading the Selectivity and Retention Parameters]{\protect\hyperlink{SelRetParam}{Reading the Selectivity and Retention Parameters}}
 Read the required number of parameter setup lines as specified by the definition lines above. The complete order of the parameter setup lines is:
 \begin{enumerate}
 	\item Size selectivity for fishery 1;
@@ -1748,7 +1771,7 @@ Read the required number of parameter setup lines as specified by the definition
 
 
 \hypertarget{SelexPattern}{}
-\subsubsection{Selectivity Patterns}
+\subsubsection[Selectivity Patterns]{\protect\hyperlink{SelexPattern}{Selectivity Patterns}}
 The currently defined selectivity patterns, and corresponding required number of parameters, are:
 
 
@@ -1830,7 +1853,8 @@ The currently defined selectivity patterns, and corresponding required number of
 \myparagraph{Special Selectivity Options}
 Special selectivity options (type 30 in size based selectivity) are no longer specified within the control file. Specifying the use of one of these selectivity types is now done within the data file by selecting the survey ``units'' (see the section on \hyperlink{IndexUnits}{Index units}).
 
-\subsubsection{Selectivity Pattern Details}
+\hypertarget{SelPattern}{}
+\subsubsection[Selectivity Pattern Details]{\protect\hyperlink{SelPattern}{Selectivity Pattern Details}}
 \myparagraph{Pattern 1 (size) and 12 (age) - Simple Logistic}
 Logistic selectivity for the primary sex (if selectivity varies by sex) is formulated as:
 	\begin{equation}
@@ -2262,7 +2286,8 @@ An example specification and setup for this selectivity option where selectivity
 		\hline
 	\end{longtable}
 
-\subsubsection{Retention}
+\hypertarget{Retention}{}
+\subsubsection[Retention]{\protect\hyperlink{Retention}{Retention}}
 Retention is defined as a logistic function of size or age. It does not apply to surveys. Four parameters (for asymptotic retention) or seven parameters (for dome-shaped retention) are used:
 \begin{itemize}
 	\item Asymptotic (4 parameters):
@@ -2285,7 +2310,8 @@ Retention is defined as a logistic function of size or age. It does not apply to
 \end{equation}
 where $P3' = 1/(1+e^{-P3})$ is the asymptotic retention calculated from the $P3$ parameter which is in logit space.
 
-\subsubsection{Discard Mortality}
+\hypertarget{DiscardM}{}
+\subsubsection[Discard Mortality]{\protect\hyperlink{DiscardM}{Discard Mortality}}
 Discard mortality is defined as a logistic function of size such that mortality declines from 1.0 to an asymptotic level as fish get larger. It does not apply to surveys, and it does not affect the calculation of expected values for discard data. It is applied so that the total mortality rate is:
 \begin{center}
 	dead fish = selectivity * (retain + (1.0-retain)*discard mortality)
@@ -2305,7 +2331,8 @@ Discard mortality is calculated as:
 	\text{Discard Mortality}_l = 1 - \frac{1-P3}{1+e^{\frac{-(L_l-(P1+P4*male))}{P2}}}
 \end{equation}
 
-\subsubsection{Sex-Specific Selectivity}
+\hypertarget{SexSelex}{}
+\subsubsection[Sex-Specific Selectivity]{\protect\hyperlink{SexSelex}{Sex-Specific Selectivity}}
 There are two approaches to specifying sex specific selectivity. One approach allows male selectivity to be specified as a fraction of female selectivity (or vice versa). This first approach can be used for any selectivity pattern. The other option allows for separate selectivity parameters for each sex plus an additional parameter to define the scaling of one sex's peak selectivity relative to the other sex's peak. This second approach has only been implemented for a few selectivity patterns.
 
 \myparagraph{Male Selectivity as a Fraction of Female Selectivity (or vice versa):}
@@ -2346,7 +2373,7 @@ Notes:
 \end{itemize}
 
 \hypertarget{Dirichletparameter}{}
-\subsubsection{Dirichlet-Multinomial Error for Data Weighting}
+\subsubsection[Dirichlet-Multinomial Error for Data Weighting]{\protect\hyperlink{Dirichletparameter}{Dirichlet-Multinomial Error for Data Weighting}}
 If the Dirichlet-multinomial error distribution was selected in the data file for length or age data weighting, add additional parameter line(s) immediately following the age selectivity parameter block. There should be 1 parameter line for each parameter in the data file.
 
 For additional information about the Dirichlet-multinomial please see \citet{thorson-model-based-2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
@@ -2369,11 +2396,12 @@ For additional information about the Dirichlet-multinomial please see \citet{tho
 	\hline
 \end{longtable}
 
-
-\subsubsection{Selectivity Time-Varying Parameters}
+\hypertarget{Selex-TV}{}
+\subsubsection[Selectivity Time-Varying Parameters]{\protect\hyperlink{Selex-TV}{Selectivity Time-Varying Parameters}}
 Time-Varying selectivity can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
 
-\subsubsection{Two-Dimensional Auto-Regressive Selectivity (2DAR; Semi-parametric selectivity)}
+\hypertarget{TwoDAR}{}
+\subsubsection[Two-Dimensional Auto-Regressive Selectivity (2DAR; Semi-parametric selectivity)]{\protect\hyperlink{TwoDAR}{Two-Dimensional Auto-Regressive Selectivity (2DAR; Semi-parametric selectivity)}}
 This features combines a baseline parametric selectivity per existing options with a matrix of auto-correlated deviations by year and age (or length) to achieve semi-parametric selectivity as described in \citet{xu-new-2019}. For brevity, only ages will be referred to here. With 2DAR, these deviations are not in the selectivity parameters themselves. Instead, the deviations are exponentiated then used as year and age-specific multipliers on the chosen baseline selectivity.
 
 There are a range of controls for this feature. The deviations can be applied to either the age selectivity or the length selectivity over a specified range of ages (or lengths) and years. The variance of the devs can be the same for all ages, or can be age-specific up to a specified age, then constant variance for all older ages that are within the 2DAR range. Ages outside the 2DAR range revert to the parametric selectivity. The user can select a range of years for which devs will be created and can specify whether selectivity for years outside this range revert to the parametric selectivity or continue with the semi-parametric from the terminal year with devs; thus devs could be defined for just one year, the first year, then mirrored for all subsequent years. Finally, the controls allow for there to be a user-specified level of auto-correlation along the age dimension separate from a user-specified level of auto-correlation in the year dimension.
@@ -2453,7 +2481,7 @@ Following each fleet-specific specification line are short parameter lines for t
 
 
 \hypertarget{tagrecapture}{}
-\subsection{Tag Recapture Parameters}
+\subsection[Tag Recapture Parameters]{\protect\hyperlink{tagrecapture}{Tag Recapture Parameters}}
 Specify if tagging data are being used:
 
 
@@ -2521,7 +2549,7 @@ In v.3.30.14, the ability to mirror the tagging parameters from another tag grou
 To avoid having to specify mirrored parameter lines, the tag parameters can be auto-generated. The \texttt{control.ss\_new} file created after running this model will have a full set of tagging parameter lines to use in future model runs.
 
 \hypertarget{GcompVar}{}
-\subsection{Variance Adjustment Factors}
+\subsection[Variance Adjustment Factors]{\protect\hyperlink{GcompVar}{Variance Adjustment Factors}}
 When doing iterative re-weighting of the input variance factors, it is convenient to do this in the control file, rather than the data file. This section creates that capability.
 
 \begin{longtable}{p{3cm} p{3cm} p{2.5cm} p{6.25cm}}
@@ -2568,7 +2596,7 @@ Because the actual input variance factors are modified, it is these modified var
 
 
 \hypertarget{Lambdas}{}
-\subsection{Lambdas (Emphasis Factors)}
+\subsection[Lambdas (Emphasis Factors)]{\protect\hyperlink{Lambdas}{Lambdas (Emphasis Factors)}}
 These values are multiplied by the corresponding likelihood component to calculate the overall negative log likelihood to be minimized.
 
 
@@ -2629,7 +2657,8 @@ You can also put any placeholder value like 0 or 999 for the SizeFreq Method unl
 
 Starting in v.3.30.16, the application of a lambda to initial equilibrium catch is now fleet specific. In previous versions, a single lambda was applied in the same manner across all fleets with an initial equilibrium catch specified.
 
-\subsection{Controls for Variance of Derived Quantities}
+\hypertarget{ControlsVarDer}{}
+\subsection[Controls for Variance of Derived Quantities]{\protect\hyperlink{ControlsVarDer}{Controls for Variance of Derived Quantities}}
 Additional standard deviation reported may be selected:
 
 \begin{longtable}{p{1.1cm} p{1.4cm} p{1.2cm} p{1.2cm} p{1.3cm} p{1.6cm} p{1.4cm} p{1.4cm} p{1.4cm}}
