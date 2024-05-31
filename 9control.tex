@@ -1942,7 +1942,7 @@ This formulation has the properties that the maximum selectivity equals 1, posit
 	
 The condition that maximum selectivity equals 1 results in one fewer degree of freedom than the number of estimated $p_a$. Therefore, at least one parameter should be fixed at an arbitrary value, typically $p_{A_{\text{min}}}=0$.
 
-The number of parameters lines required to the control file for pattern 17 is nages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to nages. Input to the special column is used to reduce the number of parameters lines needed (selectivity is constant above the age represented by the last parameter value read when using special). 
+The number of parameters lines required to the control file for pattern 17 is nages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to nages. Input to the special column is used to reduce the number of parameters lines required (selectivity is constant above the age represented by the last parameter value read when using special). 
 	
 In typical usage:
 	\begin{itemize}
@@ -2088,7 +2088,7 @@ Code for implementing cubic spline selectivity can be found in
 \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_selex.tpl}{\texttt{SS\_selex.tpl}},
 search for ``SS\_Label\_Info\_22.7.27''.
 
-One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial set-up code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this problem.
+One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial set-up code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this issue.
 
 Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered with the cubic spline function is a capability to produce more specific parameter labels and to auto-generate selectivity parameter setup. The auto-generation feature is controlled by the first selectivity parameter value for each fleet that is specified to use the cubic spline. There are 6 possible values for this setup parameter:
 	\begin{itemize}

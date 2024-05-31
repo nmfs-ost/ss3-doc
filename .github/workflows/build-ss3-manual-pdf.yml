@@ -39,7 +39,7 @@ jobs:
         id: spellcheck
         with:
           root_file: SS330_User_Manual.tex
-          args: --check en --dict dictionary.txt --ignore sh:nobreak,sh:stacked,sh:nsubdiv,sh:seclen,sh:nonp,sh:hctab,sh:figref,lt:en:UNIT_SPACE,lt:en:UPPERCASE_SENTENCE_START,lt:en:COMMA_COMPOUND_SENTENCE_2,lt:en:COMMA_COMPOUND_SENTENCE,lt:en:ENGLISH_WORD_REPEAT_BEGINNING_RULE,lt:en:ENGLISH_WORD_REPEAT_RULE,lt:en:ENTER_IN,lt:en:CD_NN,lt:en:PHRASE_REPETITION,lt:en:SETUP_VERB,lt:en:ONES
+          args: --check en --dict dictionary.txt --ignore sh:nobreak,sh:stacked,sh:nsubdiv,sh:seclen,sh:nonp,sh:hctab,sh:figref,lt:en:FILE_EXTENSIONS_CASE,lt:en:UNIT_SPACE,lt:en:STEPS_TO_DO,lt:en:UPPERCASE_SENTENCE_START,lt:en:COMMA_COMPOUND_SENTENCE_2,lt:en:COMMA_COMPOUND_SENTENCE,lt:en:ENGLISH_WORD_REPEAT_BEGINNING_RULE,lt:en:ENGLISH_WORD_REPEAT_RULE,lt:en:ENTER_IN,lt:en:CD_NN,lt:en:PHRASE_REPETITION,lt:en:SETUP_VERB,lt:en:ONES
 
       - name: Print number of spellcheck warnings
         run: 'echo "Number of spellcheck warnings: ${{ steps.spellcheck.outputs.num_warnings }}"'
@@ -73,5 +73,5 @@ jobs:
       - name: Throw error if spellcheck warnings exist
         # If the number of warnings goes up (in the previous step) and cannot be rectified, you can change 
         # the number below and increase the number of warnings that will trigger the action to fail
-        if: ${{ steps.spellcheck.outputs.num_warnings > 740 }}
+        if: ${{ steps.spellcheck.outputs.num_warnings > 588 }}
         run: 'echo "::error file=main.tex::num_warnings: ${{ steps.spellcheck.outputs.num_warnings }}"; exit 1;'
