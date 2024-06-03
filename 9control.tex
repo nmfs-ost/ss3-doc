@@ -779,7 +779,8 @@ Note that predator calculations probably will fail if tried with F Method=1 (Pop
 
 \hypertarget{ReadBioParams}{}
 \subsubsection[Read Biology Parameters]{\protect\hyperlink{ReadBioParams}{Read Biology Parameters}}
-\hypertarget{MGorder}{Next}, the model reads the mortality-growth (MG) parameters in generally the following order (may vary based on selected options):
+\hypertarget{MGorder}{}
+Next, the model reads the mortality-growth (MG) parameters in generally the following order (may vary based on selected options):
 
 \begin{longtable}{p{1cm} p{2.25cm} p{10cm}}
 	\hline
@@ -1110,7 +1111,8 @@ Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increas
 Code for the survival based recruitment can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_recruit.tpl}{\texttt{SS\_recruit.tpl}}, search for ``SS\_Label\_43.3.7 survival based''.
 
 \myparagraph{Shepherd}
-\hypertarget{Shepherd}{The} Shepherd stock recruit curve is calculated as:
+\hypertarget{Shepherd}{} 
+The Shepherd stock recruit curve is calculated as:
 \begin{equation}
 R_y = \bigg(\frac{SB_y}{SB_0}\bigg)\frac{5h_{adj}R_0(1-0.2^c)}{(1-5h_{adj}0.2^c)+(5h_{adj}-1)(\frac{SB_y}{SB_0})^c}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad \tilde{R}_y\sim N(0;\sigma^2_R)
 \end{equation}
@@ -1122,7 +1124,8 @@ h_{adj}=0.2+\bigg(\frac{h-0.2}{0.8}\bigg)\bigg(\frac{1}{5*0.2^c}-0.2\bigg)
 More details can be found in \citet{punt-extending-2019}.
 
 \myparagraph{Ricker Re-parameterization}
-\hypertarget{Ricker2}{The} Ricker stock recruit curve re-parameterized version. More details can be found in \citet{punt-extending-2019}.
+\hypertarget{Ricker2}{}
+The Ricker stock recruit curve re-parameterized version. More details can be found in \citet{punt-extending-2019}.
 \begin{equation}
 R_y = R_0*(1-temp)*e^{ln(5h)(1-SB_y/SB_0)^{\gamma}/0.8^{\gamma}}
 \end{equation}
@@ -1163,7 +1166,7 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 	& 3rd Parameter & Optional depending on which spawner-recruitment relationship function is used. \Bstrut\\
 	\hline
 
-	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated). Thus, the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hypertarget{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
+	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated). Thus, the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hyperlink{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
 	\hline
 
 	0 \Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier. \Bstrut\\
@@ -1691,7 +1694,8 @@ For each fleet and survey, read a definition line for size selectivity and reten
 Specify the size/age selectivity pattern. See the \hyperlink{SelexPattern}{Selectivity Pattern} section for user options.
 
 \myparagraph{Discard}
-\hypertarget{DomeRetention}{Discard options:}
+\hypertarget{DomeRetention}{}
+Discard options:
 \begin{itemize}
 	\item Option = 0: no discarding by fleet.
 	\item Option = 1: program will read 4 retention parameters after reading the specified number of selectivity parameters and all discarded fish are assumed dead.
@@ -2612,7 +2616,8 @@ These values are multiplied by the corresponding likelihood component to calcula
 \end{tabular}
 
 \myparagraph{Lambda Usage Notes}
-\hypertarget{SaAlambda}{If} the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stdev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
+\hypertarget{SaAlambda}{}
+If the CV for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stdev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for CV of size-at-age.
 
 The reading of the lambda values has been substantially altered with v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0. After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data, but you had set the lambda to 0.0 in a previous version of SS3. First read an integer for the number of changes.
 
