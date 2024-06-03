@@ -1,22 +1,22 @@
 
-\section{Introduction}\label{sec:intro}
-
+\section[Introduction]{\protect\hyperref[sec:intro]{Introduction}}\label{sec:intro}
 Fish population (aka ``stock'') assessment models determine the impact of past fishing on the historical and current abundance of the population, evaluate sustainable rates of removals (catch), and project future levels of catch reflecting one or more risk-averse catch rules. These catch rules are codified in regional Fishery Management Plans according to requirements of the Sustainable Fisheries Act. In the U.S., approximately 500 federally managed fish and shellfish populations are managed under approximately 50 Fishery Management Plans. About 200 of these populations are assessed each year, based on a prioritized schedule for their current status. Despite this, many minor species have never been quantitatively assessed. Although the pace is slower than that for weather forecasting, fish stock assessments are operational models for fisheries management.
 
 Assessment models typically assimilate annual catches, data on fish abundance from diverse surveys and fishery sources, and biological information regarding fish body size and proportions at age. A suite of models is available depending on the degree of data availability and unique characteristics of the fish population or its fishery. Where feasible, environmental time series are used as indicators of changes in population or observation processes, especially to improve the accuracy of the projections of abundance and sustainable catch into the future. Such linkages are based principally on correlations given the challenge of conducting field observations on an appropriate scale. The frontier of model development is in the rapid estimation of parameters to include random temporal effects, in the simultaneous modeling of a suite of interacting species, and in the explicit treatment of the spatial distribution of the population.
 
 Assessment models are loosely coupled to other models. For example, an ocean-temperature or circulation model or benthic-habitat map may be directly included in the pre-processing of the fish abundance survey. A time series of a derived ocean factor, like the North Atlantic Oscillation, can be included as an indicator of a change in a population process. Output of a multi-decadal time series of derived fish abundance can be an input to ecosystem and economic models to better understand cumulative impacts and benefits. 
 
-Stock Synthesis is an age- and size-structured assessment model in the class of models termed integrated analysis models. Stock Synthesis has evolved since its initial inception in order to model a wide range of fish populations and dynamics. The most recent major revision to Stock Synthesis occurred in 2016, when v.3.30 was introduced. This new version of Stock Synthesis required major revisions to the input files relative to earlier versions (see the \hypertarget{ConvIssues}{Converting Files} section for more information). The acronym for Stock Synthesis has evolved over time with earlier versions being referred to as SS2 (Stock Synthesis v.2.xx) and older versions as SS3 (Stock Synthesis v.3.xx). 
+Stock Synthesis is an age- and size-structured assessment model in the class of models termed integrated analysis models. Stock Synthesis has evolved since its initial inception in order to model a wide range of fish populations and dynamics. The most recent major revision to Stock Synthesis occurred in 2016, when v.3.30 was introduced. This new version of Stock Synthesis required major revisions to the input files relative to earlier versions (see the \hyperlink{ConvIssues}{Converting Files} section for more information). The acronym for Stock Synthesis has evolved over time with earlier versions being referred to as SS2 (Stock Synthesis v.2.xx) and older versions as SS3 (Stock Synthesis v.3.xx). 
 
 SS3 has a population sub-model that simulates a stock's growth, maturity, fecundity, recruitment, movement, and mortality processes, an observation sub-model estimates expected values for various types of data, a statistical sub-model characterizes the data's goodness of fit and obtains best-fitting parameters with associated variance, and a forecast sub-model projects needed management quantities. SS3 outputs the quantities, with confidence intervals, needed to implement risk-averse fishery control rules. The model is coded in C++ with parameter estimation enabled by automatic differentiation (\href{http://www.admb-project.org}{ADMB}). Windows, Linux, and iOS versions are available.  Output processing and associated tools are in R, and a graphical interface is in QT. SS3 executables and support material is available on \href{https://github.com/nmfs-ost}{GitHub}. The rich feature set in SS3 allows it to be configured for a wide range of situations. SS3 has become the basis for a large fraction of U.S. assessments and many other assessments around the world.  
 
 This manual provides a guide for using SS3. The guide contains a description of the input and output files and usage instructions. An overview and technical description of the model itself is in \citet{methotstock2013}. However, SS3 has continued to evolve and grow since the publication in 2013, with this manual reflecting the most up-to-date information regarding SS3. The model and a graphical user interface are available on \href{https://github.com/nmfs-ost}{GitHub} with older archived versions also available online at \href{https://vlab.noaa.gov/web/stock-synthesis}{NOAA VLAB}. The VLAB site also provides a user forum for posting questions and for accessing various additional materials. An output processor package, \texttt{r4ss}, in R is available for download from \href{https://github.com/r4ss/r4ss}{GitHub}.
 
 Additional guidance for new users can be found online in the \href{https://nmfs-ost.github.io/ss3-doc/Getting_Started_SS3.html}{Getting Started Tutorial} and on the \href{https://github.com/nmfs-ost/ss3-source-code#how-can-i-learn-how-to-use-stock-synthesis}{Stock Synthesis GitHub} page. 
+ 
 
-  \subsection{How To Cite}
-  
+  \hypertarget{HowToCite}{}
+  \subsection[How To Cite]{\protect\hyperlink{HowToCite}{How To Cite}}
 Please cite Stock Synthesis as:
 
 Methot, R.D. and Wetzel, C.R. (2013). Stock Synthesis: A biological and statistical
@@ -29,8 +29,9 @@ Methot, R. D., Jr., C. R. Wetzel, I. G. Taylor, and K. Doering. (2020). Stock Sy
 
 \pagebreak
 		
-\section{File Organization}\label{FileOrganization}		
-	\subsection{Input Files}
+\section[File Organization]{\protect\hyperref[FileOrganization]{File Organization}}\label{FileOrganization}
+	\hypertarget{InputFiles}{}
+	\subsection[Input File]{\protect\hyperlink{InputFiles}{Input Files}}
 	\begin{enumerate}
 		\item \verb|starter.ss|: required file containing filenames of the data file and the control file plus other run controls (required).
 		\item \verb|datafile|: file containing model dimensions and the data (required)
@@ -42,7 +43,8 @@ Methot, R. D., Jr., C. R. Wetzel, I. G. Taylor, and K. Doering. (2020). Stock Sy
 		\item \verb|profilevalues.ss|: file contain special conditions for batch file processing (optional)
 	\end{enumerate}
 	
-	\subsection{Output Files}
+	\hypertarget{OutputFilesList}{}
+	\subsection[Output Files]{\protect\hyperlink{OutputFilesList}{Output Files}}
 	\begin{enumerate}
 		\item \verb|data\_echo.ss\_new|: Contains the input data as read by the model. In model versions prior to v.3.30.19 a single \verb|data.ss\_new| file was created that included the echoed data, the expected data values (\verb|data\_expval.ss|), and any bootstrap data files selected (\verb|data\_boot\_x.ss|).
 		\item \verb|data\_expval.ss|: Contains the expected data values given the model fit. This file is only created if the value for ``Number of datafiles to produce'' in the starter file is set to 2 or greater.
@@ -69,8 +71,9 @@ Methot, R. D., Jr., C. R. Wetzel, I. G. Taylor, and K. Doering. (2020). Stock Sy
 	\end{enumerate}
 
 \pagebreak
-		
-\section{Starting Stock Synthesis}
+
+\hypertarget{StartingSS3}{}
+\section[Starting Stock Synthesis]{\protect\hyperlink{StartingSS3}{Starting Stock Synthesis}}
 SS3 is typically run through the command line interface, although it can also be called from another program, R, the Stock Synthesis Interface, or a script file (such as a DOS batch file). SS3 is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS3 will run much slower on computers with inadequate memory. See \hyperref[sec:RunningSS3]{Running Stock Synthesis} for additional notes on methods of running SS3.
 
 Communication with the program is through text files. When the program first starts, it reads the file \verb|starter.ss|, which typically must be located in the same directory from which SS3 is being run. The file \verb|starter.ss| contains required input information plus references to other required input files, as described in the \hyperref[FileOrganization]{File Organization section}. The names of the control and data files must match the names specified in the \verb|starter.ss| file. File names, including \verb|starter.ss|, are case-sensitive on Linux and Mac systems but not on Windows. The \verb|echoinput.sso| file outputs how the executable reads each input file and can be used for troubleshooting when trying to set up a model correctly. Output from SS3 consists of text files containing specific keywords. Output processing programs, such as Excel, or R can search for these keywords and parse the specific information located below that keyword in the text file.

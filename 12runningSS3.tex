@@ -1,6 +1,7 @@
-\section{Running Stock Synthesis} \label{sec:RunningSS3}
+\section[Running Stock Synthesis]{\protect\hyperref[sec:RunningSS3]{Running Stock Synthesis}} \label{sec:RunningSS3}
 
-\subsection{Command Line Interface}
+\hypertarget{CommandLine}{}
+\subsection[Command Line Interface]{\protect\hyperlink{CommandLine}{Command Line Interface}}
 The name of the SS3 executable files often contains the phrase ``safe'' or ``opt'' (for optimized). The safe version includes checking for out of bounds values and should always be used whenever there is a change to the data file. The optimized version runs slightly faster but can result in data not being included in the model as intended if the safe version has not been run first. A file named \texttt{ss3.exe} is typically the safe version unless the result of renaming by the user.
 
 On Mac and Linux computers, the executable does not include an extension (like \texttt{.exe} on Windows).
@@ -37,7 +38,8 @@ Often there is a need to run the model with no estimation. Alternative methods t
 
 As of ADMB 12.3, a new command called \texttt{-hess\_step} is available to use and documented in the \hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}
 
-\subsubsection{Example of DOS batch input file}
+\hypertarget{DOS}{}
+\subsubsection[Example of DOS batch input file]{\protect\hyperlink{DOS}{Example of DOS batch input file}}
 One file management approach is to put \texttt{ss3.exe} in its own folder (example:  C:\textbackslash SS3\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS3\_runs). Then a DOS batch file in the SS3\_runs folder can be run at the command line to start \texttt{ss3.exe}. All output will appear in SS3\_runs folder.
 
 A DOS batch file (e.g., \texttt{SS3.bat}) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
@@ -72,8 +74,8 @@ An easy way to start a command line in your current directory (SS3\_runs) is to 
 
 An alternative shortcut is to have the executable within the model folder then use Ctrl+Shift+Right Click and then select either ``Open command window here'', depending upon your computer. From the command window the executable name can be typed along with additional inputs (e.g., \texttt{-nohess}) and the model run. If using the Powershell type cmd and then hit enter prior to calling the model (ss3). 
 
-
-\subsubsection{Simple Batch}
+\hypertarget{SimpleBatch}{}
+\subsubsection[Simple Batch]{\protect\hyperlink{SimpleBatch}{Simple Batch}}
 
 This first example relies upon having a set of prototype SS3 input files, where a starter file named \texttt{starter.r01} can be renamed to \texttt{starter.ss} and then used in the SS3 run. The example also copies one of the output files, \texttt{ss.std}, to a new name, \texttt{ss-std01.txt}, to save it from being overwritten in subsequent runs. The example code should be put in a batch file, which can have any name with the \texttt{.bat} extension. Note that brief output from each run will be appended to \texttt{cumreport.sso} (see below).
 
@@ -89,7 +91,8 @@ This first example relies upon having a set of prototype SS3 input files, where 
 
 The commands could be repeated, except the output should be copied to a different file, e.g., \texttt{ss-std02.txt}. This sequence can be repeated an unlimited number of times.
 
-\subsubsection{Complicated Batch}
+\hypertarget{ComplexBatch}{}
+\subsubsection[Complicated Batch]{\protect\hyperlink{ComplexBatch}{Complicated Batch}}
 This second example processes 25 data files from a different directory, each time using the same ctl file. The loop index is used in the file names, and the output is searched for particular keywords to accumulate a few key results into the file \texttt{SUMMARY.TXT}. Comparable batch processing can be accomplished by using R or other script processing programs.
 
 \begin{quote}
@@ -112,7 +115,7 @@ This second example processes 25 data files from a different directory, each tim
 
 
 \hypertarget{NoEst}{}
-\subsubsection{Running Without Estimation}
+\subsubsection[Running Without Estimation]{\protect\hyperlink{NoEst}{Running Without Estimation}}
 There may be time when users will want to run the model without parameter estimation. The ADMB command \texttt{-noest} will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS3 and ADMB.  
 
 The first approach requires the user to change the maximum phase value in the \texttt{starter.ss} file to 0 then running the model via the command widow as without calculating the hessian:
@@ -140,7 +143,7 @@ The second difference between the two no estimation approaches is the reported n
 The final thing to consider when running a model without estimation is whether you are starting from the par file or the control file. If you start from the par file (specified in the starter file: 1=use ss3.par) then all parameters, including parameter deviations, will be fixed at the estimated values. However, if the model is not run with the par file, any parameter deviations (e.g., recruitment deviations) will not be included in the model run (a user could paste in the estimated recruitment deviations into the control file). 
 
 \myparagraph{Generate \texttt{.ss\_new} files}
-There may be times a user would like to generate the \texttt{.ss\_new} files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the \texttt{starter.ss} file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the \texttt{starter.ss\_new} file will be set to -1 and will need to be manually changed back if the intent is to replace the original (i.e., \texttt{starter.ss}) file with the new files (i.e., \texttt{starter.ss\_new}). The second approach is to modify the maxphase via the command line input. Calling the model using the commands:
+There may be instances that a user would like to generate the \texttt{.ss\_new} files without running the model, with or without estimation. There are two approaches that a user can take. The first is to manually change the maxphase in the \texttt{starter.ss} file to -1 and running the model as normal will generate these files without running through the model dynamics (e.g., no Report file will be created). The maxphase in the \texttt{starter.ss\_new} file will be set to -1 and will need to be manually changed back if the intent is to replace the original (i.e., \texttt{starter.ss}) file with the new files (i.e., \texttt{starter.ss\_new}). The second approach is to modify the maxphase via the command line input. Calling the model using the commands:
 
 \begin{quote}
 	\begin{verbatim}
@@ -151,7 +154,7 @@ There may be times a user would like to generate the \texttt{.ss\_new} files wit
 where -1 is the maximum phase for the model to run through (e.g., can be other values if a user would like to only run through a specific parameter phase). This approach will create all the new files with the \texttt{starter.ss\_new} reflecting the original maxphase value in the \texttt{starter.ss} file. This approach is available in v.3.30.16 and later.
 
 \hypertarget{hess-step}{}
-\subsubsection{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}
+\subsubsection[Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian]{\protect\hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}}
 
 The optimizer in ADMB is designed to run until the maximum absolute gradient (mag) is small enough (e.g., 1e-05), after which it quits and does the uncertainty calculations. But if run for longer it cannot appreciably decrease this mag. In many cases it is interesting or advisable to get closer to the mode to confirm convergence of the model. 
 
@@ -159,8 +162,8 @@ A new feature as of ADMB 12.3 called ``-hess\_step'' takes Newton steps to updat
 
 The feature is used by optimizing normally, and then from the command line running \texttt{-hess\_step} for defaults (recommended), \texttt{-hess\_step N}, or \texttt{-hess\_step\_tol eps} where N and eps are the maximum number of steps to take and the tolerance (i.e., a very small number like 1e-10) after which to stop. When running the Hessian first and then the \texttt{-hess\_step}, ADMB will prompt you to run it with -binp \texttt{ss.bar}.
 
-
-\subsubsection{Running Parameter Profiles}
+\hypertarget{ParamProfiles}{}
+\subsubsection[Running Parameter Profiles]{\protect\hyperlink{ParamProfiles}{Running Parameter Profiles}}
 Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood. There are two ways this can be done.
 
 The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output. The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
@@ -197,18 +200,20 @@ Create a batch file that looks something like this. Or make it more complicated 
 Repeat as many times as you have set up conditions in the \texttt{profilevalues.ss} file.
 The summary results will all be collected in the \texttt{cumreport.sso} file. Each step of the profile will have a unique run number and its output will include the values of the natural mortality and steepness parameters for that run.
 
-\subsubsection{Re-Starting a Run}
+\hypertarget{RestartRun}{}
+\subsubsection[Re-Starting a Run]{\protect\hyperlink{RestartRun}{Re-Starting a Run}}
 Model runs can be restarted from a previously estimated set of parameter values. In the \texttt{starter.ss} file, enter a value of 1 on the first numeric input line. This will cause the model to read the file \texttt{ss3.par} and use these parameter values in place of the initial values in the control file. This option only works if the number of parameters to be estimated in the new run is the same as the number of parameters in the previous run because only actively estimated parameters are saved to the file \texttt{ss3.par}. The file \texttt{ss3.par} can be edited with a text editor, so values can be changed and rows can be added or deleted. However, if the resulting number of elements does not match the setup in the control file, then unpredictable results will occur. Because \texttt{ss3.par} is a text file, the values stored in it will not give exactly the same initial results as the run just completed. To achieve greater numerical accuracy, the model can also restart from \texttt{ss.bar} which is the binary version of \texttt{ss3.par}. In order to do this, the user must make the change described above to the \texttt{starter.ss} file and must also enter -binp \texttt{ss.bar} as one of the command line options.
 
-\subsubsection{Optional Output Subfolders}
+\hypertarget{OutputSubfol}{}
+\subsubsection[Optional Output Subfolders]{\protect\hyperlink{OutputSubfol}{Optional Output Subfolders}}
 As of v.3.30.19, users can optionally send \texttt{.sso} and \texttt{.ss\_new} extension files to subfolders. To send files with a \texttt{.sso} extension to a subfolder within the model folder, create a subfolder called sso before running the model. To send files with a \texttt{.ss\_new} extension to a separate subfolder, create a folder called ssnew before running the model.
 
-\subsection{Putting Stock Synthesis in your PATH}
-
+\hypertarget{SS3inPath}{}
+\subsection[Putting Stock Synthesis in your PATH]{\protect\hyperlink{SS3inPath}{Putting Stock Synthesis in your PATH}}
 Instead of copying the SS3 executable to each model folder, SS3 can be put in your system path, which is a list of folders that your operating system looks in whenever you type the name of a program on the command line. This approach saves on storage space since the SS3 binary (i.e., the SS3 executable or exe) is about 2.2 MB and having it located in each folder can be prohibitive in a large-scale simulation testing study. Even if you are not running a large simulation study, putting SS3 in your path may still be convenient, as you can use the same executable on many models, there is no need to specify a full file path to the executable each time you run a model, and no need to create a batch file that refers to the executable's location.
 
-\subsubsection{For Unix (OS X and Linux)}
-
+\hypertarget{Unix}{}
+\subsubsection[For Unix (OS X and Linux)]{\protect\hyperlink{Unix}{For Unix (OS X and Linux)}}
 To check if SS3 is in your path, assuming the binary is named SS3: open a Terminal window and type \texttt{which SS3} and hit enter. If you get nothing returned, then SS3 (named SS3 or \texttt{SS3.exe}) is not in your path. The easiest way to fix this is to move the SS3 binary to a folder that's already in your path. To find existing path folders type \texttt{echo \$PATH} in the terminal and hit enter. Now move the SS3 binary to one of these folders.
 
 For example, in a Terminal window type:
@@ -254,8 +259,8 @@ If you have previously modified your path to add a non-standard location for the
     \end{verbatim}
 \end{quote}
 
-\subsubsection{For Windows}
-
+\hypertarget{Windows}{}
+\subsubsection[For Windows]{\protect\hyperlink{Windows}{For Windows}}
 To check if SS3 is in your path for Windows, open a DOS prompt (Command Prompt) and type \texttt{SS3 -?} and hit enter. If the prompt returns a message like \texttt{SS3 is not recognized...}, then SS3 is not in your path (assuming the SS3 executable is called SS3.exe).
 
 To add the SS3 binary file to your path, follow these steps:
@@ -273,9 +278,8 @@ To add the SS3 binary file to your path, follow these steps:
   \item Go back to the DOS prompt and try typing \texttt{SS3 -?} and hitting return again.
 \end{enumerate}
 
-
-\subsection{Running Stock Synthesis from R}
-
+\hypertarget{SS3inR}{}
+\subsection[Running Stock Synthesis from R]{\protect\hyperlink{SS3inR}{Running Stock Synthesis from R}}
 Use \texttt{system(``path/to/ss3'')} to run Stock Synthesis from within the R console, where \texttt{path/to/ss3} is the path to and name of the Stock Synthesis binary.
 
 Alternatively, use the function \texttt{run} from the \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} package within the R console:
@@ -293,13 +297,16 @@ Alternatively, use the function \texttt{run} from the \href{https://r4ss.github.
 
 Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{\texttt{ss3sim}}) or if \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} is already used to read model output.
 
-\subsection{The Stock Synthesis GUI (SSI)}
+\hypertarget{SSI}{}
+\subsection[The Stock Synthesis GUI (SSI)]{\protect\hyperlink{SSI}{The Stock Synthesis GUI (SSI)}}
 \href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.
 
-\subsection{The Stock Assessment Continuum Tool}
+\hypertarget{SAC}{}
+\subsection[The Stock Assessment Continuum Tool]{\protect\hyperlink{SAC}{The Stock Assessment Continuum Tool}}
 \href{https://github.com/shcaba/SS-DL-tool}{The Stock Assessment Continuum Tool} (previously known as the Stock Synthesis Data-limited Tool) is a Shiny-based application that uses SS3 as the flexible framework to apply a variety of model types depending on the available data (catch time-series, age composition, length composition, abundance index data). It is meant to make SS3 accessible to users, open up many features and tools associated with Stock Synthesis, provide an easy way to enter data in the model, and make model specification and uncertainty exploration easier.
 
-\subsection{Debugging Tips}
+\hypertarget{Debugging}{}
+\subsection[Debugging Tips]{\protect\hyperlink{Debugging}{Debugging Tips}}
 When input files are causing the program to crash or fail to produce sensible results, there are a few steps that can be taken to diagnose the problem. Before trying the steps below, examine the \texttt{echoinput.sso} file. It is highly annotated, so you should be able to see if the model is interpreting your input files as you intended.  Additionally, users should check the \texttt{warning.sso} file when attempting to debug a non-running model.
 
 \begin{enumerate}
@@ -310,12 +317,14 @@ When input files are causing the program to crash or fail to produce sensible re
 	\item If the problem is with reading one or more of the input files, please note that certain Mac line endings cannot be read by the model (although this is a rare occurrence). Be sure to save the text files with Windows or Linux style line endings so that the executable can parse them.
 \end{enumerate}
 
-\subsection{Keyboard Tips}
+\hypertarget{KeyboardTips}{}
+\subsection[Keyboard Tips]{\protect\hyperlink{KeyboardTips}{Keyboard Tips}}
 Typing ``N'' during a run will cause ADMB to immediately advance to the next phase of estimation.
 
 Typing ``Q''  during a run will cause ADMB to immediately go to the final phase. This bypasses estimation of the Hessian and will produce all the model outputs, which are coded in the FINAL\_SECTION.
 
-\subsection{Running MCMC}
+\hypertarget{RunningMCMC}{}
+\subsection[Running MCMC]{\protect\hyperlink{RunningMCMC}{Running MCMC}}
  Running SS3 with MCMC can be done through command line options using the default ADMB MCMC algorithm (described below). Another possibility is using the R package adnuts. See the \href{https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html}{adnuts vignette} for more information. The \href{https://www.admb-project.org/developers/mcmc/mcmc-guide-for-admb.pdf}{MCMC guide for ADMB} provides the most comprehensive guidance available for using MCMC with ADMB models (such as SS3). Additional guidance is available in \citep{monnahan2019overcoming}.
 
  Running SS3 with MCMC (instead of maximum likelihood estimation) provides maximum posterior density estimates, report file, Hessian matrix and the \texttt{.cor} file. Parameters stuck on bounds which will degrade efficiency of MCMC implementation. Two commands are needed to obtain the model results:

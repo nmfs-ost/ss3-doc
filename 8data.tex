@@ -1,5 +1,8 @@
-\section{Data File}
-\subsection{Overview of Data File}
+\hypertarget{DataFile}{}
+\section[Data File]{\protect\hyperlink{DataFile}{Data File}}
+
+\hypertarget{OverviewDataFile}{}
+\subsection[Overview of Data File]{\protect\hyperlink{OverviewDataFile}{Overview of Data File}}
 	\begin{enumerate}
 		\item Dimensions (years, ages, number of fleets, number of surveys, etc.)
 		\item Fleet and survey names, timing, etc.
@@ -20,7 +23,7 @@
 	\end{enumerate}
 	
 \hypertarget{UnitsOfMeasure}{}
-\subsection{Units of Measure}
+\subsection[Units Of Measure]{\protect\hyperlink{UnitsOfMeasure}{Units of Measure}}
 The normal units of measure are as follows:
 \begin{itemize}
 	\item Catch biomass - metric tons	
@@ -33,7 +36,7 @@ The normal units of measure are as follows:
 \end{itemize}
 
 \hypertarget{RecrTiming}{}
-\subsection{Time Units}
+\subsection[Time Units]{\protect\hyperlink{RecrTiming}{Time Units}}
 	\begin{itemize}
 		\item Spawning: 
 		\begin{itemize}
@@ -49,7 +52,7 @@ The normal units of measure are as follows:
 		
 		\item Timing
 		\begin{itemize}
-			\item All fish advance to the next older integer age on January 1, no matter when they were born during the year.  Consult with your ageing lab to assure consistent interpretation.
+			\item All fish advance to the next older integer age on January 1, no matter when they were born during the year. Consult with your ageing lab to assure consistent interpretation.
 		\end{itemize}		
 
 		\item Parameters:
@@ -58,20 +61,21 @@ The normal units of measure are as follows:
 			\item Rates like growth and mortality are per year.
 		\end{itemize}
 	\end{itemize}
-	
-\subsubsection{Seasons}
+
+\hypertarget{Seasons}{}
+\subsubsection[Seasons]{\protect\hyperlink{Seasons}{Seasons}}
 Seasonal quantities in the model are calculated and treated in the following methods:
 	 \begin{itemize}
 	 	\item Seasons are the time step during which constant rates apply.
 	 	\item Catch and discard amounts are per season and F is calculated per season.
 	 	\item The year can have just one annual season, or be subdivided into seasons of unequal length.
-	 	\item Season duration is input in real months (1.0 - 12.99) and is converted into fractions of an annum.  Annual rate values are multiplied by the per annum season duration.
+	 	\item Season duration is input in real months (1.0 - 12.99) and is converted into fractions of an annum. Annual rate values are multiplied by the per annum season duration.
 	 	\item If the sum of the input season durations do not equal 12.0, then the input durations are divided by the total duration input to rescale season duration to equal 1.0.  
-	 	\item Allows for a special situation in which the year could be only 0.25 in duration (e.g., seasons as years) so that spawning and time-varying parameters can occur more frequently.	Other durations are also possible (e.g., where a model year is really only 6 months). Note that real month inputs should always have the range 1.0 - 12.99, even in cases where a model year is not a true year. See the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment section} for more information on how to set up models where the model year duration is different from a true year.
+	 	\item Allows for a special situation in which the year could be only 0.25 in duration (e.g., seasons as years) so that spawning and time-varying parameters can occur more frequently. Other durations are also possible (e.g., where a model year is really only 6 months). Note that real month inputs should always have the range 1.0 - 12.99, even in cases where a model year is not a true year. See the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment section} for more information on how to set up models where the model year duration is different from a true year.
 	 \end{itemize}
 
-\subsubsection{Subseasons and Timing of Events}
 \hypertarget{SubSeas}{}
+\subsubsection[Subseasons and Timing of Events]{\protect\hyperlink{SubSeas}{Subseasons and Timing of Events}}
 The treatment of subseasons in SS3 provide more precision in the timing of events compared to earlier model versions. In early versions, v.3.24 and before, there was effectively only two subseasons per season because the age-length-key (ALK) for each observation used the mid-season mean length-at-age and spawning occurred at the beginning of a specified season.  
 
 Time steps can be broken into subseason and the ALK can be calculated multiple times over the course of a year:
@@ -106,10 +110,12 @@ Time steps can be broken into subseason and the ALK can be calculated multiple t
 		\item Continuous Z for entire season. Same as applied in version v.3.24.
 	\end{itemize}
 
-\subsection{Terminology}
+\hypertarget{DataTerminology}{}
+\subsection[Terminology]{\protect\hyperlink{DataTerminology}{Terminology}}
 The term COND appears in the ``Typical Value'' column of this documentation (it does not actually appear in the model files), it indicates that the following section is omitted except under certain conditions, or that the factors included in the following section depend upon certain conditions. In most cases, the description in the definition column is the same as the label output to the ss\_new files.
 
-\subsection{Model Dimensions}
+\hypertarget{ModelDimensions}{}
+\subsection[Model Dimensions]{\protect\hypertarget{ModelDimensions}{Model Dimensions}}
 \begin{center}
 	\begin{longtable}{p{3cm} p{12cm}}
 		\hline
@@ -170,8 +176,8 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 	\vspace*{-1.7\baselineskip}
 \end{center}
 
-
-\subsection{Fleet Definitions}
+\hypertarget{FleetDefinitions}{}
+\subsection[Fleet Definitions]{\protect\hyperlink{FleetDefinitions}{Fleet Definitions}}
 \hypertarget{GenericFleets}{The} catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up. The fleet setup input is transposed so each fleet is now a row. Previous versions (v.3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets. In SS3 all fleets have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions). Available types are; catch fleet, bycatch only fleet, or survey.   
 
 \begin{center}
@@ -226,7 +232,6 @@ An integer value indicating the area in which a fleet operates.
 \hypertarget{CatchMult}{}
 \myparagraph{Catch Multiplier}
 Invokes use of a catch multiplier, which is then entered as a parameter in the mortality-growth parameter section. The estimated value or fixed value of the catch multiplier is used to adjust the observed catch:
-Invokes use of a catch multiplier, which is then entered as a parameter in the mortality-growth parameter section. The estimated value or fixed value of the catch multiplier is used to adjust the observed catch:
 	  \begin{itemize}
 	  	\item 0 = No catch multiplier used; and
 	  	\item 1 = Apply a catch multiplier which is defined as an estimable parameter in the control file after the cohort growth deviation in the biology parameter section. The model's estimated retained catch will be multiplied by this factor before being compared to the observed retained catch.
@@ -234,7 +239,8 @@ Invokes use of a catch multiplier, which is then entered as a parameter in the m
 	  
 A catch multiplier can be useful when trying to explore historical unrecorded catches or ongoing illegal and unregulated catches. The catch multiplier is a full parameter line in the control file and has the ability to be time-varying.   
 
-\subsection{Bycatch Fleets}
+\hypertarget{BycatchFleets}{}
+\subsection[Bycatch Fleets]{\protect\hyperlink{BycatchFleets}{Bycatch Fleets}}
 The option to include bycatch fleets was introduced in v.3.30.10. This is an optional input and if no bycatch is to be included in to the catches this section can be ignored.
 
 A fishing fleet is designated as a bycatch fleet by indicating that its fleet type is 2. A bycatch fleet creates a fishing mortality, same as a fleet of type 1, but a bycatch fleet has all catch discarded so the input value for retained catch is ignored. However, an input value for retained catch is still needed to indicate that the bycatch fleet was active in that year and season. A catch multiplier cannot be used with bycatch fleets because catch multiplier works on retained catch. SS3 will expect that the retention function for this fleet will be set in the selectivity section to type 3, indicating that all selected catch is discarded dead. It is necessary to specify a selectivity pattern for the bycatch fleet and, due to generally lack of data, to externally derive values for the parameters of this selectivity.
@@ -318,7 +324,8 @@ The needed changes to the control file are:
 
 In v.3.30.14 it was identified that there can be an interaction between the use of bycatch fleets and the search for the $F_{0.1}$ reference point which may results in the search failing.  Changes to the search feature were implemented to make the search more robust, however, issue may still be encountered. In these instances it is recommended to not select the $F_{0.1}$ reference point calculation in the forecast file.
 
-\subsection{Predator Fleets}
+\hypertarget{PredatorFleets}{}
+\subsection[Predator Fleets]{\protect\hyperlink{PredatorFleets}{Predator Fleets}}
 
 Introduced in v.3.30.18, a predator fleet provides the capability to define an entity as a predator that adds additional mortality (M2, i.e., the predation mortality) to the base natural mortality. This new capability means that previous use of bycatch fleets to mimic predators (or fish kills, e.g., due to red tide) will no longer be necessary. The problem with using a bycatch fleet as a predator was that it still created an ``F'' that was included in the reporting of total F even if the bycatch was not included in the MSY search.
 
@@ -336,13 +343,13 @@ Three types of data relevant to M2 can be input:
 
 With the input of data on the time series of total kill or predator effort, it should be possible to estimate annual deviations around the base M2 for years with data. If the M2 time series is instead driven by environmental data, then also including data on kill or effort can provide a means to view consistency between the environmental time series and the additional data sets. Output of M2 is found in a \texttt{Report.sso} section labeled predator (M2). In the example below, the M2 seasonal multiplier was defined to have random deviations by year. This allowed multipliers plus M2 itself to closely match the input consumption amounts (288 mt of consumption per season, the fit can be examined by looking at the discard output report).
 
-
-\subsection{Catch}
+\hyperlink{Catch}{}
+\subsection[Catch]{\protect\hyperlink{Catch}{Catch}}
 \hypertarget{CatchFormat}{After} reading the fleet-specific indicators, a list of catch values by fleet and season are read in by the model. The format for the catches is year and season that the catch is attributed to, fleet, a catch value, and a year-specific catch standard error. Only positive catches need to be entered, so there is no need for records corresponding to all years and fleets. To include an equilibrium catch value for a fleet and season, the year should be noted as -999. For each non-zero equilibrium catch value included, a short parameter line is required in the \hyperlink{InitF}{initial F section} of the control file.
 
 \hypertarget{ListBased}{There} is no longer a need to specify the number of records to be read; instead the list is terminated by entering a record with the value of -9999 in the year field. The updated list based approach extends throughout the data file (e.g., catch, length- and age-composition data), the control file (e.g., lambdas), and the forecast file (e.g., total catch by fleet, total catch by area, allocation groups, forecasted catch).
 
-In addition, it is possible to collapse the number of seasons. \ So, if a season value is greater than the number of seasons for a particular model, that catch is added to the catch for the final season. This is one way to easily collapse a seasonal model into an annual model. The alternative option is to the use of season = 0. This will cause SS3 to distribute the input value of catch equally among the number of seasons. SS3 assumes that catch occurs continuously over seasons and hence is not specified as month in the catch data section. However, all other data types will need to be specified by month.
+In addition, it is possible to collapse the number of seasons. So, if a season value is greater than the number of seasons for a particular model, that catch is added to the catch for the final season. This is one way to easily collapse a seasonal model into an annual model. The alternative option is to the use of season = 0. This will cause SS3 to distribute the input value of catch equally among the number of seasons. SS3 assumes that catch occurs continuously over seasons and hence is not specified as month in the catch data section. However, all other data types will need to be specified by month.
 
 The format for a 2 season model with 2 fisheries looks like the table below. Example is sorted by fleet, but the sort order does not matter. In \texttt{data.ss\_new}, the sort order is fleet, year, season.
 
@@ -376,8 +383,8 @@ The format for a 2 season model with 2 fisheries looks like the table below. Exa
 	\item If there is reason to believe that the retained catch values underestimate the true catch, then it is possible in the retention parameter set up to create the ability for the model to estimate the degree of unrecorded catch. However, this is better handled with the new catch multiplier option.
 \end{itemize}
 
-
-\subsection{Indices}
+\hypertarget{Indices}{}
+\subsection[Indices]{\protect\hyperlink{Indices}{Indices}}
 Indices are data that are compared to aggregate quantities in the model. Typically, the index is a measure of selected fish abundance, but this data section also allows for the index to be related to a fishing fleet's F, or to another quantity estimated by the model. The first section of the ``Indices'' setup contains the fleet number, units, error distribution, and whether additional output (SD Report) will be written to the Report file for each fleet that has index data.
 
 \begin{center}
@@ -431,15 +438,15 @@ The options for units for input data are:
 The options for error distribution form are:
 	\begin{itemize}
 		\item -1 = normal error;
-		\item  0 = lognormal error; and 
-		\item >0 = Student's t-distribution in log space with degrees of freedom equal to this value. For DF>30, results will be nearly identical to that for lognormal distribution. A DF value of about 4 gives a fat-tail to the distribution. The standard error values entered in the data file must be the standard error in log\textsubscript{e} space.
+		\item  0 = log-normal error; and 
+		\item >0 = Student's t-distribution in log space with degrees of freedom equal to this value. For DF>30, results will be nearly identical to that for log-normal distribution. A DF value of about 4 gives a fat-tail to the distribution. The standard error values entered in the data file must be the standard error in log\textsubscript{e} space.
 	\end{itemize}
 
-Abundance indices typically assumed to have a lognormal error structure with units of standard error of log\textsubscript{e}(index). If the variance of the observations is available only as a coefficient of variation (CV = standard error of the observation divided by the mean value of the observation in natural space), then the value of standard error in log space can be calculated as $\sqrt{(log_e(1+(CV)^2))}$.
+Abundance indices typically assumed to have a log-normal error structure with units of standard error of log\textsubscript{e}(index). If the variance of the observations is available only as a coefficient of variation (CV = standard error of the observation divided by the mean value of the observation in natural space), then the value of standard error in log space can be calculated as $\sqrt{(log_e(1+(CV)^2))}$.
 
-For the normal error structure, the entered values for standard error are interpreted directly as a standard error in arithmetic space and not as a CV. Thus switching from a lognormal to a normal error structure forces the user to provide different values for the standard error input in the data file.
+For the normal error structure, the entered values for standard error are interpreted directly as a standard error in arithmetic space and not as a CV. Thus switching from a log-normal to a normal error structure forces the user to provide different values for the standard error input in the data file.
 
-If the data exist as a set of normalized Z-scores, you can assert a lognormal error structure after entering the data as exp(Z-score) because it will be logged by SS3. Preferably, the Z-scores would be entered directly and the normal error structure would be used.
+If the data exist as a set of normalized Z-scores, you can assert a log-normal error structure after entering the data as exp(Z-score) because it will be logged by SS3. Preferably, the Z-scores would be entered directly and the normal error structure would be used.
 
 \myparagraph{Enable SD Report}
 Indices with SD Report enabled will have the expected values for their historical values appear in the \texttt{ss.std} and \texttt{ss.cor} files. The default value is for this option is 0.
@@ -476,7 +483,8 @@ Indices with SD Report enabled will have the expected values for their historica
 		\item If the statistical analysis used to create the CPUE index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery's size and age composition, then you may want to enter the CPUE as if it was a separate survey and with a selectivity that differs from the fishery's estimated selectivity. The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the CPUE should be derived through an area-weighted approach to better serve as a survey of stock abundance.
 	\end{itemize}
 
-\subsection{Discard}
+\hypertarget{Discard}{}
+\subsection[Discard]{\protect\hyperlink{Discard}{Discard}}
 If discard is not a feature of the model specification, then just a single input is needed:
 
 \begin{center}
@@ -523,7 +531,7 @@ The four options for discard error are:
 	\item >0 = degrees of freedom for Student's t-distribution used to scale mean body weight deviations. Value of error in data file is interpreted as CV of the observation;
 	\item 0 = normal distribution, value of error in data file is interpreted as CV of the observation;
 	\item -1 = normal distribution, value of error in data file is interpreted as standard error of the observation;
-	\item -2 = lognormal distribution, value of error in data file is interpreted as standard error of the observation in log space; and 
+	\item -2 = log-normal distribution, value of error in data file is interpreted as standard error of the observation in log space; and 
 	\item -3 = truncated normal distribution (new with v.3.30, needs further testing), value of error in data file is interpreted as standard error of the observation. This is a good option for low observed discard rates.
 \end{itemize}
 
@@ -531,7 +539,7 @@ The four options for discard error are:
 \begin{itemize}
 	\item Year values that are before start year or after end year are excluded from model, so the easiest way to include provisional data in a data file is to put a negative sign on its year value.
 	\item Negative value for fleet causes it to be included in the calculation of expected values, but excluded from the log likelihood.
-	\item Zero (0.0) is a legitimate discard observation, unless lognormal error structure is used.
+	\item Zero (0.0) is a legitimate discard observation, unless log-normal error structure is used.
 	\item Duplicate discard observations from a fleet for the same year are not allowed.
 	\item Observations can be entered in any order, except if the super-period feature is used. 
 	\item Note that in the control file you will enter information for retention such that 1-retention is the amount discarded. All discard is assumed dead, unless you enter information for discard mortality. Retention and discard mortality can be either size-based or age-based (new with v.3.30).
@@ -540,8 +548,8 @@ The four options for discard error are:
 \myparagraph{Cautionary Note}
 The use of CV as the measure of variance can cause a small discard value to appear to be overly precise, even with the minimum standard error of the discard observation set to 0.001. In the control file, there is an option to add an extra amount of variance. This amount is added to the standard error, not to the CV, to help correct this problem of underestimated variance.
 
-
-\subsection{Mean Body Weight or Length}
+\hypertarget{MeanBodyWL}{}
+\subsection[Mean Body Weight or Length]{\protect\hyperlink{MeanBodyWL}{Mean Body Weight or Length}}
 This is the overall mean body weight or length across all selected sizes and ages. This may be useful in situations where individual fish are not measured but mean weight is obtained by counting the number of fish in a specified sample (e.g., a 25 kg basket).    
 
 \begin{center}
@@ -580,13 +588,14 @@ Specify the type of data:
 	\item 2 = mean body weight.
 \end{itemize}
 
-\myparagraph{Observation - Units}		
+\myparagraph{Observation - Units}
 Units must correspond to the units of body weight, normally in kilograms, (or mean length in cm). The expected value of mean body weight (or mean length) is calculated in a way that incorporates effect of selectivity and retention.
 
-\myparagraph{Error}	
+\myparagraph{Error}
 Error is entered as the CV of the observed mean body weight (or mean length)
 
-\subsection{Population Length Bins}
+\hypertarget{PopLBins}{}
+\subsection[Population Length Bins]{\protect\hyperlink{PopLBins}{Population Length Bins}}
 The first part of the length composition section sets up the bin structure for the population. These bins define the granularity of the age-length key and the coarseness of the length selectivity. Fine bins create smoother distributions, but a larger and slower running model.
 First read a single value to select one of three population length bin methods, then any conditional input for options 2 and 3:
 
@@ -628,9 +637,9 @@ There are some items for users to consider when setting up population length bin
 \end{itemize}
 
 \hypertarget{length-comp-structure}{}
-\subsection{Length Composition Data Structure}
+\subsection[Length Composition Data Structure]{\protect\hyperlink{length-comp-structure}{Length Composition Data Structure}}
 \begin{tabular}{p{2cm} p{13cm}}
-		\multicolumn{2}{l}{Enter a code to indicate whether or not length composition data will be used:} \Tstrut\Bstrut\\
+		\multicolumn{2}{l}{Enter a code to indicate whether length composition data will be used:} \Tstrut\Bstrut\\
 		\hline	
 		1 & Use length composition data (0/1/2) \Tstrut\Bstrut\\
 		\hline									  
@@ -729,7 +738,7 @@ This formula for effective sample size implies that, as the Stock Synthesis para
 For additional information about the Dirichlet-multinomial please see \citet{thorson-model-based-2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
 
 \hypertarget{CompTiming}{}
-\subsection{Length Composition Data}
+\subsection[Length Composition Data]{\protect\hyperlink{CompTiming}{Length Composition Data}}
 Composition data can be entered as proportions, numbers, or values of observations by length bin based on data expansions.  
 
 The data bins do not need to cover all observed lengths. The selection of data bin structure should be based on the observed distribution of lengths and the assumed growth curve. If growth asymptotes at larger lengths, having additional length bins across these sizes may not contribute information to the model and may slow model run time. Additionally, the lower length bin selection should be selected such that, depending on the size selection, to allow for information on smaller fish and possible patterns in recruitment. While set separately users should ensure that the length and age bins align. It is recommended to explore multiple configurations of length and age bins to determine the impact of this choice on model estimation.
@@ -808,19 +817,20 @@ Each observation can be stored as one row for ease of data management in a sprea
 
 The composition observations can be in any order and replicate observations by a year for a fleet are allowed (unlike survey and discard data). However, if the super-period approach is used, then each super-periods' observations must be contiguous in the data file.
 
-\subsection{Age Composition Option}
+\hypertarget{AgeCompOption}{}
+\subsection[Age Composition Option]{\protect\hyperlink{AgeCompOption}{Age Composition Option}}
 The age composition section begins by reading the number of age bins. If the value 0 is entered for the number of age bins, then skips reading the bin structure and all reading of other age composition data inputs.
 \begin{center}
 	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{13cm}}
 		\hline
-		17 \Tstrut & Number of age bins; can be equal to 0 if age data are not used; do not include a vector of agebins if the number of age bins is set equal to 0. \Bstrut\\
+		17 \Tstrut & Number of age bins; can be equal to 0 if age data are not used; do not include a vector of age bins if the number of age bins is set equal to 0. \Bstrut\\
 		\hline
 	\end{tabular}
 \end{center}
 
-
-\subsubsection{Age Composition Bins}
+\hypertarget{AgeCompBins}{}
+\subsubsection[Age Composition Bins]{\protect\hyperlink{AgeCompBins}{Age Composition Bins}}
 If a positive number of age bins is read, then reads the bin definition next.
 \begin{center}
 	\vspace*{-\baselineskip}
@@ -832,7 +842,8 @@ If a positive number of age bins is read, then reads the bin definition next.
 \end{center}
 The bins are in terms of observed age (here age) and entered as the lower edge of each bin. Each ageing imprecision definition is used to create a matrix that translates true age structure into age structure. The first and last age' bins work as accumulators. So in the example any age 0 fish that are caught would be assigned to the age = 1 bin.
 
-\subsubsection{Ageing Error}
+\hypertarget{AgeError}{}
+\subsubsection[Ageing Error]{\protect\hyperlink{AgeError}{Ageing Error}}
 Here, the capability to create a distribution of age (e.g., age with possible bias and imprecision) from true age is created. One or many ageing error definitions can be created. For each, the model will expect an input vector of mean age and a vector of standard deviations associated with the mean age. 
 
 \begin{center}
@@ -861,13 +872,14 @@ Here, the capability to create a distribution of age (e.g., age with possible bi
 \end{center}
 \vspace*{-1.2cm}
 
-In principle, one could have year or laboratory specific matrices for ageing error. For each matrix, enter a vector with mean age for each true age; if there is no ageing bias, then set age equal to true age + 0.5.  Alternatively, -1 value for mean age means to set it equal to true age plus 0.5. The addition of +0.5 is needed so that fish will get assigned to the intended integer age. The length of the input vector is equal to the population maximum age plus one (0-max age), with the first entry being for age 0 fish and the last for fish of population maximum age even if the maximum age bin for the data is lower than the population maximum age. The following line is a a vector with the standard deviation of age for each true age with a normal distribution assumption.
+In principle, one could have year or laboratory specific matrices for ageing error. For each matrix, enter a vector with mean age for each true age; if there is no ageing bias, then set age equal to true age + 0.5.  Alternatively, -1 value for mean age means to set it equal to true age plus 0.5. The addition of +0.5 is needed so that fish will get assigned to the intended integer age. The length of the input vector is equal to the population maximum age plus one (0-max age), with the first entry being for age 0 fish and the last for fish of population maximum age even if the maximum age bin for the data is lower than the population maximum age. The following line is a vector with the standard deviation of age for each true age with a normal distribution assumption.
 
 The model is able to create one ageing error matrix from parameters, rather than from an input vector. The range of conditions in which this new feature will perform well has not been evaluated, so it should be considered as a preliminary implementation and subject to modification. To invoke this option, for the selected ageing error vector, set the standard deviation of ageing error to a negative value for age 0. This will cause creation of an ageing error matrix from parameters and any age or size-at-age data that specify use of this age error pattern will use this matrix. Then in the control file, add a full parameter line below the cohort growth deviation parameter (or the movement parameter lines if used) in the mortality growth parameter section. These parameters are described in the control file section of this manual.
 
 Code for ageing error calculation can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_miscfxn.tpl}{\texttt{SS\_miscfxn.tpl}}, search for function ``get\_age\_age'' or ``SS\_Label\_Function 45''.
 
-\subsubsection{Age Composition Specification}
+\hypertarget{AgeCompSpec}{}
+\subsubsection[Age Composition Specification]{\protect\hyperlink{AgeCompSpec}{Age Composition Specification}}
 If age data are included in the model, the following set-up is required, similar to the length data section. See \hyperlink{length-comp-structure}{Length Composition Data Structure} for details on each of these inputs.
 
 \begin{tabular}{p{2cm} p{2cm} p{2cm} p{1.5cm} p{1.5cm} p{2cm} p{2cm}}
@@ -927,9 +939,9 @@ Lbin lo and Lbin hi are the range of length bins that this age composition obser
 \myparagraph{Excluding Data}
 As with the length composition data, a negative year value causes the observation to not be read into the working matrix, a negative value for fleet causes the observation to be included in expected values calculation, but not in contribution to total log likelihood, a negative value for month causes start-stop of super-period.
 
-
-\subsection{Conditional Age-at-Length}
-Use of conditional age-at-length will greatly increase the total number of age composition observations and associated model run time but there can be several advantages to inputting ages in this fashion. First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information. Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age. Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
+\hypertarget{CondAatL}{}
+\subsection[Conditional Age-at-Length]{\protect\hyperlink{CondAatL}{Conditional Age-at-Length}}
+Use of conditional age-at-length will greatly increase the total number of age composition observations and associated model run time, but there can be several advantages to inputting ages in this fashion. First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information. Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age. Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
 
 However, simulation research has shown that the use of conditional age-at-length data can result in biased growth estimates in the presence of unaccounted for age-based movement when length-based selectivity is assumed \citep{lee-effects-2017}, when other age-based processes (e.g., mortality) are not accounted for \citep{lee-use-2019}, or based on the age sampling protocol \citep{piner-evaluation-2016}. Understanding how data are collected (e.g., random, length-conditioned samples) and the biology of the stock is important when using conditional age-at-length data for a fleet.     
 
@@ -952,9 +964,10 @@ Conditional age-at-length data are entered within the age composition data secti
 	\hline
 \end{tabular}
 
-In this example observation, the age data is treated as on being conditional on the 2 cm length bins of 10--11.99, 12--13.99, 14--15.99, and 16--17.99cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.
+In this example observation, the age data is treated as on being conditional on the 2 cm length bins of 10--11.99, 12--13.99, 14--15.99, and 16--17.99 cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.
 
-\subsection{Mean Length or Body Weight-at-Age}
+\hypertarget{MeanLorBWatA}{}
+\subsection[Mean Length or Body Weight-at-Age]{\protect\hyperlink{MeanLorBWatA}{Mean Length or Body Weight-at-Age}}
 The model also accepts input of mean length-at-age or mean body weight-at-age. This is done in terms of observed age, not true age, to take into account the effects of ageing imprecision on expected mean size-at-age. If the value of the Age Error column is positive, then the observation is interpreted as mean length-at-age. If the value of the Age Error column is negative, then the observation is interpreted as mean body weight-at-age and the abs(Age Error) is used as Age Error.
 
 \begin{center}
@@ -987,7 +1000,7 @@ The model also accepts input of mean length-at-age or mean body weight-at-age. T
 	\end{itemize}
 
 \hypertarget{env-dat}{}
-\subsection{Environmental Data}
+\subsection[Environmental Data]{\protect\hyperlink{env-dat}{Environmental Data}}
 The model accepts input of time series of environmental data. Parameters can be made to be time-varying by making them a function of one of these environmental time series. In v.3.30.16 the option to specify the centering of environmental data by either using the mean of the by mean and the z-score. 
 
 \begin{center}
@@ -1022,7 +1035,8 @@ The final two lines in the example above indicate in that variable series 1 will
 		\item Environmental data can be read for up to 100 years after the end year of the model. Then, if the recruitment-environment link has been activated, the future recruitments will be influenced by any future environmental data. This could be used to create a future ``regime shift'' by setting historical values of the relevant environmental variable equal to zero and future values equal to 1, in which case the magnitude of the regime shift would be dictated by the value of the environmental linkage parameter. Note that only future recruitment and growth can be modified by the environmental inputs; there are no options to allow environmentally-linked selectivity in the forecast years.
 	\end{itemize}
 
-\subsection{Generalized Size Composition Data}
+\hypertarget{GenSizeComp}{}
+\subsection[Generalized Size Composition Data]{\protect\hyperlink{GenSizeComp}{Generalized Size Composition Data}}
 The generalized approach to size composition information was designed initially to provide a means to include weight frequency data. However, the uses are broader, such as allowing for size composition data with different data bins. The user can define as many generalized size composition methods as necessary.
 
 \begin{itemize}
@@ -1104,7 +1118,8 @@ Example input is shown below. Note that the format is identical to the length co
 		\item The transition matrix can depend upon weight-at-length which differs between sexes and can vary seasonally. Thus, the transition matrix is calculated internally for each sex and each season.
 	\end{itemize}
 
-\subsection{Tag-Recapture Data}
+\hypertarget{tag-recapture}{}
+\subsection[Tag-Recapture Data]{\protect\hyperlink{tag-recapture}{Tag-Recapture Data}}
 Each released tag group is characterized by an area, time, sex and age at release. Each recapture event is characterized by a time and fleet (since fleets operate in only one area, it is not necessary to specify the area of recapture). Fleets with tagging data must be fishing fleets (e.g., fleet type 1 or 2). 
 
 Inside the model, the tagged cohort is apportioned across all growth patterns in a given area at a given time (with options to apportion to only one sex or to both). The tag cohort by growth pattern then behaves according to the movement and mortality of the growth pattern. The number of tagged fish is modeled as a negligible fraction of the total population, so a tagging event does not move fish from an untagged group to a tagged group. Instead, tagged fish are seeded into the population with no impact at all on the total population abundance or mortality. 
@@ -1167,7 +1182,8 @@ Predominant age at release for each tag group must be assigned; this requirement
 		\item Warning for earlier versions of SS3: A shortcoming in the recapture calculations when also using Pope's F approach was identified and corrected in v.3.30.14.
 	\end{itemize}
 
-\subsection{Stock (Morph) Composition Data}
+\hypertarget{StockComp}{}
+\subsection[Stock (Morph) Composition Data]{\protect\hyperlink{StockComp}{Stock (Morph) Composition Data}}
 It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks. These data could come from genetics, otolith microchemistry, tags, or other means. The growth pattern feature allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas. SS3 now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns, ``morphs''. In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
 
 \begin{center}
@@ -1202,7 +1218,8 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 		\item Warning for earlier versions of SS3: A flaw was identified in the calculation of accumulation by morph. This has been corrected in v.3.30.14. Older versions were incorrectly calculating the catch by morph using the expectation around age-at-length which already was accounting for the accumulation by morph.   
 	\end{itemize}
 
-\subsection{Selectivity Empirical Data (future feature)}
+\hypertarget{SelexEmperical}{}
+\subsection[Selectivity Empirical Data (future feature)]{\protect\hyperlink{SelexEmperical}{Selectivity Empirical Data (future feature)}}
 It is sometimes possible to conduct field experiments or other studies to provide direct information about the selectivity of a particular length or age relative to the length or age that has peak selectivity, or to have a prior for selectivity that is more easily stated than a prior on a highly transformed selectivity parameter. This section provides a way to input data that would be compared to the specified derived value for selectivity. This is a placeholder at this time, required to include in the data file and will be fully implemented soon.
 
 \begin{center}
@@ -1226,14 +1243,14 @@ It is sometimes possible to conduct field experiments or other studies to provid
 	\end{tabular}
 \end{center}
 
-
-\subsection{Excluding Data}
+\hypertarget{ExcludingData}{}
+\subsection[Excluding Data]{\protect\hyperlink{ExcludingData}{Excluding Data}}
 Data that are before the model start year or greater than the retrospective year are not moved into the internal working arrays at all. So if you have any alternative observations that are used in some model runs and not in others, you can simply give them a negative year value rather than having to comment them out. The first output to \texttt{data.ss\_new} has the unaltered and complete input data. Subsequent reports to \texttt{data.ss\_new} produce expected values or bootstraps only for the data that are being used. Additional information on bootstrapping is available in \hyperlink{bootstrap}{Bootstrap Data Files Section}. 
 
 Data that are to be included in the calculations of expected values, but excluded from the calculation of negative log likelihood, are flagged by use of a negative value for fleet number.
 
 \hypertarget{SuperPeriod}{}
-\subsection{Data Super-Periods}
+\subsection[Data Super-Periods]{\protect\hyperlink{SuperPeriod}{Data Super-Periods}}
 The super-period capability allows the user to introduce data that represent a blend across a set of time steps and to cause the model to create an expected value for this observation that uses the same set of time steps. The option is available for all types of data and a similar syntax is used. 
 
 All super-period observations must be contiguous in the data file. All but one of the observations in the sequence will have a negative value for fleet ID so the data associated with these dummy observations will be ignored. The observed values must be combined outside the model and then inserted into the data file for the one observation with a positive fleet number.
