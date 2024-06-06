@@ -18,20 +18,20 @@ Currently, there are three main methods for weighting length and data applied fo
 
 \hypertarget{MI}{}
 \myparagraph{McAllister-Ianelli}
-The ``Length\_Comp\_Fit\_Summary'' and ``Age\_Comp\_Fit\_Summary'' sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the r4ss package, these tables are returned by the \texttt{SS\_output} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
+The ``Length\_Comp\_Fit\_Summary'' and ``Age\_Comp\_Fit\_Summary'' sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the r4ss package, these tables are returned by the \texttt{SS\_output()} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
 
 A convenient way to process these values into the format required by the control file is to use the function:
 
 \texttt{SS\_tune\_comps(replist, option = ``MI'')}
 
-where the input ``replist'' is the object created by \texttt{SS\_output}. This function will return a table and also write a matching file called \texttt{suggested\_tuning.ss} to the directory where the model was run.
+where the input ``replist'' is the object created by \texttt{SS\_output()}. This function will return a table and also write a matching file called \texttt{suggested\_tuning.ss} to the directory where the model was run.
 
-For version 3.30 models, the table created by \texttt{SS\_tune\_comps} can be pasted into the bottom of the control file in the section labeled ``Input variance adjustments'', followed by the terminator line which indicates the end of the section. 
+For version 3.30 models, the table created by \texttt{SS\_tune\_comps()} can be pasted into the bottom of the control file in the section labeled ``Input variance adjustments'', followed by the terminator line which indicates the end of the section. 
 
 
-Also see the help page for the r4ss function \texttt{SS\_varadjust} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
+Also see the help page for the \texttt{r4ss} function \texttt{SS\_varadjust()} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
 
-If the tuning has been implemented, the green lines in the figure below would approximately intersect at a point which is on the black 1-to-1 diagonal line in this figure created by the r4ss function \texttt{SS\_plots}.
+If the tuning has been implemented, the green lines in the figure below would approximately intersect at a point which is on the black 1-to-1 diagonal line in this figure created by the \texttt{r4ss} function \texttt{SS\_plots()}.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -39,6 +39,7 @@ If the tuning has been implemented, the green lines in the figure below would ap
 	\end{center}
 
 	\caption{The relationship between the observed sample size (the input sample number) versus the effective sample size where the effective sample size is the product of the input sample size and the data weighting applied to the data set.}
+	\alt{Plot created from the r4ss function SS\_plots() when tuning using the McAllister-Ianelli method has been implemented. The y-axis is effective sample size and the x-axis is observed sample size. A horizontal green dotted line shows the harmonic mean, a vertical green dotted line shows the arithmetic mean, and a black diagonal line is a one-to-one line.}
 	\label{(fig:mcallister)}
 \end{figure}
 
@@ -52,7 +53,7 @@ There are a couple of challenges posed by the McAllister-Ianelli data-weighting 
 \hypertarget{Francis}{}
 \myparagraph{Francis}
 
-Implementation: recommended adjustments are calculated by the r4ss functions \texttt{SSMethod.TA1.8} and \texttt{SSMethod.Cond.TA1.8}. These functions are rarely used alone but are called by the \texttt{SS\_plots} function when making plots like the one below. For version 3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps} function (described above under the McAllister-Ianelli method), but with a different option specified: 
+Implementation: recommended adjustments are calculated by the \texttt{r4ss} functions \texttt{SSMethod.TA1.8()} and \texttt{SSMethod.Cond.TA1.8()}. These functions are rarely used alone but are called by the \texttt{SS\_plots()} function when making plots like the one below. For version 3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps()} function (described above under the McAllister-Ianelli method), but with a different option specified: 
 
 \texttt{SS\_tune\_comps(replist, option = ``Francis'')}
 
@@ -63,6 +64,7 @@ The figure below shows the estimated 95\% intervals around the observed mean len
 		\includegraphics[scale = 0.15]{appendixB_Francis}\\
 	\end{center}
 	\caption{The mean length of the length samples for each year from the MexCal S1 NSP fleet with 95\% confidence intervals based on current samples sizes using the Francis data weighting method (referred to as TA1.8). Thinner intervals with capped ends show result of further adjusting sample sizes based on the suggested multiplier, 0.2739, with 95\% intervals for length data from the fleet. The blue line shows the expected variation of the mean length across years.}
+	\alt{A plot created by r4ss using tuning according to the Francis method. The y-axis is the mean length and the x-axis is the Year from the MexCal S1 NSP fleet (whole catch).}
 	\label{fig:francis}
 	%\figurename{name}
 \end{figure}
