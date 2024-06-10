@@ -150,10 +150,11 @@
 \author{Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering,\\Elizabeth F. Perl, and Kelli F. Johnson\\\\\\NOAA Fisheries\\Seattle, WA}
 \date{January 31, 2024}
 
-% Try glossaries
-% \usepackage{glossaries}
-% \setacronymstyle{long-short}
-% \newacronym{mcmc}{MCMC}{Markov chain Monte Carlo}
+% ====  Glossary ========================================================
+\usepackage[acronym]{glossaries}
+\glsdisablehyper
+\makeglossaries{}
+\loadglsentries{ss3_glossaries.tex}
 
 \begin{document}
 	% ====== Title Page ===================================================
@@ -188,7 +189,10 @@
 	%\listoffigures
 	%\addcontentsline{toc}{section}{\numberline{}List of Figures}
 	\cleardoublepage
-
+	% ====  Glossary ========================================================
+	\section{Glossary}
+	\glsaddall
+	\printglossaries
 	% ====== Section 1 - 4 =============================================================
 	\pagenumbering{arabic}
 	\input{1_4sections}
