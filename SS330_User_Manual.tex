@@ -153,8 +153,10 @@
 % ====  Glossary ========================================================
 \usepackage[acronym]{glossaries}
 \glsdisablehyper
-\makeglossaries
-\loadglsentries[main]{ss3_glossaries}
+% \makeglossaries
+% \loadglsentries[main]{ss3_glossaries}
+\makenoidxglossaries 
+\loadglsentries{ss3_glossaries.tex}
 
 \begin{document}
 	% ====== Title Page ===================================================
@@ -190,9 +192,9 @@
 	%\addcontentsline{toc}{section}{\numberline{}List of Figures}
 	\cleardoublepage
 	% ====  Glossary ========================================================
-	\section{Glossary}
-	\glsaddall
-	\printglossaries
+	% \section{Glossary}
+	% \glsaddall
+	% \printglossaries
 	% ====== Section 1 - 4 =============================================================
 	\pagenumbering{arabic}
 	\input{1_4sections}
@@ -220,6 +222,8 @@
 	\input{15special}
 	%========= Section 16: Essays
 	\input{16essays}
+	%========= Glossary
+	\printnoidxglossary[title=Glossary, toctitle=Glossary] 
 	%========= Reference Section
 	\newpage
 	\bibliography{SS3}
