@@ -30,19 +30,19 @@ An additional command has been added that allows users to specify the name of th
 	\end{verbatim}
 \end{quote}
 
-Additional ADMB commands can follow the executable name, such as \texttt{-nohess} to avoid calculating the Hessian matrix. To see a full list of options, add \texttt{-?} after the executable name (with a space in between).
+Additional \gls{admb} commands can follow the executable name, such as \texttt{-nohess} to avoid calculating the Hessian matrix. To see a full list of options, add \texttt{-?} after the executable name (with a space in between).
 
 On all operating systems, a copy of the SS3 executable can either be located in the same directory as the model input files or in a central location and referenced either by adding it to the PATH or by a script files. Further discussion on script files for Windows is below.
 
 Often there is a need to run the model with no estimation. Alternative methods to run SS3 without estimating parameters are documented in the \hyperlink{NoEst}{Running Without Estimation section}. 
 
-As of ADMB 12.3, a new command called \texttt{-hess\_step} is available to use and documented in the \hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}
+As of \gls{admb} 12.3, a new command called \texttt{-hess\_step} is available to use and documented in the \hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}
 
 \hypertarget{DOS}{}
 \subsubsection[Example of DOS batch input file]{\protect\hyperlink{DOS}{Example of DOS batch input file}}
 One file management approach is to put \texttt{ss3.exe} in its own folder (example:  C:\textbackslash SS3\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS3\_runs). Then a DOS batch file in the SS3\_runs folder can be run at the command line to start \texttt{ss3.exe}. All output will appear in SS3\_runs folder.
 
-A DOS batch file (e.g., \texttt{SS3.bat}) might contain some explicit ADMB commands, some implicit commands, and some DOS commands:
+A DOS batch file (e.g., \texttt{SS3.bat}) might contain some explicit \gls{admb} commands, some implicit commands, and some DOS commands:
 
 \begin{quote}
 	\begin{verbatim}
@@ -93,7 +93,7 @@ The commands could be repeated, except the output should be copied to a differen
 
 \hypertarget{ComplexBatch}{}
 \subsubsection[Complicated Batch]{\protect\hyperlink{ComplexBatch}{Complicated Batch}}
-This second example processes 25 data files from a different directory, each time using the same ctl file. The loop index is used in the file names, and the output is searched for particular keywords to accumulate a few key results into the file \texttt{SUMMARY.TXT}. Comparable batch processing can be accomplished by using R or other script processing programs.
+This second example processes 25 data files from a different directory, each time using the same control file. The loop index is used in the file names, and the output is searched for particular keywords to accumulate a few key results into the file \texttt{SUMMARY.TXT}. Comparable batch processing can be accomplished by using R or other script processing programs.
 
 \begin{quote}
 	\begin{verbatim}
@@ -116,7 +116,7 @@ This second example processes 25 data files from a different directory, each tim
 
 \hypertarget{NoEst}{}
 \subsubsection[Running Without Estimation]{\protect\hyperlink{NoEst}{Running Without Estimation}}
-There may be time when users will want to run the model without parameter estimation. The ADMB command \texttt{-noest} will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS3 and ADMB.  
+There may be time when users will want to run the model without parameter estimation. The \gls{admb} command \texttt{-noest} will not work with Stock Synthesis, as it bypasses the procedure section. There are two suggested alternative approaches to do this with SS3 and \gls{admb}.  
 
 The first approach requires the user to change the maximum phase value in the \texttt{starter.ss} file to 0 then running the model via the command widow as without calculating the hessian:
 
@@ -156,9 +156,9 @@ where -1 is the maximum phase for the model to run through (e.g., can be other v
 \hypertarget{hess-step}{}
 \subsubsection[Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian]{\protect\hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}}
 
-The optimizer in ADMB is designed to run until the maximum absolute gradient (mag) is small enough (e.g., 1e-05), after which it quits and does the uncertainty calculations. But if run for longer it cannot appreciably decrease this mag. In many cases it is interesting or advisable to get closer to the mode to confirm convergence of the model. 
+The optimizer in \gls{admb} is designed to run until the maximum absolute gradient (mag) is small enough (e.g., 1e-05), after which it quits and does the uncertainty calculations. But if run for longer it cannot appreciably decrease this mag. In many cases it is interesting or advisable to get closer to the mode to confirm convergence of the model. 
 
-A new feature as of ADMB 12.3 called ``-hess\_step'' takes Newton steps to update the MLE using the information in the Hessian calculated as MLE\textsubscript{new}=MLE-(inverse~Hessian)*(gradient), where the Hessian and gradient are calculated from the original MLE. If the mag improves then this corroborates the optimizer has converged and that the negative log-likelihood surface is approximately quadratic at the mode as assumed in the asymptotic uncertainty calculations. The downside is the high computational cost due to the extra matrix calculations.
+A new feature as of \gls{admb} 12.3 called ``-hess\_step'' takes Newton steps to update the \gls{mle} using the information in the Hessian calculated as MLE\textsubscript{new} = MLE-(inverse~Hessian)*(gradient), where the Hessian and gradient are calculated from the original \gls{mle}. If the mag improves then this corroborates the optimizer has converged and that the negative log-likelihood surface is approximately quadratic at the mode as assumed in the asymptotic uncertainty calculations. The downside is the high computational cost due to the extra matrix calculations.
 
 The feature is used by optimizing normally, and then from the command line running \texttt{-hess\_step} for defaults (recommended), \texttt{-hess\_step N}, or \texttt{-hess\_step\_tol eps} where N and eps are the maximum number of steps to take and the tolerance (i.e., a very small number like 1e-10) after which to stop. When running the Hessian first and then the \texttt{-hess\_step}, ADMB will prompt you to run it with -binp \texttt{ss.bar}.
 
@@ -295,11 +295,11 @@ Alternatively, use the function \texttt{run} from the \href{https://r4ss.github.
 
 
 
-Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{\texttt{ss3sim}}) or if \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} is already used to read model output.
+Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{\texttt{ss3sim}}) or if \gls{r4ss} is already used to read model output.
 
 \hypertarget{SSI}{}
 \subsection[The Stock Synthesis GUI (SSI)]{\protect\hyperlink{SSI}{The Stock Synthesis GUI (SSI)}}
-\href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (SSI or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to r4ss to generate plots. Note that SSI is not maintained for Stock Synthesis versions after v.3.30.21.
+\href{https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/5042951}{Stock Synthesis Interface} (\gls{ssi} or the SS3 GUI) provides an interface for loading, editing, and running model files, and also can link to \gls{r4ss} to generate plots. Note that \gls{ssi} is not maintained for Stock Synthesis versions after v.3.30.21.
 
 \hypertarget{SAC}{}
 \subsection[The Stock Assessment Continuum Tool]{\protect\hyperlink{SAC}{The Stock Assessment Continuum Tool}}
@@ -319,34 +319,34 @@ When input files are causing the program to crash or fail to produce sensible re
 
 \hypertarget{KeyboardTips}{}
 \subsection[Keyboard Tips]{\protect\hyperlink{KeyboardTips}{Keyboard Tips}}
-Typing ``N'' during a run will cause ADMB to immediately advance to the next phase of estimation.
+Typing ``N'' during a run will cause \gls{admb} to immediately advance to the next phase of estimation.
 
-Typing ``Q''  during a run will cause ADMB to immediately go to the final phase. This bypasses estimation of the Hessian and will produce all the model outputs, which are coded in the FINAL\_SECTION.
+Typing ``Q''  during a run will cause \gls{admb} to immediately go to the final phase. This bypasses estimation of the Hessian and will produce all the model outputs, which are coded in the FINAL\_SECTION.
 
 \hypertarget{RunningMCMC}{}
 \subsection[Running MCMC]{\protect\hyperlink{RunningMCMC}{Running MCMC}}
- Running SS3 with MCMC can be done through command line options using the default ADMB MCMC algorithm (described below). Another possibility is using the R package adnuts. See the \href{https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html}{adnuts vignette} for more information. The \href{https://www.admb-project.org/developers/mcmc/mcmc-guide-for-admb.pdf}{MCMC guide for ADMB} provides the most comprehensive guidance available for using MCMC with ADMB models (such as SS3). Additional guidance is available in \citep{monnahan2019overcoming}.
+ Running SS3 with \gls{mcmc} can be done through command line options using the default \gls{admb} \gls{mcmc} algorithm (described below). Another possibility is using the R package \texttt{adnuts}. See the \href{https://cran.r-project.org/web/packages/adnuts/vignettes/adnuts.html}{\texttt{adnuts} vignette} for more information. The \href{https://www.admb-project.org/developers/mcmc/mcmc-guide-for-admb.pdf}{\gls{mcmc} guide for \gls{admb}} provides the most comprehensive guidance available for using \gls{mcmc} with \gls{admb} models (such as SS3). Additional guidance is available in \citep{monnahan2019overcoming}.
 
- Running SS3 with MCMC (instead of maximum likelihood estimation) provides maximum posterior density estimates, report file, Hessian matrix and the \texttt{.cor} file. Parameters stuck on bounds which will degrade efficiency of MCMC implementation. Two commands are needed to obtain the model results:
+ Running SS3 with \gls{mcmc} (instead of \gls{mle}) provides \gls{mpd} estimates, report file, Hessian matrix and the \texttt{.cor} file. Parameters stuck on bounds which will degrade efficiency of \gls{mcmc} implementation. Two commands are needed to obtain the model results:
  
 \noindent Run SS3 with arguments -mcmc xxxx -mcsave yyyy
  \begin{itemize}
  	\item Where: xxxx is the number of iterations for the chain, and yyyy is the thinning interval (1000 is a good place to start).
- 	\item MCMC chain starts at the MPD values.
+ 	\item \gls{mcmc} chain starts at the \gls{mpd} values.
  	\item Recommended: Remove existing \texttt{.psv} files in run directory to generate a new chain.
- 	\item Recommended: Before running, set the run detail switch in starter file to 0 to limit printing to the screen; reporting to screen will slow MCMC progress.
+ 	\item Recommended: Before running, set the run detail switch in starter file to 0 to limit printing to the screen; reporting to screen will slow \gls{mcmc} progress.
  	\item Optional: Add \texttt{-nohess} to use the existing Hessian file without re-estimating.
- 	\item Optional: To start the MCMC chain from specific values change the par file: run the model with estimation, adjust the par file to the values that the chain should start from, change within the starter file for the model to begin from the par file, and call the MCMC function using \texttt{ss3 -mcmc xxxx - mcsave yyyy -nohess -noest}.
+ 	\item Optional: To start the \gls{mcmc} chain from specific values change the par file: run the model with estimation, adjust the par file to the values that the chain should start from, change within the starter file for the model to begin from the par file, and call the \gls{mcmc} function using \texttt{ss3 -mcmc xxxx - mcsave yyyy -nohess -noest}.
  \end{itemize}
 	
 \noindent Run SS3 with argument -mceval to get more summaries
 \begin{itemize}
 	\item This generates the posterior output files.
-	\item Optional: Modify starter file entries to add a burn-in and thinning interval above and beyond the ADMB thinning interval applied at run time.
-	\item Recommended: MCMC always begins with the maximum posterior density values and so a burn-in >0 should always be used.
+	\item Optional: Modify starter file entries to add a burn-in and thinning interval above and beyond the \gls{admb} thinning interval applied at run time.
+	\item Recommended: \gls{mcmc} always begins with the maximum posterior density values and so a burn-in > 0 should always be used.
 	\item This step can be repeated for alternate forecast options (e.g., catch levels) without repeating step 2.
 \end{itemize}
 
-Note that when the model is switched to MCMC or MCEVAL mode, all the bias adjustment factors become 1.0 for any years with recruitment deviations. A report file is not created after completing MCMC because it would show values based only on the last MCMC step.
+Note that when the model is switched to \gls{mcmc} or MCEVAL mode, all the bias adjustment factors become 1.0 for any years with recruitment deviations. A report file is not created after completing \gls{mcmc} because it would show values based only on the last \gls{mcmc} step.
 
 \pagebreak

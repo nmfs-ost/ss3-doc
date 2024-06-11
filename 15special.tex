@@ -34,7 +34,7 @@ Environmental and density dependent linkages, parameter deviations, and either t
 When time-varying growth is used, there are some additional considerations to be aware of:
 \begin{itemize}
 	\item Growth in the forecast with time blocks: Growth deviations propagate into the forecast because growth is by cohort according to the current year's growth parameters. The user can select which growth parameters get used during the forecast by setting the end year of the last block, if using time blocks. If the last block ends in the model's end year, then the growth parameters in effect during the forecast will be the base parameters. By setting the end year of the last block to one year past the model end year (endyr), the model will continue the last block's growth parameter levels throughout the forecast.
-	\item The equilibrium benchmark quantities (MSY, F40\%, etc.) previously used the model end year's (endyr) body size-at-age, which is not in equilibrium. Through the forecast file, it is possible to specify a range of years over which to average the size-at-age used in the benchmark calculations. An option to create equilibrium growth from averaged growth parameters would be a more realistic option and is under consideration, but is not yet available.
+	\item The equilibrium benchmark quantities (\gls{msy}, $F_{40\%}$, etc.) previously used the model end year's (endyr) body size-at-age, which is not in equilibrium. Through the forecast file, it is possible to specify a range of years over which to average the size-at-age used in the benchmark calculations. An option to create equilibrium growth from averaged growth parameters would be a more realistic option and is under consideration, but is not yet available.
 	% Which input in forecast?? The benchmark years input? I couldn't find this option...
 	% Details about a potentially better solution.
 	%\item The mean length of fish in the plus group in the start year takes into account the infinity tail of numbers of fish at age and the continued growth of these tail fish out to 3 times the age of the plus group. This has nil effect if fish have already reached Linfinity, but can be noticeable if they have not. This detail is displayed only in echoinput.sso.  Then in each year starting with the first year with time-varying growth parameters, the size in the plus group is updated according to the weighted mean of fish already there and fish just entering the plus group.  If fish have not yet reached Linfinity by the time they reach the plus group, then you will see a decline over time in mean length of fish in the plus group simply because the numbers of fish in the plus group goes down over time. However, this is only done in years with time-varying growth. This is a topic for future Stock Synthesis evolution.
@@ -49,7 +49,7 @@ When time-varying growth is used, there are some additional considerations to be
 	
 	\item The autocorrelation parameter cannot be estimated accurately within SS3 \citep{johnson-can-2016}, so external (i.e., external to SS3) estimation for selecting an autocorrelation value is currently recommended. The autocorrelation of the recruitment deviations appears in the report file, which can aid in selecting the autocorrelation value.
 		
-	\item The value of R0 and steepness in the initial year are used within virgin calculations and within the benchmarks for calculation of the denominator in depletion estimates. The average value of R0 and steepness in the range of years specified as the benchmark years inputs 9 and 10 (see \hyperlink{fore-specify}{the forecast file specifications}) is used for MSY-type calculations. 
+	\item The value of R0 and steepness in the initial year are used within virgin calculations and within the benchmarks for calculation of the denominator in depletion estimates. The average value of R0 and steepness in the range of years specified as the benchmark years inputs 9 and 10 (see \hyperlink{fore-specify}{the forecast file specifications}) is used for \gls{msy}-type calculations. 
 	%So, for example, a long-term climate effect could cause R0 to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
 	
 	\item The spawner-recruit regime parameter is a modifier on R0. The regime shift parameter line allows for multi-year or environmentally driven deviations from R0 without changing R0 itself. The regime shift base parameter should have a base value of 0.0 and not be estimated (i.e., have a negative phase). Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments.
@@ -65,7 +65,7 @@ When time-varying growth is used, there are some additional considerations to be
 
 Users should judiciously consider which parameter values are applied during forecast years. SS3 will default to use all base parameter values during the forecast period, but alternatively, which years of selectivity, relative F, and recruitment should be used during the forecast period by specifying in the \hyperlink{fore-specify}{forecast file}.
 
-Time-varying parameters can extend into the forecast period. For example, a parameter with a time block that stops at the model end year will revert to the base parameter value for the forecast, but when the block definition extends to include some or all forecast years, the last block will apply to the forecast. A good practice is to use 9999 as the terminal year for the last block to ensure including all forecast years. If a parameter has deviations and the deviations' year range includes the forecast years, then the parameter will have process uncertainty in the forecast years and MCMC draws(if using) will include the variability.
+Time-varying parameters can extend into the forecast period. For example, a parameter with a time block that stops at the model end year will revert to the base parameter value for the forecast, but when the block definition extends to include some or all forecast years, the last block will apply to the forecast. A good practice is to use 9999 as the terminal year for the last block to ensure including all forecast years. If a parameter has deviations and the deviations' year range includes the forecast years, then the parameter will have process uncertainty in the forecast years and \gls{mcmc} draws(if using) will include the variability.
 
 
 \hypertarget{2DAR}{}
@@ -76,13 +76,13 @@ When the two-dimensional autoregressive selectivity feature is turned on for a f
 \hat{S}_{a,t} = S_aexp^{\epsilon_{a,t}}
 \end{equation}
 
-where $S_a$ is specified in the corresponding age/length selectivity types section, and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS3); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2D AR1) process:
+where $S_a$ is specified in the corresponding age/length selectivity types section, and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS3); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2DAR1) process:
 
 \begin{equation}
 vec(\epsilon) \sim MVN(\mathbf{0},\sigma_s^2\mathbf{R_{total}})
 \end{equation}
 
-where $\epsilon$ is the two-dimensional deviation matrix and $\sigma_s^2\mathbf{R_{total}}$ is the covariance matrix for the 2D AR1 process. More specifically, $\sigma_s^2$ quantifies the variance in selectivity deviations and $\mathbf{R_{total}}$ is equal to the kronecker product ($\otimes$) of the two correlation matrices for the among-age and among-year AR1 processes:
+where $\epsilon$ is the two-dimensional deviation matrix and $\sigma_s^2\mathbf{R_{total}}$ is the covariance matrix for the 2DAR1 process. More specifically, $\sigma_s^2$ quantifies the variance in selectivity deviations and $\mathbf{R_{total}}$ is equal to the kronecker product ($\otimes$) of the two correlation matrices for the among-age and among-year AR1 processes:
 
 \begin{equation}
 \mathbf{R_{total}}=\mathbf{R}\otimes\mathbf{\tilde{R}}
@@ -103,23 +103,23 @@ where $\rho_a$ and $\rho_t$ are the among age and among year AR1 coefficients, r
 \end{equation} 
 
 \myparagraph{Using the Two-Dimensional Autoregressive Selectivity}
-Note, \citet{xu-new-2019} has additional information on tuning the 2D AR selectivity parameters. First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
+Note, \citet{xu-new-2019} has additional information on tuning the 2DAR selectivity parameters. First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
 
 \begin{equation}
 \sigma_s^2=SD(\epsilon)^2+\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t_{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2
 \end{equation}
 
-The minimal and maximal ages/lengths and years for the 2D AR1 process can be freely specified by users in the control file. However, we recommend specifying the minimal and maximal ages and years to cover the relatively ``data-rich'' age/length and year ranges only. Particularly we introduce: 
+The minimal and maximal ages/lengths and years for the 2DAR1 process can be freely specified by users in the control file. However, we recommend specifying the minimal and maximal ages and years to cover the relatively ``data-rich'' age/length and year ranges only. Particularly we introduce: 
 
 \begin{equation}
 b=1-\frac{\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2}{\sigma_s^2}
 \end{equation}
 
-as a measure of how rich the composition data is regarding estimating selectivity deviations. We also recommend using the Dirichlet-Multinomial method to ``weight'' the corresponding composition data while $\sigma_s$ is interactively tuned in this step.
+as a measure of how rich the composition data is regarding estimating selectivity deviations. We also recommend using the Dirichlet-multinomial method to ``weight'' the corresponding composition data while $\sigma_s$ is interactively tuned in this step.
 
 Second, fix $\sigma_s$ at the value iteratively tuned in the previous step and estimate $\epsilon_{a,t}$. Plot both Pearson residuals and $\epsilon_{a,t}$ out on the age-year surface to check their 2D dimensions. If their distributions seems to be not random but rather be autocorrelated (deviation estimates have the same sign several ages and/or years in a row), users should consider estimating and then including the autocorrelations in $\epsilon_{a,t}$.
 
-Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in Template-Model Builder (TMB). In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, the model should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the autocorrelations in selectivity deviations can be at least partially included in the 2D AR1 process.
+Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in \gls{tmb}. In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, the model should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the autocorrelations in selectivity deviations can be at least partially included in the 2DAR1 process.
 
 \hypertarget{continuous-seasonal-recruitment-sec}{}
 \subsection[Continuous seasonal recruitment]{\protect\hyperlink{continuous-seasonal-recruitment-sec}{Continuous seasonal recruitment}}
@@ -168,11 +168,11 @@ The following steps are now performed to determine the jittered starting paramet
 
 In SS3, the jitter fraction defines a uniform distribution in cumulative normal space +/- the jitter fraction from the initial value (in cumulative normal space). The normal distribution for each parameter, for this purpose, is defined such that the minimum bound is at 0.001, and the maximum at 0.999 of the cumulative distribution. If the jitter faction and original initial value are such that a portion of the uniform distribution goes beyond 0.001 or 0.999 of the cumulative normal, the new value is set to one-tenth of the way from the bound to the original initial value. 
 
-Therefore, sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, CV (= sigma/original initial value) may be a better measure. 
+Therefore, sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, \gls{cv} (= sigma/original initial value) may be a better measure. 
 
 If the original initial value is at or near the middle of the min-max range, then for each 0.1 of jitter, the range of jitters extends about 0.25 sigmas to either side of the original value (though as the total jitter increases the relationship varies more than this), and the average absolute jitter is about half of that.  For values far from the middle of the min-max range, the resulting jitter is skewed in parameter space, and may hit the bound, invoking the resetting mentioned above. 
 
-To evaluate the jittering, the bounds, and the original initial values, a jitter\_info table is available from \texttt{r4ss}, including sigma, CV and InitLocation columns (the latter referring to location within the cumulative normal - too close to 0 or 1 indicates a potential issue).
+To evaluate the jittering, the bounds, and the original initial values, a jitter\_info table is available from \texttt{r4ss}, including sigma, \gls{cv} and InitLocation columns (the latter referring to location within the cumulative normal - too close to 0 or 1 indicates a potential issue).
 
 Note: parameters with min $\leq$ -99 or max $\geq$ 999 are not jittered to avoid unreasonable values (a warning is produced to indicate this).
 
@@ -221,7 +221,7 @@ Note that the numbering in v.3.30 is different from that used in v.3.24 (where c
 
 	
 	\item \textbf{Prior Type = 2 = Beta prior} \\ 
-	The definition of $\mu$ is consistent with CASAL's formulation with the $\beta_\text{PR}$ and $\alpha_\text{PR}$ corresponding to the $m$ and $n$ parameters.
+	The definition of $\mu$ is consistent with \gls{casal}'s formulation with the $\beta_\text{PR}$ and $\alpha_\text{PR}$ corresponding to the $m$ and $n$ parameters.
 	\begin{equation}
 		\mu = \frac{P_\text{PR}-P_\text{LB}}{P_\text{UB}-P_\text{LB}} 
 	\end{equation}

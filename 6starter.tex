@@ -79,13 +79,13 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  & 1 = use \texttt{ss3.par} after reading setup in the control file. & \\
 		
  \hline
- 1 & Run display detail: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{With option 2, the display shows value of each -logL component for each iteration, and it displays where crash penalties are created}} \Tstrut\\
-   & 0 = none other than ADMB outputs; & \\
+ 1 & Run display detail: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{With option 2, the display shows value of each negative log likelihood component for each iteration, and it displays where crash penalties are created}} \Tstrut\\
+   & 0 = none other than \gls{admb} outputs; & \\
    & 1 = one brief line of display for each iteration; and & \\
    & 2 = fuller display per iteration. & \\
 		  
  \hline
- 1 & Detailed age-structure report: & \multirow{1}{1cm}[-0.15cm]{\parbox{12.5cm}{Option 0 will forgo the writing of the Report file, but the ss\_summary file will be written that has minimal derived and estimated quantities. This is a useful option for some data-limited assessment approaches (e.g., XSSS or SSS). Option 1 will write out the full Report file. Option 2 will write out select items in the Report file and will omit some more detailed sections (e.g., numbers-at-age).}} \Tstrut\\
+ 1 & Detailed age-structure report: & \multirow{1}{1cm}[-0.15cm]{\parbox{12.5cm}{Option 0 will forgo the writing of the Report file, but the ss\_summary file will be written that has minimal derived and estimated quantities. This is a useful option for some data-limited assessment approaches (e.g., \gls{xsss} or \gls{sss}). Option 1 will write out the full Report file. Option 2 will write out select items in the Report file and will omit some more detailed sections (e.g., numbers-at-age).}} \Tstrut\\
    & 0 = minimal output for data-limited methods; & \\
    & 1 = include all output (with \texttt{wtatage.ss\_new}); & \\
    & 2 = brief output, no growth;  and &  \\	
@@ -146,17 +146,17 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
  \hline
  %\pagebreak
- 8 & Turn off estimation: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The 0 option is useful for (-1) quickly reading in a messy set of input files and producing the annotated \texttt{control.ss\_new} and \texttt{data\_echo.ss\_new} files, or (0) examining model output based solely on input parameter values. Similarly, the value option allows examination of model output after completing a specified phase. Also see usage note for restarting from a specified phase.}} \Tstrut\\
+ 8 & Turn off estimation: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The 0 option is useful for (-1) quickly reading in a messy set of input files and producing the annotated \texttt{control.ss\_new} and \texttt{data\_echo.ss\_new} files, or (0) examining model output based solely on input parameter values. Similarly, the value option allows examination of model output after completing a specified phase. Also see usage note for restarting from a specified phase.}} \Tstrut\\
    & -1 = exit after reading input files; & \\
    & 0 = exit after one call to the calculation routines and production of sso and ss\_new files; and & \\
    & <positive value> = exit after completing this phase. & \Bstrut\\	  
 	     
  \hline
- 1000 & MCMC burn interval & Number of iterations to discard at the start of an MCMC run. \Tstrut\Bstrut\\
+ 1000 & \gls{mcmc} burn interval & Number of iterations to discard at the start of an \gls{mcmc} run. \Tstrut\Bstrut\\
 	   
  \hline
  %\pagebreak
- 200 & MCMC thin interval & Number of iterations to remove between the main period of the MCMC run. \Tstrut\\
+ 200 & \gls{mcmc} thin interval & Number of iterations to remove between the main period of the \gls{mcmc} run. \Tstrut\\
 	
  \pagebreak
 %  \hline 
@@ -166,30 +166,30 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 	%  & & \\
 	
  \hline
- -1 & SD Report Start: & \Tstrut\\
-    & -1 = begin annual SD report in start year; and & \\
-    & <year> = begin SD report this year. & \Bstrut\\
+ -1 & \Gls(sd) Report Start: & \Tstrut\\
+    & -1 = begin annual \gls{sd} report in start year; and & \\
+    & <year> = begin \gls{sd} report this year. & \Bstrut\\
 	      
  \hline
 %  \pagebreak
- -1 & SD Report End: & \Tstrut\\
-    & -1 = end annual SD report in end year; & \\
-    & -2 = end annual SD report in last forecast year; and & \\
-    & <value> = end SD report in this year. & \Bstrut\\
+ -1 & \gls{sd} Report End: & \Tstrut\\
+    & -1 = end annual \gls{sd} report in end year; & \\
+    & -2 = end annual \gls{sd} report in last forecast year; and & \\
+    & <value> = end \gls{sd} report in this year. & \Bstrut\\
 	   
  \hline
- 2 & Extra SD Report Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In a long time series application, the model variance calculations will be smaller and faster if not all years are included in the SD reporting. For example, the annual SD reporting could start in 1960 and the extra option could select reporting in each decade before then.}} \Tstrut \Bstrut\\
+ 2 & Extra \gls{sd} Report Years: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{In a long time series application, the model variance calculations will be smaller and faster if not all years are included in the \gls{sd} reporting. For example, the annual \gls{sd} reporting could start in 1960 and the extra option could select reporting in each decade before then.}} \Tstrut \Bstrut\\
    & 0 = none; and & \\
    & <value> = number of years to read. & \Bstrut\\
   %  & & \\
 
  %\pagebreak 
  \hline  
- \multicolumn{3}{l}{COND: If Extra SD report years > 0} \Tstrut\\
+ \multicolumn{3}{l}{COND: If Extra \gls{sd} report years > 0} \Tstrut\\
 
  %\pagebreak
  \hline
- \multicolumn{1}{r}{1940 1950} & \multirow{1}{1cm}[-0.25cm]{\parbox{19.5cm}{Vector of years for additional SD reporting. The number of years needs to equal the value specified in the above line (Extra SD Report Years).}} \\
+ \multicolumn{1}{r}{1940 1950} & \multirow{1}{1cm}[-0.25cm]{\parbox{19.5cm}{Vector of years for additional \gls{sd} reporting. The number of years needs to equal the value specified in the above line (Extra \gls{sd} Report Years).}} \\
   & & \\
 
  \pagebreak
@@ -210,12 +210,12 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
  \hline
 %  \pagebreak
- 1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in reproductive output (aka spawning biomass, aka B). The calculated values are reported to the SD report relative to a fraction, X, of a comparable quantity calculated in the benchmark section or elsewhere.}} \Tstrut\\
+ 1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in reproductive output (a.k.a., \gls{sb}, a.k.a. B). The calculated values are reported to the \gls{sd} report relative to a fraction, X, of a comparable quantity calculated in the benchmark section or elsewhere.}} \Tstrut\\
    & & \\
    & & \\
    & 0 = skip; & \Tstrut \\
    & 1 = X*B0; & Relative to virgin spawning biomass. \\
-   & 2 = X*B\textsubscript{MSY}; & Relative to spawning biomass that achieves MSY. \\
+   & 2 = X*B\textsubscript{MSY}; & Relative to spawning biomass that achieves \gls{msy}. \\
    & 3 = X*B\textsubscript{styr}; and & Relative to model start year spawning biomass. \\
    & 4 = X*B\textsubscript{endyr}. & Relative to spawning biomass in the model end year. \\
    & 5 = X*Dynamic B0 & Relative to the calculated dynamic B0. \\
@@ -227,12 +227,12 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
 %  \hline
  \pagebreak
- 1 & SPR report scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{SPR is the equilibrium SB per recruit that would result from the current year's F-at-age. The quantities identified by 1, 2, and 3 here are calculated in the benchmarks section. Then the one specified here is used as the selected denominator in a ratio with the annual value of (1 - SPR). This ratio (and its variance) is reported to the SD report output for the years selected above in the SD report year selection.}} \Tstrut\\
+ 1 & \Gls{spr} report scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{\gls{spr} is the equilibrium \gls{sb} per recruit that would result from the current year's F-at-age. The quantities identified by 1, 2, and 3 here are calculated in the benchmarks section. Then the one specified here is used as the selected denominator in a ratio with the annual value of (1 - \gls{spr}). This ratio (and its variance) is reported to the \gls{sd} report output for the years selected above in the \gls{sd} report year selection.}} \Tstrut\\
    & 0 = skip; & \\
-   & 1 = use 1-SPR\textsubscript{target}; & \\
-   & 2 = use 1-SPR at MSY; & \Tstrut\\
-   & 3 = use 1-SPR at B\textsubscript{target}; and &  \Tstrut\\
-   & 4 = no denominator, so report actual 1-SPR values. & \\
+   & 1 = use $1-SPR_{target}$; & \\
+   & 2 = use $1-SPR$ at $MSY$; & \Tstrut\\
+   & 3 = use $1-SPR$ at $B_{target}$; and &  \Tstrut\\
+   & 4 = no denominator, so report actual $1-SPR$ values. & \\
   
 %  \pagebreak
 \hline 
@@ -241,7 +241,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & 1 = exploitation rate in biomass; & \\
    & 2 = exploitation rate in numbers; & \\
    & 3 = sum($F$'s by fleet); & \\
-   & 4 = Fbar: numbers weighted $F$ for range of ages using $Z$-$M$ approach; and & \\
+   & 4 = Fbar: numbers weighted $F$ for range of ages using $Z-M$ approach; and & \\
    & 5 = Fbar: unweighted average $F$ for range of ages. & \\
    & & \\
    & & \Bstrut\\
@@ -267,11 +267,11 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
   % \hline
   \pagebreak
-  0.01 & MCMC output detail: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of MCMC output. This input requires the specification of two items; the output detail and a bump value to be added to the ln(R0) in the first call to MCMC. A bias adjustment of 1.0 is applied to recruitment deviations in the MCMC phase, which could result in reduced recruitment estimates relative to the MLE when a lower bias adjustment value is applied. A small value, called the ``bump'', is added to the ln(R0) for the first call to MCMC in order to prevent the stock from hitting the lower bounds when switching from MLE to MCMC. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\Bstrut\\
+  0.01 & \gls{mcmc} output detail: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of MCMC output. This input requires the specification of two items; the output detail and a bump value to be added to the ln(R0) in the first call to \gls{mcmc}. A bias adjustment of 1.0 is applied to recruitment deviations in the \gls{mcmc} phase, which could result in reduced recruitment estimates relative to the \gls{mle} when a lower bias adjustment value is applied. A small value, called the ``bump'', is added to the ln(R0) for the first call to \gls{mcmc} in order to prevent the stock from hitting the lower bounds when switching from \gls{mle} to \gls{mcmc}. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\Bstrut\\
   & 0 = default; & \\
   & 1 = output likelihood components and associated lambda values; & \\
   & 2 = write report for each mceval; and & \\		 
-  & 3 = make output subdirectory for each MCMC vector. & \Bstrut\\
+  & 3 = make output subdirectory for each \gls{mcmc} vector. & \Bstrut\\
   & & \\
   & & \Tstrut\Bstrut\\ 
   % & & \\ 
@@ -279,7 +279,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
   
   % \pagebreak
   \hline
-  \raisebox{0.1\ht\strutbox}{\hypertarget{ALK}{0}} & Age-length-key (ALK) tolerance level & This effect is disabled in code, enter 0. \Tstrut\Bstrut\\
+  \raisebox{0.1\ht\strutbox}{\hypertarget{ALK}{0}} & \gls{alk} tolerance level & This effect is disabled in code, enter 0. \Tstrut\Bstrut\\
   % \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Value of 0 will not apply any compression.  Values > 0 (e.g., 0.0001) will apply compression to the ALK which will increase the speed of calculations.  The size of this value will impact the run time of your model, but one should be careful to ensure that the value used does not appreciably impact the estimated quantities relative to no compression of the ALK.  The suggested value if applied is 0.0001.}} \Tstrut\Bstrut\\ 
   % & & \\
   % & & \Tstrut\\
