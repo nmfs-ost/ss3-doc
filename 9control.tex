@@ -1202,7 +1202,7 @@ The R0, steepness, and regime shift parameters can be time-varying by blocks, tr
 
 \hypertarget{TuneSigmaR}{}
 \subsubsection[Tuning $\sigma_R$]{\protect\hyperlink{TuneSigmaR}{Tuning $\sigma_R$}}
-The $\sigma_R$ value is typically not estimatable and it is recommended practice to tune input $\sigma_R$ values based on the variance in estimated recruitments post running SS3. The R package \gls{r4ss} designed to read and visualize SS3 model results provides recommendations on adjusting $\sigma_R$ values in the \texttt{sigma\_R\_info} object in the list created by the \texttt{r4ss::SS\_output()} function. An alternative $\sigma_R$ value is provided based on equation:
+The $\sigma_R$ value is typically not estimatable and it is recommended practice to tune input $\sigma_R$ values based on the variance in estimated recruitments post running SS3. The R package \href{https://github.com/r4ss/r4ss}{R code for Stock Synthesis (\texttt{r4ss})} designed to read and visualize SS3 model results provides recommendations on adjusting $\sigma_R$ values in the \texttt{sigma\_R\_info} object in the list created by the \texttt{r4ss::SS\_output()} function. An alternative $\sigma_R$ value is provided based on equation:
 
 \begin{equation}
 	\sigma_R^2 = Var(\hat{r}) + \overline{SE(\hat{r}_y)}^2
@@ -1232,7 +1232,7 @@ Simulation studies conducted by \citet{methot-adjusting-2011} compared three met
 	1 \Tstrut & Do Recruitment Deviations & This selects the way in which recruitment deviations are coded: \\
 	  & & 0: None (so all recruitments come from spawner recruitment curve). \\
 	  & & 1: Deviation vector (previously the only option): the deviations during the main period are encoded as a deviation vector that enforces them to sum to zero for this period. \\
-	  & & 2: Simple deviations: the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero-sum. The difference in model performance between options (1) and (2) has not been fully explored to date. This is the recommended option if doing MCMC (see the \href{https://github.com/admb-project/admb/issues/107}{issue 107} in the \gls{admb} GitHub Repository for more information on this). \\
+	  & & 2: Simple deviations: the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero-sum. The difference in model performance between options (1) and (2) has not been fully explored to date. This is the recommended option if doing \gls{mcmc} (see the \href{https://github.com/admb-project/admb/issues/107}{issue 107} in the \gls{admb} GitHub Repository for more information on this). \\
 	  & & 3: Deviation vector (added in v.3.30.13) where the estimated recruitment is equal to the R0 adjusted for blocks multiplied by a simple deviation vector of unconstrained deviations. The negative log likelihood from the deviation vector is equal to the natural log of the estimated recruitment divided by the expected recruitment by year adjusted for the spawner-recruit curve, regimes, environmental parameters, and bias-adjustment. The negative log likelihood between option 2 and 3 is approximately equal. \\
 	  & & 4: Similar to option 3 but includes a penalty based on the sum of the deviations (added in v.3.30.13). \\
 	  %& & Note: As of version 3.30.13 there is now an option to retain the last deviation estimated and apply that value into the forecast period. To specify this option add the value 2 before the deviation vector option (i.e., 21, 22, 23, or 24).\Bstrut\\
@@ -1806,7 +1806,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	11 \Tstrut & 2 & \hyperlink{SelectivityOneRange}{Selectivity = 1.0 for a specified length-bin range}. \\
 	15 \Tstrut & 0 & \hyperlink{MirrorAnotherSelectivity}{Mirror another selectivity} (same for age selectivity). \\
 	21 \Tstrut & 2 & Non-parametric size selectivity. \\
-	22 \Tstrut & 4 & \hyperlink{DoubleNormalPlateau}{Double normal selectivity}; similar to \gls{casal}. \\
+	22 \Tstrut & 4 & \hyperlink{DoubleNormalPlateau}{Double normal selectivity}; similar to \href{https://casal2.github.io/}{\gls{casal}}. \\
 	23 \Tstrut & 6 & \hyperlink{DoubleNormalPeak}{Same as the selectivity pattern 24 (double normal with peak and tail controls) except the final selectivity is now directly interpreted as the terminal selectivity value}. Cannot be used with Pope's $F$ method because maximum selectivity may be greater than 1. \\
 	24 \Tstrut & 6 & \hyperlink{DoubleNormalPeak}{Double normal selectivity with defined initial and final selectivity level - Recommended option}. \\
 	25 \Tstrut & 3 & \hyperlink{ExponentialLogistic}{Exponential logistic selectivity}. \\
@@ -2392,7 +2392,7 @@ Notes:
 \end{itemize}
 
 \hypertarget{Dirichletparameter}{}
-\subsubsection[Dirichlet-Multinomial Error for Data Weighting]{\protect\hyperlink{Dirichletparameter}{Dirichlet-Multinomial Error for Data Weighting}}
+\subsubsection[Dirichlet-multinomial Error for Data Weighting]{\protect\hyperlink{Dirichletparameter}{Dirichlet-multinomial Error for Data Weighting}}
 If the Dirichlet-multinomial error distribution was selected in the data file for length or age data weighting, add additional parameter line(s) immediately following the age selectivity parameter block. There should be 1 parameter line for each parameter in the data file.
 
 For additional information about the Dirichlet-multinomial please see \citet{thorson-model-based-2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
@@ -2626,7 +2626,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 	4 \Tstrut & Max lambda phase: read this number of lambda values for each element below. The last lambda value is used for all higher numbered phases. \Bstrut\\
 	1 & \gls{sd} offset: \\
 	  & 0 = The ln(like) to omit the + ln(s) term, \\
-	  & 1 = The ln(like) to include the ln(s) term for \gls{cpue}, discard, growth gls{cv}, mean body weight, recruitment deviations. If you are estimating any variance parameters, \gls{sd} offset must be set to 1. \Bstrut\\
+	  & 1 = The ln(like) to include the ln(s) term for \gls{cpue}, discard, growth \gls{cv}, mean body weight, recruitment deviations. If you are estimating any variance parameters, \gls{sd} offset must be set to 1. \Bstrut\\
 	\hline
 \end{tabular}
 

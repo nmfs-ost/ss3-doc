@@ -2,7 +2,7 @@
 \subsection[Data Weighting]{\protect\hyperlink{DataWeight}{Data Weighting}}\label{sec:DataWeight}
 
 
-In 2015 there was a \gls{capam} workshop dedicated to data weighting. Description of the workshop can be found on the \href{http://capamresearch.org/data-weighting/workshop}{\gls{capam}} website. The presentations from the workshop are available through that website and many of them were included in a special issue of \href{https://sciencedirect.com/journal/fisheries-research/vol/192}{Fisheries Research}.
+In 2015 there was a \href{https://www.capamresearch.org/}{\gls{capam}} workshop dedicated to data weighting. Description of the workshop can be found on the \href{http://capamresearch.org/data-weighting/workshop}{\gls{capam}} website. The presentations from the workshop are available through that website and many of them were included in a special issue of \href{https://sciencedirect.com/journal/fisheries-research/vol/192}{Fisheries Research}.
 
 Currently, there are three main methods for weighting length and data applied for U.S. West Coast assessments using Stock Synthesis.
 
@@ -18,7 +18,7 @@ Currently, there are three main methods for weighting length and data applied fo
 
 \hypertarget{MI}{}
 \myparagraph{McAllister-Ianelli}
-The ``Length\_Comp\_Fit\_Summary'' and ``Age\_Comp\_Fit\_Summary'' sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the \gls{r4ss} package, these tables are returned by the \texttt{SS\_output()} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
+The ``Length\_Comp\_Fit\_Summary'' and ``Age\_Comp\_Fit\_Summary'' sections in the Report file include information on the harmonic mean of the effective sample size and arithmetic mean of the input sample size used in this tuning method. In the \texttt{r4ss} package, these tables are returned by the \texttt{SS\_output()} function as \texttt{ \$Length\_comp\_Eff\_N\_tuning\_check} and \texttt{ \$Age\_comp\_Eff\_N\_tuning\_check}.
 
 A convenient way to process these values into the format required by the control file is to use the function:
 
@@ -29,7 +29,7 @@ where the input ``replist'' is the object created by \texttt{SS\_output()}. This
 For version 3.30 models, the table created by \texttt{SS\_tune\_comps()} can be pasted into the bottom of the control file in the section labeled ``Input variance adjustments'', followed by the terminator line which indicates the end of the section. 
 
 
-Also see the help page for the \gls{r4ss} function \texttt{SS\_varadjust()} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
+Also see the help page for the \texttt{r4ss} function \texttt{SS\_varadjust()} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
 
 If the tuning has been implemented, the green lines in the figure below would approximately intersect at a point which is on the black 1-to-1 diagonal line in this figure created by the \texttt{r4ss} function \texttt{SS\_plots()}.
 
@@ -193,7 +193,7 @@ relatively little impact on the maximum likelihood estimates.
 \item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In v.3.24 this means setting the values to 1, in v.3.30, you can simply delete or comment-out the rows with the adjustments.
 \end{itemize}
 
-The \texttt{SS\_output()} function in \gls{r4ss} returns table like the following:
+The \texttt{SS\_output()} function in \texttt{r4ss} returns table like the following:
 \begin{small}
 \begin{verbatim}
   $Dirichlet_Multinomial_pars
@@ -204,7 +204,7 @@ The \texttt{SS\_output()} function in \gls{r4ss} returns table like the followin
 \end{small}
 
 
-The ratio shown in the final column is the estimated multiplier which can be compared to the sample size adjustment estimated in the other tuning methods above (the New\_Var\_adj column in the table produced by the \texttt{SS\_tune\_comps()} function in \gls{r4ss}).
+The ratio shown in the final column is the estimated multiplier which can be compared to the sample size adjustment estimated in the other tuning methods above (the New\_Var\_adj column in the table produced by the \texttt{SS\_tune\_comps()} function in \texttt{r4ss}).
 
 If the reported $\theta/(1+\theta)$ ratio is close to 1.0, that indicates that the model is trying to tune the sample size as high as possible. In this case, the $ln(\theta)$ parameters should be fixed at a high value, like the upper bound of 20, which will result in 100\% weight being applied to the input sample sizes. An alternative would be to manually change the input sample sizes to a higher value so that the estimated weighting will be less than 100%.
 
