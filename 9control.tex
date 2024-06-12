@@ -26,9 +26,9 @@ These listed model features are denoted in the control file in the following ord
 		\item Setup for any stock recruitment parameters are time-varying
 		\item Recruitment deviations
 		\\
-		\item F ballpark value in specified year
-		\item Method for calculating fishing mortality (F)
-		\item Initial equilibrium F for each fleet
+		\item $F$ ballpark value in specified year
+		\item Method for calculating fishing mortality ($F$)
+		\item Initial equilibrium $F$ for each fleet
 		\\
 		\item Catchability (Q) setup for each fleet and survey
 		\item Catchability parameters
@@ -1024,8 +1024,8 @@ The spawner-recruitment section starts by specification of the functional relati
 	  & Recruitment         & 2: \hyperlink{Ricker}{Ricker}: 2 parameters: ln(R0) and steepness (h); \\
 	  & Relationship        & 3: \hyperlink{BH}{Standard Beverton-Holt}, 2 parameters: ln(R0) and steepness; \\
 	  &                     & 4: Ignore steepness and no bias adjustment. Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates, 2 parameters, but only uses the first one; \\
-	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: ln(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin \gls{ssb} at which inflection occurs, and the R level at SSB = 0.0; \\
-	  &                     & 6: Beverton-Holt with flat-top beyond Bzero, 2 parameters: ln(R0) and steepness; \\
+	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: ln(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin \gls{ssb} at which inflection occurs, and the R level at \gls{ssb} = 0.0; \\
+	  &                     & 6: Beverton-Holt with flat-top beyond B0, 2 parameters: ln(R0) and steepness; \\
 	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: ln(R0), $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are $<=$ population production; \\
 	 %&                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: ln(R0), steepness, and shape parameter, $c$;\\
 	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); and \\
@@ -1163,7 +1163,7 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 	0.60 \Tstrut & Steepness & Steepness of spawner recruitment relationship, bound by 0.2 and 1.0 for the Beverton-Holt. \Bstrut\\
 	%\hline
 
-	\multicolumn{2}{l}{COND:} \Tstrut & If SRR = 5, 7, or 8 \\
+	\multicolumn{2}{l}{COND:} \Tstrut & \gls{srr} = 5, 7, or 8 \\
 	& 3rd Parameter & Optional depending on which spawner-recruitment relationship function is used. \Bstrut\\
 	\hline
 
@@ -1494,18 +1494,18 @@ It is possible to use the initial $F$ method to achieve an estimate of the initi
 \begin{longtable}{p{1.3cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1.2cm} p{1cm} p{2.5cm}}
 	\multicolumn{8}{l}{An example setup with two fishery fleets and two seasons with initial equilibrium catches:} \\
 	\hline
-	0.1 & \multicolumn{7}{l}{\# F ballpark} \Tstrut\Bstrut\\
+	0.1 & \multicolumn{7}{l}{\# $F$ ballpark} \Tstrut\Bstrut\\
 	\hline
-	-2001 & \multicolumn{7}{l}{\# F ballpark year (negative value to disable)} \Tstrut\Bstrut\\
+	-2001 & \multicolumn{7}{l}{\# $F$ ballpark year (negative value to disable)} \Tstrut\Bstrut\\
 	\hline
 	3 & \multicolumn{7}{l}{\# F\_method: 1=Pope; 2=Baranov; 3=Hybrid} \Tstrut\Bstrut\\
 	\hline
-	3 & \multicolumn{7}{l}{\# Maximum F value} \Tstrut\Bstrut\\
+	3 & \multicolumn{7}{l}{\# Maximum $F$ value} \Tstrut\Bstrut\\
 	\hline
-	4 & \multicolumn{7}{l}{\# Number of iterations for tuning F in hybrid method} \Tstrut\Bstrut\\
+	4 & \multicolumn{7}{l}{\# Number of iterations for tuning $F$ in hybrid method} \Tstrut\Bstrut\\
 	\hline
-	\multicolumn{8}{l}{\# Initial F parameters} \Tstrut\Bstrut\\
-	LO & HI & INIT & Prior & Pr. SD & Pr. Type & Phase & Label \Bstrut\\
+	\multicolumn{8}{l}{\# Initial $F$ parameters} \Tstrut\Bstrut\\
+	LO & HI & INIT & Prior & Pr. \gls{sd} & Pr. Type & Phase & Label \Bstrut\\
 	\hline
 	0 & 3 & 0.1 & 0 & 99 & 0 & 1 & \#InitF\_seas\_1\_fleet\_1 \Tstrut\\
 	\hline
@@ -1569,8 +1569,8 @@ For each fleet that has index observations, enter a row with six entries as desc
 \begin{longtable}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.3cm} p{2.3cm}}
 	\multicolumn{7}{l}{For a setup with a single survey, the Q setup matrix could be:} \\
 	\hline
-	Fleet \Tstrut & Link & Link & Extra & Bias   & & \\
-	Num.          & Type & Info & SD    & Adjust & Float & Label \Bstrut\\
+	Fleet \Tstrut & Link & Link & Extra    & Bias   & & \\
+	Num.          & Type & Info & \gls{sd} & Adjust & Float & Label \Bstrut\\
 	\hline
 	3 & 1 & 0 & 1 & 1 & 0 & \#Survey \Tstrut\\
 	-9999 & 0 & 0 & 0 & 0 & 0 & \#End Read \Bstrut\\
@@ -1594,7 +1594,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 	\endlastfoot
 
 	-5 & 5 & -0.12 & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Survey1 LnQ base \Tstrut\\
-	 0 & 0.5 & 0.1 & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Survey1 Extra SD \Bstrut\\
+	 0 & 0.5 & 0.1 & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Survey1 Extra \gls{sd} \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -1606,8 +1606,8 @@ Below is an example setup for fleets with a mirrored Q and scale from another fl
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{7.6cm}}
 	\multicolumn{7}{l}{For a setup with a single survey, the Q setup matrix could be:} \\
 	\hline
-	Fleet \Tstrut & Link & Link & Extra & Bias   & & \\
-	Num.          & Type & Info & SD    & Adjust & Float & Label \Bstrut\\
+	Fleet \Tstrut & Link & Link & Extra    & Bias   & & \\
+	Num.          & Type & Info & \gls{sd} & Adjust & Float & Label \Bstrut\\
 	\hline
 	1 & 1 & 0 & 1 & 0 & 0 & \#Fleet 1 \Tstrut\\
 	2 & 4 & 1 & 0 & 0 & 0 & \#Fleet 2 \\
@@ -1624,7 +1624,7 @@ Below is an example setup for fleets with a mirrored Q and scale from another fl
 	LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Block Fxn & Parameter Label \Bstrut\\
 	\hline
 	-7  & 5   & 0.51 & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 1 LnQ base \Tstrut\\
-	 0  & 0.5 & 0.1  & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 1 Extra SD \\
+	 0  & 0.5 & 0.1  & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 1 Extra \gls{sd} \\
 	-7  & 5   & -6   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 2 LnQ base \\
 	-8  & 5   & -7   & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 2 Mirror Q offset \\
 	-15 & 15  & 0.84 & \multicolumn{1}{c}{...} &  1 & \multicolumn{1}{c}{...} & 0 & \#Fleet 3 Q base \\
@@ -2469,8 +2469,8 @@ Following each fleet-specific specification line are short parameter lines for t
 	\hline
 	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0 \Tstrut\\
 	\hline
-	     &    &      &     & PRIOR & PRIOR &       &     & & & \Tstrut\\
-	LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL} \Bstrut\\
+	     &    &      &     & PRIOR    & PRIOR &       &     & & & \Tstrut\\
+	LO & HI & INIT & PRIOR & \gls{sd} & TYPE  & PHASE & \multicolumn{4}{l}{LABEL} \Bstrut\\
 	\hline
 	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, first age} \Tstrut\\
 	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, second age} \Tstrut\\
@@ -2483,9 +2483,9 @@ Following each fleet-specific specification line are short parameter lines for t
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range \Bstrut\\
 	\hline
 	2    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0 \Tstrut\\
-		\hline
-	&    &      &       & PRIOR & PRIOR &       &     & & & \Tstrut\\
-	LO & HI & INIT & PRIOR & SD    & TYPE  & PHASE & \multicolumn{4}{l}{LABEL} \Bstrut\\
+	\hline
+	   &    &      &       & PRIOR    & PRIOR &       &     & & & \Tstrut\\
+	LO & HI & INIT & PRIOR & \gls{sd} & TYPE  & PHASE & \multicolumn{4}{l}{LABEL} \Bstrut\\
 	\hline
 	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, first age} \Tstrut\\
 	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, second age} \Tstrut\\
@@ -2555,7 +2555,7 @@ The tagging reporting rate parameter is transformed during estimation to maintai
 
 Currently, tag parameters cannot be time-varying.
 
-A shortcoming was identified in the recapture calculations when using Pope's F Method and multiple seasons in SS3 prior to v.3.30.14. The internal calculations were corrected in v.3.30.14. Now the Z-at-age is applied internally for calculations of fishing pressure on the population when using the Pope calculations.
+A shortcoming was identified in the recapture calculations when using Pope's $F$ Method and multiple seasons in SS3 prior to v.3.30.14. The internal calculations were corrected in v.3.30.14. Now the Z-at-age is applied internally for calculations of fishing pressure on the population when using the Pope calculations.
 
 \myparagraph{Mirroring of Tagging Parameters}
 In v.3.30.14, the ability to mirror the tagging parameters from another tag group or fleet was added. With this approach, the user can have just one parameter value for each of the five tagging parameter types and mirror all other parameters. Note that parameter lines are still required for the mirrored parameters and only lower numbered parameters can be mirrored. Mirroring is evoked through the phase input in the tagging parameter section. The options are:
@@ -2728,7 +2728,7 @@ COND = 2, enter the above quantities plus (available in versions 3.30.15 and hig
 	\end{enumerate}
 	\item 1 additional value related to dynamic B0 (needed in versions 3.30.17 and higher):
 	\begin{enumerate}
-		\item 0 for not used, 1 to report \gls{ssb} for dynamic B0, 2 to report SSB and recruitment
+		\item 0 for not used, 1 to report \gls{ssb} for dynamic B0, 2 to report \gls{ssb} and recruitment
 	\end{enumerate}
 	\item 1 additional value related to Summary Bio (needed in versions 3.30.17 and higher):
 	   \begin{enumerate}

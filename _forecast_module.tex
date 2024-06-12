@@ -33,7 +33,7 @@ The sequence of multiple forecast passes is as follows:
 		\begin{enumerate}
 			\item SubLoop (a.k.a. ABC\_Loop) = 1
 			\begin{enumerate}
-				\item R = f(SSB) with no deviations
+				\item R = $f(SSB)$ with no deviations
 				\item $F$ = $F\text{limit}$
 				\item Fixed input catch amounts ignored
 				\item No catch adjustments (caps and allocations)
@@ -113,7 +113,7 @@ Correlation C2 shows a positive correlation between recruitment deviation in 200
 	\item Consider separating implementation error into a pass \#4 so results will more clearly show effect of assessment uncertainty separate from implementation uncertainty
 	\item Consider adding a random ``assessment'' error which essentially is a random variable that scales population abundance before passing into the forecast stage. Complication is figuring out how to link it to the correlated error in the benchmark quantities
 	\item Because all of these calculations occur only in the standard deviation phase (sdphase) or the \gls{mcmc} evaluation (mceval) phase, it would be feasible for mceval calls to add a pass that is implemented many times and in which random forecast recruitment draws are made.
-	\item Factors like selectivity and fleet relative F levels are calculated as an average of these values during the time series. This is internally consistent if these factors do not vary during the time series (although clearly this is a stiff model that will underestimate process variance). However, if these factors do vary over time, then the average used for the forecast will under-represent the variance. A better approach would be to set up the parameters of selectivity as a random process that extends throughout the forecast period, and to update estimated selectivity in each year of the forecast based upon the random realization of these parameters.
+	\item Factors like selectivity and fleet relative $F$ levels are calculated as an average of these values during the time series. This is internally consistent if these factors do not vary during the time series (although clearly this is a stiff model that will underestimate process variance). However, if these factors do vary over time, then the average used for the forecast will under-represent the variance. A better approach would be to set up the parameters of selectivity as a random process that extends throughout the forecast period, and to update estimated selectivity in each year of the forecast based upon the random realization of these parameters.
 \end{itemize}
 
 	
