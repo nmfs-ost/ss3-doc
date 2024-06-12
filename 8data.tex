@@ -81,6 +81,7 @@ The treatment of subseasons in SS3 provide more precision in the timing of event
 Time steps can be broken into subseason and the \gls{alk} can be calculated multiple times over the course of a year:
 \vspace*{-\baselineskip}
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|}
 		\hline
 		ALK & ALK* & ALK* & ALK & ALK* & ALK \Tstrut\Bstrut\\
@@ -89,6 +90,7 @@ Time steps can be broken into subseason and the \gls{alk} can be calculated mult
 		\hline
 		\multicolumn{6}{l}{ALK* only re-calculated when there is a survey that subseason} \Tstrut\Bstrut\\			
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 	\begin{itemize}
@@ -117,6 +119,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 \hypertarget{ModelDimensions}{}
 \subsection[Model Dimensions]{\protect\hypertarget{ModelDimensions}{Model Dimensions}}
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{longtable}{p{3cm} p{12cm}}
 		\hline
 		\textbf{Value} & \textbf{Description} \Tstrut\Bstrut\\
@@ -173,6 +176,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		2 \Tstrut & Total number of fishing and survey fleets (which now can be in any order).\\
 		\hline
 	\end{longtable}
+	\leavevmode\tagmcend\tagstructend\par
 	\vspace*{-1.7\baselineskip}
 \end{center}
 
@@ -182,6 +186,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 The catch data input has been modified to improve the user flexibility to add/subtract fishing and survey fleets to a model set-up. The fleet setup input is transposed, so each fleet is now a row. Previous versions (v.3.24 and earlier) required that fishing fleets be listed first followed by survey only fleets. In SS3 all fleets have the same status within the model structure and each has a specified fleet type (except for models that use tag recapture data, this will be corrected in future versions). Available types are; catch fleet, bycatch only fleet, or survey.   
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{4cm}}
 		\multicolumn{6}{l}{Inputs that define the fishing and survey fleets:} \\
 		\hline
@@ -196,6 +201,7 @@ The catch data input has been modified to improve the user flexibility to add/su
 		\hline
 		
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \myparagraph{Fleet Type}
@@ -253,6 +259,7 @@ Bycatch fleets are not expected to be under the same type of fishery management 
 \noindent If a fleet above was set as a bycatch fleet (fleet type = 2), the following line is required: 
 \begin{center}
 	\vspace*{-\baselineskip}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{2.25cm} p{2.5cm} p{2.25cm} p{2.5cm} p{2.5cm} p{2cm}}
 
 		\multicolumn{6}{l}{Bycatch fleet input controls:} \\
@@ -263,6 +270,7 @@ Bycatch fleets are not expected to be under the same type of fishery management 
 		2 & 2 & 3 & 1982 & 2010 & 0 \Tstrut\Bstrut\\
 		\hline		
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 The above example set-up defines one fleet (fleet number 2) as a bycatch fleet with the dead catch from this fleet to not be included in the search for \gls{msy} (b: Include in MSY = 2). The level of $F$ from the bycatch fleet in reference point and forecast is set to the mean (c: Fmult = 3) of the estimated $F$ for the range of years from 1982-2010.  
@@ -335,9 +343,9 @@ For each fleet that is designated as a predator, a new parameter line is created
 Three types of data relevant to M2 can be input:
 
 \begin{itemize}
-	\item Total kill (as discard in the data file): M2 is a component of $Z$, so $M2/Z$ can be used to calculate the amount of the total kill that is attributable to M2. This is completely analogous to calculating catch for the fishing fleets. The total kill (e.g., consumption) is output to the discard array. If data on the total kill by the M2 predator is available, it can be input as observed ``discard'' for this fleet and thus included in the total log likelihood (logL) to estimate the magnitude of the M2 parameter.
+	\item Total kill (as discard in the data file): M2 is a component of $Z$, so M2/$Z$ can be used to calculate the amount of the total kill that is attributable to M2. This is completely analogous to calculating catch for the fishing fleets. The total kill (e.g., consumption) is output to the discard array. If data on the total kill by the M2 predator is available, it can be input as observed ``discard'' for this fleet and thus included in the total log likelihood (logL) to estimate the magnitude of the M2 parameter.
 	
-	\item \hyperlink{PredEffort}{Predator effort} (as a survey index in the data file): M2 is a rate analogous to F, so the survey of $F$ approach (survey units = 2) can be used to input predator abundance as an indicator of the ``effort'' that produced the M2. Like all surveys, this survey of M2 will also need a Q specification. Note that in the future we can explore improved options for this Q.
+	\item \hyperlink{PredEffort}{Predator effort} (as a survey index in the data file): M2 is a rate analogous to $F$, so the survey of $F$ approach (survey units = 2) can be used to input predator abundance as an indicator of the ``effort'' that produced the M2. Like all surveys, this survey of M2 will also need a Q specification. Note that in the future we can explore improved options for this Q.
 	
 	\item Predated age-length composition (as length or age composition data in the data file): M2 ``eats'' the modeled fish, so gut contents or other sources may have size and/or age composition data which may be input to estimate selectivity of the M2 source. 
 \end{itemize}
@@ -357,6 +365,7 @@ In addition, it is possible to collapse the number of seasons. So, if a season v
 The format for a 2 season model with 2 fisheries looks like the table below. Example is sorted by fleet, but the sort order does not matter. In \texttt{data.ss\_new}, the sort order is fleet, year, season.
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
 		\multicolumn{5}{l}{Catches by year, season for every fleet:} \\
 		\hline
@@ -377,6 +386,7 @@ The format for a 2 season model with 2 fisheries looks like the table below. Exa
 		-9999 & 0 & 0 & 0 & 0 \Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \begin{itemize}
@@ -442,12 +452,12 @@ The options for error distribution form are:
 	\begin{itemize}
 		\item -1 = normal error;
 		\item  0 = log-normal error; and 
-		\item >0 = Student's t-distribution in log space with \gls{df} equal to this value. For \gls{df} > 30, results will be nearly identical to that for log-normal distribution. A \gls{df} value of about 4 gives a fat-tail to the distribution. The \gls{se} values entered in the data file must be the \gls{se} in $log_{e}$ space.
+		\item > 0 = Student's t-distribution in log space with \gls{df} equal to this value. For \gls{df} > 30, results will be nearly identical to that for log-normal distribution. A \gls{df} value of about 4 gives a fat-tail to the distribution. The \gls{se} values entered in the data file must be the \gls{se} in $log_{e}$ space.
 	\end{itemize}
 
 Abundance indices typically assumed to have a log-normal error structure with units of \gls{se} of $log_{e}$(index). If the variance of the observations is available only as a \gls{cv} (\gls{se} of the observation divided by the mean value of the observation in natural space), then the value of standard error in log space can be calculated as $\sqrt{(log_e(1+(CV)^2))}$.
 
-For the normal error structure, the entered values for \gls{se} are interpreted directly as a \gls{se} in arithmetic space and not as a CV. Thus switching from a log-normal to a normal error structure forces the user to provide different values for the \gls{se} input in the data file.
+For the normal error structure, the entered values for \gls{se} are interpreted directly as a \gls{se} in arithmetic space and not as a \gls{cv}. Thus switching from a log-normal to a normal error structure forces the user to provide different values for the \gls{se} input in the data file.
 
 If the data exist as a set of normalized Z-scores, you can assert a log-normal error structure after entering the data as $exp(Z-score)$ because it will be logged by SS3. Preferably, the Z-scores would be entered directly and the normal error structure would be used.
 
@@ -461,6 +471,7 @@ Indices with \gls{sd} Report enabled will have the expected values for their his
 
 \myparagraph{Data Format}
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{3cm} p{2.5cm}}
 		\hline
 		Year & Month & Fleet/Survey & Observation & SE \Tstrut\Bstrut\\
@@ -472,35 +483,40 @@ Indices with \gls{sd} Report enabled will have the expected values for their his
 		-9999 & 0  & 0   & 0     & 0 \Bstrut\\ 
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
-	\begin{itemize}
-		\item For fishing fleets, \gls{cpue} is defined in terms of retained catch (biomass or numbers).
-		\item For fishery independent surveys, retention/discard is not defined so \gls{cpue} is implicitly in terms of total \gls{cpue}.
-		\item If a survey has its selectivity mirrored to that of a fishery, only the selectivity is mirrored so the expected \gls{cpue} for this mirrored survey does not use the retention curve (if any) for the fishing fleet.
-		\item If the fishery or survey has time-varying selectivity, then this changing selectivity will be taken into account when calculating expected values for the \gls{cpue} or survey index.
-		\item Year values that are before start year or after end year are excluded from model, so the easiest way to include provisional data in a data file is to put a negative sign on its year value.
-		\item Duplicate survey observations for the same year are not allowed.
-		\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID. Previously the code for not using observations was to enter the observation itself as a negative value. However, that old approach prevented use of a Z-score environmental index as a ``survey''. This approach is best for single or select years from an index rather than an approach to remove a whole index. Removing an index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
-		\item Observations can be entered in any order, except if the super-year feature is used.
-		\item Super-periods are turned on and then turned back off again by putting a negative sign on the season. Previously, super-periods were started and stopped by entering -9999 and the -9998 in the \gls{se} field. See the \hyperlink{SuperPeriod}{Data Super-Period} section of this manual for more information.
-		\item If the statistical analysis used to create the \gls{cpue} index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery's size and age composition, then you may want to enter the \gls{cpue} as if it was a separate survey and with a selectivity that differs from the fishery's estimated selectivity. The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the \gls{cpue} should be derived through an area-weighted approach to better serve as a survey of stock abundance.
-	\end{itemize}
+
+\begin{itemize}
+	\item For fishing fleets, \gls{cpue} is defined in terms of retained catch (biomass or numbers).
+	\item For fishery independent surveys, retention/discard is not defined so \gls{cpue} is implicitly in terms of total \gls{cpue}.
+	\item If a survey has its selectivity mirrored to that of a fishery, only the selectivity is mirrored so the expected \gls{cpue} for this mirrored survey does not use the retention curve (if any) for the fishing fleet.
+	\item If the fishery or survey has time-varying selectivity, then this changing selectivity will be taken into account when calculating expected values for the \gls{cpue} or survey index.
+	\item Year values that are before start year or after end year are excluded from model, so the easiest way to include provisional data in a data file is to put a negative sign on its year value.
+	\item Duplicate survey observations for the same year are not allowed.
+	\item Observations that are to be included in the model but not included in the negative log likelihood need to have a negative sign on their fleet ID. Previously the code for not using observations was to enter the observation itself as a negative value. However, that old approach prevented use of a Z-score environmental index as a ``survey''. This approach is best for single or select years from an index rather than an approach to remove a whole index. Removing an index from the model should be done through the use of lambdas at the bottom of the control file which will eliminate the index from model fitting. 
+	\item Observations can be entered in any order, except if the super-year feature is used.
+	\item Super-periods are turned on and then turned back off again by putting a negative sign on the season. Previously, super-periods were started and stopped by entering -9999 and the -9998 in the \gls{se} field. See the \hyperlink{SuperPeriod}{Data Super-Period} section of this manual for more information.
+	\item If the statistical analysis used to create the \gls{cpue} index of a fishery has been conducted in such a way that its inherent size/age selectivity differs from the size/age selectivity estimated from the fishery's size and age composition, then you may want to enter the \gls{cpue} as if it was a separate survey and with a selectivity that differs from the fishery's estimated selectivity. The need for this split arises because the fishery size and age composition should be derived through a catch-weighted approach (to appropriately represent the removals by the fishery) and the \gls{cpue} should be derived through an area-weighted approach to better serve as a survey of stock abundance.
+\end{itemize}
 
 \hypertarget{Discard}{}
 \subsection[Discard]{\protect\hyperlink{Discard}{Discard}}
 If discard is not a feature of the model specification, then just a single input is needed:
 
 \begin{center}
-\begin{tabular}{p{2cm} p{13cm}}
-	\hline
-	0 & Number of fleets with discard observations \Tstrut\Bstrut\\
-	\hline
-\end{tabular}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
+	\begin{tabular}{p{2cm} p{13cm}}
+		\hline
+		0 & Number of fleets with discard observations \Tstrut\Bstrut\\
+		\hline
+	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 	
 	
 If discard is being used, the input syntax is:
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{2cm} p{3cm} p{3cm} p{3cm} p{3cm}}
 		\hline
 		1 & \multicolumn{4}{l}{Number of fleets with discard observations} \Tstrut\Bstrut\\
@@ -509,13 +525,14 @@ If discard is being used, the input syntax is:
 		\hline
 		1 & 2 & \multicolumn{3}{l}{-1} \Tstrut\Bstrut\\
 		\hline
-		Year & Month & Fleet & Observation & SE \Tstrut\Bstrut\\
+		Year & Month & Fleet & Observation & \gls{se} \Tstrut\Bstrut\\
 		\hline
 		1980  & 7 & 1 & 0.05 & 0.25 \Tstrut\\
 		1991  & 7 & 1 & 0.10 & 0.25 \\
 		-9999 & 0 & 0 &    0 & 0 \Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 Note that although the user must specify a month for the observed discard data, the unit for discard data is in terms of a season rather than a specific month. So, if using a seasonal model, the input month values must correspond to some time during the correct season. The actual value will not matter because the discard amount is calculated for the entirety of the season. However, discard length or age observations will be treated by entered observation month.
@@ -531,7 +548,7 @@ The options are:
 \myparagraph{Discard Error Distribution}	
 The four options for discard error are:
 \begin{itemize}
-	\item >0 = \gls{df} for Student's t-distribution used to scale mean body weight deviations. Value of error in data file is interpreted as \gls{cv} of the observation;
+	\item > 0 = \gls{df} for Student's t-distribution used to scale mean body weight deviations. Value of error in data file is interpreted as \gls{cv} of the observation;
 	\item 0 = normal distribution, value of error in data file is interpreted as \gls{cv} of the observation;
 	\item -1 = normal distribution, value of error in data file is interpreted as \gls{se} of the observation;
 	\item -2 = log-normal distribution, value of error in data file is interpreted as \gls{se} of the observation in log space; and 
@@ -556,6 +573,7 @@ The use of \gls{cv} as the measure of variance can cause a small discard value t
 This is the overall mean body weight or length across all selected sizes and ages. This may be useful in situations where individual fish are not measured but mean weight is obtained by counting the number of fish in a specified sample (e.g., a 25 kg basket).    
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{1.75cm} p{1.75cm} p{1.75cm} p{1.75cm} p{1.75cm} p{2cm} p{1cm}}
 		\multicolumn{7}{l}{Mean Body Weight Data Section:} \\
 		\hline
@@ -572,6 +590,7 @@ This is the overall mean body weight or length across all selected sizes and age
 		-9999 & 0 & 0 & 0 & 0 & 0   & 0 \Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 
@@ -599,11 +618,12 @@ Error is entered as the \gls{cv} of the observed mean body weight (or mean lengt
 
 \hypertarget{PopLBins}{}
 \subsection[Population Length Bins]{\protect\hyperlink{PopLBins}{Population Length Bins}}
-The first part of the length composition section sets up the bin structure for the population. These bins define the granularity of the age-length key and the coarseness of the length selectivity. Fine bins create smoother distributions, but a larger and slower running model.
+The first part of the length composition section sets up the bin structure for the population. These bins define the granularity of the \gls{alk} and the coarseness of the length selectivity. Fine bins create smoother distributions, but a larger and slower running model.
 First read a single value to select one of three population length bin methods, then any conditional input for options 2 and 3:
 
 \begin{center}
-		\begin{tabular}{p{2cm} p{5cm} p{8cm}}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
+	\begin{tabular}{p{2cm} p{5cm} p{8cm}}
 		\hline
 		1 & \multicolumn{2}{l}{Use data bins to be read later. No additional input here.} \Tstrut\Bstrut\\
 		\hline
@@ -618,7 +638,8 @@ First read a single value to select one of three population length bin methods, 
 									& 10 12 14 ... 82 & Vector containing lower edge of each population size bin \Bstrut\\
 
 		\hline									  
-	\end{tabular}	
+	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \myparagraph{Notes}
@@ -628,7 +649,7 @@ There are some items for users to consider when setting up population length bin
 	
 	\item The mean size at settlement (virtual recruitment age) is set equal to the min size of the first population length bin.
 	
-	\item When using more, finer population length bins, the model will create smoother length selectivity curves and smoother length distributions in the age-length key, but run more slowly (more calculations to do).
+	\item When using more, finer population length bins, the model will create smoother length selectivity curves and smoother length distributions in the \gls{alk}, but run more slowly (more calculations to do).
 	
 	\item The mean weight-at-length, maturity-at-length and size-selectivity are based on the mid-length of the population bins. So these quantities will be rougher approximations if broad bins are defined.
 	
@@ -636,22 +657,25 @@ There are some items for users to consider when setting up population length bin
 	
 	\item While exploring the performance of models with finer bin structure, a potentially pathological situation has been identified. When the bin structure is coarse (note that some applications have used 10 cm bin widths for the largest fish), it is possible for a selectivity slope parameter or a retention parameter to become so steep that all the action occurs within the range of a single size bin. In this case, the model will see zero gradient of the log likelihood with respect to that parameter and convergence will be hampered.
 	
-	\item A value read near the end of the \texttt{starter.ss} file defines the degree of tail compression used for the age-length key, called \gls{alk} tolerance. If this is set to 0.0, then no compression is used and all cells of the \gls{alk} are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age. With tail compression of, say 0.0001, the model, at the beginning of each phase, will calculate the min and max length bin to process for each age of each morph \gls{alk} and compress accordingly. Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%. Large values of \gls{alk} tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence. It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time. The user is encouraged to explore this feature.
+	\item A value read near the end of the \texttt{starter.ss} file defines the degree of tail compression used for the \gls{alk}, called \gls{alk} tolerance. If this is set to 0.0, then no compression is used and all cells of the \gls{alk} are processed, even though they may contain trivial (e.g., 1 e-13) fraction of the fish at a given age. With tail compression of, say 0.0001, the model, at the beginning of each phase, will calculate the min and max length bin to process for each age of each morph \gls{alk} and compress accordingly. Depending on how many extra bins are outside this range, you may see speed increases near 10-20\%. Large values of \gls{alk} tolerance, say 0.1, will create a sharp end to each distribution and likely will impede convergence. It is recommended to start with a value of 0 and if model speed is an issue, explore values greater than 0 and evaluate the trade-off between model estimates and run time. The user is encouraged to explore this feature.
 \end{itemize}
 
 \hypertarget{length-comp-structure}{}
 \subsection[Length Composition Data Structure]{\protect\hyperlink{length-comp-structure}{Length Composition Data Structure}}
+\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 \begin{tabular}{p{2cm} p{13cm}}
 		\multicolumn{2}{l}{Enter a code to indicate whether length composition data will be used:} \Tstrut\Bstrut\\
 		\hline	
 		1 & Use length composition data (0/1/2) \Tstrut\Bstrut\\
 		\hline									  
 \end{tabular}
+\leavevmode\tagmcend\tagstructend\par
 
 If the value 0 is entered, then skip all length related inputs below and skip to the age data setup section. If value 1 is entered, all data weighting options for composition data apply equally to all partitions within a fleet. If the value 2 is entered, then the data weighting options are applied by the partition specified. Note that the partitions must be entered in numerical order within each fleet.
 
 If the value for fleet is negative, then the vector of inputs is copied to all partitions (0 = combined, 1 = discard, and 2 = retained) for that fleet and all higher numbered fleets. This as a good practice so that the user controls the values used for all fleets.
 
+\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 \begin{tabular}{p{2cm} p{2cm} p{2cm} p{2cm} p{2cm} p{1.5cm} p{1.5cm}}
 	\multicolumn{7}{l}{Example table of length composition settings when ``Use length composition data'' = 1} \\
 	\multicolumn{7}{l}{(where here the first fleet has multinomial error structure with no associated parameter,} \\ 
@@ -665,24 +689,26 @@ If the value for fleet is negative, then the vector of inputs is copied to all p
 	0 & 0.0001 & 0 & 0 & 1 & 1 & 0.1 \Bstrut\\
 	\hline
 \end{tabular}
+\leavevmode\tagmcend\tagstructend\par
 
-
+\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 \begin{tabular}{p{1cm} p{1.5cm} p{1.75cm} p{1.5cm} p{1.5cm} p{1.75cm} p{1.25cm} p{1.25cm} p{1.5cm}}
-		\multicolumn{9}{l}{Example table of length composition settings when ``Use length composition data'' = 2}\\
-		\multicolumn{9}{l}{(where here the -1 in the fleet column applies the first parameter to all partitions} \\
-		\multicolumn{9}{l}{for fleet 1 while fleet 2 has separate parameters for discards and retained fish):} \\
-		\hline
-		        &           & Min.      & Constant & Combine  &           & Comp. &        & Min. \Tstrut\\
-		        &           & Tail      & added    & males \& & Compress. & Error & Param. & Sample \\
-		Fleet   & Partition & Compress. & to prop. & females  & Bins      & Dist. & Select & Size \Bstrut\\
-		\hline
-		-1 & 0 & 0 & 0.0001 & 0 & 0 & 1 & 1 & 0.1 \Tstrut\\
-		2 & 1 & 0 & 0.0001 & 0 & 0 & 1 & 2 & 0.1 \\
-		2 & 2 & 0 & 0.0001 & 0 & 0 & 1 & 3 & 0.1 \\
-		... &  &  &        &   &   &   &   &  \\
-		-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \Bstrut\\
-		\hline
+	\multicolumn{9}{l}{Example table of length composition settings when ``Use length composition data'' = 2}\\
+	\multicolumn{9}{l}{(where here the -1 in the fleet column applies the first parameter to all partitions} \\
+	\multicolumn{9}{l}{for fleet 1 while fleet 2 has separate parameters for discards and retained fish):} \\
+	\hline
+	        &           & Min.      & Constant & Combine  &           & Comp. &        & Min. \Tstrut\\
+	        &           & Tail      & added    & males \& & Compress. & Error & Param. & Sample \\
+	Fleet   & Partition & Compress. & to prop. & females  & Bins      & Dist. & Select & Size \Bstrut\\
+	\hline
+	-1 & 0 & 0 & 0.0001 & 0 & 0 & 1 & 1 & 0.1 \Tstrut\\
+	2 & 1 & 0 & 0.0001 & 0 & 0 & 1 & 2 & 0.1 \\
+	2 & 2 & 0 & 0.0001 & 0 & 0 & 1 & 3 & 0.1 \\
+	... &  &  &        &   &   &   &   &  \\
+	-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \Bstrut\\
+	\hline
 \end{tabular}
+\leavevmode\tagmcend\tagstructend\par
 
 %\pagebreak
 
@@ -748,6 +774,7 @@ The data bins do not need to cover all observed lengths. The selection of data b
 
 Specify the length composition data as:
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{4cm} p{10cm}}
 		\hline
 		28 & Number of length bins for data \\
@@ -755,10 +782,12 @@ Specify the length composition data as:
 		26 28 30 ... 80 & Vector of length bins associated with the length data \\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 Note: the vector of length bins above will aggregate data from outside
 the range of values as follows:
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
     \begin{tabular}{lccccccccc}
 		\hline
   		             & bin 1 & bin 2 & bin 3 & ... & bin 27 & bin 28 \\ 
@@ -767,11 +796,13 @@ the range of values as follows:
     	bin contains & 0--27.99 & 28--29.99 & 30--30.99 & ... & 78--79.99 & 80+ \\
 		\hline
     \end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 Example of a single length composition observation:
 \vspace*{-1cm} % used this because the spacing was off in the pdf
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{5cm}}
 		\multicolumn{7}{l}{} \\
 		\hline
@@ -779,10 +810,10 @@ Example of a single length composition observation:
 		\hline
 		1986 & 1 & 1 & 3 & 0 & 20 & <female then male data> \Tstrut\\
 		... & ... & ... & ... & ... & ... & ... \\
--9999 & 0 & 0 & 0 & 0 & 0 & <0 repeated for each element of the data
-vector above> \Bstrut\\
+		-9999 & 0 & 0 & 0 & 0 & 0 & <0 repeated for each element of the data vector above> \Bstrut\\
 		\hline	
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \myparagraph{Sex}
@@ -825,11 +856,13 @@ The composition observations can be in any order and replicate observations by a
 The age composition section begins by reading the number of age bins. If the value 0 is entered for the number of age bins, then skips reading the bin structure and all reading of other age composition data inputs.
 \begin{center}
 	\vspace*{-\baselineskip}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{3cm} p{13cm}}
 		\hline
 		17 \Tstrut & Number of age bins; can be equal to 0 if age data are not used; do not include a vector of age bins if the number of age bins is set equal to 0. \Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \hypertarget{AgeCompBins}{}
@@ -837,11 +870,13 @@ The age composition section begins by reading the number of age bins. If the val
 If a positive number of age bins is read, then reads the bin definition next.
 \begin{center}
 	\vspace*{-\baselineskip}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{3cm} p{13cm}}
 		\hline
 		1 2 3 ... 20 25 & Vector of ages \Tstrut\Bstrut\\
 		\hline		
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 The bins are in terms of observed age (here age) and entered as the lower edge of each bin. Each ageing imprecision definition is used to create a matrix that translates true age structure into age structure. The first and last age' bins work as accumulators. So in the example any age 0 fish that are caught would be assigned to the age = 1 bin.
 
@@ -850,6 +885,7 @@ The bins are in terms of observed age (here age) and entered as the lower edge o
 Here, the capability to create a distribution of age (e.g., age with possible bias and imprecision) from true age is created. One or many ageing error definitions can be created. For each, the model will expect an input vector of mean age and a vector of standard deviations associated with the mean age. 
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{longtable}{p{2cm} p{2cm} p{2cm} p{1cm} p{4.5cm} p{2.5cm}}
 		\hline
 		\multicolumn{1}{l}{2} & \multicolumn{5}{l}{Number of ageing error matrices to generate} \Tstrut\Bstrut\\
@@ -872,6 +908,7 @@ Here, the capability to create a distribution of age (e.g., age with possible bi
 		0.5 & 0.65 & 0.67 &...& 4.3 & \#SD Age \Bstrut\\
 		\hline
 	\end{longtable}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 \vspace*{-1.2cm}
 
@@ -885,19 +922,21 @@ Code for ageing error calculation can be found in \href{https://github.com/nmfs-
 \subsubsection[Age Composition Specification]{\protect\hyperlink{AgeCompSpec}{Age Composition Specification}}
 If age data are included in the model, the following set-up is required, similar to the length data section. See \hyperlink{length-comp-structure}{Length Composition Data Structure} for details on each of these inputs.
 
+\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 \begin{tabular}{p{2cm} p{2cm} p{2cm} p{1.5cm} p{1.5cm} p{2cm} p{2cm}}
-		\multicolumn{7}{l}{Specify bin compression and error structure for age composition data for each fleet:} \\
-		\hline
-		Min.      & Constant & Combine   &           & Comp. &           & Min. \Tstrut\\
-		Tail      & added    & males \&  & Compress. & Error & Param.    & Sample \\
-		Compress. & to prop. & females   & Bins      & Dist. & Select    & Size \Bstrut\\
-		\hline
-		0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \Tstrut\\
-		0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \Bstrut\\
-		\hline
+	\multicolumn{7}{l}{Specify bin compression and error structure for age composition data for each fleet:} \\
+	\hline
+	Min.      & Constant & Combine  &           & Comp. &        & Min. \Tstrut\\
+	Tail      & added    & males \& & Compress. & Error & Param. & Sample \\
+	Compress. & to prop. & females  & Bins      & Dist. & Select & Size \Bstrut\\
+	\hline
+	0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \Tstrut\\
+	0 & 0.0001 & 1 & 0 & 0 & 0 & 1 \Bstrut\\
+	\hline
 \end{tabular}
+\leavevmode\tagmcend\tagstructend\par
 
-			
+\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}	
 \begin{tabular}{p{1cm} p{14cm}}
 	 & \\
 	\multicolumn{2}{l}{Specify method by which length bin range for age obs will be interpreted:} \\
@@ -909,8 +948,9 @@ If age data are included in the model, the following set-up is required, similar
 	  & boundary) \Bstrut\\
 	 \hline
 \end{tabular}
+\leavevmode\tagmcend\tagstructend\par
 
-
+\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 \begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{2.5cm}}
 	\multicolumn{10}{l}{} \\
 	\multicolumn{10}{l}{An example age composition observation:} \\
@@ -921,6 +961,7 @@ If age data are included in the model, the following set-up is required, similar
 	-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \Bstrut\\
 	\hline
 \end{tabular}
+\leavevmode\tagmcend\tagstructend\par
 
 Syntax for Sex, Partition, and data vector are same as for length. The data vector has female values then male values, just as for the length composition data.
 
@@ -953,6 +994,7 @@ In a two sex model, it is best to enter these conditional age-at-length data as 
 Conditional age-at-length data are entered within the age composition data section and can be mixed with marginal age observations for other fleets of other years within a fleet. To treat age data as conditional on length, Lbin\_lo and Lbin\_hi are used to select a subset of the total size range. This is different from setting Lbin\_lo and Lbin\_hi both to -1 to select the entire size range, which treats the data entered on this line within the age composition data section as marginal age composition data.  
 
 \vspace*{-\baselineskip}
+\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 \begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{2.5cm}}
 	\multicolumn{10}{l}{} \\
 	\multicolumn{10}{l}{An example conditional age-at-length composition observations:} \\
@@ -966,6 +1008,7 @@ Conditional age-at-length data are entered within the age composition data secti
 	-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 \Bstrut\\
 	\hline
 \end{tabular}
+\leavevmode\tagmcend\tagstructend\par
 
 In this example observation, the age data is treated as on being conditional on the 2 cm length bins of 10--11.99, 12--13.99, 14--15.99, and 16--17.99 cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.
 
@@ -974,6 +1017,7 @@ In this example observation, the age data is treated as on being conditional on 
 The model also accepts input of mean length-at-age or mean body weight-at-age. This is done in terms of observed age, not true age, to take into account the effects of ageing imprecision on expected mean size-at-age. If the value of the Age Error column is positive, then the observation is interpreted as mean length-at-age. If the value of the Age Error column is negative, then the observation is interpreted as mean body weight-at-age and the abs(Age Error) is used as Age Error.
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{0.75cm} p{1cm} p{0.75cm} p{1cm} p{0.75cm} p{1cm} p{1cm} p{3.2cm} p{3.2cm}}
 		\hline
 		1 & \multicolumn{8}{l}{Use mean size-at-age observation (0 = none, 1 = read data matrix)} \Tstrut\\
@@ -987,6 +1031,7 @@ The model also accepts input of mean length-at-age or mean body weight-at-age. T
 		-9999 & 0 & 0 & 0 & 0 & 0 & 0 & 0 0 0 0 0 0 0 & 0 0 0 0 0 0 0 \Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 
@@ -1008,6 +1053,7 @@ The model accepts input of time series of environmental data. Parameters can be 
 
 \begin{center}
 	\vspace*{-\baselineskip}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{1cm} p{2cm} p{2cm} p{1cm}}
 		\multicolumn{4}{l}{Parameter values can be a function of an environmental data series:} \\
 		\hline
@@ -1026,6 +1072,7 @@ The model accepts input of time series of environmental data. Parameters can be 
 		  & -9999 & 0 & 0 \Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 The final two lines in the example above indicate in that variable series 1 will be centered by subtracting the mean and dividing by the \gls{sd} (indicated by the -1 value in the year column). The environmental variable series 2 will be centered by subtracting the mean of the time series (indicated by the -2 value in the year column). The input in the ``value'' column for both of the final two lines specifying the centering of the time series is ignored by the model. The control file also will need to be modified to in the long parameter line column ``env-var'' for the selected parameter. This feature was added in v.3.30.16.
@@ -1056,6 +1103,7 @@ The generalized approach to size composition information was designed initially 
 \end{itemize}
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{1.4cm} p{0.7cm} p{12.8 cm}}
 		\multicolumn{3}{l}{Example entry:} \\
 		\hline
@@ -1082,9 +1130,11 @@ The generalized approach to size composition information was designed initially 
 		\multicolumn{3}{l}{END COND < 0} \Tstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{0.4cm} p{0.4cm} p{0.4cm} p{0.4cm} p{0.4cm} p{0.4cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.5cm} p{0.25cm}}
 		\multicolumn{18}{l}{Then enter the lower edge of the bins for each method. The two row vectors shown} \\
 		\multicolumn{18}{l}{below contain the bin definitions for methods 1 and 2 respectively:} \\
@@ -1093,11 +1143,13 @@ The generalized approach to size composition information was designed initially 
 		-26 & 28 & 30 & 32 & 34 & 36 & 38 & 40 & 42 &  44 & 46 & 48 & 50 & 52 & \multicolumn{4}{l}{54} \Bstrut\\
 		\hline 
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 Example input is shown below. Note that the format is identical to the length composition data, including sex and partition options, except for the addition of the first column, which indicates the size frequency method.
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{5cm}}
 		\hline
 		& & & & & & Sample & <composition \Tstrut\\
@@ -1109,6 +1161,7 @@ Example input is shown below. Note that the format is identical to the length co
 		1 & 1980 & 1 & 1 & 3 & 0 & 43 & <data> \Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \myparagraph{Note}
@@ -1130,6 +1183,7 @@ Inside the model, the tagged cohort is apportioned across all growth patterns in
 Predominant age at release for each tag group must be assigned; this requirement keeps SS3 efficient. By assigning a tag group to a single age rather than distributing it across all possible ages according to the size composition of the release group, the tag group can be tracked as a single cohort through the age by time matrix with minimal overhead to the rest of the model. Tags are released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3cm}}
 		\multicolumn{9}{l}{Example set-up for tagging data:} \\
 		\hline
@@ -1150,8 +1204,8 @@ Predominant age at release for each tag group must be assigned; this requirement
 		 &    & \multicolumn{7}{l}{accumulator} \Bstrut\\
 		 \hline
 		 \multicolumn{9}{l}{COND = 2} \Tstrut\\
-		 &  2 &  \multicolumn{7}{l}{Minimum recaptures. The number of recaptures >= maxperiod must be} \\
-		 &    &  \multicolumn{7}{l}{>= min tags recaptured specified to include tag group in log likelihood}\Bstrut\\
+		 &  2 &  \multicolumn{7}{l}{Minimum recaptures. The number of recaptures $>=$ maxperiod must be} \\
+		 &    &  \multicolumn{7}{l}{$>=$ min tags recaptured specified to include tag group in log likelihood}\Bstrut\\
 		 
 		 \hline
 		 & \multicolumn{8}{l}{Release Data} \Tstrut\\ 
@@ -1174,6 +1228,7 @@ Predominant age at release for each tag group must be assigned; this requirement
 		 & 3 & & 1986 & & 2 & & 1 & 5 \Bstrut\\
 		 \hline
 	\end{longtable}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \myparagraph{Note}
@@ -1190,6 +1245,7 @@ Predominant age at release for each tag group must be assigned; this requirement
 It is sometimes possible to observe the fraction of a sample that is composed of fish from different stocks. These data could come from genetics, otolith microchemistry, tags, or other means. The growth pattern feature allows definition of cohorts of fish that have different biological characteristics and which are independently tracked as they move among areas. SS3 now incorporates the capability to calculate the expected proportion of a sample of fish that come from different growth patterns, ``morphs''. In the inaugural application of this feature, there was a 3 area model with one stock spawning and recruiting in area 1, the other stock in area 3, then seasonally the stocks would move into area 2 where stock composition observations were collected, then they moved back to their natal area later in the year.
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3.5cm}}
 		\multicolumn{8}{l}{Stock composition by growth pattern (morph) data can be entered in as follows:} \\
 		\hline
@@ -1209,6 +1265,7 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 		& 1982 & 1 & 1 & 0 & 50 & 0.37 & 0.63 \Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \myparagraph{Note}
@@ -1226,6 +1283,7 @@ It is sometimes possible to observe the fraction of a sample that is composed of
 It is sometimes possible to conduct field experiments or other studies to provide direct information about the selectivity of a particular length or age relative to the length or age that has peak selectivity, or to have a prior for selectivity that is more easily stated than a prior on a highly transformed selectivity parameter. This section provides a way to input data that would be compared to the specified derived value for selectivity. This is a placeholder at this time, required to include in the data file and will be fully implemented soon.
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{1.5cm} p{2.5cm} p{2.5cm} p{2.5cm}}
 		\multicolumn{9}{l}{Selectivity data feature is under development for a future option and is not yet implemented.} \\
 		\multicolumn{9}{l}{The input line still must be specified in as follows:} \\
@@ -1235,15 +1293,18 @@ It is sometimes possible to conduct field experiments or other studies to provid
 		%& Year & Month & Fleet & Age/Size & Bin \# & Datum & Datum SE\Tstrut\Bstrut\\
 		%\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \begin{center}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{2cm} p{14cm}} \\
 		\multicolumn{2}{l}{End of Data File} \\
 		\hline
 		999 & \#End of data file marker \Tstrut\Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 \hypertarget{ExcludingData}{}
@@ -1266,10 +1327,11 @@ Not all time steps within the extent of a super-period need be included. For exa
 
 \begin{center}
 	\vspace*{-\baselineskip}
+	\tagstructbegin{tag=Table}\tagmcbegin{tag=Table}
 	\begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1cm} p{9cm}}
 		\multicolumn{6}{l}{Super-period example:} \\
 		\hline
-		Year & Month & Fleet & Obs & SE & Comment \Tstrut\Bstrut\\
+		Year & Month & Fleet & Obs & \gls{se} & Comment \Tstrut\Bstrut\\
 		\hline
 		1982 \Tstrut & \textbf{-2} & 3 & 34.2 & 0.3 & Start super-period. This observation has positive fleet value, so is expected to contain combined data from all identified periods of the super-period. The \gls{se} entered here is use as the \gls{se} of the combined observation. The expected value for the survey in 1982 will have a relative weight of 1.0 (default) in calculating the combined expected value.\Bstrut\\
 		\hline
@@ -1280,6 +1342,7 @@ Not all time steps within the extent of a super-period need be included. For exa
 		1986 & \textbf{-2} & \textbf{-3} & 88 & 0.40 & End super-period \Tstrut\Bstrut\\
 		\hline
 	\end{tabular}
+	\leavevmode\tagmcend\tagstructend\par
 \end{center}
 
 A time step that is within the time extent of the super-period can still have its own separate observation. In the above example, the survey observation in 1984 could be entered as a separate observation, but it must not be entered inside the contiguous block of super-period observations. For composition data (which allow for replicate observations), a particular time steps' observations could be entered as a member of a super-period and as a separate observation.
