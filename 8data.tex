@@ -83,11 +83,11 @@ Time steps can be broken into subseason and the \gls{alk} can be calculated mult
 \begin{center}
 	\begin{tabular}{|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|p{2.37cm}|}
 		\hline
-		ALK & ALK* & ALK* & ALK & ALK* & ALK \Tstrut\Bstrut\\
+		\gls{alk} & \gls{alk}* & \gls{alk}* & \gls{alk} & \gls{alk}* & \gls{alk} \Tstrut\Bstrut\\
 		\hline
 		Subseason 1 & Subseason 2 & Subseason 3 & Subseason 4 & Subseason 5 & Subseason 6 \Tstrut\Bstrut\\		
 		\hline
-		\multicolumn{6}{l}{ALK* only re-calculated when there is a survey that subseason} \Tstrut\Bstrut\\			
+		\multicolumn{6}{l}{\gls{alk}* only re-calculated when there is a survey that subseason} \Tstrut\Bstrut\\			
 	\end{tabular}
 \end{center}
 
@@ -203,7 +203,7 @@ Define the fleet type (e.g., fishery fleet, survey fleet):
 	\item 1 = fleet with input catches;
  	\item 2 = bycatch fleet (all catch discarded) and invoke extra input for treatment in equilibrium and forecast;
   	\item 3 = survey: assumes no catch removals even if associated catches are specified below. If you would like to remove survey catch set fleet type to option = 1 with specific month timing for removals (defined below in the ``Timing'' section); and 
- 	\item 4 = predator (M2) fleet that adds additional mortality without a fleet F (added in v.3.30.18). Ideal for modeling large mortality events such as fish kills or red tide. Requires additional long parameter lines for a second mortality component (M2) in the control file after the natural mortality/growth parameter lines (entered immediately after the fraction female parameter line).
+ 	\item 4 = predator (M2) fleet that adds additional mortality without a fleet $F$ (added in v.3.30.18). Ideal for modeling large mortality events such as fish kills or red tide. Requires additional long parameter lines for a second mortality component (M2) in the control file after the natural mortality/growth parameter lines (entered immediately after the fraction female parameter line).
 \end{itemize}
 
 \hypertarget{ObsTiming}{}
@@ -256,15 +256,15 @@ Bycatch fleets are not expected to be under the same type of fishery management 
 
 		\multicolumn{6}{l}{Bycatch fleet input controls:} \\
 		\hline
-		a: 			  & b:  			 & c:    & d:              & e:        & f: \Tstrut\\
-		Fleet Index   & Include in MSY   & Fmult & F or First Year & Last Year & Not used \Bstrut\\					
+		a: 			  & b:  			     & c:             & d:                & e:        & f: \Tstrut\\
+		Fleet Index   & Include in \gls{msy} & $F\text{mult}$ & $F$ or First Year & Last Year & Not used \Bstrut\\					
 		\hline
 		2 & 2 & 3 & 1982 & 2010 & 0 \Tstrut\Bstrut\\
 		\hline		
 	\end{tabular}
 \end{center}
 
-The above example set-up defines one fleet (fleet number 2) as a bycatch fleet with the dead catch from this fleet to not be included in the search for \gls{msy} (b: Include in MSY = 2). The level of $F$ from the bycatch fleet in reference point and forecast is set to the mean (c: Fmult = 3) of the estimated $F$ for the range of years from 1982-2010.  
+The above example set-up defines one fleet (fleet number 2) as a bycatch fleet with the dead catch from this fleet to not be included in the search for \gls{msy} (b: Include in \gls{msy} = 2). The level of $F$ from the bycatch fleet in reference point and forecast is set to the mean (c: $F\text{mult}$ = 3) of the estimated $F$ for the range of years from 1982-2010.  
 
 
 \myparagraph{Fleet Index}
@@ -359,7 +359,7 @@ The format for a 2 season model with 2 fisheries looks like the table below. Exa
 	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{3cm} p{3cm}}
 		\multicolumn{5}{l}{Catches by year, season for every fleet:} \\
 		\hline
-		Year & Season & Fleet & Catch & Catch SE \Tstrut\Bstrut\\
+		Year & Season & Fleet & Catch & Catch \gls{se} \Tstrut\Bstrut\\
 		\hline
 		-999 & 1 & 1 & 56  & 0.05 \Tstrut\\
 		-999 & 2 & 1 & 62  & 0.05 \\
@@ -394,7 +394,7 @@ Indices are data that are compared to aggregate quantities in the model. Typical
 		\multicolumn{4}{l}{\gls{cpue} and Survey Abundance Observations:} \\
 		\hline
 		Fleet/ &       & Error        & \Tstrut\\
-		Survey & Units & Distribution & SD Report \Bstrut\\
+		Survey & Units & Distribution & \gls{sd} Report \Bstrut\\
 		\hline
 		1 & 1 & 0 & 0 \Tstrut\\
 		2 & 1 & 0 & 0 \\
@@ -463,7 +463,7 @@ Indices with \gls{sd} Report enabled will have the expected values for their his
 \begin{center}
 	\begin{tabular}{p{3cm} p{2cm} p{3cm} p{3cm} p{2.5cm}}
 		\hline
-		Year & Month & Fleet/Survey & Observation & SE \Tstrut\Bstrut\\
+		Year & Month & Fleet/Survey & Observation & \gls{se} \Tstrut\Bstrut\\
 		\hline
 		1991 & 7   & 3   & 80000 & 0.056 \Tstrut\\
 		1995 & 7.2 & 3   & 65000 & 0.056 \\
@@ -566,7 +566,7 @@ This is the overall mean body weight or length across all selected sizes and age
 		30 & \multicolumn{6}{l}{Degrees of freedom for Student's t-distribution used to evaluate mean body} \\
 		  & \multicolumn{6}{l}{weight deviation.} \Bstrut\\
 		\hline
-		Year & Month & Fleet & Partition & Type & Observation & CV \Tstrut\Bstrut\\
+		Year & Month & Fleet & Partition & Type & Observation & \gls{cv} \Tstrut\Bstrut\\
 		\hline
 		1990  & 7 & 1 & 0 & 1 & 4.0 & 0.95 \Tstrut\\
 		1990  & 7 & 1 & 0 & 1 & 1.0 & 0.95 \\

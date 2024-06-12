@@ -106,7 +106,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & & \\
 
   \hline
-  1 & F scalar/multiplier & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Only used if Forecast option = 5 (input annual F scalar), but is a required line in the forecast file.}} \Tstrut\\
+  1 & $F$ scalar/multiplier & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Only used if Forecast option = 5 (input annual $F$ scalar), but is a required line in the forecast file.}} \Tstrut\\
     & & \\
   
   % \pagebreak
@@ -151,7 +151,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   1 & 1 \hspace{26mm} 2002 & 2003 \hspace{24mm} \# natural mortality \\
   4 & 1 \hspace{26mm} 2016 & 2018 \hspace{24mm} \# recruitment distribution \\ 
   10 & 1 \hspace{26mm} -999 & 0 \hspace{30mm} \# selectivity \\
-  11 & 1 \hspace{26mm} -3 & 0 \hspace{30mm} \# relative F\\
+  11 & 1 \hspace{26mm} -3 & 0 \hspace{30mm} \# relative $F$\\
   12 & 1 \hspace{26mm} 2006 & 2014 \hspace{24mm} \# recruitment\\
   -9999 & -1 \hspace{25mm} -1 & -1 \Bstrut\\
 
@@ -178,12 +178,12 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   1 & Control Rule Method: & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Used to apply reductions (``buffer'') to either the catch or $F$ based on the control rule during the forecast period. The buffer value is specified below via the Control Rule Buffer.}} \Tstrut\\
     & 0 = none (additional control rule inputs will be ignored); & \\
     & 1 = catch as function of \gls{ssb}, buffer on $F$; & \\
-    & 2 = F as function of \gls{ssb}, buffer on $F$; & \\
+    & 2 = $F$ as function of \gls{ssb}, buffer on $F$; & \\
     & 3 = catch as function of \gls{ssb}, buffer on catch (U.S. West Coast groundfish approach); and & \\
-    & 4 = F is a function of \gls{ssb}, buffer on catch. & \Bstrut\\
+    & 4 = $F$ is a function of \gls{ssb}, buffer on catch. & \Bstrut\\
   \hline
 
-  0.40 \Tstrut & Control Rule Inflection & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Relative biomass level to unfished biomass above which F is constant at control rule $F$. If set to -1 the ratio of B\textsubscript{MSY} to the unfished spawning biomass will automatically be used.}} \Bstrut\\
+  0.40 \Tstrut & Control Rule Inflection & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Relative biomass level to unfished biomass above which $F$ is constant at control rule $F$. If set to -1 the ratio of B\textsubscript{MSY} to the unfished spawning biomass will automatically be used.}} \Bstrut\\
     & & \Tstrut\Bstrut\\
 
   %\pagebreak
@@ -317,13 +317,13 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   \pagebreak
   % \hline
   \multicolumn{1}{l}{COND: == -1} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch} \Tstrut\\
-  \multicolumn{1}{r}{2012 1 1 1200 2} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis} \\
-  \multicolumn{1}{r}{2013 1 1 1400 3} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value \& Basis} \\
+  \multicolumn{1}{r}{2012 1 1 1200 2} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value \& Basis} \\
+  \multicolumn{1}{r}{2013 1 1 1400 3} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value \& Basis} \\
   \multicolumn{1}{r}{-9999 0 0 0 0} & \multicolumn{2}{l}{Indicates end of inputted catches to read} \Bstrut\\
 
   \multicolumn{1}{l}{COND: > 0} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch} \Tstrut\\
-  \multicolumn{1}{r}{2012 1 1 1200} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value} \\
-  \multicolumn{1}{r}{2013 1 1 1200} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or F value} \\
+  \multicolumn{1}{r}{2012 1 1 1200} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value} \\
+  \multicolumn{1}{r}{2013 1 1 1200} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value} \\
   \multicolumn{1}{r}{-9999 0 0 0} & \multicolumn{2}{l}{Indicates end of inputted catches to read} \Bstrut\\
 
   \hline
@@ -356,7 +356,7 @@ Four reference points can be calculated by SS3. The first is the estimate of $F_
 Each of the potential reference points is calculated by searching across a range of $F$ multiplier levels, calculating equilibrium biomass and catch at that $F$, using Newton-Raphson method to calculate a better $F$ multiplier value, and iterating a fixed number of times to achieve convergence on the desired level.
 
 \myparagraph{Calculations}
-The calculation of equilibrium biomass and catch uses the same code that is used to calculate the virgin conditions and the initial equilibrium conditions. This equilibrium calculation code takes into account all morph, timing, biology, selectivity, and movement conditions as they apply while doing the time series calculations. You can verify this by running SS3 to calculate $F_{MSY}$ then hard-wire initial F to equal this value, use the F\_method approach 2 so each annual $F$ is equal to $F_{MSY}$ and then set forecast $F$ to be the same $F_{MSY}$. Then run SS3 without estimation and no recruitment deviations. You should see that the population has an initial equilibrium abundance equal to B\textsubscript{MSY} and stays at this level during the time series and forecast.
+The calculation of equilibrium biomass and catch uses the same code that is used to calculate the virgin conditions and the initial equilibrium conditions. This equilibrium calculation code takes into account all morph, timing, biology, selectivity, and movement conditions as they apply while doing the time series calculations. You can verify this by running SS3 to calculate $F_{MSY}$ then hard-wire initial $F$ to equal this value, use the F\_method approach 2 so each annual $F$ is equal to $F_{MSY}$ and then set forecast $F$ to be the same $F_{MSY}$. Then run SS3 without estimation and no recruitment deviations. You should see that the population has an initial equilibrium abundance equal to B\textsubscript{MSY} and stays at this level during the time series and forecast.
 
 \myparagraph{Catch Units}
 For each fleet, SS3 always calculates catch in terms of biomass (mt) and numbers (1000s) for encountered (selected) catch, dead catch, and retained catch. These three categories differ only when some fleets have discarding or are designated as a bycatch fleet. SS3 uses total dead catch biomass as the quantity that is principally reported and the quantity that is optimized when searching for $F_{MSY}$. The quantity ``dead catch'' may occasionally be referred to as ``yield''.
@@ -365,14 +365,14 @@ For each fleet, SS3 always calculates catch in terms of biomass (mt) and numbers
 The principle measure of fish abundance, for the purpose of reference point calculation, is female reproductive output. This is referred to as \gls{ssb} and sometimes just ``B'' because the typical user settings have one unit of reproductive output (fecundity) per kg of mature female biomass. So when the output label says B\textsubscript{MSY}, this is actually the female reproductive output at the proxy for $F_{MSY}$.
 
 \myparagraph{Fleet Allocation}
-An important concept for the reference point calculation is the allocation of fishing rate among fleets. Internally, this is benchmark years relative $F$ (Bmark\_relF($f,s$)) and it is the fraction of the $F$ multiplier assigned to each fleet, $f$ and season, $s$. The value, F\_multiplier * Bmark\_relF($f,s$), is the F level for a particular fleet in a particular season and for the age that has a selectivity of 1.0. Other ages will have different $F$ values according to their selectivity.
+An important concept for the reference point calculation is the allocation of fishing rate among fleets. Internally, this is benchmark years relative $F$ (Bmark\_relF($f,s$)) and it is the fraction of the $F$ multiplier assigned to each fleet, $f$ and season, $s$. The value, F\_multiplier * Bmark\_relF($f,s$), is the $F$ level for a particular fleet in a particular season and for the age that has a selectivity of 1.0. Other ages will have different $F$ values according to their selectivity.
 
 \begin{itemize}
-	\item The Bmark\_relF values can be calculated by SS3 from a range of years specified in the input for Benchmark Years or it can be set to be the same as the Forecast\_RelF, which in turn can be based on a range of years or can be input as a set of fixed values.
+	\item The $\text{Bmark\_rel}F$ values can be calculated by SS3 from a range of years specified in the input for Benchmark Years or it can be set to be the same as the Forecast\_RelF, which in turn can be based on a range of years or can be input as a set of fixed values.
 	
-	\item The biology years selected for the Bmark\_relF calculations can have an effect on the standard deviation estimated, even in models with no time-varying biology. It is recommended to use the first model year except when biology is time-varying. Note that when biology is time-varying, the fecundity vector, which is used to calculate \gls{ssb}, will be updated in every iteration for every year that has time-varying biology.
+	\item The biology years selected for the $\text{Bmark\_rel}F$ calculations can have an effect on the standard deviation estimated, even in models with no time-varying biology. It is recommended to use the first model year except when biology is time-varying. Note that when biology is time-varying, the fecundity vector, which is used to calculate \gls{ssb}, will be updated in every iteration for every year that has time-varying biology.
 	
-	\item Note that for Bycatch Fleets, the F's calculated by application of Bmark\_relF for a bycatch fleet can be overridden by an F value calculated from a range of years or a fixed F value that is input by the user. If such an override is selected for a bycatch fleet, that F value is not adjusted by changes to the F multiplier. This allows the user to treat a bycatch fleet as a constant background F while the optimal F for other fleets is sought. Also, for bycatch fleets, there is user control for whether the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for $F_{MSY}$.
+	\item Note that for Bycatch Fleets, the $F$s calculated by application of $\text{Bmark\_rel}F$ for a bycatch fleet can be overridden by an $F$ value calculated from a range of years or a fixed $F$ value that is input by the user. If such an override is selected for a bycatch fleet, that $F$ value is not adjusted by changes to the $F$ multiplier. This allows the user to treat a bycatch fleet as a constant background $F$ while the optimal $F$ for other fleets is sought. Also, for bycatch fleets, there is user control for whether the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for $F_{MSY}$.
 \end{itemize}
 
 \myparagraph{Virgin vs. Unfished}
@@ -383,7 +383,7 @@ The concept of unfished spawning biomass, SSB\_unf, is important to the referenc
 	
 	\item Unfished spawning biomass can be calculated for any year or range of years, so can change over time as R0, steepness, or biological parameters change.
 	
-	\item In the reference points calculation, the Benchmark Years input specifies the range of time over which the mean of various quantities are taken to calculate the reference points. For biology, selectivity, F's, and movement the mean values are the year-specific derived quantities. But for the stock-recruitment parameters (R0 and steepness), the mean of the parameter values themselves is calculated over time.
+	\item In the reference points calculation, the Benchmark Years input specifies the range of time over which the mean of various quantities are taken to calculate the reference points. For biology, selectivity, $F$s, and movement the mean values are the year-specific derived quantities. But for the stock-recruitment parameters (R0 and steepness), the mean of the parameter values themselves is calculated over time.
 	
 	\item During the time series or forecast, the current year's unfished spawning output (SSB\_unf) is used as the basis for the spawner-recruitment curve against which deviations from the spawner-recruitment curve are applied. So, if R0 is made time-varying, then the spawner-recruit curve itself is changed. However, if the regime shift parameter is time-varying, then this is an offset from the spawner-recruitment curve and not a change in the curve itself. Changes in R0 will change year-specific reference points and change the expected value for annual recruitments, but changes in regime shift parameter only change the expected value for annual recruitments.
 	
