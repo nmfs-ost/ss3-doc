@@ -157,6 +157,12 @@
 \makenoidxglossaries 
 \loadglsentries{ss3_glossaries.tex}
 
+% ====  Tagging ========================================================
+\AtBeginDocument{\tagstructbegin{tag=Document}}
+\AtEndDocument{\tagstructend}
+\pretocmd{\maketitle}{\tagstructbegin{tag=H1}\tagmcbegin{tag=H1}}{}{}
+\apptocmd{\maketitle}{\tagmcend\tagstructend}{}{}
+
 \begin{document}
 	% ====== Title Page ===================================================
 	\maketitle
