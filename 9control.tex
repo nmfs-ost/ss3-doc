@@ -1799,12 +1799,12 @@ The currently defined selectivity patterns, and corresponding required number of
 	0 \Tstrut & 0 & Selectivity = 1.0 for all sizes. \\
 	1 \Tstrut & 2 & \hyperlink{LogisticSelectivity}{Logistic selectivity}. \\
 	2 \Tstrut & 6 & \hyperlink{Pattern2}{Older version} of selectivity pattern 24 (double normal with peak and tail controls) for backward compatibility in treatment of sex-specific scaling. \\
-	5 \Tstrut & 2 & \hyperlink{MirrorSelectivity}{Mirror another selectivity}. The two parameters select bin range. \\
+	5 \Tstrut & 2 & \hyperlink{MirrorSelectivity}{Mirror selectivity}. The two parameters select bin range. \\
 	6 \Tstrut & 2 + special & \hyperlink{NonParamSelectivity}{Non-parametric selectivity}. \\
 	8 \Tstrut & 8 & \hyperlink{DoubleLogSelectivity}{Double logistic selectivity}, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1. Recommend using pattern 24 instead. \\
 	9 \Tstrut & 6 & \hyperlink{SimpleDoubleLog}{Simple double logistic selectivity with no defined peak}. \\
 	11 \Tstrut & 2 & \hyperlink{SelectivityOneRange}{Selectivity = 1.0 for a specified length-bin range}. \\
-	15 \Tstrut & 0 & \hyperlink{MirrorSelectivity}{Mirror another selectivity} (same for age selectivity). \\
+	15 \Tstrut & 0 & \hyperlink{MirrorAnotherSelectivity}{Mirror another selectivity} (same for age selectivity). \\
 	21 \Tstrut & 2 & Non-parametric size selectivity. \\
 	22 \Tstrut & 4 & \hyperlink{DoubleNormalPlateau}{Double normal selectivity}; similar to CASAL. \\
 	23 \Tstrut & 6 & \hyperlink{DoubleNormalPeak}{Same as the selectivity pattern 24 (double normal with peak and tail controls) except the final selectivity is now directly interpreted as the terminal selectivity value}. Cannot be used with Pope's F method because maximum selectivity may be greater than 1. \\
@@ -1839,7 +1839,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	12 \Tstrut & 2 & \hyperlink{LogisticSelectivity}{Logistic selectivity}. \\
 	13 \Tstrut & 8 & Double logistic selectivity, IF joiners. Use discouraged. Use \hyperlink{DoubleLogSelectivity}{selectivity pattern 18 (double logistic selectivity)} instead. \\
 	14 \Tstrut & nages + 1 & \hyperlink{ReviseAge}{Separate parameter for each age (empirical)}, value at age is $\frac{1}{1+exp(-x)}$. \\
-	15 \Tstrut & 0 & \hyperlink{MirrorSelectivity}{Mirror another age-specific selectivity pattern}. \\
+	15 \Tstrut & 0 & \hyperlink{MirrorAnotherSelectivity}{Mirror another age-specific selectivity pattern}. \\
 	16 \Tstrut & 2 & \hyperlink{GaussianSelectivity}{Coleraine single Gaussian Selectivity}. \\
 	17 \Tstrut & nages + 1 or special + 1 & \hyperlink{RandomWalk}{Empirical as a random walk from previous age}. \\
 	18 \Tstrut & 8 & \hyperlink{DoubleLogSelectivity}{Double logistic selectivity}, with defined peak, uses smooth joiners. \\
@@ -2004,7 +2004,7 @@ Notes for Double Normal with Defined Peak and Tail Controls:
 		\item If start\_bin $<$ 1 and p5 $\geq$ -1000, then selectivity for lengths less than start\_bin are decayed according to the square of their mid-length.
 	\end{itemize}
 
-\hypertarget{MirrorSelectivity}{}
+\hypertarget{MirrorAnotherSelectivity}{}
 \myparagraph{Pattern 15 (size or age) - Mirror Another Selectivity}
 No parameters. Whole age range is mirrored from another fleet. The mirrored selectivity pattern must be from a lower fleet number (e.g., already specified before the mirrored fleet).
 
