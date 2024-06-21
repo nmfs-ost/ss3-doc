@@ -21,11 +21,10 @@ pdflatex_local_manual <- function(manual_file = "SS330_User_Manual.tex", dir = N
     manual <- readLines(file.path(dir,"SS330_User_Manual.tex"))
     manual[3] <- gsub("\\\\","%\\\\",manual[3])
     manual[4] <- gsub("\\\\","%\\\\",manual[4])
-    manual[5] <- gsub("\\\\","%\\\\",manual[5])
+    manual[6] <- gsub("\\\\","%\\\\",manual[6])
     manual[7] <- gsub("\\\\","%\\\\",manual[7])
     manual[8] <- gsub("\\\\","%\\\\",manual[8])
     manual[9] <- gsub("\\\\","%\\\\",manual[9])
-    manual[10] <- gsub("\\\\","%\\\\",manual[10])
     writeLines(manual, "SS330_User_Manual.tex")
 
     result <- tryCatch(
@@ -46,11 +45,10 @@ pdflatex_local_manual <- function(manual_file = "SS330_User_Manual.tex", dir = N
     manual <- readLines(file.path(dir,"SS330_User_Manual.tex"))
     manual[3] <- gsub("%\\\\", "\\\\",manual[3])
     manual[4] <- gsub("%\\\\", "\\\\",manual[4])
-    manual[5] <- gsub("%\\\\", "\\\\",manual[5])
+    manual[6] <- gsub("%\\\\", "\\\\",manual[6])
     manual[7] <- gsub("%\\\\", "\\\\",manual[7])
     manual[8] <- gsub("%\\\\", "\\\\",manual[8])
-    manual[9] <- gsub("\\\\","%\\\\",manual[9])
-    manual[10] <- gsub("%\\\\", "\\\\",manual[10])
+    manual[9] <- gsub("%\\\\", "\\\\",manual[9])
     writeLines(manual, "SS330_User_Manual.tex")
 
     return(result)
