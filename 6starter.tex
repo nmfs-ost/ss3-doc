@@ -160,7 +160,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 	
  \pagebreak
 %  \hline 
- 0.0 & \hyperlink{Jitter}{Jitter:} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The jitter function has been revised with v.3.30. Starting values are now jittered based on a normal distribution with the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%. A positive value here will add a small random jitter to the initial parameter values. When using the jitter option, take care when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.}} \Tstrut\Bstrut\\ 
+ 0.0 & \hyperlink{Jitter}{Jitter:} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{The jitter function has been revised with v.3.30. Starting values are now jittered based on a normal distribution with the $pr(P_{MIN}) = 0.1\%$ and the $pr(P_{MAX}) = 99.9\%$. A positive value here will add a small random jitter to the initial parameter values. When using the jitter option, take care when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.}} \Tstrut\Bstrut\\ 
 	 & 0 = no jitter done to starting values; and & \Bstrut\\
 	 & > 0 starting values will vary with larger jitter values resulting in larger changes from the parameter values in the control or par file. & \Bstrut\\
 	%  & & \\
@@ -210,33 +210,33 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
  \hline
 %  \pagebreak
- 1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in reproductive output (a.k.a., \gls{sb}, a.k.a. B). The calculated values are reported to the \gls{sd} report relative to a fraction, X, of a comparable quantity calculated in the benchmark section or elsewhere.}} \Tstrut\\
+ 1 & Depletion basis: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Selects the basis for the denominator when calculating degree of depletion in reproductive output (a.k.a., \gls{ssb}). The calculated values are reported to the \gls{sd} report relative to a fraction, X, of a comparable quantity calculated in the benchmark section or elsewhere.}} \Tstrut\\
    & & \\
    & & \\
    & 0 = skip; & \Tstrut \\
-   & 1 = $X*B0$; & Relative to virgin spawning biomass. \\
+   & 1 = $X*B_{0}$; & Relative to virgin spawning biomass. \\
    & 2 = $X*B_{MSY}$; & Relative to spawning biomass that achieves \gls{msy}. \\
    & 3 = $X*B_{styr}$; and & Relative to model start year spawning biomass. \\
    & 4 = $X*B_{endyr}$. & Relative to spawning biomass in the model end year. \\
-   & 5 = $X*Dynamic B0$ & Relative to the calculated dynamic B0. \\
+   & 5 = $X*Dynamic~B_{0}$ & Relative to the calculated dynamic $B_{0}$. \\
    & use tens and hundreds digits to invoke multi-year trailing average & \\
    & append 0.1 to invoke log(ratio) & \Bstrut\\
   
  \hline
- 1.0 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for $SB_{y}/(X*SB0)$. \Tstrut\Bstrut\\
+ 1.0 & Fraction (X) for depletion denominator & Value for use in the calculation of the ratio for $SB_{y}/(X*SB_{0})$. \Tstrut\Bstrut\\
 
 %  \hline
  \pagebreak
- 1 & \Gls{spr} report scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{\gls{spr} is the equilibrium \gls{sb} per recruit that would result from the current year's F-at-age. The quantities identified by 1, 2, and 3 here are calculated in the benchmarks section. Then the one specified here is used as the selected denominator in a ratio with the annual value of (1 - \gls{spr}). This ratio (and its variance) is reported to the \gls{sd} report output for the years selected above in the \gls{sd} report year selection.}} \Tstrut\\
+ 1 & \Gls{spr} report scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{\gls{spr} is the equilibrium \gls{ssb} per recruit that would result from the current year's F-at-age. The quantities identified by 1, 2, and 3 here are calculated in the benchmarks section. Then the one specified here is used as the selected denominator in a ratio with the annual value of (1 - \gls{spr}). This ratio (and its variance) is reported to the \gls{sd} report output for the years selected above in the \gls{sd} report year selection.}} \Tstrut\\
    & 0 = skip; & \\
-   & 1 = use $1-SPR_{target}$; & \\
+   & 1 = use $1-SPR_{TARGET}$; & \\
    & 2 = use $1-SPR$ at $MSY$; & \Tstrut\\
-   & 3 = use $1-SPR$ at $B_{target}$; and &  \Tstrut\\
+   & 3 = use $1-SPR$ at $B_{TARGET}$; and &  \Tstrut\\
    & 4 = no denominator, so report actual $1-SPR$ values. & \\
   
 %  \pagebreak
 \hline 
- 4 & $F\text{\_std}$ reporting units: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{An additional proxy for fishing intensity is based on the fraction of the population that is caught. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see $F$ report basis below) benchmark value is reported to the \gls{sd} report vector as $F\text{\_std}$. Options 1 and 2 ignore details of age-structure and are simply based on annual exploitation rate across all areas. If most catch occurs in one area and there is little movement between areas, this ratio is not informative about the $F$ in the area where the catch occurs. Option 3 is a simple sum of the full $F$'s by fleet, so may provide non-intuitive results when there are multiple areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real $\text{annual\_}F$ calculated as a numbers weighted $F$ for a specified range of ages. The $F$ for each age is calculated as $Z-M$ where $Z$ and $M$ are each calculated as ln(N\textsubscript{t+1}/N\textsubscript{t}) with and without $F$ active, respectively. The numbers are summed over all biology morphs and areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
+ 4 & $F\text{\_std}$ reporting units: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{An additional proxy for fishing intensity is based on the fraction of the population that is caught. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see $F$ report basis below) benchmark value is reported to the \gls{sd} report vector as $F\text{\_std}$. Options 1 and 2 ignore details of age-structure and are simply based on annual exploitation rate across all areas. If most catch occurs in one area and there is little movement between areas, this ratio is not informative about the $F$ in the area where the catch occurs. Option 3 is a simple sum of the full $F$'s by fleet, so may provide non-intuitive results when there are multiple areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real $\text{annual\_}F$ calculated as a numbers weighted $F$ for a specified range of ages. The $F$ for each age is calculated as $Z-M$ where $Z$ and $M$ are each calculated as $ln(N_{t+1}/N_{t})$ with and without $F$ active, respectively. The numbers are summed over all biology morphs and areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
    & 0 = skip; & \\
    & 1 = exploitation rate in biomass; & \\
    & 2 = exploitation rate in numbers; & \\
@@ -259,15 +259,15 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 %  \pagebreak
  1 & $F\text{\_std}$ scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{$F\text{\_std}$ is typically reported as a ratio to the value of an equivalent $F$ calculation that would occur at the benchmark level of fishing. Here the user selects the denominator for that ratio. This ratio can be presented as a multi-year trailing average in $F$ or as a log(ratio). For example, 122.1 would do a 12-year trailing average of the ratio using $F_{MSY}$ and present the result as the log(ratio).}} \Tstrut\\
    & 0 = not relative, report raw values; & \\
-   & 1 = use $F\text{\_std}$ value relative to $SPR_{target}$; & \\
+   & 1 = use $F\text{\_std}$ value relative to $SPR_{TARGET}$; & \\
    & 2 = use $F\text{\_std}$ value relative to $F_{MSY}$; and & \\
-   & 3 = use $F\text{\_std}$ value relative to $F_{Btarget}$. & \\
+   & 3 = use $F\text{\_std}$ value relative to $F_{B_{TARGET}}$. & \\
    & use tens and hundreds digits to invoke multi-year averaged $F\text{\_std}$ & \\
    & append 0.1 to the integer to invoke log(ratio) & \Bstrut\\
 
   % \hline
   \pagebreak
-  0.01 & \gls{mcmc} output detail: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of \gls{mcmc} output. This input requires the specification of two items; the output detail and a bump value to be added to the ln(R0) in the first call to \gls{mcmc}. A bias adjustment of 1.0 is applied to recruitment deviations in the \gls{mcmc} phase, which could result in reduced recruitment estimates relative to the \gls{mle} when a lower bias adjustment value is applied. A small value, called the ``bump'', is added to the ln(R0) for the first call to \gls{mcmc} in order to prevent the stock from hitting the lower bounds when switching from \gls{mle} to \gls{mcmc}. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\Bstrut\\
+  0.01 & \gls{mcmc} output detail: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of \gls{mcmc} output. This input requires the specification of two items; the output detail and a bump value to be added to the $ln(R_{0})$ in the first call to \gls{mcmc}. A bias adjustment of 1.0 is applied to recruitment deviations in the \gls{mcmc} phase, which could result in reduced recruitment estimates relative to the \gls{mle} when a lower bias adjustment value is applied. A small value, called the ``bump'', is added to the $ln(R_{0})$ for the first call to \gls{mcmc} in order to prevent the stock from hitting the lower bounds when switching from \gls{mle} to \gls{mcmc}. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\Bstrut\\
   & 0 = default; & \\
   & 1 = output likelihood components and associated lambda values; & \\
   & 2 = write report for each mceval; and & \\		 

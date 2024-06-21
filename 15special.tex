@@ -49,14 +49,14 @@ When time-varying growth is used, there are some additional considerations to be
 	
 	\item The autocorrelation parameter cannot be estimated accurately within SS3 \citep{johnson-can-2016}, so external (i.e., external to SS3) estimation for selecting an autocorrelation value is currently recommended. The autocorrelation of the recruitment deviations appears in the report file, which can aid in selecting the autocorrelation value.
 		
-	\item The value of R0 and steepness in the initial year are used within virgin calculations and within the benchmarks for calculation of the denominator in depletion estimates. The average value of R0 and steepness in the range of years specified as the benchmark years inputs 9 and 10 (see \hyperlink{fore-specify}{the forecast file specifications}) is used for \gls{msy}-type calculations. 
-	%So, for example, a long-term climate effect could cause R0 to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
+	\item The value of $R_{0}$ and steepness in the initial year are used within virgin calculations and within the benchmarks for calculation of the denominator in depletion estimates. The average value of $R_{0}$ and steepness in the range of years specified as the benchmark years inputs 9 and 10 (see \hyperlink{fore-specify}{the forecast file specifications}) is used for \gls{msy}-type calculations. 
+	%So, for example, a long-term climate effect could cause $R_{0}$ to change over time and B\textsubscript{MSY} could now be calculated for some future range of years.
 	
-	\item The spawner-recruit regime parameter is a modifier on R0. The regime shift parameter line allows for multi-year or environmentally driven deviations from R0 without changing R0 itself. The regime shift base parameter should have a base value of 0.0 and not be estimated (i.e., have a negative phase). Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments.
+	\item The spawner-recruit regime parameter is a modifier on $R_{0}$. The regime shift parameter line allows for multi-year or environmentally driven deviations from $R_{0}$ without changing $R_{0}$ itself. The regime shift base parameter should have a base value of 0.0 and not be estimated (i.e., have a negative phase). Similar to the cohort-growth deviation, it serves simply as a base for adding time-varying adjustments.
 	
-	\item The same algebraic effect on the calculated recruitment can be achieved by different combinations of spawner-recruit parameter options (e.g., changing R0 directly instead of the regime shift parameter). It is recommended to use block, trend or environmental effects on R0 only for long-term effects, and use time-vary effects on the regime shift parameter for transitory but multi-year deviations from R0.	
+	\item The same algebraic effect on the calculated recruitment can be achieved by different combinations of spawner-recruit parameter options (e.g., changing $R_{0}$ directly instead of the regime shift parameter). It is recommended to use block, trend or environmental effects on $R_{0}$ only for long-term effects, and use time-vary effects on the regime shift parameter for transitory but multi-year deviations from $R_{0}$.	
 	
-	\item If the R0 or steepness parameters are time-varying, then the model will use the current year's parameters to calculate the expected value of recruits as a function of the spawning biomass, then applies the recruitment deviations. If the regime shift parameter is time-varying, then the model applies the change in the regime shift parameter \textbf{after} calculating the expected value of recruits as a function of spawning biomass.
+	\item If the $R_{0}$ or steepness parameters are time-varying, then the model will use the current year's parameters to calculate the expected value of recruits as a function of the spawning biomass, then applies the recruitment deviations. If the regime shift parameter is time-varying, then the model applies the change in the regime shift parameter \textbf{after} calculating the expected value of recruits as a function of spawning biomass.
 
 \end{itemize}
 
@@ -70,7 +70,7 @@ Time-varying parameters can extend into the forecast period. For example, a para
 
 \hypertarget{2DAR}{}
 \subsection[Parameterizing the Two-Dimensional Autoregressive Selectivity]{\protect\hyperlink{2DAR}{Parameterizing the Two-Dimensional Autoregressive Selectivity}}
-When the two-dimensional autoregressive selectivity feature is turned on for a fleet, the selectivity is calculated as a product of the assumed selectivity pattern and a non-parametric deviation term deviating from this assumed pattern:
+When the two-dimensional autoregressive selectivity (2DAR) feature is turned on for a fleet, the selectivity is calculated as a product of the assumed selectivity pattern and a non-parametric deviation term deviating from this assumed pattern:
 
 \begin{equation}
 \hat{S}_{a,t} = S_aexp^{\epsilon_{a,t}}
@@ -103,7 +103,7 @@ where $\rho_a$ and $\rho_t$ are the among age and among year AR1 coefficients, r
 \end{equation} 
 
 \myparagraph{Using the Two-Dimensional Autoregressive Selectivity}
-Note, \citet{xu-new-2019} has additional information on tuning the 2DAR selectivity parameters. First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
+Note, \citet{xu-new-2019} has additional information on tuning the 2DAR1 selectivity parameters. First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
 
 \begin{equation}
 \sigma_s^2=SD(\epsilon)^2+\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t_{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2
@@ -133,7 +133,7 @@ Other adjustments to make when using seasons as years include:
 	\item In the age error definitions, increase the number of entries to reflect that age is now in quarters.
 	\item In the age error definitions, re-code so that each quarter-age gets assigned to the correct age bin. This is because the age data are still in terms of age bins; i.e., the first 4 entries for quarter-ages 1 through 4 will all be assigned to age bin 1.5; the next four to age bin 2.5; you cannot accomplish the same result by editing the age bin values because the standard deviation of ageing error is in terms of age bin.
 	\item In the control file, multiply the natural mortality age breakpoints and growth Amin and Amax values by 1/season duration.
-	\item Decrease the R0 parameter starting value because it is now the average number of recruitments per quarter year.
+	\item Decrease the $R_{0}$ parameter starting value because it is now the average number of recruitments per quarter year.
 	\item Edit the recruitment deviation (rec\_dev) start and end years to be in terms of quarter year.
 	\item Edit any age selectivity parameters that refer to age, because they are now in terms of quarter age.
 	\item If there needs to be some degree of seasonality to a parameter, then you could create a cyclic pattern in the environmental input and make the parameter a function of this cyclic pattern.
@@ -150,17 +150,17 @@ The processes and calculations within SS3 can be complex and not transparent bas
 \subsection[Jitter]{\protect\hyperlink{Jitter}{Jitter}}
 The following steps are now performed to determine the jittered starting parameter values (illustrated in Figure \ref{fig:jitter}):
 \begin{enumerate}
-	\item A normal distribution is calculated such that the pr(P\textsubscript{MIN}) = 0.1\% and the pr(P\textsubscript{MAX}) = 99.9\%.
-	\item A jitter shift value, termed ``\textit{K}'', is calculated from the distribution equal to pr(P\textsubscript{CURRENT}).
-	\item A random value is drawn, ``\textit{J}'', from the range of \textit{K}-jitter to \textit{K}+jitter.
+	\item A normal distribution is calculated such that the $pr(P_{MIN}) = 0.1\%$ and the $pr(P_{MAX}) = 99.9\%$.
+	\item A jitter shift value, termed ``$K$'', is calculated from the distribution equal to $pr(P_{CURRENT})$.
+	\item A random value is drawn, ``$J$'', from the range of $K$-jitter to $K$+jitter.
 	\item Any value which falls outside the 0-1 range (in the cumulative normal space) is mapped back from the bound to a point one-tenth of the way from the bound to the initial value.
-	\item \textit{J} is a new cumulative normal probability value.
-	\item Calculate a new parameter value, P\textsubscript{JITTERED}, such that pr(P\textsubscript{JITTERED}) = \textit{J}.
+	\item $J$ is a new cumulative normal probability value.
+	\item Calculate a new parameter value, $P_{JITTERED}$, such that $pr(P_{JITTERED}) = J$.
 \end{enumerate}
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics[alt={Illustration of the jitter algorithm.},scale = 0.75]{jitter_illustration}\\
+		\includegraphics[alt={Plot showing parameter space on the x-axis along and transformed space on the y-axis. A cumulative normal line is shown where the 0.001 and 0.999 quantiles are set to min and max respectively. A vertical stack of horizontal bars show the distribution of transformed initial values plus U. The distribution is shown on the parameter space axis with the initial input value in gray and the new init in red. Red arrows on the cumulative normal line show the random U written a negative jitter value comma positive jitter value.},scale = 0.75]{jitter_illustration}\\
 		\caption{Illustration of the jitter algorithm.}
 		\label{fig:jitter}
 	\end{center}
@@ -168,7 +168,7 @@ The following steps are now performed to determine the jittered starting paramet
 
 In SS3, the jitter fraction defines a uniform distribution in cumulative normal space +/- the jitter fraction from the initial value (in cumulative normal space). The normal distribution for each parameter, for this purpose, is defined such that the minimum bound is at 0.001, and the maximum at 0.999 of the cumulative distribution. If the jitter faction and original initial value are such that a portion of the uniform distribution goes beyond 0.001 or 0.999 of the cumulative normal, the new value is set to one-tenth of the way from the bound to the original initial value. 
 
-Therefore, sigma = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, \gls{cv} (= sigma/original initial value) may be a better measure. 
+Therefore, $\sigma$ = (max-min) / 6.18. For parameters that are on the log-scale, sigma may be the correct measure of variation for jitters, for real-space parameters, \gls{cv} = $\sigma$/(original initial value) may be a better measure. 
 
 If the original initial value is at or near the middle of the min-max range, then for each 0.1 of jitter, the range of jitters extends about 0.25 sigmas to either side of the original value (though as the total jitter increases the relationship varies more than this), and the average absolute jitter is about half of that.  For values far from the middle of the min-max range, the resulting jitter is skewed in parameter space, and may hit the bound, invoking the resetting mentioned above. 
 

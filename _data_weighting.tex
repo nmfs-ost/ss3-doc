@@ -28,14 +28,13 @@ where the input ``replist'' is the object created by \texttt{SS\_output()}. This
 
 For version 3.30 models, the table created by \texttt{SS\_tune\_comps()} can be pasted into the bottom of the control file in the section labeled ``Input variance adjustments'', followed by the terminator line which indicates the end of the section. 
 
-
 Also see the help page for the \texttt{r4ss} function \texttt{SS\_varadjust()} which can be used to automatically write a new control file if you want to streamline the process of applying multiple iterations of this tuning method.
 
 If the tuning has been implemented, the green lines in the figure below would approximately intersect at a point which is on the black 1-to-1 diagonal line in this figure created by the \texttt{r4ss} function \texttt{SS\_plots()}.
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics[alt={The relationship between the observed sample size (the input sample number) versus the effective sample size where the effective sample size is the product of the input sample size and the data weighting applied to the data set.},scale = 0.65]{appendixB_McAllister_Ianelli}\\
+		\includegraphics[alt={A plot produced from SS\_plots() in r4ss showing the results from the implementation of the McAllister-Ianelli data-weighting method to the model output using the SS\_tune\_comps() function. The observed sample size is on the x-axis and the effective sample size is on the y-axis with a horizontal green dashed line indicating the harmonic mean and a vertical green dashed line indicating the arithmetic mean.},scale = 0.65]{appendixB_McAllister_Ianelli}\\
 	\end{center}
 	\caption{The relationship between the observed sample size (the input sample number) versus the effective sample size where the effective sample size is the product of the input sample size and the data weighting applied to the data set.}
 	\label{(fig:mcallister)}
@@ -50,7 +49,6 @@ There are a couple of challenges posed by the McAllister-Ianelli data-weighting 
 
 \hypertarget{Francis}{}
 \myparagraph{Francis}
-
 Implementation: recommended adjustments are calculated by the \texttt{r4ss} functions \texttt{SSMethod.TA1.8()} and \texttt{SSMethod.Cond.TA1.8()}. These functions are rarely used alone but are called by the \texttt{SS\_plots()} function when making plots like the one below. For version 3.30 models, the simplest way to get the adjustments in the format required by the control file is to use the \texttt{SS\_tune\_comps()} function (described above under the McAllister-Ianelli method), but with a different option specified: 
 
 \texttt{SS\_tune\_comps(replist, option = ``Francis'')}
@@ -59,7 +57,7 @@ The figure below shows the estimated 95\% intervals around the observed mean len
 
 \begin{figure}[ht]
 	\begin{center}
-		\includegraphics[alt={The mean length of the length samples for each year from the MexCal S1 NSP fleet with 95\% confidence intervals based on current samples sizes using the Francis data weighting method (referred to as TA1.8). Thinner intervals with capped ends show result of further adjusting sample sizes based on the suggested multiplier, 0.2739, with 95\% intervals for length data from the fleet. The blue line shows the expected variation of the mean length across years.},scale = 0.15]{appendixB_Francis}\\
+		\includegraphics[alt={A plot produced from SS\_plots() in r4ss showing the results from the implementation of the Francis data-weighting method to the output using the SS\_tune\_comps() function. Year is on the x-axis and mean length is on the y-axis. There are 95\% confidence interval boxes around the mean displayed for each year. A blue line shows the expected variation of mean length across years.},scale = 0.15]{appendixB_Francis}\\
 	\end{center}
 	\caption{The mean length of the length samples for each year from the MexCal S1 NSP fleet with 95\% confidence intervals based on current samples sizes using the Francis data weighting method (referred to as TA1.8). Thinner intervals with capped ends show result of further adjusting sample sizes based on the suggested multiplier, 0.2739, with 95\% intervals for length data from the fleet. The blue line shows the expected variation of the mean length across years.}
 	\label{fig:francis}
@@ -75,122 +73,103 @@ There are a several of challenges posed by the Francis data-weighting approach:
 	\item Recommended adjustment can be sensitive to outliers (remove a few years of anomalous composition data can lead to large change in recommended adjustment).
 \end{enumerate}
 
-Finally, in simulation work comparing both the Francis and McAllister and Ianelli data weighting approaches, indicate that the arithmetic averaging of effective samples sizes from the McAllister and Ianelli approach was inferior to other methods \citep{punt_insights_2016}.
+Finally, in simulation work comparing both the Francis and McAllister-Ianelli data weighting approaches, indicate that the arithmetic averaging of effective samples sizes from the McAllister-Ianelli approach was inferior to other methods \citep{punt_insights_2016}.
 
 \hypertarget{DM}{}
 \myparagraph{Dirichlet-multinomial}
-
 The Dirichlet-multinomial should only be used when there is a
 substantive basis for setting an approximate value for input sample
 size. This is important because: 
 
 \begin{itemize}
-
-\item The input-sample-size provided by the user is an upper bound on
-weighting for those data, such that a dummy value of 1 will cause those
-data to never be assigned a weight greater than 1.
-
-\item Changes in input sample size are not quite proportionally
-offset by changes in the estimated weighting parameter, such that
-using input-sample-size of 100 vs. 200 will result in small differences
-in estimated data weights (this property is fixed by the
-multivariate-Tweedie likelihood, where changes in input-sample-size are
-exactly offset by changes in the estimated weighting parameters).   
-
+	\item The input-sample-size provided by the user is an upper bound on
+	weighting for those data, such that a dummy value of 1 will cause those
+	data to never be assigned a weight greater than 1.
+	\item Changes in input sample size are not quite proportionally
+	offset by changes in the estimated weighting parameter, such that
+	using input-sample-size of 100 vs. 200 will result in small differences
+	in estimated data weights (this property is fixed by the
+	multivariate-Tweedie likelihood, where changes in input-sample-size are
+	exactly offset by changes in the estimated weighting parameters).   
 \end{itemize}
 
 To develop an input-sample-size, Jim Thorson recommends:
 
 \begin{enumerate}
-
-\item Using nonparametric (bootstrapping), design-based, or model-based
-estimators to identify the variance of expanded compositional data, and
-then deriving an input-sample-size from that; 
-
-\item Using \textit{a priori} reasoning, e.g., about fishery compositions
-deserving a lower input-sample-size than a survey in cases when the
-input-sample-size for the survey is known, but that for the fishery is
-unknown. 
-
-\item If the proceeding options are not feasible, using accepted
-standards in that region and review context, i.e., assigning
-input-sample-size of arbitrary value ``X'' if that is what has always been
-done in that region/stock, there's no basis for changing it, and it is
-greater than or equal to the likely effective sample size; 
-
+	\item Using nonparametric (bootstrapping), design-based, or model-based
+	estimators to identify the variance of expanded compositional data, and
+	then deriving an input-sample-size from that; 
+	\item Using \textit{a priori} reasoning, e.g., about fishery compositions
+	deserving a lower input-sample-size than a survey in cases when the
+	input-sample-size for the survey is known, but that for the fishery is
+	unknown. 
+	\item If the proceeding options are not feasible, using accepted
+	standards in that region and review context, i.e., assigning
+	input-sample-size of arbitrary value ``X'' if that is what has always been
+	done in that region/stock, there's no basis for changing it, and it is
+	greater than or equal to the likely effective sample size; 
 \end{enumerate}
 
 Change the choice of likelihood and set parameter choices in the data
 file: 
-
 \begin{itemize}
-\item In the specification of the length and/or age data, change
-``CompError'' column in age and length comp specifications from 0 to 1 and
-``ParmSelect'' from 0 to a sequence of numbers from 1 to N where N is the
-total number of combinations of fleet and age/length. Note that there
-cannot be any skipped values from 1 to N, otherwise the model will exit
-on error while reading the input files. 
-	
-\item Resulting input should look similar to:
-\begin{small}
-\begin{verbatim}
-#_mintail addtocomp combM+F CompressBins CompError ParmSelect minsamplesize   
--1        0.001     0       0            1         1          0.001 #_fleet:1
--1        0.001     0       0            1         2          0.001 #_fleet:2
-\end{verbatim}
-\end{small}
-
-\item The ParmSelect column can also have repeated values so that
-multiple fleets share the same $log(\theta)$ parameter. 
-	
-\item If you have both length and age data, the ParmSelect should have
-separate numbers for each, e.g., 1 and 2 for the length comps and 3 and 4
-for the age comps for the same two fleets. 
-	
+	\item In the specification of the length and/or age data, change
+	``CompError'' column in age and length comp specifications from 0 to 1 and
+	``ParmSelect'' from 0 to a sequence of numbers from 1 to N where N is the
+	total number of combinations of fleet and age/length. Note that there
+	cannot be any skipped values from 1 to N, otherwise the model will exit
+	on error while reading the input files. 	
+	\item Resulting input should look similar to:
+	\begin{small}
+	\begin{verbatim}
+	#_mintail addtocomp combM+F CompressBins CompError ParmSelect minsamplesize   
+	-1        0.001     0       0            1         1          0.001 #_fleet:1
+	-1        0.001     0       0            1         2          0.001 #_fleet:2
+	\end{verbatim}
+	\end{small}
+	\item The ParmSelect column can also have repeated values so that
+	multiple fleets share the same $log(\theta)$ parameter. 	
+	\item If you have both length and age data, the ParmSelect should have
+	separate numbers for each, e.g., 1 and 2 for the length comps and 3 and 4
+	for the age comps for the same two fleets. 	
 \end{itemize}
 
 Add parameter lines to the control file:
-
 \begin{itemize}
 	\item Add as many parameter lines as the maximum numbers in the ParmSelect column. The new parameter lines go after the main selectivity parameters but before any time-varying selectivity parameters
-	
-\item Given that the input-sample-size is fixed at a reasonable level,
-Jim Thorson recommends bounds of -5 to 5, with a starting value of 0
-(which corresponds to a weight of about 50\% of the input sample size).
-However, parameter estimates above 5 are associated with 99-100\% weight
-with little information in the likelihood about the parameter value.
-Therefore, an upper bound of 5 may help identify cases that otherwise
-would have convergence issues.  When the parameter hits this upper
-bound, consider either switching those data to a multinomial (which
-behavior the Dirichlet-multinomial (DM) is asymptotically approaching) or using a Bayesian prior
-/ likelihood penalty to ensure that the estimated parameter does not
-rest on this boundary.  	
-
-
-\item In consultation with Jim Thorson, Ian Taylor proposed a normal
-$N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to
-counteract the effect of the logistic transformation between this
-parameter and the data weighting. The 1.813 value was calculated as the
-standard deviation of the distribution of $log(\theta)$ values derived
-from starting with a uniform distribution on the weights, weight =
-$\theta/(1+\theta) \sim U(0,1)$, and solving for $log(\theta)$. This
-prior was applied to the 2020 Pacific Hake stock assessment
-\citep{grandin-status-2020} and led to better \gls{mcmc} convergence with
-relatively little impact on the maximum likelihood estimates. 
-	
-\item Example parameter lines are below (columns 8-14 not shown): 
+	\item Given that the input-sample-size is fixed at a reasonable level,
+	Jim Thorson recommends bounds of -5 to 5, with a starting value of 0
+	(which corresponds to a weight of about 50\% of the input sample size).
+	However, parameter estimates above 5 are associated with 99-100\% weight
+	with little information in the likelihood about the parameter value.
+	Therefore, an upper bound of 5 may help identify cases that otherwise
+	would have convergence issues.  When the parameter hits this upper
+	bound, consider either switching those data to a multinomial (which
+	behavior the Dirichlet-multinomial is asymptotically approaching) or using a Bayesian prior
+	/ likelihood penalty to ensure that the estimated parameter does not
+	rest on this boundary.  	
+	\item In consultation with Jim Thorson, Ian Taylor proposed a normal
+	$N(0, 1.813)$ prior for the \texttt{ln(DM\_parm)} parameters which to
+	counteract the effect of the logistic transformation between this
+	parameter and the data weighting. The 1.813 value was calculated as the
+	standard deviation of the distribution of $log(\theta)$ values derived
+	from starting with a uniform distribution on the weights, weight =
+	$\theta/(1+\theta) \sim U(0,1)$, and solving for $log(\theta)$. This
+	prior was applied to the 2020 Pacific Hake stock assessment
+	\citep{grandin-status-2020} and led to better \gls{mcmc} convergence with
+	relatively little impact on the maximum likelihood estimates. 
+	\item Example parameter lines are below (columns 8-14 not shown): 
     \begin{small}
       % minipage to stop page break that was falling within these lines
       \begin{minipage}{\linewidth} 
-\begin{verbatim}
-  #_LO  HI  INIT  PRIOR PR_SD PR_type PHASE ... # Parm_name
-  -5    20  0     0     1.813 6       2     ... # ln(DM_theta)_1
-  -5    20  0     0     1.813 6       2     ... # ln(DM_theta)_2
-\end{verbatim}
+		\begin{verbatim}
+		#_LO  HI  INIT  PRIOR PR_SD PR_type PHASE ... # Parm_name
+		-5    20  0     0     1.813 6       2     ... # ln(DM_theta)_1
+		-5    20  0     0     1.813 6       2     ... # ln(DM_theta)_2
+		\end{verbatim}
       \end{minipage}
     \end{small}
-	
-\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In v.3.24 this means setting the values to 1, in v.3.30, you can simply delete or comment-out the rows with the adjustments.
+	\item Reset any existing variance adjustments factors that might have been used for the McAllister-Ianelli or Francis tuning methods. In v.3.24 this means setting the values to 1, in v.3.30, you can simply delete or comment-out the rows with the adjustments.
 \end{itemize}
 
 The \texttt{SS\_output()} function in \texttt{r4ss} returns table like the following:
@@ -202,7 +181,6 @@ The \texttt{SS\_output()} function in \texttt{r4ss} returns table like the follo
   ln(DM_theta)_2  2.246280     2  -5  20 9.4525070       0.9043292
 \end{verbatim}
 \end{small}
-
 
 The ratio shown in the final column is the estimated multiplier which can be compared to the sample size adjustment estimated in the other tuning methods above (the New\_Var\_adj column in the table produced by the \texttt{SS\_tune\_comps()} function in \texttt{r4ss}).
 

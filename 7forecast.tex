@@ -33,7 +33,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		
   1 & \hyperlink{Benchmark}{Benchmarks/Reference Points}:\hypertarget{Bmark_RefPoints}{} & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{SS3 checks for consistency of the forecast specification and the benchmark specification. It will turn on benchmarks if necessary and report a warning.}} \Tstrut\\
     & 0 = skip/omit; & \\
-    & 1 = calculate $F_{SPR}$, $F_{Btarget}$, and $F_{MSY}$; & \\
+    & 1 = calculate $F_{SPR}$, $F_{B_{TARGET}}$, and $F_{MSY}$; & \\
     & 2 = calculate $_{SPR}$, $F_{MSY}$, $F_{0.10}$; and & \\
     & 3 = add $F$ at $B_{LIMIT}$ \\ 
     
@@ -41,7 +41,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   1 & \gls{msy} Method: & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Specifies basis for calculating a single population level $F_{MSY}$ value.}} \Tstrut\\
     & 1 = $F_{SPR}$ as proxy; & \\
     & 2 = calculate $F_{MSY}$; & \\
-    & 3 = $F_{Btarget}$ as proxy or $F_{0.10}$; & \\
+    & 3 = $F_{B_{TARGET}}$ as proxy or $F_{0.10}$; & \\
     & 4 = $F_{end year}$ as proxy; and & \\
     & 5 = $F_{MEY}$. & \Bstrut\\
     
@@ -63,7 +63,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & & \\
 
   \hline
-  0.45 & SPR\textsubscript{target} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the $F$ multiplier that will produce this level of spawning biomass per recruit (reproductive output) relative to the unfished value.}} \Tstrut\Bstrut\\
+  0.45 & $SPR_{TARGET}$ & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{SS3 searches for the $F$ multiplier ($F\text{mult}$) that will produce this level of spawning biomass per recruit (reproductive output) relative to the unfished value.}} \Tstrut\Bstrut\\
     & & \Bstrut\\
   
   \hline
@@ -72,7 +72,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & & \\
 
   \hline 
-  \multicolumn{2}{l}{COND: \hyperlink{Bmarks_RefPoints}{Benchmarks} = 3} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{B\textsubscript{LIMIT} as a fraction of the B\textsubscript{MSY} where a negative value will be applied as a fraction of B0}} \Tstrut\\
+  \multicolumn{2}{l}{COND: \hyperlink{Bmarks_RefPoints}{Benchmarks} = 3} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{$B_{LIMIT}$ as a fraction of the $B_{MSY}$ where a negative value will be applied as a fraction of $B_{0}$}} \Tstrut\\
     & -0.25 & \\
     
     
@@ -92,12 +92,12 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 2 = set range for $\text{rel}F$ same as \hyperlink{Fcast}{Forecast}. & \Bstrut\\
 
   \hline
-  2 & \raisebox{0.1\ht\strutbox}{\hypertarget{Fcast}{Forecast:}} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{This input is required but is ignored if benchmarks are turned off. This determines how forecast catches are calculated and removed from the population which is separate from the ``MSY Method'' above. If $F_{MSY}$ is selected, it uses whatever proxy (e.g., $F_{SPR}$ or $F_{BTGT}$) is selected in the ``MSY Method'' row.}} \Tstrut\\
+  2 & \raisebox{0.1\ht\strutbox}{\hypertarget{Fcast}{Forecast:}} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{This input is required but is ignored if benchmarks are turned off. This determines how forecast catches are calculated and removed from the population which is separate from the ``MSY Method'' above. If $F_{MSY}$ is selected, it uses whatever proxy (e.g., $F_{SPR}$ or $F_{B_{TARGET}}$) is selected in the ``MSY Method'' row.}} \Tstrut\\
     & -1 = none, no forecast years; & \\
     & 0 = simple, single forecast year calculated; & \\
     & 1 = use $F_{SPR}$; & \\
     & 2 = use $F_{MSY}$; & \\
-    & 3 = use $F_{Btarget}$ or $F_{0.10}$; & \\
+    & 3 = use $F_{B_{TARGET}}$ or $F_{0.10}$; & \\
     & 4 = set to mean $F$ scalar for the forecast relative $F$ years below; and & \\
     & 5 = input annual $F$ scalar. & \Bstrut\\
 
@@ -183,17 +183,17 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 4 = $F$ is a function of \gls{ssb}, buffer on catch. & \Bstrut\\
   \hline
 
-  0.40 \Tstrut & Control Rule Inflection & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Relative biomass level to unfished biomass above which $F$ is constant at control rule $F$. If set to -1 the ratio of B\textsubscript{MSY} to the unfished spawning biomass will automatically be used.}} \Bstrut\\
+  0.40 \Tstrut & Control Rule Inflection & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Relative biomass level to unfished spawning biomass above which $F$ is constant at control rule $F$. If set to -1 the ratio of $B_{MSY}$ to the unfished spawning biomass will automatically be used.}} \Bstrut\\
     & & \Tstrut\Bstrut\\
 
   %\pagebreak
   \hline
-  0.10 \Tstrut & Control Rule Cutoff & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Relative biomass level to unfished biomass below which $F$ is set to 0 (management threshold).}} \\
+  0.10 \Tstrut & Control Rule Cutoff & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Relative biomass level to unfished spawning biomass below which $F$ is set to 0 (management threshold).}} \\
     & & \\
 
   \hline
   % \pagebreak
-  0.75 \Tstrut & Control Rule Buffer (multiplier between 0-1.0 or -1) & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{Control rule catch or $F_{target}$ as a fraction of selected catch or $F_{MSY}$ proxy. The buffer will be applied to reduce catch from the estimated \gls{ofl}. The buffer value is a value between 0-1.0 where a value of 1.0 would set catch equal to the \gls{ofl}. As example if the buffer is applied to catch (Control Rule option 3 or 4 above) the catch will equal the buffer times the \gls{ofl}. Alternatively a value of -1 will allow the user to input a forecast year specific control rule fraction (added in v.3.30.13).}} \Bstrut\\ 
+  0.75 \Tstrut & Control Rule Buffer (multiplier between 0-1.0 or -1) & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{Control rule catch or $F_{TARGET}$ as a fraction of selected catch or $F_{MSY}$ proxy. The buffer will be applied to reduce catch from the estimated \gls{ofl}. The buffer value is a value between 0-1.0 where a value of 1.0 would set catch equal to the \gls{ofl}. As example if the buffer is applied to catch (Control Rule option 3 or 4 above) the catch will equal the buffer times the \gls{ofl}. Alternatively a value of -1 will allow the user to input a forecast year specific control rule fraction (added in v.3.30.13).}} \Bstrut\\ 
     & & \Bstrut\\
     & & \Bstrut\\
     & & \Bstrut\\
@@ -345,27 +345,27 @@ Four reference points can be calculated by SS3. The first is the estimate of $F_
 \begin{itemize}
 	\item $F_{MSY}$: Search for the $F$ that produces maximum equilibrium (e.g., dead catch).
 	
-	\item $F_{SPR}$: Search for the $F$ that produces spawning biomass per recruit this is a specific fraction, termed SPR\textsubscript{target}, of spawning biomass per recruit under unfished conditions. Note that this is in relative terms so it does not take into account the spawner-recruit relationship.
+	\item $F_{SPR}$: Search for the $F$ that produces spawning biomass per recruit this is a specific fraction, termed $SPR_{TARGET}$, of spawning biomass per recruit under unfished conditions. Note that this is in relative terms so it does not take into account the spawner-recruit relationship.
 	
-	\item $F_{Btarget}$: Search for the $F$ that produces an absolute spawning biomass that is a specified fraction, termed relative biomass target, of the unfished spawning biomass. Note that this is in absolute terms so takes into account the spawner-recruit relationship. 
+	\item $F_{B_{TARGET}}$: Search for the $F$ that produces an absolute spawning biomass that is a specified fraction, termed relative biomass target, of the unfished spawning biomass. Note that this is in absolute terms so takes into account the spawner-recruit relationship. 
 	
-	\item $F_{0.10}$: Search for the $F$ that produces a slope in yield per recruit, $dY/dF$, that is 10\% of the slope at the origin. Note that with SS3, this option is mutually exclusive with $F_{Btarget}$. Only one will be calculated and the one that is calculated can serve as the proxy for $F_{MSY}$ and forecasting. The $F_{0.10}$ search can fail if bycatch fleets are used and the bycatch setting includes the fleet's catch in the catch to be optimized.
+	\item $F_{0.10}$: Search for the $F$ that produces a slope in yield per recruit, $dY/dF$, that is 10\% of the slope at the origin. Note that with SS3, this option is mutually exclusive with $F_{B_{TARGET}}$. Only one will be calculated and the one that is calculated can serve as the proxy for $F_{MSY}$ and forecasting. The $F_{0.10}$ search can fail if bycatch fleets are used and the bycatch setting includes the fleet's catch in the catch to be optimized.
 \end{itemize}
 
 \myparagraph{Estimation}
 Each of the potential reference points is calculated by searching across a range of $F$ multiplier levels, calculating equilibrium biomass and catch at that $F$, using Newton-Raphson method to calculate a better $F$ multiplier value, and iterating a fixed number of times to achieve convergence on the desired level.
 
 \myparagraph{Calculations}
-The calculation of equilibrium biomass and catch uses the same code that is used to calculate the virgin conditions and the initial equilibrium conditions. This equilibrium calculation code takes into account all morph, timing, biology, selectivity, and movement conditions as they apply while doing the time series calculations. You can verify this by running SS3 to calculate $F_{MSY}$ then hard-wire initial $F$ to equal this value, use the F\_method approach 2 so each annual $F$ is equal to $F_{MSY}$ and then set forecast $F$ to be the same $F_{MSY}$. Then run SS3 without estimation and no recruitment deviations. You should see that the population has an initial equilibrium abundance equal to B\textsubscript{MSY} and stays at this level during the time series and forecast.
+The calculation of equilibrium biomass and catch uses the same code that is used to calculate the virgin conditions and the initial equilibrium conditions. This equilibrium calculation code takes into account all morph, timing, biology, selectivity, and movement conditions as they apply while doing the time series calculations. You can verify this by running SS3 to calculate $F_{MSY}$ then hard-wire initial $F$ to equal this value, use the F\_method approach 2 so each annual $F$ is equal to $F_{MSY}$ and then set forecast $F$ to be the same $F_{MSY}$. Then run SS3 without estimation and no recruitment deviations. You should see that the population has an initial equilibrium abundance equal to $B_{MSY}$ and stays at this level during the time series and forecast.
 
 \myparagraph{Catch Units}
 For each fleet, SS3 always calculates catch in terms of biomass (mt) and numbers (1000s) for encountered (selected) catch, dead catch, and retained catch. These three categories differ only when some fleets have discarding or are designated as a bycatch fleet. SS3 uses total dead catch biomass as the quantity that is principally reported and the quantity that is optimized when searching for $F_{MSY}$. The quantity ``dead catch'' may occasionally be referred to as ``yield''.
 
 \myparagraph{Biomass Units}
-The principle measure of fish abundance, for the purpose of reference point calculation, is female reproductive output. This is referred to as \gls{ssb} and sometimes just ``B'' because the typical user settings have one unit of reproductive output (fecundity) per kg of mature female biomass. So when the output label says B\textsubscript{MSY}, this is actually the female reproductive output at the proxy for $F_{MSY}$.
+The principle measure of fish abundance, for the purpose of reference point calculation, is female reproductive output. This is referred to as \gls{ssb} and sometimes just ``B'' because the typical user settings have one unit of reproductive output (fecundity) per kg of mature female biomass. So when the output label says $B_{MSY}$, this is actually the female reproductive output at the proxy for $F_{MSY}$.
 
 \myparagraph{Fleet Allocation}
-An important concept for the reference point calculation is the allocation of fishing rate among fleets. Internally, this is benchmark years relative $F$ (Bmark\_relF($f,s$)) and it is the fraction of the $F$ multiplier assigned to each fleet, $f$ and season, $s$. The value, F\_multiplier * Bmark\_relF($f,s$), is the $F$ level for a particular fleet in a particular season and for the age that has a selectivity of 1.0. Other ages will have different $F$ values according to their selectivity.
+An important concept for the reference point calculation is the allocation of fishing rate among fleets. Internally, this is benchmark years relative $F$ ($text{Bmark\_rel}F$ ($f,s$)) and it is the fraction of the $F$ multiplier assigned to each fleet, $f$ and season, $s$. The value, $F\text{mult} * \text{Bmark\_rel}F$($f,s$), is the $F$ level for a particular fleet in a particular season and for the age that has a selectivity of 1.0. Other ages will have different $F$ values according to their selectivity.
 
 \begin{itemize}
 	\item The $\text{Bmark\_rel}F$ values can be calculated by SS3 from a range of years specified in the input for Benchmark Years or it can be set to be the same as the Forecast\_RelF, which in turn can be based on a range of years or can be input as a set of fixed values.
@@ -375,19 +375,19 @@ An important concept for the reference point calculation is the allocation of fi
 	\item Note that for Bycatch Fleets, the $F$s calculated by application of $\text{Bmark\_rel}F$ for a bycatch fleet can be overridden by an $F$ value calculated from a range of years or a fixed $F$ value that is input by the user. If such an override is selected for a bycatch fleet, that $F$ value is not adjusted by changes to the $F$ multiplier. This allows the user to treat a bycatch fleet as a constant background $F$ while the optimal $F$ for other fleets is sought. Also, for bycatch fleets, there is user control for whether the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for $F_{MSY}$.
 \end{itemize}
 
-\myparagraph{Virgin vs. Unfished}
-The concept of unfished spawning biomass, SSB\_unf, is important to the reference points calculations. Unfished spawning biomass can be potentially different from virgin spawning biomass, SSB\_virgin.
+\myparagraph{Virgin vs. Unfished Spawning Biomass}
+The concept of unfished spawning biomass, (written as SSB\_unfished in SS3 input and output files), is important to the reference points calculations. Unfished spawning biomass can be potentially different from virgin spawning biomass (written as SSB\_virgin in SS3 output files).
 
 \begin{itemize}
 	\item Virgin spawning biomass is calculated from the parameter values associated with the start year of the model configuration and it serves as the basis from which the population model starts and the basis for calculation of stock depletion.
 	
-	\item Unfished spawning biomass can be calculated for any year or range of years, so can change over time as R0, steepness, or biological parameters change.
+	\item Unfished spawning biomass can be calculated for any year or range of years, so can change over time as $R_{0}$, steepness, or biological parameters change.
 	
-	\item In the reference points calculation, the Benchmark Years input specifies the range of time over which the mean of various quantities are taken to calculate the reference points. For biology, selectivity, $F$s, and movement the mean values are the year-specific derived quantities. But for the stock-recruitment parameters (R0 and steepness), the mean of the parameter values themselves is calculated over time.
+	\item In the reference points calculation, the Benchmark Years input specifies the range of time over which the mean of various quantities are taken to calculate the reference points. For biology, selectivity, $F$s, and movement the mean values are the year-specific derived quantities. But for the stock-recruitment parameters ($R_{0}$ and steepness), the mean of the parameter values themselves is calculated over time.
 	
-	\item During the time series or forecast, the current year's unfished spawning output (SSB\_unf) is used as the basis for the spawner-recruitment curve against which deviations from the spawner-recruitment curve are applied. So, if R0 is made time-varying, then the spawner-recruit curve itself is changed. However, if the regime shift parameter is time-varying, then this is an offset from the spawner-recruitment curve and not a change in the curve itself. Changes in R0 will change year-specific reference points and change the expected value for annual recruitments, but changes in regime shift parameter only change the expected value for annual recruitments.
+	\item During the time series or forecast, the current year's unfished spawning output is used as the basis for the spawner-recruitment curve against which deviations from the spawner-recruitment curve are applied. So, if $R_{0}$ is made time-varying, then the spawner-recruit curve itself is changed. However, if the regime shift parameter is time-varying, then this is an offset from the spawner-recruitment curve and not a change in the curve itself. Changes in $R_{0}$ will change year-specific reference points and change the expected value for annual recruitments, but changes in regime shift parameter only change the expected value for annual recruitments.
 	
-	\item In reporting the time series of depletion level, the denominator can be based on virgin spawning output (SSB\_virgin) or B\textsubscript{MSY}. Note that B\textsubscript{MSY} is based on unfished spawning output (SSB\_unf) for the specified range of Benchmark years, not on SSB\_virgin.
+	\item In reporting the time series of depletion level, the denominator can be based on virgin spawning output or $B_{MSY}$. Note that $B_{MSY}$ is based on unfished spawning output for the specified range of Benchmark years, not on virgin spawning biomass.
 \end{itemize}
 
 
@@ -406,8 +406,8 @@ Recruitment during the forecast years sometimes needs to be set at a level other
 	\item 2 = Multiplier on virgin recruitment: The virgin recruitment is multiplied by this factor.
 	\begin{itemize}
 		\item This is a multiplier, so null effect comes from a value of 1.0.
-		\item The order of operations is to apply any environmental or block effects to R0, then apply the special forecast effect, then bias adjustment, then the deviations.
-		\item Note that environmental or block effects on R0 are rare and are different from environment or block effects on the regime parameter.
+		\item The order of operations is to apply any environmental or block effects to $R_{0}$, then apply the special forecast effect, then bias adjustment, then the deviations.
+		\item Note that environmental or block effects on $R_{0}$ are rare and are different from environment or block effects on the regime parameter.
 	\end{itemize}
 	\item 3 = Mean recent recruitment: calculate the mean recruitment and use it during the forecast period.
 	\begin{itemize}

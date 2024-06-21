@@ -166,7 +166,7 @@ The feature is used by optimizing normally, and then from the command line runni
 \subsubsection[Running Parameter Profiles]{\protect\hyperlink{ParamProfiles}{Running Parameter Profiles}}
 Users will often want to run profiles over specific parameter to evaluate the information in the model to estimate the parameter based on changes in the log likelihood. There are two ways this can be done.
 
-The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output. The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results.  Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
+The first option is the use functions within \texttt{r4ss} to run the profile, summarize quantities across runs, and plot the output. The \texttt{SS\_profile()} function will run the profile based on function inputs, \texttt{SSgetoutput()} will read quantities from each run Report file, \texttt{SSsummarize()} will summarize key model quantities, and the \texttt{SSplotProfile()} and \texttt{PinerPlot()} functions can be used to visualize results. Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
 
 The second way is to create and run a batch file to profile over parameters. This example will run a profile on natural mortality and spawner-recruitment steepness, of course. Edit the control file so that the natural mortality parameter and steepness parameter lines have the phase set to -9999. Edit \texttt{starter.ss} to refer to this control file and the appropriate data file.
 
@@ -282,7 +282,7 @@ To add the SS3 binary file to your path, follow these steps:
 \subsection[Running Stock Synthesis from R]{\protect\hyperlink{SS3inR}{Running Stock Synthesis from R}}
 Use \texttt{system(``path/to/ss3'')} to run Stock Synthesis from within the R console, where \texttt{path/to/ss3} is the path to and name of the Stock Synthesis binary.
 
-Alternatively, use the function \texttt{run} from the \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} package within the R console:
+Alternatively, use the function \texttt{run()} from the \href{https://r4ss.github.io/r4ss/index.html}{\texttt{r4ss}} package within the R console:
 
 \begin{quote}
   \begin{verbatim}
@@ -295,7 +295,7 @@ Alternatively, use the function \texttt{run} from the \href{https://r4ss.github.
 
 
 
-Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{\texttt{ss3sim}}) or if \texttt{r4ss} is already used to read model output.
+Running SS3 from within R may be desirable for setting up simulations where many runs of SS3 models are required (e.g., \href{https://github.com/ss3sim/ss3sim}{\texttt{ss3sim}}) or if \texttt{r4ss} is already used to read model output. Additional information regarding \texttt{r4ss} can be found in the \hyperref[sec:r4ss]{r4ss section}. 
 
 \hypertarget{SSI}{}
 \subsection[The Stock Synthesis GUI (SSI)]{\protect\hyperlink{SSI}{The Stock Synthesis GUI (SSI)}}
@@ -303,7 +303,7 @@ Running SS3 from within R may be desirable for setting up simulations where many
 
 \hypertarget{SAC}{}
 \subsection[The Stock Assessment Continuum Tool]{\protect\hyperlink{SAC}{The Stock Assessment Continuum Tool}}
-\href{https://github.com/shcaba/SS-DL-tool}{The Stock Assessment Continuum Tool} (previously known as the Stock Synthesis Data-limited Tool) is a Shiny-based application that uses SS3 as the flexible framework to apply a variety of model types depending on the available data (catch time series, age composition, length composition, abundance index data). It is meant to make SS3 accessible to users, open up many features and tools associated with Stock Synthesis, provide an easy way to enter data in the model, and make model specification and uncertainty exploration easier.
+\href{https://github.com/shcaba/SS-DL-tool}{The Stock Assessment Continuum Tool} (previously known as the Stock Synthesis Data-limited Tool) is a Shiny-based application that uses SS3 as the flexible framework to apply a variety of model types depending on the available data (catch time-series, age-composition, length-composition, abundance index data). It is meant to make SS3 accessible to users, open up many features and tools associated with Stock Synthesis, provide an easy way to enter data in the model, and make model specification and uncertainty exploration easier.
 
 \hypertarget{Debugging}{}
 \subsection[Debugging Tips]{\protect\hyperlink{Debugging}{Debugging Tips}}
