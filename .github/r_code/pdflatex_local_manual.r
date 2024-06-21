@@ -6,18 +6,14 @@
 #' 
 #' @param manual_file Name of the manual tex file. Default is "SS330_User_Manual.tex" 
 #' with the assumption that this file is in your working directory.
-#' @param dir Directory if "SS330_User_Manual.tex" is not in your working directory.
+#' @param dir Directory if "SS330_User_Manual.tex" is not in your working directory, 
+#' otherwise the function uses getwd() ad the default.
 #' @author Elizabeth F. Perl
 #' @return Results from tinytex::pdflatex().
 #' @examples 
 #' pdflatex_local_manual()
-pdflatex_local_manual <- function(manual_file = "SS330_User_Manual.tex", dir = NULL)
+pdflatex_local_manual <- function(manual_file = "SS330_User_Manual.tex", dir = getwd())
 {
-    if(is.null(dir)){
-        dir <- getwd()
-    } else {
-        dir <- dir
-    }
     manual <- readLines(file.path(dir,"SS330_User_Manual.tex"))
     manual[3] <- gsub("\\\\","%\\\\",manual[3])
     manual[4] <- gsub("\\\\","%\\\\",manual[4])
