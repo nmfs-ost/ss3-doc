@@ -376,25 +376,25 @@ Auto-generation is a useful way to automatically create the required short time-
 \subsection[Biology]{\protect\hyperlink{Biology}{Biology}}
 \hypertarget{NatM}{}
 \subsubsection[Natural Mortality]{\protect\hyperlink{NatM}{Natural Mortality}}
-Natural mortality (M) options include some options that are referenced to integer age and other options to real age since settlement. If using an option that references M to real age since settlement, M varies by age and will change by season (e.g., cohorts born early in the year will have different M than cohorts born later in the year).
+Natural mortality ($M$) options include some options that are referenced to integer age and other options to real age since settlement. If using an option that references $M$ to real age since settlement, $M$ varies by age and will change by season (e.g., cohorts born early in the year will have different $M$ than cohorts born later in the year).
 
 \myparagraph{Lorenzen Natural Mortality}
-Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish. In this implementation, a reference age and M value are read in, and other ages will have an M scaled to its body size-at-age. However, if platoons are used, all will have the same M as their growth pattern. Lorenzen M calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time series, the M is not further updated. Additionally, the M is linked to the length-at-age from the growth parameters and can't be used for an empirical weight-at-age model. Be careful in using Lorenzen when there is time-varying growth.
+Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish. In this implementation, a reference age and $M$ value are read in, and other ages will have an $M$ scaled to its body size-at-age. However, if platoons are used, all will have the same $M$ as their growth pattern. Lorenzen $M$ calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time series, the $M$ is not further updated. Additionally, the $M$ is linked to the length-at-age from the growth parameters and can't be used for an empirical weight-at-age model. Be careful in using Lorenzen when there is time-varying growth.
 
-\myparagraph{Age-specific M Linked to Age-Specific Length and Maturity}
+\myparagraph{Age-specific $M$ Linked to Age-Specific Length and Maturity}
 
 This is an experimental option available as of v.3.30.17. 
 
 A general model for age- and sex-specific natural mortality expands a model developed by \citet{maunder2010bigeye} and \citet{maunder2011M} and is based on the following some assumptions:
 
 \begin{enumerate}
-  \item M for younger fish is due mainly to processes that are functions of the size of the individuals (e.g., predation);
-  \item M increases after individuals become reproductively mature;
+  \item $M$ for younger fish is due mainly to processes that are functions of the size of the individuals (e.g., predation);
+  \item $M$ increases after individuals become reproductively mature;
   \item Maturity follows a logistic curve; and
- % \item M caused by reproduction may differ by sex, but juvenile M is independent of sex; and 
-  \item M caused by senescence is either small or occurs at an age for which there are few fish alive, so it is not influential. 
+ % \item $M$ caused by reproduction may differ by sex, but juvenile $M$ is independent of sex; and 
+  \item $M$ caused by senescence is either small or occurs at an age for which there are few fish alive, so it is not influential. 
 \end{enumerate}
-The model is based on combining the observation that M is inversely proportional to length for young fish \citep{lorenzen2000allometry} and the logistic model from \citet{lehodey2008spatial} for older fish. Natural mortality for a given sex and age is:
+The model is based on combining the observation that $M$ is inversely proportional to length for young fish \citep{lorenzen2000allometry} and the logistic model from \citet{lehodey2008spatial} for older fish. Natural mortality for a given sex and age is:
 \begin{equation}
 M_{a,s} = M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda} + 
 \frac{M_{mat,s}-M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda}}{1+e^{\beta_s(L_{a,s}- L_{50,s})}},
@@ -402,7 +402,7 @@ M_{a,s} = M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda} +
 
 where $M_{juv,s}$ (juvenile natural mortality), $\lambda$ (power), $L_{mat*,s}$ (first mature length of fish), and $M_{mat,s}$ (the mature instantaneous natural mortality rate by sex, are user inputs in long parameter lines. For sub-option 1, $L_{50}$ and $\beta$ (slope) parameters taken from the maturity relationship within the model, which must use maturity-fecundity option 1. For sub-option 3, the $L_{50,s}$ (the length at which 50\% of fish are mature) and $\beta$ (slope) parameters are specified in long parameter lines by the user.
 
-Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will fix the parameter as same as the female parameter. Alternatively, using offset option 1 and setting males to 0.0 and not estimating the parameter fixes the parameter at the value of the female parameter (the \hyperlink{male-shortcut}{section on fixing male parameters the same as female parameters} has more details). This fulfills an additional assumption: M caused by reproduction may differ by sex, but juvenile M is independent of sex.
+Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will fix the parameter as same as the female parameter. Alternatively, using offset option 1 and setting males to 0.0 and not estimating the parameter fixes the parameter at the value of the female parameter (the \hyperlink{male-shortcut}{section on fixing male parameters the same as female parameters} has more details). This fulfills an additional assumption: $M$ caused by reproduction may differ by sex, but juvenile $M$ is independent of sex.
 
 The length for a given age and sex, $L_{a,s}$ is calculated within the model.
 
@@ -416,7 +416,7 @@ Some suggested defaults for user-provided parameter inputs are:
 \myparagraph{Age-range Lorenzen}
 The original implementation of Lorenzen natural mortality in Stock Synthesis uses a reference age and its associated natural mortality as inputs to determine the Lorenzen curve. However, sometimes this information is not known. The age-range Lorenzen instead uses a range of ages and the average natural mortality over them to calculate a Lorenzen natural mortality curve.
 
-Like the original Lorenzen options, ages will have an M scaled to its body size-at-age and care should be taken when there are multiple growth patterns or time-varying growth.
+Like the original Lorenzen options, ages will have an $M$ scaled to its body size-at-age and care should be taken when there are multiple growth patterns or time-varying growth.
 
 \myparagraph{Natural Mortality Options}
 \begin{longtable}{p{0.5cm} p{2cm} p{12.75cm}}
@@ -439,9 +439,9 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	  & & 0 = A single parameter; \\
 	  & & 1 = N breakpoints; \\
 	  & & 2 = Lorenzen; \\
-	  & & 3 = Read age specific M and do not do seasonal interpolation; \\
+	  & & 3 = Read age specific $M$ and do not do seasonal interpolation; \\
 	  & & 4 = Read age specific and do seasonal interpolation, if appropriate; \\
-	  & & 5 = age-specific M linked to age-specific length and maturity (experimental); \\
+	  & & 5 = Age-specific $M$ linked to age-specific length and maturity (experimental); \\
 	  & & 6 = Age-range Lorenzen. \Bstrut\\
 	\hline
 
@@ -455,24 +455,24 @@ Like the original Lorenzen options, ages will have an M scaled to its body size-
 	\hline
 	
 	\multicolumn{2}{l}{COND = 2} & \Tstrut\\
-	& 4 \Tstrut & Reference age for Lorenzen natural mortality: read one additional integer value that is the reference age. Later read one long parameter line for each sex x growth pattern that will be the M at the reference age. \\
+	& 4 \Tstrut & Reference age for Lorenzen natural mortality: read one additional integer value that is the reference age. Later read one long parameter line for each sex x growth pattern that will be the $M$ at the reference age. \\
 	\hline
 	
-	\multicolumn{2}{l}{COND = 3 or 4} \Tstrut & Do not read any natural mortality parameters in the mortality growth parameter section. With option 3, these M values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.\\
+	\multicolumn{2}{l}{COND = 3 or 4} \Tstrut & Do not read any natural mortality parameters in the mortality growth parameter section. With option 3, these $M$ values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.\\
 
-	& 0.20 0.25...0.20 0.23... & Age-specific M values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern. \Bstrut\\
+	& 0.20 0.25...0.20 0.23... & Age-specific $M$ values where in a 2 sex model the first row is female and the second row is male. If there are multiple growth patterns female growth pattern 1-N is read first followed by males 1-N growth pattern. \Bstrut\\
 	\hline
 	
-	\multicolumn{2}{l}{COND = 5} \Tstrut & Age-specific M linked to age-specific length and maturity sub-options. \\
+	\multicolumn{2}{l}{COND = 5} \Tstrut & Age-specific $M$ linked to age-specific length and maturity sub-options. \\
 
 	&  & 1 = Requires 4 long parameter lines per sex x growth pattern using maturity. Must be used with maturity option 1; \\
 	&  & 2 = Reserved for future option; \\
 	&  & 3 = Requires 6 long parameter lines per sex x growth pattern \Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND = 6} \Tstrut & Read two additional integer values that are the age range for average M. Later, read one long parameter line for each sex x growth pattern that will be the average M over the reference age range. \\
-	& 0 \Tstrut & Minimum age of average M range for calculating Lorenzen natural mortality. \\
-	& 10 \Tstrut & Maximum age of average M range for calculating Lorenzen natural mortality. \\ 
+	\multicolumn{2}{l}{COND = 6} \Tstrut & Read two additional integer values that are the age range for average $M$. Later, read one long parameter line for each sex x growth pattern that will be the average $M$ over the reference age range. \\
+	& 0 \Tstrut & Minimum age of average $M$ range for calculating Lorenzen natural mortality. \\
+	& 10 \Tstrut & Maximum age of average $M$ range for calculating Lorenzen natural mortality. \\ 
 	\hline
 \end{longtable}
 
@@ -522,7 +522,7 @@ Thus, if $b$ will be estimated as a free parameter, it might be necessary to inc
 
 	
 \myparagraph{Mean size-at-maximum age}
-The mean size of fish in the max age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to M plus initial F. In v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in the future version.
+The mean size of fish in the max age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to $M$ plus initial $F$. In v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in the future version.
 	
 \myparagraph{Age-specific K}
 This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern/sex. The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current age's multiplier. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect. Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year. There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
@@ -768,20 +768,20 @@ The last line in the mortality-growth parameter section allows the user to fix o
 As of v.3.30.12, this parameter now has time-varying capability similar to other parameters in the mortality-growth section.
 
 \subsubsection{Predator Fleet Mortality}
-The ability to define a predator fleet was first implemented in v.3.30.18. A parameter line for predator mortality is only required if a predator fleet has been defined in the data file. For each fleet that is designated as a predator, a new parameter line is created in the mortality-growth (MGparm) section in the control file. This parameter will have the label M2\_pred1, where the ``1'' is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect M2 to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each M2 parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times M2, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set M2 to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included. 
+The ability to define a predator fleet was first implemented in v.3.30.18. A parameter line for predator mortality is only required if a predator fleet has been defined in the data file. For each fleet that is designated as a predator, a new parameter line is created in the \gls{mg} section in the control file. This parameter will have the label $M2\text{\_pred1}$, where the ``1'' is the index for the predator (not the index of the fleet being used as a predator). More than one predator can be included. If the model has > 1 season, it is normal to expect $M2$ to vary seasonally. Therefore, only if the number of seasons is greater than 1, follow each $M2$ parameter with number of season parameters to provide the seasonal multipliers. These are simple multipliers times $M2$, so at least one of these needs to have a non-estimated value. The set of multipliers can be used to set $M2$ to only operate in one season if desired. If there is more than one predator fleet, each will have its own seasonal multipliers. If there is only 1 season in the model, then no multiplier lines are included. 
 
-M2 is age-specific, but not sex or morph specific. The value of the M2 parameter will be distributed across ages according to the selectivity for this fleet. In this example note that ``pred1'' refers to the first predator in the model, note the fleet number in which that predator has been 3 configured. The resultant age-specific M2 is added to the base M to create a total age-specific M that operates in the model exactly as M has always operated. 
+$M2$ is age-specific, but not sex or morph specific. The value of the $M2$ parameter will be distributed across ages according to the selectivity for this fleet. In this example note that ``pred1'' refers to the first predator in the model, note the fleet number in which that predator has been 3 configured. The resultant age-specific $M2$ is added to the base $M$ to create a total age-specific $M$ that operates in the model exactly as $M$ has always operated. 
 
-Because M2 is a MGparm, it can be time-varying like any other MGparm. This is important because M2, as a component added to base M, will probably always need to be time-varying by blocks, random walk or linkage to external driver. A time series of M2 from an external source could be input by setting the M2 parameter to have a base value of 0.0 and linking to the time series in the environmental data section of the data file using an additive link. In addition, the relationship should have a fixed slope of 1.0 such that M2(y) = 0.0 + 1.0 * M2\_env\_input(y). 
+Because $M2$ is a \gls{mg}, it can be time-varying like any other \gls{mg}. This is important because $M2$, as a component added to base $M$, will probably always need to be time-varying by blocks, random walk or linkage to external driver. A time series of $M2$ from an external source could be input by setting the $M2$ parameter to have a base value of 0.0 and linking to the time series in the environmental data section of the data file using an additive link. In addition, the relationship should have a fixed slope of 1.0 such that $M2(y) = 0.0 + 1.0 * M2\text{\_env\_input}(y)$. 
 
-Note that all existing reports of natural mortality are the total (base M + M2) natural mortality. The M2 parameter is active in the virgin year and initial equilibrium year, where the value of M2 in the start year is used. In the future, separate control of M2 for the initial equilibrium will be provided. M2 is part of the total M used in the \gls{spr} and \gls{msy} benchmark calculations. M2 is active in the forecast era, so be attentive to its configuration if it is time-varying. Testing to date shows that this M2 feature can replicate previous results using bycatch fleets.
+Note that all existing reports of natural mortality are the total (base $M$ + $M2$) natural mortality. The $M2$ parameter is active in the virgin year and initial equilibrium year, where the value of $M2$ in the start year is used. In the future, separate control of $M2$ for the initial equilibrium will be provided. $M2$ is part of the total $M$ used in the \gls{spr} and \gls{msy} benchmark calculations. $M2$ is active in the forecast era, so be attentive to its configuration if it is time-varying. Testing to date shows that this $M2$ feature can replicate previous results using bycatch fleets.
 
 Note that predator calculations probably will fail if tried with $F$ Method = 1 (Pope's), even though the Pope calculation is built into the hybrid $F$ approach.
 
 \hypertarget{ReadBioParams}{}
 \subsubsection[Read Biology Parameters]{\protect\hyperlink{ReadBioParams}{Read Biology Parameters}}
 \hypertarget{MGorder}{}
-Next, the model reads the mortality-growth (MG) parameters in generally the following order (may vary based on selected options):
+Next, the model reads the \gls{mg} parameters in generally the following order (may vary based on selected options):
 
 \begin{longtable}{p{1cm} p{2.25cm} p{10cm}}
 	\hline
@@ -800,9 +800,9 @@ Next, the model reads the mortality-growth (MG) parameters in generally the foll
 	\endlastfoot
 
 	\multicolumn{2}{l}{Females}\Tstrut & Female natural mortality and growth parameters in the following order by growth pattern. \\
-	& M & Natural mortality for female growth pattern 1, where the number of natural mortality parameters depends on the option selected. \Bstrut\\
+	& $M$ & Natural mortality for female growth pattern 1, where the number of natural mortality parameters depends on the option selected. \Bstrut\\
 	\hline
-	\multicolumn{2}{l}{COND if M option = 1} & \Tstrut\\
+	\multicolumn{2}{l}{COND if $M$ option = 1} & \Tstrut\\
 	& N breakpoints & N-1 parameter lines as an exponential offsets from the previous reference age. \Bstrut\\
 	\hline
 
@@ -834,9 +834,9 @@ Next, the model reads the mortality-growth (MG) parameters in generally the foll
 	\hline
 
 	\multicolumn{2}{l}{Males} \Tstrut & Male natural mortality and growth parameters in the following order by growth pattern. \Bstrut\\
-	& M & Natural mortality for male GP1, where the number of natural mortality parameters depends on the option selected. \Bstrut\\
+	& $M$ & Natural mortality for male GP1, where the number of natural mortality parameters depends on the option selected. \Bstrut\\
 	\hline
-	\multicolumn{2}{l}{COND if M option = 1} & \Tstrut\\
+	\multicolumn{2}{l}{COND if $M$ option = 1} & \Tstrut\\
 	& N breakpoints & N-1 parameter lines as an exponential offsets from the previous reference age. \Bstrut\\
 	\hline
 		
@@ -864,7 +864,7 @@ Next, the model reads the mortality-growth (MG) parameters in generally the foll
 
 	\multicolumn{2}{l}{COND: Hermaphroditism} \Tstrut & 3 parameters lines define a normal distribution for the transition rate of females to males (or vice versa). \\
 	& Inflect Age & Hermaphrodite inflection age. \\
-	& StDev & Hermaphrodite standard deviation (in age). \\
+	& \gls{sd} & Hermaphrodite standard deviation (in age). \\
 	& Asmp Rate & Hermaphrodite asymptotic rate. \Bstrut\\
 	\hline
 
@@ -899,7 +899,7 @@ Next, the model reads the mortality-growth (MG) parameters in generally the foll
 	\hline
 	
 	\multicolumn{3}{l}{COND: The following lines are only required when predator fleets are invoked.} \Tstrut\\
-	& M2 Predator & Turned on in the data file. \\
+	& $M2$ Predator & Turned on in the data file. \\
 	\hline
 \end{longtable}
 
@@ -1021,15 +1021,15 @@ The spawner-recruitment section starts by specification of the functional relati
 	\endlastfoot
 
 	3 & Spawner-            & The options are: \Tstrut\\
-	  & Recruitment         & 2: \hyperlink{Ricker}{Ricker}: 2 parameters: ln(R0) and steepness (h); \\
-	  & Relationship        & 3: \hyperlink{BH}{Standard Beverton-Holt}, 2 parameters: ln(R0) and steepness; \\
+	  & Recruitment         & 2: \hyperlink{Ricker}{Ricker}: 2 parameters: $ln(R_{0})$ and steepness (h); \\
+	  & Relationship        & 3: \hyperlink{BH}{Standard Beverton-Holt}, 2 parameters: $ln(R_{0})$ and steepness; \\
 	  &                     & 4: Ignore steepness and no bias adjustment. Use this in conjunction with very low emphasis on recruitment deviations to get CAGEAN-like unconstrained recruitment estimates, 2 parameters, but only uses the first one; \\
-	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: ln(R0), steepness, and $R_{\text{min}}$) for ln(R0), fraction of virgin \gls{ssb} at which inflection occurs, and the R level at \gls{ssb} = 0.0; \\
-	  &                     & 6: Beverton-Holt with flat-top beyond B0, 2 parameters: ln(R0) and steepness; \\
-	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: ln(R0), $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are $<=$ population production; \\
-	 %&                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: ln(R0), steepness, and shape parameter, $c$;\\
-	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: ln(R0), steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); and \\
-	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: ln(R0), steepness, and Ricker power, $\gamma$ (added to v.3.30.11 and is in beta mode). \Bstrut\\
+	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: $ln(R_{0})$, steepness, and $R_{\text{min}}$) for $ln(R_{0})$, fraction of virgin \gls{ssb} at which inflection occurs, and the R level at \gls{ssb} = 0.0; \\
+	  &                     & 6: Beverton-Holt with flat-top beyond $B_{0}$, 2 parameters: $ln(R_{0})$ and steepness; \\
+	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: $ln(R_{0})$, $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are $<=$ population production; \\
+	 %&                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: $ln(R_{0})$, steepness, and shape parameter, $c$;\\
+	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); and \\
+	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and Ricker power, $\gamma$ (added to v.3.30.11 and is in beta mode). \Bstrut\\
 	\hline
 
 	1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
@@ -1042,7 +1042,7 @@ The spawner-recruitment section starts by specification of the functional relati
 \myparagraph{Equilibrium Recruitment}
 In principle, steepness should always be used when calculating equilibrium recruitment. This was not the default in early versions of Stock Synthesis, so has not come into common practice. The original logic, from early 1990s version of Stock Synthesis for long-lived U.S. west coast groundfish, was that fishing had not yet gone on long enough to have reduced spawning biomass enough to reduce expected recruitment noticeably for the chosen initial equilibrium year.
 
-Steepness should be used in the equilibrium calculation whenever you believe that the initial equilibrium catch was large enough to have reduced expected recruitment below R0. Note that when using this option, the initial equilibrium catch cannot be greater than \gls{msy}. SS3 uses the identical code for initial equilibrium catch and for \gls{msy} calculation, so it is axiomatic that \gls{msy} will be $<=$ initial equilibrium catch. So, SS3 will estimate a R0 large enough to make \gls{msy} < initial equilibrium catch. Alternatively, you can elect to not use this option and instead add many years to the beginning of the time series with that same level of initial catch. In this case, it is not equilibrium, so the catch can reduce the population below B\textsubscript{MSY}.
+Steepness should be used in the equilibrium calculation whenever you believe that the initial equilibrium catch was large enough to have reduced expected recruitment below $R_{0}$. Note that when using this option, the initial equilibrium catch cannot be greater than \gls{msy}. SS3 uses the identical code for initial equilibrium catch and for \gls{msy} calculation, so it is axiomatic that \gls{msy} will be $<=$ initial equilibrium catch. So, SS3 will estimate a $R_{0}$ large enough to make \gls{msy} < initial equilibrium catch. Alternatively, you can elect to not use this option and instead add many years to the beginning of the time series with that same level of initial catch. In this case, it is not equilibrium, so the catch can reduce the population below $B_{MSY}$.
 
 \hypertarget{SRRFunc}{}
 \subsubsection[Spawner-Recruitment Functions]{\protect\hyperlink{SRRFunc}{Spawner-Recruitment Functions}}
@@ -1102,12 +1102,12 @@ For example, if $S_0 = 0.4$, $z_{\text{frac}}=0.8$, then the resulting fraction 
 
 The parameter $\beta$ controls the point where survival changes fastest as a function of spawning depletion. A value of $\beta$ = 1 corresponds to a linear change in natural log survival and an approximately linear relationship between survival and spawning depletion. Values of $\beta$<1 have survival increasing fastest at low spawning output (concave decreasing survival) whereas $\beta$>1 has the increase in survival occurring the fastest closer to the unfished equilibrium (convex decreasing survival).
 
-The steepness ($h$) of the spawner-recruit curve (defined as recruitment relative to R0 at a spawning depletion level of 0.2) based on pre-recruit survival can be derived from the parameters discussed above according to the relationship and associated inequality:
+The steepness ($h$) of the spawner-recruit curve (defined as recruitment relative to $R_{0}$ at a spawning depletion level of 0.2) based on pre-recruit survival can be derived from the parameters discussed above according to the relationship and associated inequality:
 \begin{equation}
 h = 0.2e^{z_0z_{\text{frac}}(1-0.2^\beta)}<0.2e^{z_0}=\frac{1}{5S_0}=\frac{SB_0}{5R_0}
 \end{equation}
 
-Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$>0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$=0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.
+Unlike the Beverton-Holt stock-recruitment relationship, recruitment can increase above $R_0$ for stocks that are below $SB_0$ and thus the steepness is not fundamentally constrained below 1. However, in many cases, steepness will be limited well below 1 by the inequality above, which implies an inverse relationship between the maximum steepness and equilibrium survival. Specifically, the inequality above bounds steepness below 1 for all cases where $S_0$ > 0.2, which are those with the lowest fecundity, an intuitively reasonable result. For example, with $S_0$ = 0.4, the steepness is limited below 0.5, regardless of the choice of $z_{\text{frac}}$ or $\beta$. This natural limit on steepness may be one of the most valuable aspects of this stock-recruitment relationship.
 
 Code for the survival based recruitment can be found in \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_recruit.tpl}{\texttt{SS\_recruit.tpl}}, search for ``SS\_Label\_43.3.7 survival based''.
 
@@ -1157,7 +1157,7 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 	\endfoot
 	\endlastfoot
 
-	8.5 & ln(R0) & Log of virgin recruitment level. \Tstrut\Bstrut\\
+	8.5 & $ln(R_{0})$ & Log of virgin recruitment level. \Tstrut\Bstrut\\
 	\hline
 
 	0.60 \Tstrut & Steepness & Steepness of spawner recruitment relationship, bound by 0.2 and 1.0 for the Beverton-Holt. \Bstrut\\
@@ -1167,7 +1167,7 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 	& 3rd Parameter & Optional depending on which spawner-recruitment relationship function is used. \Bstrut\\
 	\hline
 
-	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from ln(R0) and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated). Thus, the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hyperlink{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
+	0.60 \Tstrut & $\sigma_R$ & Standard deviation of natural log recruitment. This parameter has two related roles. It penalizes deviations from the spawner-recruitment curve, and it defines the offset between the arithmetic mean spawner-recruitment curve (as calculated from $ln(R_{0})$ and steepness) and the expected geometric mean (which is the basis from which the deviations are calculated). Thus, the value of $\sigma_R$ must be selected to approximate the true average recruitment deviation. See \hyperlink{TuneSigmaR}{Tuning $\sigma_R$} section below for additional guidance on how to tune $\sigma_R$. \Bstrut\\
 	\hline
 
 	0 \Tstrut & Regime Parameter & This replaces the R1 offset parameter. It can have a block for the initial equilibrium year, so can fully replicate the functionality of the previous R1 offset approach. The SR regime parameter is intended to have a base value of 0.0 and not be estimated. Similar to cohort-growth deviation, it serves simply as a base for adding time-varying adjustments. This concept is similar to the old environment effect on deviates feature in v.3.24 and earlier. \Bstrut\\
@@ -1185,7 +1185,7 @@ Example set-up of the spawner-recruitment section:
 		\hline
 		LO \Tstrut & HI & INIT & PRIOR & <other entries> & Block Fxn & Parameter Label \Bstrut\\
 		\hline
-		3   & 31 & 8.81 & 10.3 & \multicolumn{1}{c}{...} & 0 & \#SR\_LN(R0) \Tstrut\\
+		3   & 31 & 8.81 & 10.3 & \multicolumn{1}{c}{...} & 0 & \#SR\_LN(R\textsubscript{0}) \Tstrut\\
 		0.2 & 1  & 0.61 & 0.70 & \multicolumn{1}{c}{...} & 0 & \#SR\_BH\_steep \\
 		0   & 2  & 0.60 & 0.80 & \multicolumn{1}{c}{...} & 0 & \#SR\_sigmaR \\
 		-5  & 5  & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_regime \\
@@ -1198,7 +1198,7 @@ Example set-up of the spawner-recruitment section:
 \hypertarget{SRR-TV}{}
 \subsubsection[Spawner-Recruitment Time-Varying Parameters]{\protect\hyperlink{SRR-TV}{Spawner-Recruitment Time-Varying Parameters}}
 
-The R0, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviations. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section. However, not all of these options make sense for all parameters; please see additional details in the section on \hyperlink{tv-sr}{Time-Varying Stock-Recruitment Considerations}.
+The $R_{0}$, steepness, and regime shift parameters can be time-varying by blocks, trends, environmental linkages, or random deviations. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section. However, not all of these options make sense for all parameters; please see additional details in the section on \hyperlink{tv-sr}{Time-Varying Stock-Recruitment Considerations}.
 
 \hypertarget{TuneSigmaR}{}
 \subsubsection[Tuning $\sigma_R$]{\protect\hyperlink{TuneSigmaR}{Tuning $\sigma_R$}}
@@ -1233,7 +1233,7 @@ Simulation studies conducted by \citet{methot-adjusting-2011} compared three met
 	  & & 0: None (so all recruitments come from spawner recruitment curve). \\
 	  & & 1: Deviation vector (previously the only option): the deviations during the main period are encoded as a deviation vector that enforces them to sum to zero for this period. \\
 	  & & 2: Simple deviations: the deviations do not have an explicit constraint to sum to zero, although they still should end up having close to a zero-sum. The difference in model performance between options (1) and (2) has not been fully explored to date. This is the recommended option if doing \gls{mcmc} (see the \href{https://github.com/admb-project/admb/issues/107}{issue 107} in the \gls{admb} GitHub Repository for more information on this). \\
-	  & & 3: Deviation vector (added in v.3.30.13) where the estimated recruitment is equal to the R0 adjusted for blocks multiplied by a simple deviation vector of unconstrained deviations. The negative log likelihood from the deviation vector is equal to the natural log of the estimated recruitment divided by the expected recruitment by year adjusted for the spawner-recruit curve, regimes, environmental parameters, and bias-adjustment. The negative log likelihood between option 2 and 3 is approximately equal. \\
+	  & & 3: Deviation vector (added in v.3.30.13) where the estimated recruitment is equal to the $R_{0}$ adjusted for blocks multiplied by a simple deviation vector of unconstrained deviations. The negative log likelihood from the deviation vector is equal to the natural log of the estimated recruitment divided by the expected recruitment by year adjusted for the spawner-recruit curve, regimes, environmental parameters, and bias-adjustment. The negative log likelihood between option 2 and 3 is approximately equal. \\
 	  & & 4: Similar to option 3 but includes a penalty based on the sum of the deviations (added in v.3.30.13). \\
 	  %& & Note: As of version 3.30.13 there is now an option to retain the last deviation estimated and apply that value into the forecast period. To specify this option add the value 2 before the deviation vector option (i.e., 21, 22, 23, or 24).\Bstrut\\
 	\hline
@@ -1341,7 +1341,7 @@ The correct offset (bias adjustment) to apply to the expected value for recruitm
 In \gls{mcmc} mode, the model still draws recruitment deviations from the log-normal distribution, so the full offset is used such that the expected mean recruitment from this log-normal distribution will stay equal to the mean from the spawner-recruitment curve. When the model reaches the \gls{mcmc} and MCEVAL phases, all bias adjustment values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full log-normal distribution of each recruitment.
 
 \myparagraph{Recruitment Cycle}
-When the model is configured such that seasons are modeled as years, the concept of season within year disappears. However, there may be reason to still want to model a repeating pattern in expected recruitment to track an actual seasonal cycle in recruitment. If the recruitment cycle factor is set to a positive integer, this value is interpreted as the number of time units in the cycle and this number of full parameter lines will be read. The cyclic effect is modeled as an exp(p) factor times R0, so a parameter value of 0.0 has nil effect. In order to maintain the same number of total recruits over the duration of the cycle, a penalty is introduced so that the cumulative effect of the cycle produces the same number of recruits as Ncycles * R0. Because the cyclic factor operates as an exponential, this penalty is different from a penalty that would cause the sum of the cyclic factors to be 0.0. This is done by adding a penalty to the parameter likelihood. %, where:
+When the model is configured such that seasons are modeled as years, the concept of season within year disappears. However, there may be reason to still want to model a repeating pattern in expected recruitment to track an actual seasonal cycle in recruitment. If the recruitment cycle factor is set to a positive integer, this value is interpreted as the number of time units in the cycle and this number of full parameter lines will be read. The cyclic effect is modeled as an exp(p) factor times $R_{0}, s$o a parameter value of 0.0 has nil effect. In order to maintain the same number of total recruits over the duration of the cycle, a penalty is introduced so that the cumulative effect of the cycle produces the same number of recruits as $\text{Ncycles}*R_{0}$. Because the cyclic factor operates as an exponential, this penalty is different from a penalty that would cause the sum of the cyclic factors to be 0.0. This is done by adding a penalty to the parameter likelihood. %, where:
 
 %\begin{equation}
 %	\begin{split}
@@ -1473,9 +1473,9 @@ $SPR_y$ is the equilibrium spawning biomass per recruit that would result from f
 The derived quantities report shows an annual \gls{spr} statistic. The options, as specified in the \texttt{starter.ss} file, are:
 \begin{itemize}
 	\item 0 = skip
-	\item 1 = $(1-SPR)/(1-SPR_{TGT})$
+	\item 1 = $(1-SPR)/(1-SPR_{TARGET})$
 	\item 2 = $(1-SPR)/(1-SPR_{MSY})$
-	\item 3 = $(1-SPR)/(1-SPR_{Btarget})$
+	\item 3 = $(1-SPR)/(1-SPR_{B_{TARGET}})$
 	\item 4 = raw \gls{spr}
 \end{itemize}
 
@@ -1543,9 +1543,9 @@ For each fleet that has index observations, enter a row with six entries as desc
 		\item If the parameter is for an index of a deviation vector (index units = 35), use this column to enter the index of the deviation vector to which the index is related. 
 		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
 		\begin{itemize}
-			\item 0 = add 1 to phases of all parameters. Only R0 active in new phase 1. Mimics the default option of previous model versions;
-			\item 1 = only R0 active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters. Essentially, this option allows the model to mimic \gls{dbsra}; and
-			\item 2 = no phase adjustments, can be used when profiling on fixed R0.
+			\item 0 = add 1 to phases of all parameters. Only $R_{0}$ active in new phase 1. Mimics the default option of previous model versions;
+			\item 1 = only $R_{0}$ active in phase 1. Then finish with no other parameters becoming active; useful for data-limited draws of other fixed parameters. Essentially, this option allows the model to mimic \gls{dbsra}; and
+			\item 2 = no phase adjustments, can be used when profiling on fixed $R_{0}$.
 		\end{itemize}
 	\end{enumerate}
 	\item Extra\_se: Estimatable extra standard error for an index
@@ -2632,7 +2632,7 @@ These values are multiplied by the corresponding likelihood component to calcula
 
 \myparagraph{Lambda Usage Notes}
 \hypertarget{SaAlambda}{}
-If the \gls{cv} for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(stdev) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for \gls{cv} of size-at-age.
+If the \gls{cv} for size-at-age is being estimated and the model contains mean size-at-age data, then the flag for inclusion of the + ln(\gls{sd}) term in the likelihood must be included. Otherwise, the model will always get a better fit to the mean size-at-age data by increasing the parameter for \gls{cv} of size-at-age.
 
 The reading of the lambda values has been substantially altered with v.3.30. Instead of reading a matrix containing all the needed lambda values, the model now just reads those elements that will be given a value other than 1.0. After reading the datafile, the model sets lambda equal to 0.0 if there are no data for a particular fleet/data type, and a value of 1.0 if data exist. So beware if your data files had data, but you had set the lambda to 0.0 in a previous version of SS3. First read an integer for the number of changes.
 
@@ -2689,10 +2689,10 @@ Additional standard deviation reported may be selected:
 	\endfirsthead
 
 
-	\multicolumn{3}{l}{0} & \multicolumn{6}{l}{0 = No additional std dev reporting;} \Tstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read specification for reporting stdev for selectivity, size, numbers; and} \Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting stdev for selectivity, size, numbers,} \Bstrut\\
-	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, dynamic B0, and Summary Bio} \Bstrut\\
+	\multicolumn{3}{l}{0} & \multicolumn{6}{l}{0 = No additional \gls{sd} reporting;} \Tstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{1 = read specification for reporting \gls{sd} for selectivity, size, numbers; and} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{2 = read specification for reporting \gls{sd} for selectivity, size, numbers,} \Bstrut\\
+	\multicolumn{3}{l}{ } & \multicolumn{6}{l}{natural mortality, dynamic $B_{0}$, and Summary Bio} \Bstrut\\
 	\hline
 
 \end{longtable}
@@ -2726,9 +2726,9 @@ COND = 2, enter the above quantities plus (available in versions 3.30.15 and hig
 		\item growth pattern (or 0 for not used), and
 		\item number of ages for reporting, list entered below (note each sex will be reported).
 	\end{enumerate}
-	\item 1 additional value related to dynamic B0 (needed in versions 3.30.17 and higher):
+	\item 1 additional value related to dynamic $B_{0}$ (needed in versions 3.30.17 and higher):
 	\begin{enumerate}
-		\item 0 for not used, 1 to report \gls{ssb} for dynamic B0, 2 to report \gls{ssb} and recruitment
+		\item 0 for not used, 1 to report \gls{ssb} for dynamic $B_{0}$, 2 to report \gls{ssb} and recruitment
 	\end{enumerate}
 	\item 1 additional value related to Summary Bio (needed in versions 3.30.17 and higher):
 	   \begin{enumerate}

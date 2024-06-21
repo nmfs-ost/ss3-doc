@@ -126,7 +126,7 @@ Code for the deviation link can be found in \href{https://github.com/nmfs-ost/ss
 
 If a time-varying specification set up in the long parameter lines for a particular section requires additional parameters, short parameter lines need to be created following the long parameter lines for the section (unless \hyperlink{autogen}{autogeneration} is used, which creates short parameter lines in \verb|control.ss\_new| upon running the model). The number of parameter lines required depends on the time-varying parameter specification.
 
-For example, if two parameters were specified to have environmental linkages in the mortality-growth (MG) parameter section, below the MG parameters would be two parameter lines (when not auto-generating these lines), which is an environmental linkage parameter for each time-varying base parameter:
+For example, if two parameters were specified to have environmental linkages in the\gls{mg} parameter section, below the \gls{mg} parameters would be two parameter lines (when not auto-generating these lines), which is an environmental linkage parameter for each time-varying base parameter:
 
 \begin{longtable}{p{0.7cm} p{0.7cm} p{0.7cm} p{1cm} p{1.4cm} p{1cm} p{1cm} p{6.7cm}}
 	\hline
@@ -145,23 +145,23 @@ For example, if two parameters were specified to have environmental linkages in 
 	
 	\endlastfoot
 	
-	\multicolumn{7}{l}{COND: Only if MG parameters are time-varying} \Tstrut\\
+	\multicolumn{7}{l}{COND: Only if \gls{mg} parameters are time-varying} \Tstrut\\
 	-99 & 99 & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_1\_Fem\_ENV\_add \Tstrut\\
 	-99 & 99 & 1 & 0 & 0.01 & 0 & -1 &\#Wtlen\_2\_Fem\_ENV\_add \Bstrut\\
 	\hline
 \end{longtable}
 
-In Stock Synthesis v.3.30, the time-varying input short parameter lines are organized such that all parameters that affect a base parameter are clustered together with time blocks (or trend) first, then environmental linkages, then parameter deviations. For example, if the MG base parameters 3 and 7 had time varying changes, the order would look like:
+In Stock Synthesis v.3.30, the time-varying input short parameter lines are organized such that all parameters that affect a base parameter are clustered together with time blocks (or trend) first, then environmental linkages, then parameter deviations. For example, if the \gls{mg} base parameters 3 and 7 had time varying changes, the order would look like:
  
  \begin{center}
  	\begin{longtable}{p{5cm} p{10cm}}
  		\hline
- 		MG base parameter 3 & Block parameter 3-1 \Tstrut\\
+ 		\gls{mg} base parameter 3 & Block parameter 3-1 \Tstrut\\
  		& Block parameter 3-2 \\
  		& Environmental link parameter 3-1 \\
  		& Deviation \gls{se} parameter 3 \\
  		& Deviation $\rho$ parameter 3 \Bstrut\\
- 		MG base parameter 7 & Block parameter 7-1 \\
+ 		\gls{mg} base parameter 7 & Block parameter 7-1 \\
  		& Deviation \gls{se} parameter 7 \\
  		& Deviation $\rho$ parameter 7 \Bstrut\\
  		\hline	 	                    		
@@ -184,7 +184,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 \myparagraph{Environmental and density dependent linkages}
 
 \begin{itemize}
-	\item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as index number 1, the growth parameter $K$ (if using a von Bertalanffy growth equation) could be linked to the water temperature proxy data by specifying the code ``201'' in the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line is required after the ``MG parameter'' long parameter lines section.
+	\item Suppose growth rate is found to be linked with an index of water temperature. The water temperature proxy could be input into the data file as environmental data. If it is input as index number 1, the growth parameter $K$ (if using a von Bertalanffy growth equation) could be linked to the water temperature proxy data by specifying the code ``201'' in the env\_var\&link function input. This would establish an offset link between the parameter and the temperature proxy. One additional parameter line is required after the ``\gls{mg} parameter'' long parameter lines section.
 	\item Suppose for a fishery, selectivity is thought to shift depending on population size. Smaller fish are selected when there are lower population numbers, while larger fish are selected when there are higher population numbers. The selectivity parameter could be made time-varying using the code ``-104'' in the env\_var\&link option, which assumes an exponential scalar link between the base selectivity parameter and the time varying parameter value. One additional parameter line is required at the end of the selectivity long parameter lines section.
 \end{itemize}
 
@@ -207,7 +207,7 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 \myparagraph{Trends}
 
 \begin{itemize}
-	\item Suppose natural mortality was thought to increase from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the ``use block'' column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for M could look like:
+	\item Suppose natural mortality was thought to increase from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the ``use block'' column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for $M$ could look like:
 	\begin{center}
 		\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{3cm}}
 			
