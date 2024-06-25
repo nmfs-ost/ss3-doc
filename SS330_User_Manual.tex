@@ -1,8 +1,9 @@
 % Preamble =========================================================================================
 %Options added to improve pdf accessibility:
-\PassOptionsToPackage{enable-debug,check-declarations}{expl3}
 \RequirePackage{pdfmanagement-testphase}
-\DeclareDocumentMetadata {  }
+\PassOptionsToPackage{enable-debug,check-declarations}{expl3}
+%\DeclareDocumentMetadata {  }
+\DocumentMetadata{testphase={phase-III,math}}
 \ExplSyntaxOn
 \pdfmanagement_add:nnn{Catalog}{Lang}{(enUS)}
 \ExplSyntaxOff
@@ -149,12 +150,19 @@
 \author{Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering,\\Elizabeth F. Perl, and Kelli F. Johnson\\\\\\NOAA Fisheries\\Seattle, WA}
 \date{January 31, 2024}
 
+% ====  Glossary ========================================================
+\usepackage{glossaries}
+\setacronymstyle{long-short}
+\glsdisablehyper
+\makenoidxglossaries 
+\loadglsentries{ss3_glossaries.tex}
+
 \begin{document}
 	% ====== Title Page ===================================================
 	\maketitle
 	\begin{figure}[ht]
 	    \begin{center}
-	    	\includegraphics[height=2in]{noaalogo.jpg}
+	    	\includegraphics[alt={Logo of the National Oceanic and Atmospheric Administration (NOAA)},height=2in]{noaalogo.jpg}
 	    \end{center}
 	    %\caption{Logo of the National Oceanic and Atmospheric Administration (NOAA)}
 		\label{fig:logo}
@@ -182,7 +190,6 @@
 	%\listoffigures
 	%\addcontentsline{toc}{section}{\numberline{}List of Figures}
 	\cleardoublepage
-
 	% ====== Section 1 - 4 =============================================================
 	\pagenumbering{arabic}
 	\input{1_4sections}
@@ -210,6 +217,10 @@
 	\input{15special}
 	%========= Section 16: Essays
 	\input{16essays}
+	%========= Glossary
+	\hypertarget{Acronyms}{}
+	\addcontentsline{toc}{section}{List of Acronyms}
+	\printnoidxglossary[title=\protect\hyperlink{Acronyms}{List of Acronyms},nonumberlist]
 	%========= Reference Section
 	\newpage
 	\bibliography{SS3}
