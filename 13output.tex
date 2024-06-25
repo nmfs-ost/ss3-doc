@@ -75,16 +75,16 @@ Before listing the derived quantities reported to the standard deviation report,
 
 \hypertarget{VirginUnfished}{}
 \subsubsection[Virgin Spawning Biomass vs. Unfished Spawning Biomass]{\protect\hyperlink{VirginUnfished}{Virgin Spawning Biomass vs. Unfished Spawning Biomass}}
-Unfished is the condition for which reference points (benchmark) are calculated. Virgin Spawning Biomass ($B_{0}$, also seen as Bzero in the Report file) is the initial condition on which the start of the time series depends. If biology or spawner-recruitment parameters are time-varying, then the benchmark year input in the forecast file tells the model which years to average in order to calculate ``unfished''. In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as ``unfished'' for clarity. Note that if $ln(R_{0})$ is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SSB\_virgin and spawning biomass unfished is denoted as SSB\_unfished in the report file.
+Unfished is the condition for which reference points (benchmark) are calculated. Virgin Spawning Biomass is the initial condition on which the start of the time series depends. If biology or spawner-recruitment parameters are time-varying, then the benchmark year input in the forecast file tells the model which years to average in order to calculate ``unfished''. In this case, virgin recruitment and/or the virgin spawning biomass will differ from their unfished counterparts. Virgin recruitment and spawning biomass are reported in the mgmt\_quant portion of the sd\_report and are now labeled as ``unfished'' for clarity. Note that if $ln(R_{0})$ is time-varying, then this will cause unfished to differ from virgin. However, if regime shift parameter is time-varying, then unfished will remain the same as virgin because the regime shift is treated as a temporary offset from virgin. Virgin spawning biomass is denoted as SSB\_virgin and spawning biomass unfished is denoted as SSB\_unfished in the report file.
 
-Virgin Spawning Biomass ($B_{0}$) is used in four ways within SS3:
+Virgin Spawning Biomass is used in four ways within SS3:
 \begin{enumerate}
 	\item Anchor for the spawner-recruitment relationship as virgin spawning biomass.
 	\item Basis for the initial equilibrium abundance. 
 	\item Basis against which annual depletion is calculated.
 	\item Benchmark calculations.
 \end{enumerate}
-However, if there is time-varying biology, then the 4th usage can have a different $B_{0}$ calculation compared to the other usages.
+However, if there is time-varying biology, then the 4th usage can have a different Virgin Spawning Biomass calculation compared to the other usages.
 
 \hypertarget{FMortality}{}
 \subsubsection[Metrics for Fishing Mortality]{\protect\hyperlink{FMortality}{Metrics for Fishing Mortality}}
@@ -132,7 +132,7 @@ $F\text{-at-Age}$ for each fleet is presented in \texttt{Report.sso} as table 39
 	\end{verbatim}
 \end{quote}
 
-In addition to the $F\_std$ and $\text{annual\_}F$ outputs, info on total $F\text{-at-Age}$ across all fleets is reported at the end of the \texttt{Report.sso} file. This section of the report calculates $Z\text{-at-Age}$ as $ln(N_{a+1,t+1}/N_{a,t})$. This is done for numbers at the beginning of each year and the N values are summed over all areas. It is done once using the fishing intensities as estimated (to get $Z\text{-at-Age}$), and once with the $F$ intensities set to 0.0 to get $M\text{-at-Age}$. This latter sequence also provides a measure of dynamic $B_{0}$. The user can then subtract the table of $M\text{-at-Age/year}$ from the table of $Z\text{-at-Age/year}$ to get a table of $F\text{-at-Age/year}$. From this $\text{apical\_}F$, average $F$ over a range of ages, or other user-desired statistics could be calculated. The header for this table looks like:
+In addition to the $F\_std$ and $\text{annual\_}F$ outputs, info on total $F\text{-at-Age}$ across all fleets is reported at the end of the \texttt{Report.sso} file. This section of the report calculates $Z\text{-at-Age}$ as $ln(N_{a+1,t+1}/N_{a,t})$. This is done for numbers at the beginning of each year and the N values are summed over all areas. It is done once using the fishing intensities as estimated (to get $Z\text{-at-Age}$), and once with the $F$ intensities set to 0.0 to get $M\text{-at-Age}$. This latter sequence also provides a measure of dynamic Virgin Spawning Biomass. The user can then subtract the table of $M\text{-at-Age/year}$ from the table of $Z\text{-at-Age/year}$ to get a table of $F\text{-at-Age/year}$. From this $\text{apical\_}F$, average $F$ over a range of ages, or other user-desired statistics could be calculated. The header for this table looks like:
 \begin{quote}
 	\begin{verbatim}
 	Z\_AT\_AGE\_Annual\_2 With\_fishery
