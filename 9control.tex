@@ -1801,7 +1801,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	2 \Tstrut & 6 & \hyperlink{Pattern2}{Older version} of selectivity pattern 24 (double normal with peak and tail controls) for backward compatibility in treatment of sex-specific scaling. \\
 	5 \Tstrut & 2 & \hyperlink{MirrorSelectivity}{Mirror selectivity}. The two parameters select bin range. \\
 	6 \Tstrut & 2 + N breaks & \hyperlink{NonParamSelectivity6}{Older non-parametric size selectivity} (see also Patterns 21 and 43). \\
-	8 \Tstrut & 8 & \hyperlink{DoubleLogSelectivity}{Double logistic selectivity}, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1. Recommend using pattern 24 instead. \\
+	8 \Tstrut & 8 & \hyperlink{DoubleLogSelectivity}{Double logistic selectivity}, with defined peak, uses smooth joiners; special = 1 causes constant selectivity above $L_{inf}$ for morph 1. Recommend using pattern 24 instead. \\
 	9 \Tstrut & 6 & \hyperlink{SimpleDoubleLog}{Simple double logistic selectivity with no defined peak}. \\
 	11 \Tstrut & 2 & \hyperlink{SelectivityOneRange}{Selectivity = 1.0 for a specified length-bin range}. \\
 	15 \Tstrut & 0 & \hyperlink{MirrorAnotherSelectivity}{Mirror another selectivity} (same for age selectivity). \\
@@ -2054,7 +2054,7 @@ where
 \myparagraph{Pattern 21 (size) - Newer non-parametric selectivity}
 Non-parametric size selectivity which uses a set of linear segments like Pattern 6, but you have full control over the break points (as opposed to equidistant points over a specified range) and the parameters represent the absolute selectivity without the logistic transformation used in Pattern 6. This allows direct input of an empirical selectivity vector as fixed parameters if desired. The Special column in the selectivity setup specifies the number of break points where the required number of parameter lines is twice this value, with the first set of N parameters providing the length at each break point (which should be fixed via a negative phase) and the second set of N provides the absolute selectivity at each point. 
 
-All of the selectivity parameters must to be non-negative, so should have a lower bound at 0 (or higher). Upper bounds at 1.0 probably make sense for most cases. However, there is no rescaling to ensure a maximum of 1.0. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
+All of the selectivity parameters must to be non-negative, having a lower bound at 0 (or higher). Upper bounds at 1.0 probably make sense for most cases. However, there is no rescaling to ensure a maximum of 1.0. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
 
 Selectivity ramps linearly from the origin up to the first selectivity parameter at the first break point and is constant beyond the last break point.
 
@@ -2128,7 +2128,7 @@ Auto-Generation of Cubic Spline Control File Setup: A new feature pioneered with
 		\item 12: auto-generate the nodes and other inputs as in 2 above and also fix selectivity = 0.0 below the first knot 
 	\end{itemize}
 	
-With either the auto-generate option 1, 2 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
+With either the auto-generate option 1, 2, 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
 	
 Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in \texttt{echoinput.sso} and in a new OVERALL\_COMPS section of \texttt{report.sso}.
 	
