@@ -1861,8 +1861,6 @@ Special selectivity options (type 30 in size based selectivity) are no longer sp
 \subsubsection[Selectivity Pattern Details]{\protect\hyperlink{SelPattern}{Selectivity Pattern Details}}
 
 \hypertarget{LogisticSelectivity}{}
-
-\hypertarget{LogisticSelectivity}{}
 \myparagraph{Pattern 1 (size) and 12 (age) - Simple Logistic}
 Logistic selectivity for the primary sex (if selectivity varies by sex) is formulated as:
 	\begin{equation}
@@ -1875,11 +1873,9 @@ where $L_l$ is the length bin. If age based selectivity is selected then the len
 \end{itemize}
 
 \hypertarget{Pattern2}{}
-\hypertarget{Pattern2}{}
 \myparagraph{Pattern 2 (size) - Older version of selectivity pattern 24 for backward compatibility}
 Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset parameter 5. See note in \hyperlink{MaleSelectivityOffset}{Male Selectivity Estimated as Offsets from Female Selectivity} for more information. Pattern 24 was changed in v.3.30.19 with the old parameterization now provided in Pattern 2.
 
-\hypertarget{MirrorSelectivity}{}
 \hypertarget{MirrorSelectivity}{}
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
 Two parameters select the min and max bin number (not min max size) of the source selectivity pattern. If first parameter has value $<=$ 0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value $<=$ 0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must be from a lower fleet number (e.g., already specified before the mirrored fleet).
@@ -1905,8 +1901,6 @@ Users are discouraged from using the double logistic selectivity. The double nor
 	\end{itemize}
 
 \hypertarget{SelectivityOneRange}{}
-
-\hypertarget{SelectivityOneRange}{}
 \myparagraph{Pattern 11 (size or age) - Selectivity = 1.0 for range}
 Length- or age-selectivity can be set equal to 1.0 for a range of lengths or ages. Like other selectivity types, it is specified in terms of the population, not the data bins.
 
@@ -1928,7 +1922,6 @@ If the selectivity is length-based, the input parameters should match the popula
 \end{itemize}
 
 \hypertarget{ReviseAge}{}
-\hypertarget{ReviseAge}{}
 \myparagraph{Pattern 14 (age) - Revise Age}
 Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selectivity at the next younger age. When using this option, the range on each parameter should be approximately -5 to 9 to prevent the parameters from drifting into extreme values with nil gradient. The age-based selectivity is calculated as $a = 1$ to $a = Amax + 1$:
 
@@ -1936,7 +1929,6 @@ Age-selectivity pattern 14 to allow selectivity-at-age to be the same as selecti
 	S_a = \frac{1}{1+exp(-(p_{a+1} + (9 - max(p_a))))}
 \end{equation}	
 
-\hypertarget{RandomWalk}{}
 \hypertarget{RandomWalk}{}
 \myparagraph{Pattern 17 (age) - Random Walk}
 This selectivity pattern provides for a random walk in ln(selectivity). For each age $a \geq A_{\text{min}}$, where $A_{\text{min}}$ is the minimum age for which selectivity is allowed to be non-zero, there is a selectivity parameter, $p_a$, controlling the changing selectivity from age $a-1$ to age $a$.
@@ -1979,8 +1971,6 @@ Code for implementing random walk selectivity can be found in \href{https://gith
 
 \hypertarget{DoubleNormalPlateau}{}
 \myparagraph{Pattern 22 (size) - Double Normal Selectivity with Plateau}
-\hypertarget{DoubleNormalPlateau}{}
-\myparagraph{Pattern 22 (size) - Double Normal Selectivity with Plateau}
 	\begin{itemize}
 		\item p1 - peak1: beginning size for the plateau (in cm).
 		\item p2 - peak2: ending size for the plateau. Calculated as a fraction of the distance between peak1 and 99\% of the lower edge of the last size bin in the model. Transformed as 1/(1+exp(-p2)). So a value of 0 results in peak2 being halfway between peak1 and 99\% of the last bin.
@@ -1988,8 +1978,6 @@ Code for implementing random walk selectivity can be found in \href{https://gith
 		\item p4 - downslope: ln(variance) on descending side.
 	\end{itemize}
 
-\hypertarget{DoubleNormalPeak}{}
-\myparagraph{Pattern 23 (size), 24 (size), 2 (legacy), and 20 (age) - Double Normal Selectivity with Defined Peak and Tail Controls}	
 \hypertarget{DoubleNormalPeak}{}
 \myparagraph{Pattern 23 (size), 24 (size), 2 (legacy), and 20 (age) - Double Normal Selectivity with Defined Peak and Tail Controls}	
 	\begin{itemize}
@@ -2024,15 +2012,11 @@ No parameters. Whole age range is mirrored from another fleet. The mirrored sele
 
 \hypertarget{GaussianSelectivity}{}
 \myparagraph{Pattern 16 (age) - Gaussian Selectivity(similar to Coleraine)}
-\hypertarget{GaussianSelectivity}{}
-\myparagraph{Pattern 16 (age) - Gaussian Selectivity(similar to Coleraine)}
 	\begin{itemize}
 		\item p1 - age below which selectivity declines
 		\item p2 - scaling factor for decline
 	\end{itemize}
 
-\hypertarget{SimpleDoubleLog}{}
-\myparagraph{Pattern 9 (size) and 19 (age) - Simple Double Logistic Selectivity}
 \hypertarget{SimpleDoubleLog}{}
 \myparagraph{Pattern 9 (size) and 19 (age) - Simple Double Logistic Selectivity}
 
@@ -2051,13 +2035,11 @@ The shape of the selectivity is provided by the function (here in terms of age $
  \end{equation}
 
 which is then rescaled by first adding a small constant to all values and then rescaling to have a maximum of 1.0:
-which is then rescaled by first adding a small constant to all values and then rescaling to have a maximum of 1.0:
  
  \begin{equation}
     S_a = (S'_a + 0.000001) / \max_{a'}\{S'_a + 0.000001\}
  \end{equation}
 
-where
 where
 	\begin{itemize}
 		\item p1 - ascending inflection age/size (in cm).
@@ -2096,8 +2078,6 @@ where $L_l$ is the length bins at bin $l$ (if age-based substitute with age bins
 	S_l = \frac{e^{p3*p1(peak-L_l)}}{1-p3(1-e^{p1(peak- L_l)})}
 	\end{equation}
 
-\hypertarget{cubic-spline}{}
-\myparagraph{Pattern 27 (size or age)- Cubic Spline Selectivity}
 \hypertarget{cubic-spline}{}
 \myparagraph{Pattern 27 (size or age)- Cubic Spline Selectivity}
 This selectivity pattern uses the ADMB implementation of the cubic spline
@@ -2181,8 +2161,6 @@ When the complete auto-generation is selected, the \texttt{control.ss\_new} woul
 
 \hypertarget{RandomWalkScaling}{}
 \myparagraph{Pattern 41 (age) - Random Walk Selectivity with User-Defined Scaling}
-\hypertarget{RandomWalkScaling}{}
-\myparagraph{Pattern 41 (age) - Random Walk Selectivity with User-Defined Scaling}
 Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
@@ -2203,8 +2181,6 @@ Selectivity pattern 17 with two additional parameters. The two additional parame
 
 \hypertarget{CubicSplineScaling}{}
 \myparagraph{Pattern 42 (size or age) - Cubic Spline Selectivity with User-Defined Scaling}
-\hypertarget{CubicSplineScaling}{}
-\myparagraph{Pattern 42 (size or age) - Cubic Spline Selectivity with User-Defined Scaling}
 Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
 
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
@@ -2223,8 +2199,6 @@ Selectivity pattern 27 with two additional parameters. The two additional parame
 		\hline
 	\end{longtable}
 
-\hypertarget{NonParamScaling}{}
-\myparagraph{Pattern 43 (size) - Non-parametric Selectivity with User-Defined Scaling}
 \hypertarget{NonParamScaling}{}
 \myparagraph{Pattern 43 (size) - Non-parametric Selectivity with User-Defined Scaling}
 Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
@@ -2296,10 +2270,6 @@ An example specification and setup for this selectivity option where selectivity
 		-1000 & 10 & -1000  & \multicolumn{1}{c}{...} & 0 & \#male ln(selex) change 4 \Bstrut\\
 		\hline
 	\end{longtable}
-
-\hypertarget{Pattern45}{}
-\myparagraph{Pattern 45 (age) - Revise Age Selectivity with Separate Parameters for Males and Females}
-Similar to pattern 14 (revise age) but with separate parameters for males and females. Age-selectivity pattern 45 to allow selectivity-at-age to be the same as selectivity at the next younger age.
 
 \hypertarget{Pattern45}{}
 \myparagraph{Pattern 45 (age) - Revise Age Selectivity with Separate Parameters for Males and Females}
