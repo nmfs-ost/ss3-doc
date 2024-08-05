@@ -1,16 +1,34 @@
 \hypertarget{OutputFiles}{}
 \section[Output Files]{\protect\hyperlink{OutputFiles}{Output Files}}
 
-\hypertarget{CustomReporting}{}
-\subsection[Custom Reporting]{\protect\hyperlink{CustomReporting}{Custom Reporting}}
-\hypertarget{custom}{} 
-Additional user control for what is included in the \texttt{Report.sso} file was added in v.3.30.16. This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file. The numbering system for each item in the Report file is as follows:
+\begin{longtable}{| p{5cm} | p{5cm} | p{5cm} |}
+	\hline
+	\textbf{Output with Results} & \textbf{Output Mirroring Input} & \textbf{Output for Debugging} \Tstrut\Bstrut\\ 
+	\hline
+    Report.sso & starter.ss\_new & warning.sso \\
+    ss\_summary.sso & control.ss\_new & echoinput.sso \\
+    CompReport.sso & data\_echo.ss\_new & ParmTrace.sso \\
+    covar.sso & forecast.ss\_new & \\
+    Forecast-report.sso & wtatage.ss\_new & \\
+    ss3.par & & \\
+    \hline
+\end{longtable}
 
 \begin{landscape}
+    \hypertarget{ReportFile}{}
+    \subsection[Report.sso File]{\protect\hyperlink{ReportFile}{Report.sso File}}
+
 	\begin{longtable}{p{1.2cm} p{2.8cm} p{5cm} p{3.5cm} p{8cm}}
 	\hline
-    Report Number & Description & Report file notation & r4ss notation & Notes \Tstrut\Bstrut\\
+	\textbf{Report Number} & \textbf{Description} & \textbf{Report file notation} & \textbf{r4ss notation} & \textbf{Notes} \Tstrut\Bstrut\\ 
 	\hline
+	\endfirsthead
+		
+    \hline
+    \textbf{Report Number} & \textbf{Description} & \textbf{Report file notation} & \textbf{r4ss notation} & \textbf{Notes} \Tstrut\Bstrut\\  
+	\hline
+	\endhead
+
     1 & Definitions & DEFINITIONS & Split into separate variables: \$nseasons, \$seasfracs, \$seasdurations, and \$FleetNames & List of definitions (e.g., fleet names, model start year) assigned in the data and control files. \Bstrut\\
     2 & Likelihood & LIKELIHOOD & \$likelihoods\_used and \$likelihoods\_by\_fleet & Final values of the negative log(likelihood) are presented. \Bstrut\\
     3 & Input variance adjustments & Input\_Variance\_Adjustment & NA & The matrix of input variance adjustments is output here because these values affect the log likelihood calculations. \Bstrut\\
@@ -80,6 +98,11 @@ Additional user control for what is included in the \texttt{Report.sso} file was
     \hline
     \end{longtable}
 \end{landscape}
+
+\hypertarget{CustomReporting}{}
+\subsection[Custom Reporting]{\protect\hyperlink{CustomReporting}{Custom Reporting}}
+\hypertarget{custom}{} 
+Additional user control for what is included in the \texttt{Report.sso} file was added in v.3.30.16. This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file.
 
 \hypertarget{ADMBOutput}{}
 \subsection[Standard ADMB output files]{\protect\hyperlink{ADMBOutput}{Standard ADMB output files}}
