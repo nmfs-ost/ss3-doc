@@ -76,13 +76,13 @@ When the two-dimensional autoregressive selectivity (2DAR) feature is turned on 
 \hat{S}_{a,t} = S_aexp^{\epsilon_{a,t}}
 \end{equation}
 
-where $S_a$ is specified in the corresponding age/length selectivity types section, and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS3); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2DAR1) process:
+where $S_a$ is specified in the corresponding age/length selectivity types section, and it can be either parametric (recommended) or non-parametric (including any of the existing selectivity options in SS3); $\epsilon_{a,t}$ is simulated as a two-dimensional first-order autoregressive (2DAR) process:
 
 \begin{equation}
 vec(\epsilon) \sim MVN(\mathbf{0},\sigma_s^2\mathbf{R_{total}})
 \end{equation}
 
-where $\epsilon$ is the two-dimensional deviation matrix and $\sigma_s^2\mathbf{R_{total}}$ is the covariance matrix for the 2DAR1 process. More specifically, $\sigma_s^2$ quantifies the variance in selectivity deviations and $\mathbf{R_{total}}$ is equal to the kronecker product ($\otimes$) of the two correlation matrices for the among-age and among-year AR1 processes:
+where $\epsilon$ is the two-dimensional deviation matrix and $\sigma_s^2\mathbf{R_{total}}$ is the covariance matrix for the 2DAR process. More specifically, $\sigma_s^2$ quantifies the variance in selectivity deviations and $\mathbf{R_{total}}$ is equal to the kronecker product ($\otimes$) of the two correlation matrices for the among-age and among-year AR processes:
 
 \begin{equation}
 \mathbf{R_{total}}=\mathbf{R}\otimes\mathbf{\tilde{R}}
@@ -96,20 +96,22 @@ where $\epsilon$ is the two-dimensional deviation matrix and $\sigma_s^2\mathbf{
 \mathbf{\tilde{R}}_{t,\tilde{t}}=\rho_t^{|t-\tilde{t}|}
 \end{equation}
 
-where $\rho_a$ and $\rho_t$ are the among age and among year AR1 coefficients, respectively. When both of them are zero, $\mathbf{R}$ and $\mathbf{\tilde{R}}$ are two identity matrices and their Kronecker product, $\mathbf{R_{total}}$, is also an identity matrix. In this case selectivity deviations are essentially identical and mutually independent:
+where $\rho_a$ and $\rho_t$ are the among age and among year AR coefficients, respectively. When both of them are zero, $\mathbf{R}$ and $\mathbf{\tilde{R}}$ are two identity matrices and their Kronecker product, $\mathbf{R_{total}}$, is also an identity matrix. In this case selectivity deviations are essentially identical and mutually independent:
 
 \begin{equation}
 \epsilon_{a,t}\sim N(0,\sigma_s^2)
 \end{equation} 
 
 \myparagraph{Using the Two-Dimensional Autoregressive Selectivity}
-Note, \citet{xu-new-2019} has additional information on tuning the 2DAR1 selectivity parameters. First, fix the two AR1 coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
+See \citet{xu-new-2019} and \citet{xu-comparing-2020} for information on tuning the 2DAR selectivity parameters. There is not yet a generalized method to automate the tuning, so the information below provides a general framework.
+
+First, fix the two AR coefficients ($\rho_a$ and $\rho_t$) at 0 and tune $\sigma_s$ iteratively to match the relationship:
 
 \begin{equation}
 \sigma_s^2=SD(\epsilon)^2+\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t_{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2
 \end{equation}
 
-The minimal and maximal ages/lengths and years for the 2DAR1 process can be freely specified by users in the control file. However, we recommend specifying the minimal and maximal ages and years to cover the relatively ``data-rich'' age/length and year ranges only. Particularly we introduce: 
+The minimal and maximal ages/lengths and years for the 2DAR process can be freely specified by users in the control file. However, we recommend specifying the minimal and maximal ages and years to cover the relatively ``data-rich'' age/length and year ranges only. Particularly we introduce: 
 
 \begin{equation}
 b=1-\frac{\frac{1}{(a_{max}-a_{min}+1)(t_{max}-t{min}+1)}\sum_{a=a_{min}}^{a_{max}}\sum_{t=t_{min}}^{t_{max}}SE(\epsilon_{a,t})^2}{\sigma_s^2}
@@ -119,7 +121,6 @@ as a measure of how rich the composition data is regarding estimating selectivit
 
 Second, fix $\sigma_s$ at the value iteratively tuned in the previous step and estimate $\epsilon_{a,t}$. Plot both Pearson residuals and $\epsilon_{a,t}$ out on the age-year surface to check their 2D dimensions. If their distributions seems to be not random but rather be autocorrelated (deviation estimates have the same sign several ages and/or years in a row), users should consider estimating and then including the autocorrelations in $\epsilon_{a,t}$.
 
-Third, extract the estimated selectivity deviation samples from the previous step for estimating $\rho_a$ and $\rho_t$ externally by fitting the samples to a stand-alone model written in \gls{tmb}. In this model, both $\rho_a$ and $\rho_t$ are bounded between 0 and 1 via applying a logic transformation. If at least one of the two AR1 coefficients are notably different from 0, the model should be run one more time by fixing the two AR1 coefficients at their values externally estimated from deviation samples. The Pearson residuals and $\epsilon_{a,t}$ from this run are expected to distribute more randomly as the autocorrelations in selectivity deviations can be at least partially included in the 2DAR1 process.
 
 \hypertarget{continuous-seasonal-recruitment-sec}{}
 \subsection[Continuous seasonal recruitment]{\protect\hyperlink{continuous-seasonal-recruitment-sec}{Continuous seasonal recruitment}}
