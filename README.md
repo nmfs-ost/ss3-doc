@@ -10,7 +10,7 @@ The documentation includes:
 
 ## Where can I find compiled versions of the documentation?
 
-See the [ss3 documentation index page](https://nmfs-ost.github.io/ss3-doc/) for links to a PDF and HTML version of the compiled documentation from the latest Stock Synthesis release. If you would like a more detailed list of changes to Stock Synthesis in the most recent release, please see the [Stock Synthesis change log](https://github.com/orgs/nmfs-ost/projects/11).
+See the [ss3 website](https://nmfs-ost.github.io/ss3-website/) for links to a PDF and HTML version of the compiled documentation from the latest Stock Synthesis release. If you would like a more detailed list of changes to Stock Synthesis in the most recent release, please see the [Stock Synthesis change log](https://github.com/orgs/nmfs-ost/projects/11).
 
 PDF versions of the user manual are also available in the [ss3 manuals folder on the vlab website](https://vlab.noaa.gov/web/stock-synthesis/document-library/-/document_library/0LmuycloZeIt/view/4513132).
 
