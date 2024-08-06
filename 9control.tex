@@ -196,7 +196,7 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 
 The above example specifies settlement to mid-May (month 5.5). Note that normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning. 
 
-Below is an example set-up where there are multiple settlement events, with one occurring the following year after spawning: 
+Below is an example setup where there are multiple settlement events, with one occurring the following year after spawning: 
 \begin{center}
 	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{7cm}}
@@ -553,8 +553,8 @@ A growth cessation model was developed for the application to tropical tuna spec
 	  & & 1 = von Bertalanffy (3 parameters); \\
 	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters. Third parameter has null value of 1.0; \\
 	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature; \\
-	  & & 4 = age-specific K. Set base K as K for age = nages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
-	  & & 5 = age specific K. Set base K as K for nages and work backwards and the age-specific K = base K * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
+	  & & 4 = age-specific K. Set base K as K for age = N ages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
+	  & & 5 = age specific K. Set base K as K for N ages and work backwards and the age-specific K = base K * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
 	  & & 6 = not implemented; \\
 	  & & 7 = not implemented; and \\
 	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut\\
@@ -574,20 +574,20 @@ A growth cessation model was developed for the application to tropical tuna spec
 	0 & & Placeholder for a future growth feature. \Tstrut\Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
+	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
 	3 & & Number of K multipliers to read; \\
 	& 5 & Minimum age for age-specific K; and \\
 	& 6 & Second age for age-specific K; and \\
 	& 7 & Maximum age for age-specific K. \Bstrut\\
 	
-	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
+	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
 	3 & & Number of K multipliers to read; \\
 	  & 7 & Maximum age for age-specific K; \\
 	  & 6 & Second age for age-specific K; and \\
 	  & 5 & Minimum age for age-specific K. \Bstrut\\
 	\hline
 	
-	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value. For example, if the base parameter is 0.20 based on the example set-up the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
+	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
 	3 & & Number of K multipliers to read; \\
 	& 7 & Maximum age for age-specific K; \\
 	& 6 & Second age for age-specific K; and \\
@@ -636,7 +636,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\hline
 
 	\multicolumn{2}{l}{COND = 3 or 4} & Maturity Option \Tstrut\\
-	\multicolumn{2}{r}{0 0.05 0.10...} & Vector of age-specific maturity or fecundity. One row of length Nages + 1 based on the maximum population age for each female growth pattern. \Bstrut\\
+	\multicolumn{2}{r}{0 0.05 0.10...} & Vector of age-specific maturity or fecundity. One row of length N ages + 1 based on the maximum population age for each female growth pattern. \Bstrut\\
 	\multicolumn{2}{l}{COND = 6} & Maturity Option \Tstrut\\
 	\multicolumn{2}{r}{0 0.05 0.10...} & Vector of length-specific maturity or fecundity, based on the population length bins. One row of length equal to the number of population length bins (defined in the data file) for each female growth pattern. \Bstrut\\
 	\hline
@@ -706,7 +706,7 @@ These parameter lines are entered directly after the weight-at-length parameters
 \hypertarget{offset}{}
 \subsubsection[Natural Mortality and Growth Parameter Offset Method]{\protect\hyperlink{offset}{Natural Mortality and Growth Parameter Offset Method}}
 
-The most common set-up for natural mortality and growth parameters for two-sex models is direct assignment (option 1) which allows for independent estimation (or fixing) of natural mortality and growth parameters by sex. Within the direct assignment option there is functionality to set male parameters equal to the corresponding female parameter if the male INIT value is set to 0 and the phase is negative. 
+The most common setup for natural mortality and growth parameters for two-sex models is direct assignment (option 1) which allows for independent estimation (or fixing) of natural mortality and growth parameters by sex. Within the direct assignment option there is functionality to set male parameters equal to the corresponding female parameter if the male INIT value is set to 0 and the phase is negative. 
 
 Alternatively, there may be situations where a user wants to create direct linkages between natural mortality and growth parameters between sexes (options 2 or 3). If the parameter offset option 2 is selected, the control file still requires that all male natural mortality and growth parameters lines to be included. The natural mortality and growth parameters (e.g., k, Lmin, Lmax, CV1, CV2) for sex > 1 (typically male fish) have a value that is an exponential offset to the female natural mortality and growth parameters, e.g., $M_{\text{male}} = M_{\text{female}}*exp(M_{\text{male offset}})$. An offset parameter can be fixed at 0.0, at a non-zero value, or estimated.
 
@@ -1142,7 +1142,7 @@ where $temp$ stabilizes recruitment at $R_0$ if $SB_y > SB_0$.
 
 \hypertarget{SRRParam}{}
 \subsubsection[Spawner-Recruitment Parameter Setup]{\protect\hyperlink{SRRParam}{Spawner-Recruitment Parameter Setup}}
-Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE). These parameters are:
+Read the required number of long parameter setup lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE). These parameters are:
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
 	\hline
 	Value & Label & Description \Tstrut\Bstrut\\
@@ -1178,7 +1178,7 @@ Read the required number of long parameter set-up lines (e.g., LO, HI, INIT, PRI
 \end{longtable}
 
 
-Example set-up of the spawner-recruitment section:
+Example setup of the spawner-recruitment section:
 \begin{center}
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{3cm} p{2cm} p{3.5cm}}
 		
@@ -1488,7 +1488,7 @@ If there is catch, then give a starting value greater than zero, and it generall
 It is possible to use the initial $F$ method to achieve an estimate of the initial equilibrium $Z$ in cases where the initial equilibrium catch is unknown. To do this requires 2 changes to the input files:
 \begin{enumerate}
 	\item Data File: Include a positive value for the initial equilibrium catch for at least one fleet, often with a higher standard error depending upon the situation.
-	\item Control File: Add an initial $F$ parameter line (short parameter line) for each fleet and season with initial equilibrium catch to be estimated immediately after the Fishing Mortality set-up. It will be influenced by the early age and size comps which should have some information about the early levels of $Z$.
+	\item Control File: Add an initial $F$ parameter line (short parameter line) for each fleet and season with initial equilibrium catch to be estimated immediately after the Fishing Mortality setup. It will be influenced by the early age and size comps which should have some information about the early levels of $Z$.
 \end{enumerate}
 
 \begin{longtable}{p{1.3cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1.2cm} p{1cm} p{2.5cm}}
@@ -1800,19 +1800,19 @@ The currently defined selectivity patterns, and corresponding required number of
 	1 \Tstrut & 2 & \hyperlink{LogisticSelectivity}{Logistic selectivity}. \\
 	2 \Tstrut & 6 & \hyperlink{Pattern2}{Older version} of selectivity pattern 24 (double normal with peak and tail controls) for backward compatibility in treatment of sex-specific scaling. \\
 	5 \Tstrut & 2 & \hyperlink{MirrorSelectivity}{Mirror selectivity}. The two parameters select bin range. \\
-	6 \Tstrut & 2 + special & \hyperlink{NonParamSelectivity}{Non-parametric selectivity}. \\
-	8 \Tstrut & 8 & \hyperlink{DoubleLogSelectivity}{Double logistic selectivity}, with defined peak, uses smooth joiners; special=1 causes constant selectivity above $L_{inf}$ for morph 1. Recommend using pattern 24 instead. \\
+	6 \Tstrut & 2 + N breaks & \hyperlink{NonParamSelectivity6}{Older non-parametric size selectivity} (see also Patterns 21 and 43). \\
+	8 \Tstrut & 8 & \hyperlink{DoubleLogSelectivity}{Double logistic selectivity}, with defined peak, uses smooth joiners; special = 1 causes constant selectivity above $L_{inf}$ for morph 1. Recommend using pattern 24 instead. \\
 	9 \Tstrut & 6 & \hyperlink{SimpleDoubleLog}{Simple double logistic selectivity with no defined peak}. \\
 	11 \Tstrut & 2 & \hyperlink{SelectivityOneRange}{Selectivity = 1.0 for a specified length-bin range}. \\
 	15 \Tstrut & 0 & \hyperlink{MirrorAnotherSelectivity}{Mirror another selectivity} (same for age selectivity). \\
-	21 \Tstrut & 2 & Non-parametric size selectivity. \\
+	21 \Tstrut & 2 & \hyperlink{NonParamSelectivity21}{Newer non-parametric size selectivity} (see also Patterns 6 and 43). \\
 	22 \Tstrut & 4 & \hyperlink{DoubleNormalPlateau}{Double normal selectivity}; similar to \href{https://casal2.github.io/}{\gls{casal}}. \\
 	23 \Tstrut & 6 & \hyperlink{DoubleNormalPeak}{Same as the selectivity pattern 24 (double normal with peak and tail controls) except the final selectivity is now directly interpreted as the terminal selectivity value}. Cannot be used with Pope's $F$ method because maximum selectivity may be greater than 1. \\
 	24 \Tstrut & 6 & \hyperlink{DoubleNormalPeak}{Double normal selectivity with defined initial and final selectivity level - Recommended option}. \\
 	25 \Tstrut & 3 & \hyperlink{ExponentialLogistic}{Exponential logistic selectivity}. \\
 	27 \Tstrut & 3 + 2*N nodes & \hyperlink{cubic-spline}{Cubic spline selectivity with N nodes}. \\
-	42 \Tstrut & 5 + 2*x & \hyperlink{CubicSplineScaling}{Selectivity pattern 27 (cubic spline) but with 2 additional scaling parameters}. \\
-	43 \Tstrut & 4 + x & \hyperlink{NonParamScaling}{Selectivity pattern 6 (non-parametric) but with 2 additional scaling parameters}. \Bstrut\\
+	42 \Tstrut & 5 + 2*N nodes & \hyperlink{CubicSplineScaling}{Selectivity pattern 27 (cubic spline) but with 2 additional scaling parameters}. \\
+	43 \Tstrut & 4 + N breaks & \hyperlink{NonParamScaling}{Selectivity pattern 6 (non-parametric) but with 2 additional scaling parameters} (see also Patterns 6 and 21). \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -1838,19 +1838,19 @@ The currently defined selectivity patterns, and corresponding required number of
 	11 \Tstrut & 2 & \hyperlink{SelectivityOneRange}{Selectivity = 1.0 for a specified age range}. \\
 	12 \Tstrut & 2 & \hyperlink{LogisticSelectivity}{Logistic selectivity}. \\
 	13 \Tstrut & 8 & Double logistic selectivity, IF joiners. Use discouraged. Use \hyperlink{DoubleLogSelectivity}{selectivity pattern 18 (double logistic selectivity)} instead. \\
-	14 \Tstrut & nages + 1 & \hyperlink{ReviseAge}{Separate parameter for each age (empirical)}, value at age is $\frac{1}{1+exp(-x)}$. \\
+	14 \Tstrut & N ages + 1 & \hyperlink{ReviseAge}{Separate parameter for each age (empirical)}, value at age is $\frac{1}{1+exp(-x)}$. \\
 	15 \Tstrut & 0 & \hyperlink{MirrorAnotherSelectivity}{Mirror another age-specific selectivity pattern}. \\
 	16 \Tstrut & 2 & \hyperlink{GaussianSelectivity}{Coleraine single Gaussian Selectivity}. \\
-	17 \Tstrut & nages + 1 or special + 1 & \hyperlink{RandomWalk}{Empirical as a random walk from previous age}. \\
+	17 \Tstrut & N ages + 1 or special + 1 & \hyperlink{RandomWalk}{Empirical as a random walk from previous age}. \\
 	18 \Tstrut & 8 & \hyperlink{DoubleLogSelectivity}{Double logistic selectivity}, with defined peak, uses smooth joiners. \\
 	19 \Tstrut & 6 & \hyperlink{SimpleDoubleLog}{Simple double logistic selectivity with no defined peak}. \\
 	20 \Tstrut & 6 & \hyperlink{DoubleNormalPeak}{Double normal selectivity with defined initial and final level}. Recommended option. \\
 	26 \Tstrut & 3 & \hyperlink{ExponentialLogistic}{Exponential logistic selectivity}. \\
 	27 \Tstrut & 3 + 2*N nodes & \hyperlink{cubic-spline}{Cubic spline selectivity in age based on N nodes}. \\
-	41 \Tstrut & 2 + nages + 1 & \hyperlink{RandomWalkScaling}{Selectivity pattern 17 (random walk) but with 2 additional scaling parameters}. \\
+	41 \Tstrut & 2 + N ages + 1 & \hyperlink{RandomWalkScaling}{Selectivity pattern 17 (random walk) but with 2 additional scaling parameters}. \\
 	42 \Tstrut & 5 + 2*N nodes & \hyperlink{CubicSplineScaling}{Selectivity pattern 27 (cubic spline) but with 2 additional scaling parameters}. \\
-	44 \Tstrut & 4 + nages & \hyperlink{Pattern44}{Selectivity pattern 17 (random walk) but with separate parameters for males and females and with revised controls}. \\
-	45 \Tstrut & 4 + nages & \hyperlink{Pattern45}{Selectivity pattern 14 (revise age) but with separate parameters for males and females and with revised controls}. \Bstrut\\
+	44 \Tstrut & 4 + N ages & \hyperlink{Pattern44}{Selectivity pattern 17 (random walk) but with separate parameters for males and females and with revised controls}. \\
+	45 \Tstrut & 4 + N ages & \hyperlink{Pattern45}{Selectivity pattern 14 (revise age) but with separate parameters for males and females and with revised controls}. \Bstrut\\
 	\hline
 \end{longtable}
 
@@ -1880,9 +1880,11 @@ Pattern 2 differs from pattern 24 only in the treatment of sex-specific offset p
 \myparagraph{Pattern 5 (size) - Mirror Selectivity}
 Two parameters select the min and max bin number (not min max size) of the source selectivity pattern. If first parameter has value $<=$ 0, then interpreted as a value of 1 (e.g., first bin). If second parameter has value $<=$ 0, then interpreted as maximum length bin (e.g., last bin specified in the data file). The mirrored selectivity pattern must be from a lower fleet number (e.g., already specified before the mirrored fleet).
 
-\hypertarget{NonParamSelectivity}{}
-\myparagraph{Pattern 6 (size) - Non-parametric Selectivity}
-Non-parametric size selectivity uses a set of linear segments. The first way point is at Length = p1 and the last way point is at Length = p2. The total number of way points is specified by the value of the Special factor in the selectivity set-up, so the N intervals is one less than the number of way points. Intermediate way points are located at equidistant intervals between p1 and p2. Parameters 3 to N are the selectivity values at the way points, entered as logistic, e.g., $1/(1+exp(-x))$. Ramps from 10 cm to p3 if L < p1. Constant at Np if L > p2. Note that prior to version 3.03 the way points were specified in terms of bin number, rather than length.
+\hypertarget{NonParamSelectivity6}{}
+\myparagraph{Pattern 6 (size) - Older non-parametric Selectivity}
+Non-parametric size selectivity uses a set of linear segments. The first break point is at Length = p1 and the last break point is at Length = p2. The total number of break points is specified by the value of the Special factor in the selectivity setup, so the N intervals is one less than the number of break points. Intermediate break points are located at equidistant intervals between p1 and p2. Parameters 3 to N are the selectivity values at the break points, entered as logistic, e.g., $1/(1+exp(-x))$. Ramps from $exp(-10)$ to p3 if L < p1. Constant at Np if L > p2. Note that prior to version 3.03 the break points were specified in terms of bin number, rather than length.
+
+See also \hyperlink{NonParamSelectivity21}{Pattern 21} for a newer non-parametric size selectivity option, and \hyperlink{NonParamScaling}{Pattern 43} which is based on Pattern 6 with additional controls over the scaling.
 
 \hypertarget{DoubleLogSelectivity}{}
 \myparagraph{Pattern 8 (size) and 18 (age) - Double Logistic Selectivity}
@@ -1953,7 +1955,7 @@ This formulation has the properties that the maximum selectivity equals 1, posit
 	
 The condition that maximum selectivity equals 1 results in one fewer degree of freedom than the number of estimated $p_a$. Therefore, at least one parameter should be fixed at an arbitrary value, typically $p_{A_{\text{min}}}=0$.
 
-The number of parameters lines required to the control file for pattern 17 is nages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to nages. Input to the special column is used to reduce the number of parameters lines required (selectivity is constant above the age represented by the last parameter value read when using special). 
+The number of parameters lines required to the control file for pattern 17 is N ages + 1, unless a greater than zero value is included in the special column. If special is greater than 0, then special + 1 is the number of parameter lines needed in the control file. The value of special should be less than or equal to N ages. Input to the special column is used to reduce the number of parameters lines required (selectivity is constant above the age represented by the last parameter value read when using special). 
 	
 In typical usage:
 	\begin{itemize}
@@ -2048,6 +2050,16 @@ where
 		\item p6 - (0/1) where a value of 0 causes the descending inflection to be a standalone parameter, and a value of 1 causes the descending inflection to be interpreted as an offset from the ascending inflection. This is a specification parameter, so must not be estimated.
 	\end{itemize}
 
+\hypertarget{NonParamSelectivity21}{}
+\myparagraph{Pattern 21 (size) - Newer non-parametric selectivity}
+Non-parametric size selectivity which uses a set of linear segments like Pattern 6, but you have full control over the break points (as opposed to equidistant points over a specified range) and the parameters represent the absolute selectivity without the logistic transformation used in Pattern 6. This allows direct input of an empirical selectivity vector as fixed parameters if desired. The Special column in the selectivity setup specifies the number of break points where the required number of parameter lines is twice this value, with the first set of N parameters providing the length at each break point (which should be fixed via a negative phase) and the second set of N provides the absolute selectivity at each point. 
+
+All of the selectivity parameters must to be non-negative, having a lower bound at 0 (or higher). There is no rescaling to ensure a maximum of 1.0. Therefore it may make sense to have upper bounds at 1.0. Alternatively, a prior centered at 1.0 could be added to the parameter associated with a length bin which is expected to have peak selectivity. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
+
+Selectivity ramps linearly from the origin up to the first selectivity parameter at the first break point and is constant beyond the last break point.
+
+See also \hyperlink{NonParamSelectivity6}{Pattern 6} for an older non-parametric size selectivity option, and \hyperlink{NonParamScaling}{Pattern 43} which is based on Pattern 6 with additional controls over the scaling.
+
 \hypertarget{ExponentialLogistic}{}
 \myparagraph{Pattern 25 (size) and 26 (age) - Exponential Logistic Selectivity}
 The exponential logistic included is based on the exponential logistic selectivity detailed by \citet{thompson-confounding-1994}; however, the parameterization within SS3 differs. Explorations using this selectivity form has shown that the estimation of p1 can be highly unstable. Users are strongly encouraged to use the double normal selectivity rather than the exponential logistic selectivity.
@@ -2079,12 +2091,12 @@ which allows the slope (first derivative) to be flexible but
 sets the curvature (second derivative) to be 0 at the first and last nodes.
 
 The number of nodes is specified in the ``special'' column of the selectivity
-set-up. The pattern number 27 is used to invoke cubic spline for size
+setup. The pattern number 27 is used to invoke cubic spline for size
 selectivity and for age selectivity; the input syntax is identical.
 	
 For a 3 node setup, the input parameters would be:
 	\begin{itemize}
-		\item p1 - Code for initial set-up which controls whether auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
+		\item p1 - Code for initial setup which controls whether auto-generation is applied (input options are 0, 1, 2, 10, 11, or 12) as explained below
 		\item p2 - Gradient at the first node (should be a small positive value, or fixed at 1e30 to implement a ``natural cubic spline'')
 		\item p3 - Gradient at the last node (should be zero, a small negative value, or fixed at 1e30 to implement a ``natural cubic spline'')
 		\item p4-p6 - The nodes in units of cm; must be in rank order and inside the range of the population length bins. These must be held constant (not estimated, e.g., negative phase value) during a model run.
@@ -2104,9 +2116,9 @@ Code for implementing cubic spline selectivity can be found in
 \href{https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_selex.tpl}{\texttt{SS\_selex.tpl}},
 search for ``SS\_Label\_Info\_22.7.27''.
 
-One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial set-up code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this issue.
+One potential problem that may occur with a cubic spline is a U-shaped pattern in the selectivity around the first node. If this occurs, the initial setup code (auto-generation options described below) can be changed from 0, 1 or 2 to 10, 11, or 12 which will cause selectivity to be fixed at 0.0 for all bins below the first node. A natural cubic spline (noted above) may be an alternative solution to this issue.
 
-Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered with the cubic spline function is a capability to produce more specific parameter labels and to auto-generate selectivity parameter setup. The auto-generation feature is controlled by the first selectivity parameter value for each fleet that is specified to use the cubic spline. There are 6 possible values for this setup parameter:
+Auto-Generation of Cubic Spline Control File Setup: A new feature pioneered with the cubic spline function is a capability to produce more specific parameter labels and to auto-generate selectivity parameter setup. The auto-generation feature is controlled by the first selectivity parameter value for each fleet that is specified to use the cubic spline. There are 6 possible values for this setup parameter:
 	\begin{itemize}
 		\item 0: no auto-generation, process parameter setup as read.
 		\item 1: auto-generate the node locations based on the specified number of nodes and on the cumulative size distribution of the data for this fleet/survey.
@@ -2116,7 +2128,7 @@ Auto-Generation of Cubic Spline Control File Set-Up: A new feature pioneered wit
 		\item 12: auto-generate the nodes and other inputs as in 2 above and also fix selectivity = 0.0 below the first knot 
 	\end{itemize}
 	
-With either the auto-generate option 1, 2 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
+With either the auto-generate option 1, 2, 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
 	
 Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in \texttt{echoinput.sso} and in a new OVERALL\_COMPS section of \texttt{report.sso}.
 	
@@ -2206,6 +2218,8 @@ Selectivity pattern 6 with two additional parameters. The two additional paramet
 		1 & 80 & 70 & \multicolumn{1}{c}{...} & 0 & \#SizeSel\_ScaleBinHi \Bstrut\\
 		\hline
 	\end{longtable}
+
+See also \hyperlink{NonParamSelectivity21}{Pattern 21} for a newer non-parametric size selectivity option.
 
 \hypertarget{Pattern44}{}
 \myparagraph{Pattern 44 (age) - Random Walk Selectivity with Separate Parameters for Males and Females}
