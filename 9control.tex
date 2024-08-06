@@ -1805,7 +1805,7 @@ The currently defined selectivity patterns, and corresponding required number of
 	9 \Tstrut & 6 & \hyperlink{SimpleDoubleLog}{Simple double logistic selectivity with no defined peak}. \\
 	11 \Tstrut & 2 & \hyperlink{SelectivityOneRange}{Selectivity = 1.0 for a specified length-bin range}. \\
 	15 \Tstrut & 0 & \hyperlink{MirrorAnotherSelectivity}{Mirror another selectivity} (same for age selectivity). \\
-	21 \Tstrut & 2 & Non-parametric size selectivity. \\
+	21 \Tstrut & 2 & \hyperlink{NonParamSelectivity21}{Newer non-parametric size selectivity} (see also Patterns 6 and 43). \\
 	22 \Tstrut & 4 & \hyperlink{DoubleNormalPlateau}{Double normal selectivity}; similar to \href{https://casal2.github.io/}{\gls{casal}}. \\
 	23 \Tstrut & 6 & \hyperlink{DoubleNormalPeak}{Same as the selectivity pattern 24 (double normal with peak and tail controls) except the final selectivity is now directly interpreted as the terminal selectivity value}. Cannot be used with Pope's $F$ method because maximum selectivity may be greater than 1. \\
 	24 \Tstrut & 6 & \hyperlink{DoubleNormalPeak}{Double normal selectivity with defined initial and final selectivity level - Recommended option}. \\
@@ -2054,7 +2054,7 @@ where
 \myparagraph{Pattern 21 (size) - Newer non-parametric selectivity}
 Non-parametric size selectivity which uses a set of linear segments like Pattern 6, but you have full control over the break points (as opposed to equidistant points over a specified range) and the parameters represent the absolute selectivity without the logistic transformation used in Pattern 6. This allows direct input of an empirical selectivity vector as fixed parameters if desired. The Special column in the selectivity setup specifies the number of break points where the required number of parameter lines is twice this value, with the first set of N parameters providing the length at each break point (which should be fixed via a negative phase) and the second set of N provides the absolute selectivity at each point. 
 
-All of the selectivity parameters must to be non-negative, having a lower bound at 0 (or higher). Upper bounds at 1.0 probably make sense for most cases. However, there is no rescaling to ensure a maximum of 1.0. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
+All of the selectivity parameters must to be non-negative, having a lower bound at 0 (or higher). There is no rescaling to ensure a maximum of 1.0. Therefore it may make sense to have upper bounds at 1.0. Alternatively, a prior centered at 1.0 could be added to the parameter associated with a length bin which is expected to have peak selectivity. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
 
 Selectivity ramps linearly from the origin up to the first selectivity parameter at the first break point and is constant beyond the last break point.
 
