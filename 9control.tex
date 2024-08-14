@@ -120,11 +120,11 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		%\hline
 		\pagebreak
 		1 & & Number (N) of growth patterns (GP), also referred to as morphs: \Tstrut\\
-		& & These are collections of fish with unique biological characteristics (growth, mortality, weight-length, reproduction). The GP x Sex x Settlement Events constitute unique growth patterns that are tracked in SS3. They are assigned these characteristics at birth and retain them throughout their lifetime. At recruitment, growth pattern members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate. For example, one could assign a fast-growing growth pattern to recruit predominately in a southern area and a slow-growing growth pattern to a northern area. The natural mortality and growth parameters are specified for each growth pattern in the mortality-growth parameter section in the order of female growth pattern 1 to growth pattern N followed by male growth pattern 1 to growth pattern N in a two sex model. \Bstrut\\
+		& & These are collections of fish with unique biological characteristics (growth, mortality, weight-length, reproduction). The GP $\times$ Sex $\times$ Settlement Events constitute unique growth patterns that are tracked in SS3. They are assigned these characteristics at birth and retain them throughout their lifetime. At recruitment, growth pattern members are distributed across areas (if any) and they retain their biological characteristics even if they move to another area in which a different cohort with different biological characteristics might predominate. For example, one could assign a fast-growing growth pattern to recruit predominately in a southern area and a slow-growing growth pattern to a northern area. The natural mortality and growth parameters are specified for each growth pattern in the mortality-growth parameter section in the order of female growth pattern 1 to growth pattern N followed by male growth pattern 1 to growth pattern N in a two sex model. \Bstrut\\
 
 		\hline
 		1 & & Number of platoons within a growth pattern/morph: \Tstrut\\
-		& & This allows exploration of size-dependent survivorship. A value of 1 will not create additional platoons. Odd-numbered values (i.e., 3, 5) will break the overall morph into that number of platoons creating a smaller, larger, and mean growth platoon. The higher the number of platoons the slower the model will run, so values above 5 not advised. The fraction of each morph assigned to each platoon is custom-input or designated to be a normal approximation. When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age. This is used to partition the total growth variability. For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for that Growth Pattern x Sex. \Bstrut\\
+		& & This allows exploration of size-dependent survivorship. A value of 1 will not create additional platoons. Odd-numbered values (i.e., 3, 5) will break the overall morph into that number of platoons creating a smaller, larger, and mean growth platoon. The higher the number of platoons the slower the model will run, so values above 5 not advised. The fraction of each morph assigned to each platoon is custom-input or designated to be a normal approximation. When multiple platoons are designated, an additional input is the ratio of between platoon to within platoon variability in size-at-age. This is used to partition the total growth variability. For the platoons, their size-at-age is calculated as a factor (determined from the between-within variability calculation) times the size-at-age of the central morph which is determined from the growth parameters for that Growth Pattern $\times$ Sex. \Bstrut\\
 
 		\multicolumn{2}{l}{COND > 1} & \multicolumn{1}{l}{\parbox{12cm}{Following 2 lines are conditional on N platoons > 1.}} \Tstrut\Bstrut\\
 
@@ -163,13 +163,13 @@ Additional control of the seasonal timing was added in v.3.30 and now there now 
 		
 		\endlastfoot
 		
-		1 & & \multicolumn{2}{l}{\parbox{12.5cm}{Recruitment distribution method. This section controls which combinations of growth pattern x area x settlement will get a portion of the total recruitment coming from each spawning. Options:}} \Tstrut\\
+		1 & & \multicolumn{2}{l}{\parbox{12.5cm}{Recruitment distribution method. This section controls which combinations of growth pattern $\times$ area $\times$ settlement will get a portion of the total recruitment coming from each spawning. Options:}} \Tstrut\\
 		& & \\
 		% & & \\
 		& & \multicolumn{2}{l}{\parbox{12.5cm}{1 = no longer available (used the Stock Synthesis v.3.24 or earlier setup);}} \\
 		& & \multicolumn{2}{l}{\parbox{12.5cm}{2 = main effects for growth pattern, settle timing, and area;}} \\
 		& & \multicolumn{2}{l}{\parbox{12.5cm}{3 = each settle entity; and}} \\
-		& & \multicolumn{2}{l}{\parbox{12.5cm}{4 = none, no parameters (only if growth pattern x settlement x area = 1).}} \Tstrut\Bstrut\\
+		& & \multicolumn{2}{l}{\parbox{12.5cm}{4 = none, no parameters (only if growth pattern $\times$ settlement $\times$ area = 1).}} \Tstrut\Bstrut\\
 		
 		\hline
 		1 & & \multicolumn{2}{l}{Spawner-Recruitment (not implement yet, but required), options:} \Tstrut\\
@@ -225,7 +225,7 @@ Details regarding settlement of recruits and timing:
 		\item Recruitment can occur > 12 months after spawning which is achieved by setting the settlement age to a value greater than 1.0.		
 	\end{itemize}
 
-The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each growth pattern, then for each area, then for each settlement. All of these are required, but only those growth pattern x area x settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation. For the recruitment apportionment, the parameter values are the natural log of apportionment weight. The sum of all apportionment weights is calculated for each growth pattern x area x settlements that have been designated to receive recruits in the recruitment design matrix. Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. Additionally, these distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular growth pattern, area, or settlement can change from year to year. To specify annual variation in the distribution or recruits by area add a start and end year in the deviation min year and max year columns. Similar to the apportionment of recruits by area, one should be fixed while the other area(s) can deviate relative to the one area. If annual deviations are specified then two additional short parameter lines will be required to specify the standard error and the autocorrelation for each area with deviations.
+The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each growth pattern, then for each area, then for each settlement. All of these are required, but only those growth pattern $\times$ area $\times$ settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation. For the recruitment apportionment, the parameter values are the natural log of apportionment weight. The sum of all apportionment weights is calculated for each growth pattern $\times$ area $\times$ settlements that have been designated to receive recruits in the recruitment design matrix. Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. Additionally, these distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular growth pattern, area, or settlement can change from year to year. To specify annual variation in the distribution or recruits by area add a start and end year in the deviation min year and max year columns. Similar to the apportionment of recruits by area, one should be fixed while the other area(s) can deviate relative to the one area. If annual deviations are specified then two additional short parameter lines will be required to specify the standard error and the autocorrelation for each area with deviations.
 
 \hypertarget{recdist}{}
 \myparagraph{Recruitment Distribution and Parameters}
@@ -449,13 +449,13 @@ Like the original Lorenzen options, ages will have an $M$ scaled to its body siz
 	\hline
 
 	\multicolumn{2}{l}{COND = 1} & \Tstrut\Bstrut\\
-	& 4 & Number of breakpoints. Then read a vector of ages for these breakpoints. Later, per sex x GP, read N parameters for the natural mortality at each breakpoint. \\
+	& 4 & Number of breakpoints. Then read a vector of ages for these breakpoints. Later, per sex $\times$ GP, read N parameters for the natural mortality at each breakpoint. \\
 
 	\multicolumn{2}{r}{2.5 4.5 9.0 15.0} & Vector of age breakpoints. \Bstrut\\
 	\hline
 	
 	\multicolumn{2}{l}{COND = 2} & \Tstrut\\
-	& 4 \Tstrut & Reference age for Lorenzen natural mortality: read one additional integer value that is the reference age. Later read one long parameter line for each sex x growth pattern that will be the $M$ at the reference age. \\
+	& 4 \Tstrut & Reference age for Lorenzen natural mortality: read one additional integer value that is the reference age. Later read one long parameter line for each sex $\times$ growth pattern that will be the $M$ at the reference age. \\
 	\hline
 	
 	\multicolumn{2}{l}{COND = 3 or 4} \Tstrut & Do not read any natural mortality parameters in the mortality growth parameter section. With option 3, these $M$ values are held fixed for the integer age (no seasonality or birth season considerations). With option 4, there is seasonal interpolation based on real age, just as in options 1 and 2.\\
@@ -465,12 +465,12 @@ Like the original Lorenzen options, ages will have an $M$ scaled to its body siz
 	
 	\multicolumn{2}{l}{COND = 5} \Tstrut & Age-specific $M$ linked to age-specific length and maturity sub-options. \\
 
-	&  & 1 = Requires 4 long parameter lines per sex x growth pattern using maturity. Must be used with maturity option 1; \\
+	&  & 1 = Requires 4 long parameter lines per sex $\times$ growth pattern using maturity. Must be used with maturity option 1; \\
 	&  & 2 = Reserved for future option; \\
-	&  & 3 = Requires 6 long parameter lines per sex x growth pattern \Bstrut\\
+	&  & 3 = Requires 6 long parameter lines per sex $\times$ growth pattern \Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND = 6} \Tstrut & Read two additional integer values that are the age range for average $M$. Later, read one long parameter line for each sex x growth pattern that will be the average $M$ over the reference age range. \\
+	\multicolumn{2}{l}{COND = 6} \Tstrut & Read two additional integer values that are the age range for average $M$. Later, read one long parameter line for each sex $\times$ growth pattern that will be the average $M$ over the reference age range. \\
 	& 0 \Tstrut & Minimum age of average $M$ range for calculating Lorenzen natural mortality. \\
 	& 10 \Tstrut & Maximum age of average $M$ range for calculating Lorenzen natural mortality. \\ 
 	\hline
@@ -886,7 +886,7 @@ Next, the model reads the \gls{mg} parameters in generally the following order (
 	\multicolumn{2}{l}{Cohort growth deviation} \Tstrut & Set equal to 1.0 and do not estimate; it is deviations from this base that matter. \Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{2 x N selected movement pairs} & Movement parameters \Tstrut\Bstrut\\
+	\multicolumn{2}{l}{2 $\times$ N selected movement pairs} & Movement parameters \Tstrut\Bstrut\\
 	\hline
 
 	\multicolumn{3}{l}{COND: The following lines are only required when the associated features are turned on.} \Tstrut\\
@@ -2128,7 +2128,7 @@ Auto-Generation of Cubic Spline Control File Setup: A new feature pioneered with
 		\item 12: auto-generate the nodes and other inputs as in 2 above and also fix selectivity = 0.0 below the first knot 
 	\end{itemize}
 	
-With either the auto-generate option 1, 2, 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters x 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
+With either the auto-generate option 1, 2, 11, or 12, it still is necessary to include in the parameter file placeholder rows of values so that the init\_matrix command can input the current number of values because all selectivity parameter lines are read as a single matrix with the dimension of N parameters $\times$ 14 columns. The read values of min, max, initial, prior, prior type, prior standard deviation, and phase will be overwritten.
 	
 Cumulative size and age distribution is calculated for each fleet, summing across all samples and both sexes. These distributions are output in \texttt{echoinput.sso} and in a new OVERALL\_COMPS section of \texttt{report.sso}.
 	
@@ -2757,7 +2757,7 @@ Depending upon the entered options above subsequent conditional inputs may be ne
 		\begin{itemize}
 			\item Vector of bin indexes or -1 in first bin will overwrite entered vector with auto-generated list to cover logical range
 	\end{itemize}
-	\item COND if growth specs number of bins to report > 0 and empirical weight at age not used:
+	\item COND if growth specs number of bins to report > 0 and empirical weight-at-age not used:
 		\begin{itemize}
 			\item \ldots~as for selectivity bins
 		\end{itemize}
