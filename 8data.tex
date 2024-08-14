@@ -412,7 +412,7 @@ The options for units for input data are:
 	\item 1  = biomass; 
 	\item 2  = $F$; and
 		\begin{itemize}
-			\item Note the $F$ option can only be used for a fishing fleet and not for a survey, even if the survey selectivity is mirrored to a fishing fleet. The values of these effort data are interpreted as proportional to the level of the fishery $F$ values. No adjustment is made for differentiating between continuous $F$ values versus exploitation rate values coming from Pope's approximation. A normal error structure is recommended so that the input effort data are compared directly to the model's calculated $F$, rather than to $log(F)$. The resultant proportionality constant has units of 1/Q where Q is the catchability coefficient. For more information see the section on \hypertarget{PredEffort}{Predator effort}.	
+			\item Note the $F$ option can only be used for a fishing fleet and not for a survey, even if the survey selectivity is mirrored to a fishing fleet. The values of these effort data are interpreted as proportional to the level of the fishery $F$ values. No adjustment is made for differentiating between continuous $F$ values versus exploitation rate values coming from Pope's approximation. A normal error structure is recommended so that the input effort data are compared directly to the model's calculated $F$, rather than to $ln(F)$. The resultant proportionality constant has units of 1/Q where Q is the catchability coefficient. For more information see the section on \hypertarget{PredEffort}{Predator effort}.	
 		\end{itemize}
 	\item \hypertarget{SpecialSurvey}{} $>=$ 30 = Special survey types. These options bypass the calculation of survey selectivity so the no selectivity parameter are required and age/length selectivity pattern should be set as 0. A catchability parameter line in the control file will be required for each special survey. Special survey types 31, 32, and 36 relate to recruitment deviations. Before v.3.30.22, the expected value for observations before recdev\_start or after recdev\_end were null. With v.3.30.22, expected values are now based on recruitment deviations for all years and suggestions are included in \texttt{warnings.sso} if observations occur outside the range of active recruitment deviations. The expected values for these types are:
 		\begin{itemize}
@@ -441,10 +441,10 @@ The options for error distribution form are:
 \begin{itemize}
 	\item -1 = normal error;
 	\item  0 = log-normal error; and 
-	\item > 0 = Student's t-distribution in log space with \gls{df} equal to this value. For \gls{df} > 30, results will be nearly identical to that for log-normal distribution. A \gls{df} value of about 4 gives a fat-tail to the distribution. The \gls{se} values entered in the data file must be the \gls{se} in $log_{e}$ space.
+	\item > 0 = Student's t-distribution in natural log space with \gls{df} equal to this value. For \gls{df} > 30, results will be nearly identical to that for log-normal distribution. A \gls{df} value of about 4 gives a fat-tail to the distribution. The \gls{se} values entered in the data file must be the \gls{se} in $ln_{e}$ space.
 \end{itemize}
 
-Abundance indices typically assumed to have a log-normal error structure with units of \gls{se} of $log_{e}$(index). If the variance of the observations is available only as a \gls{cv} (\gls{se} of the observation divided by the mean value of the observation in natural space), then the value of standard error in log space can be calculated as $\sqrt{(log_e(1+(CV)^2))}$.
+Abundance indices typically assumed to have a log-normal error structure with units of \gls{se} of $ln_{e}$(index). If the variance of the observations is available only as a \gls{cv} (\gls{se} of the observation divided by the mean value of the observation in natural space), then the value of standard error in natural log space can be calculated as $\sqrt{(ln_e(1+(CV)^2))}$.
 
 For the normal error structure, the entered values for \gls{se} are interpreted directly as a \gls{se} in arithmetic space and not as a \gls{cv}. Thus switching from a log-normal to a normal error structure forces the user to provide different values for the \gls{se} input in the data file.
 
@@ -535,7 +535,7 @@ The four options for discard error are:
 	\item > 0 = \gls{df} for Student's t-distribution used to scale mean body weight deviations. Value of error in data file is interpreted as \gls{cv} of the observation;
 	\item 0 = normal distribution, value of error in data file is interpreted as \gls{cv} of the observation;
 	\item -1 = normal distribution, value of error in data file is interpreted as \gls{se} of the observation;
-	\item -2 = log-normal distribution, value of error in data file is interpreted as \gls{se} of the observation in log space; and 
+	\item -2 = log-normal distribution, value of error in data file is interpreted as \gls{se} of the observation in natural log space; and 
 	\item -3 = truncated normal distribution (new with v.3.30, needs further testing), value of error in data file is interpreted as \gls{se} of the observation. This is a good option for low observed discard rates.
 \end{itemize}
 
@@ -733,9 +733,9 @@ The minimum value (floor) for all sample sizes. This value must be at least 0.00
 \myparagraph{Additional information on Dirichlet Parameter Number and Effective Sample Sizes}
 If the Dirichlet-multinomial error distribution is selected, indicate here which of a list of Dirichlet-multinomial parameters will be used for this fleet. So each fleet could use a unique Dirichlet-multinomial parameter, or all could share the same, or any combination of unique and shared. The requested number of Dirichlet-multinomial parameters are specified as parameter lines in the control file immediately after the selectivity parameter section. Please note that age-compositions Dirichlet-multinomial parameters are continued after length-compositions, so a model with one fleet and both data types would presumably require two new Dirichlet-multinomial parameters.  	 	
 	
-The Dirichlet estimates the effective sample size as $N_{eff}=\frac{1}{1+\theta}+\frac{N\theta}{1+\theta}$ where $\theta$ is the estimated parameter and $N$ is the input sample size. Stock Synthesis estimates the log of the Dirichlet-multinomial parameter such that $\hat{\theta}_{\text{fishery}} = e^{-0.6072} = 0.54$ where assuming $N=100$ for the fishery would result in an effective sample size equal to 35.7.
+The Dirichlet estimates the effective sample size as $N_{eff}=\frac{1}{1+\theta}+\frac{N\theta}{1+\theta}$ where $\theta$ is the estimated parameter and $N$ is the input sample size. Stock Synthesis estimates the natural log of the Dirichlet-multinomial parameter such that $\hat{\theta}_{\text{fishery}} = e^{-0.6072} = 0.54$ where assuming $N=100$ for the fishery would result in an effective sample size equal to 35.7.
 	
-This formula for effective sample size implies that, as the Stock Synthesis parameter $ln(DM\text{\_theta})$ goes to large values (i.e., 20), then the adjusted sample size will converge to the input sample size. In this case, small changes in the value of the $ln(DM\text{\_theta})$ parameter has no action, and the derivative of the negative log-likelihood is zero with respect to the parameter, which means the Hessian will be singular and cannot be inverted. To avoid this non-invertible Hessian when the $ln(DM\text{\_theta})$ parameter becomes large, turn it off while fixing it at the high value. This is equivalent to turning off down-weighting of fleets where evidence suggests that the input sample sizes are reasonable.
+This formula for effective sample size implies that, as the Stock Synthesis parameter $ln(DM\text{\_theta})$ goes to large values (i.e., 20), then the adjusted sample size will converge to the input sample size. In this case, small changes in the value of the $ln(DM\text{\_theta})$ parameter has no action, and the derivative of the negative log likelihood is zero with respect to the parameter, which means the Hessian will be singular and cannot be inverted. To avoid this non-invertible Hessian when the $ln(DM\text{\_theta})$ parameter becomes large, turn it off while fixing it at the high value. This is equivalent to turning off down-weighting of fleets where evidence suggests that the input sample sizes are reasonable.
 	
 For additional information about the Dirichlet-multinomial please see \citet{thorson-model-based-2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
 

@@ -61,7 +61,7 @@ The primary role of the control file is to define the parameters to be used by t
 		1 & LO & Minimum value for the parameter \Tstrut\\
 		2 & HI & Maximum value for the parameter \Tstrut\\
 		3 \Tstrut & INIT & Initial value for the parameter. If the phase (described below) for the parameter is negative the parameter is fixed at this value. If the \texttt{ss3.par} file is read, it overwrites these INIT values.\\
-		4 \Tstrut & PRIOR & Expected value for the parameter. This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta). If the selected prior type (described below) is log-normal, this value is entered in log space. \\
+		4 \Tstrut & PRIOR & Expected value for the parameter. This value is ignored if the prior type is 0 (no prior) or 1 (symmetric beta). If the selected prior type (described below) is log-normal, this value is entered in natural log space. \\
 		5 \Tstrut & PRIOR \gls{sd} & \gls{sd} for the prior, used to calculate likelihood of the current parameter value. This value is ignored if prior type is 0. The \gls{sd} is in regular space regardless of the prior type. \\
 		6 \Tstrut & \hyperlink{PriorDescrip}{PRIOR TYPE} & 0 = none; \\
 		& & 1 = symmetric beta; \\
@@ -515,7 +515,7 @@ with parameters $L_{MIN}$, $L_{MAX}$, $k$, and $b$.
 The Richards model has $b$ < 0, the von Bertalanffy model has $b$ = 1. The general case of $b$ > 0 was called the ``generalized von Bertalanffy'' by \citet{schnute1981growth}. The Gompertz model has $b$ = 0, where the equation is undefined as written above and must be replaced with: 
 
 \begin{equation}
-		L_t = y_1e\Big[log(y_2/y-1)\frac{1-e^{-k(t-A_1)}}{1-e{-k(A_2-A_1)}}\Big]
+		L_t = y_1e\Big[ln(y_2/y-1)\frac{1-e^{-k(t-A_1)}}{1-e{-k(A_2-A_1)}}\Big]
 \end{equation}
 
 Thus, if $b$ will be estimated as a free parameter, it might be necessary to include options for constraining it to different ranges.
@@ -1157,7 +1157,7 @@ Read the required number of long parameter setup lines (e.g., LO, HI, INIT, PRIO
 	\endfoot
 	\endlastfoot
 
-	8.5 & $ln(R_{0})$ & Log of virgin recruitment level. \Tstrut\Bstrut\\
+	8.5 & $ln(R_{0})$ & Natural log of virgin recruitment level. \Tstrut\Bstrut\\
 	\hline
 
 	0.60 \Tstrut & Steepness & Steepness of spawner recruitment relationship, bound by 0.2 and 1.0 for the Beverton-Holt. \Bstrut\\
@@ -1283,7 +1283,7 @@ Simulation studies conducted by \citet{methot-adjusting-2011} compared three met
 			& 	   & -3: bias adjustment set to 0 for all model and forecast years. \\
 
 	\Tstrut & 0    & Period For Recruitment Cycles: \\
-			&      & Use this when the model is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level. If value is >0, then read that number of full parameter lines below define the recruitment cycle. See more information on setting up seasons as years model in the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment section}. \\
+			&      & Use this when the model is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level. If value is > 0, then read that number of full parameter lines below define the recruitment cycle. See more information on setting up seasons as years model in the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment section}. \\
 	
 	\Tstrut & -5   & Minimum Recruitment Deviation: Min value for recruitment deviation. \\
 			&	   & Negative phase = Default value. \\
@@ -1394,7 +1394,7 @@ The $F_{hyb}$ approach works by:
 	\item Applying the Pope’s method to get a harvest rate for each fleet in the current season;
 	\item Converting that harvest rate to the equivalent $F_{hyb}$. This is exact with one fleet and approximate with multiple fleets;
 	\item Adjusting those $F_{hyb}$ values over a fixed number of iterations (2-4) using the ratio of observed to calculated catch for each fleet; and
-	\item Proceeding with those $F_{hyb}$ values into subsequent model steps. $F_{par}$ and $F_{hyb}$ values are used in the same Baranov catch equation and a catch log-likelihood is calculated based on the observed retained catch and the annual standard error of the catch.
+	\item Proceeding with those $F_{hyb}$ values into subsequent model steps. $F_{par}$ and $F_{hyb}$ values are used in the same Baranov catch equation and a catch log likelihood is calculated based on the observed retained catch and the annual standard error of the catch.
 \end{enumerate}
 
 Some notes:
