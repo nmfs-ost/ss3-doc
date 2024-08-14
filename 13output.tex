@@ -37,7 +37,7 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
     1 & DEFINITIONS & Split into variables: \$nseasons, \$seasfracs, \$seasdurations, and \$FleetNames & List of definitions (e.g., fleet names, model start year) assigned in the data and control files. \Bstrut\\
     2 & LIKELIHOOD & \$likelihoods\_used and \$likelihoods\_by\_fleet & Final values of the negative log(likelihood) are presented. \Bstrut\\
     3 & Input\_Variance\_Adjustment & NA & The matrix of input variance adjustments is output here because these values affect the log likelihood calculations. \Bstrut\\
-    4 & Parm\_devs\_detail & \$Parm\_devs\_detail & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Details about parameter deviations, if used in the model. Will be missing if no parameter deviations were used. Shows controlling parameters \gls{sd} and Rho as well as statistics of time series of deviations (mean, \gls{rmse}, var, est\_rho)}} \Bstrut\\
+    4 & Parm\_devs\_detail & \$Parm\_devs\_detail & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Details about parameter deviations, if used in the model. Will be missing if no parameter deviations were used. Shows controlling parameters \gls{sd} and Rho as well as statistics of time series of deviations. The statistics include the mean, \gls{rmse}, var, est\_rho (estimated autocorrelation), and D-W (Durbin-Watson) statistic.}} \Bstrut\\
       & \textit{Parameter deviations detail} & & \\
       & & & \Bstrut\\
       & & & \Bstrut\\
@@ -83,7 +83,7 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
     16 & TIME\_SERIES & \$timeseries & Biomass and recruitment by area, year, and season. Also has the same (e.g. redundant) detailed catch output as in the CATCH table. \Bstrut\\
     17 & SPR\_SERIES & \$sprseries & Table shows per recruit quantities (e.g. equilibrium) using the current year's biology-at-age and fishery characteristics and levels. \Bstrut\\
     18 & Kobe\_plot & \$Kobe (also \$Kobe\_warn and \$Kobe\_MSY\_basis) & Reports $B/B_{MSY}$ and $F/F_{MSY}$ needed to create a Kobe Plot. \Bstrut\\
-    19 & SPAWN\_RECRUIT & \$recruit & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Extensive information on Spawn-recruit setup, summary statistics, and time series.}} \\
+    19 & SPAWN\_RECRUIT & \$recruit & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Extensive information on Spawn-recruit setup, summary statistics, and time series. The summary statistics include the est\_rho (estimated autocorrelation) and the D-W (Durbin-Watson) statistic.}} \\
        & \textit{Spawn recruit parameters and table} & & \Bstrut\\
     20 & SPAWN\_RECR\_CURVE & \$SPAWN\_RECR\_CURVE & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{A table containing values for plotting the spawn-recruit curve.}} \\ 
        & \textit{Spawn recruit curve} & & \Bstrut\\
@@ -161,7 +161,7 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
 \hypertarget{CustomReporting}{}
 \subsection[Custom Reporting]{\protect\hyperlink{CustomReporting}{Custom Reporting}}
 \hypertarget{custom}{} 
-Additional user control for what is included in the \texttt{Report.sso} file was added in v.3.30.16. This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file.
+Additional user control for what is included in the \texttt{Report.sso} file was added in v.3.30.16. This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file. The ``Report Number'' in the table above is used to select which outputs are included when using this option.
 
 \hypertarget{ADMBOutput}{}
 \subsection[Standard ADMB output files]{\protect\hyperlink{ADMBOutput}{Standard ADMB output files}}
@@ -183,9 +183,7 @@ Before v.3.30.17, TotBio and SmryBio did not always match values reported in col
 
 \hypertarget{SIStable}{}
 \subsection[SIS table]{\protect\hyperlink{SIStable}{SIS table}}
-The \texttt{SIS\_table.sso} is deprecated as of v.3.30.17. Please use the \texttt{r4ss} function \texttt{get\_SIS\_info()} instead. 
-
-The \texttt{SIS\_table.sso} file contains model output formatted for reading into the \gls{nmfs} \href{https://www.st.nmfs.noaa.gov/sis/}{\gls{sis}}. This file includes an assessment summary for categories of information (abundance, recruitment, spawners, catch estimates) that are input into the \gls{sis} database. A time series of estimated quantities which aggregates estimates across multiple areas and seasons are provided to summarize model results. Access to the \gls{sis} database is granted to all \gls{noaa} employees.
+The \texttt{SIS\_table.sso} is deprecated as of v.3.30.17. Please use the \texttt{r4ss} function \texttt{get\_SIS\_info()} to produce output formatted for reading into the \gls{nmfs} \href{https://www.st.nmfs.noaa.gov/sis/}{\gls{sis}} database.
 
 \hypertarget{DerivedQuant}{}
 \subsection[Derived Quantities]{\protect\hyperlink{DerivedQuant}{Derived Quantities}}
