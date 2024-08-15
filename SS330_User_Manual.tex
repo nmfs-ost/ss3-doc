@@ -152,13 +152,14 @@
 \date{January 31, 2024}
 
 % ====  Glossary ========================================================
-\usepackage{glossaries}
+\usepackage[xindy,acronym]{glossaries}
 \setacronymstyle{long-short}
 \glsdisablehyper
 \makenoidxglossaries 
 \loadglsentries{ss3_glossaries.tex}
 
 \begin{document}
+	\glsaddall
 	% ====== Title Page ===================================================
 	\maketitle
 	\begin{figure}[ht]
@@ -219,9 +220,14 @@
 	%========= Section 16: Essays
 	\input{16essays}
 	%========= Glossary
+	\hypertarget{Glossary}{}
+	\addcontentsline{toc}{section}{Glossary}
+	\printnoidxglossary[type=main,title=\protect\hyperlink{Glossary}{Glossary},nonumberlist]
+
 	\hypertarget{Acronyms}{}
 	\addcontentsline{toc}{section}{List of Acronyms}
-	\printnoidxglossary[title=\protect\hyperlink{Acronyms}{List of Acronyms},nonumberlist]
+	\printnoidxglossary[type=\acronymtype,title=\protect\hyperlink{Acronyms}{List of Acronyms},nonumberlist]
+
 	%========= Reference Section
 	\newpage
 	\bibliography{SS3}
