@@ -3,12 +3,13 @@ on:
   workflow_run:
     workflows: [build html version of the ss3 user manual, Build SS3 user manual using texlive]
     types: [completed]
+  workflow_dispatch:
 
 jobs:
   artifacts-url-comments:
     name: add artifact links to pull request and related issues job
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success' && (github.event_name == 'pull_request' || github.event_name == 'push')}}
+    if: ${{ github.event.workflow_run.conclusion == 'success'}}
     steps:
       - name: add artifact links to PR and issues
         uses: tonyhallett/artifacts-url-comments@v1.1.0
