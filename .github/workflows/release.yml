@@ -33,7 +33,7 @@ jobs:
         run: install.packages("rmarkdown")
         shell: Rscript {0}
 
-# Get previous version and then create the next version   
+# Get previous version of user manual and then create the next version   
       - name: Application Version
         id: version
         uses: paulhatch/semantic-version@v5.3.0
@@ -41,7 +41,7 @@ jobs:
           tag_prefix: "v"
           version_format: "${major}.${minor}.${patch}"
 
-# Create version.txt to use when changing the version in the index.md
+# Create version.txt to use when changing the version in the tex file
       - name: Create version.txt
         run: echo ${{ steps.version.outputs.version }} > version.txt
 
@@ -74,45 +74,19 @@ jobs:
 # HTML Portion
       - name: Convert tex to html
         run: pandoc SS330_User_Manual.tex -s -o SS330_User_Manual_release.html --toc --self-contained --mathjax --default-image-extension=png --number-sections --citeproc --variable linkcolor=#0033CC
-        # Note: for the following R code, may be a single command to deal with the double header issue before rendering.
-
-# Create user_manual_name.txt to user for the name of the html file 
-# (will be release here but will not have release for the build-ss3-manual.yml)
-      - name: Create user_manual_name.txt
-        run: |
-          name_txt <- file("user_manual_name.txt")
-          writeLines("SS330_User_Manual_release.html", name_txt)
-          close(name_txt)
-        shell: Rscript {0}
 
       - name: Run R script to create html
         run: |
-          source("Rcode/edit_html_improve_formatting.R")
+          source(".github/r_code/edit_html_improve_formatting.R")
+          writeLines(html_txt, "docs/SS330_User_Manual_release.html")
         shell: Rscript {0}   
 
-# Update the version in index.md [this will need to change when website is updated]
-      - name: Update version in index.md
-        run: |
-          version <- readLines("version.txt", encoding = "UTF-8")
-          index <- readLines("docs/index.md", encoding = "UTF-8")         
-          index <- gsub("v[0-9]\\.[0-9]{2}\\.[0-9]{2}", version, index)
-          writeLines(index, "docs/index.md")
-        shell: Rscript {0}
-
-# Commit changes to the version in index.md and html in docs to the repository
-      - name: Commit changes made to index.md and html in docs
+      - name: Commit changes made to html in docs folder to repo
         uses: EndBug/add-and-commit@v9
         with: 
-          message: 'update html in docs and index version'
+          message: 'update html in docs'
 
 # PDF Portion
-      - name: remove rendered file, check that is gone.
-        run: |
-          rm -rf SS330_User_Manual.pdf
-          ls
-        # - name: add lua filter to the repository
-        #   run: wget https://raw.githubusercontent.com/klpn/accpdf/master/common/tagged-filter.lua      
-
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
@@ -151,12 +125,6 @@ jobs:
           asset_content_type: application/pdf
 
 # Render github pages
-      - name: render the rmd files
-        run: |
-          rmarkdown::render("User_Guides/ss3_model_tips/ss3_model_tips.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
-          rmarkdown::render("User_Guides/getting_started/Getting_Started_SS3.Rmd", output_format = c("html_document", "pdf_document"), output_dir = "docs")
-        shell: Rscript {0}
-
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:

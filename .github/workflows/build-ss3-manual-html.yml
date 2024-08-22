@@ -49,27 +49,17 @@ jobs:
 
       # Create user_manual_name.txt to user for the name of the html file 
       # (will not have release here but will for the release.yml)
-      - name: Create user_manual_name.txt
-        run: |
-          name_txt <- file("user_manual_name.txt")
-          writeLines("SS330_User_Manual.html", name_txt)
-          close(name_txt)
-        shell: Rscript {0}
-
-      - name: Run R script to create html
-
-      # Create user_manual_name.txt to user for the name of the html file 
-      # (will not have release here but will for the release.yml)
-      - name: Create user_manual_name.txt
-        run: |
-          name_txt <- file("user_manual_name.txt")
-          writeLines("SS330_User_Manual.html", name_txt)
-          close(name_txt)
-        shell: Rscript {0}
+      # - name: Create user_manual_name.txt
+      #   run: |
+      #     name_txt <- file("user_manual_name.txt")
+      #     writeLines("SS330_User_Manual.html", name_txt)
+      #     close(name_txt)
+      #   shell: Rscript {0}
 
       - name: Run R script to create html
         run: |
           source("Rcode/edit_html_improve_formatting.R")
+          writeLines(html_txt, "SS330_User_Manual.html")
         shell: Rscript {0}
 
       - name: upload html file as artifact
