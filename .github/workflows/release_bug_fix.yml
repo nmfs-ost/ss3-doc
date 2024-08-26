@@ -1,13 +1,10 @@
 name: Release for bug fix
 
 on:
-  # push:
-  #   branches: [auto-release-workflows]
   workflow_dispatch:
 
 jobs:
-    
-  release-for-bug-fix:
+  release-bug-fix:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -17,6 +14,8 @@ jobs:
     steps:
       - name: Setup Git repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Update Ubuntu packages
         run: sudo apt-get update
@@ -33,21 +32,29 @@ jobs:
         run: install.packages("rmarkdown")
         shell: Rscript {0}
 
-# Get previous version and then create the next version   
+# Get previous version of user manual and create the next version   
       - name: Application Version
         id: version
-        uses: paulhatch/semantic-version@v5.3.0
+        uses: paulhatch/semantic-version@v5.4.0
         with:
           tag_prefix: "v"
-          version_format: "${major}.${minor}.${patch}.${bugfix}"
+          version_format: "v${major}.${minor}.${patch}"
+          bump_each_commit: false
+
+# Create version.txt to use when changing the version in the tex file
+      - name: Create version.txt
+        run: |
+          echo ${{ steps.version.outputs.version }} > version.txt
 
 # Update version and date in SS330_User_Manual.tex
       - name: Update version and date in manual
         run: |
           version <- readLines("version.txt", encoding = "UTF-8")
+          version <- gsub("v", "", version)
           manual_tex <- readLines("SS330_User_Manual.tex")
+          vers_vec <- paste0(c("[0-9].[0-9][0-9].[0-9][0-9]","[0-9].[0-9][0-9].[0-9][0-9].[0-9]"), collapse = "|")
           manual_tex[grep("Version", manual_tex)] <- gsub(
-            pattern = "[0-9].[0-9][0-9].[0-9][0-9]",
+            pattern = vers_vec,
             replacement = version,
             x = manual_tex[grep(pattern = "Version", x = manual_tex)]
           )
@@ -58,16 +65,9 @@ jobs:
             replacement = paste0("{", todays_date),
             x = manual_tex[date_line])
           writeLines(text = manual_tex, con = "SS330_User_Manual.tex")
-        shell: Rscript {0}
+        shell: Rscript {0}    
 
-      - name: Commit date and version changes in SS330_User_Manual.tex
-        uses: EndBug/add-and-commit@v9
-        with: 
-          add: './docs/SS330_User_Manual.tex'
-          message: 'release: update version and date in manual'    
-
-
-# HTML Portion
+# Create HTML
       - name: Convert tex to html
         run: pandoc SS330_User_Manual.tex -s -o SS330_User_Manual.html --toc --embed-resources --standalone --mathjax --default-image-extension=png --number-sections --citeproc --variable linkcolor=#0033CC
 
@@ -75,14 +75,16 @@ jobs:
         run: |
           source(".github/r_code/edit_html_improve_formatting.R")
           writeLines(html_txt, "docs/SS330_User_Manual_release.html")
+          file.remove("SS330_User_Manual.html")
         shell: Rscript {0}   
 
-      - name: Commit changes made to html in docs folder to repo
+# Commit tex and html changes
+      - name: Commit changes of tex file version and html in docs folder to repo
         uses: EndBug/add-and-commit@v9
         with: 
-          message: 'update html in docs'
+          message: 'update tex file version and html in docs'
 
-# PDF Portion
+# Create PDF
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
         with:
@@ -90,7 +92,7 @@ jobs:
           #args: --lua-filter=tagged-filter.lua
           latexmk_use_lualatex: true
 
-# Create Release     
+ # Create Release     
       - name: Create Release
         id: create_release
         uses: actions/create-release@v1
@@ -99,9 +101,9 @@ jobs:
           release_name: ${{ steps.version.outputs.version }} Docs
           draft: false
           prerelease: false
-          body: SS3 User Manual, for the ${{ steps.version.outputs.version }} Stock Synthesis release.
+          body: SS3 User Manual for the ${{ steps.version.outputs.version }} Stock Synthesis release.
 
-# Add pdf as artifact for release     
+ # Add PDF as artifact for release     
       - name: Upload release artifact - pdf manual
         uses: actions/upload-release-asset@v1
         with:
@@ -110,7 +112,7 @@ jobs:
           asset_name: SS330_User_Manual.pdf
           asset_content_type: application/pdf
 
-# Render github pages
+# Render user manuals to github pages
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
