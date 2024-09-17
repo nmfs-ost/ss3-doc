@@ -2465,19 +2465,18 @@ The specification line contains 11 values:
 	\item Amin: First integer age (or population length bin index) with deviations.
 	\item Amax: Last integer age (or population length bin index) with deviations.
 	\item Sigma\_Amax: the last age (or population length bin index) for which a separate sigma should be read. The number of sigma parameter lines to be read will be Sigma\_Amax - Amin + 1. The feature allows for the expected situation in which annual variability in selectivity is higher for younger ages. For simplicity, only a single sigma parameter line needs to be read if Sigma\_Amax equals Amin, or if Sigma\_Amax < 0.
-	\item Use Rho (0/1): Use autocorrelation parameters. This invokes two parameter lines, first for year, second for age (or length). The rho parameter must be set as fixed; it is treated as a constant and cannot be estimated by SS3.
+	\item Use Rho (0/1): Use autocorrelation parameters. The rho feature of 2DAR is inconrectly implemented and should not be used.
 	\item Len(1) / Age(2): to specify whether the deviations should be applied to length- or age-based selectivity.
 	\item Phase: Phase to begin estimation of the deviation parameters.
 	\item Before Range: How should selectivity be modeled in the years prior to Ymin? Available options are (0) apply no deviations, (1) use deviations from the first year with deviations (Ymin), and (3) use average across all years with deviations (Ymin to Ymax).
 	\item After Range: Similar to Before Range but defines how selectivity should be modeled after Ymax.
 \end{enumerate}
 
-Following each fleet-specific specification line are short parameter lines for the standard deviation of the devs (sigma\_selex) and, optionally, their autocorrelation (rho).
+Following each fleet-specific specification line are short parameter lines for the standard deviation of the devs (sigma\_selex).
 
 \begin{enumerate}
 	\item Short parameter line for sigma\_selex at Amin;
-	\item If Sigma\_Amax > Amin, then additional parameter lines for each age up to Sigma\_Amax;
-	\item If Use\_Rho = 1, then one parameter line for rho in the year direction and one parameter line for rho in the age (length) direction. These must be set to have a negative phase.
+	\item If Sigma\_Amax > Amin, then additional parameter lines for each age up to Sigma\_Amax
 \end{enumerate}
 
 \begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.25cm} p{1.25cm} p{1.25cm} p{1.2cm} p{1.2cm} p{1cm} p{1cm} p{1cm}}
@@ -2486,7 +2485,7 @@ Following each fleet-specific specification line are short parameter lines for t
 	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After \\
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range \Bstrut\\
 	\hline
-	   1    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0 \Tstrut\\
+	   1    & 1979 & 2015 &  2   &  10  & 1     & 0   & 2       & 5     & 0   & 0 \Tstrut\\
 	\hline
 	     &    &      &     & PRIOR    & PRIOR &       &     & & & \Tstrut\\
 	LO & HI & INIT & PRIOR & \gls{sd} & TYPE  & PHASE & \multicolumn{4}{l}{LABEL} \Bstrut\\
@@ -2494,23 +2493,19 @@ Following each fleet-specific specification line are short parameter lines for t
 	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, first age} \Tstrut\\
 	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, second age} \Tstrut\\
 	 0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1,... age} \Tstrut\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1} \\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1} \\
 	\hline
 	\multicolumn{11}{l}{\# Additional fleets (e.g., fleet 2) with 2DAR selectivity} \\
 	\Tstrut &    &      &      &      & Sigma & Use & Len(1)/ &       & Before & After \\
 	Fleet & Ymin & Ymax & Amin & Amax & Amax  & Rho & Age(2)  & Phase & Range  & Range \Bstrut\\
 	\hline
-	2    & 1979 & 2015 &  2   &  10  & 1     & 1   & 2       & 5     & 0   & 0 \Tstrut\\
+	2    & 1979 & 2015 &  2   &  10  & 1     & 0   & 2       & 5     & 0   & 0 \Tstrut\\
 	\hline
 	   &    &      &       & PRIOR    & PRIOR &       &     & & & \Tstrut\\
 	LO & HI & INIT & PRIOR & \gls{sd} & TYPE  & PHASE & \multicolumn{4}{l}{LABEL} \Bstrut\\
 	\hline
-	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, first age} \Tstrut\\
-	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1, second age} \Tstrut\\
-	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 1,... age} \Tstrut\\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho year fleet 1} \\
-	-1 & 1 & 0 & 0 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Rho age fleet 1} \\
+	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 2, first age} \Tstrut\\
+	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 2, second age} \Tstrut\\
+	0 & 4 & 1 & 1 & 0.1 & 6 & -4 & \multicolumn{4}{l}{\#Sigma selex fleet 2,... age} \Tstrut\\
 	\hline
 	\multicolumn{11}{l}{\# Terminator line of 11 in length indicates the end of parameter input lines} \\
 	-9999 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
