@@ -31,8 +31,6 @@ jobs:
         run: |
           rm -rf SS330_User_Manual.pdf
           ls
-     # - name: add lua filter to the repository
-     #   run: wget https://raw.githubusercontent.com/klpn/accpdf/master/common/tagged-filter.lua 
 
       - name: Spellcheck LaTeX document
         uses: ChiefGokhlayeh/textidote-action@v5
@@ -48,7 +46,6 @@ jobs:
         uses: xu-cheng/latex-action@v2
         with:
           root_file: SS330_User_Manual.tex
-          #args: --lua-filter=tagged-filter.lua
           latexmk_use_lualatex: true
           
       - name: Upload PDF file
