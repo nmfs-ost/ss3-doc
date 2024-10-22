@@ -316,12 +316,15 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   
   \pagebreak
   % \hline
-  \multicolumn{1}{l}{COND: == -1} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch} \Tstrut\\
+  \hypertarget{ForecastCatchInput}{Forecast catch input:} & \\
+  Example forecast catch input with basis & \\
+  \multicolumn{1}{l}{COND: == -1} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch (year-specific $F$ or catch, including bycatch)} \Tstrut\\
   \multicolumn{1}{r}{2012 1 1 1200 2} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value \& Basis} \\
   \multicolumn{1}{r}{2013 1 1 1400 3} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value \& Basis} \\
   \multicolumn{1}{r}{-9999 0 0 0 0} & \multicolumn{2}{l}{Indicates end of inputted catches to read} \Bstrut\\
 
-  \multicolumn{1}{l}{COND: > 0} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch} \Tstrut\\
+  Example forecast catch input without basis & \\
+  \multicolumn{1}{l}{COND: > 0} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch (year-specific $F$ or catch, including bycatch)} \Tstrut\\
   \multicolumn{1}{r}{2012 1 1 1200} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value} \\
   \multicolumn{1}{r}{2013 1 1 1200} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value} \\
   \multicolumn{1}{r}{-9999 0 0 0} & \multicolumn{2}{l}{Indicates end of inputted catches to read} \Bstrut\\
@@ -372,7 +375,9 @@ An important concept for the reference point calculation is the allocation of fi
 	
 	\item The biology years selected for the $\text{Bmark\_rel}F$ calculations can have an effect on the standard deviation estimated, even in models with no time-varying biology. It is recommended to use the first model year except when biology is time-varying. Note that when biology is time-varying, the fecundity vector, which is used to calculate \gls{ssb}, will be updated in every iteration for every year that has time-varying biology.
 	
-	\item Note that for Bycatch Fleets, the $F$s calculated by application of $\text{Bmark\_rel}F$ for a bycatch fleet can be overridden by an $F$ value calculated from a range of years or a fixed $F$ value that is input by the user. If such an override is selected for a bycatch fleet, that $F$ value is not adjusted by changes to the $F$ multiplier. This allows the user to treat a bycatch fleet as a constant background $F$ while the optimal $F$ for other fleets is sought. Also, for bycatch fleets, there is user control for whether the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for $F_{MSY}$.
+	\item Note for Bycatch Fleets: The forecast $F$ for a bycatch fleet is normally set in the \hyperlink{BycatchFleets}{bycatch setup in the data file} to be the average of a range of years or a fixed input value, but year-specific $F$ values can be set at the end of the forecast file in the \hyperlink{ForecastCatchInput}{Forecast catch input} section. If this is done, that $F$ value is not adjusted by changes to the $F$ multiplier. This allows the user to treat a bycatch fleet as a constant background $F$ while the optimal $F$ for other fleets is sought. Also, for bycatch fleets, there is user control for whether the dead catch from the bycatch fleet is included in the total dead catch that is optimized when searching for $F_{MSY}$.
+  %  the $F$s calculated by application of $\text{Bmark\_rel}F$ for a bycatch fleet can be overridden by an $F$ value calculated from a range of years or a fixed $F$ value that is input by the user. If such an override is selected for a bycatch fleet,
+  
 \end{itemize}
 
 \myparagraph{Virgin vs. Unfished Spawning Biomass}
