@@ -677,7 +677,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	 &  & 0 = not used; \\
 	 &  & 1 = invoke female to male age-specific function; and \\
 	 &  & -1 = invoke male to female age-specific function. \\
-	 &  & Note: this creates the annual, age-specific fraction that change sex, it is not the fraction that is each sex. \Bstrut\\
+	 &  & Note: this creates the annual, age-specific fraction that change sex, it is not the fraction that is each sex. Also, the fraction female parameter should be configured to reflect the fraction of age 0 fish. Values of 0 or 1 may lead to NaN likelihoods, so we recommend changing values that would be fixed at 0 or 1 to 0.000001 or 0.999999.\Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND = 1 or} \Tstrut & \\
@@ -694,11 +694,11 @@ A growth cessation model was developed for the application to tropical tuna spec
 \end{longtable}
 \vspace*{-\baselineskip}
 
-The hermaphroditism option requires three full parameter lines in the \hyperlink{HermaphroditeBiology}{mortality growth section}. These parameters control a cumulative normal distribution function as follows:
+The hermaphroditism option requires three full parameter lines in the \hyperlink{HermaphroditeBiology}{mortality and growth section}. These parameters control a cumulative normal distribution function as follows:
 \begin{enumerate}
-	\item The inflection point where the transition rate is halfway from 0 to the asymptote.
+	\item The inflection age where the transition rate is halfway from 0 to its asymptote.
 	\item The standard deviation of the cumulative normal (such that about 95\% of the increase in transition rate occurs within 2 standard deviations of the inflection point).
-	\item The asymptote (the maximum proportion that will transition to the other sex in a time step).
+	\item The asymptotic transition rate (the highest proportion that will transition to the other sex in a time step).
 \end{enumerate}
 These parameter lines are entered directly after the weight-at-length parameters for males.
 
@@ -862,10 +862,10 @@ Next, the model reads the \gls{mg} parameters in generally the following order (
 	\multicolumn{2}{l}{COND: growth pattern > 1} \Tstrut & Repeat male parameters in the above order for growth pattern 2. \\
 	\hline
 
-	\multicolumn{2}{l}{\hypertarget{HermaphroditeBiology}{COND: Hermaphroditism}} \Tstrut & 3 parameters lines define a normal distribution for the transition rate of females to males (or vice versa). \\
-	& Inflect Age & Hermaphrodite inflection age. \\
-	& \gls{sd} & Hermaphrodite standard deviation (in age). \\
-	& Asmp Rate & Hermaphrodite asymptotic rate. \Bstrut\\
+	\multicolumn{2}{l}{\hypertarget{HermaphroditeBiology}{COND: Hermaphroditism}} \Tstrut & 3 parameters lines define a cumulative normal distribution for the transition rate of females to males (or vice versa). For more detail on these parameters, see the description \hyperlink{Hermaphroditism}{Hermaphroditism controls} above.\\
+	& Inflect Age & Hermaphrodite inflection age where the transition rate is halfway from 0 to its asymptote. \\
+	& \gls{sd} & Hermaphrodite standard deviation of the cumulative normal. \\
+	& Asmp Rate & Hermaphrodite asymptotic transition rate. \Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND: Recruitment Distribution} \Tstrut & 3 parameters lines defining recruitment distribution. See \hyperlink{recdist}{Recruitment Distribution and Parameters} for more details about recruitment apportionment parameterization. \\
