@@ -657,6 +657,10 @@ A growth cessation model was developed for the application to tropical tuna spec
 \hypertarget{Hermaphroditism}{}
 \subsubsection[Hermaphroditism]{\protect\hyperlink{Hermaphroditism}{Hermaphroditism}}
 
+Sequential hermaphroditism can be modeled in Stock Synthesis by having recruits be all female or all male and then defining a 3-parameter function which represents the annual age-specific probability of transition to the other sex. In a seasonal model, the transition can occur after each season or just once per year. There are also settings to control the first age which transitions and the contribution of males to the spawning biomass calculations.
+
+The \hyperlink{SexRatio}{fraction female} parameter should be configured to reflect the fraction of age 0 fish of each sex. Values of 0 or 1 may lead to NaN likelihoods, so we recommend changing values that would be fixed at 0 or 1 to 0.000001 or 0.999999.
+
 \begin{longtable}{p{0.5cm} p{2cm} p{13cm}}
 	\hline	
 	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
@@ -675,9 +679,8 @@ A growth cessation model was developed for the application to tropical tuna spec
 
 	0 & & Hermaphroditism Option: \Tstrut\\
 	 &  & 0 = not used; \\
-	 &  & 1 = invoke female to male age-specific function; and \\
-	 &  & -1 = invoke male to female age-specific function. \\
-	 &  & Note: this creates the annual, age-specific fraction that change sex, it is not the fraction that is each sex. Also, the fraction female parameter should be configured to reflect the fraction of age 0 fish. Values of 0 or 1 may lead to NaN likelihoods, so we recommend changing values that would be fixed at 0 or 1 to 0.000001 or 0.999999.\Bstrut\\
+	 &  & 1 = invoke female-to-male age-specific function; and \\
+	 &  & -1 = invoke male-to-female age-specific function.\Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND = 1 or} \Tstrut & \\
