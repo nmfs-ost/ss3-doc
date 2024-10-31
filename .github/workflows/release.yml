@@ -81,18 +81,24 @@ jobs:
           file.remove("SS330_User_Manual.html")
         shell: Rscript {0}  
         
-# Commit tex and html changes
-      - name: Commit changes of tex file version and html in docs folder to repo
-        uses: EndBug/add-and-commit@v9
-        with: 
-          message: 'update tex file version and html in docs'
-          new_branch: update-tex-file-version
+# # Commit tex and html changes
+#       - name: Commit changes of tex file version and html in docs folder to repo
+#         uses: EndBug/add-and-commit@v9
+#         with: 
+#           message: 'update tex file version and html in docs'
+#           new_branch: update-tex-file-version
 
       - name: Create Pull Request
         id: cpr
-        uses: peter-evans/create-pull-request@v3
+        uses: peter-evans/create-pull-request@v7
         with:
           token: ${{ secrets.SS3-DOC-PAT }}
+          commit-message: update tex file version and html in docs
+          committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
+          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          branch: update-tex-file-version
+          title: '[Release] Update tex file version and html in docs'
       
       - name: Auto approve
         if: steps.cpr.outputs.pull-request-operation == 'created'
