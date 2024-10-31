@@ -88,16 +88,25 @@ jobs:
           message: 'update tex file version and html in docs'
           new_branch: update-tex-file-version
 
-      # - name: Create Pull Request
-      #   uses: peter-evans/create-pull-request@v7
+      - name: Create Pull Request
+        id: cpr
+        uses: peter-evans/create-pull-request@v3
+        with:
+          token: ${{ secrets.SS3-DOC-PAT }}
       
-      # - name: Merge Pull Request
-      #   uses: juliangruber/merge-pull-request-action@v1
-      #   with:
-      #       github-token: ${{ secrets.GITHUB_TOKEN }}
-      #       number: 1
-      #       method: squash # merge rebase
-      #       repo: juliangruber/octokit-action
+      - name: Auto approve
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        run: gh pr review --approve "${{ steps.cpr.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Enable Pull Request Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.SS3-DOC-PAT }}
+          pull-request-number: ${{ steps.cpr.outputs.pull-request-number }}
+          merge-method: squash
 
 # Create PDF
       - name: Compile LaTeX document
