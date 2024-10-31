@@ -10,6 +10,11 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
       RSPM: "https://packagemanager.rstudio.com/cran/__linux__/focal/latest"
+    
+    permissions:
+      contents: write
+      issues: write
+      pull-requests: write
 
     steps:
       - name: Setup Git repository
@@ -92,10 +97,9 @@ jobs:
         id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.SS3-DOC-PAT }}
+          token: ${{ secrets.SS3-DOC-PAT || secrets.GITHUB_TOKEN }}
           commit-message: update tex file version and html in docs
           committer: github-actions[bot] <41898282+github-actions[bot]@users.noreply.github.com>
-          author: ${{ github.actor }} <${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: update-tex-file-version
           title: '[Release] Update tex file version and html in docs'
