@@ -86,7 +86,24 @@ jobs:
         uses: EndBug/add-and-commit@v9
         with: 
           message: 'update tex file version and html in docs'
+          new_branch: update-tex-file-version
 
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v7
+
+      - name: Approve Pull Request
+        uses: juliangruber/approve-pull-request-action@v2
+        with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Merge Pull Request
+        uses: juliangruber/merge-pull-request-action@v1
+        with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            number: 1
+            method: squash # merge rebase
+            repo: juliangruber/octokit-action
+            
 # Create PDF
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
