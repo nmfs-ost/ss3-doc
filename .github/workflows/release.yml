@@ -6,8 +6,6 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
-    permissions:
-          pull-requests: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -71,7 +69,7 @@ jobs:
         
       - name: Remove version.txt before committing
         run: rm version.txt
-        
+
 # Create HTML
       - name: Convert tex to html
         run: pandoc SS330_User_Manual.tex -s -o SS330_User_Manual.html --toc --embed-resources --standalone --mathjax --default-image-extension=png --number-sections --citeproc --variable linkcolor=#0033CC
@@ -92,13 +90,6 @@ jobs:
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
-
-      - name: Auto Pull Request
-        if: github.actor == 'dependabot[bot]'
-        steps:
-          - uses: hmarr/auto-approve-action@v4
-            with:
-              review-message: "Auto approved automated PR"
       
       - name: Merge Pull Request
         uses: juliangruber/merge-pull-request-action@v1
