@@ -6,6 +6,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+          pull-requests: write
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       R_REMOTES_NO_ERRORS_FROM_WARNINGS: true
@@ -91,10 +93,12 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
 
-      - name: Approve Pull Request
-        uses: juliangruber/approve-pull-request-action@v2
-        with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Auto Pull Request
+        if: github.actor == 'dependabot[bot]'
+        steps:
+          - uses: hmarr/auto-approve-action@v4
+            with:
+              review-message: "Auto approved automated PR"
       
       - name: Merge Pull Request
         uses: juliangruber/merge-pull-request-action@v1
@@ -103,7 +107,7 @@ jobs:
             number: 1
             method: squash # merge rebase
             repo: juliangruber/octokit-action
-            
+
 # Create PDF
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v2
