@@ -1,6 +1,6 @@
 # ss3-doc
 
-Source code for the stock synthesis manual and other supplementary documentation.
+Source code for the Stock Synthesis (SS3) manual and other supplementary documentation.
 
 ## What documentation is available in this repository?
 
