@@ -501,10 +501,10 @@ with parameters $L_{1}$, $L_\infty$, and $k$. The $L_\infty$ is calculated as:
 
 based on the input values of fixed age for first size-at-age ($A_1$) and fixed age for second size-at-age ($A_2$). 
 
-\myparagraph{Schnute/Richards growth function}
-The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for not only asymptotic growth but also linear, quadratic or exponential growth. The Schnute/Richards growth is invoked by entering option 2 in the growth type field. The Schnute/Richards growth function uses the standard growth parameters ($L_1$, $L_2$, $k$) and a fourth parameter $b$ that is read after reading the von Bertalanffy growth coefficient parameter ($k$). When this fourth parameter has a value of 1.0, it is equivalent to the standard von Bertalanffy growth curve. When this function was first introduced, it was required that the A0 parameter be set to 0.0.
+\myparagraph{Richards growth function}
+The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for a variety of growth curve shapes. The Richards growth is invoked by entering option 2 in the growth type field. The Richards growth function uses the standard growth parameters ($L_1$, $L_2$, $k$) and a fourth shape parameter $b$ that is specified after the growth coefficient $k$.
 
-The Schnute/Richards growth model is parameterized as:
+The Richards growth model is parameterized as:
 
 \begin{equation}
 	L_t = \left[L_1^b + (L_2^b-L_1^b)\frac{1-e^{-k(t-A_{1})}}{1-e^{-k(A_2-A_1)}}\right]^{1/b}
@@ -512,13 +512,13 @@ The Schnute/Richards growth model is parameterized as:
 
 with parameters $L_1$, $L_2$, $k$, and $b$.
 
-The Richards model has $b<0$, the von Bertalanffy model has $b=1$. The general case of $b>0$ was called the ``generalized von Bertalanffy'' by \citet{schnute1981growth}. The Gompertz model has $b=0$, where the equation is undefined as written above and must be replaced with: 
+The $b$ shape parameter can be positive or negative but not precisely 0. When estimating $b$ as a floating-point number, there is effectively no risk of the parameter becoming precisely zero during estimation, as long as the initial value is non-zero.
 
-\begin{equation}
-	L_t = L_1\exp\left[\log(L_2/L_1)\frac{1-e^{-k(t-A_1)}}{1-e^{-k(A_2-A_1)}}\right]
-\end{equation}
+As special cases of the Richards growth model, $b\!=\!1$ is von Bertalanffy growth and $b$ near 0 is Gompertz growth. To use a Gompertz growth curve, the $b$ parameter can be fixed at a small value such as 0.0001.
 
-Thus, if $b$ will be estimated as a free parameter, it might be necessary to include options for constraining it to different ranges.
+When $A_1$ is greater than the youngest age in the model, some combinations of Richards growth parameters can lead to undefined (NaN) predicted length for the younger ages. The choice of $A_1$ and $A_2$ will affect the possible growth curve shapes.
+
+The SS3 website includes a vignette providing further technical insights for using the Richards growth model in Stock Synthesis.
 
 	
 \myparagraph{Mean size-at-maximum age}
