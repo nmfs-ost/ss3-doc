@@ -11,8 +11,8 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2024-10-31" />
-  <title>Stock Synthesis User Manual Version 3.30.23</title>
+  <meta name="dcterms.date" content="2024-12-05" />
+  <title>Stock Synthesis User Manual Version 3.30.24</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="html_usermanual.css" />
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -58,7 +58,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.mhchemParser=void 0;var r=fun
 <header id="title-block-header">
 <h1 class="title"><span style="color: 1.00,0.83,0.41,0.36">Stock
 Synthesis User Manual<br />
-Version 3.30.23</span></h1>
+Version 3.30.24</span></h1>
 <p class="author">Richard D. Methot Jr., Chantel R. Wetzel, Ian G.
 Taylor, Kathryn L. Doering,<br />
 Elizabeth F. Perl, and Kelli F. Johnson<br />
@@ -66,7 +66,7 @@ Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">October 31, 2024</p>
+<p class="date">December 05, 2024</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
@@ -7810,36 +7810,36 @@ The von Bertalanffy growth curve is parameterized as:</p>
 L_1)}{1-e^{-k(A2-A1)}}\]</span></p>
 <p>based on the input values of fixed age for first size-at-age (<span class="math inline">\(A_1\)</span>) and fixed age for second size-at-age
 (<span class="math inline">\(A_2\)</span>).</p>
-<h4 data-number="8.5.2.4" id="schnuterichards-growth-function"><span class="header-section-number">8.5.2.4</span> Schnute/Richards growth
+<h4 data-number="8.5.2.4" id="richards-growth-function"><span class="header-section-number">8.5.2.4</span> Richards growth
 function</h4>
 <p><br />
 The <span class="citation" data-cites="richards1959growth">Richards
 (1959)</span> growth model as parameterized by <span class="citation" data-cites="schnute1981growth">Schnute (1981)</span> provides a flexible
-growth parameterization that allows for not only asymptotic growth but
-also linear, quadratic or exponential growth. The Schnute/Richards
-growth is invoked by entering option 2 in the growth type field. The
-Schnute/Richards growth function uses the standard growth parameters
-(e.g., Lmin, Linf, and <span class="math inline">\(k\)</span>) and a
-fourth parameter that is read after reading the von Bertalanffy growth
-coefficient parameter (<span class="math inline">\(k\)</span>). When
-this fourth parameter has a value of 1.0, it is equivalent to the
-standard von Bertalanffy growth curve. When this function was first
-introduced, it was required that A0 parameter be set to 0.0.</p>
-<p>The Schnute/Richards growth model is parameterized as:</p>
-<p><span class="math display">\[L_t = L_{MIN}^b +
-(L_\infty^b-L_{MIN}^b)\frac{1-e^{-k(t-A_{1})}}{1-e^{-k(A_2-A_1)}}^{1/b}\]</span></p>
-<p>with parameters <span class="math inline">\(L_{MIN}\)</span>, <span class="math inline">\(L_{MAX}\)</span>, <span class="math inline">\(k\)</span>, and <span class="math inline">\(b\)</span>.</p>
-<p>The Richards model has <span class="math inline">\(b\)</span> &lt; 0,
-the von Bertalanffy model has <span class="math inline">\(b\)</span> =
-1. The general case of <span class="math inline">\(b\)</span> &gt; 0 was
-called the “generalized von Bertalanffy” by <span class="citation" data-cites="schnute1981growth">Schnute (1981)</span>. The Gompertz model
-has <span class="math inline">\(b\)</span> = 0, where the equation is
-undefined as written above and must be replaced with:</p>
-<p><span class="math display">\[L_t =
-y_1e\Big[ln(y_2/y-1)\frac{1-e^{-k(t-A_1)}}{1-e{-k(A_2-A_1)}}\Big]\]</span></p>
-<p>Thus, if <span class="math inline">\(b\)</span> will be estimated as
-a free parameter, it might be necessary to include options for
-constraining it to different ranges.</p>
+growth parameterization that allows for a variety of growth curve
+shapes. The Richards growth is invoked by entering option 2 in the
+growth type field. The Richards growth function uses the standard growth
+parameters (<span class="math inline">\(L_1\)</span>, <span class="math inline">\(L_2\)</span>, <span class="math inline">\(k\)</span>) and a fourth shape parameter <span class="math inline">\(b\)</span> that is specified after the growth
+coefficient <span class="math inline">\(k\)</span>.</p>
+<p>The Richards growth model is parameterized as:</p>
+<p><span class="math display">\[L_t = \left[L_1^b +
+(L_2^b-L_1^b)\frac{1-e^{-k(t-A_{1})}}{1-e^{-k(A_2-A_1)}}\right]^{1/b}\]</span></p>
+<p>with parameters <span class="math inline">\(L_1\)</span>, <span class="math inline">\(L_2\)</span>, <span class="math inline">\(k\)</span>, and <span class="math inline">\(b\)</span>.</p>
+<p>The <span class="math inline">\(b\)</span> shape parameter can be
+positive or negative but not precisely 0. When estimating <span class="math inline">\(b\)</span> as a floating-point number, there is
+effectively no risk of the parameter becoming precisely zero during
+estimation, as long as the initial value is non-zero.</p>
+<p>As special cases of the Richards growth model, <span class="math inline">\(b\!=\!1\)</span> is von Bertalanffy growth and
+<span class="math inline">\(b\)</span> near 0 is Gompertz growth. To use
+a Gompertz growth curve, the <span class="math inline">\(b\)</span>
+parameter can be fixed at a small value such as 0.0001.</p>
+<p>When <span class="math inline">\(A_1\)</span> is greater than the
+youngest age in the model, some combinations of Richards growth
+parameters can lead to undefined (NaN) predicted length for the younger
+ages. The choice of <span class="math inline">\(A_1\)</span> and <span class="math inline">\(A_2\)</span> will affect the possible growth curve
+shapes.</p>
+<p>The SS3 website includes <a href="https://nmfs-ost.github.io/ss3-website/qmds/richards_growth_curve.html">a
+vignette</a> providing further technical insights for using the Richards
+growth model in Stock Synthesis.</p>
 <h4 data-number="8.5.2.5" id="mean-size-at-maximum-age"><span class="header-section-number">8.5.2.5</span> Mean size-at-maximum
 age</h4>
 <p><br />
@@ -10643,9 +10643,9 @@ additional input for Pope’s approximation.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">0.10 1 0</td>
+<td style="text-align: left;">0.10 1 1</td>
 <td style="text-align: left;">Initial <span class="math inline">\(F\)</span> value, phase, and the number of <span class="math inline">\(F\)</span> detail setup lines to read (example has
-0).</td>
+1).</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -10656,15 +10656,25 @@ values so calculated become the starting values for the <span class="math inline
 reached.</td>
 </tr>
 <tr class="even">
-<td colspan="3" style="text-align: left;">If F_Method = 2 and N for
-<span class="math inline">\(F\)</span> detail is &gt; 0</td>
+<td colspan="3" style="text-align: left;">If N for <span class="math inline">\(F\)</span> detail is &gt; 0, read that number of
+input lines</td>
 </tr>
 <tr class="odd">
 <td colspan="2" style="text-align: left;">1 1980 1 0.20 0.05 4</td>
-<td style="text-align: left;">Fleet, year, season, <span class="math inline">\(F\)</span>, <span data-acronym-label="se" data-acronym-form="singular+short">se</span>, phase - these values
-override the catch <span data-acronym-label="se" data-acronym-form="singular+short">se</span> values in the data file and
-the overall starting <span class="math inline">\(F\)</span> value and
-phase read just above.</td>
+<td style="text-align: left;">Fleet, year, season, <span class="math inline">\(F\)</span>, <span data-acronym-label="se" data-acronym-form="singular+short">se</span>, phase - these fleet-time
+specific values override corresponding values in the data file and the
+overall starting <span class="math inline">\(F\)</span> value and phase
+read just above.</td>
+</tr>
+<tr class="even">
+<td colspan="3" style="text-align: left;">COND: F_Method = 3:</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;">4</td>
+<td style="text-align: left;">Number of tuning iterations in hybrid
+fleets. A value of 3 is sufficient with a single fleet and low <span class="math inline">\(F\)</span>s. Larger values match the catch more
+exactly when there are many fleets and high <span class="math inline">\(F\)</span>.</td>
 </tr>
 <tr class="even">
 <td colspan="3" style="text-align: left;">COND: F_Method = 4</td>
@@ -10703,14 +10713,40 @@ negative phase to set <span class="math inline">\(F\)</span> as constant
 <td style="text-align: left;">1</td>
 </tr>
 <tr class="even">
-<td colspan="3" style="text-align: left;">COND: F_Method = 3 or 4</td>
+<td style="text-align: left;white-space: nowrap;">or</td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;white-space: nowrap;">-9998</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">1 # to invoke reading <span class="math inline">\(F\)</span> details after reading hybrid tuning
+loop</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4</td>
-<td style="text-align: left;">Number of tuning iterations in hybrid
-fleets. A value of 3 is sufficient with a single fleet and low <span class="math inline">\(F\)</span>s. A value of 5 or so may be needed to
-match the catch near exactly when there are many fleets and high <span class="math inline">\(F\)</span>.</td>
+<td style="text-align: left;">Number of hybrid tuning iterations. A
+value of 2 is OK if fleet switches to parameters; 3 is sufficient with a
+single fleet and low <span class="math inline">\(F\)</span>s; larger
+values match the catch near exactly when there are many fleets and high
+<span class="math inline">\(F\)</span>.</td>
+</tr>
+<tr class="odd">
+<td colspan="3" style="text-align: left;">COND: list terminator was
+-9998, so read <span class="math inline">\(F\)</span> details</td>
+</tr>
+<tr class="even">
+<td colspan="2" style="text-align: left;">1 1980 1 0.20 0.05 4</td>
+<td style="text-align: left;">Fleet, year, season, <span class="math inline">\(F\)</span>, <span data-acronym-label="se" data-acronym-form="singular+short">se</span>, phase.</td>
+</tr>
+<tr class="odd">
+<td colspan="2" style="text-align: left;">1 1981 1 0.25 0.05 4</td>
+<td style="text-align: left;">Fleet, year, season, <span class="math inline">\(F\)</span>, <span data-acronym-label="se" data-acronym-form="singular+short">se</span>, phase.</td>
+</tr>
+<tr class="even">
+<td colspan="2" style="text-align: left;">-9999 1980 1 0.20 0.05 4</td>
+<td style="text-align: left;">terminator.</td>
 </tr>
 </tbody>
 </table>
