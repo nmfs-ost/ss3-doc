@@ -49,6 +49,26 @@
 \usepackage[T1]{fontenc}         	% controls font enconding
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage[all]{nowidow}		    % Widow Control
+\usepackage[most]{tcolorbox}  % callout box 
+
+% callout box controls
+\tcbuselibrary{skins,breakable}
+\newtcolorbox{mybox}[2][]{
+	breakable,
+	sharp corners, 
+	skin=enhancedmiddle jigsaw,
+	parbox=false, 
+	boxrule=0mm,
+	leftrule=2mm,
+	boxsep=0mm,
+	arc=0mm,
+	outer arc=0mm,
+	attach title to upper,
+	coltitle=black,
+	colback=gray!10,
+	colframe=black, 
+	title={#2},
+	fonttitle=\bfseries,#1}
 
 % For tagging the pdf: https://github.com/jgm/pandoc/issues/5409#issuecomment-770417614
 \ifluatex
