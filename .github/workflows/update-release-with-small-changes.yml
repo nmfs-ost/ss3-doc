@@ -36,6 +36,7 @@ jobs:
 # Update version and date in SS330_User_Manual.tex
       - name: Update version and date in manual
         run: |
+          manual_tex <- readLines("SS330_User_Manual.tex")
           date_line <- grep(pattern = "date\\{", x = manual_tex)
           todays_date <- format(x = Sys.Date(), "%B %d, %Y")
           manual_tex[date_line] <- gsub(
