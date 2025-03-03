@@ -11,7 +11,7 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2024-12-05" />
+  <meta name="dcterms.date" content="2025-03-03" />
   <title>Stock Synthesis User Manual Version 3.30.23.1</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="html_usermanual.css" />
@@ -66,7 +66,7 @@ Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">December 05, 2024</p>
+<p class="date">March 03, 2025</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
@@ -2083,7 +2083,7 @@ range of years is selected.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
-<td style="text-align: left;">:</td>
+<td style="text-align: left;"></td>
 <td style="text-align: left;">Determines selectivity used in the
 forecast years. Selecting 1 will allow for application of time-varying
 selectivity parameters (e.g., random walk) to continue into the forecast
@@ -2104,8 +2104,8 @@ time-varying parameters.</td>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">Option 2:</td>
 <td colspan="2" style="text-align: left;">To use the new approach, enter
--12345 and omit entry of the <a href="#FcastSelectivity">Forecast
-Selectivity Option</a>.</td>
+-12345 and omit the entry of the <a href="#FcastSelectivity">Forecast
+Selectivity Option</a> and the Forecast Year Values.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">-12345</td>
@@ -10470,7 +10470,11 @@ Pope’s and Baranov catch equations sequentially in what is termed the
 hybrid method. The tuning is based on the retained catch for each
 fishing fleet;</p></li>
 <li><p>F_Method = 4 is a fleet-specific superset of F_Methods 2 and 3
-and is the recommended method for modeling <span class="math inline">\(F\)</span> in Stock Synthesis.</p></li>
+and is the recommended method for modeling <span class="math inline">\(F\)</span> in Stock Synthesis. Further instruction
+on how to implement F_Method = 4 is in the next table and an example
+model using F_Method = 4 can be seen in the <a href="https://github.com/nmfs-ost/ss3-test-models/blob/main/models/vermillion_snapper_F4/vermilion.ctl#L149-L162">vermillion_snapper_F4
+model</a> in the <a href="https://github.com/nmfs-ost/ss3-test-models/tree/main">ss3-test-models
+GitHub repository</a>.</p></li>
 <li><p>Discards: SS3 is calculating the <span class="math inline">\(F&#39;\)</span> to match the retained catch
 conditional on the fraction of total catch that is retained if the
 discard/retention feature is used. The <span class="math inline">\(F\)</span> creates the total catch, then the
@@ -11039,7 +11043,7 @@ survey, the Q setup matrix could be:</th>
 <td style="text-align: left;">0</td>
 <td style="text-align: left;">1</td>
 <td style="text-align: left;">1</td>
-<td style="text-align: left;">0</td>
+<td style="text-align: left;">1</td>
 <td style="text-align: left;">#Survey</td>
 </tr>
 <tr class="even">
@@ -14647,6 +14651,15 @@ executable name (without the <code>.exe</code> extension):</p>
 <pre><code>	&gt; ss3
 	</code></pre>
 </blockquote>
+<div class="mybox">
+<p><span>Note</span> If you are on a Windows system and get a warning
+about the Microsoft Defender SmartScreen preventing an unrecognized app
+from starting, follow <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-change-the-mode-of-smart-app-control-from/399a276f-5585-40fe-b72d-c014cac82b32">these
+instructions</a> to turn the Smart App Control off. If you don’t have
+permissions to do so, either contact your IT department to have them
+change the setting or use <code>r4ss::get_ss3_exe()</code> which seems
+to work in this case too.</p>
+</div>
 <p>On Mac and Linux computers, the executable name must be preceded by a
 period and slash (unless its location has been added to the user’s
 PATH). Note that the user may need to change permissions for Stock
