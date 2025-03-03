@@ -25,6 +25,11 @@ jobs:
         uses: r-lib/actions/setup-r@v2
         with:
           r-version: 'release'
+     
+       # Get Release     
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.3.2
 
       - name: Setup pandoc
         uses: r-lib/actions/setup-pandoc@v2
@@ -69,13 +74,6 @@ jobs:
         with:
           root_file: SS330_User_Manual.tex
           latexmk_use_lualatex: true
-
- # Get Release     
-      - name: Get release
-        id: get_release
-        uses: bruceadams/get-release@v1.3.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
 
  # Add PDF as artifact for previous release     
       - name: Upload release artifact - pdf manual
