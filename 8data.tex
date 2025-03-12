@@ -64,14 +64,16 @@ The normal units of measure are as follows:
 
 \hypertarget{Seasons}{}
 \subsubsection[Seasons]{\protect\hyperlink{Seasons}{Seasons}}
-Seasonal quantities in the model are calculated and treated in the following methods:
+SS3 can operate with an annual time step, with 2 or more seasons per year, or with seasons treated as a continuous sequence, a.k.a. seasons-as-years.
 	 \begin{itemize}
-	 	\item Seasons are the time step during which constant rates apply.
-	 	\item Catch and discard amounts are per season and $F$ is calculated per season.
-	 	\item The year can have just one annual season, or be subdivided into seasons of unequal length.
-	 	\item Season duration is input in real months (1.0 - 12.99) and is converted into fractions of an annum. Annual rate values are multiplied by the per annum season duration.
-	 	\item If the sum of the input season durations do not equal 12.0, then the input durations are divided by the total duration input to rescale season duration to equal 1.0.  
-	 	\item Allows for a special situation in which the year could be only 0.25 in duration (e.g., seasons as years) so that spawning and time-varying parameters can occur more frequently. Other durations are also possible (e.g., where a model year is really only 6 months). Note that real month inputs should always have the range 1.0 - 12.99, even in cases where a model year is not a true year. See the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment section} for more information on how to set up models where the model year duration is different from a true year.
+	 	\item Seasons are the time step during which constant rates apply. SS3 multiplies any rate parameter ($M$, growth, movement, $F$, etc.) by the season duration in fractions of a year. This means that rate parameters have units of yr\textsuperscript{-1}.
+	 	\item SS3 takes input of events (spawning, recruitment/settlement) and most data in units of real month with 1.0 translating to January 1 and 1.5 translating to January 15. SS3 calculates the season in which the event/data occurs when the input file is read by taking into account the actual duration of each season. This minimizes the need to change data inputs when the seasonal structure of the model is changed. However, catch and discard amounts are input as season totals so may need to change if the seasonal configuration is changed.
+	 	\item Season duration is input in units of real months and converted into fractions of a year by dividing each input season duration value by the sum of the input durations to assure that they sum exactly to 1.0 (except see a special treatment in the \hyperlink{continuous-seasonal-recruitment-sec}{seasons-as-years section}). For example:
+			\item 3 #\_Nseas
+			\item 1 4.5 6.5 #\_months/season (for example, to match a spawning season followed by an early and late fishing season)
+			\item # calculated season duration = 0.08333, 0.375, 0.5416
+	 	\item Time-varying parameters only change each year. However some types of parameters have special provisions to allow for seasonal changes in their value.
+	 	\item Recruitment settlement events are entered with real month values. Aligning these events with the beginning of a season improves transparency, but is not necessary 
 	 \end{itemize}
 
 \hypertarget{SubSeas}{}
@@ -153,7 +155,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 		& \Bstrut\\
 		
 		\hline
-		\raisebox{0.1\ht\strutbox}{\hypertarget{RecrTiminig}{1.5}} & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Spawning month; spawning biomass is calculated at this time of year (1.5 means January 15) and used as basis for the total recruitment of all settlement events resulting from this spawning.}} \Tstrut\\
+		1.5}} & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{\hypertarget{RecrTiminig}{Spawning month}; spawning biomass is calculated at this time of year (1.5 means January 15) and used as basis for the total recruitment of all settlement events resulting from this spawning.}} \Tstrut\\
 		& \\
 		& \Bstrut\\
 
