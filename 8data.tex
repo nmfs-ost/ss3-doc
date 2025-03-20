@@ -69,9 +69,9 @@ SS3 can operate with an annual time step, with 2 or more seasons per year, or wi
 	 	\item Seasons are the time step during which constant rates apply. SS3 multiplies any rate parameter ($M$, growth, movement, $F$, etc.) by the season duration in fractions of a year. This means that rate parameters have units of yr\textsuperscript{-1}.
 	 	\item SS3 takes input of events (spawning, recruitment/settlement) and most data in units of real month with 1.0 translating to January 1 and 1.5 translating to January 15. SS3 calculates the season in which the event/data occurs when the input file is read by taking into account the actual duration of each season. This minimizes the need to change data inputs when the seasonal structure of the model is changed. However, catch and discard amounts are input as season totals so may need to change if the seasonal configuration is changed.
 	 	\item Season duration is input in units of real months and converted into fractions of a year by dividing each input season duration value by the sum of the input durations to assure that they sum exactly to 1.0 (except see a special treatment in the \hyperlink{continuous-seasonal-recruitment-sec}{seasons-as-years section}). For example:
-			\item 3 #\_Nseas
-			\item 1 4.5 6.5 #\_months/season (for example, to match a spawning season followed by an early and late fishing season)
-			\item # calculated season duration = 0.08333, 0.375, 0.5416
+			\item 3 \#\_Nseas
+			\item 1 4.5 6.5 \#\_months/season (for example, to match a spawning season followed by an early and late fishing season)
+			\item \# calculated season duration = 0.08333, 0.375, 0.5416
 	 	\item Time-varying parameters only change each year. However some types of parameters have special provisions to allow for seasonal changes in their value.
 	 	\item Recruitment settlement events are entered with real month values. Aligning these events with the beginning of a season improves transparency, but is not necessary 
 	 \end{itemize}
