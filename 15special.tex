@@ -143,26 +143,26 @@ The seasons-as-years approach was designed to operate in situations where recrui
 	This approach uses seasons within years and recruitment events aligned with those seasons to distribute the total annual recruitment among the several subsequent seasons. To do this, spread the recruitment across the appropriate number of settlement events (this number is the same as the number of seasons you have chosen) spaced apart accordingly (months 1, 4, 7, and 10 for a four season model) and with equal proportion of recruits assigned to each settlement event. This approach is most suitable for data-limited applications because it is awkward to use time-varying recruitment distribution parameters to make the seasonal specific recruitment behave as a continuous stream of random recruitments.
 \end{itemize}
 
-% Other adjustments to make when using seasons-as-years, and using quarters as an illustration, include:
+Other adjustments to make when using seasons-as-years, and using quarters as an illustration, include:
 
-% \textbf{\underline{Data File}}
-% \begin{itemize}
-% 	\item Re-index all “year seas” inputs to be in terms of continuous quarter-year with all having only one season; the start year can be any value and the user must create a schema to relate real year, season values to the chosen sequence. Increase end year (endyr) value in sync with this.
+\textbf{\underline{Data File}}
+\begin{itemize}
+	\item Re-index all “year seas” inputs to be in terms of continuous quarter-year with all having only one season; the start year can be any value and the user must create a schema to relate real year, season values to the chosen sequence. Increase end year (endyr) value in sync with this.
 % 	Year seas  catch  catch\_se
 % 	1    1     201    0.01     \# season 1 of 1980
 % 	2    1     250    0.01     \# season 2 of 1980
 % 	3    1     301    0.01     \# season 3 of 1980
 % 	4    1     342    0.01     \# season 4 of 1980
 % 	5    1     231    0.01     \# season 1 of 1981
-% 	\item Increase max age because age is now in quarters (e.g. 10 years old is now 40 quarters old).
-% 	\item All output tables of age-specific quantities will be in terms of quarters.
-% 	\item If you have age data, then:
-% 		\item In the age error definitions, increase the number of entries to reflect that age is now in quarters.
-% 		\item In the age error definitions, re-code so that each quarter-age gets assigned to the correct age bin. This is because the age data are still in terms of age bins (i.e., the first 4 entries for quarter-ages 1 through 4 will all be assigned to age bin 1.5, the next four to age bin 2.5). You cannot accomplish the same result by editing the age bin values because the standard deviation of ageing error is in terms of age bin.
+	\item Increase max age because age is now in quarters (e.g. 10 years old is now 40 quarters old).
+	\item All output tables of age-specific quantities will be in terms of quarters.
+	\item If you have age data, then:
+		\item In the age error definitions, increase the number of entries to reflect that age is now in quarters.
+		\item In the age error definitions, re-code so that each quarter-age gets assigned to the correct age bin. This is because the age data are still in terms of age bins (i.e., the first 4 entries for quarter-ages 1 through 4 will all be assigned to age bin 1.5, the next four to age bin 2.5). You cannot accomplish the same result by editing the age bin values because the standard deviation of ageing error is in terms of age bin.
 % 	    1 \#\_N\_ageerror\_definitions
 % 		1.5 1.5 1.5 1.5 2.5 2.5 2.5 2.5 3.5 3.5 3.5 3.5 4.5 4.5 4.5 4.5
 % 		0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
-% \end{itemize}
+\end{itemize}
 
 % \textbf{\underline{Control File}}
 % \begin{itemize}
