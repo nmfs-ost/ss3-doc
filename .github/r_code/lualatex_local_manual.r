@@ -25,6 +25,12 @@ lualatex_local_manual <- function(
     manual[7] <- gsub("\\\\", "%\\\\", manual[7])
     manual[8] <- gsub("\\\\", "%\\\\", manual[8])
     manual[9] <- gsub("\\\\", "%\\\\", manual[9])
+    manual[71] <- gsub("\\\\", "%\\\\", manual[71])
+    manual[72] <- gsub("\\\\", "%\\\\", manual[72])
+    manual[73] <- paste0("%", manual[73])
+    manual[74] <- paste0("%", manual[74])
+    manual[75] <- paste0("%", manual[75])
+    manual[76] <- gsub("\\\\", "%\\\\", manual[76])
     writeLines(manual, "SS330_User_Manual.tex")
 
     result <- tryCatch(
@@ -48,6 +54,12 @@ lualatex_local_manual <- function(
     manual[7] <- gsub("%\\\\", "\\\\", manual[7])
     manual[8] <- gsub("%\\\\", "\\\\", manual[8])
     manual[9] <- gsub("%\\\\", "\\\\", manual[9])
+    manual[71] <- gsub("%\\\\", "\\\\", manual[71])
+    manual[72] <- gsub("%\\\\", "\\\\", manual[72])
+    manual[73] <- gsub("%", "", manual[73])
+    manual[74] <- gsub("%", "", manual[74])
+    manual[75] <- gsub("%", "", manual[75])
+    manual[76] <- gsub("%\\\\", "\\\\", manual[76])
     writeLines(manual, "SS330_User_Manual.tex")
 
     return(result)
