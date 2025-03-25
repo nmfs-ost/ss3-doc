@@ -128,17 +128,21 @@ The seasons-as-years approach was designed to operate in situations where recrui
 \begin{itemize}
 	\item \textbf{Option 1: Internal season duration adjustment}
 	 This creates a continuous stream of seasons and each is treated as if it is a logical year. This means that spawning occurs in each season (because SS3 thinks it is a year), and that each season has an independent recruitment deviation and each season can have a parameter change values. All rate parameters still have units of yr\textsuperscript{-1} and their effect is conditional on the season duration.
+	 \begin{itemize}
 		\item 1 \#\_Nseas
 		\item 1 \#\_months/season
 		\item \# resultant season duration = 0.08333
+	\end{itemize}
 	\begin{mybox}{With continuous season option 1, the user will see this warning} \\
 		Warning: Season durations sum to < 11.9, so SS3 assumes you are doing years as pseudo-seasons. There can be only 1 season in this time-step and SS3 will ignore month input and assume all observation occur at middle of this pseudo-year. Mortality, growth, and movement rates are per annum, so will get multiplied by the duration of this time-step as they are used. What gets reported as age is now age in time-steps; and input of age-specific $M$ or $K$ requires one entry per time-step. Similarly, output of age-specific quantities is in terms of number of time-steps, not real years. Spawn\_month and settlement\_month in control file are best set to 1.0 when doing years as pseudo-seasons.
 	\end{mybox}
 	\item \hypertarget{option2}{\textbf{Option 2: Manual season duration adjustment}}
 	This creates a continuous stream of seasons and each is treated as if it is a logical year of \underline{full} (12 month) duration. SS3 will not be able to detect that you are intending to use these years as seasons. All rate parameters will need to be divided by 12.0 by the user because the season duration is not being internally adjusted.
+	\begin{itemize}
 		\item 1 \#\_Nseas
 		\item 12 \#\_months/season
 		\item \# resultant season duration = 1
+	\end{itemize}
 	\item \textbf{Option 3: Recruitment events}
 	This approach uses seasons within years and recruitment events aligned with those seasons to distribute the total annual recruitment among the several subsequent seasons. To do this, spread the recruitment across the appropriate number of settlement events (this number is the same as the number of seasons you have chosen) spaced apart accordingly (months 1, 4, 7, and 10 for a four season model) and with equal proportion of recruits assigned to each settlement event. This approach is most suitable for data-limited applications because it is awkward to use time-varying recruitment distribution parameters to make the seasonal specific recruitment behave as a continuous stream of random recruitments.
 \end{itemize}
@@ -157,11 +161,13 @@ Other adjustments to make when using seasons-as-years, and using quarters as an 
 	\item Increase max age because age is now in quarters (e.g. 10 years old is now 40 quarters old).
 	\item All output tables of age-specific quantities will be in terms of quarters.
 	\item If you have age data, then:
+	\begin{itemize}
 		\item In the age error definitions, increase the number of entries to reflect that age is now in quarters.
 		\item In the age error definitions, re-code so that each quarter-age gets assigned to the correct age bin. This is because the age data are still in terms of age bins (i.e., the first 4 entries for quarter-ages 1 through 4 will all be assigned to age bin 1.5, the next four to age bin 2.5). You cannot accomplish the same result by editing the age bin values because the standard deviation of ageing error is in terms of age bin. \\
 	    1 \#\_N\_ageerror\_definitions \\
 		1.5 1.5 1.5 1.5 2.5 2.5 2.5 2.5 3.5 3.5 3.5 3.5 4.5 4.5 4.5 4.5 \\
 		0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
+	\end{itemize}
 \end{itemize}
 
 \textbf{\underline{Control File}}
@@ -173,10 +179,12 @@ Other adjustments to make when using seasons-as-years, and using quarters as an 
 	 1         1     1    0
 	\item Edit the recruitment deviation (rec\_dev) start and end years to be in terms of the model time steps.
 	\item Parameters:
+	\begin{itemize}
 		\item If using \hyperlink{option2}{option 2}, growth rate and any other rate parameters will need manual adjustment to be in terms of the duration of the season.
 		\item Edit any age selectivity parameters that refer to age, because they are now in terms of quarters.
 		\item Decrease the $R_{0}$ parameter starting value because it is now the average number of recruitments per quarter year.
 		\item If there needs to be some degree of seasonality to a parameter, then you could create a cyclic pattern in the environmental input and make the parameter a function of this cyclic pattern.
+	\end{itemize}
 \end{itemize}
 
 \pagebreak
