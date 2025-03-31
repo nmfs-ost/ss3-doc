@@ -132,7 +132,7 @@ The seasons-as-years approach was designed to operate in situations where recrui
 
 Another approach to modeling situations where recruitment occurs throughout the year is termed seasons-as-years. Here each season is treated as if it is a logical year in a continuous sequence of seasons where a season is simply a time step. In this case, the concept of fish age in integer calendar years is no longer applicable; age is now counted in terms of time steps and those time steps are quarters, months, or whatever you choose.
 \begin{itemize}
-	\item \hypertarget{option2}{\textbf{Option 2: Internal season duration adjustment}} \\
+	\item \textbf{Option 2: Internal season duration adjustment} \hypertarget{option2}{} \\
 	 This creates a continuous stream of seasons and each is treated as if it is a logical year. This means that spawning occurs in each season (because SS3 thinks it is a year), and that each season has an independent recruitment deviation and each season can have a parameter change values. All rate parameters still have units of yr\textsuperscript{-1} and their effect is conditional on the season duration.
 	 \begin{itemize}
 		\item 1 \#\_Nseas
@@ -142,7 +142,7 @@ Another approach to modeling situations where recruitment occurs throughout the 
 	\begin{mybox}{\textbf{With continuous season option 1, the user will see this warning}} \\
 		Warning: Season durations sum to < 11.9, so SS3 assumes you are doing years as pseudo-seasons. There can be only 1 season in this time-step and SS3 will ignore month input and assume all observation occur at middle of this pseudo-year. Mortality, growth, and movement rates are per annum, so will get multiplied by the duration of this time-step as they are used. What gets reported as age is now age in time-steps; and input of age-specific $M$ or $K$ requires one entry per time-step. Similarly, output of age-specific quantities is in terms of number of time-steps, not real years. Spawn\_month and settlement\_month in control file are best set to 1.0 when doing years as pseudo-seasons.
 	\end{mybox}
-	\item \hypertarget{option3}{\textbf{Option 3: Manual season duration adjustment}}
+	\item \textbf{Option 3: Manual season duration adjustment} \hypertarget{option3}{} \\
 	This creates a continuous stream of seasons and each is treated as if it is a logical year of \underline{full} (12 month) duration. SS3 will not be able to detect that you are intending to use these years as seasons. All rate parameters will need to be divided by 12.0 by the user because the season duration is not being internally adjusted.
 	\begin{itemize}
 		\item 1 \#\_Nseas
