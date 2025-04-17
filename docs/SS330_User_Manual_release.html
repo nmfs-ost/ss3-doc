@@ -11,8 +11,8 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2025-03-03" />
-  <title>Stock Synthesis User Manual Version 3.30.23.1</title>
+  <meta name="dcterms.date" content="2025-04-17" />
+  <title>Stock Synthesis User Manual Version 3.30.23.2</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="html_usermanual.css" />
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -58,7 +58,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.mhchemParser=void 0;var r=fun
 <header id="title-block-header">
 <h1 class="title"><span style="color: 1.00,0.83,0.41,0.36">Stock
 Synthesis User Manual<br />
-Version 3.30.23.1</span></h1>
+Version 3.30.23.2</span></h1>
 <p class="author">Richard D. Methot Jr., Chantel R. Wetzel, Ian G.
 Taylor, Kathryn L. Doering,<br />
 Elizabeth F. Perl, and Kelli F. Johnson<br />
@@ -66,7 +66,7 @@ Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">March 03, 2025</p>
+<p class="date">April 17, 2025</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
@@ -323,8 +323,8 @@ Time-Varying Parameters</a></li>
 </ul></li>
 <li><a href="#parameterizing-the-two-dimensional-autoregressive-selectivity" id="toc-parameterizing-the-two-dimensional-autoregressive-selectivity"><span class="toc-section-number">14.2</span> Parameterizing the
 Two-Dimensional Autoregressive Selectivity</a></li>
-<li><a href="#continuous-seasonal-recruitment" id="toc-continuous-seasonal-recruitment"><span class="toc-section-number">14.3</span> Continuous seasonal
-recruitment</a></li>
+<li><a href="#continuous-seasonal-recruitment-a.k.a.-seasons-as-years" id="toc-continuous-seasonal-recruitment-a.k.a.-seasons-as-years"><span class="toc-section-number">14.3</span> Continuous seasonal recruitment
+(a.k.a. seasons-as-years)</a></li>
 </ul></li>
 <li><a href="#detailed-information-on-stock-synthesis-processes" id="toc-detailed-information-on-stock-synthesis-processes"><span class="toc-section-number">15</span> Detailed Information on Stock
 Synthesis Processes</a>
@@ -1863,7 +1863,7 @@ relationship.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td colspan="2" style="text-align: left;">COND: <a href="#Bmarks_RefPoints">Benchmarks</a> = 3</td>
+<td colspan="2" style="text-align: left;">COND: <span id="Bmarks_RefPoints">Benchmarks</span> = 3</td>
 <td style="text-align: left;"><span class="math inline">\(B_{LIMIT}\)</span> as a fraction of the <span class="math inline">\(B_{MSY}\)</span> where a negative value will be
 applied as a fraction of <span class="math inline">\(B_{0}\)</span></td>
 </tr>
@@ -3098,28 +3098,40 @@ seasonally.</p></li>
 
 </div>
 <h3 data-number="7.3.1" id="seasons"><span class="header-section-number">7.3.1</span> <a href="#Seasons">Seasons</a></h3>
-<p>Seasonal quantities in the model are calculated and treated in the
-following methods:</p>
+<p>SS3 can operate with an annual time step, with 2 or more seasons per
+year, or with seasons treated as a continuous sequence, a.k.a.
+seasons-as-years.</p>
 <ul>
-<li><p>Seasons are the time step during which constant rates
-apply.</p></li>
-<li><p>Catch and discard amounts are per season and <span class="math inline">\(F\)</span> is calculated per season.</p></li>
-<li><p>The year can have just one annual season, or be subdivided into
-seasons of unequal length.</p></li>
-<li><p>Season duration is input in real months (1.0 - 12.99) and is
-converted into fractions of an annum. Annual rate values are multiplied
-by the per annum season duration.</p></li>
-<li><p>If the sum of the input season durations do not equal 12.0, then
-the input durations are divided by the total duration input to rescale
-season duration to equal 1.0.</p></li>
-<li><p>Allows for a special situation in which the year could be only
-0.25 in duration (e.g., seasons as years) so that spawning and
-time-varying parameters can occur more frequently. Other durations are
-also possible (e.g., where a model year is really only 6 months). Note
-that real month inputs should always have the range 1.0 - 12.99, even in
-cases where a model year is not a true year. See the <a href="#continuous-seasonal-recruitment-sec">continuous seasonal
-recruitment section</a> for more information on how to set up models
-where the model year duration is different from a true year.</p></li>
+<li><p>Seasons are the time step during which constant rates apply. SS3
+multiplies any rate parameter (<span class="math inline">\(M\)</span>,
+growth, movement, <span class="math inline">\(F\)</span>, etc.) by the
+season duration in fractions of a year. This means that rate parameters
+have units of yr<sup>-1</sup>.</p></li>
+<li><p>SS3 takes input of events (spawning, recruitment/settlement) and
+most data in units of real month with 1.0 translating to January 1 and
+1.5 translating to January 15. SS3 calculates the season in which the
+event/data occurs when the input file is read by taking into account the
+actual duration of each season. This minimizes the need to change data
+inputs when the seasonal structure of the model is changed. However,
+catch and discard amounts are input as season totals so may need to
+change if the seasonal configuration is changed.</p></li>
+<li><p>Season duration is input in units of real months and converted
+into fractions of a year by dividing each input season duration value by
+the sum of the input durations to assure that they sum exactly to 1.0
+(except see a special treatment in the <a href="#continuous-seasonal-recruitment-sec">seasons-as-years
+section</a>). For example:</p>
+<ul>
+<li><p>3 #_Nseas</p></li>
+<li><p>1 4.5 6.5 #_months/season (for example, to match a spawning
+season followed by an early and late fishing season)</p></li>
+<li><p># calculated season duration = 0.08333, 0.375, 0.5416</p></li>
+</ul></li>
+<li><p>Time-varying parameters only change each year. However some types
+of parameters have special provisions to allow for seasonal changes in
+their value.</p></li>
+<li><p>Recruitment settlement events are entered with real month values.
+Aligning these events with the beginning of a season improves
+transparency, but is not necessary</p></li>
 </ul>
 <div id="SubSeas">
 
@@ -3303,11 +3315,13 @@ temporal granularity in calculating growth and the associated <span data-acronym
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">Spawning month; spawning biomass is
-calculated at this time of year (1.5 means January 15) and used as basis
-for the total recruitment of all settlement events resulting from this
-spawning.</td>
+<td style="text-align: left;white-space: nowrap;">1.5</td>
+<td style="text-align: left;"><div id="RecrTiminig">
+<p>Spawning month</p>
+</div>
+<p>; spawning biomass is calculated at this time of year (1.5 means
+January 15) and used as basis for the total recruitment of all
+settlement events resulting from this spawning.</p></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -3725,7 +3739,9 @@ multipliers plus <span class="math inline">\(M2\)</span> itself to
 closely match the input consumption amounts (288 mt of consumption per
 season, the fit can be examined by looking at the discard output
 report).</p>
-<p><a href="#Catch"></a></p>
+<div id="Catch">
+
+</div>
 <h2 data-number="7.9" id="catch"><span class="header-section-number">7.9</span> <a href="#Catch">Catch</a></h2>
 <div id="CatchFormat">
 
@@ -15416,12 +15432,12 @@ autocorrelation), and D-W (Durbin-Watson) statistic.</td>
 <td style="text-align: left;">The parameters are listed here. For the
 estimated parameters, the display shows: Num (count of parameters),
 Label (as internally generated by SS3), Value, Active_Cnt, Phase, Min,
-Max, Init, Prior, Prior_type, Prior_SD, Prior_Like, Parm_StD (standard
-deviation of parameter as calculated from inverse Hessian), Status
-(e.g., near bound), and Pr_atMin (value of prior penalty if parameter
-was near bound). The Active_Cnt entry is a count of the parameters in
-the same order they appear in the <code>ss.cor</code> file. Also
-included are values derived from the prior distribution
+Max, Init, Status (e.g., near bound), Parm_StD (standard deviation of
+parameter as calculated from inverse Hessian), Gradient, Prior_type,
+Prior, Prior_SD, Prior_Like, and Pr_atMin (value of prior penalty if
+parameter was near bound). The Active_Cnt entry is a count of the
+parameters in the same order they appear in the <code>ss.cor</code>
+file. Also included are values derived from the prior distribution
 (Value-1.96*<span data-acronym-label="sd" data-acronym-form="singular+short">sd</span>, Value+1.96*<span data-acronym-label="sd" data-acronym-form="singular+short">sd</span>,
 V_1%, V_10%, etc.).</td>
 </tr>
@@ -17751,44 +17767,143 @@ autocorrelations in <span class="math inline">\(\epsilon_{a,t}\)</span>.</p>
 <div id="continuous-seasonal-recruitment-sec">
 
 </div>
-<h2 data-number="14.3" id="continuous-seasonal-recruitment"><span class="header-section-number">14.3</span> <a href="#continuous-seasonal-recruitment-sec">Continuous seasonal
-recruitment</a></h2>
-<p>Setting up a seasonal model such that recruitment can occur with
-similar and independent probability in any season of any year is awkward
-in SS3. Instead, SS3 can be set up so that each quarter appears as a
-year (i.e., a seasons-as-years model). All the data and parameters are
-set up to treat quarters as if they were years. Note that setting up a
-seasons-as-years model also requires that all rate parameters be
-re-scaled to correctly account for the quarters being treated as
-years.</p>
-<p>Other adjustments to make when using seasons as years include:</p>
+<h2 data-number="14.3" id="continuous-seasonal-recruitment-a.k.a.-seasons-as-years"><span class="header-section-number">14.3</span> <a href="#continuous-seasonal-recruitment-sec">Continuous seasonal
+recruitment (a.k.a. seasons-as-years)</a></h2>
+<p>The seasons-as-years approach was designed to operate in situations
+where recruitment occurs throughout the year. In this case, the concept
+of fish age in integer calendar years is no longer applicable, but we
+will provide some suggestions for allowing SS3 to use manipulated age
+data.</p>
 <ul>
-<li><p>Re-index all “year seas” inputs to be in terms of quarter-year
-because all are now season 1; increase end year (endyr) value in sync
-with this.</p></li>
-<li><p>Increase max age because age is now in quarters.</p></li>
+<li><p><strong>Option 1: Recruitment settlement events</strong><br />
+This approach uses seasons within years and recruitment events aligned
+with those seasons to distribute the total annual recruitment among the
+several subsequent seasons. To do this, spread the recruitment across
+the appropriate number of settlement events (this number is the same as
+the number of seasons you have chosen) spaced apart accordingly (months
+1, 4, 7, and 10 for a four season model) and with equal proportion of
+recruits assigned to each settlement event. This approach is most
+suitable for data-limited applications that are not using recruitment
+deviations. If multiple settlement events are used in a time series
+application, then it is awkward to use time-varying recruitment
+distribution parameters to make the seasonal specific recruitment behave
+as a continuous stream of random recruitments.</p></li>
+</ul>
+<p>Another approach to modeling situations where recruitment occurs
+throughout the year is termed seasons-as-years. Here each season is
+treated as if it is a logical year in a continuous sequence of seasons
+where a season is simply a time step. In this case, the concept of fish
+age in integer calendar years is no longer applicable; age is now
+counted in terms of time steps and those time steps are quarters,
+months, or whatever you choose.</p>
+<ul>
+<li><p><strong>Option 2: Internal season duration adjustment</strong>
+<span id="option2"></span><br />
+This creates a continuous stream of seasons and each is treated as if it
+is a logical year. This means that spawning occurs in each season
+(because SS3 thinks it is a year), and that each season has an
+independent recruitment deviation and each season can have a parameter
+change values. All rate parameters still have units of yr<sup>-1</sup>
+and their effect is conditional on the season duration.</p>
+<ul>
+<li><p>1 #_Nseas</p></li>
+<li><p>1 #_months/season</p></li>
+<li><p># resultant season duration = 0.08333</p></li>
+</ul>
+<div class="mybox">
+<p><span><strong>With continuous season option 1, the user will see this
+warning</strong></span><br />
+Warning: Season durations sum to &lt; 11.9, so SS3 assumes you are doing
+years as pseudo-seasons. There can be only 1 season in this time-step
+and SS3 will ignore month input and assume all observation occur at
+middle of this pseudo-year. Mortality, growth, and movement rates are
+per annum, so will get multiplied by the duration of this time-step as
+they are used. What gets reported as age is now age in time-steps; and
+input of age-specific <span class="math inline">\(M\)</span> or <span class="math inline">\(K\)</span> requires one entry per time-step.
+Similarly, output of age-specific quantities is in terms of number of
+time-steps, not real years. Spawn_month and settlement_month in control
+file are best set to 1.0 when doing years as pseudo-seasons.</p>
+</div></li>
+<li><p><strong>Option 3: Manual season duration adjustment</strong>
+<span id="option3"></span><br />
+This creates a continuous stream of seasons and each is treated as if it
+is a logical year of <u>full</u> (12 month) duration. SS3 will not be
+able to detect that you are intending to use these years as seasons. All
+rate parameters will need to be divided by 12.0 by the user because the
+season duration is not being internally adjusted.</p>
+<ul>
+<li><p>1 #_Nseas</p></li>
+<li><p>12 #_months/season</p></li>
+<li><p># resultant season duration = 1</p></li>
+</ul></li>
+</ul>
+<p>Other adjustments to make when using option <a href="#option2">2</a>
+or <a href="#option3">3</a> for seasons-as-years, and using quarters as
+an illustration, include:</p>
+<p><strong><u>Data File</u></strong></p>
+<ul>
+<li><p>Re-index all “year seas” inputs to be in terms of continuous
+quarter-year with all having only one season; the start year can be any
+value and the user must create a schema to relate real year, season
+values to the chosen sequence. Increase end year (endyr) value in sync
+with this.<br />
+Year seas catch catch_se<br />
+1 1 201 0.01 # season 1 of 1980<br />
+2 1 250 0.01 # season 2 of 1980<br />
+3 1 301 0.01 # season 3 of 1980<br />
+4 1 342 0.01 # season 4 of 1980<br />
+5 1 231 0.01 # season 1 of 1981<br />
+</p></li>
+<li><p>Increase max age because age is now in quarters (e.g. 10 years
+old is now 40 quarters old).</p></li>
+<li><p>All output tables of age-specific quantities will be in terms of
+quarters.</p></li>
+<li><p>If you have age data, then:</p>
+<ul>
 <li><p>In the age error definitions, increase the number of entries to
 reflect that age is now in quarters.</p></li>
 <li><p>In the age error definitions, re-code so that each quarter-age
 gets assigned to the correct age bin. This is because the age data are
-still in terms of age bins; i.e., the first 4 entries for quarter-ages 1
-through 4 will all be assigned to age bin 1.5; the next four to age bin
-2.5; you cannot accomplish the same result by editing the age bin values
-because the standard deviation of ageing error is in terms of age
-bin.</p></li>
-<li><p>In the control file, multiply the natural mortality age
-breakpoints and growth Amin and Amax values by 1/season
-duration.</p></li>
+still in terms of age bins (i.e., the first 4 entries for quarter-ages 1
+through 4 will all be assigned to age bin 1.5, the next four to age bin
+2.5). You cannot accomplish the same result by editing the age bin
+values because the standard deviation of ageing error is in terms of age
+bin.<br />
+1 #_N_ageerror_definitions<br />
+1.5 1.5 1.5 1.5 2.5 2.5 2.5 2.5 3.5 3.5 3.5 3.5 4.5 4.5 4.5 4.5<br />
+0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001 0.001
+0.001 0.001 0.001 0.001</p></li>
+</ul></li>
+</ul>
+<p><strong><u>Control File</u></strong></p>
+<ul>
+<li><p><strong>If using the N_breakpoints method:</strong> Multiply the
+natural mortality age breakpoints and growth Amin (referred to in the
+control file as “Age_post-settlement_for_L1”) and Amax (referred to as
+“Growth_Age_for_L2”) values by</p></li>
+<li><p>SS3 will be confused about when recruitment occurs relative to
+the spawning event that produced those recruits. This is because the
+normal input for timing of recruitment events is in terms of real months
+and calendar age at recruitment. At this time, the safest approach is to
+configure SS3 not to use a spawner-recruitment relationship and to use a
+simple assignment for settlement timing. #GPattern month area age (for
+each settlement assignment) 1 1 1 0</p></li>
+<li><p>Edit the recruitment deviation (rec_dev) start and end years to
+be in terms of the model time steps.</p></li>
+<li><p>Parameters:</p>
+<ul>
+<li><p>If using <a href="#option2">option 2</a>, growth rate and any
+other rate parameters will need manual adjustment to be in terms of the
+duration of the season.</p></li>
+<li><p>Edit any age selectivity parameters that refer to age, because
+they are now in terms of quarters.</p></li>
 <li><p>Decrease the <span class="math inline">\(R_{0}\)</span> parameter
 starting value because it is now the average number of recruitments per
 quarter year.</p></li>
-<li><p>Edit the recruitment deviation (rec_dev) start and end years to
-be in terms of quarter year.</p></li>
-<li><p>Edit any age selectivity parameters that refer to age, because
-they are now in terms of quarter age.</p></li>
 <li><p>If there needs to be some degree of seasonality to a parameter,
 then you could create a cyclic pattern in the environmental input and
 make the parameter a function of this cyclic pattern.</p></li>
+</ul></li>
 </ul>
 <div id="SS3Processes">
 
