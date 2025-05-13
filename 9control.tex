@@ -2180,7 +2180,11 @@ When the complete auto-generation is selected, the \texttt{control.ss\_new} woul
 
 \hypertarget{RandomWalkScaling}{}
 \myparagraph{Pattern 41 (age) - Random Walk Selectivity with User-Defined Scaling}
-Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+Selectivity pattern 17 with two additional parameters. The two additional parameters are the bin numbers to define the age range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this age range. \textbf{The low and high bin numbers are defined BEFORE the other selectivity parameters.}
+	\begin{itemize}
+		\item p1 (AgeSel\_ScaleAgeLo)- low age
+		\item p2 (AgeSel\_ScaleAgeHi)- high age
+	\end{itemize}
 
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
 		\hline
@@ -2193,14 +2197,19 @@ Selectivity pattern 17 with two additional parameters. The two additional parame
 		\hline
 		\endhead
 
-		0 & 20 & 10 & \multicolumn{1}{c}{...} & 0 & \#AgeSel\_ScaleAgeLo \Tstrut\\
-		0 & 20 & 20 & \multicolumn{1}{c}{...} & 0 & \#AgeSel\_ScaleAgeHi \Bstrut\\
+		0 & 15 & 10 & \multicolumn{1}{c}{...} & 0 & \#AgeSel\_ScaleAgeLo \Tstrut\\
+		0 & 20 & 20 & \multicolumn{1}{c}{...} & 0 & \#AgeSel\_ScaleAgeHi \Tstrut\\
+		\muticolumn{6}{l}{... other selectivity parameters as in Pattern 17} \Bstrut\\
 		\hline
 	\end{longtable}
 
 \hypertarget{CubicSplineScaling}{}
 \myparagraph{Pattern 42 (size or age) - Cubic Spline Selectivity with User-Defined Scaling}
-Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
+Selectivity pattern 27 with two additional parameters. The two additional parameters are the bin numbers to define the age range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this age range. \textbf{The low and high bin numbers are defined BEFORE the other selectivity parameters.}
+	\begin{itemize}
+		\item p1 (AgeSel\_ScaleAgeLo)- low age
+		\item p2 (AgeSel\_ScaleAgeHi)- high age
+	\end{itemize}
 
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
 		\hline
@@ -2213,15 +2222,20 @@ Selectivity pattern 27 with two additional parameters. The two additional parame
 		\hline
 		\endhead
 
-		0 & 20 & 10 & \multicolumn{1}{c}{...} & 0 & \#AgeSpline\_ScaleAgeLo \Tstrut\\
-		0 & 20 & 20 & \multicolumn{1}{c}{...} & 0 & \#AgeSpline\_ScaleAgeHi \Bstrut\\
+		0 & 15 & 10 & \multicolumn{1}{c}{...} & 0 & \#AgeSpline\_ScaleAgeLo \Tstrut\\
+		0 & 20 & 20 & \multicolumn{1}{c}{...} & 0 & \#AgeSpline\_ScaleAgeHi \Tstrut\\
+		\muticolumn{6}{l}{... other selectivity parameters as in Pattern 27} \Bstrut\\
 		\hline
 	\end{longtable}
 
 \hypertarget{NonParamScaling}{}
 \myparagraph{Pattern 43 (size) - Non-parametric Selectivity with User-Defined Scaling}
-Selectivity pattern 6 with two additional parameters. The two additional parameters are the bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this range. The low and high bin numbers are defined before the other selectivity parameters.
-	
+Selectivity pattern 6 with two additional parameters. The two additional parameters are the size bin numbers to define the range of bins for scaling. All the selectivity values will be scaled (divided) by the mean value over this size range. \textbf{The low and high bin numbers are defined BEFORE the other selectivity parameters.}
+	\begin{itemize}
+		\item p1 (SizeSel\_ScaleBinLo)- low size
+		\item p2 (SizeSel\_ScaleBinHi)- high size
+	\end{itemize}
+
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{2.9cm} p{1.9cm} p{4.2cm}}
 		\hline
 		LO \Tstrut & HI & INIT & <other entries> & Block Fxn & Parameter Label \Bstrut\\
@@ -2234,7 +2248,8 @@ Selectivity pattern 6 with two additional parameters. The two additional paramet
 		\endhead
 
 		1 & 80 & 50 & \multicolumn{1}{c}{...} & 0 & \#SizeSel\_ScaleBinLo \Tstrut\\
-		1 & 80 & 70 & \multicolumn{1}{c}{...} & 0 & \#SizeSel\_ScaleBinHi \Bstrut\\
+		1 & 80 & 70 & \multicolumn{1}{c}{...} & 0 & \#SizeSel\_ScaleBinHi \Tstrut\\
+		\muticolumn{6}{l}{... other selectivity parameters as in Pattern 6} \Bstrut\\
 		\hline
 	\end{longtable}
 
