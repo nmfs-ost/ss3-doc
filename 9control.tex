@@ -379,7 +379,7 @@ Auto-generation is a useful way to automatically create the required short time-
 Natural mortality ($M$) options include some options that are referenced to integer age and other options to real age since settlement. If using an option that references $M$ to real age since settlement, $M$ varies by age and will change by season (e.g., cohorts born early in the year will have different $M$ than cohorts born later in the year).
 
 \myparagraph{Lorenzen Natural Mortality}
-Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish. In this implementation, a reference age and $M$ value are read in, and other ages will have an $M$ scaled to its body size-at-age. However, if platoons are used, all will have the same $M$ as their growth pattern. Lorenzen $M$ calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time series, the $M$ is not further updated. Additionally, the $M$ is linked to the length-at-age from the growth parameters and can't be used for an empirical weight-at-age model. Be careful in using Lorenzen when there is time-varying growth.
+Lorenzen natural mortality is based on the concept that natural mortality is driven by physiological and ecological processes and varies over the life cycle of a fish. So, natural mortality is scaled by the length of the fish. In this implementation, a reference age and $M$ value are read in, and other ages will have an $M$ scaled to its body size-at-age. However, if platoons are used, all will have the same $M$ as their growth pattern. Lorenzen $M$ calculation will be updated if the starting year growth parameters are active, but if growth parameters vary during the time series, the $M$ is not further updated. Additionally, the $M$ is linked to the length-at-age from the growth parameters and can't be used for an empirical weight-at-age model. Natural mortality is stored internally according to sex and morph, but not by platoon. If the user wants $M$ to vary by platoon, then a workaround is to not use platoons and instead to create a collection of morphs that would mimic the growth difference of platoons. This could be done by using the same growth $k$ and a range of $Linf$ parameters for the morphs.
 
 \myparagraph{Age-specific $M$ Linked to Age-Specific Length and Maturity}
 
@@ -480,10 +480,10 @@ Like the original Lorenzen options, ages will have an $M$ scaled to its body siz
 \subsubsection[Growth]{\protect\hyperlink{Growth}{Growth}}
 
 \myparagraph{Timing} 
-When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin. The fish then grow linearly until they reach a real age equal to the input value ``growth-at-age for L1'' and have a size equal to the parameter value for L1 (the minimum length parameter). As they age further, they grow according the selected growth equation. The growth curve is calibrated to go through the size L2 parameter when they reach the age of maximum length.
+When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin. The fish then grow linearly until they reach a real age equal to the input value ``growth-at-age for L1'' and have a size equal to the parameter value for $L_1$ (the minimum length parameter). As they age further, they grow according the selected growth equation. The growth curve is calibrated to go through the size $L_2$ parameter when they reach the age of maximum length.
 	
-\myparagraph{Maximum Length (Linf)}
-If ``Growth at age for L2'' is set equal to 999, then the size at the L2 parameter is used as Linf. 
+\myparagraph{Maximum Length ($Linf$)}
+If ``Growth at age for L2'' is set equal to 999, then the size at the $L_2$ parameter is used as $Linf$. 
 	
 \myparagraph{von Bertalanffy growth function}
 
@@ -522,7 +522,7 @@ The SS3 website includes \href{https://nmfs-ost.github.io/ss3-website/qmds/richa
 
 	
 \myparagraph{Mean size-at-maximum age}
-The mean size of fish in the max age bin depends upon how close the growth curve is to Linf by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to $M$ plus initial $F$. In v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in the future version.
+The mean size of fish in the max age bin depends upon how close the growth curve is to $Linf$ by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to $M$ plus initial $F$. In v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in the future version.
 	
 \myparagraph{Age-specific K}
 This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern/sex. The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current age's multiplier. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect. Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year. There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
@@ -2465,7 +2465,7 @@ For additional information about the Dirichlet-multinomial please see \citet{tho
 
 \hypertarget{Selex-TV}{}
 \subsubsection[Selectivity Time-Varying Parameters]{\protect\hyperlink{Selex-TV}{Selectivity Time-Varying Parameters}}
-Time-Varying selectivity can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section.
+Time-Varying selectivity can be used. Details on how to specify time-varying parameters can be found in the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section. SS3 does not have a feature to allow a fleet's selectivity or catchability to vary by season within the year. In this situation, an approach commonly used is to create a separate fleet for each season, then to use fleet mirroring as needed to force some seasons to be the same as another season.
 
 \hypertarget{TwoDAR}{}
 \subsubsection[Two-Dimensional Auto-Regressive Selectivity (2DAR; Semi-parametric selectivity)]{\protect\hyperlink{TwoDAR}{Two-Dimensional Auto-Regressive Selectivity (2DAR; Semi-parametric selectivity)}}
