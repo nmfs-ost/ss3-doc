@@ -71,25 +71,25 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \texttt{control\_file.ctl} &  & File name of the control file \Tstrut\\
    
  \hline		
- 0 & Initial Parameter Values: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the \texttt{ss3.par} file. Values in \texttt{ss3.par} can be edited, carefully. Do not run \texttt{ss\_trans.exe} from a \texttt{ss3.par} from v.3.24.}}\Tstrut\\
+ 0 & Initial Parameter Values: & \multirow[t]{3}{1cm}[-0.25cm]{\parbox{12.5cm}{Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the \texttt{ss3.par} file. Values in \texttt{ss3.par} can be edited, carefully. Do not run \texttt{ss\_trans.exe} from a \texttt{ss3.par} from v.3.24.}}\Tstrut\\
  & 0 = use values in control file; and &  \\
  & 1 = use \texttt{ss3.par} after reading setup in the control file. & \\
 		
  \hline
- 1 & Run display detail: &  \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{With option 2, the display shows value of each negative log likelihood component for each iteration, and it displays where crash penalties are created}} \Tstrut\\
+ 1 & Run display detail: & \multirow[t]{4}{1cm}[-0.25cm]{\parbox{12.5cm}{With option 2, the display shows value of each negative log likelihood component for each iteration, and it displays where crash penalties are created}} \Tstrut\\
    & 0 = none other than \gls{admb} outputs; & \\
    & 1 = one brief line of display for each iteration; and & \\
    & 2 = fuller display per iteration. & \\
 		  
  \hline
- 1 & Detailed age-structure report: & \multirow{1}{1cm}[-0.15cm]{\parbox{12.5cm}{Option 0 will forgo the writing of the Report file, but the ss\_summary file will be written that has minimal derived and estimated quantities. This is a useful option for some data-limited assessment approaches (e.g., \href{https://github.com/chantelwetzel-noaa/XSSS}{\texttt{xsss}} or \href{https://github.com/shcaba/SSS}{\texttt{sss}}). Option 1 will write out the full Report file. Option 2 will write out select items in the Report file and will omit some more detailed sections (e.g., numbers-at-age).}} \Tstrut\\
+ 1 & Detailed age-structure report: & \multirow[t]{5}{1cm}[-0.15cm]{\parbox{12.5cm}{Option 0 will forgo the writing of the Report file, but the ss\_summary file will be written that has minimal derived and estimated quantities. This is a useful option for some data-limited assessment approaches (e.g., \href{https://github.com/chantelwetzel-noaa/XSSS}{\texttt{xsss}} or \href{https://github.com/shcaba/SSS}{\texttt{sss}}). Option 1 will write out the full Report file. Option 2 will write out select items in the Report file and will omit some more detailed sections (e.g., numbers-at-age).}} \Tstrut\\
    & 0 = minimal output for data-limited methods; & \\
    & 1 = include all output (with \texttt{wtatage.ss\_new}); & \\
    & 2 = brief output, no growth; and &  \\	
    & 3 = custom output & \\
  \pagebreak
  
- \multicolumn{2}{l}{COND: Detailed age-structure report = 3} & \multirow{7}{1cm}[-0.25cm]{\parbox{12.5cm}{Custom report options: First value: -100 start with minimal items or -101 start with all items; Next Values: A list of items to add or remove where negative number items are removed and positive number items added, -999 to end. The \hyperlink{custom}{reporting numbers} for each item that can be selected or omitted are shown in the Report file next to each section key word.}} \Tstrut\\
+ \multicolumn{2}{l}{COND: Detailed age-structure report = 3} & \multirow[t]{7}{1cm}[-0.25cm]{\parbox{12.5cm}{Custom report options: First value: -100 start with minimal items or -101 start with all items; Next Values: A list of items to add or remove where negative number items are removed and positive number items added, -999 to end. The \hyperlink{custom}{reporting numbers} for each item that can be selected or omitted are shown in the Report file next to each section key word.}} \Tstrut\\
  \multicolumn{1}{r}{-100} & & \\
  \multicolumn{1}{r}{  -5} & & \\
  \multicolumn{1}{r}{   9} & & \\
@@ -98,12 +98,12 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \multicolumn{1}{r}{-999} & & \Bstrut\\
 		 
  \hline
- 0 & Write 1st iteration details: & \multirow{3}{1cm}[-0.25cm]{\parbox{12.5cm}{This output is largely unformatted and undocumented and is mostly used by the developer.}} \Tstrut\\
+ 0 & Write 1st iteration details: & \multirow[t]{3}{1cm}[-0.25cm]{\parbox{12.5cm}{This output is largely unformatted and undocumented and is mostly used by the developer.}} \Tstrut\\
    & 0 = omit; and & \\
    & 1 = write detailed intermediate calculations to \texttt{echoinput.sso} during first call. & \Bstrut\\
 
  \hline
- 0 & Parameter Trace: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{This controls the output to \texttt{parmtrace.sso}. The contents of this output can be used to determine which values are changing when a model approaches a crash condition. It also can be used to investigate patterns of parameter changes as model convergence slowly moves along a ridge. In order to access parameter gradients option 4 should be selected which will write the gradient of each parameter with respect to each likelihood component}} \Tstrut\\
+ 0 & Parameter Trace: & \multirow[t]{6}{1cm}[-0.25cm]{\parbox{12.5cm}{This controls the output to \texttt{parmtrace.sso}. The contents of this output can be used to determine which values are changing when a model approaches a crash condition. It also can be used to investigate patterns of parameter changes as model convergence slowly moves along a ridge. In order to access parameter gradients option 4 should be selected which will write the gradient of each parameter with respect to each likelihood component}} \Tstrut\\
    & 0 = omit; & \\
    & 1 = write good iteration and active parameters; & \\
    & 2 = write good iterations and all parameters; & \\
@@ -112,7 +112,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \hline
  
  \pagebreak
- 1 & Cumulative Report: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Controls reporting to the file \texttt{Cumreport.sso}. This cumulative report is most useful when accumulating summary information from likelihood profiles or when simply accumulating a record of all model runs within the current subdirectory}} \Tstrut\\
+ 1 & Cumulative Report: & \multirow[t]{4}{1cm}[-0.25cm]{\parbox{12.5cm}{Controls reporting to the file \texttt{Cumreport.sso}. This cumulative report is most useful when accumulating summary information from likelihood profiles or when simply accumulating a record of all model runs within the current subdirectory}} \Tstrut\\
    & 0 = omit;  & \\
    & 1 = brief; and & \\
    & 2 = full. & \Bstrut\\
