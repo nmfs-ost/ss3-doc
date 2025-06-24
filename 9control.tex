@@ -1209,10 +1209,10 @@ The $R_{0}$, steepness, and regime shift parameters can be time-varying by block
 The $\sigma_R$ value is typically not estimable and it is recommended practice to tune input $\sigma_R$ values based on the variance in estimated recruitments post running SS3. The R package \href{https://github.com/r4ss/r4ss}{R code for Stock Synthesis (\texttt{r4ss})} designed to read and visualize SS3 model results provides recommendations on adjusting $\sigma_R$ values in the \texttt{sigma\_R\_info} object in the list created by the \texttt{r4ss::SS\_output()} function. An alternative $\sigma_R$ value is provided based on equation:
 
 \begin{equation}
-	\sigma_R^2 = Var(\hat{r}) + \overline{SE(\hat{r}_y)}^2
+	\sigma_R^2 = Var(\hat{r}) + \overline{SE(\hat{r}_y)^2}
 \end{equation}
 
-Simulation studies conducted by \citet{methot-adjusting-2011} compared three methods of tuning $\sigma_R$ with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates.
+Simulation studies conducted by \citet{methot-adjusting-2011} compared three methods of tuning $\sigma_R$ with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates. Note that the equation above differs from the 2011 paper in that the standard errors are squared before taking the mean, rather than after, a correction provided by \citet{thorson_status_2015}.
 
 \hypertarget{RecDevSetup}{}
 \subsubsection[Recruitment Deviation Setup]{\protect\hyperlink{RecDevSetup}{Recruitment Deviation Setup}}
