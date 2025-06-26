@@ -1030,9 +1030,10 @@ The spawner-recruitment section starts by specification of the functional relati
 	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: $ln(R_{0})$, steepness, and $R_{\text{min}}$) for $ln(R_{0})$, fraction of virgin \gls{ssb} at which inflection occurs, and the R level at \gls{ssb} = 0.0; \\
 	  &                     & 6: Beverton-Holt with flat-top beyond $B_{0}$, 2 parameters: $ln(R_{0})$ and steepness; \\
 	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: $ln(R_{0})$, $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are $<=$ population production; \\
-	 %&                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: $ln(R_{0})$, steepness, and shape parameter, $c$;\\
-	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); and \\
-	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and Ricker power, $\gamma$ (added to v.3.30.11 and is in beta mode). \Bstrut\\
+	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); \\
+	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and Ricker power, $\gamma$ (added to v.3.30.11 and is in beta mode); and \\
+	  &                     & 10: \hyperlink{BH-ab}{alpha, beta parameterization of Beverton-Holt}: 4 parameters: $ln(R_{0})$ (derived), steepness (derived), $ln(alpha)$, $ln(beta)$. Note that $ln(alpha)$ and $ln(beta)$ are the estimated parameters. The parameter lines for $ln(R_{0})$ and steepness must exist though their values are derived from alpha and beta. It is permissible to place a prior on steepness. \\
+
 	\hline
 
 	1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
@@ -1144,6 +1145,10 @@ temp =
 \end{equation}
 where $temp$ stabilizes recruitment at $R_0$ if $SB_y > SB_0$. 
 
+\hypertarget{BH-ab}{}
+\myparagraph{alpha, beta parameterization of Beverton-Holt}
+Hold for description.
+
 \hypertarget{SRRParam}{}
 \subsubsection[Spawner-Recruitment Parameter Setup]{\protect\hyperlink{SRRParam}{Spawner-Recruitment Parameter Setup}}
 Read the required number of long parameter setup lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE). These parameters are:
@@ -1194,6 +1199,25 @@ Example setup of the spawner-recruitment section:
 		0   & 2  & 0.60 & 0.80 & \multicolumn{1}{c}{...} & 0 & \#SR\_sigmaR \\
 		-5  & 5  & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_regime \\
 		-99 & 99 & 0    & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_autocorr \Bstrut\\
+		\hline
+	\end{longtable}
+\end{center}
+\vspace*{-1.7\baselineskip}
+
+Example setup of the spawner-recruitment section using alpha, beta parameterization of Beverton-Holt:
+\begin{center}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{3cm} p{2cm} p{3.5cm}}
+		
+		\hline
+		LO \Tstrut & HI & INIT & PRIOR & <other entries> & Block Fxn & Parameter Label \Bstrut\\
+		\hline
+		3     & 31 & 8.81  & 10.3 & \multicolumn{1}{c}{...} & 0 & \#SR\_LN(R\textsubscript{0}_derived) \Tstrut\\
+		0.2   & 1  & 0.61  & 0.70 & \multicolumn{1}{c}{...} & 0 & \#SR\_BH\_steep_derived \\
+		0.001 & 31 & 0.58  & 10.3 & \multicolumn{1}{c}{...} & 0 & \# SR_BH_ln(alpha) \\
+        -30   & 30 & -8.28 & 0.7  & \multicolumn{1}{c}{...} & 0 & \# SR_BH_ln(beta) \\
+		0     & 2  & 0.60  & 0.80 & \multicolumn{1}{c}{...} & 0 & \#SR\_sigmaR \\
+		-5    & 5  & 0     & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_regime \\
+		-99   & 99 & 0     & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_autocorr \Bstrut\\
 		\hline
 	\end{longtable}
 \end{center}

@@ -214,11 +214,12 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & & \\
    & & \\
    & 0 = skip; & \Tstrut \\
-   & 1 = $X*B_{0}$; & Relative to virgin spawning biomass. \\
+   & 1 = $X*B_{0}$; & Relative to virgin spawning biomass. This option will affect interpretation of biomass target in the \texttt{forecast.ss} file \\
    & 2 = $X*B_{MSY}$; & Relative to spawning biomass that achieves \gls{msy}. \\
    & 3 = $X*B_{styr}$; and & Relative to model start year spawning biomass. \\
    & 4 = $X*B_{endyr}$. & Relative to spawning biomass in the model end year. \\
    & 5 = $X*Dynamic~B_{0}$ & Relative to the calculated dynamic $B_{0}$. \\
+   & 6 = $X*SSB\\_unf\\_bmark$ & Relative to unfished spawning biomass in the benchmark. \\
    & use tens and hundreds digits to invoke multi-year trailing average & \\
    & append 0.1 to invoke ln(ratio) & \Bstrut\\
   
@@ -233,6 +234,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & 2 = use $1-SPR$ at $MSY$; & \Tstrut\\
    & 3 = use $1-SPR$ at $B_{TARGET}$; and &  \Tstrut\\
    & 4 = no denominator, so report actual $1-SPR$ values. & \\
+   & 5 = use $SPR$ & \\
   
 %  \pagebreak
 \hline 
@@ -287,11 +289,14 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
   % \pagebreak
   \hline  
-  \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)}& \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to v.3.30.15 This is an optional input value allowing for the specification of a random number seed value. If you do not want to specify a seed, skip this input line and end the starter file with the check value (3.30).}} \Tstrut\Bstrut\\
+  \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)} & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to v.3.30.15 This is an optional input value allowing for the specification of a random number seed value. If you do not want to specify a seed, skip this input line and end the starter file with the check value (3.30).}} \Tstrut\Bstrut\\
   & & \\ 
   & & \Bstrut\\
   & & \\
   
+  0 & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Compatibility flag implemented as of v.3.30.24. Use 0 for legacy or 1 for improved impact of timevarying biology on benchmark SRR calcs.}} \Tstrut\Bstrut\\
+  & & \\
+
  \pagebreak
 %  \hline
  \raisebox{0.1\ht\strutbox}{\hypertarget{Convert}{3.30}} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The \texttt{\texttt{ss\_trans.exe}} executable should be used to convert the v.3.24 \texttt{\texttt{control.ss\_new}} and \texttt{\texttt{data\_echo.ss\_new}} files to the new format. All ss\_new files are in the v.3.30 format, so \texttt{\texttt{starter.ss\_new}} has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a \texttt{\texttt{ss3.par}} file produced by v.3.24 and earlier, so ensure that the read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from Stock Synthesis v.3.24} section has additional information on model features that may impede file conversion.}} \Tstrut\Bstrut\\
