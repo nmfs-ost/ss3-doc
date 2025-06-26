@@ -128,16 +128,16 @@ If a time-varying specification set up in the long parameter lines for a particu
 
 For example, if two parameters were specified to have environmental linkages in the\gls{mg} parameter section, below the \gls{mg} parameters would be two parameter lines (when not auto-generating these lines), which is an environmental linkage parameter for each time-varying base parameter:
 
-\begin{longtable}{p{0.7cm} p{0.7cm} p{0.7cm} p{1cm} p{1.4cm} p{1cm} p{1cm} p{6.7cm}}
+\begin{longtable}{p{0.6cm} p{0.6cm} p{0.9cm} p{1cm} p{1cm} p{1cm} p{1cm} >{\raggedright\arraybackslash}p{7cm}}
 	\hline
-	   &    &      & Prior & Prior    & Prior &  & \Tstrut\\
+	   &    &      & Prior & Prior    & Prior &       & \Tstrut\\
 	LO & HI & INIT & Value & \gls{sd} & Type  & Phase & Parameter Label \Bstrut\\
 	\hline
 	\endfirsthead
 	
 	\hline
-	   &    &      & Prior & Prior & Prior &  & \Tstrut\\
-	LO & HI & INIT & Value & \gls{sd}    & Type  & Phase & Parameter Label \Bstrut\\
+	   &    &      & Prior & Prior    & Prior &       & \Tstrut\\
+	LO & HI & INIT & Value & \gls{sd} & Type  & Phase & Parameter Label \Bstrut\\
 	\hline
 	\endhead
 	
@@ -209,19 +209,19 @@ The time-varying parameter options in Stock Synthesis are flexible. Below are so
 \begin{itemize}
 	\item Suppose natural mortality was thought to increase from 0.1 to 0.2 during 2000 to 2010. This could be input as a trend. First, the natural mortality parameter would be fixed at an initial value of 0.1. Then, a value of -2 could be input into the ``use block'' column of the natural mortality long parameter line to indicate that the direct input option for trends should be used. The long parameter line for $M$ could look like:
 	\begin{center}
-		\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1.5cm} p{1.5cm} p{1.5cm} p{3cm}}
+		\begin{longtable}{p{0.6cm} p{0.6cm} p{0.9cm} p{2cm} p{1.3cm} p{2cm} >{\raggedright\arraybackslash\small}p{1.7cm} p{1.6cm} p{2cm}}
 			
 			\hline
-			LO \Tstrut & HI & INIT & <other entries> & PHASE & <other entries> & Use\_Block & Block Fxn & Parameter Label \Bstrut\\
+			LO & HI & INIT & <other entries>         & PHASE & <other entries>         & Use\_Block & Block Fxn & Parameter Label \Tstrut\Bstrut\\
 			\hline
-			0          & 4 & 0.1 & \multicolumn{1}{c}{...} & -1 & \multicolumn{1}{c}{...} & -2 & 0 & \#M \Bstrut\\
+			0  & 4  & 0.1  & \multicolumn{1}{c}{...} & -1    & \multicolumn{1}{c}{...} & -2         & 0         & \#M \Bstrut\\
 			\hline
 		\end{longtable}
 	\end{center}
 
 	\item Three short parameter lines are then expected after the mortality-growth long parameter lines, one for the final value, one for the inflection year and one for the width. The final value could be fixed by using 0.2 as the final value on the short parameter line and a negative phase value. The inflection year could be fixed at 2005 by inputting 2005 for the inflection year in the short parameter line with a negative phase. Finally, the width value (i.e., standard deviation of the cumulative normal distribution) could be set at 3 years. The short parameter lines could look like:
 	
-	\begin{longtable}{p{0.7cm} p{0.7cm} p{0.7cm} p{1cm} p{1.4cm} p{1cm} p{1cm} p{6.7cm}}
+	\begin{longtable}{p{1cm} p{0.9cm} p{0.9cm} p{1cm} p{1cm} p{1cm} p{1cm} >{\raggedright\arraybackslash\small}p{6.3cm}}
 	\hline
 	   &    &      & Prior & Prior    & Prior &  & \Tstrut\\
 	LO & HI & INIT & Value & \gls{sd} & Type  & Phase & Parameter Label \Bstrut\\

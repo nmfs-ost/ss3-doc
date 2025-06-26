@@ -42,7 +42,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 \hypertarget{StarterOptions}{}
 \subsection[Starter File Options (\texttt{starter.ss})]{\protect\hyperlink{StarterOptions}{Starter File Options (\texttt{starter.ss})}}	
 
-\begin{longtable}{p{1.5cm} p{7.2cm} p{12.3cm}} 
+\begin{longtable}{p{1.5cm} >{\raggedright\arraybackslash}p{7.2cm} >{\raggedright\arraybackslash}p{12.5cm}} 
 
  \hline
  \textbf{Value} & \textbf{Options} & \textbf{Description} \TBstrut\\ 
@@ -62,7 +62,8 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \hline
  \endlastfoot
 
- \#C this is a starter comment & Must begin with \#C then rest of the line is free form & All lines in this file beginning with \#C will be retained and written to the top of several output files \Tstrut\\
+ \#C & \multirow{2}{7.2cm}[-0.25cm]{\parbox{7.2cm}{This is a starter comment. Must begin with \#C then rest of the line is free form}} & \multirow{2}{12.5cm}[-0.25cm]{\parbox{12.5cm}{All lines in this file beginning with \#C will be retained and written to the top of several output files}} \Tstrut\\
+  & & \\
 		
  \hline
  \texttt{data\_file.dat} &  & File name of the data file \Tstrut\\
@@ -71,12 +72,13 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \texttt{control\_file.ctl} &  & File name of the control file \Tstrut\\
    
  \hline		
- 0 & Initial Parameter Values: & \multirow{3}{1cm}[-0.25cm]{\parbox{12.5cm}{Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the \texttt{ss3.par} file. Values in \texttt{ss3.par} can be edited, carefully. Do not run \texttt{ss\_trans.exe} from a \texttt{ss3.par} from v.3.24.}} \Tstrut \\
+ 0 & Initial Parameter Values: & \multirow{3}{12.5cm}[-0.25cm]{\parbox{12.5cm}{Do not set equal to 1 if there have been any changes to the control file that would alter the number or order of parameters stored in the \texttt{ss3.par} file. Values in \texttt{ss3.par} can be edited, carefully. Do not run \texttt{ss\_trans.exe} from a \texttt{ss3.par} from v.3.24.}} \Tstrut \\
  & 0 = use values in control file; and & \\
  & 1 = use \texttt{ss3.par} after reading setup in the control file. & \\
+ & & \\
 		
  \hline
- 1 & Run display detail: & \multirow{3}{1cm}[-0.25cm]{\parbox{12.5cm}{With option 2, the display shows value of each negative log likelihood component for each iteration, and it displays where crash penalties are created}} \Tstrut \\
+ 1 & Run display detail: & \multirow{3}{12.5cm}[-0.25cm]{\parbox{12.5cm}{With option 2, the display shows value of each negative log likelihood component for each iteration, and it displays where crash penalties are created}} \Tstrut \\
    & 0 = none other than \gls{admb} outputs; & \\
    & 1 = one brief line of display for each iteration; and & \\
    & 2 = fuller display per iteration. & \\
@@ -182,8 +184,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
  %\pagebreak
  \hline
- \multicolumn{1}{r}{1940 1950} & \multirow{2}{1cm}[-0.25cm]{\parbox{19.5cm}{Vector of years for additional \gls{sd} reporting. The number of years needs to equal the value specified in the above line (Extra \gls{sd} Report Years).}} \\
-  & & \\
+ 1940 1950 & \multicolumn{2}{>{\raggedright\arraybackslash}p{19.7cm}}{Vector of years for additional \gls{sd} reporting. The number of years needs to equal the value specified in the above line (Extra \gls{sd} Report Years).} \\
 
  \pagebreak
 %\hline
@@ -252,7 +253,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
  \hline
 %  \pagebreak
- 1 & $F\text{\_std}$ scaling: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{$F\text{\_std}$ is typically reported as a ratio to the value of an equivalent $F$ calculation that would occur at the benchmark level of fishing. Here the user selects the denominator for that ratio. This ratio can be presented as a multi-year trailing average in $F$ or as a ln(ratio). For example, 122.1 would do a 12-year trailing average of the ratio using $F_{MSY}$ and present the result as the ln(ratio).}} \Tstrut\\
+ 1 & $F\text{\_std}$ scaling: & \multirow{4}{1cm}[-0.25cm]{\parbox{12.5cm}{$F\text{\_std}$ is typically reported as a ratio to the value of an equivalent $F$ calculation that would occur at the benchmark level of fishing. Here the user selects the denominator for that ratio. This ratio can be presented as a multi-year trailing average in $F$ or as a ln(ratio). For example, 122.1 would do a 12-year trailing average of the ratio using $F_{MSY}$ and present the result as the ln(ratio).}} \Tstrut\\
    & 0 = not relative, report raw values; & \\
    & 1 = use $F\text{\_std}$ value relative to $SPR_{TARGET}$; & \\
    & 2 = use $F\text{\_std}$ value relative to $F_{MSY}$; and & \\
@@ -262,7 +263,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 
   % \hline
   \pagebreak
-  0.01 & \gls{mcmc} output detail: & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of \gls{mcmc} output. This input requires the specification of two items; the output detail and a bump value to be added to the $ln(R_{0})$ in the first call to \gls{mcmc}. A bias adjustment of 1.0 is applied to recruitment deviations in the \gls{mcmc} phase, which could result in reduced recruitment estimates relative to the \gls{mle} when a lower bias adjustment value is applied. A small value, called the ``bump'', is added to the $ln(R_{0})$ for the first call to \gls{mcmc} in order to prevent the stock from hitting the lower bounds when switching from \gls{mle} to \gls{mcmc}. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\Bstrut\\
+  0.01 & \gls{mcmc} output detail: & \multirow{6}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify format of \gls{mcmc} output. This input requires the specification of two items; the output detail and a bump value to be added to the $ln(R_{0})$ in the first call to \gls{mcmc}. A bias adjustment of 1.0 is applied to recruitment deviations in the \gls{mcmc} phase, which could result in reduced recruitment estimates relative to the \gls{mle} when a lower bias adjustment value is applied. A small value, called the ``bump'', is added to the $ln(R_{0})$ for the first call to \gls{mcmc} in order to prevent the stock from hitting the lower bounds when switching from \gls{mle} to \gls{mcmc}. If you wanted to select the default output option and apply a bump value of 0.01 this is specified by 0.01 where the integer value represents the output detail and the decimal is the bump value.}} \Tstrut\Bstrut\\
   & 0 = default; & \\
   & 1 = output likelihood components and associated lambda values; & \\
   & 2 = write report for each mceval; and & \\		 
@@ -275,21 +276,17 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
   % \pagebreak
   \hline
   \raisebox{0.1\ht\strutbox}{\hypertarget{ALK}{0}} & \gls{alk} tolerance level & This effect is disabled in code, enter 0. \Tstrut\Bstrut\\
-  % \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Value of 0 will not apply any compression.  Values > 0 (e.g., 0.0001) will apply compression to the ALK which will increase the speed of calculations.  The size of this value will impact the run time of your model, but one should be careful to ensure that the value used does not appreciably impact the estimated quantities relative to no compression of the ALK.  The suggested value if applied is 0.0001.}} \Tstrut\Bstrut\\ 
-  % & & \\
-  % & & \Tstrut\\
-  % & & \Tstrut\Bstrut\\
 
   % \pagebreak
   \hline  
-  \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)}& \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to v.3.30.15 This is an optional input value allowing for the specification of a random number seed value. If you do not want to specify a seed, skip this input line and end the starter file with the check value (3.30).}} \Tstrut\Bstrut\\
+  \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)}& \multirow{4}{1cm}[-0.25cm]{\parbox{12.5cm}{Specify a seed for data generation. This feature is not available in versions prior to v.3.30.15 This is an optional input value allowing for the specification of a random number seed value. If you do not want to specify a seed, skip this input line and end the starter file with the check value (3.30).}} \Tstrut\Bstrut\\
   & & \\ 
   & & \Bstrut\\
   & & \\
   
  \pagebreak
 %  \hline
- \raisebox{0.1\ht\strutbox}{\hypertarget{Convert}{3.30}} & Model version check value. & \multirow{1}{1cm}[-0.25cm]{\parbox{12.5cm}{A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The \texttt{\texttt{ss\_trans.exe}} executable should be used to convert the v.3.24 \texttt{\texttt{control.ss\_new}} and \texttt{\texttt{data\_echo.ss\_new}} files to the new format. All ss\_new files are in the v.3.30 format, so \texttt{\texttt{starter.ss\_new}} has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a \texttt{\texttt{ss3.par}} file produced by v.3.24 and earlier, so ensure that the read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from Stock Synthesis v.3.24} section has additional information on model features that may impede file conversion.}} \Tstrut\Bstrut\\
+ \raisebox{0.1\ht\strutbox}{\hypertarget{Convert}{3.30}} & Model version check value. & \multirow{9}{1cm}[-0.25cm]{\parbox{12.5cm}{A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The \texttt{\texttt{ss\_trans.exe}} executable should be used to convert the v.3.24 \texttt{\texttt{control.ss\_new}} and \texttt{\texttt{data\_echo.ss\_new}} files to the new format. All ss\_new files are in the v.3.30 format, so \texttt{\texttt{starter.ss\_new}} has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a \texttt{\texttt{ss3.par}} file produced by v.3.24 and earlier, so ensure that the read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from Stock Synthesis v.3.24} section has additional information on model features that may impede file conversion.}} \Tstrut\Bstrut\\
      & & \\  
      & & \\  
 	   & & \\
