@@ -1055,11 +1055,19 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 
 \hypertarget{BH}{}
 \myparagraph{Beverton-Holt}
-The Beverton-Holt Stock Recruitment curve is calculated as:
+The Beverton-Holt Spawner Recruitment curve when using the steepness approach (option 3) is calculated as:
 \begin{equation}{R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
 \end{equation}
 
-where $R_0$ is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (corresponding to $R_0$), $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, is the standard deviation among recruitment deviations in natural log space, and is the log-normal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot-adjusting-2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
+where $R_0$ is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (calculated as $R_0 \times SBpR$) and $SBpR$ is the $SB$ per $R$ calculated using the start year biology and $F = 0$. Then, $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, $\sigma$ is the standard deviation among recruitment deviations in natural log space, and $\tilde{R}_y$ is the log-normal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot-adjusting-2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
+
+\hypertarget{BH-ab}{}
+\myparagraph{Beverton-Holt with alpha, beta approach}
+The Beverton-Holt curve with the original alpha, beta approach (option 10) is calculated as:
+\begin{equation}{R_{t+a_{r}} = \frac{\alphaS_{t}}{1+\betaS_{t}}}
+\end{equation}
+
+The two parameters, alpha ($\alpha$) and beta ($\beta$), are entered as $ln(\alpha)$ and $ln(\beta)$ as parameter numbers 3 and 4 in the input parameter list. SS3 internally calculates the equivalent values of $R_0$ and $h$ using $SBpR$ in the start year. The values of $ln(R_0)$ and $h$ are copied to positions 1 and 2 in the SR parameter list. In this way, $ln(R_0)$ is available to the code in the usual location for the many internal dependencies on $ln(R_0)$.
 
 \hypertarget{Ricker}{}
 \myparagraph{Ricker}
@@ -1145,10 +1153,6 @@ temp =
 \end{equation}
 where $temp$ stabilizes recruitment at $R_0$ if $SB_y > SB_0$. 
 
-\hypertarget{BH-ab}{}
-\myparagraph{alpha, beta parameterization of Beverton-Holt}
-Hold for description.
-
 \hypertarget{SRRParam}{}
 \subsubsection[Spawner-Recruitment Parameter Setup]{\protect\hyperlink{SRRParam}{Spawner-Recruitment Parameter Setup}}
 Read the required number of long parameter setup lines (e.g., LO, HI, INIT, PRIOR, PRIOR TYPE, SD, PHASE, ..., and BLOCK TYPE). These parameters are:
@@ -1204,7 +1208,7 @@ Example setup of the spawner-recruitment section:
 \end{center}
 \vspace*{-1.7\baselineskip}
 
-Example setup of the spawner-recruitment section using alpha, beta parameterization of Beverton-Holt:
+Example setup of the spawner-recruitment section using \hyperlink{BH-ab}{alpha, beta parameterization of Beverton-Holt}:
 \begin{center}
 	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{3cm} p{2cm} p{3.5cm}}
 		
