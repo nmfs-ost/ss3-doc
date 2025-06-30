@@ -1,10 +1,10 @@
-name: Release
+name: Pre-release
 
 on:
   workflow_dispatch:
 
 jobs:
-  release:
+  prerelease:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -32,33 +32,24 @@ jobs:
         run: install.packages("rmarkdown")
         shell: Rscript {0}
 
-# Get previous version of user manual and create the next version   
       - name: Application Version
         id: version
         uses: paulhatch/semantic-version@v5.4.0
         with:
           tag_prefix: "v"
-          version_format: "v${major}.${minor}.${patch}"
+          version_format: "v${major}.${minor}.${patch}-prerel"
           bump_each_commit: false
 
-# Create version.txt to use when changing the version in the tex file
       - name: Create version.txt
         run: |
           echo ${{ steps.version.outputs.version }} > version.txt
 
-# Update version and date in SS330_User_Manual.tex
-# (prerel)
       - name: Update version and date in manual
         run: |
           version <- readLines("version.txt", encoding = "UTF-8")
           version <- gsub("v", "", version)
           manual_tex <- readLines("SS330_User_Manual.tex")
-          vers_vec <- paste0(
-          c(
-            "[0-9]\\.[0-9][0-9]\\.[0-9][0-9](-prerel)?",
-            "[0-9]\\.[0-9][0-9]\\.[0-9][0-9]\\.[0-9](-prerel)?"
-            )
-            , collapse = "|")
+          vers_vec <- paste0(c("[0-9].[0-9][0-9].[0-9][0-9]","[0-9].[0-9][0-9].[0-9][0-9].[0-9]"), collapse = "|")
           manual_tex[grep("Version", manual_tex)] <- gsub(
             pattern = vers_vec,
             replacement = version,
@@ -76,7 +67,6 @@ jobs:
       - name: Remove version.txt before committing
         run: rm version.txt
         
-# Create HTML
       - name: Convert tex to html
         run: pandoc SS330_User_Manual.tex -s -o SS330_User_Manual.html --toc --embed-resources --standalone --mathjax --default-image-extension=png --number-sections --citeproc --variable linkcolor=#0033CC
 
@@ -87,31 +77,27 @@ jobs:
           file.remove("SS330_User_Manual.html")
         shell: Rscript {0}  
         
-# Commit tex and html changes
       - name: Commit changes of tex file version and html in docs folder to repo
         uses: EndBug/add-and-commit@v9
         with: 
           message: 'update tex file version and html in docs'
 
-# Create PDF
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
           root_file: SS330_User_Manual.tex
           latexmk_use_lualatex: true
 
- # Create Release     
-      - name: Create Release
+      - name: Create Pre-Release
         id: create_release
         uses: actions/create-release@v1
         with:
           tag_name: ${{ steps.version.outputs.version }}
-          release_name: ${{ steps.version.outputs.version }} Docs
+          release_name: ${{ steps.version.outputs.version }} Pre-Release Docs
           draft: false
-          prerelease: false
-          body: SS3 User Manual for the ${{ steps.version.outputs.version }} Stock Synthesis release.
+          prerelease: true
+          body: SS3 User Manual for the ${{ steps.version.outputs.version }} Stock Synthesis pre-release.
 
- # Add PDF as artifact for release     
       - name: Upload release artifact - pdf manual
         uses: actions/upload-release-asset@v1
         with:
@@ -120,7 +106,6 @@ jobs:
           asset_name: SS330_User_Manual.pdf
           asset_content_type: application/pdf
 
-# Render user manuals to github pages
       - name: Deploy to GitHub pages
         uses: JamesIves/github-pages-deploy-action@v4.7.3
         with:
