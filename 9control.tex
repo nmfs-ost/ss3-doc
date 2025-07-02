@@ -1423,7 +1423,7 @@ There are two approaches for estimating fishing mortality ($F$) in Stock Synthes
 \end{itemize}
 
 The $F_{hyb}$ approach works by:
-\begin{enumerate}[a.]
+\begin{enumerate}[label=\alph*.]
 	\item Applying the Pope’s method to get a harvest rate for each fleet in the current season;
 	\item Converting that harvest rate to the equivalent $F_{hyb}$. This is exact with one fleet and approximate with multiple fleets;
 	\item Adjusting those $F_{hyb}$ values over a fixed number of iterations (2-4) using the ratio of observed to calculated catch for each fleet; and
@@ -1577,7 +1577,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 \begin{enumerate}
 	\item Fleet Number
 	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation. See \hyperlink{QParams}{example Q parameter lines} below for an example set up for link types 4-6.
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item 1 = simple Q, e.g., proportional: $y=Q*x$ where $x$ is a model quantity, like selected biomass, and $y$ is the expected value for the index.
 		\item 2 = mirror simple Q - this will mirror the Q value from another fleet. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q (example: fleet 3 mirror fleet 2). Requires a Q parameter line for the fleet but will not be used.
 		\item 3 = power function to allow non-linearity in the expected value for the index: $y=Qx^{(1+c)}$. Therefore, $c > 0$ leads to hyper-stability and $c < 0$ leads to hyper-depletion. The power function option cannot be used with deviation surveys (type 35 or 36) because of negative values in the deviation vectors.
@@ -1586,7 +1586,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 		\item 6 = offset and power (3 parameter lines required). This requires 2 parameters in addition to the Q parameter. The first is for the offset and the second is for the power, $y=Q*(x+b)^{(1+c)}$.
 	\end{enumerate}
 	\item \hypertarget{link_info}{Extra input for link information (i.e., mirror fleet or dev index number)}
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item > 0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number).
 		\item If an index of a deviation vector , option 35, use this column to enter the index of the deviation vector to which the index is related. For example, if only using one index in your model, this number would be 1.
 		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
@@ -1597,17 +1597,17 @@ For each fleet that has index observations, enter a row with six entries as desc
 		\end{itemize}
 	\end{enumerate}
 	\item Extra\_se: Estimable extra standard error for an index
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item 0 = skip (typical); and
 		\item 1 = include a parameter that will contain a value to be added to the input standard deviation of the survey variability.
 	\end{enumerate}
 	\item Bias\_adj: Adjusts for log-normal bias when using an informative prior on Q. \textbf{NOTE: Bias adjustment to Q is ONLY applied when also using the float approach. See below for Q float specifications.} An expanded bias adjustment approach is under development.
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item 0 = no bias adjustment applied; and
 		\item 1 = apply bias adjustment. Bias correction will be applied to the estimated Q value.
 	\end{enumerate}
 	\item Float: Allows Q parameter to be automatically calculated to maintain no deviation between the index and the expected value. Only available for link = 1.
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item 0 = no float, parameter is estimated; and
 		\item 1 = float, analytical solution is used, but parameter line still required.
 		\item Additional information regarding the use of and appropriate application of float in Q can be found in the \hyperlink{FloatQ}{Float Q} section below.
