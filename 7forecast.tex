@@ -118,25 +118,22 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   \pagebreak
   0 0 0 0 0 0 & Enter 6 Forecast Year Values & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{To continue to use this pre-v.3.20.22 approach, enter 6 values: beginning and ending years for selectivity, relative $F$s, and recruitment distribution. These are used to create means over the specified range of years. Values can be entered as the actual year, -999 for start year, or values of 0 or -integer to be relative endyr. It is important to note:}} \Tstrut\Bstrut\\
-   & & \\
-  %  & & \\
+   & & \Bstrut\\
    & & \Bstrut\\
 
    & & -- Relative $F$ for bycatch only fleets is scaled just like other fleets.\Tstrut\\
    & & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{-- For selectivity averaging with the new approach the method code is ``1'', whereas with the old Forecast Selectivity Option, the code was ``1'' for using time-varying parameters. SS3 accounts for this change internally.}} \Bstrut\\
    & & \\
-  %  & & \\
-   & & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{-- Whenever calculating means, the calculated mean will have artificially low variance than if a minimal range of years is selected.}} \\
+   & & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{-- Whenever calculating means, the calculated mean will have artificially low variance than if a minimal range of years is selected.}} \Tstrut\\
    & & \\
 
   0 & \raisebox{0.1\ht\strutbox}{\hypertarget{FcastSelectivity}{Forecast Selectivity Option}} & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Determines selectivity used in the forecast years. Selecting 1 will allow for application of time-varying selectivity parameters (e.g., random walk) to continue into the forecast period. This setting is not included in Option 2.}} \\
     & 0 = forecast selectivity means from year range; and & \\
     & 1 = forecast selectivity from annual time-varying parameters. & \\
 
-  % \hline
-  Option 2: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18.5cm}{To use the new approach, enter -12345 and omit the entry of the \hyperlink{FcastSelectivity}{Forecast Selectivity Option} and the Forecast Year Values.}}} \\
+  Option 2: & \multicolumn{2}{l}{\multirow{1}{1cm}[-0.15cm]{\parbox{18.5cm}{To use the new approach, enter -12345 and omit the entry of the \hyperlink{FcastSelectivity}{Forecast Selectivity Option} and the Forecast Year Values.}}} \Tstrut\Bstrut\\
 
-  % \pagebreak
+  \pagebreak
   -12345 & Invoke New Forecast Format & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Biology and selectivity vectors are updated annually in the forecast according to their time-varying parameters. Be sure to check the end year of the blocks and the deviation vectors. Input in this section directs the creation of means over historical years to override any time-varying changes. Taking an average (of the relative F and/or time-varying selectivity) over the past 5 years is a common approach that allows the model to average over enough years to smooth over the noise while still capturing the recent pattern of catches. To do this, you can set the start year as -4 and set the end year to 0 as shown in the relative $F$ line in the example below. To invoke taking the mean of a range of historical recruitments after all adjustments and deviations were applied, see the \hyperlink{FcastRecruitment}{Base recruitment in forecast} option. See the Example New Forecast Format Input below.}} \Tstrut\Bstrut\\
    & & \\
    & & \Bstrut\\
@@ -144,7 +141,6 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
    & & \Tstrut\Bstrut\\
   
   \pagebreak
-  % \hline
   \multicolumn{2}{l}{Example New Forecast Format Input:} & \\
   Factor & Method \hspace{15mm} Start Year & End Year \\
   1 & 1 \hspace{26mm} 2002 & 2003 \hspace{24mm} \# natural mortality \\
@@ -154,7 +150,6 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
   12 & 1 \hspace{26mm} 2006 & 2014 \hspace{24mm} \# recruitment\\
   -9999 & -1 \hspace{25mm} -1 & -1 \Bstrut\\
 
-  % \hline
    & Factor & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Factors implemented thus far. Terminate with -9999.}} \\
    & 1 = natural mortality (M); & \\
    & 4 = recruitment distribution; & \\
@@ -164,7 +159,6 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
    & 12 = recruitment & \\
 
   % \pagebreak
-  % \hline
    & Method & \Tstrut\\
    & 0 (or omitted) = continue using time\_vary parameters; & \\
    & 1 = use means of derived factor; & \\
@@ -173,7 +167,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
    & End Year & Enter the actual year or values of 0 or -integer to be relative endyr. \\
   
   \pagebreak
-  % \hline
+  \hline
   1 & Control Rule Method: & \multirow{1}{1cm}[-0.15cm]{\parbox{12cm}{Used to apply reductions (``buffer'') to either the catch or $F$ based on the control rule during the forecast period. The buffer value is specified below via the Control Rule Buffer.}} \Tstrut\\
     & 0 = none (additional control rule inputs will be ignored); & \\
     & 1 = catch as function of \gls{ssb}, buffer on $F$; & \\
@@ -314,15 +308,15 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 99 = Input $\text{full\_}F$ (the $text{full\_}F$ value for the model years can be found in the EXPLOITATION section in the Report file). & \Bstrut\\
   
   \pagebreak
-  % \hline
-  \hypertarget{ForecastCatchInput}{Forecast catch input:} & \\
-  Example forecast catch input with basis & \\
+  \hline
+  \multicolumn{3}{l}{\hypertarget{ForecastCatchInput}{\textbf{Forecast catch input}}} \\
+  \multicolumn{3}{l}{Example forecast catch input with basis} \\
   \multicolumn{1}{l}{COND: == -1} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch (year-specific $F$ or catch, including bycatch)} \Tstrut\\
   \multicolumn{1}{r}{2012 1 1 1200 2} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value \& Basis} \\
   \multicolumn{1}{r}{2013 1 1 1400 3} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value \& Basis} \\
   \multicolumn{1}{r}{-9999 0 0 0 0} & \multicolumn{2}{l}{Indicates end of inputted catches to read} \Bstrut\\
 
-  Example forecast catch input without basis & \\
+  \multicolumn{3}{l}{Example forecast catch input without basis} \\
   \multicolumn{1}{l}{COND: > 0} & \multicolumn{2}{l}{Forecasted catches - enter one line per number of fixed forecast year catch (year-specific $F$ or catch, including bycatch)} \Tstrut\\
   \multicolumn{1}{r}{2012 1 1 1200} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value} \\
   \multicolumn{1}{r}{2013 1 1 1200} & \multicolumn{2}{l}{Year \& Season \& Fleet \& Catch or $F$ value} \\
