@@ -103,7 +103,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & 1 = write detailed intermediate calculations to \texttt{echoinput.sso} during first call. & \Bstrut\\
 
  \hline
- 0 & Parameter Trace: & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{This controls the output to \texttt{parmtrace.sso}. The contents of this output can be used to determine which values are changing when a model approaches a crash condition. It also can be used to investigate patterns of parameter changes as model convergence slowly moves along a ridge. In order to access parameter gradients option 4 should be selected which will write the gradient of each parameter with respect to each likelihood component}} \Tstrut\\
+ 0 & Parameter Trace: & \multirow{5}{12.3cm}[-0.25cm]{\parbox{12.3cm}{This controls the output to \texttt{parmtrace.sso}. The contents of this output can be used to determine which values are changing when a model approaches a crash condition. It also can be used to investigate patterns of parameter changes as model convergence slowly moves along a ridge. In order to access parameter gradients option 4 should be selected which will write the gradient of each parameter with respect to each likelihood component}} \Tstrut\\
    & 0 = omit; & \\
    & 1 = write good iteration and active parameters; & \\
    & 2 = write good iterations and all parameters; & \\
@@ -129,16 +129,16 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & 1 = use. & \\
    & & \\
    & & \\
-   & & \\
+  %  & & \\
 
  \pagebreak
  \hline
- 1 & Number of Data Files to Output: & \multirow{5}{12.3cm}[-0.25cm]{\parbox{12.3cm}{All output files are sequentially output to \texttt{data\_echo.ss\_new} and need to be parsed by the user into separate data files. The output of the input data file makes no changes, retaining the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to \texttt{data\_echo.ss\_new}. As of v.3.30.19, the output file names have changed; a separate file is created for the echoed data (\texttt{data\_echo.ss\_new}), the expected data values given the model fit (\texttt{data\_expval.ss}), and any requested bootstrap data files (\texttt{data\_boot\_x.ss} where x is the bootstrap number). In versions before v.3.30.19, these outputs were printed to a single file called \texttt{data.ss\_new}.}} \Tstrut\Bstrut\\
+ 1 & Number of Data Files to Output: & \multirow{5}{12.3cm}[-0.25cm]{\parbox{12.3cm}{All output files are sequentially output to \texttt{data\_echo.ss\_new} and need to be parsed by the user into separate data files. The output of the input data file makes no changes, retaining the order of the original file. Output files 2-N contain only observations that have not been excluded through use of the negative year denotation, and the order of these output observations is as processed by the model. At this time, the tag recapture data is not output to \texttt{data\_echo.ss\_new}. As of v.3.30.19, the output file names have changed; a separate file is created for the echoed data (\texttt{data\_echo.ss\_new}), the expected data values given the model fit (\texttt{data\_expval.ss}), and any requested bootstrap data files (\texttt{data\_boot\_x.ss} where x is the bootstrap number). In versions before v.3.30.19, these outputs were printed to a single file called \texttt{data.ss\_new}.}} \Tstrut\\
    & 0 = none; As of v.3.30.16, none of the \texttt{.ss\_new} files will be produced; & \Bstrut\\
    & 1 = output an annotated replicate of the input data file; & \Tstrut\Bstrut\\
    & 2 = add a second data file containing the model's expected values with no added error; and & \Tstrut\Bstrut\\
-   & 3+ = add N-2 parametric bootstrap data files. & \Tstrut\\
-   & & \\
+   & 3+ = add N-2 parametric bootstrap data files. & \Tstrut\Bstrut\\
+  %  & & \\
 
  \hline
  %\pagebreak
@@ -190,23 +190,23 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
 \hline
  0.0001 & Final convergence & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{This is a reasonable default value for the change in log likelihood denoting convergence. For applications with much data and a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence.}} \Tstrut\Bstrut\\
    & & \Bstrut\\
-   & & \Bstrut\\
+  %  & & \Bstrut\\
 	%  & & \\ 
  
  \hline
- 0 & Retrospective year: & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Adjusts the model end year and disregards data after this year. May not handle time varying parameters completely.}} \Tstrut\\
+ 0 & Retrospective year: & \multirow{2}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Adjusts the model end year and disregards data after this year. May not handle time varying parameters completely.}} \Tstrut\\
    & 0 = none; and & \\
    & -x = retrospective year relative to end year. & \Bstrut\\
   
  \hline
- 0 & Summary biomass min age & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Minimum integer age for inclusion in the summary biomass used for reporting and for calculation of total exploitation rate.}} \Tstrut\\
-   & & \\ 
+ 0 & Summary biomass min age & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Minimum integer age for inclusion in the summary biomass used for reporting and for calculation of total exploitation rate.}} \Tstrut\Bstrut\\
+  %  & & \\ 
 
  \hline
 %  \pagebreak
  1 & Depletion basis: & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Selects the basis for the denominator when calculating degree of depletion in reproductive output (a.k.a., \gls{ssb}). The calculated values are reported to the \gls{sd} report relative to a fraction, X, of a comparable quantity calculated in the benchmark section or elsewhere.}} \Tstrut\\
    & & \\
-   & & \\
+  %  & & \\
    & 0 = skip; & \Tstrut \\
    & 1 = $X*B_{0}$; & Relative to virgin spawning biomass. This option will affect interpretation of biomass target in the \texttt{forecast.ss} file \\
    & 2 = $X*B_{MSY}$; & Relative to spawning biomass that achieves \gls{msy}. \\
