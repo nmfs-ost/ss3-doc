@@ -35,7 +35,6 @@ $C_{t,f}$ is fleet-specific catch in a time step.
 
 $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by fleet-specific age selectivity, $s_{t,f,a}$. Note that this is not adjusted by the $max(s_{t,f,a})$.
 
-
 {
 \setlength\extrarowheight{4pt}
 \begin{landscape}
@@ -87,9 +86,9 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & 1 = include all output (with \texttt{wtatage.ss\_new}); & \\
    & 2 = brief output, no growth;  and &  \\	
    & 3 = custom output & \\
+
 \hline
 %  \pagebreak
-
  \multicolumn{2}{l}{COND: Detailed age-structure report = 3} & \multirow{4}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Custom report options: First value: -100 start with minimal items or -101 start with all items; Next Values: A list of items to add or remove where negative number items are removed and positive number items added, -999 to end. The \hyperlink{custom}{reporting numbers} for each item that can be selected or omitted are shown in the Report file next to each section key word.}} \Tstrut\\
  \multicolumn{1}{r}{-100} & & \\
  \multicolumn{1}{r}{  -5} & & \\
@@ -110,9 +109,10 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & 2 = write good iterations and all parameters; & \\
    & 3 = write every iteration and all parameters; and & \\
    & 4 = write every iteration and active parameters. & \Bstrut\\
- \hline
+
  
 %  \pagebreak
+ \hline
  1 & Cumulative Report: & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Controls reporting to the file \texttt{Cumreport.sso}. This cumulative report is most useful when accumulating summary information from likelihood profiles or when simply accumulating a record of all model runs within the current subdirectory}} \Tstrut\\
    & 0 = omit;  & \\
    & 1 = brief; and & \\
@@ -155,7 +155,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  200 & \gls{mcmc} thin interval & Number of iterations to remove between the main period of the \gls{mcmc} run. \Tstrut\\
 	
  \pagebreak
-%  \hline 
+ \hline 
  0.0 & \hyperlink{Jitter}{Jitter:} & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{The jitter function has been revised with v.3.30. Starting values are now jittered based on a normal distribution with the $pr(P_{MIN}) = 0.1\%$ and the $pr(P_{MAX}) = 99.9\%$. A positive value here will add a small random jitter to the initial parameter values. When using the jitter option, take care when defining the low and high bounds for parameter values and particularly -999 or 999 should not be used to define bounds for estimated parameters.}} \Tstrut\Bstrut\\ 
 	 & 0 = no jitter done to starting values; and & \Bstrut\\
 	 & > 0 starting values will vary with larger jitter values resulting in larger changes from the parameter values in the control or par file. & \Bstrut\\
@@ -186,8 +186,8 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
  \multicolumn{1}{r}{1940 1950} & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Vector of years for additional \gls{sd} reporting. The number of years needs to equal the value specified in the above line (Extra \gls{sd} Report Years).}} \\
   & & \\
 
- \pagebreak
-%\hline
+\pagebreak
+\hline
  0.0001 & Final convergence & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{This is a reasonable default value for the change in log likelihood denoting convergence. For applications with much data and a large total log likelihood value, a larger convergence criterion may still provide acceptable convergence.}} \Tstrut\Bstrut\\
    & & \Bstrut\\
    & & \Bstrut\\
@@ -230,7 +230,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
    & 4 = no denominator, so report actual $1-SPR$ values. & \\
    & 5 = use $SPR$ & \\
   
- \pagebreak
+\pagebreak
 \hline 
  4 & $F\text{\_std}$ reporting units: & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{An additional proxy for fishing intensity is based on the fraction of the population that is caught. As with SPR, the selected quantity will be calculated annually and in the benchmarks section. The ratio of the annual value to the selected (see $F$ report basis below) benchmark value is reported to the \gls{sd} report vector as $F\text{\_std}$. Options 1 and 2 ignore details of age-structure and are simply based on annual exploitation rate across all areas. If most catch occurs in one area and there is little movement between areas, this ratio is not informative about the $F$ in the area where the catch occurs. Option 3 is a simple sum of the full $F$'s by fleet, so may provide non-intuitive results when there are multiple areas or seasons or when the selectivities by fleet do not have good overlap in age. Option 4 is a real $\text{annual\_}F$ calculated as a numbers weighted $F$ for a specified range of ages. The $F$ for each age is calculated as $Z-M$ where $Z$ and $M$ are each calculated as $ln(N_{t+1}/N_{t})$ with and without $F$ active, respectively. The numbers are summed over all biology morphs and areas for the beginning of the year, so subsumes any seasonal pattern.}} \Tstrut\Bstrut\\
    & 0 = skip; & \\
@@ -274,7 +274,7 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
   \hline
   \raisebox{0.1\ht\strutbox}{\hypertarget{ALK}{0}} & \gls{alk} tolerance level & This effect is disabled in code, enter 0. \Tstrut\Bstrut\\
 
-  % \pagebreak
+  \pagebreak
   \hline  
   \multicolumn{2}{l}{COND: Seed Value (i.e., 1234)} & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Specify a seed for data generation. This feature is not available in versions prior to v.3.30.15 This is an optional input value allowing for the specification of a random number seed value. If you do not want to specify a seed, skip this input line and end the starter file with the check value (3.30).}} \Tstrut\Bstrut\\
   & & \\ 
@@ -284,8 +284,8 @@ $B_{t,f}$ is fleet specific available biomass, e.g., total biomass filtered by f
   0 & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{Compatibility flag implemented as of v.3.30.24. Use 0 for legacy or 1 for improved impact of time-varying biology on benchmark SRR calculations.}} \Tstrut\Bstrut\\
   & & \\
 
- \pagebreak
-%  \hline
+%  \pagebreak
+ \hline
  \raisebox{0.1\ht\strutbox}{\hypertarget{Convert}{3.30}} & Model version check value. & \multirow{1}{12.3cm}[-0.25cm]{\parbox{12.3cm}{A value of 3.30 indicates that the control and data files are currently in v.3.30 format. A value of 999 indicates that the control and data files are in a previous v.3.24 version. The \texttt{\texttt{ss\_trans.exe}} executable should be used to convert the v.3.24 \texttt{\texttt{control.ss\_new}} and \texttt{\texttt{data\_echo.ss\_new}} files to the new format. All ss\_new files are in the v.3.30 format, so \texttt{\texttt{starter.ss\_new}} has v.3.30 on the last line. The mortality-growth parameter section has a new sequence and v.3.30 cannot read a \texttt{\texttt{ss3.par}} file produced by v.3.24 and earlier, so ensure that the read par file option at the top of the starter file is set to 0. The \hyperlink{ConvIssues}{Converting Files from Stock Synthesis v.3.24} section has additional information on model features that may impede file conversion.}} \Tstrut\Bstrut\\
      & & \\  
      & & \\  
