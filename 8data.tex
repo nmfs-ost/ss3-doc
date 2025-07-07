@@ -875,7 +875,6 @@ Here, the capability to create a distribution of age (e.g., age with possible bi
 		\hline
 	\end{longtable}
 \end{center}
-\vspace*{-1.2cm}
 
 In principle, one could have year or laboratory specific matrices for ageing error. For each matrix, enter a vector with mean age for each true age; if there is no ageing bias, then set age equal to true age + 0.5.  Alternatively, -1 value for mean age means to set it equal to true age plus 0.5. The addition of + 0.5 is needed so that fish will get assigned to the intended integer age. The length of the input vector is equal to the population maximum age plus one (0-max age), with the first entry being for age 0 fish and the last for fish of population maximum age even if the maximum age bin for the data is lower than the population maximum age. The following line is a vector with the standard deviation of age for each true age with a normal distribution assumption.
 
@@ -1129,6 +1128,7 @@ Inside the model, the tagged cohort is apportioned across all growth patterns in
 
 Predominant age at release for each tag group must be assigned; this requirement keeps SS3 efficient. By assigning a tag group to a single age rather than distributing it across all possible ages according to the size composition of the release group, the tag group can be tracked as a single cohort through the age by time matrix with minimal overhead to the rest of the model. Tags are released at the beginning of a season and recaptures follow the timing of the fleet that made the recapture.
 
+\pagebreak
 \begin{center}
 	\begin{longtable}{p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{1.1cm} p{3cm}}
 		\multicolumn{9}{l}{Example set-up for tagging data:} \\
@@ -1163,8 +1163,7 @@ Predominant age at release for each tag group must be assigned; this requirement
 		 \hline
 		 & \multicolumn{8}{l}{Recapture Data} \Tstrut\\
 		 & TG &  & Year &  & Season &  & Fleet & Number \Bstrut\\ 
-		%  \hline
-		 \pagebreak
+		 \hline
 		 & 1 & & 1982 & & 1 & & 1 & 7 \Tstrut\\
 		 & 1 & & 1982 & & 1 & & 2 & 5 \\
 		 & 1 & & 1985 & & 1 & & 2 & 0 \\
