@@ -198,7 +198,6 @@ The above example specifies settlement to mid-May (month 5.5). Note that normall
 
 Below is an example setup where there are multiple settlement events, with one occurring the following year after spawning: 
 \begin{center}
-	\vspace*{-\baselineskip}
 	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{7cm}}
 		\hline
 		3 & \multicolumn{3}{l}{Number of recruitment settlement events} \Tstrut\\
@@ -239,13 +238,9 @@ where $p_i$ is the proportion of recruits to area $i$ and $N$ is the number of s
 
 Tips for fixing or estimating the recruitment apportionment:
 \begin{itemize}
-	
 	\item Set the value for one of these parameters, $p_i$, to 0.0 and not estimate it so that other parameters will be estimated (if not fixed) relative to its fixed value.
-	
 	\item Give the estimated parameters a min-max so they have a good range relative to the base parameter (i.e., of min = -5 and max = 5).
-	
 	\item In order to get a different distribution of recruitments in different years, you will need to make at least one of the recruitment distribution parameters time-varying.
-
 \end{itemize}	
 
 In a seasonal model, all cohorts graduate to the age of 1 when they first reach January 1, even if the seasonal structure of the model has them being spawned in the late fall. In general, this means that the model operates under the assumption that all age data have been adjusted so that fish are age 0 at the time of spawning and all fish graduate to the next age on January 1. This can be problematic if the ageing structures deposit a ring at another time of year. Consequently, you may need to add or subtract a year to some of your age data to make it conform to the model expected data structure, or more ideally you may need to define the calendar year within the model to start at the beginning of the season at which ring deposition occurs. Talk with your ageing lab about their criteria for seasonal ring deposition.
@@ -286,8 +281,8 @@ Here the movement of fish between areas are defined. This is a box transfer with
 	\\ 
 	\\
 	\hline
-	\end{longtable}
-	\vspace*{-\baselineskip}
+\end{longtable}
+\vspace*{-\baselineskip}
 	
 
 Two parameters will be entered later for each growth pattern, area pair, and season.
@@ -1001,7 +996,6 @@ P'=P*exp(\text{seas\_value})
 	\multicolumn{2}{r}{<short parameter line (s)>} & Read N seasons short parameter lines for each factor selected for seasonality.
 	The parameter values define an exponential offset from the base parameter value. \Bstrut\\
 	\hline
-
 \end{longtable}
 
 \hypertarget{SRR}{} 
@@ -1030,9 +1024,10 @@ The spawner-recruitment section starts by specification of the functional relati
 	  &                     & 5: \hyperlink{Hockey}{Hockey stick}:3 parameters: $ln(R_{0})$, steepness, and $R_{\text{min}}$) for $ln(R_{0})$, fraction of virgin \gls{ssb} at which inflection occurs, and the R level at \gls{ssb} = 0.0; \\
 	  &                     & 6: Beverton-Holt with flat-top beyond $B_{0}$, 2 parameters: $ln(R_{0})$ and steepness; \\
 	  &                     & 7: \hyperlink{Survivorship}{Survivorship function}: 3 parameters: $ln(R_{0})$, $z_{frac}$, and $\beta$, suitable for sharks and low fecundity stocks to assure recruits are $<=$ population production; \\
-	 %&                     & 8: \hyperlink{Shepherd}{Shepherd}: 3 parameters: $ln(R_{0})$, steepness, and shape parameter, $c$;\\
-	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); and \\
-	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and Ricker power, $\gamma$ (added to v.3.30.11 and is in beta mode). \Bstrut\\
+	  & 					& 8: \hyperlink{Shepherd}{Shepherd re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and shape parameter, $c$ (added to v.3.30.11 and is in beta mode); \\
+	  & 					& 9: \hyperlink{Ricker2}{Ricker re-parameterization}: 3 parameters: $ln(R_{0})$, steepness, and Ricker power, $\gamma$ (added to v.3.30.11 and is in beta mode); and \\
+	  &                     & 10: \hyperlink{BH-ab}{alpha, beta parameterization of Beverton-Holt}: 4 parameters: $ln(R_{0})$ (derived), steepness (derived), $ln(alpha)$, $ln(beta)$. Note that $ln(alpha)$ and $ln(beta)$ are the estimated parameters. The parameter lines for $ln(R_{0})$ and steepness must exist though their values are derived from alpha and beta. It is permissible to place a prior on steepness. \\
+
 	\hline
 
 	1 \Tstrut & Equilibrium recruitment & Use steepness in initial equilibrium recruitment calculation \\
@@ -1054,11 +1049,20 @@ The number of age-0 fish is related to spawning biomass according to a stock-rec
 
 \hypertarget{BH}{}
 \myparagraph{Beverton-Holt}
-The Beverton-Holt Stock Recruitment curve is calculated as:
+The Beverton-Holt Spawner Recruitment curve when using the steepness approach (option 3) is calculated as:
 \begin{equation}{R_y = \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim N(0;\sigma^2_R)}
 \end{equation}
 
-where $R_0$ is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (corresponding to $R_0$), $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, is the standard deviation among recruitment deviations in natural log space, and is the log-normal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot-adjusting-2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
+where $R_0$ is the unfished equilibrium recruitment, $SB_0$ is the unfished equilibrium spawning biomass (calculated as $R_0 \times SBpR$) and $SBpR$ is the $SB$ per $R$ calculated using the start year biology and $F = 0$. Then, $SB_y$ is the spawning biomass at the start of the spawning season during year $y$, $h$ is the steepness parameter, $b_y$ is the bias adjustment fraction applied during year $y$, $\sigma$ is the standard deviation among recruitment deviations in natural log space, and $\tilde{R}_y$ is the log-normal recruitment deviation for year $y$. The bias-adjustment factor \citep{methot-adjusting-2011} ensures unbiased estimation of mean recruitment even during data-poor eras in which the maximum likelihood estimate of the recruitment deviation is near 0.0.
+
+\hypertarget{BH-ab}{}
+\myparagraph{Beverton-Holt with alpha, beta approach}
+The Beverton-Holt curve with the original alpha, beta approach (option 10) is calculated as:
+\begin{equation}
+	R_{t+a_{r}} = \frac{\alpha SB_{y}}{1+\beta SB_{y}}
+\end{equation}
+
+The two parameters, alpha ($\alpha$) and beta ($\beta$), are entered as $ln(\alpha)$ and $ln(\beta)$ as parameter numbers 3 and 4 in the input parameter list. SS3 internally calculates the equivalent values of $R_0$ and $h$ using $SBpR$ in the start year. The values of $ln(R_0)$ and $h$ are copied to positions 1 and 2 in the SR parameter list. In this way, $ln(R_0)$ is available to the code in the usual location for the many internal dependencies on $ln(R_0)$. Please see \href{https://nmfs-ost.github.io/ss3-website/qmds/webinars.html#Impact of time-varying biology on reference points in SS3}{this presentation} on the SS3 website for more information.
 
 \hypertarget{Ricker}{}
 \myparagraph{Ricker}
@@ -1199,6 +1203,25 @@ Example setup of the spawner-recruitment section:
 \end{center}
 \vspace*{-1.7\baselineskip}
 
+Example setup of the spawner-recruitment section using \hyperlink{BH-ab}{alpha, beta parameterization of Beverton-Holt}:
+\begin{center}
+	\begin{longtable}{p{1cm} p{1cm} p{1cm} p{1.5cm} p{3cm} p{2cm} p{3.5cm}}
+		
+		\hline
+		LO \Tstrut & HI & INIT & PRIOR & <other entries> & Block Fxn & Parameter Label \Bstrut\\
+		\hline
+		3     & 31 & 8.81  & 10.3 & \multicolumn{1}{c}{...} & 0 & \#SR\_LN(R\textsubscript{0}\_derived) \Tstrut\\
+		0.2   & 1  & 0.61  & 0.70 & \multicolumn{1}{c}{...} & 0 & \#SR\_BH\_steep\_derived \\
+		0.001 & 31 & 0.58  & 10.3 & \multicolumn{1}{c}{...} & 0 & \#SR\_BH\_ln(alpha) \\
+        -30   & 30 & -8.28 & 0.7  & \multicolumn{1}{c}{...} & 0 & \#SR\_BH\_ln(beta) \\
+		0     & 2  & 0.60  & 0.80 & \multicolumn{1}{c}{...} & 0 & \#SR\_sigmaR \\
+		-5    & 5  & 0     & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_regime \\
+		-99   & 99 & 0     & 0    & \multicolumn{1}{c}{...} & 0 & \#SR\_autocorr \Bstrut\\
+		\hline
+	\end{longtable}
+\end{center}
+\vspace*{-1.7\baselineskip}
+
 \hypertarget{SRR-TV}{}
 \subsubsection[Spawner-Recruitment Time-Varying Parameters]{\protect\hyperlink{SRR-TV}{Spawner-Recruitment Time-Varying Parameters}}
 
@@ -1313,10 +1336,8 @@ Simulation studies conducted by \citet{methot-adjusting-2011} compared three met
 	& & \\
 	\hline
 	
-		
 	\multicolumn{3}{l}{End of advanced options} \Tstrut\Bstrut\\
 	\hline
-	
 \end{longtable}
 
 \myparagraph{Recruitment Eras}
@@ -1345,15 +1366,7 @@ The correct offset (bias adjustment) to apply to the expected value for recruitm
 In \gls{mcmc} mode, the model still draws recruitment deviations from the log-normal distribution, so the full offset is used such that the expected mean recruitment from this log-normal distribution will stay equal to the mean from the spawner-recruitment curve. When the model reaches the \gls{mcmc} and MCEVAL phases, all bias adjustment values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full log-normal distribution of each recruitment.
 
 \myparagraph{Recruitment Cycle}
-When the model is configured such that seasons are modeled as years, the concept of season within year disappears. However, there may be reason to still want to model a repeating pattern in expected recruitment to track an actual seasonal cycle in recruitment. If the recruitment cycle factor is set to a positive integer, this value is interpreted as the number of time units in the cycle and this number of full parameter lines will be read. The cyclic effect is modeled as an exp(p) factor times $R_{0}, s$o a parameter value of 0.0 has nil effect. In order to maintain the same number of total recruits over the duration of the cycle, a penalty is introduced so that the cumulative effect of the cycle produces the same number of recruits as $\text{Ncycles}*R_{0}$. Because the cyclic factor operates as an exponential, this penalty is different from a penalty that would cause the sum of the cyclic factors to be 0.0. This is done by adding a penalty to the parameter likelihood. %, where:
-
-%\begin{equation}
-%	\begin{split}
-%				 X & = \sum(e^p) \\
-%				 Y & = Ncycle \\
-%				 Penalty & = 100000*(X-Y)^2
-%	\end{split}
-%\end{equation}
+When the model is configured such that seasons are modeled as years, the concept of season within year disappears. However, there may be reason to still want to model a repeating pattern in expected recruitment to track an actual seasonal cycle in recruitment. If the recruitment cycle factor is set to a positive integer, this value is interpreted as the number of time units in the cycle and this number of full parameter lines will be read. The cyclic effect is modeled as an exp(p) factor times $R_{0}$, so a parameter value of 0.0 has nil effect. In order to maintain the same number of total recruits over the duration of the cycle, a penalty is introduced so that the cumulative effect of the cycle produces the same number of recruits as $\text{Ncycles}*R_{0}$. Because the cyclic factor operates as an exponential, this penalty is different from a penalty that would cause the sum of the cyclic factors to be 0.0. This is done by adding a penalty to the parameter likelihood.
 
 \myparagraph{Initial Age Composition}
 A non-equilibrium initial age composition is achieved by setting the first year of the recruitment deviations before the model start year. These pre-start year recruitment deviations will be applied to the initial equilibrium age composition to adjust this composition before starting the time series. The model first applies the initial $F$ level to an equilibrium age composition to get a preliminary N-at-age vector and the catch that comes from applying the $F$s to that vector, then it applies the recruitment deviations for the specified number of younger ages in this vector. If the number of estimated ages in the initial age composition is less than maximum age, then the older ages will retain their equilibrium levels. Because the older ages in the initial age composition will have progressively less information from which to estimate their true deviation, the start of the bias adjustment should be set accordingly.
@@ -1378,24 +1391,24 @@ The nomenclature below ignores sex, morphs and areas for simplicity. The quantit
 	\item $F_{t,f,a}$ is age and fleet-specific fishing mortality rate equal to $F_{t,f}' * s_{t,f,a}$. Note that it is possible for no age to have a selectivity equal to 1.0. Some selectivity curves are forced to have maximum selectivity = 1.0 such that $\text{apical\_}F$ and $\text{full\_}F$ will be the same, but some curves never reach 1.0 and some non-parametric forms allow selectivity > 1.0. In all cases, $F'$ is still the rate for the hypothetical age that has selectivity equal to 1.0. The reported $F'$ values are not rescaled to be an $F$ for the age with peak selectivity. Users need to take this into account if they are comparing reported $F'$ values to reported vector of $F_{t,f,a}$ values.
 	\item $\text{ann}F_y$ is a measure of the total fishing intensity for a year, based on one of several user-specified options (see below).
 	\item $F\text{std}_y$ is a standardized measure of the total fishing intensity for a year and is reported in the derived quantities, so variance is calculated for this quantity. See below for how it relates to $\text{ann}F$.
-	\item $SPR_y$ is the equilibrium spawning biomass per recruit that would result from fishing at the current year’s $F$ level and selectivity.
+	\item $SPR_y$ is the equilibrium spawning biomass per recruit that would result from fishing at the current year's $F$ level and selectivity.
 \end{itemize}
 
 Terminology and reporting of $\text{ann}F$ and $F\text{\_std}$ has been slightly revised for clarity in v.3.30.15.00 and the description here follows the new conventions.
 
 \myparagraph{F\_Method}
-There are two approaches for estimating fishing mortality ($F$) in Stock Synthesis. One provides a mid-season harvest rate using Pope’s approximation, the other provides a season-long $F$ rate using the Baranov catch equation. Pope’s harvest rate is implemented as F\_Method = 1. The subsequent options model $F$ as a season-long rate using the Baranov catch equation.
+There are two approaches for estimating fishing mortality ($F$) in Stock Synthesis. One provides a mid-season harvest rate using Pope's approximation, the other provides a season-long $F$ rate using the Baranov catch equation. Pope's harvest rate is implemented as F\_Method = 1. The subsequent options model $F$ as a season-long rate using the Baranov catch equation.
 
 \begin{itemize}
 	\item F\_Method = 2 represents $F$ as a parameter, $F_{par}$, for all fishing fleets. Because it is a parameter, its estimation is influenced by all data in the model, with retained catch and discard catch having the greatest influence depending on the standard error for these observations. Starting values for the $F_{par}$ can be calculated in early model phases using the hybrid approach (below), then copying those $F_{hyb}$ values into the $F_{par}$ values beginning in a specified phase for all fleets;
 	\item F\_Method = 3 represents $F$ as a tuned factor, $F_{hyb}$ using Pope's and Baranov catch equations sequentially in what is termed the hybrid method. The tuning is based on the retained catch for each fishing fleet;
 	\item F\_Method = 4 is a fleet-specific superset of F\_Methods 2 and 3 and is the recommended method for modeling $F$ in Stock Synthesis. Further instruction on how to implement F\_Method = 4 is in the next table and an example model using F\_Method = 4 can be seen in the \href{https://github.com/nmfs-ost/ss3-test-models/blob/main/models/vermillion_snapper_F4/vermilion.ctl#L149-L162}{vermillion\_snapper\_F4 model} in the \href{https://github.com/nmfs-ost/ss3-test-models/tree/main}{ss3-test-models GitHub repository}.
-	\item Discards: SS3 is calculating the $F'$ to match the retained catch conditional on the fraction of total catch that is retained if the discard/retention feature is used. The $F$ creates the total catch, then the retention curve partitions it into retained and discarded portions. With hybrid and Pope’s methods, the close tuning to retained catch can result in very imprecise fits to the discard data. If the precision of discard data and catch data are of comparable magnitudes, then it is better to use $F$ as parameters. SS3 will be using one $F’$ value to attempt to match two data types. Time-varying retention curves can allow SS3 to fit both catch and discard precisely. But with a non-time-varying retention curve, the fit to catch and discard data will depend on the relative precision of the two data types.
+	\item Discards: SS3 is calculating the $F'$ to match the retained catch conditional on the fraction of total catch that is retained if the discard/retention feature is used. The $F$ creates the total catch, then the retention curve partitions it into retained and discarded portions. With hybrid and Pope's methods, the close tuning to retained catch can result in very imprecise fits to the discard data. If the precision of discard data and catch data are of comparable magnitudes, then it is better to use $F$ as parameters. SS3 will be using one $F'$ value to attempt to match two data types. Time-varying retention curves can allow SS3 to fit both catch and discard precisely. But with a non-time-varying retention curve, the fit to catch and discard data will depend on the relative precision of the two data types.
 \end{itemize}
 
 The $F_{hyb}$ approach works by:
-\begin{enumerate}[a.]
-	\item Applying the Pope’s method to get a harvest rate for each fleet in the current season;
+\begin{enumerate}
+	\item Applying the Pope's method to get a harvest rate for each fleet in the current season;
 	\item Converting that harvest rate to the equivalent $F_{hyb}$. This is exact with one fleet and approximate with multiple fleets;
 	\item Adjusting those $F_{hyb}$ values over a fixed number of iterations (2-4) using the ratio of observed to calculated catch for each fleet; and
 	\item Proceeding with those $F_{hyb}$ values into subsequent model steps. $F_{par}$ and $F_{hyb}$ values are used in the same Baranov catch equation and a catch log likelihood is calculated based on the observed retained catch and the annual standard error of the catch.
@@ -1405,13 +1418,12 @@ Some notes:
 \begin{itemize}
 	\item At moderate $F$ levels, hybrid should get a near exact match to the retained catch even if the catch standard error is high. This may result in poor fit to discard catch data if it exists.
 	\item At high $F$ and/or with many fleets, the hybrid approach may not get to an exact match to the observed catch.
-	\item At high $F$, the problem becomes quite computationally stiff for Pope’s approximation and the hybrid method so convergence in \gls{admb} may slow due to more sensitive gradients in the log likelihood with regard to other model parameters. Whereas, \gls{admb} adjusts the $F_{par}$ values slowly over the entire sequence of iterations, so it may converge with fewer iterations.
+	\item At high $F$, the problem becomes quite computationally stiff for Pope's approximation and the hybrid method so convergence in \gls{admb} may slow due to more sensitive gradients in the log likelihood with regard to other model parameters. Whereas, \gls{admb} adjusts the $F_{par}$ values slowly over the entire sequence of iterations, so it may converge with fewer iterations.
 	\item The hybrid approach performs best when the catch is known with high precision (standard error < ~ 0.05) and the total $F$ across all fleets is not much greater than natural mortality. The $F$ as parameter approach works best when total $F$ is high; also where a fleet has both retained catch and discarded catch, because the $F$ is influenced by both. 
 	\item With F\_Method 4, fleets with low $F$ can apply $F_{hyb}$ across all model phases and high $F$ fleets can switch to $F_{par}$ during later phases.
 	\item It is always advisable to allow the model to start with good starting values for parameters. This can be done by specifying a later phase (> 1) under the conditional input for F\_Method = 2 where early phases will use the hybrid method, then switch to $F$ as parameter in later phases and transfer the hybrid $F$ values to the parameter initial values. Same advice for using the F\_Method = 4. However, bycatch fleets do not have retained catch, so cannot use the hybrid method. They must use $F_{par}$ with user-specified starting value starting in phase 1.
 	\item Tests have demonstrated that the $F$ approach has negligible impact on the variance of derived quantities, such as spawning biomass in the final year.
 	\item It is possible to estimate $F_{par}$ for a particular fleet $\times$ time even if it has an unknown catch observation (for example, if you have years of catch data followed by a gap and then catch data again, can you estimate the missing catch data in SS3). This certainly is true if there is a discard observation for that fleet $\times$ time, but the effect of the $F_{par}$ on the population age composition and trends also allows the survey and composition data to influence the estimates of the $F_{par}$s. A catch observation must exist in order to trigger SS3 to estimate a $F_{par}$ for that fleet $\times$ time, so enter a dummy (but reasonable) value for the catch observation and give it a very large \gls{se} so that the deviations from the input catch observations will only be slightly penalized. Make sure that you use F\_Method = 4 so that the parameter approach will be used for that fleet. If the $F$ values for those years fluctuate dramatically, you can stabilize those $F$ values by adding a dummy effort (survey type = 2) time series. For example, if you are missing catch for 2012--2014, enter an effort value of 1.0 for those years and at least one adjacent year for which SS3 is already able to estimate $F$. This will stabilize the missing year $F$s to be similar to the $F$s for the adjacent years.
-
 \end{itemize}
 
 \begin{longtable}{p{1cm} p{3cm} p{11cm}}
@@ -1485,7 +1497,7 @@ Some notes:
 
 \hypertarget{EquilSPR}{}
 \subsubsection[Equilibrium SPR]{\protect\hyperlink{EquilSPR}{Equilibrium SPR}}
-$SPR_y$ is the equilibrium spawning biomass per recruit that would result from fishing at the current year’s $F$ level and selectivity. It is a measure of the expected long-term effect of fishing. It is calculated as the ratio of the equilibrium reproductive output per recruit that would occur with the current year's $F$ intensities and biology, to the equilibrium reproductive output per recruit that would occur with the current year's biology and no fishing. Thus, it internalizes all seasonality, movement, weird selectivity patterns, and other factors. Because this index moves in the opposite direction than $F$ itself, it is usually reported as $1-SPR$. A benefit of this index is that it is a direct measure of common proxies used for $F_{MSY}$, such as $F_{40\%}$. A shortcoming of this index is that it does not directly demonstrate the fraction of the stock that is caught each year. The \gls{spr} value is also calculated in the benchmarks (see below). 
+$SPR_y$ is the equilibrium spawning biomass per recruit that would result from fishing at the current year's $F$ level and selectivity. It is a measure of the expected long-term effect of fishing. It is calculated as the ratio of the equilibrium reproductive output per recruit that would occur with the current year's $F$ intensities and biology, to the equilibrium reproductive output per recruit that would occur with the current year's biology and no fishing. Thus, it internalizes all seasonality, movement, weird selectivity patterns, and other factors. Because this index moves in the opposite direction than $F$ itself, it is usually reported as $1-SPR$. A benefit of this index is that it is a direct measure of common proxies used for $F_{MSY}$, such as $F_{40\%}$. A shortcoming of this index is that it does not directly demonstrate the fraction of the stock that is caught each year. The \gls{spr} value is also calculated in the benchmarks (see below). 
 
 The derived quantities report shows an annual \gls{spr} statistic. The options, as specified in the \texttt{starter.ss} file, are:
 \begin{itemize}
@@ -1548,7 +1560,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 \begin{enumerate}
 	\item Fleet Number
 	\item Link type or index of deviation vector: An assumed functional form between Q, the expected value, and the survey observation. See \hyperlink{QParams}{example Q parameter lines} below for an example set up for link types 4-6.
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item 1 = simple Q, e.g., proportional: $y=Q*x$ where $x$ is a model quantity, like selected biomass, and $y$ is the expected value for the index.
 		\item 2 = mirror simple Q - this will mirror the Q value from another fleet. Mirror in Q must refer to a lower number fleet relative to the fleet with the mirrored Q (example: fleet 3 mirror fleet 2). Requires a Q parameter line for the fleet but will not be used.
 		\item 3 = power function to allow non-linearity in the expected value for the index: $y=Qx^{(1+c)}$. Therefore, $c > 0$ leads to hyper-stability and $c < 0$ leads to hyper-depletion. The power function option cannot be used with deviation surveys (type 35 or 36) because of negative values in the deviation vectors.
@@ -1557,7 +1569,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 		\item 6 = offset and power (3 parameter lines required). This requires 2 parameters in addition to the Q parameter. The first is for the offset and the second is for the power, $y=Q*(x+b)^{(1+c)}$.
 	\end{enumerate}
 	\item \hypertarget{link_info}{Extra input for link information (i.e., mirror fleet or dev index number)}
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item > 0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number).
 		\item If an index of a deviation vector , option 35, use this column to enter the index of the deviation vector to which the index is related. For example, if only using one index in your model, this number would be 1.
 		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
@@ -1568,17 +1580,17 @@ For each fleet that has index observations, enter a row with six entries as desc
 		\end{itemize}
 	\end{enumerate}
 	\item Extra\_se: Estimable extra standard error for an index
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item 0 = skip (typical); and
 		\item 1 = include a parameter that will contain a value to be added to the input standard deviation of the survey variability.
 	\end{enumerate}
 	\item Bias\_adj: Adjusts for log-normal bias when using an informative prior on Q. \textbf{NOTE: Bias adjustment to Q is ONLY applied when also using the float approach. See below for Q float specifications.} An expanded bias adjustment approach is under development.
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item 0 = no bias adjustment applied; and
 		\item 1 = apply bias adjustment. Bias correction will be applied to the estimated Q value.
 	\end{enumerate}
 	\item Float: Allows Q parameter to be automatically calculated to maintain no deviation between the index and the expected value. Only available for link = 1.
-	\begin{enumerate}[(a)]
+	\begin{enumerate}[label=(\alph*)]
 		\item 0 = no float, parameter is estimated; and
 		\item 1 = float, analytical solution is used, but parameter line still required.
 		\item Additional information regarding the use of and appropriate application of float in Q can be found in the \hyperlink{FloatQ}{Float Q} section below.
