@@ -11,8 +11,8 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2025-04-17" />
-  <title>Stock Synthesis User Manual Version 3.30.23.2</title>
+  <meta name="dcterms.date" content="2025-07-08" />
+  <title>Stock Synthesis User Manual Version 3.30.24-prerel</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="html_usermanual.css" />
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -58,7 +58,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.mhchemParser=void 0;var r=fun
 <header id="title-block-header">
 <h1 class="title"><span style="color: 1.00,0.83,0.41,0.36">Stock
 Synthesis User Manual<br />
-Version 3.30.23.2</span></h1>
+Version 3.30.24-prerel</span></h1>
 <p class="author">Richard D. Methot Jr., Chantel R. Wetzel, Ian G.
 Taylor, Kathryn L. Doering,<br />
 Elizabeth F. Perl, and Kelli F. Johnson<br />
@@ -66,7 +66,7 @@ Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">April 17, 2025</p>
+<p class="date">July 08, 2025</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
@@ -804,15 +804,14 @@ setup in the control file.</td>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">Run display detail:</td>
-<td style="text-align: left;">With option 2, the display shows value of
-each negative log likelihood component for each iteration, and it
-displays where crash penalties are created</td>
+<td rowspan="2" style="text-align: left;">With option 2, the display
+shows value of each negative log likelihood component for each
+iteration, and it displays where crash penalties are created</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = none other than <span data-acronym-label="admb" data-acronym-form="singular+short">admb</span>
 outputs;</td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -860,28 +859,25 @@ methods;</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">Custom report options: First value: -100
-start with minimal items or -101 start with all items; Next Values: A
-list of items to add or remove where negative number items are removed
-and positive number items added, -999 to end. The <a href="#custom">reporting numbers</a> for each item that can be selected
+<td colspan="2" style="text-align: left;">COND: Detailed age-structure
+report = 3</td>
+<td rowspan="4" style="text-align: left;">Custom report options: First
+value: -100 start with minimal items or -101 start with all items; Next
+Values: A list of items to add or remove where negative number items are
+removed and positive number items added, -999 to end. The <a href="#custom">reporting numbers</a> for each item that can be selected
 or omitted are shown in the Report file next to each section key
 word.</td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">-100</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">-5</td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">9</td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
@@ -902,13 +898,12 @@ word.</td>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Write 1st iteration details:</td>
-<td style="text-align: left;">This output is largely unformatted and
-undocumented and is mostly used by the developer.</td>
+<td rowspan="2" style="text-align: left;">This output is largely
+unformatted and undocumented and is mostly used by the developer.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = omit; and</td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -919,7 +914,7 @@ calculations to <code>echoinput.sso</code> during first call.</td>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Parameter Trace:</td>
-<td style="text-align: left;">This controls the output to
+<td rowspan="5" style="text-align: left;">This controls the output to
 <code>parmtrace.sso</code>. The contents of this output can be used to
 determine which values are changing when a model approaches a crash
 condition. It also can be used to investigate patterns of parameter
@@ -931,25 +926,21 @@ component</td>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = omit;</td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = write good iteration and active
 parameters;</td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = write good iterations and all
 parameters;</td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = write every iteration and all
 parameters; and</td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -958,7 +949,7 @@ parameters.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">Cumulative Report:</td>
 <td style="text-align: left;">Controls reporting to the file
 <code>Cumreport.sso</code>. This cumulative report is most useful when
@@ -1035,55 +1026,42 @@ move parameters away from the bounds.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">Number of Data Files to Output:</td>
+<td rowspan="5" style="text-align: left;">All output files are
+sequentially output to <code>data_echo.ss_new</code> and need to be
+parsed by the user into separate data files. The output of the input
+data file makes no changes, retaining the order of the original file.
+Output files 2-N contain only observations that have not been excluded
+through use of the negative year denotation, and the order of these
+output observations is as processed by the model. At this time, the tag
+recapture data is not output to <code>data_echo.ss_new</code>. As of
+v.3.30.19, the output file names have changed; a separate file is
+created for the echoed data (<code>data_echo.ss_new</code>), the
+expected data values given the model fit (<code>data_expval.ss</code>),
+and any requested bootstrap data files (<code>data_boot_x.ss</code>
+where x is the bootstrap number). In versions before v.3.30.19, these
+outputs were printed to a single file called
+<code>data.ss_new</code>.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;">1</td>
-<td style="text-align: left;">Number of Data Files to Output:</td>
-<td style="text-align: left;">All output files are sequentially output
-to <code>data_echo.ss_new</code> and need to be parsed by the user into
-separate data files. The output of the input data file makes no changes,
-retaining the order of the original file. Output files 2-N contain only
-observations that have not been excluded through use of the negative
-year denotation, and the order of these output observations is as
-processed by the model. At this time, the tag recapture data is not
-output to <code>data_echo.ss_new</code>. As of v.3.30.19, the output
-file names have changed; a separate file is created for the echoed data
-(<code>data_echo.ss_new</code>), the expected data values given the
-model fit (<code>data_expval.ss</code>), and any requested bootstrap
-data files (<code>data_boot_x.ss</code> where x is the bootstrap
-number). In versions before v.3.30.19, these outputs were printed to a
-single file called <code>data.ss_new</code>.</td>
-</tr>
-<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = none; As of v.3.30.16, none of the
 <code>.ss_new</code> files will be produced;</td>
-<td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = output an annotated replicate of the
 input data file;</td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">2 = add a second data file containing the
-model’s expected values with no added error; and</td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">3+ = add N-2 parametric bootstrap data
-files.</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">2 = add a second data file containing the
+model’s expected values with no added error; and</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">3+ = add N-2 parametric bootstrap data
+files.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">8</td>
@@ -1117,7 +1095,7 @@ completing this phase.</td>
 <td style="text-align: left;white-space: nowrap;">1000</td>
 <td style="text-align: left;"><span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> burn interval</td>
 <td style="text-align: left;">Number of iterations to discard at the
-start of an <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> run.</td>
+start of a <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> run.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">200</td>
@@ -1126,7 +1104,7 @@ start of an <span data-acronym-label="mcmc" data-acronym-form="singular+short">m
 main period of the <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> run.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;">0.0</td>
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><a href="#Jitter">Jitter:</a></td>
 <td style="text-align: left;">The jitter function has been revised with
 v.3.30. Starting values are now jittered based on a normal distribution
@@ -1228,7 +1206,7 @@ above line (Extra <span data-acronym-label="sd" data-acronym-form="singular+shor
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;">0.0001</td>
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Final convergence</td>
 <td style="text-align: left;">This is a reasonable default value for the
 change in log likelihood denoting convergence. For applications with
@@ -1241,39 +1219,28 @@ criterion may still provide acceptable convergence.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Retrospective year:</td>
-<td style="text-align: left;">Adjusts the model end year and disregards
-data after this year. May not handle time varying parameters
+<td rowspan="2" style="text-align: left;">Adjusts the model end year and
+disregards data after this year. May not handle time varying parameters
 completely.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = none; and</td>
-<td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">-x = retrospective year relative to end
 year.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Summary biomass min age</td>
 <td style="text-align: left;">Minimum integer age for inclusion in the
 summary biomass used for reporting and for calculation of total
 exploitation rate.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
@@ -1291,41 +1258,44 @@ section or elsewhere.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = skip;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = <span class="math inline">\(X*B_{0}\)</span>;</td>
-<td style="text-align: left;">Relative to virgin spawning biomass.</td>
+<td style="text-align: left;">Relative to virgin spawning biomass. This
+option will affect interpretation of biomass target in the
+<code>forecast.ss</code> file</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = <span class="math inline">\(X*B_{MSY}\)</span>;</td>
 <td style="text-align: left;">Relative to spawning biomass that achieves
 <span data-acronym-label="msy" data-acronym-form="singular+short">msy</span>.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = <span class="math inline">\(X*B_{styr}\)</span>; and</td>
 <td style="text-align: left;">Relative to model start year spawning
 biomass.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = <span class="math inline">\(X*B_{endyr}\)</span>.</td>
 <td style="text-align: left;">Relative to spawning biomass in the model
 end year.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">5 = <span class="math inline">\(X*Dynamic~B_{0}\)</span></td>
 <td style="text-align: left;">Relative to the calculated dynamic <span class="math inline">\(B_{0}\)</span>.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;">6 = <span class="math inline">\(\mathtt{SSB\_unf\_bmark}\)</span></td>
+<td style="text-align: left;">Relative to unfished spawning biomass in
+the benchmark.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -1346,7 +1316,7 @@ denominator</td>
 ratio for <span class="math inline">\(SB_{y}/(X*SB_{0})\)</span>.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;"><span data-acronym-label="spr" data-acronym-form="singular+short">spr</span> report scaling:</td>
 <td style="text-align: left;"><span data-acronym-label="spr" data-acronym-form="singular+short">spr</span> is the equilibrium <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>
 per recruit that would result from the current year’s F-at-age. The
@@ -1383,7 +1353,12 @@ report year selection.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;">4</td>
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;">5 = use <span class="math inline">\(SPR\)</span></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><span class="math inline">\(F\text{\_std}\)</span> reporting units:</td>
 <td style="text-align: left;">An additional proxy for fishing intensity
 is based on the fraction of the population that is caught. As with SPR,
@@ -1405,39 +1380,34 @@ each age is calculated as <span class="math inline">\(Z-M\)</span> where
 summed over all biology morphs and areas for the beginning of the year,
 so subsumes any seasonal pattern.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = skip;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = exploitation rate in biomass;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = exploitation rate in numbers;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = sum(<span class="math inline">\(F\)</span>’s by fleet);</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = Fbar: numbers weighted <span class="math inline">\(F\)</span> for range of ages using <span class="math inline">\(Z-M\)</span> approach; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">5 = Fbar: unweighted average <span class="math inline">\(F\)</span> for range of ages.</td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">5 = Fbar: unweighted average <span class="math inline">\(F\)</span> for range of ages.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
@@ -1476,7 +1446,7 @@ for this calculation.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;">1</td>
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><span class="math inline">\(F\text{\_std}\)</span> scaling:</td>
 <td style="text-align: left;"><span class="math inline">\(F\text{\_std}\)</span> is typically reported as a
 ratio to the value of an equivalent <span class="math inline">\(F\)</span> calculation that would occur at the
@@ -1520,7 +1490,7 @@ ln(ratio)</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">0.01</td>
 <td style="text-align: left;"><span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> output detail:</td>
 <td style="text-align: left;">Specify format of <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span>
 output. This input requires the specification of two items; the output
@@ -1576,22 +1546,12 @@ associated lambda values;</td>
 0.</td>
 </tr>
 <tr class="even">
-<td colspan="2" style="text-align: left;">COND: Seed Value (i.e.,
-1234)</td>
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Specify a seed for data generation. This
 feature is not available in versions prior to v.3.30.15 This is an
 optional input value allowing for the specification of a random number
 seed value. If you do not want to specify a seed, skip this input line
 and end the starter file with the check value (3.30).</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
@@ -1600,6 +1560,22 @@ and end the starter file with the check value (3.30).</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;">0</td>
+<td colspan="2" style="text-align: left;">Compatibility flag implemented
+as of v.3.30.24. Use 0 for legacy or 1 for improved impact of
+time-varying biology on benchmark SRR calculations.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Model version check value.</td>
 <td style="text-align: left;">A value of 3.30 indicates that the control
@@ -1616,11 +1592,6 @@ set to 0. The <a href="#ConvIssues">Converting Files from Stock
 Synthesis v.3.24</a> section has additional information on model
 features that may impede file conversion.</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
@@ -1647,11 +1618,6 @@ features that may impede file conversion.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
@@ -1917,7 +1883,7 @@ variance will be artificially reduced.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;">1</td>
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Benchmark Relative <span class="math inline">\(F\)</span> Basis:</td>
 <td style="text-align: left;">The specification does not affect year
 range for selectivity and biology.</td>
@@ -2043,26 +2009,16 @@ note:</td>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
 <td style="text-align: left;">– Relative <span class="math inline">\(F\)</span> for bycatch only fleets is scaled just
 like other fleets.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">– For selectivity averaging with the new
 approach the method code is “1”, whereas with the old Forecast
 Selectivity Option, the code was “1” for using time-varying parameters.
 SS3 accounts for this change internally.</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -2108,22 +2064,27 @@ time-varying parameters.</td>
 Selectivity Option</a> and the Forecast Year Values.</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;">-12345</td>
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Invoke New Forecast Format</td>
 <td style="text-align: left;">Biology and selectivity vectors are
 updated annually in the forecast according to their time-varying
 parameters. Be sure to check the end year of the blocks and the
 deviation vectors. Input in this section directs the creation of means
-over historical years to override any time-varying changes. To invoke
+over historical years to override any time-varying changes. Taking an
+average (of the relative F and/or time-varying selectivity) over the
+past 5 years is a common approach that allows the model to average over
+enough years to smooth over the noise while still capturing the recent
+pattern of catches. To do this, you can set the start year as -4 and set
+the end year to 0 as shown in the relative <span class="math inline">\(F\)</span> line in the example below. To invoke
 taking the mean of a range of historical recruitments after all
 adjustments and deviations were applied, see the <a href="#FcastRecruitment">Base recruitment in forecast</a> option. See
 the Example New Forecast Format Input below.</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
@@ -2145,111 +2106,136 @@ the Example New Forecast Format Input below.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td colspan="2" style="text-align: left;">Example New Forecast Format
+Input:</td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">Factor</td>
 <td style="text-align: left;">Method Start Year</td>
 <td style="text-align: left;">End Year</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">1 2002</td>
 <td style="text-align: left;">2003 # natural mortality</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">4</td>
 <td style="text-align: left;">1 2016</td>
 <td style="text-align: left;">2018 # recruitment distribution</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">10</td>
 <td style="text-align: left;">1 -999</td>
 <td style="text-align: left;">0 # selectivity</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">11</td>
-<td style="text-align: left;">1 -3</td>
+<td style="text-align: left;">1 -4</td>
 <td style="text-align: left;">0 # relative <span class="math inline">\(F\)</span></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">12</td>
 <td style="text-align: left;">1 2006</td>
 <td style="text-align: left;">2014 # recruitment</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">-9999</td>
 <td style="text-align: left;">-1 -1</td>
 <td style="text-align: left;">-1</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Factor</td>
 <td style="text-align: left;">Factors implemented thus far. Terminate
 with -9999.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = natural mortality (M);</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = recruitment distribution;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">5 = migration;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">10 = selectivity;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">11 = relative <span class="math inline">\(F\)</span></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">12 = recruitment</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Method</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 (or omitted) = continue using time_vary
 parameters;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = use means of derived factor;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 (future) = means parameter then apply as
 if time_vary</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Start Year</td>
 <td style="text-align: left;">Enter the actual year or values of 0, -999
 to be styr, or -integer to be relative endyr.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">End Year</td>
 <td style="text-align: left;">Enter the actual year or values of 0 or
 -integer to be relative endyr.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">Control Rule Method:</td>
 <td style="text-align: left;">Used to apply reductions (“buffer”) to
@@ -2257,37 +2243,37 @@ either the catch or <span class="math inline">\(F\)</span> based on the
 control rule during the forecast period. The buffer value is specified
 below via the Control Rule Buffer.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = none (additional control rule inputs
 will be ignored);</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = catch as function of <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>,
 buffer on <span class="math inline">\(F\)</span>;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = <span class="math inline">\(F\)</span>
 as function of <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>, buffer on <span class="math inline">\(F\)</span>;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = catch as function of <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>,
 buffer on catch (U.S. West Coast groundfish approach); and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = <span class="math inline">\(F\)</span>
 is a function of <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>, buffer on catch.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0.40</td>
 <td style="text-align: left;">Control Rule Inflection</td>
 <td style="text-align: left;">Relative biomass level to unfished
@@ -2296,24 +2282,24 @@ constant at control rule <span class="math inline">\(F\)</span>. If set
 to -1 the ratio of <span class="math inline">\(B_{MSY}\)</span> to the
 unfished spawning biomass will automatically be used.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;">0.10</td>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">Control Rule Cutoff</td>
 <td style="text-align: left;">Relative biomass level to unfished
 spawning biomass below which <span class="math inline">\(F\)</span> is
 set to 0 (management threshold).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0.75</td>
 <td style="text-align: left;">Control Rule Buffer (multiplier between
 0-1.0 or -1)</td>
@@ -2327,11 +2313,6 @@ equal the buffer times the <span data-acronym-label="ofl" data-acronym-form="sin
 -1 will allow the user to input a forecast year specific control rule
 fraction (added in v.3.30.13).</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
@@ -2349,57 +2330,62 @@ fraction (added in v.3.30.13).</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td colspan="2" style="text-align: left;">COND -1: Conditional input for
+annual control rule buffer</td>
 <td style="text-align: left;">Year and control rule buffer value. Can
 enter a value for each year, or starting sequence of years. The final
 control rule buffer value will apply to all subsequent forecast
 years.</td>
-<td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;">2019 0.8</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">2020 0.6</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: right;">2021 0.5</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: right;">-9999 0</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">3</td>
 <td style="text-align: left;">Number of forecast loops</td>
 <td style="text-align: left;">SS3 sequentially goes through the forecast
 up to three times.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span> only;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = <span data-acronym-label="abc" data-acronym-form="singular+short">abc</span> control rule and
 buffers;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = set catches equal to control rule or
 input catch and redo forecast implementation error.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;">3</td>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><a href="#appendB">First forecast loop
 with stochastic recruitment</a></td>
 <td style="text-align: left;">If this is set to 1 or 2, then <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span>
@@ -2412,11 +2398,6 @@ results (e.g., crashed stock), especially if below mean forecast
 recruitment is assumed (via <a href="#FcastRecruitment">Base recruitment
 in forecast</a> option, next input line).</td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
@@ -2438,7 +2419,7 @@ in forecast</a> option, next input line).</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;"><a href="#ForeSpawn">Base recruitment in
 forecast:</a> <span id="FcastRecruitment"></span></td>
 <td style="text-align: left;">This option controls the base recruitment
@@ -2482,8 +2463,10 @@ selected.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0</td>
-<td style="text-align: left;">Not used</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;">HCR_anchor</td>
+<td style="text-align: left;">Starting with v.3.30.24, 0 or 2 uses
+unfished benchmark SSB (old hardwired approach); 1 = virgin SSB; 3 =
+BMSY</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">2015</td>
@@ -2529,7 +2512,7 @@ rebuilder output</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">2004</td>
 <td style="text-align: left;">Rebuilder catch (Year Declared):</td>
 <td style="text-align: left;">Input line is required even if Rebuilder =
 0, specified in the line above.</td>
@@ -2720,17 +2703,13 @@ can be found in the EXPLOITATION section in the Report file).</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;"><div id="ForecastCatchInput">
-<p>Forecast catch input:</p>
+<td colspan="3" style="text-align: left;"><div id="ForecastCatchInput">
+<p><strong>Forecast catch input</strong></p>
 </div></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;">Example forecast catch input with
-basis</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td colspan="3" style="text-align: left;">Example forecast catch input
+with basis</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">COND: == -1</td>
@@ -2755,10 +2734,8 @@ Basis</td>
 catches to read</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;white-space: nowrap;">Example forecast catch input without
-basis</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
+<td colspan="3" style="text-align: left;">Example forecast catch input
+without basis</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">COND: &gt; 0</td>
@@ -3126,9 +3103,9 @@ section</a>). For example:</p>
 season followed by an early and late fishing season)</p></li>
 <li><p># calculated season duration = 0.08333, 0.375, 0.5416</p></li>
 </ul></li>
-<li><p>Time-varying parameters only change each year. However some types
-of parameters have special provisions to allow for seasonal changes in
-their value.</p></li>
+<li><p>Time-varying parameters only change each year. However, some
+types of parameters have special provisions to allow for seasonal
+changes in their value.</p></li>
 <li><p>Recruitment settlement events are entered with real month values.
 Aligning these events with the beginning of a season improves
 transparency, but is not necessary</p></li>
@@ -7568,8 +7545,13 @@ starting year growth parameters are active, but if growth parameters
 vary during the time series, the <span class="math inline">\(M\)</span>
 is not further updated. Additionally, the <span class="math inline">\(M\)</span> is linked to the length-at-age from the
 growth parameters and can’t be used for an empirical weight-at-age
-model. Be careful in using Lorenzen when there is time-varying
-growth.</p>
+model. Natural mortality is stored internally according to sex and
+morph, but not by platoon. If the user wants <span class="math inline">\(M\)</span> to vary by platoon, then a workaround
+is to not use platoons and instead to create a collection of morphs that
+would mimic the growth difference of platoons. This could be done by
+using the same growth <span class="math inline">\(k\)</span> and a range
+of <span class="math inline">\(Linf\)</span> parameters for the
+morphs.</p>
 <h4 data-number="8.5.1.2" id="age-specific-m-linked-to-age-specific-length-and-maturity"><span class="header-section-number">8.5.1.2</span> Age-specific <span class="math inline">\(M\)</span> Linked to Age-Specific Length and
 Maturity</h4>
 <p><br />
@@ -7807,14 +7789,14 @@ When fish recruit at the real age of 0.0 at settlement, they have body
 size equal to the lower edge of the first population size bin. The fish
 then grow linearly until they reach a real age equal to the input value
 “growth-at-age for L1” and have a size equal to the parameter value for
-L1 (the minimum length parameter). As they age further, they grow
-according the selected growth equation. The growth curve is calibrated
-to go through the size L2 parameter when they reach the age of maximum
-length.</p>
-<h4 data-number="8.5.2.2" id="maximum-length-linf"><span class="header-section-number">8.5.2.2</span> Maximum Length (Linf)</h4>
+<span class="math inline">\(L_1\)</span> (the minimum length parameter).
+As they age further, they grow according the selected growth equation.
+The growth curve is calibrated to go through the size <span class="math inline">\(L_2\)</span> parameter when they reach the age of
+maximum length.</p>
+<h4 data-number="8.5.2.2" id="maximum-length-linf"><span class="header-section-number">8.5.2.2</span> Maximum Length (<span class="math inline">\(Linf\)</span>)</h4>
 <p><br />
-If “Growth at age for L2” is set equal to 999, then the size at the L2
-parameter is used as Linf.</p>
+If “Growth at age for L2” is set equal to 999, then the size at the
+<span class="math inline">\(L_2\)</span> parameter is used as <span class="math inline">\(Linf\)</span>.</p>
 <h4 data-number="8.5.2.3" id="von-bertalanffy-growth-function"><span class="header-section-number">8.5.2.3</span> von Bertalanffy growth
 function</h4>
 <p><br />
@@ -7860,17 +7842,20 @@ growth model in Stock Synthesis.</p>
 age</h4>
 <p><br />
 The mean size of fish in the max age bin depends upon how close the
-growth curve is to Linf by the time it reaches max age and the mortality
-rate of fish after they reach max age. Users specify the mortality rate
-to use in this calculation during the initial equilibrium year. This
-must be specified by the user and should be reasonably close to <span class="math inline">\(M\)</span> plus initial <span class="math inline">\(F\)</span>. In v.3.30, this uses the von
-Bertalanffy growth out to 3 times the maximum population age and decays
-the numbers at age by exp(-value set here). For subsequent years of the
-time series, the model should update the size-at-maximum age according
-to the weighted average mean size of fish already at maximum age and the
-size of fish just graduating into maximum age. Unfortunately, this
-updating is only happening in years with time-varying growth. This will
-hopefully be fixed in the future version.</p>
+growth curve is to <span class="math inline">\(Linf\)</span> by the time
+it reaches max age and the mortality rate of fish after they reach max
+age. Users specify the mortality rate to use in this calculation during
+the initial equilibrium year. This must be specified by the user and
+should be reasonably close to <span class="math inline">\(M\)</span>
+plus initial <span class="math inline">\(F\)</span>. In v.3.30, this
+uses the von Bertalanffy growth out to 3 times the maximum population
+age and decays the numbers at age by exp(-value set here). For
+subsequent years of the time series, the model should update the
+size-at-maximum age according to the weighted average mean size of fish
+already at maximum age and the size of fish just graduating into maximum
+age. Unfortunately, this updating is only happening in years with
+time-varying growth. This will hopefully be fixed in the future
+version.</p>
 <h4 data-number="8.5.2.6" id="age-specific-k"><span class="header-section-number">8.5.2.6</span> Age-specific K</h4>
 <p><br />
 This option creates age-specific K multipliers for each age of a
@@ -9476,7 +9461,7 @@ fecundity stocks to assure recruits are <span class="math inline">\(&lt;=\)</spa
 <td style="text-align: left;">8: <a href="#Shepherd">Shepherd
 re-parameterization</a>: 3 parameters: <span class="math inline">\(ln(R_{0})\)</span>, steepness, and shape
 parameter, <span class="math inline">\(c\)</span> (added to v.3.30.11
-and is in beta mode); and</td>
+and is in beta mode);</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -9484,25 +9469,35 @@ and is in beta mode); and</td>
 <td style="text-align: left;">9: <a href="#Ricker2">Ricker
 re-parameterization</a>: 3 parameters: <span class="math inline">\(ln(R_{0})\)</span>, steepness, and Ricker power,
 <span class="math inline">\(\gamma\)</span> (added to v.3.30.11 and is
-in beta mode).</td>
+in beta mode); and</td>
 </tr>
 <tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;">10: <a href="#BH-ab">alpha, beta
+parameterization of Beverton-Holt</a>: 4 parameters: <span class="math inline">\(ln(R_{0})\)</span> (derived), steepness (derived),
+<span class="math inline">\(ln(alpha)\)</span>, <span class="math inline">\(ln(beta)\)</span>. Note that <span class="math inline">\(ln(alpha)\)</span> and <span class="math inline">\(ln(beta)\)</span> are the estimated parameters.
+The parameter lines for <span class="math inline">\(ln(R_{0})\)</span>
+and steepness must exist though their values are derived from alpha and
+beta. It is permissible to place a prior on steepness.</td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">Equilibrium recruitment</td>
 <td style="text-align: left;">Use steepness in initial equilibrium
 recruitment calculation</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">0 = none; and</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;">1 = use steepness (h).</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Future Feature</td>
 <td style="text-align: left;">Reserved for the future option to make
@@ -9549,25 +9544,44 @@ Hockey-Stick, and a survival-based stock recruitment relationship.</p>
 </div>
 <h4 data-number="8.6.1.1" id="beverton-holt"><span class="header-section-number">8.6.1.1</span> Beverton-Holt</h4>
 <p><br />
-The Beverton-Holt Stock Recruitment curve is calculated as: <span class="math display">\[{R_y =
+The Beverton-Holt Spawner Recruitment curve when using the steepness
+approach (option 3) is calculated as: <span class="math display">\[{R_y
+=
 \frac{4hR_0SB_y}{SB_0(1-h)+SB_y(5h-1)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim
 N(0;\sigma^2_R)}\]</span></p>
 <p>where <span class="math inline">\(R_0\)</span> is the unfished
 equilibrium recruitment, <span class="math inline">\(SB_0\)</span> is
-the unfished equilibrium spawning biomass (corresponding to <span class="math inline">\(R_0\)</span>), <span class="math inline">\(SB_y\)</span> is the spawning biomass at the start
+the unfished equilibrium spawning biomass (calculated as <span class="math inline">\(R_0 \times SBpR\)</span>) and <span class="math inline">\(SBpR\)</span> is the <span class="math inline">\(SB\)</span> per <span class="math inline">\(R\)</span> calculated using the start year biology
+and <span class="math inline">\(F = 0\)</span>. Then, <span class="math inline">\(SB_y\)</span> is the spawning biomass at the start
 of the spawning season during year <span class="math inline">\(y\)</span>, <span class="math inline">\(h\)</span>
 is the steepness parameter, <span class="math inline">\(b_y\)</span> is
-the bias adjustment fraction applied during year <span class="math inline">\(y\)</span>, is the standard deviation among
-recruitment deviations in natural log space, and is the log-normal
-recruitment deviation for year <span class="math inline">\(y\)</span>.
-The bias-adjustment factor <span class="citation" data-cites="methot-adjusting-2011">(Methot and Taylor 2011)</span>
+the bias adjustment fraction applied during year <span class="math inline">\(y\)</span>, <span class="math inline">\(\sigma\)</span> is the standard deviation among
+recruitment deviations in natural log space, and <span class="math inline">\(\tilde{R}_y\)</span> is the log-normal recruitment
+deviation for year <span class="math inline">\(y\)</span>. The
+bias-adjustment factor <span class="citation" data-cites="methot-adjusting-2011">(Methot and Taylor 2011)</span>
 ensures unbiased estimation of mean recruitment even during data-poor
 eras in which the maximum likelihood estimate of the recruitment
 deviation is near 0.0.</p>
+<div id="BH-ab">
+
+</div>
+<h4 data-number="8.6.1.2" id="beverton-holt-with-alpha-beta-approach"><span class="header-section-number">8.6.1.2</span> Beverton-Holt with alpha,
+beta approach</h4>
+<p><br />
+The Beverton-Holt curve with the original alpha, beta approach (option
+10) is calculated as: <span class="math display">\[R_{t+a_{r}} =
+\frac{\alpha SB_{y}}{1+\beta SB_{y}}\]</span></p>
+<p>The two parameters, alpha (<span class="math inline">\(\alpha\)</span>) and beta (<span class="math inline">\(\beta\)</span>), are entered as <span class="math inline">\(ln(\alpha)\)</span> and <span class="math inline">\(ln(\beta)\)</span> as parameter numbers 3 and 4 in
+the input parameter list. SS3 internally calculates the equivalent
+values of <span class="math inline">\(R_0\)</span> and <span class="math inline">\(h\)</span> using <span class="math inline">\(SBpR\)</span> in the start year. The values of
+<span class="math inline">\(ln(R_0)\)</span> and <span class="math inline">\(h\)</span> are copied to positions 1 and 2 in the
+SR parameter list. In this way, <span class="math inline">\(ln(R_0)\)</span> is available to the code in the
+usual location for the many internal dependencies on <span class="math inline">\(ln(R_0)\)</span>. Please see <a href="https://nmfs-ost.github.io/ss3-website/qmds/webinars.html#Impact of time-varying biology on reference points in SS3">this
+presentation</a> on the SS3 website for more information.</p>
 <div id="Ricker">
 
 </div>
-<h4 data-number="8.6.1.2" id="ricker"><span class="header-section-number">8.6.1.2</span> Ricker</h4>
+<h4 data-number="8.6.1.3" id="ricker"><span class="header-section-number">8.6.1.3</span> Ricker</h4>
 <p><br />
 The Ricker Stock Recruitment curve is calculated as: <span class="math display">\[{R_y =
 \frac{R_0SB_y}{SB_0}e^{h(1-SB_y/SB_0)}e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim
@@ -9577,7 +9591,7 @@ described above for the Beverton-Holt.</p>
 <div id="Hockey">
 
 </div>
-<h4 data-number="8.6.1.3" id="hockey-stick"><span class="header-section-number">8.6.1.3</span> Hockey-Stick</h4>
+<h4 data-number="8.6.1.4" id="hockey-stick"><span class="header-section-number">8.6.1.4</span> Hockey-Stick</h4>
 <p><br />
 The hockey-stick recruitment curve is calculated as: <span class="math display">\[{R_y =
 join(R_{\text{min}}R_0+R_0\frac{SB_y}{hSB_0}(1-R_{\text{min}}))+R_0(1-join)e^{-0.5b_y\sigma^2_R+\tilde{R}_y}\qquad  \tilde{R}_y\sim
@@ -9590,7 +9604,7 @@ recruitment declines linearly, and <span class="math inline">\(join\)</span> is 
 <div id="Survivorship">
 
 </div>
-<h4 data-number="8.6.1.4" id="survivorship"><span class="header-section-number">8.6.1.4</span> Survivorship</h4>
+<h4 data-number="8.6.1.5" id="survivorship"><span class="header-section-number">8.6.1.5</span> Survivorship</h4>
 <p><br />
 The survivorship stock recruitment relationship based on <span class="citation" data-cites="taylor-stockrecruitment-2013">Taylor et al.
 (2013)</span> is a stock-recruitment model that enables explicit
@@ -9683,7 +9697,7 @@ may be one of the most valuable aspects of this stock-recruitment
 relationship.</p>
 <p>Code for the survival based recruitment can be found in <a href="https://github.com/nmfs-ost/ss3-source-code/blob/main/SS_recruit.tpl"><code>SS_recruit.tpl</code></a>,
 search for “SS_Label_43.3.7 survival based”.</p>
-<h4 data-number="8.6.1.5" id="shepherd"><span class="header-section-number">8.6.1.5</span> Shepherd</h4>
+<h4 data-number="8.6.1.6" id="shepherd"><span class="header-section-number">8.6.1.6</span> Shepherd</h4>
 <p><br />
 <span id="Shepherd"></span> The Shepherd stock recruit curve is
 calculated as: <span class="math display">\[R_y =
@@ -9692,7 +9706,7 @@ calculated as: <span class="math display">\[R_y =
 recruitment curve, and <span class="math inline">\(h_{adj}\)</span> is
 the transformed steepness parameter defined as: <span class="math display">\[h_{adj}=0.2+\bigg(\frac{h-0.2}{0.8}\bigg)\bigg(\frac{1}{5*0.2^c}-0.2\bigg)\]</span></p>
 <p>More details can be found in <span class="citation" data-cites="punt-extending-2019">Punt and Cope (2019)</span>.</p>
-<h4 data-number="8.6.1.6" id="ricker-re-parameterization"><span class="header-section-number">8.6.1.6</span> Ricker
+<h4 data-number="8.6.1.7" id="ricker-re-parameterization"><span class="header-section-number">8.6.1.7</span> Ricker
 Re-parameterization</h4>
 <p><br />
 <span id="Ricker2"></span> The Ricker stock recruit curve
@@ -9779,7 +9793,9 @@ old environment effect on deviates feature in v.3.24 and earlier.</td>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;">Autocorrelation</td>
-<td style="text-align: left;">Autocorrelation in recruitment.</td>
+<td style="text-align: left;">Autocorrelation in recruitment deviations.
+This is taken into account in the calculation of the -logL for the
+recruitment deviations.</td>
 </tr>
 </tbody>
 </table>
@@ -9815,6 +9831,87 @@ old environment effect on deviates feature in v.3.24 and earlier.</td>
 <td style="text-align: center;">...</td>
 <td style="text-align: left;">0</td>
 <td style="text-align: left;">#SR_BH_steep</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;">0</td>
+<td style="text-align: left;">2</td>
+<td style="text-align: left;">0.60</td>
+<td style="text-align: left;">0.80</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">#SR_sigmaR</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;">-5</td>
+<td style="text-align: left;">5</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">#SR_regime</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;">-99</td>
+<td style="text-align: left;">99</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">#SR_autocorr</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Example setup of the spawner-recruitment section using <a href="#BH-ab">alpha, beta parameterization of Beverton-Holt</a>:</p>
+<div class="center">
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">LO</th>
+<th style="text-align: left;">HI</th>
+<th style="text-align: left;">INIT</th>
+<th style="text-align: left;">PRIOR</th>
+<th style="text-align: left;">&lt;other entries&gt;</th>
+<th style="text-align: left;">Block Fxn</th>
+<th style="text-align: left;">Parameter Label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;">3</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: left;">8.81</td>
+<td style="text-align: left;">10.3</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">#SR_LN(R<sub>0</sub>_derived)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;">0.2</td>
+<td style="text-align: left;">1</td>
+<td style="text-align: left;">0.61</td>
+<td style="text-align: left;">0.70</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">#SR_BH_steep_derived</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;">0.001</td>
+<td style="text-align: left;">31</td>
+<td style="text-align: left;">0.58</td>
+<td style="text-align: left;">10.3</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">#SR_BH_ln(alpha)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;">-30</td>
+<td style="text-align: left;">30</td>
+<td style="text-align: left;">-8.28</td>
+<td style="text-align: left;">0.7</td>
+<td style="text-align: center;">...</td>
+<td style="text-align: left;">0</td>
+<td style="text-align: left;">#SR_BH_ln(beta)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0</td>
@@ -10364,7 +10461,7 @@ track an actual seasonal cycle in recruitment. If the recruitment cycle
 factor is set to a positive integer, this value is interpreted as the
 number of time units in the cycle and this number of full parameter
 lines will be read. The cyclic effect is modeled as an exp(p) factor
-times <span class="math inline">\(R_{0}, s\)</span>o a parameter value
+times <span class="math inline">\(R_{0}\)</span>, so a parameter value
 of 0.0 has nil effect. In order to maintain the same number of total
 recruits over the duration of the cycle, a penalty is introduced so that
 the cumulative effect of the cycle produces the same number of recruits
@@ -10499,15 +10596,15 @@ hybrid and Pope’s methods, the close tuning to retained catch can result
 in very imprecise fits to the discard data. If the precision of discard
 data and catch data are of comparable magnitudes, then it is better to
 use <span class="math inline">\(F\)</span> as parameters. SS3 will be
-using one <span class="math inline">\(F’\)</span> value to attempt to
-match two data types. Time-varying retention curves can allow SS3 to fit
-both catch and discard precisely. But with a non-time-varying retention
-curve, the fit to catch and discard data will depend on the relative
-precision of the two data types.</p></li>
+using one <span class="math inline">\(F&#39;\)</span> value to attempt
+to match two data types. Time-varying retention curves can allow SS3 to
+fit both catch and discard precisely. But with a non-time-varying
+retention curve, the fit to catch and discard data will depend on the
+relative precision of the two data types.</p></li>
 </ul>
 <p>The <span class="math inline">\(F_{hyb}\)</span> approach works
 by:</p>
-<ol type="a">
+<ol>
 <li><p>Applying the Pope’s method to get a harvest rate for each fleet
 in the current season;</p></li>
 <li><p>Converting that harvest rate to the equivalent <span class="math inline">\(F_{hyb}\)</span>. This is exact with one fleet and
@@ -10942,7 +11039,7 @@ omitted.</p>
 <li><p>Link type or index of deviation vector: An assumed functional
 form between Q, the expected value, and the survey observation. See <a href="#QParams">example Q parameter lines</a> below for an example set
 up for link types 4-6.</p>
-<ol type="a">
+<ol>
 <li><p>1 = simple Q, e.g., proportional: <span class="math inline">\(y=Q*x\)</span> where <span class="math inline">\(x\)</span> is a model quantity, like selected
 biomass, and <span class="math inline">\(y\)</span> is the expected
 value for the index.</p></li>
@@ -10980,7 +11077,7 @@ and the second is for the power, <span class="math inline">\(y=Q*(x+b)^{(1+c)}\)
 <p>Extra input for link information (i.e., mirror fleet or dev index
 number)</p>
 </div>
-<ol type="a">
+<ol>
 <li><p>&gt; 0 = mirror the Q from another (lower numbered survey
 designated by referencing the fleet number).</p></li>
 <li><p>If an index of a deviation vector , option 35, use this column to
@@ -11001,7 +11098,7 @@ option allows the model to mimic <span data-acronym-label="dbsra" data-acronym-f
 </ul></li>
 </ol></li>
 <li><p>Extra_se: Estimable extra standard error for an index</p>
-<ol type="a">
+<ol>
 <li><p>0 = skip (typical); and</p></li>
 <li><p>1 = include a parameter that will contain a value to be added to
 the input standard deviation of the survey variability.</p></li>
@@ -11010,7 +11107,7 @@ the input standard deviation of the survey variability.</p></li>
 prior on Q. <strong>NOTE: Bias adjustment to Q is ONLY applied when also
 using the float approach. See below for Q float specifications.</strong>
 An expanded bias adjustment approach is under development.</p>
-<ol type="a">
+<ol>
 <li><p>0 = no bias adjustment applied; and</p></li>
 <li><p>1 = apply bias adjustment. Bias correction will be applied to the
 estimated Q value.</p></li>
@@ -11018,7 +11115,7 @@ estimated Q value.</p></li>
 <li><p>Float: Allows Q parameter to be automatically calculated to
 maintain no deviation between the index and the expected value. Only
 available for link = 1.</p>
-<ol type="a">
+<ol>
 <li><p>0 = no float, parameter is estimated; and</p></li>
 <li><p>1 = float, analytical solution is used, but parameter line still
 required.</p></li>
@@ -11491,8 +11588,9 @@ discard mortality parameters.</p></li>
 assumed discarded and dead.</p></li>
 <li><p>Option = 4: program will read 7 retention parameters for
 dome-shaped retention and 4 discard mortality parameters.</p></li>
-<li><p>Option = negative fleet number: will mirror the retention and
-discard mortality pattern of the lower numbered fleet.</p></li>
+<li><p>Option = negative value: mirror the retention and discard
+mortality pattern of a lower numbered fleet identified as
+abs(value)</p></li>
 </ul>
 <h4 data-number="8.9.0.3" id="male"><span class="header-section-number">8.9.0.3</span> Male</h4>
 <p><br />
@@ -12646,10 +12744,15 @@ off auto-generation in the revised control file.</p>
 Walk Selectivity with User-Defined Scaling</h4>
 <p><br />
 Selectivity pattern 17 with two additional parameters. The two
-additional parameters are the bin numbers to define the range of bins
-for scaling. All the selectivity values will be scaled (divided) by the
-mean value over this range. The low and high bin numbers are defined
-before the other selectivity parameters.</p>
+additional parameters are the bin numbers to define the age range of
+bins for scaling. All the selectivity values will be scaled (divided) by
+the mean value over this age range. <strong>The low and high bin numbers
+are defined BEFORE the bin-specific parameters for that
+fleet.</strong></p>
+<ul>
+<li><p>p1 (AgeSel_ScaleAgeLo)- low age</p></li>
+<li><p>p2 (AgeSel_ScaleAgeHi)- high age</p></li>
+</ul>
 <table>
 <thead>
 <tr class="header">
@@ -12672,7 +12775,7 @@ before the other selectivity parameters.</p>
 
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
-<td style="text-align: left;">20</td>
+<td style="text-align: left;">15</td>
 <td style="text-align: left;">10</td>
 <td style="text-align: center;">...</td>
 <td style="text-align: left;">0</td>
@@ -12686,6 +12789,10 @@ before the other selectivity parameters.</p>
 <td style="text-align: left;">0</td>
 <td style="text-align: left;">#AgeSel_ScaleAgeHi</td>
 </tr>
+<tr class="even">
+<td colspan="6" style="text-align: left;">... other selectivity
+parameters as in Pattern 17</td>
+</tr>
 </tbody>
 </table>
 <div id="CubicSplineScaling">
@@ -12695,10 +12802,15 @@ before the other selectivity parameters.</p>
 Cubic Spline Selectivity with User-Defined Scaling</h4>
 <p><br />
 Selectivity pattern 27 with two additional parameters. The two
-additional parameters are the bin numbers to define the range of bins
-for scaling. All the selectivity values will be scaled (divided) by the
-mean value over this range. The low and high bin numbers are defined
-before the other selectivity parameters.</p>
+additional parameters are the bin numbers to define the age range of
+bins for scaling. All the selectivity values will be scaled (divided) by
+the mean value over this age range. <strong>The low and high bin numbers
+are defined BEFORE the bin-specific parameters for that
+fleet.</strong></p>
+<ul>
+<li><p>p1 (AgeSel_ScaleAgeLo)- low age</p></li>
+<li><p>p2 (AgeSel_ScaleAgeHi)- high age</p></li>
+</ul>
 <table>
 <thead>
 <tr class="header">
@@ -12721,7 +12833,7 @@ before the other selectivity parameters.</p>
 
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
-<td style="text-align: left;">20</td>
+<td style="text-align: left;">15</td>
 <td style="text-align: left;">10</td>
 <td style="text-align: center;">...</td>
 <td style="text-align: left;">0</td>
@@ -12735,6 +12847,10 @@ before the other selectivity parameters.</p>
 <td style="text-align: left;">0</td>
 <td style="text-align: left;">#AgeSpline_ScaleAgeHi</td>
 </tr>
+<tr class="even">
+<td colspan="6" style="text-align: left;">... other selectivity
+parameters as in Pattern 27</td>
+</tr>
 </tbody>
 </table>
 <div id="NonParamScaling">
@@ -12744,10 +12860,14 @@ before the other selectivity parameters.</p>
 Non-parametric Selectivity with User-Defined Scaling</h4>
 <p><br />
 Selectivity pattern 6 with two additional parameters. The two additional
-parameters are the bin numbers to define the range of bins for scaling.
-All the selectivity values will be scaled (divided) by the mean value
-over this range. The low and high bin numbers are defined before the
-other selectivity parameters.</p>
+parameters are the size bin numbers to define the range of bins for
+scaling. All the selectivity values will be scaled (divided) by the mean
+value over this size range. <strong>The low and high bin numbers are
+defined BEFORE the bin-specific parameters for that fleet.</strong></p>
+<ul>
+<li><p>p1 (SizeSel_ScaleBinLo)- low size</p></li>
+<li><p>p2 (SizeSel_ScaleBinHi)- high size</p></li>
+</ul>
 <table>
 <thead>
 <tr class="header">
@@ -12783,6 +12903,10 @@ other selectivity parameters.</p>
 <td style="text-align: center;">...</td>
 <td style="text-align: left;">0</td>
 <td style="text-align: left;">#SizeSel_ScaleBinHi</td>
+</tr>
+<tr class="even">
+<td colspan="6" style="text-align: left;">... other selectivity
+parameters as in Pattern 6</td>
 </tr>
 </tbody>
 </table>
@@ -13317,7 +13441,11 @@ be something like:</th>
 <h3 data-number="8.9.8" id="selectivity-time-varying-parameters"><span class="header-section-number">8.9.8</span> <a href="#Selex-TV">Selectivity Time-Varying Parameters</a></h3>
 <p>Time-Varying selectivity can be used. Details on how to specify
 time-varying parameters can be found in the <a href="#tvOrder">Time-Varying Parameter Specification and Setup</a>
-section.</p>
+section. SS3 does not have a feature to allow a fleet’s selectivity or
+catchability to vary by season within the year. In this situation, an
+approach commonly used is to create a separate fleet for each season,
+then to use fleet mirroring as needed to force some seasons to be the
+same as another season.</p>
 <div id="TwoDAR">
 
 </div>
@@ -15691,14 +15819,14 @@ and season</td>
 <td style="text-align: left;">TIME_SERIES</td>
 <td style="text-align: left;">$timeseries</td>
 <td style="text-align: left;">Biomass and recruitment by area, year, and
-season. Also has the same (e.g. redundant) detailed catch output as in
+season. Also has the same (e.g., redundant) detailed catch output as in
 the CATCH table.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">17</td>
 <td style="text-align: left;">SPR_SERIES</td>
 <td style="text-align: left;">$sprseries</td>
-<td style="text-align: left;">Table shows per recruit quantities (e.g.
+<td style="text-align: left;">Table shows per recruit quantities (e.g.,
 equilibrium) using the current year’s biology-at-age and fishery
 characteristics and levels.</td>
 </tr>
@@ -17262,7 +17390,7 @@ creates short parameter lines in <code>control.ss\_new</code> upon
 running the model). The number of parameter lines required depends on
 the time-varying parameter specification.</p>
 <p>For example, if two parameters were specified to have environmental
-linkages in the<span data-acronym-label="mg" data-acronym-form="singular+short">mg</span> parameter section, below
+linkages in the <span data-acronym-label="mg" data-acronym-form="singular+short">mg</span> parameter section, below
 the <span data-acronym-label="mg" data-acronym-form="singular+short">mg</span> parameters would be two
 parameter lines (when not auto-generating these lines), which is an
 environmental linkage parameter for each time-varying base
@@ -17736,7 +17864,7 @@ See <span class="citation" data-cites="xu-new-2019">Xu et al.
 (2019)</span> and <span class="citation" data-cites="xu-comparing-2020">Xu, Thorson, and Methot (2020)</span> for
 information on tuning the 2DAR selectivity parameters. There is not yet
 a generalized method to automate the tuning, so the information below
-provides a general framework. Additionally the stand-alone <span data-acronym-label="tmb" data-acronym-form="singular+short">tmb</span>
+provides a general framework. Additionally, the stand-alone <span data-acronym-label="tmb" data-acronym-form="singular+short">tmb</span>
 code used in <span class="citation" data-cites="xu-new-2019">Xu et al.
 (2019)</span> to estimate the two correlation coefficients for
 selectivity deviations (rho_a and rho_t) outside SS3 [is available on
@@ -17854,7 +17982,7 @@ Year seas catch catch_se<br />
 4 1 342 0.01 # season 4 of 1980<br />
 5 1 231 0.01 # season 1 of 1981<br />
 </p></li>
-<li><p>Increase max age because age is now in quarters (e.g. 10 years
+<li><p>Increase max age because age is now in quarters (e.g., 10 years
 old is now 40 quarters old).</p></li>
 <li><p>All output tables of age-specific quantities will be in terms of
 quarters.</p></li>
