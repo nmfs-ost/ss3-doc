@@ -1925,7 +1925,7 @@ Intermediate break points are placed at equally spaced intervals between the fir
 		\item If the bin is before the first break point, selectivity is linearly interpolated from the first bin to the first break point.
 		\item Between break points, selectivity is linearly interpolated between the adjacent break point values.
 		\item After the last break point, selectivity is held constant at the value for the last break point.
-		\item The resulting selectivity curve is created by subtracting the $\max(log-selex)$ then exponentiating to create a non-parametric curve with maximum selectivity = 1.0: $\text{selex} = \exp(\text{interpolated log-selex} - \max(\text{interpolated log-selex}))$
+		\item The resulting selectivity curve is created by subtracting the $\max(log\text{-}selex)$ then exponentiating to create a non-parametric curve with maximum selectivity = 1.0: $selex = \exp(interpolated\,log\text{-}selex - \max(interpolated\,log\text{-}selex))$
 	\end{itemize}
 
 See also \hyperlink{NonParamSelectivity21}{Pattern 21} for a newer non-parametric size selectivity option, and \hyperlink{NonParamScaling}{Pattern 43} which is based on Pattern 6 with additional controls over the scaling.
@@ -1952,7 +1952,7 @@ For age-based selectivity, parameters p1 and p2 are set in terms of population a
 
 If the selectivity is length-based, the input parameters should match the population length bin \textbf{number} that will have selectivity = 1.0. A simple example how this works is as follows:
 
-\begin{longtable}{p{4cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm}}
+\begin{longtable}{p{4.5cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm} p{0.9cm}}
 	\hline	
 	Population Length Bin \# \Tstrut & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 \\
 	Population Length (cm)      & 10 & 12 & 14 & 16 & 18 & 20 & 22 & 24 \Bstrut\\
