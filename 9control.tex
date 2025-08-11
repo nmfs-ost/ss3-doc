@@ -1913,7 +1913,20 @@ Two parameters select the min and max bin number (not min max size) of the sourc
 
 \hypertarget{NonParamSelectivity6}{}
 \myparagraph{Pattern 6 (size) - Older non-parametric Selectivity}
-Non-parametric size selectivity uses a set of linear segments. The first break point is at Length = p1 and the last break point is at Length = p2. The total number of break points is specified by the value of the Special factor in the selectivity setup, so the N intervals is one less than the number of break points. Intermediate break points are located at equidistant intervals between p1 and p2. Parameters 3 to N are the selectivity values at the break points, entered as logistic, e.g., $1/(1+exp(-x))$. Ramps from $exp(-10)$ to p3 if L < p1. Constant at Np if L > p2. Note that prior to version 3.03 the break points were specified in terms of bin number, rather than length.
+Non-parametric size selectivity allows for a highly flexible, user-defined curve by specifying selectivity values at a series of length break points and linearly interpolating between them. The number of selectivity parameter points is set by the special factor in the selectivity setup so the $N$ intervals is one less than the number of break points.
+	\begin{itemize}
+		\item p1 is the length at which the first selectivity parameter applies (first break point).
+		\item p2 is the length at which the last selectivity parameter applies (last break point).
+		\item p3 through (N+2) are the log-selectivity values at each break point.
+	\end{itemize}
+
+Intermediate break points are placed at equally spaced intervals between the first and last points. For each length bin:
+	\begin{itemize}
+		\item If the bin is before the first break point, selectivity is linearly interpolated from the first bin to the first break point.
+		\item Between break points, selectivity is linearly interpolated between the adjacent break point values.
+		\item After the last break point, selectivity is held constant at the value for the last break point.
+		\item The resulting selectivity curve is created by subtracting the $\max(log-selex)$ then exponentiating to create a non-parametric curve with maximum selectivity = 1.0: $\text{selex} = \exp(\text{interpolated log-selex} - \max(\text{interpolated log-selex}))$
+	\end{itemize}
 
 See also \hyperlink{NonParamSelectivity21}{Pattern 21} for a newer non-parametric size selectivity option, and \hyperlink{NonParamScaling}{Pattern 43} which is based on Pattern 6 with additional controls over the scaling.
 
