@@ -38,7 +38,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 3 = add $F$ at $B_{LIMIT}$ \\ 
     
   \hline
-  1 & \gls{msy} Method: & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Specifies basis for calculating a single population level $F_{MSY}$ value.}} \Tstrut\\
+  1 & \hypertarget{MSYMethod}{MSY Method}: & \multirow{1}{1cm}[-0.1cm]{\parbox{12cm}{Specifies whether to search for $F_{MSY}$ or to use another $F$ basis as a proxy for $F_{MSY}$.}} \Tstrut\\
     & 1 = $F_{SPR}$ as proxy; & \\
     & 2 = calculate $F_{MSY}$; & \\
     & 3 = $F_{B_{TARGET}}$ as proxy or $F_{0.10}$; & \\
@@ -91,7 +91,7 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 2 = set range for $\text{rel}F$ same as \hyperlink{Fcast}{Forecast}. & \Bstrut\\
 
   \hline
-  2 & \raisebox{0.1\ht\strutbox}{\hypertarget{Fcast}{Forecast:}} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{This input is required but is ignored if benchmarks are turned off. This determines how forecast catches are calculated and removed from the population which is separate from the ``MSY Method'' above. If $F_{MSY}$ is selected, it uses whatever proxy (e.g., $F_{SPR}$ or $F_{B_{TARGET}}$) is selected in the ``MSY Method'' row.}} \Tstrut\\
+  2 & \hypertarget{Fcast}{Forecast Method:} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{This input specifies what $F$ to apply in the forecast. Several of the available options are calculated in the benchmark section. Note that it is equivalent to select option 1 here for $F_{SPR}$ or to select option 2 here after setting the \hyperlink{MSYMethod}{MSY Method above} to option 1. SS3 will use the selected $F$ according to a specified control rule and various annual catch allocations or caps. Input catches always override control rule calculations. An optional 3rd pass through the forecast will use catches calculated in pass 2 as quotas and will then calculate the $F$ needed to achieve that catch (just as SS3 does in the time series) after taking into account the potential forecast recruitment deviations. This 3rd pass approach achieves better estimates of the probability distribution for forecast quantities.}} \Tstrut\\
     & -1 = none, no forecast years; & \\
     & 0 = simple, single forecast year calculated; & \\
     & 1 = use $F_{SPR}$; & \\
