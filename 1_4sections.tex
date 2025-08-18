@@ -33,42 +33,43 @@ Methot, R. D., Jr., C. R. Wetzel, I. G. Taylor, and K. Doering. (2020). Stock Sy
 \section[File Organization]{\protect\hyperref[FileOrganization]{File Organization}}\label{FileOrganization}
 \hypertarget{InputFiles}{}
 \subsection[Input File]{\protect\hyperlink{InputFiles}{Input Files}}
+
 \begin{enumerate}
-	\item \verb|starter.ss|: required file containing filenames of the data file and the control file plus other run controls (required).
-	\item \verb|datafile|: file containing model dimensions and the data (required)
-	\item \verb|control file|: file containing set-up for the parameters (required)
-	\item \verb|forecast.ss|: file containing specifications for reference points and forecasts (required) 
-	\item \verb|ss3.par| (previously \verb|ss.par|): previously created parameter file that can be read to overwrite the initial parameter values in the control file (optional)
-	\item \verb|wtatage.ss|: file containing empirical input of body weight by fleet and population and empirical fecundity-at-age (optional)
-	\item \verb|runnumber.ss|: file containing a single number used as run number in output to \verb|CumReport.sso| and in the processing of \verb|profilevalues.ss| (optional)
-	\item \verb|profilevalues.ss|: file contain special conditions for batch file processing (optional)
+	\item \texttt{starter.ss}: required file containing filenames of the data file and the control file plus other run controls (required).
+	\item \texttt{datafile}: file containing model dimensions and the data (required)
+	\item \texttt{control file}: file containing set-up for the parameters (required)
+	\item \texttt{forecast.ss}: file containing specifications for reference points and forecasts (required) 
+	\item \texttt{ss3.par} (previously \texttt{ss.par}): previously created parameter file that can be read to overwrite the initial parameter values in the control file (optional)
+	\item \texttt{wtatage.ss}: file containing empirical input of body weight by fleet and population and empirical fecundity-at-age (optional)
+	\item \texttt{runnumber.ss}: file containing a single number used as run number in output to \texttt{CumReport.sso} and in the processing of \texttt{profilevalues.ss} (optional)
+	\item \texttt{profilevalues.ss}: file contain special conditions for batch file processing (optional)
 \end{enumerate}
 	
 \hypertarget{OutputFilesList}{}
 \subsection[Output Files]{\protect\hyperlink{OutputFilesList}{Output Files}}
 \begin{enumerate}
-	\item \verb|data\_echo.ss\_new|: Contains the input data as read by the model. In model versions prior to v.3.30.19 a single \verb|data.ss\_new| file was created that included the echoed data, the expected data values (\verb|data\_expval.ss|), and any bootstrap data files selected (\verb|data\_boot\_x.ss|).
-	\item \verb|data\_expval.ss|: Contains the expected data values given the model fit. This file is only created if the value for ``Number of datafiles to produce'' in the starter file is set to 2 or greater.
-	\item \verb|data\_boot\_x.ss|: A new data file filled with bootstrap data based on the original input data and variances. This file is only created if the value in the ``Number of datafiles to produce'' in the starter file is set to 3 or greater. A separate bootstrap data file will be written for the number of bootstrap data file requests where x in the file name indicates the bootstrap simulation number (e.g., \verb|data\_boot\_001.ss|, \verb|data\_boot\_002.ss|, ...).
-	\item \verb|control.ss\_new|: Updated version of the control file with final parameter values replacing the initial parameter values.
-	\item \verb|starter.ss\_new|: New version of the starter file with annotations.
-	\item \verb|Forecast.ss\_new|: New version of the forecast file with annotations.
-	\item \verb|warning.sso|: This file contains a list of warnings generated during program execution. Starting in v.3.30.20 warnings are categorized into either ``Note'' or ``Warning''. An item marked as ``Note'' denotes settings that the user may want to revise but do not require any additional changes for the model to run. Items marked with ``Warning'' are items that may or may not have allowed the model to finish running. Items with a fatal warning caused the model to fail during either reading input files or calculations. Warnings classified as error or adjustment may be causing calculation issues, even if the model was able to finish reading file and running, and should be addressed the user. 
-	\item \verb|echoinput.sso|: This file is produced while reading the input files and includes an annotated echo of the input. The sole purpose of this output file is debugging input errors.
-	\item \verb|Report.sso|: This file is the primary report file.
-	\item \verb|ss\_summary.sso|: Output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in v.3.30.08.03 and greater.
-	\item \verb|CompReport.sso|: Observed and expected composition data in a list-based format.
-	\item \verb|Forecast-report.sso|: Output of management quantities and for forecasts.
-	\item \verb|CumReport.sso|: This file contains a brief version of the run output, output is appended to current content of file so that the results of several runs can be collected together. This is useful when a batch of runs is being processed.
-	\item \verb|Covar.sso|: This file replaces the standard \gls{admb} \verb|ss.cor| with an output of the parameter and derived quantity correlations in database format.
-	\item \verb|ss3.par| (previously \verb|ss.par|): This file contains all estimated and fixed parameters from the model run. 
-	\item \verb|ss.std|, \verb|ss.rep|, \verb|ss.cor|, etc.: Standard \gls{admb} output files.
-	\item \verb|checkup.sso|: Contains details of selectivity parameters and resulting vectors. This is written during the first call of the objective function.
-	\item \verb|Gradient.dat|: New for v.3.30, this file shows parameter gradients at the end of the run.
-	\item \verb|rebuild.dat|: Output formatted for direct input to Andre Punt's rebuilding analysis package. Cumulative output is output to REBUILD.SS (useful when doing \gls{mcmc} or profiles).
-	\item \verb|SIS\_table.sso|: Output formatted for reading into the \gls{nmfs} \href{https://www.st.nmfs.noaa.gov/sis/}{\gls{sis}}.
-	\item \verb|Parmtrace.sso|: Parameter values at each iteration.
-	\item \verb|posteriors.sso|, \verb|derived\_posteriors.sso|, \verb|posterior\_vectors.sso|: Files associated with \gls{mcmc}.
+	\item \texttt{data\_echo.ss\_new}: Contains the input data as read by the model. In model versions prior to v.3.30.19 a single \texttt{data.ss\_new} file was created that included the echoed data, the expected data values (\texttt{data\_expval.ss}), and any bootstrap data files selected (\texttt{data\_boot\_x.ss}).
+	\item \texttt{data\_expval.ss}: Contains the expected data values given the model fit. This file is only created if the value for ``Number of datafiles to produce'' in the starter file is set to 2 or greater.
+	\item \texttt{data\_boot\_x.ss}: A new data file filled with bootstrap data based on the original input data and variances. This file is only created if the value in the ``Number of datafiles to produce'' in the starter file is set to 3 or greater. A separate bootstrap data file will be written for the number of bootstrap data file requests where x in the file name indicates the bootstrap simulation number (e.g., \texttt{data\_boot\_001.ss}, \texttt{data\_boot\_002.ss}, ...).
+	\item \texttt{control.ss\_new}: Updated version of the control file with final parameter values replacing the initial parameter values.
+	\item \texttt{starter.ss\_new}: New version of the starter file with annotations.
+	\item \texttt{Forecast.ss\_new}: New version of the forecast file with annotations.
+	\item \texttt{warning.sso}: This file contains a list of warnings generated during program execution. Starting in v.3.30.20 warnings are categorized into either ``Note'' or ``Warning''. An item marked as ``Note'' denotes settings that the user may want to revise but do not require any additional changes for the model to run. Items marked with ``Warning'' are items that may or may not have allowed the model to finish running. Items with a fatal warning caused the model to fail during either reading input files or calculations. Warnings classified as error or adjustment may be causing calculation issues, even if the model was able to finish reading file and running, and should be addressed the user. 
+	\item \texttt{echoinput.sso}: This file is produced while reading the input files and includes an annotated echo of the input. The sole purpose of this output file is debugging input errors.
+	\item \texttt{Report.sso}: This file is the primary report file.
+	\item \texttt{ss\_summary.sso}: Output file that contains all the likelihood components, parameters, derived quantities, total biomass, summary biomass, and catch. This file offers an abridged version of the report file that is useful for quick model evaluation. This file is only available in v.3.30.08.03 and greater.
+	\item \texttt{CompReport.sso}: Observed and expected composition data in a list-based format.
+	\item \texttt{Forecast-report.sso}: Output of management quantities and for forecasts.
+	\item \texttt{CumReport.sso}: This file contains a brief version of the run output, output is appended to current content of file so that the results of several runs can be collected together. This is useful when a batch of runs is being processed.
+	\item \texttt{Covar.sso}: This file replaces the standard \gls{admb} \texttt{ss.cor} with an output of the parameter and derived quantity correlations in database format.
+	\item \texttt{ss3.par} (previously \texttt{ss.par}): This file contains all estimated and fixed parameters from the model run. 
+	\item \texttt{ss.std}, \texttt{ss.rep}, \texttt{ss.cor}, etc.: Standard \gls{admb} output files.
+	\item \texttt{checkup.sso}: Contains details of selectivity parameters and resulting vectors. This is written during the first call of the objective function.
+	\item \texttt{Gradient.dat}: New for v.3.30, this file shows parameter gradients at the end of the run.
+	\item \texttt{rebuild.dat}: Output formatted for direct input to Andre Punt's rebuilding analysis package. Cumulative output is output to REBUILD.SS (useful when doing \gls{mcmc} or profiles).
+	\item \texttt{SIS\_table.sso}: Output formatted for reading into the \gls{nmfs} \href{https://www.st.nmfs.noaa.gov/sis/}{\gls{sis}}.
+	\item \texttt{Parmtrace.sso}: Parameter values at each iteration.
+	\item \texttt{posteriors.sso}, \texttt{derived\_posteriors.sso}, \texttt{posterior\_vectors.sso}: Files associated with \gls{mcmc}.
 \end{enumerate}
 
 \pagebreak
@@ -77,6 +78,6 @@ Methot, R. D., Jr., C. R. Wetzel, I. G. Taylor, and K. Doering. (2020). Stock Sy
 \section[Starting Stock Synthesis]{\protect\hyperlink{StartingSS3}{Starting Stock Synthesis}}
 SS3 is typically run through the command line interface, although it can also be called from another program, R, the \gls{ssi}, or a script file (such as a DOS batch file). SS3 is compiled for Windows, Mac, and Linux operating systems. The memory requirements depend on the complexity of the model you run, but in general, SS3 will run much slower on computers with inadequate memory. See \hyperref[sec:RunningSS3]{Running Stock Synthesis} for additional notes on methods of running SS3.
 
-Communication with the program is through text files. When the program first starts, it reads the file \verb|starter.ss|, which typically must be located in the same directory from which SS3 is being run. The file \verb|starter.ss| contains required input information plus references to other required input files, as described in the \hyperref[FileOrganization]{File Organization section}. The names of the control and data files must match the names specified in the \verb|starter.ss| file. File names, including \verb|starter.ss|, are case-sensitive on Linux and Mac systems but not on Windows. The \verb|echoinput.sso| file outputs how the executable reads each input file and can be used for troubleshooting when trying to set up a model correctly. Output from SS3 consists of text files containing specific keywords. Output processing programs, such as Excel or R, can search for these keywords and parse the specific information located below that keyword in the text file.
+Communication with the program is through text files. When the program first starts, it reads the file \texttt{starter.ss}, which typically must be located in the same directory from which SS3 is being run. The file \texttt{starter.ss} contains required input information plus references to other required input files, as described in the \hyperref[FileOrganization]{File Organization section}. The names of the control and data files must match the names specified in the \texttt{starter.ss} file. File names, including \texttt{starter.ss}, are case-sensitive on Linux and Mac systems but not on Windows. The \texttt{echoinput.sso} file outputs how the executable reads each input file and can be used for troubleshooting when trying to set up a model correctly. Output from SS3 consists of text files containing specific keywords. Output processing programs, such as Excel or R, can search for these keywords and parse the specific information located below that keyword in the text file.
 
 \pagebreak

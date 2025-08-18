@@ -26,58 +26,58 @@ The v.3.20 module addressed these issues by:
 The most complicated aspect of the changes is with regard to the multiple pass aspect of the forecast. This multiple pass approach is needed to calculate both \gls{ofl} and \gls{abc} in a single model run. More importantly, the multiple passes are needed in order to mimic the actual sequence of assessment-management action - catch over a multi-year period. The first pass calculates \gls{ofl} based on catching \gls{ofl} each year, so presents the absolute maximum upper limit to catches. The second pass forecasts a catch based on a harvest policy, then applies catch caps and allocations, then updates the $F$'s to match these catches. In the third pass, stochastic recruitment and catch implementation error are implemented and SS3 calculates the $F$ that would be needed in order to catch the adjusted catch amount previously calculated in the second pass. With this approach, SS3 is able to produce improved estimates of the probability that $F$ would exceed the overfishing $F$. In effect it is the complement of the P* approach. Rather than the P* approach that calculates the stream of annual catches that would have an annual probability of $F > F_{LIMIT}$, SS3 calculates the expected time series of P* that would result from a specified harvest policy implemented as a buffer between $F_{TARGET}$ and $F_{LIMIT}$.
 
 The sequence of multiple forecast passes is as follows:
-\begin{enumerate}
-	\item Pass 1 (a.k.a. Fcast\_Loop1)
+
+Pass 1 (a.k.a. Fcast\_Loop1)
+\begin{itemize}
+	\item Loop Years
 	\begin{enumerate}
-		\item Loop Years
+		\item SubLoop (a.k.a. ABC\_Loop) = 1
 		\begin{enumerate}
-			\item SubLoop (a.k.a. ABC\_Loop) = 1
-			\begin{enumerate}
-				\item R = $f(SSB)$ with no deviations
-				\item $F$ = $F_{LIMIT}$
-				\item Fixed input catch amounts ignored
-				\item No catch adjustments (caps and allocations)
-				\item No implementation error
-				\item Result: \gls{ofl} conditioned on catching \gls{ofl} each year
-			\end{enumerate}
+			\item R = $f(SSB)$ with no deviations
+			\item $F$ = $F_{LIMIT}$
+			\item Fixed input catch amounts ignored
+			\item No catch adjustments (caps and allocations)
+			\item No implementation error
+			\item Result: \gls{ofl} conditioned on catching \gls{ofl} each year
 		\end{enumerate}
 	\end{enumerate}
-	\item Pass 2
+\end{itemize}
+
+Pass 2
+\begin{itemize}
+	\item Loop Years
 	\begin{enumerate}
-		\item Loop Years
+		\item SubLoop = 1
 		\begin{enumerate}
-			\item SubLoop = 1
-			\begin{enumerate}
-				\item R = $f(SSB)$ with no deviations
-				\item $F$ = $F_{LIMIT}$
-				\item Fixed input catch amounts ignored
-				\item No catch adjustments (caps and allocations)
-				\item No implementation error
-				\item Result: \gls{ofl} conditioned on catching \gls{abc} previous year. Stored in std\_vector.
-			\end{enumerate}
-			\item SubLoop = 2
-			\begin{enumerate}
-				\item R = $f(SSB)$ with no deviations
-				\item $F$ = $F_{TARGET}$ to get catch for each fleet in each season
-				\item Fixed input catch amounts replace catch from step 2
-				\item Catch adjustments (caps and allocations) applied on annual basis (after looping through seasons and areas within this year). These adjustments utilize the logistic joiner approach so the overall results remain completely differentiable.
-				\item No implementation error
-				\item Result: \gls{abc} as adjusted for caps and allocations
-			\end{enumerate}
-			\item SubLoop = 3
-			\begin{enumerate}
-				\item R = $f(SSB)$ with no deviations
-				\item Catches from Pass 2 multiplied by the random term for implementation error
-				\item $F$ = adjusted to match the catch*error while taking into account the random recruitments. This is most easily visualized in a \gls{mcmc} context where the recruitment deviation and the implementation error deviations take on non-zero values in each instance. In \gls{mle}, because the forecast recruitments and implementation error are estimated parameters with variance, their variance still propagates to the derived quantities in the forecast.
-				\item Result: Values for $F$, \gls{ssb}, Recruitment, Catch are stored in std-vectors
-				\begin{itemize}
-					\item In addition, the ratios $F$/$F_{LIMIT}$ and $SSB/SSB_{TARGET}$ or $SSB/SSB_{TARGET}$ are also stored in std\_vectors.
-					\item Estimated variance in these ratios allows calculation of annual probability that $F > F_{LIMIT}$ or $B < B_{LIMIT}$. This is essentially the realized P* conditioned on the specified harvest policy.
-				\end{itemize}
-			\end{enumerate}
+			\item R = $f(SSB)$ with no deviations
+			\item $F$ = $F_{LIMIT}$
+			\item Fixed input catch amounts ignored
+			\item No catch adjustments (caps and allocations)
+			\item No implementation error
+			\item Result: \gls{ofl} conditioned on catching \gls{abc} previous year. Stored in std\_vector.
+		\end{enumerate}
+		\item SubLoop = 2
+		\begin{enumerate}
+			\item R = $f(SSB)$ with no deviations
+			\item $F$ = $F_{TARGET}$ to get catch for each fleet in each season
+			\item Fixed input catch amounts replace catch from step 2
+			\item Catch adjustments (caps and allocations) applied on annual basis (after looping through seasons and areas within this year). These adjustments utilize the logistic joiner approach so the overall results remain completely differentiable.
+			\item No implementation error
+			\item Result: \gls{abc} as adjusted for caps and allocations
+		\end{enumerate}
+		\item SubLoop = 3
+		\begin{enumerate}
+			\item R = $f(SSB)$ with no deviations
+			\item Catches from Pass 2 multiplied by the random term for implementation error
+			\item $F$ = adjusted to match the catch*error while taking into account the random recruitments. This is most easily visualized in a \gls{mcmc} context where the recruitment deviation and the implementation error deviations take on non-zero values in each instance. In \gls{mle}, because the forecast recruitments and implementation error are estimated parameters with variance, their variance still propagates to the derived quantities in the forecast.
+			\item Result: Values for $F$, \gls{ssb}, Recruitment, Catch are stored in std-vectors
+			\begin{itemize}
+				\item In addition, the ratios $F$/$F_{LIMIT}$ and $SSB/SSB_{TARGET}$ or $SSB/SSB_{TARGET}$ are also stored in std\_vectors.
+				\item Estimated variance in these ratios allows calculation of annual probability that $F > F_{LIMIT}$ or $B < B_{LIMIT}$. This is essentially the realized P* conditioned on the specified harvest policy.
+			\end{itemize}
 		\end{enumerate}
 	\end{enumerate}
-\end{enumerate}
+\end{itemize}
 
 \myparagraph{Example Effects on Correlations}
 An example that illustrates the above process was conducted. The situation was a low $M$, late-maturing species, so changes are not dramatic. The example conducted a 10-year forecast and examined correlations with derived quantities in the last year of the forecast. This was done once with the full set of 3 passes as described above, and again with only 2 passes and stochastic recruitment occurring in pass 2, rather than 3. This alternative setup is more similar to forecasts done using previous model versions.
