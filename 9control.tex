@@ -144,7 +144,7 @@ The capability to read empirical body weight-at-age for the population and each 
 \subsubsection[Settlement Timing for Recruits and Distribution]{\protect\hyperlink{SettlementTiming}{Settlement Timing for Recruits and Distribution}}
 In older versions of SS3 one value of spawning biomass was calculated annually at the beginning of one specified spawning season and this spawning biomass produced one annual total recruitment value. The annual recruitment value was then distributed among seasons, areas, and growth types according to other model parameters.
 
-Additional control of the seasonal timing was added in v.3.30 and now there is an explicit elapsed time between spawning and recruitment. Spawning still occurs, just once per year, which defines a single spawning biomass for the stock-recruitment curve, but its timing can be at any specified time, not just the beginning of a season. Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.
+Additional control was added in v.3.30 which rebranded birth\_seasons as more flexible settlement events. Spawning still occurs once per year, but its timing can be at any specified time, not just the beginning of a season. Recruitment of the progeny from an annual spawning can now enter the population in one or more settlement events, at some point after spawning as defined by the user.
 
 \begin{center}
 	\begin{longtable}{p{1.25cm} p{1.25cm} p{1cm} p{11.5cm}}
@@ -163,16 +163,16 @@ Additional control of the seasonal timing was added in v.3.30 and now there is a
 		
 		\endlastfoot
 		
-		1 & & \multicolumn{2}{l}{\parbox{12.5cm}{Recruitment distribution method. This section controls which combinations of growth pattern $\times$ area $\times$ settlement will get a portion of the total recruitment coming from each spawning. Options:}} \Tstrut\\
+		1 & & \multicolumn{2}{l}{\parbox{12.5cm}{Recruitment distribution method. This section controls which combinations of growth pattern $\times$ area $\times$ settlement timing will get a portion of the total recruitment coming from each annual spawning. Options:}} \Tstrut\\
 		& & \\
 		% & & \\
 		& & \multicolumn{2}{l}{\parbox{12.5cm}{1 = no longer available (used the Stock Synthesis v.3.24 or earlier setup);}} \\
 		& & \multicolumn{2}{l}{\parbox{12.5cm}{2 = main effects for growth pattern, settle timing, and area;}} \\
-		& & \multicolumn{2}{l}{\parbox{12.5cm}{3 = each settle entity; and}} \\
+		& & \multicolumn{2}{l}{\parbox{12.5cm}{3 = each settlement platoon; and}} \\
 		& & \multicolumn{2}{l}{\parbox{12.5cm}{4 = none, no parameters (only if growth pattern $\times$ settlement $\times$ area = 1).}} \Tstrut\Bstrut\\
 		
 		\hline
-		1 & & \multicolumn{2}{l}{Spawner-Recruitment (not implement yet, but required), options:} \Tstrut\\
+		1 & & \multicolumn{2}{l}{Spawner-Recruitment (not implemented yet, but required), options:} \Tstrut\\
 		& & \multicolumn{2}{l}{1 = global; and} \\
 		& & \multicolumn{2}{l}{\parbox{12.5cm}{2 = by area (by area is not yet implemented; there is a conceptual challenge to doing the equilibrium calculation when there is fishing).}} \\
 		& & \\
@@ -182,7 +182,10 @@ Additional control of the seasonal timing was added in v.3.30 and now there is a
 		& & \\
 		
 		\hline
-		0 \Tstrut & & \multicolumn{2}{l}{Future feature, not implement yet but required.} \Bstrut\\
+		0 \Tstrut & & \multicolumn{2}{l}{Future feature, not implemented yet but required.} \Bstrut\\
+
+		\hline
+		\multicolumn{4}{l}{An example settlement example line looks like the following:} \Tstrut\Bstrut
 		
 		\hline
 		Growth Pattern & Month & Area & Age at settlement \Tstrut\\
@@ -193,17 +196,17 @@ Additional control of the seasonal timing was added in v.3.30 and now there is a
 	\vspace*{-\baselineskip}
 \end{center}
 
+The above example specifies settlement in mid-May (month 5.5) at a calendar age of 0. 
 
-The above example specifies settlement to mid-May (month 5.5). Note that normally the calendar age at settlement is 0 if settlement happens between the time of spawning and the end of that year, and at age 1 if settlement is in the year after spawning. 
+Below is an example setup where there are multiple settlement events, with one occurring the following year after spawning: These will be tracked in the numbers-at-age table as separate platoons. They also are separate in the body size table with the earlier settling platoon having a head start on growth so for given calendar date will be larger than later born platoons.
 
-Below is an example setup where there are multiple settlement events, with one occurring the following year after spawning: 
 \begin{center}
 	\begin{tabular}{p{3cm} p{3cm} p{2cm} p{7cm}}
 		\hline
 		3 & \multicolumn{3}{l}{Number of recruitment settlement events} \Tstrut\\
 		0 & \multicolumn{3}{l}{Unused option} \Bstrut\\
 		\hline
-		Growth Pattern & Month & Area & Age (for each settlement assignment) \Tstrut\Bstrut\\
+		Growth Pattern & Month & Area & Age at settlement \Tstrut\Bstrut\\
 		\hline
 		1 & 11.0 & 1 & 0 \Tstrut\\
 		1 & 12.0 & 1 & 0 \\
@@ -215,16 +218,12 @@ Below is an example setup where there are multiple settlement events, with one o
 %\myparagraph{Recruitment Timing and Settlement}
 Details regarding settlement of recruits and timing:
 	\begin{itemize}
-		\item Recruitment happens in specified settlement events (growth pattern, month, area).
-		\item Recruitment year is the year in which spawning occurred and the year in which the recruits are age 0.
-		\item Recruitment deviations are labelled with this recruitment year. 
-		\item Settlement events the year after the year of spawning normally start at age 1. However in a multi-season setup with spawning later than season 1, the settlement can be at age 0.
-		\item Number of unique settlement timings is calculated at runtime.
-		\item Now there is explicit elapsed time between spawning and recruitment.
-		\item Growth and natural mortality of the platoon begins at time of settlement, which is its real age 0.0 for growth; but pre-settlement fish exist from the beginning of the season of settlement, so can be caught if selected.
-		\item Age at recruitment now user-controlled (should be 0 if in year of spawning).
-		\item All fish become integer age 1 (for age determination) on their first January 1st.
-		\item Recruitment can occur > 12 months after spawning which is achieved by setting the settlement age to a value greater than 1.0.		
+		\item The  elapsed time between spawning and recruitment is calculated from spawn\_month, settle\_month, and age at settlement.
+		\item Growth and natural mortality of the platoon begins at time of settlement, which is its real age 0.0 for growth
+		\item If a settlement is not at the beginning of a season, the numbers of settlers placed in the numbers-at-age table are inflated by the amount of natural mortality that occurs from the start of the season to the time of the settlement event. Note that this allows those fis to be caught or surveyed if their selection is > 0.0.
+		\item Age at settlement should be 0 if settlement month is between the time of spawning and the end year. It is expected to have age at settlement = 1 if settlement is after the first of the year. A note appears in the warning file if the age at settlement is not as expected.
+		\item All fish advance their integer age on January 1st. Integer age is what matters for age determination.
+		\item Recruitment can occur > 12 months after spawning which is achieved by setting the settlement age to an integer greater than 1. Note that the recruitment at a settlement age of 2 or more is feasible but may not be handled correctly in the transition from the time series to the projection.		
 	\end{itemize}
 
 The distribution of recruitment among these settlement events is controlled by recruitment apportionment parameters. There must be a parameter line for each growth pattern, then for each area, then for each settlement. All of these are required, but only those growth pattern $\times$ area $\times$ settlements designated to receive recruits in the recruitment design matrix will have the parameter used in the recruitment distribution calculation. For the recruitment apportionment, the parameter values are the natural log of apportionment weight. The sum of all apportionment weights is calculated for each growth pattern $\times$ area $\times$ settlements that have been designated to receive recruits in the recruitment design matrix. Then the apportionment weights are scaled to sum to 1.0 so that the total recruitment from the spawning event is distributed among the cells designated to receive recruitment. Additionally, these distribution parameters can be time-varying, so the fraction of the recruits that occur in a particular growth pattern, area, or settlement can change from year to year. To specify annual variation in the distribution or recruits by area add a start and end year in the deviation min year and max year columns. Similar to the apportionment of recruits by area, one should be fixed while the other area(s) can deviate relative to the one area. If annual deviations are specified then two additional short parameter lines will be required to specify the standard error and the autocorrelation for each area with deviations.
