@@ -9,7 +9,10 @@ jobs:
   artifacts-url-comments:
     name: add artifact links to pull request and related issues job
     runs-on: ubuntu-latest
-    if: ${{ github.event.workflow_run.conclusion == 'success'}}
+    if: >
+      github.event.workflow_run.conclusion == 'success' && 
+      github.event.workflow_run.pull_requests && 
+      github.event.workflow_run.pull_requests != ''
     steps:
       - name: add artifact links to PR and issues
         uses: tonyhallett/artifacts-url-comments@v1.1.0
@@ -19,4 +22,4 @@ jobs:
             prefix: 'Here are the artifacts from your PR:'
             suffix: Please review your changes in the linked artifacts.
             format: name
-            addTo: pullandissues
+            addTo: pull
