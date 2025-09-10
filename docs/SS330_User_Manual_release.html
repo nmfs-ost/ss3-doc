@@ -11,8 +11,8 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2025-07-08" />
-  <title>Stock Synthesis User Manual Version 3.30.24-prerel-prerel</title>
+  <meta name="dcterms.date" content="2025-09-10" />
+  <title>Stock Synthesis User Manual Version 3.30.24</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="html_usermanual.css" />
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -58,7 +58,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.mhchemParser=void 0;var r=fun
 <header id="title-block-header">
 <h1 class="title"><span style="color: 1.00,0.83,0.41,0.36">Stock
 Synthesis User Manual<br />
-Version 3.30.24-prerel-prerel</span></h1>
+Version 3.30.24</span></h1>
 <p class="author">Richard D. Methot Jr., Chantel R. Wetzel, Ian G.
 Taylor, Kathryn L. Doering,<br />
 Elizabeth F. Perl, and Kelli F. Johnson<br />
@@ -66,7 +66,7 @@ Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">July 08, 2025</p>
+<p class="date">September 10, 2025</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
@@ -477,29 +477,29 @@ for batch file processing (optional)</p></li>
 </div>
 <h2 data-number="2.2" id="output-files"><span class="header-section-number">2.2</span> <a href="#OutputFilesList">Output Files</a></h2>
 <ol>
-<li><p><code>data\_echo.ss\_new</code>: Contains the input data as read
-by the model. In model versions prior to v.3.30.19 a single
-<code>data.ss\_new</code> file was created that included the echoed
-data, the expected data values (<code>data\_expval.ss</code>), and any
-bootstrap data files selected (<code>data\_boot\_x.ss</code>).</p></li>
-<li><p><code>data\_expval.ss</code>: Contains the expected data values
+<li><p><code>data_echo.ss_new</code>: Contains the input data as read by
+the model. In model versions prior to v.3.30.19 a single
+<code>data.ss_new</code> file was created that included the echoed data,
+the expected data values (<code>data_expval.ss</code>), and any
+bootstrap data files selected (<code>data_boot_x.ss</code>).</p></li>
+<li><p><code>data_expval.ss</code>: Contains the expected data values
 given the model fit. This file is only created if the value for “Number
 of datafiles to produce” in the starter file is set to 2 or
 greater.</p></li>
-<li><p><code>data\_boot\_x.ss</code>: A new data file filled with
+<li><p><code>data_boot_x.ss</code>: A new data file filled with
 bootstrap data based on the original input data and variances. This file
 is only created if the value in the “Number of datafiles to produce” in
 the starter file is set to 3 or greater. A separate bootstrap data file
 will be written for the number of bootstrap data file requests where x
 in the file name indicates the bootstrap simulation number (e.g.,
-<code>data\_boot\_001.ss</code>, <code>data\_boot\_002.ss</code>,
+<code>data_boot_001.ss</code>, <code>data_boot_002.ss</code>,
 ...).</p></li>
-<li><p><code>control.ss\_new</code>: Updated version of the control file
+<li><p><code>control.ss_new</code>: Updated version of the control file
 with final parameter values replacing the initial parameter
 values.</p></li>
-<li><p><code>starter.ss\_new</code>: New version of the starter file
-with annotations.</p></li>
-<li><p><code>Forecast.ss\_new</code>: New version of the forecast file
+<li><p><code>starter.ss_new</code>: New version of the starter file with
+annotations.</p></li>
+<li><p><code>Forecast.ss_new</code>: New version of the forecast file
 with annotations.</p></li>
 <li><p><code>warning.sso</code>: This file contains a list of warnings
 generated during program execution. Starting in v.3.30.20 warnings are
@@ -517,7 +517,7 @@ the input files and includes an annotated echo of the input. The sole
 purpose of this output file is debugging input errors.</p></li>
 <li><p><code>Report.sso</code>: This file is the primary report
 file.</p></li>
-<li><p><code>ss\_summary.sso</code>: Output file that contains all the
+<li><p><code>ss_summary.sso</code>: Output file that contains all the
 likelihood components, parameters, derived quantities, total biomass,
 summary biomass, and catch. This file offers an abridged version of the
 report file that is useful for quick model evaluation. This file is only
@@ -545,13 +545,12 @@ parameter gradients at the end of the run.</p></li>
 <li><p><code>rebuild.dat</code>: Output formatted for direct input to
 Andre Punt’s rebuilding analysis package. Cumulative output is output to
 REBUILD.SS (useful when doing <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> or profiles).</p></li>
-<li><p><code>SIS\_table.sso</code>: Output formatted for reading into
-the <span data-acronym-label="nmfs" data-acronym-form="singular+short">nmfs</span> <a href="https://www.st.nmfs.noaa.gov/sis/"><span data-acronym-label="sis" data-acronym-form="singular+short">sis</span></a>.</p></li>
+<li><p><code>SIS_table.sso</code>: Output formatted for reading into the
+<span data-acronym-label="nmfs" data-acronym-form="singular+short">nmfs</span> <a href="https://www.st.nmfs.noaa.gov/sis/"><span data-acronym-label="sis" data-acronym-form="singular+short">sis</span></a>.</p></li>
 <li><p><code>Parmtrace.sso</code>: Parameter values at each
 iteration.</p></li>
-<li><p><code>posteriors.sso</code>,
-<code>derived\_posteriors.sso</code>,
-<code>posterior\_vectors.sso</code>: Files associated with <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span>.</p></li>
+<li><p><code>posteriors.sso</code>, <code>derived_posteriors.sso</code>,
+<code>posterior_vectors.sso</code>: Files associated with <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span>.</p></li>
 </ol>
 <div id="StartingSS3">
 
@@ -1695,10 +1694,11 @@ benchmarks if necessary and report a warning.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
-<td style="text-align: left;"><span data-acronym-label="msy" data-acronym-form="singular+short">msy</span> Method:</td>
-<td style="text-align: left;">Specifies basis for calculating a single
-population level <span class="math inline">\(F_{MSY}\)</span>
-value.</td>
+<td style="text-align: left;"><div id="MSYMethod">
+<p>MSY Method</p>
+</div>
+<p>:</p></td>
+<td style="text-align: left;">Specifies whether to search for <span class="math inline">\(F_{MSY}\)</span> or to use another <span class="math inline">\(F\)</span> basis as a proxy for <span class="math inline">\(F_{MSY}\)</span>.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -1900,13 +1900,21 @@ range for selectivity and biology.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">2</td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;">This input is required but is ignored if
-benchmarks are turned off. This determines how forecast catches are
-calculated and removed from the population which is separate from the
-“MSY Method” above. If <span class="math inline">\(F_{MSY}\)</span> is
-selected, it uses whatever proxy (e.g., <span class="math inline">\(F_{SPR}\)</span> or <span class="math inline">\(F_{B_{TARGET}}\)</span>) is selected in the “MSY
-Method” row.</td>
+<td style="text-align: left;"><div id="Fcast">
+<p>Forecast Method:</p>
+</div></td>
+<td style="text-align: left;">This input specifies what <span class="math inline">\(F\)</span> to apply in the forecast. Several of
+the available options are calculated in the benchmark section. Note that
+it is equivalent to select option 1 here for <span class="math inline">\(F_{SPR}\)</span> or to select option 2 here after
+setting the <a href="#MSYMethod">MSY Method above</a> to option 1. SS3
+will use the selected <span class="math inline">\(F\)</span> according
+to a specified control rule and various annual catch allocations or
+caps. Input catches always override control rule calculations. An
+optional 3rd pass through the forecast will use catches calculated in
+pass 2 as quotas and will then calculate the <span class="math inline">\(F\)</span> needed to achieve that catch (just as
+SS3 does in the time series) after taking into account the potential
+forecast recruitment deviations. This 3rd pass approach achieves better
+estimates of the probability distribution for forecast quantities.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -2558,7 +2566,7 @@ and</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">2 = read season(row) <span class="math inline">\(\times\)</span> fleet (column) set below.</td>
+<td style="text-align: left;">2 = read season(row) <span class="math inline">\(\times\)</span> fleet (column) set <a href="#FleetRelF">in section below</a>.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
@@ -2591,9 +2599,10 @@ line.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td colspan="3" style="text-align: left;">COND 2: Conditional input for
-fleet relative <span class="math inline">\(F\)</span> (Enter: Season,
-Fleet, Relative <span class="math inline">\(F\)</span>)</td>
+<td colspan="3" style="text-align: left;"><div id="FleetRelF">
+<p>COND: Fleet Relative <span class="math inline">\(F\)</span> = 2</p>
+</div>
+<p>: Conditional input for fleet relative <span class="math inline">\(F\)</span> (Enter: Season, Fleet, Relative <span class="math inline">\(F\)</span>)</p></td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">1 1 0.6</td>
@@ -2714,7 +2723,9 @@ with basis</td>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">COND: == -1</td>
 <td colspan="2" style="text-align: left;">Forecasted catches - enter one
-line per number of fixed forecast year catch (year-specific <span class="math inline">\(F\)</span> or catch, including bycatch)</td>
+line per number of fixed forecast year and season catch (year and
+season-specific <span class="math inline">\(F\)</span> or catch,
+including bycatch)</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2012 1 1 1200 2</td>
@@ -2724,6 +2735,18 @@ Basis</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2013 1 1 1400 3</td>
+<td colspan="2" style="text-align: left;">Year &amp; Season &amp; Fleet
+&amp; Catch or <span class="math inline">\(F\)</span> value &amp;
+Basis</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2012 2 1 1100 2</td>
+<td colspan="2" style="text-align: left;">Year &amp; Season &amp; Fleet
+&amp; Catch or <span class="math inline">\(F\)</span> value &amp;
+Basis</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2013 2 1 1300 3</td>
 <td colspan="2" style="text-align: left;">Year &amp; Season &amp; Fleet
 &amp; Catch or <span class="math inline">\(F\)</span> value &amp;
 Basis</td>
@@ -2740,7 +2763,9 @@ without basis</td>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">COND: &gt; 0</td>
 <td colspan="2" style="text-align: left;">Forecasted catches - enter one
-line per number of fixed forecast year catch (year-specific <span class="math inline">\(F\)</span> or catch, including bycatch)</td>
+line per number of fixed forecast year and season catch (year and
+season-specific <span class="math inline">\(F\)</span> or catch,
+including bycatch)</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">2012 1 1 1200</td>
@@ -2749,6 +2774,16 @@ line per number of fixed forecast year catch (year-specific <span class="math in
 </tr>
 <tr class="odd">
 <td style="text-align: right;">2013 1 1 1200</td>
+<td colspan="2" style="text-align: left;">Year &amp; Season &amp; Fleet
+&amp; Catch or <span class="math inline">\(F\)</span> value</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">2012 2 1 1200</td>
+<td colspan="2" style="text-align: left;">Year &amp; Season &amp; Fleet
+&amp; Catch or <span class="math inline">\(F\)</span> value</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">2013 2 1 1200</td>
 <td colspan="2" style="text-align: left;">Year &amp; Season &amp; Fleet
 &amp; Catch or <span class="math inline">\(F\)</span> value</td>
 </tr>
@@ -3049,14 +3084,13 @@ used if age data are included.</p></li>
 </ul></li>
 <li><p>Recruitment:</p>
 <ul>
-<li><p>Occurs at specified recruitment events that occur at
-user-specified dates (in real months, 1.0 - 12.99).</p></li>
-<li><p>There can be one to many recruitment events across a year; each
-producing a platoon as a portion of the total recruitment.</p></li>
-<li><p>A settlement platoon enters the model at age 0 if settlement is
-between the time of spawning and the end of the year; it enters at age 1
-if settlement is after the first of the year; these ages at settlement
-can be overridden in the settlement setup.</p></li>
+<li><p>Occurs in specified settlement events that occur at
+user-specified dates (in real months, 1.0 - 12.99) that are on or after
+the spawning event. See the section on <a href="#SettlementTiming">Settlement Timing for Recruits and
+Distribution</a></p></li>
+<li><p>The output labels for each annual recruitment with a year value.
+This is the year in which the recruitment was spawned and the year in
+which those recruits are integer age 0.</p></li>
 </ul></li>
 <li><p>Timing</p>
 <ul>
@@ -6968,14 +7002,12 @@ annually at the beginning of one specified spawning season and this
 spawning biomass produced one annual total recruitment value. The annual
 recruitment value was then distributed among seasons, areas, and growth
 types according to other model parameters.</p>
-<p>Additional control of the seasonal timing was added in v.3.30 and now
-there is an explicit elapsed time between spawning and recruitment.
-Spawning still occurs, just once per year, which defines a single
-spawning biomass for the stock-recruitment curve, but its timing can be
-at any specified time, not just the beginning of a season. Recruitment
-of the progeny from an annual spawning can now enter the population in
-one or more settlement events, at some point after spawning as defined
-by the user.</p>
+<p>Additional control was added in v.3.30 which rebranded birth_seasons
+as more flexible settlement events. Spawning still occurs once per year,
+but its timing can be at any specified time, not just the beginning of a
+season. Recruitment of the progeny from an annual spawning can now enter
+the population in one or more settlement events, at some point after
+spawning as defined by the user.</p>
 <div class="center">
 <table>
 <thead>
@@ -6993,63 +7025,52 @@ by the user.</p>
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;"></td>
 <td colspan="2" style="text-align: left;">Recruitment distribution
-method. This section controls which combinations of growth pattern <span class="math inline">\(\times\)</span> area <span class="math inline">\(\times\)</span> settlement will get a portion of
-the total recruitment coming from each spawning. Options:</td>
+method. This section controls which combinations of growth pattern <span class="math inline">\(\times\)</span> area <span class="math inline">\(\times\)</span> settlement timing will get a
+portion of the total recruitment coming from each annual spawning.
+Options:</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
-<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td colspan="2" style="text-align: left;">1 = no longer available (used
 the Stock Synthesis v.3.24 or earlier setup);</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td colspan="2" style="text-align: left;">2 = main effects for growth
 pattern, settle timing, and area;</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
-<td colspan="2" style="text-align: left;">3 = each settle entity;
+<td colspan="2" style="text-align: left;">3 = each settlement platoon;
 and</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td colspan="2" style="text-align: left;">4 = none, no parameters (only
 if growth pattern <span class="math inline">\(\times\)</span> settlement
 <span class="math inline">\(\times\)</span> area = 1).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;"></td>
 <td colspan="2" style="text-align: left;">Spawner-Recruitment (not
-implement yet, but required), options:</td>
+implemented yet, but required), options:</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td colspan="2" style="text-align: left;">1 = global; and</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td colspan="2" style="text-align: left;">2 = by area (by area is not
 yet implemented; there is a conceptual challenge to doing the
 equilibrium calculation when there is fishing).</td>
-</tr>
-<tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
@@ -7067,16 +7088,20 @@ settlement assignments. Must be at least 1 even if only 1 settlement and
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
 <td style="text-align: left;"></td>
-<td colspan="2" style="text-align: left;">Future feature, not implement
-yet but required.</td>
+<td colspan="2" style="text-align: left;">Future feature, not
+implemented yet but required.</td>
 </tr>
 <tr class="odd">
+<td colspan="4" style="text-align: left;">An example settlement example
+line looks like the following:</td>
+</tr>
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">Growth Pattern</td>
 <td style="text-align: left;">Month</td>
 <td style="text-align: left;">Area</td>
 <td style="text-align: left;">Age at settlement</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;">5.5</td>
 <td style="text-align: left;">1</td>
@@ -7085,12 +7110,14 @@ yet but required.</td>
 </tbody>
 </table>
 </div>
-<p>The above example specifies settlement to mid-May (month 5.5). Note
-that normally the calendar age at settlement is 0 if settlement happens
-between the time of spawning and the end of that year, and at age 1 if
-settlement is in the year after spawning.</p>
+<p>The above example specifies settlement in mid-May (month 5.5) at a
+calendar age of 0.</p>
 <p>Below is an example setup where there are multiple settlement events,
-with one occurring the following year after spawning:</p>
+with one occurring the following year after spawning: These will be
+tracked in the numbers-at-age table as separate platoons. They also are
+separate in the body size table with the earlier settling platoon having
+a head start on growth so for given calendar date will be larger than
+later born platoons.</p>
 <div class="center">
 <table>
 <tbody>
@@ -7107,7 +7134,7 @@ settlement events</td>
 <td style="text-align: left;white-space: nowrap;">Growth Pattern</td>
 <td style="text-align: left;">Month</td>
 <td style="text-align: left;">Area</td>
-<td style="text-align: left;">Age (for each settlement assignment)</td>
+<td style="text-align: left;">Age at settlement</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
@@ -7132,23 +7159,27 @@ settlement events</td>
 </div>
 <p>Details regarding settlement of recruits and timing:</p>
 <ul>
-<li><p>Recruitment happens in specified settlement events (growth
-pattern, month, area).</p></li>
-<li><p>Number of unique settlement timings is calculated at
-runtime.</p></li>
-<li><p>Now there is explicit elapsed time between spawning and
-recruitment.</p></li>
+<li><p>The elapsed time between spawning and recruitment is calculated
+from spawn_month, settle_month, and age at settlement.</p></li>
 <li><p>Growth and natural mortality of the platoon begins at time of
-settlement, which is its real age 0.0 for growth; but pre-settlement
-fish exist from the beginning of the season of settlement, so can be
-caught if selected.</p></li>
-<li><p>Age at recruitment now user-controlled (should be 0 if in year of
-spawning).</p></li>
-<li><p>All fish become integer age 1 (for age determination) on their
-first January 1st.</p></li>
+settlement, which is its real age 0.0 for growth</p></li>
+<li><p>If a settlement is not at the beginning of a season, the numbers
+of settlers placed in the numbers-at-age table are inflated by the
+amount of natural mortality that occurs from the start of the season to
+the time of the settlement event. Note that this allows those fis to be
+caught or surveyed if their selection is &gt; 0.0.</p></li>
+<li><p>Age at settlement should be 0 if settlement month is between the
+time of spawning and the end year. It is expected to have age at
+settlement = 1 if settlement is after the first of the year. A note
+appears in the warning file if the age at settlement is not as
+expected.</p></li>
+<li><p>All fish advance their integer age on January 1st. Integer age is
+what matters for age determination.</p></li>
 <li><p>Recruitment can occur &gt; 12 months after spawning which is
-achieved by setting the settlement age to a value greater than
-1.0.</p></li>
+achieved by setting the settlement age to an integer greater than 1.
+Note that the recruitment at a settlement age of 2 or more is feasible
+but may not be handled correctly in the transition from the time series
+to the projection.</p></li>
 </ul>
 <p>The distribution of recruitment among these settlement events is
 controlled by recruitment apportionment parameters. There must be a
@@ -9786,9 +9817,15 @@ additional guidance on how to tune <span class="math inline">\(\sigma_R\)</span>
 can have a block for the initial equilibrium year, so can fully
 replicate the functionality of the previous R1 offset approach. The SR
 regime parameter is intended to have a base value of 0.0 and not be
-estimated. Similar to cohort-growth deviation, it serves simply as a
-base for adding time-varying adjustments. This concept is similar to the
-old environment effect on deviates feature in v.3.24 and earlier.</td>
+estimated (phase is negative). This prevents the model from trying to
+estimate a parameter that is designed to be a starting point for
+deviations. Similar to cohort-growth deviation, the regime parameter
+serves simply as a base for adding <a href="#SpecTVLong">time-varying
+adjustments such as blocks, trends, and environmental linkages</a>. This
+concept is similar to the old environment effect on deviates feature in
+v.3.24 and earlier. More information on the regime parameter can be
+found in the <a href="#tv-sr">Time-Varying Stock-Recruitment
+Considerations</a> section.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
@@ -11049,11 +11086,13 @@ fleet with the mirrored Q (example: fleet 3 mirror fleet 2). Requires a
 Q parameter line for the fleet but will not be used.</p></li>
 <li><p>3 = power function to allow non-linearity in the expected value
 for the index: <span class="math inline">\(y=Qx^{(1+c)}\)</span>.
-Therefore, <span class="math inline">\(c &gt; 0\)</span> leads to
-hyper-stability and <span class="math inline">\(c &lt; 0\)</span> leads
-to hyper-depletion. The power function option cannot be used with
-deviation surveys (type 35 or 36) because of negative values in the
-deviation vectors.</p></li>
+Therefore, <span class="math inline">\(c &gt; 0\)</span> means that the
+index is hypersensitive to change in the model quantity and for a given
+change in the index, the implied population change is hyperstable.
+Alternatively, <span class="math inline">\(c &lt; 0\)</span> means that
+the index changes more slowly than the population. The power function
+option cannot be used with deviation surveys (type 35 or 36) because of
+negative values in the deviation vectors.</p></li>
 <li><p>4 = mirror Q with scale (2 parameter lines required) with the
 second parameter (scale) being added to the Q being mirrored. The
 mirrored Q will be reported as base Q + scale value. Mirror in Q must
@@ -12187,15 +12226,37 @@ specified before the mirrored fleet).</p>
 <h4 data-number="8.9.3.4" id="pattern-6-size---older-non-parametric-selectivity"><span class="header-section-number">8.9.3.4</span> Pattern 6 (size) - Older
 non-parametric Selectivity</h4>
 <p><br />
-Non-parametric size selectivity uses a set of linear segments. The first
-break point is at Length = p1 and the last break point is at Length =
-p2. The total number of break points is specified by the value of the
-Special factor in the selectivity setup, so the N intervals is one less
-than the number of break points. Intermediate break points are located
-at equidistant intervals between p1 and p2. Parameters 3 to N are the
-selectivity values at the break points, entered as logistic, e.g., <span class="math inline">\(1/(1+exp(-x))\)</span>. Ramps from <span class="math inline">\(exp(-10)\)</span> to p3 if L &lt; p1. Constant at
-Np if L &gt; p2. Note that prior to version 3.03 the break points were
-specified in terms of bin number, rather than length.</p>
+Non-parametric size selectivity allows for a highly flexible,
+user-defined curve by specifying selectivity values at a series of
+length break points and linearly interpolating between them. The number
+of selectivity parameter points is set by the special factor in the
+selectivity setup so the <span class="math inline">\(N\)</span>
+intervals is one less than the number of break points.</p>
+<ul>
+<li><p>p1 is the length at which the first selectivity parameter applies
+(first break point).</p></li>
+<li><p>p2 is the length at which the last selectivity parameter applies
+(last break point).</p></li>
+<li><p>p3 through (N+2) are the log-selectivity values at each break
+point.</p></li>
+</ul>
+<p>Intermediate break points are placed at equally spaced intervals
+between the first and last points. For each length bin:</p>
+<ul>
+<li><p>If the bin is before the first break point, selectivity is
+linearly interpolated from the first bin to the first break
+point.</p></li>
+<li><p>Between break points, selectivity is linearly interpolated
+between the adjacent break point values.</p></li>
+<li><p>After the last break point, selectivity is held constant at the
+value for the last break point.</p></li>
+<li><p>The resulting selectivity curve is created by subtracting the
+<span class="math inline">\(\max(log\text{-}selex)\)</span> then
+exponentiating to create a non-parametric curve with maximum selectivity
+= 1.0: <span class="math inline">\(selex =
+\exp(interpolated\,log\text{-}selex -
+\max(interpolated\,log\text{-}selex))\)</span></p></li>
+</ul>
 <p>See also <a href="#NonParamSelectivity21">Pattern 21</a> for a newer
 non-parametric size selectivity option, and <a href="#NonParamScaling">Pattern 43</a> which is based on Pattern 6 with
 additional controls over the scaling.</p>
@@ -15681,6 +15742,12 @@ in the end year of the model.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">11</td>
 <td style="text-align: left;">MORPH_INDEXING</td>
 <td style="text-align: left;">$morph_indexing</td>
@@ -15697,18 +15764,12 @@ across platoons and sub-platoons. Note that there is no index here for
 area. Each of the cohorts is distributed across areas and they retain
 their biological characteristics as they move among areas.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Growth morph indexing</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
@@ -15758,6 +15819,12 @@ their biological characteristics as they move among areas.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">12</td>
 <td style="text-align: left;">SIZEFREQ_TRANSLATION</td>
 <td style="text-align: left;"><p>[-0.25cm]</p>
@@ -15768,18 +15835,12 @@ population length bins and the units of the defined size frequency
 method. If the method uses body weight as the accumulator, then output
 is in corresponding units.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Size frequency translation</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
@@ -15793,20 +15854,26 @@ is in corresponding units.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">13</td>
 <td style="text-align: left;">MOVEMENT</td>
 <td style="text-align: left;">$movement</td>
 <td style="text-align: left;">Movement rate between areas in a
 multi-area model.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">14</td>
 <td style="text-align: left;">EXPLOITATION</td>
 <td style="text-align: left;">$exploitation</td>
 <td style="text-align: left;">Time series of the selected <span class="math inline">\(F\text{\_std}\)</span> unit and the <span class="math inline">\(F\)</span> for each fleet in terms of harvest rate
 (if Pope’s approximation is used) or fully selected <span class="math inline">\(F\)</span>. Also included are <span class="math inline">\(\text{annual\_}F\)</span> and <span class="math inline">\(\text{annual\_}M\)</span> from <span class="math inline">\(Z = ln(N_{t+1}/N_{t})\)</span> and <span class="math inline">\(F = Z-M\)</span>.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">15</td>
 <td style="text-align: left;">CATCH</td>
 <td style="text-align: left;">$catch</td>
@@ -15814,7 +15881,7 @@ multi-area model.</td>
 ret_bio, vuln_num, sel_num, dead_num, and ret_num by fleet, area, year,
 and season</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">16</td>
 <td style="text-align: left;">TIME_SERIES</td>
 <td style="text-align: left;">$timeseries</td>
@@ -15822,7 +15889,7 @@ and season</td>
 season. Also has the same (e.g., redundant) detailed catch output as in
 the CATCH table.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">17</td>
 <td style="text-align: left;">SPR_SERIES</td>
 <td style="text-align: left;">$sprseries</td>
@@ -15830,7 +15897,7 @@ the CATCH table.</td>
 equilibrium) using the current year’s biology-at-age and fishery
 characteristics and levels.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">18</td>
 <td style="text-align: left;">Kobe_plot</td>
 <td style="text-align: left;">$Kobe (also $Kobe_warn and
@@ -15838,7 +15905,7 @@ $Kobe_MSY_basis)</td>
 <td style="text-align: left;">Reports <span class="math inline">\(B/B_{MSY}\)</span> and <span class="math inline">\(F/F_{MSY}\)</span> needed to create a Kobe
 Plot.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">19</td>
 <td style="text-align: left;">SPAWN_RECRUIT</td>
 <td style="text-align: left;">$recruit</td>
@@ -15847,10 +15914,16 @@ setup, summary statistics, and time series. The summary statistics
 include the est_rho (estimated autocorrelation) and the D-W
 (Durbin-Watson) statistic.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Spawn recruit parameters and
 table</em></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -15991,6 +16064,12 @@ same format as the length composition section.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">29</td>
 <td style="text-align: left;">FIT_SIZE_COMPS</td>
 <td style="text-align: left;"><p>[-0.25cm]</p>
@@ -15998,19 +16077,19 @@ same format as the length composition section.</td>
 <td style="text-align: left;">This generalized size composition section
 has the same format as the length composition section.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Fit size compositions</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">30</td>
 <td style="text-align: left;">OVERALL_COMPS</td>
 <td style="text-align: left;">NA</td>
@@ -16018,19 +16097,19 @@ has the same format as the length composition section.</td>
 composition data across all the samples for a given fleet. Cumulative
 vector is used for auto-placing knots of cubic spline selectivity.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Overall compositions</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">31</td>
 <td style="text-align: left;">LEN_SELEX</td>
 <td style="text-align: left;"><p>[-0.25cm]</p>
@@ -16038,13 +16117,13 @@ vector is used for auto-placing knots of cubic spline selectivity.</td>
 <td style="text-align: left;">Length selectivity and other length
 specific quantities for each fishery and survey.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Length Selectivity</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">32</td>
 <td style="text-align: left;">AGE_SELEX</td>
 <td style="text-align: left;">$ageselex</td>
@@ -16052,11 +16131,51 @@ specific quantities for each fishery and survey.</td>
 age-related quantities for each fishery and survey. Some are directly
 computed in terms of age, and others are derived from the combination of
 a length-based factor and the distribution of size-at-age. Includes
-F-at-age for fishing fleets and body weight-at-age.</td>
+F-at-age for fishing fleets and body weight-at-age with two versions of
+<span class="math inline">\(F\)</span>. One is simply labelled &quot;F&quot; and
+is based on selectivity and is the F-at-age that selects, i.e. catches
+the fish. The second is labelled &quot;Fdead&quot; and is the mortality rate
+caused by fishing. If there is no discarding or if all discarded fish
+are dead, these two values will be identical. However, if there is
+discarding and some discarded fish survive, then Fdead will be less that
+<span class="math inline">\(F\)</span>. <span class="math inline">\(F\)</span> creates the total catch (retained and
+discarded dead and discarded alive). Fdead is used in the survival
+calculations, so <span class="math inline">\(Z = M +
+Fdead\)</span>.</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"><em>Age Selectivity</em></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"><em>Age Selectivity</em></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
@@ -16120,6 +16239,12 @@ group and period, and reporting rates by fishery.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">35</td>
 <td style="text-align: left;">NUMBERS_AT_AGE</td>
 <td style="text-align: left;">$natage</td>
@@ -16130,7 +16255,7 @@ other columns. <span class="math inline">\(B\)</span> is beginning of
 the season and <span class="math inline">\(M\)</span> is the midpoint of
 the season.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">36</td>
 <td style="text-align: left;">BIOMASS_AT_AGE</td>
 <td style="text-align: left;">$batage</td>
@@ -16138,21 +16263,21 @@ the season.</td>
 each area, year, and season. Formatted the same way as the
 numbers-at-age table.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">37</td>
 <td style="text-align: left;">NUMBERS_AT_LENGTH</td>
 <td style="text-align: left;">$natlen</td>
 <td style="text-align: left;">The output is shown for each cohort
 tracked in the model.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">38</td>
 <td style="text-align: left;">BIOMASS_AT_LENGTH</td>
 <td style="text-align: left;">$batlen</td>
 <td style="text-align: left;">The output is shown for each cohort
 tracked in the model.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">39</td>
 <td style="text-align: left;">F_AT_AGE</td>
 <td style="text-align: left;">$fatage</td>
@@ -16160,7 +16285,7 @@ tracked in the model.</td>
 F-at-age for each fleet. Redundant with the F-at-age shown in the
 Age_selex table.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">40</td>
 <td style="text-align: left;">CATCH_AT_AGE</td>
 <td style="text-align: left;">$catage</td>
@@ -16168,13 +16293,13 @@ Age_selex table.</td>
 not necessary to show by area because each fleet operates in only one
 area.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">41</td>
 <td style="text-align: left;">DISCARD_AT_AGE</td>
 <td style="text-align: left;">$discard_at_age</td>
 <td style="text-align: left;">Similar to the catch-at-age report.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">42</td>
 <td style="text-align: left;">BIOLOGY</td>
 <td style="text-align: left;">$biology</td>
@@ -16183,7 +16308,7 @@ length-specific quantities in the ending year of the time series only.
 The derived quantity spawn is the product of female body weight,
 maturity and fecundity per weight.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">43</td>
 <td style="text-align: left;">Natural_Mortality</td>
 <td style="text-align: left;">$Natural_Mortality</td>
@@ -16191,7 +16316,7 @@ maturity and fecundity per weight.</td>
 year, and season. Includes <span class="math inline">\(M2\)</span> in
 models with predators.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">44</td>
 <td style="text-align: left;">AGE_SPECIFIC_K</td>
 <td style="text-align: left;">NA</td>
@@ -16199,7 +16324,7 @@ models with predators.</td>
 <span class="math inline">\(k\)</span> values for each Bio_Pattern and
 sex (if implemented in the model via growth options 3–5.)</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">45</td>
 <td style="text-align: left;">Growth_Parameters</td>
 <td style="text-align: left;">$Growth_Parameters</td>
@@ -16208,20 +16333,20 @@ and associated derived quantities for each year in which a change is
 estimated. This information overlaps with that in the MGPARM_by_year
 report.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">46</td>
 <td style="text-align: left;">Seas_Effects</td>
 <td style="text-align: left;">$Seas_Effects</td>
 <td style="text-align: left;">Table with seasonal effects on
 biology.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Seasonal effects</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">47</td>
 <td style="text-align: left;">Biology_at_age_in_endyr</td>
 <td style="text-align: left;">$endgrowth</td>
@@ -16229,7 +16354,7 @@ biology.</td>
 other quantities. As of v.3.30.21 sex ratio is reported by area in this
 output table.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">48</td>
 <td style="text-align: left;">MEAN_BODY_WT(Begin)</td>
 <td style="text-align: left;">$mean_body_wt</td>
@@ -16238,18 +16363,12 @@ mean body weight for each morph. Values shown are for the beginning of
 each season of each year. Not included are the morph descriptors as
 found in report 35.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Mean body weight (start)</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-<td style="text-align: left;"></td>
-</tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
@@ -16257,6 +16376,12 @@ found in report 35.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">49</td>
 <td style="text-align: left;">MEAN_SIZE_TIMESERIES</td>
 <td style="text-align: left;">$growthseries</td>
@@ -16264,7 +16389,7 @@ found in report 35.</td>
 length-at-age for each morph. At the bottom is the average mean size as
 the weighted average across all morphs for each sex.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">50</td>
 <td style="text-align: left;">AGE_LENGTH_KEY</td>
 <td style="text-align: left;">$ALK</td>
@@ -16273,7 +16398,7 @@ Table values for each sub-season (Subseas) of each season. Subseas = 1
 is the beginning of the season and subseas = 2 is the midpoint of the
 season. There are only 2 sub-seasons.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">51</td>
 <td style="text-align: left;">AGE_AGE_KEY</td>
 <td style="text-align: left;">$AAK</td>
@@ -16281,7 +16406,7 @@ season. There are only 2 sub-seasons.</td>
 observed ages for each true age for each of the defined ageing
 keys.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">52</td>
 <td style="text-align: left;">COMPOSITION_DATABASE</td>
 <td style="text-align: left;">Separate variables by data type:
@@ -16295,20 +16420,20 @@ arranged in a database format, rather than an array of vectors which
 enables the use of dynamic filtering when using a spreadsheet
 program.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">53</td>
 <td style="text-align: left;">SELEX_database</td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">This section contains the selectivities
 organized as a database, rather than as a set of vectors.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"><em>Selectivity database</em></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">54</td>
 <td style="text-align: left;">SPR/YPR_Profile</td>
 <td style="text-align: left;">$equil_yield</td>
@@ -16318,7 +16443,7 @@ using the biology- and selectivity-at-age from the benchmark(a.k.a.
 reference point) calculations. The SPRloop is various ways of defining a
 range of iterations to get good coverage.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">55</td>
 <td style="text-align: left;">GLOBAL_MSY</td>
 <td style="text-align: left;">NA</td>
@@ -16326,7 +16451,7 @@ range of iterations to get good coverage.</td>
 calculations using the actual fishery selectivity and by replacing with
 a range of knife-edge and per-age alternatives.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">56</td>
 <td style="text-align: left;"><code>SS_summary.sso</code></td>
 <td style="text-align: left;">Read by
@@ -16334,7 +16459,7 @@ a range of knife-edge and per-age alternatives.</td>
 <td style="text-align: left;">See <a href="#SS3Summary">Stock Synthesis
 Summary section</a>.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">57</td>
 <td style="text-align: left;"><code>rebuilder.sso</code></td>
 <td style="text-align: left;">NA</td>
@@ -16343,20 +16468,20 @@ plans. See the <a href="https://github.com/pfmc-assessments/rebuilder">Pacific F
 Management Council rebuilder code on GitHub</a> related to this
 output.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">58</td>
 <td style="text-align: left;"><code>SIStable.sso</code></td>
 <td style="text-align: left;">NA</td>
 <td style="text-align: left;">See <a href="#SIStable">SIS table
 section</a>.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">59</td>
 <td style="text-align: left;">Dynamic_Bzero</td>
 <td style="text-align: left;">$Dynamic_Bzero</td>
 <td style="text-align: left;">Dynamic <span class="math inline">\(B_{0}\)</span> report</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;">60</td>
 <td style="text-align: left;"><code>wtatage.ss_new</code></td>
 <td style="text-align: left;">$wtatage</td>
@@ -16368,7 +16493,7 @@ calculations of mean weight-at-age. SS3 generates a
 <code>wtatage.ss_new</code> file even when these biological quantities
 are generated internally from parameters.</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">61</td>
 <td style="text-align: left;">ANNUAL_TIME_SERIES</td>
 <td style="text-align: left;">$annual_time_series</td>
@@ -18329,9 +18454,8 @@ probability of <span class="math inline">\(F &gt; F_{LIMIT}\)</span>,
 SS3 calculates the expected time series of P* that would result from a
 specified harvest policy implemented as a buffer between <span class="math inline">\(F_{TARGET}\)</span> and <span class="math inline">\(F_{LIMIT}\)</span>.</p>
 <p>The sequence of multiple forecast passes is as follows:</p>
-<ol>
-<li><p>Pass 1 (a.k.a. Fcast_Loop1)</p>
-<ol>
+<p>Pass 1 (a.k.a. Fcast_Loop1)</p>
+<ul>
 <li><p>Loop Years</p>
 <ol>
 <li><p>SubLoop (a.k.a. ABC_Loop) = 1</p>
@@ -18346,9 +18470,9 @@ deviations</p></li>
 <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span> each year</p></li>
 </ol></li>
 </ol></li>
-</ol></li>
-<li><p>Pass 2</p>
-<ol>
+</ul>
+<p>Pass 2</p>
+<ul>
 <li><p>Loop Years</p>
 <ol>
 <li><p>SubLoop = 1</p>
@@ -18405,8 +18529,7 @@ policy.</p></li>
 </ul></li>
 </ol></li>
 </ol></li>
-</ol></li>
-</ol>
+</ul>
 <h4 data-number="15.3.0.2" id="example-effects-on-correlations"><span class="header-section-number">15.3.0.2</span> Example Effects on
 Correlations</h4>
 <p><br />
