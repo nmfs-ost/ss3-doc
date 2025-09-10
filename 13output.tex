@@ -60,6 +60,7 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
        & \textit{Recruitment distribution} & & \\
        & & & \\
        & & & \\
+       & & & \\
        & & & \Bstrut\\
     11 & MORPH\_INDEXING & \$morph\_indexing & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{This block shows the internal index values for various quantities. It can be a useful reference for complex model setups. Bio\_Pattern refers to a collection of cohorts with the same defined growth and natural mortality parameters; sex is the next main index. If recruitment occurs in multiple events, then settlement event is the index for that factor. The index labeled ``Platoon'' is used as a continuous index across all the other factor-specific indices. If sub-platoons are used, they are nested within the Bio\_Pattern $\times$ Sex $\times$ Birth Season platoon. However, some output tables use the column label ``platoon'' as a continuous index across platoons and sub-platoons. Note that there is no index here for area. Each of the cohorts is distributed across areas and they retain their biological characteristics as they move among areas.}} \\
        & \textit{Growth morph indexing} & & \Bstrut\\
@@ -85,6 +86,7 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
     18 & Kobe\_plot & \$Kobe (also \$Kobe\_warn and \$Kobe\_MSY\_basis) & Reports $B/B_{MSY}$ and $F/F_{MSY}$ needed to create a Kobe Plot. \Bstrut\\
     19 & SPAWN\_RECRUIT & \$recruit & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Extensive information on Spawn-recruit setup, summary statistics, and time series. The summary statistics include the est\_rho (estimated autocorrelation) and the D-W (Durbin-Watson) statistic.}} \\
        & \textit{Spawn recruit parameters and table} & & \Bstrut\\
+       & & & \\
     20 & SPAWN\_RECR\_CURVE & \$SPAWN\_RECR\_CURVE & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{A table containing values for plotting the spawn-recruit curve.}} \\ 
        & \textit{Spawn recruit curve} & & \Bstrut\\
     21 & INDEX\_1 & \$index\_variance\_tuning \_check & Table shows summary statistics for the fit to each survey or index, including the \gls{rmse} of the fit to each index compared to the mean input error level to assist the user in gauging the goodness-of-fit and potentially adjusting the input level of imprecision. \Bstrut\\
@@ -104,6 +106,7 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
        & & & \Bstrut\\
     28 & FIT\_AGE\_COMPS & \multirow{1}{1cm}[-0.25cm]{\parbox{4cm}{\$age\_comp\_fit\_table and \$Age\_Comp\_Fit\_Summary}} & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{This age composition information has the same format as the length composition section.}} \\
        & \textit{Fit age compositions} & & \\
+       & & & \\
     29 & FIT\_SIZE\_COMPS & \multirow{1}{1cm}[-0.25cm]{\parbox{4cm}{\$size\_comp\_fit\_table and \$Size\_Comp\_Fit\_Summary}} & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{This generalized size composition section has the same format as the length composition section.}} \\
        & \textit{Fit size compositions} & & \\
 	   & & & \Bstrut\\
@@ -112,8 +115,13 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
        & & & \Bstrut\\
     31 & LEN\_SELEX & \multirow{1}{1cm}[-0.25cm]{\parbox{4cm}{\$sizeselex}} & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Length selectivity and other length specific quantities for each fishery and survey.}} \\
        & \textit{Length Selectivity} & & \Bstrut\\
-    32 & AGE\_SELEX & \$ageselex & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Time series of age selectivity and other age-related quantities for each fishery and survey. Some are directly computed in terms of age, and others are derived from the combination of a length-based factor and the distribution of size-at-age. Includes F-at-age for fishing fleets and body weight-at-age.}} \\
+    32 & AGE\_SELEX & \$ageselex & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Time series of age selectivity and other age-related quantities for each fishery and survey. Some are directly computed in terms of age, and others are derived from the combination of a length-based factor and the distribution of size-at-age. Includes F-at-age for fishing fleets and body weight-at-age with two versions of $F$. One is simply labelled "F" and is based on selectivity and is the F-at-age that selects, i.e. catches the fish. The second is labelled "Fdead" and is the mortality rate caused by fishing. If there is no discarding or if all discarded fish are dead, these two values will be identical. However, if there is discarding and some discarded fish survive, then Fdead will be less that $F$. $F$ creates the total catch (retained and discarded dead and discarded alive). Fdead is used in the survival calculations, so $Z = M + Fdead$.}} \\
        & \textit{Age Selectivity} & & \\
+       & & & \\
+       & & & \\
+       & & & \\
+       & & & \\
+       & & & \\
        & & & \\
        & & & \\
        & & & \\
@@ -121,7 +129,8 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
     33 & ENVIRONMENTAL\_DATA & NA & The input values of environmental data are echoed here. Density-dependence can be used by linking to population quantities that have already been calculated at the start of the year. These include summary biomass, spawning biomass, and recruitment deviations. These three quantities are mapped into the -1, -2, and -3 columns of the environmental data matrix where they can be used as if there were environmental data input. \Bstrut\\
     34 & TAG\_Recapture & \multirow{1}{1cm}[-0.25cm]{\parbox{4cm}{\$tagrelease, \#tagsalive, \$tagtotrecap, \$tagfirstperiod, \$tagaccumperiod, and \$tagreportrates}} & \multirow{1}{1cm}[-0.25cm]{\parbox{9.5cm}{Multiple tables of information on tagged fish (if included in the model) including details on each tag group, tags alive by release group and period, total recaptures by release group and period, and reporting rates by fishery.}} \\
        & \textit{Tag recapture information} & & \\
-	   & & & \Bstrut\\
+       & & & \Bstrut\\
+	    & & & \Bstrut\\
     35 & NUMBERS\_AT\_AGE & \$natage & The abundance at age (in thousands of fish) for each area, year, and season is shown for each cohort (labelled Morph) tracked in the model. Biological identity of each Morph is in other columns. $B$ is beginning of the season and $M$ is the midpoint of the season. \Bstrut\\
     36 & BIOMASS\_AT\_AGE & \$batage & The abundance at age (in metric tons) for each area, year, and season. Formatted the same way as the numbers-at-age table. \Bstrut\\
     37 & NUMBERS\_AT\_LENGTH & \$natlen & The output is shown for each cohort tracked in the model. \Bstrut\\
