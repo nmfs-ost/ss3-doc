@@ -495,6 +495,12 @@ with parameters $L_{1}$, $L_\infty$, and $k$. The $L_\infty$ is calculated as:
 
 based on the input values of fixed age for first size-at-age ($A_1$) and fixed age for second size-at-age ($A_2$). 
 
+\hypertarget{vonBertt0}{}
+\myparagraph{Specifying the von Bertalanffy parameter t0 via Amin}
+
+Amin ($A_{1}$ in the equation previous equation) can also be used to represent the age at size 0 -- t0 in the von Bertalanffy growth function. In this approach Amin should be set to the t0 value, and thus should be less than or equal to 0 (if not, t0 > 0 can generate negative values at ages > 0, which will cause a model warning and potentially odd model behavior). In this case, the initial Lmin ($L_{1}$ in the previous equation) value for females should be set to 0 for any Amin value, which defines Amin as t0 because Lmin is 0 at Amin (\textbf{note that male Lmin values will be relative to the Amin value and could be negative}). If Lmin is not estimated, the model will return a realized t0 value equal to Amin (see the A\_a\_L0 parameter in the Growth\_parameters report 45 section of the \texttt{Report.sso} file to confirm). If the user would like to estimate Lmin for either females or males while starting at the t0 of females (i.e., Amin = t0), it is suggested that the lower bound of Lmin be set to be some negative value (e.g., -50), as the new Lmin may generate negative sizes relative to the Amin value (which is static and never estimated), but will not cause negative sizes in the estimated population as long as the estimated t0 is $<=$ 0. \textbf{It is always recommended one checks the Growth\_parameters report 45 to confirm t0 is not > 0, as this negative size generation may also influence selectivity estimation.}
+
+
 \myparagraph{Richards growth function}
 The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for a variety of growth curve shapes. The Richards growth is invoked by entering option 2 in the growth type field. The Richards growth function uses the standard growth parameters ($L_1$, $L_2$, $k$) and a fourth shape parameter $b$ that is specified after the growth coefficient $k$.
 
