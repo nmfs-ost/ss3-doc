@@ -473,12 +473,6 @@ Like the original Lorenzen options, ages will have an $M$ scaled to its body siz
 \hypertarget{Growth}{}
 \subsubsection[Growth]{\protect\hyperlink{Growth}{Growth}}
 
-\myparagraph{Timing} 
-When fish recruit at the real age of 0.0 at settlement, they have body size equal to the lower edge of the first population size bin. The fish then grow linearly until they reach a real age equal to the input value ``growth-at-age for L1'' and have a size equal to the parameter value for $L_1$ (the minimum length parameter). As they age further, they grow according the selected growth equation. The growth curve is calibrated to go through the size $L_2$ parameter when they reach the age of maximum length.
-	
-\myparagraph{Maximum Length ($Linf$)}
-If ``Growth at age for L2'' is set equal to 999, then the size at the $L_2$ parameter is used as $Linf$. 
-	
 \myparagraph{von Bertalanffy growth function}
 
 The von Bertalanffy growth curve is parameterized as:
@@ -495,11 +489,20 @@ with parameters $L_{1}$, $L_\infty$, and $k$. The $L_\infty$ is calculated as:
 
 based on the input values of fixed age for first size-at-age ($A_1$) and fixed age for second size-at-age ($A_2$). 
 
-\hypertarget{vonBertt0}{}
+\myparagraph{Growth Timing} 
+Fish recruit (settle) at the real age of 0.0 at the specified settlement month. The A1 time value (also termed Growth Amin, Amin, or $A_1$), is a time offset (in units of years) relative to that settlement date. It is the age at which the fish begin growing according to the specified growth function. The A1 and A2 values are input \hyperlink{Amin}{immediately after the control file's specification of the growth function}. The L\_at\_Amin parameter (here Lmin) is the fish body length at Amin. Three approaches are possible depending upon the value of A1.
+
+\begin{itemize}
+	\item A1 = 0: This approach is logical if the settlement month is set to the time of year where there is data to indicate the size of fish at that time, or if age-0 fish are observed in the composition data. Then the Lmin parameter sets the size at that time. If there are good data external to what is entered into SS3 to indicate the size at that time, then that information can be used to set a prior on Lmin or to fix its value. If such data are included in the model, then SS3 should be able to estimate Lmin well.
+	\item A1 > 0: This approach is logical if size-at-age data for young fish are scarce. The size-at-age at the time of settlement will be set equal to the smallest population length bin and fish will be modeled to have linear growth until they reach age = Amin when they will transition to growth according to the growth curve. \textbf{If Lmin is less than the smallest length bin, then these young fish will be declining in length-at-age until they reach Amin; SS3 issues a warning that this is occurring.}
+	\item A1 < 0: This approach is useful if you already have growth parameters that use the t0 approach, where t0 is the age at which fish are of length 0.0. With this approach, there never will be a linear growth phase because fish age will always be greater than Amin. \textbf{If Lmin is estimated when A1 < 0, the Lmin parameter could become sufficiently negative to cause negative length-at-age, which will cause erroneous calculations in the age-length key and elsewhere.} A fatal warning for negative length-at-age is applied in the preliminary calcs for each sex and morph so it is effective even when male Lmin is an offset of the female Lmin. The same test, now non-fatal, is re-applied in the report section to detect cases where an estimated Lmin causes problems. 
+\end{itemize}
+
 \myparagraph{Specifying the von Bertalanffy parameter t0 via Amin}
-
 Amin ($A_{1}$ in the equation previous equation) can also be used to represent the age at size 0 -- t0 in the von Bertalanffy growth function. In this approach Amin should be set to the t0 value, and thus should be less than or equal to 0 (if not, t0 > 0 can generate negative values at ages > 0, which will cause a model warning and potentially odd model behavior). In this case, the initial Lmin ($L_{1}$ in the previous equation) value for females should be set to 0 for any Amin value, which defines Amin as t0 because Lmin is 0 at Amin (\textbf{note that male Lmin values will be relative to the Amin value and could be negative}). If Lmin is not estimated, the model will return a realized t0 value equal to Amin (see the A\_a\_L0 parameter in the Growth\_parameters report 45 section of the \texttt{Report.sso} file to confirm). If the user would like to estimate Lmin for either females or males while starting at the t0 of females (i.e., Amin = t0), it is suggested that the lower bound of Lmin be set to be some negative value (e.g., -50), as the new Lmin may generate negative sizes relative to the Amin value (which is static and never estimated), but will not cause negative sizes in the estimated population as long as the estimated t0 is $<=$ 0. \textbf{It is always recommended one checks the Growth\_parameters report 45 to confirm t0 is not > 0, as this negative size generation may also influence selectivity estimation.}
-
+	
+\myparagraph{Maximum Length ($Linf$)}
+If ``Growth at age for L2'' is set equal to 999, then the size at the $L_2$ parameter is used as $Linf$. 
 
 \myparagraph{Richards growth function}
 The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for a variety of growth curve shapes. The Richards growth is invoked by entering option 2 in the growth type field. The Richards growth function uses the standard growth parameters ($L_1$, $L_2$, $k$) and a fourth shape parameter $b$ that is specified after the growth coefficient $k$.
@@ -560,7 +563,7 @@ A growth cessation model was developed for the application to tropical tuna spec
 	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut\\
 	\hline
 
-	\Tstrut 1 & & Growth Amin (A1): Reference age for first size-at-age L1 (post-settlement) parameter. First growth parameter is size at this age; linear growth below this. \Bstrut\\
+	\Tstrut 1 & & \hypertarget{Amin}{Growth Amin (A1):} Reference age for first size-at-age L1 (post-settlement) parameter. First growth parameter is size at this age; linear growth below this. \Bstrut\\
 	%\hline
 
 	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age L2 (post-settlement) parameter. Use 999 to treat as L infinity. \Bstrut\\
