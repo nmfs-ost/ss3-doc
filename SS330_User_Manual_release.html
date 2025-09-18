@@ -11,8 +11,8 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2025-09-10" />
-  <title>Stock Synthesis User Manual Version 3.30.24</title>
+  <meta name="dcterms.date" content="2025-09-18" />
+  <title>Stock Synthesis User Manual Version 3.30.24.1</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="html_usermanual.css" />
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -58,7 +58,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.mhchemParser=void 0;var r=fun
 <header id="title-block-header">
 <h1 class="title"><span style="color: 1.00,0.83,0.41,0.36">Stock
 Synthesis User Manual<br />
-Version 3.30.24</span></h1>
+Version 3.30.24.1</span></h1>
 <p class="author">Richard D. Methot Jr., Chantel R. Wetzel, Ian G.
 Taylor, Kathryn L. Doering,<br />
 Elizabeth F. Perl, and Kelli F. Johnson<br />
@@ -66,7 +66,7 @@ Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">September 10, 2025</p>
+<p class="date">September 18, 2025</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
@@ -95,7 +95,8 @@ format</a></li>
 <li><a href="#including-a-new-fleet-in-the-forecast" id="toc-including-a-new-fleet-in-the-forecast"><span class="toc-section-number">6.2</span> Including a New Fleet in the
 Forecast</a></li>
 <li><a href="#benchmark-calculations" id="toc-benchmark-calculations"><span class="toc-section-number">6.3</span> Benchmark Calculations</a></li>
-<li><a href="#forecast-recruitment-adjustment" id="toc-forecast-recruitment-adjustment"><span class="toc-section-number">6.4</span> Forecast Recruitment
+<li><a href="#protection-level" id="toc-protection-level"><span class="toc-section-number">6.4</span> Protection Level</a></li>
+<li><a href="#forecast-recruitment-adjustment" id="toc-forecast-recruitment-adjustment"><span class="toc-section-number">6.5</span> Forecast Recruitment
 Adjustment</a></li>
 </ul></li>
 <li><a href="#data-file" id="toc-data-file"><span class="toc-section-number">7</span> Data File</a>
@@ -2300,12 +2301,25 @@ unfished spawning biomass will automatically be used.</td>
 <td style="text-align: left;">Control Rule Cutoff</td>
 <td style="text-align: left;">Relative biomass level to unfished
 spawning biomass below which <span class="math inline">\(F\)</span> is
-set to 0 (management threshold).</td>
+set to 0 (management threshold); negative value to also invoke read of
+protection level.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;"></td>
+<td style="text-align: left;"></td>
+</tr>
+<tr class="even">
+<td style="text-align: left;white-space: nowrap;">0.30</td>
+<td style="text-align: left;">Protection Level</td>
+<td style="text-align: left;">Control rule level below which <span class="math inline">\(F\)</span> goes to 0.0001. Only read if control
+rule cutoff is negative. See the <a href="#ProtectionLevel">protection
+level section</a> for an illustration.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0.75</td>
@@ -2393,7 +2407,7 @@ input catch and redo forecast implementation error.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">3</td>
 <td style="text-align: left;"><a href="#appendB">First forecast loop
 with stochastic recruitment</a></td>
 <td style="text-align: left;">If this is set to 1 or 2, then <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span>
@@ -2963,10 +2977,26 @@ can be based on virgin spawning output or <span class="math inline">\(B_{MSY}\)<
 output for the specified range of Benchmark years, not on virgin
 spawning biomass.</p></li>
 </ul>
+<div id="ProtectionLevel">
+
+</div>
+<h2 data-number="6.4" id="protection-level"><span class="header-section-number">6.4</span> <a href="#ProtectionLevel">Protection Level</a></h2>
+<p>The protection level is used in conjunction with the control rule
+cutoff. If the control rule cutoff is negative, then the protection
+level is read and used as the biomass level below which <span class="math inline">\(F\)</span> is set to a very low value (0.0001).
+The usage of a protection level is illustrated in the figure below.</p>
+<figure id="fig:ProtectionLevel">
+<img src="data:image/png;base64,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X0wZOmqnnXYKO+ywQ+pB+x1yyCHhLW95S+pB+8T3t1133TX1oP0GDRoU+vfvn3qt15CFgmJyAAAAoFl1PeIEAADQGoITAABABYITAABABYITAABABYITAABABYITAABABYITAABABYITAABABYITAABABYITAABABYITAABABYITAABABYITAABABYJTN5k8eXJoaGjIt/79+4c777wz3bJ18+bNe+N+cZs1a1a6hXq0du3aMG7cuDeeDyNHjgyrVq1Kt7YsPt/i867pfm15DtI7lT8n4mtUW8XnXnwOel2qb+19fyt/Drb29Yzeqb3vb1F8DWq6X9y8JhE1vUfFz9Kt0ZrnoODUDeKbyrJly8KaNWtCY2NjOP/888Pxxx9f8c0l/oc+++yzwx133JHfL3698MILvSDUqfg/9GmnnZb/jxyfD3GL/4OPHTt2q28u8Xl09NFH58+7pvvFdtzX2hcTepf42hNfg37+85/nz4eVK1eG+fPntzk8TZ8+PSxfvjz1qEcdeX8rfV2K9x81alTF1zN6p/a+v0XxM1H8bOSzEqXic+qDH/xgq9+jWv0czG6gCxUKhcb4MMevTbI3iMYTTjih8SMf+Uja82bZB5nGESNGvOmYmTNn5vvj7dSX+N9+hx12aMzeFNKezc+TeFtL4nMoPt/i865Ja56D9E5N/+3LnxPxNar8+bU1Ta9tcdva84/eq73vby0dE5978TlY+v2oD+19f2vps1Ls+6xUv5peS5reo1rzmtLa56ARpy62ZMmSkD3o+V/WmgwYMCCccsop+V94W/pLSvYfKzz77LNh4sSJaU/RySefnO/P/sOmPdSL+Fw65phjwgEHHJD2hDBs2LD8LyLXXntt/teS5lx++eX5cy0+78rFvxS3dD96p+xDa1i6dGn+GlT6nIivUbvssku44YYb0p6Wxdetc889N3z3u9/NX9+oT+19f3vooYfCY489FqZMmZL2FB111FFh3bp1Yfz48WkP9aK9729QrmlGRfz8HD8rZ2Eo3bJ1rX0OCk5dLP6HiNMPBg4cmPZsFgNQDEjNado/fPjw/Gu5+H2pH/F/2Bhy4hBycwEofhCOH4hbq+nDc0vfj96r6Y8yo0ePTnu2VOm1JT4X4/SH+GZyxhlnpL3Uo468v8XzBwYNGpQ/j5rOJ4htH5DrT0fe3+IH209+8pPhiiuueGN6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" style="width:70.0%" />
+<figcaption>ABC buffer versus relative stock size. The green line shows
+the ABC buffer for a target reference point of 0.4 SSB<sub>0</sub>, a
+limit reference point of 0.2 SSB<sub>0</sub>, and default ABC buffer of
+0.85. The red line matches the green line, except there is a protection
+level at 0.3 SSB<sub>0</sub>.</figcaption>
+</figure>
 <div id="ForeSpawn">
 
 </div>
-<h2 data-number="6.4" id="forecast-recruitment-adjustment"><span class="header-section-number">6.4</span> <a href="#ForeSpawn">Forecast
+<h2 data-number="6.5" id="forecast-recruitment-adjustment"><span class="header-section-number">6.5</span> <a href="#ForeSpawn">Forecast
 Recruitment Adjustment</a></h2>
 <p>Recruitment during the forecast years sometimes needs to be set at a
 level other than that determined by the spawner-recruitment curve. One
@@ -7814,21 +7844,7 @@ mortality.</td>
 
 </div>
 <h3 data-number="8.5.2" id="growth"><span class="header-section-number">8.5.2</span> <a href="#Growth">Growth</a></h3>
-<h4 data-number="8.5.2.1" id="timing-1"><span class="header-section-number">8.5.2.1</span> Timing</h4>
-<p><br />
-When fish recruit at the real age of 0.0 at settlement, they have body
-size equal to the lower edge of the first population size bin. The fish
-then grow linearly until they reach a real age equal to the input value
-“growth-at-age for L1” and have a size equal to the parameter value for
-<span class="math inline">\(L_1\)</span> (the minimum length parameter).
-As they age further, they grow according the selected growth equation.
-The growth curve is calibrated to go through the size <span class="math inline">\(L_2\)</span> parameter when they reach the age of
-maximum length.</p>
-<h4 data-number="8.5.2.2" id="maximum-length-linf"><span class="header-section-number">8.5.2.2</span> Maximum Length (<span class="math inline">\(Linf\)</span>)</h4>
-<p><br />
-If “Growth at age for L2” is set equal to 999, then the size at the
-<span class="math inline">\(L_2\)</span> parameter is used as <span class="math inline">\(Linf\)</span>.</p>
-<h4 data-number="8.5.2.3" id="von-bertalanffy-growth-function"><span class="header-section-number">8.5.2.3</span> von Bertalanffy growth
+<h4 data-number="8.5.2.1" id="von-bertalanffy-growth-function"><span class="header-section-number">8.5.2.1</span> von Bertalanffy growth
 function</h4>
 <p><br />
 The von Bertalanffy growth curve is parameterized as:</p>
@@ -7839,7 +7855,77 @@ The von Bertalanffy growth curve is parameterized as:</p>
 L_1)}{1-e^{-k(A2-A1)}}\]</span></p>
 <p>based on the input values of fixed age for first size-at-age (<span class="math inline">\(A_1\)</span>) and fixed age for second size-at-age
 (<span class="math inline">\(A_2\)</span>).</p>
-<h4 data-number="8.5.2.4" id="richards-growth-function"><span class="header-section-number">8.5.2.4</span> Richards growth
+<h4 data-number="8.5.2.2" id="growth-timing"><span class="header-section-number">8.5.2.2</span> Growth Timing</h4>
+<p><br />
+Fish recruit (settle) at the real age of 0.0 at the specified settlement
+month. The A1 time value (also termed Growth Amin, Amin, or <span class="math inline">\(A_1\)</span>), is a time offset (in units of
+years) relative to that settlement date. It is the age at which the fish
+begin growing according to the specified growth function. The A1 and A2
+values are input <a href="#Amin">immediately after the control file’s
+specification of the growth function</a>. The L_at_Amin parameter (here
+Lmin) is the fish body length at Amin. Three approaches are possible
+depending upon the value of A1.</p>
+<ul>
+<li><p>A1 = 0: This approach is logical if the settlement month is set
+to the time of year where there is data to indicate the size of fish at
+that time, or if age-0 fish are observed in the composition data. Then
+the Lmin parameter sets the size at that time. If there are good data
+external to what is entered into SS3 to indicate the size at that time,
+then that information can be used to set a prior on Lmin or to fix its
+value. If such data are included in the model, then SS3 should be able
+to estimate Lmin well.</p></li>
+<li><p>A1 &gt; 0: This approach is logical if size-at-age data for young
+fish are scarce. The size-at-age at the time of settlement will be set
+equal to the smallest population length bin and fish will be modeled to
+have linear growth until they reach age = Amin when they will transition
+to growth according to the growth curve. <strong>If Lmin is less than
+the smallest length bin, then these young fish will be declining in
+length-at-age until they reach Amin; SS3 issues a warning that this is
+occurring.</strong></p></li>
+<li><p>A1 &lt; 0: This approach is useful if you already have growth
+parameters that use the t0 approach, where t0 is the age at which fish
+are of length 0.0. With this approach, there never will be a linear
+growth phase because fish age will always be greater than Amin.
+<strong>If Lmin is estimated when A1 &lt; 0, the Lmin parameter could
+become sufficiently negative to cause negative length-at-age, which will
+cause erroneous calculations in the age-length key and
+elsewhere.</strong> A fatal warning for negative length-at-age is
+applied in the preliminary calcs for each sex and morph so it is
+effective even when male Lmin is an offset of the female Lmin. The same
+test, now non-fatal, is re-applied in the report section to detect cases
+where an estimated Lmin causes problems.</p></li>
+</ul>
+<h4 data-number="8.5.2.3" id="specifying-the-von-bertalanffy-parameter-t0-via-amin"><span class="header-section-number">8.5.2.3</span> Specifying the von
+Bertalanffy parameter t0 via Amin</h4>
+<p><br />
+Amin (<span class="math inline">\(A_{1}\)</span> in the von Bertalanffy
+equation) can also be used to represent the age at size 0 – t0 in the
+von Bertalanffy growth function. In this approach Amin should be set to
+the t0 value, and thus should be less than or equal to 0 (if not, t0
+&gt; 0 can generate negative values at ages &gt; 0, which will cause a
+model warning and potentially odd model behavior). In this case, the
+initial Lmin (<span class="math inline">\(L_{1}\)</span> in the previous
+equation) value for females should be set to 0 for any Amin value, which
+defines Amin as t0 because Lmin is 0 at Amin (<strong>note that male
+Lmin values will be relative to the Amin value and could be
+negative</strong>). If Lmin is not estimated, the model will return a
+realized t0 value equal to Amin (see the A_a_L0 parameter in the
+Growth_parameters report 45 section of the <code>Report.sso</code> file
+to confirm). If the user would like to estimate Lmin for either females
+or males while starting at the t0 of females (i.e., Amin = t0), it is
+suggested that the lower bound of Lmin be set to be some negative value
+(e.g., -50), as the new Lmin may generate negative sizes relative to the
+Amin value (which is static and never estimated), but will not cause
+negative sizes in the estimated population as long as the estimated t0
+is <span class="math inline">\(&lt;=\)</span> 0. <strong>It is always
+recommended one checks the Growth_parameters report 45 to confirm t0 is
+not &gt; 0, as this negative size generation may also influence
+selectivity estimation.</strong></p>
+<h4 data-number="8.5.2.4" id="maximum-length-linf"><span class="header-section-number">8.5.2.4</span> Maximum Length (<span class="math inline">\(Linf\)</span>)</h4>
+<p><br />
+If “Growth at age for L2” is set equal to 999, then the size at the
+<span class="math inline">\(L_2\)</span> parameter is used as <span class="math inline">\(Linf\)</span>.</p>
+<h4 data-number="8.5.2.5" id="richards-growth-function"><span class="header-section-number">8.5.2.5</span> Richards growth
 function</h4>
 <p><br />
 The <span class="citation" data-cites="richards1959growth">Richards
@@ -7869,7 +7955,7 @@ shapes.</p>
 <p>The SS3 website includes <a href="https://nmfs-ost.github.io/ss3-website/qmds/richards_growth_curve.html">a
 vignette</a> providing further technical insights for using the Richards
 growth model in Stock Synthesis.</p>
-<h4 data-number="8.5.2.5" id="mean-size-at-maximum-age"><span class="header-section-number">8.5.2.5</span> Mean size-at-maximum
+<h4 data-number="8.5.2.6" id="mean-size-at-maximum-age"><span class="header-section-number">8.5.2.6</span> Mean size-at-maximum
 age</h4>
 <p><br />
 The mean size of fish in the max age bin depends upon how close the
@@ -7887,7 +7973,7 @@ already at maximum age and the size of fish just graduating into maximum
 age. Unfortunately, this updating is only happening in years with
 time-varying growth. This will hopefully be fixed in the future
 version.</p>
-<h4 data-number="8.5.2.6" id="age-specific-k"><span class="header-section-number">8.5.2.6</span> Age-specific K</h4>
+<h4 data-number="8.5.2.7" id="age-specific-k"><span class="header-section-number">8.5.2.7</span> Age-specific K</h4>
 <p><br />
 This option creates age-specific K multipliers for each age of a
 user-specified age range, with independent multiplicative factors for
@@ -7906,7 +7992,7 @@ the age-varying K.</p>
 <div id="GrowthCessation">
 
 </div>
-<h4 data-number="8.5.2.7" id="growth-cessation"><span class="header-section-number">8.5.2.7</span> Growth cessation</h4>
+<h4 data-number="8.5.2.8" id="growth-cessation"><span class="header-section-number">8.5.2.8</span> Growth cessation</h4>
 <p><br />
 A growth cessation model was developed for the application to tropical
 tuna species <span class="citation" data-cites="maunder-growth-2018">(Mark N. Maunder et al. 2018)</span>.
@@ -7995,9 +8081,12 @@ line which is the parameter related to the maximum growth rate.</td>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;"></td>
-<td style="text-align: left;">Growth Amin (A1): Reference age for first
-size-at-age L1 (post-settlement) parameter. First growth parameter is
-size at this age; linear growth below this.</td>
+<td style="text-align: left;"><div id="Amin">
+<p>Growth Amin (A1):</p>
+</div>
+<p>Reference age for first size-at-age L1 (post-settlement) parameter.
+First growth parameter is size at this age; linear growth below
+this.</p></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">25</td>
@@ -18171,7 +18260,7 @@ on processes within SS3 is provided.</p>
 </div>
 <h2 data-number="15.1" id="jitter"><span class="header-section-number">15.1</span> <a href="#Jitter">Jitter</a></h2>
 <p>The following steps are now performed to determine the jittered
-starting parameter values (illustrated in Figure <a href="#fig:jitter" data-reference-type="ref" data-reference="fig:jitter">3</a>):</p>
+starting parameter values (illustrated in Figure <a href="#fig:jitter" data-reference-type="ref" data-reference="fig:jitter">4</a>):</p>
 <ol>
 <li><p>A normal distribution is calculated such that the <span class="math inline">\(pr(P_{MIN}) = 0.1\%\)</span> and the <span class="math inline">\(pr(P_{MAX}) = 99.9\%\)</span>.</p></li>
 <li><p>A jitter shift value, termed “<span class="math inline">\(K\)</span>”, is calculated from the distribution
@@ -19088,9 +19177,9 @@ prior to end year + 1.</p>
 </div>
 <figcaption>Time series of standard error estimates for the natural log
 recruitment deviations for darkblotched rockfish with 95% uncertainty
-intervals. As in Figure <a href="#fig:recdevs" data-reference-type="ref" data-reference="fig:recdevs">7</a>, the black color indicates the main
+intervals. As in Figure <a href="#fig:recdevs" data-reference-type="ref" data-reference="fig:recdevs">8</a>, the black color indicates the main
 recruitment period. This period with lower standard error is associated
-with higher variability among deviations (Figure <a href="#fig:recdevs" data-reference-type="ref" data-reference="fig:recdevs">7</a>). The red
+with higher variability among deviations (Figure <a href="#fig:recdevs" data-reference-type="ref" data-reference="fig:recdevs">8</a>). The red
 line at 0.75 indicates the <span class="math inline">\(\sigma_R\)</span>
 value in this model.</figcaption>
 </figure>
@@ -19100,7 +19189,7 @@ value in this model.</figcaption>
 </p>
 </div>
 <figcaption>Transformation of the standard error estimates (shown in
-Figure <a href="#fig:recSE" data-reference-type="ref" data-reference="fig:recSE">8</a>) for darkblotched rockfish following
+Figure <a href="#fig:recSE" data-reference-type="ref" data-reference="fig:recSE">9</a>) for darkblotched rockfish following
 the approach suggested by <span class="citation" data-cites="methot-adjusting-2011">Methot and Taylor (2011)</span>.
 These values were used to set the 5 values controlling the degree of
 bias adjustment (as a fraction of <span class="math inline">\(\sigma_R/2\)</span>) to account for differences in
@@ -19112,7 +19201,7 @@ starting in 2013.08. Note that these values controlling the bias
 adjustment need not be integer year values. Also, the break points in
 the bias adjustment function need not match the break points between
 early, main, and late/forecast recruitment deviation vectors (indicated
-by blue and black colors in Figures <a href="#fig:recdevs" data-reference-type="ref" data-reference="fig:recdevs">7</a> and <a href="#fig:recSE" data-reference-type="ref" data-reference="fig:recSE">8</a>). The blue line indicates a functional
+by blue and black colors in Figures <a href="#fig:recdevs" data-reference-type="ref" data-reference="fig:recdevs">8</a> and <a href="#fig:recSE" data-reference-type="ref" data-reference="fig:recSE">9</a>). The blue line indicates a functional
 form that minimizes the sum of squared differences between the bias
 adjustment function and the transformed standard error values. The
 subtle differences between red and blue lines are unlikely to have any
