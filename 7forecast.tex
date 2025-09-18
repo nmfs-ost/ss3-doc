@@ -185,8 +185,12 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
 
   \pagebreak
   \hline
-  0.10 \Tstrut & Control Rule Cutoff & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Relative biomass level to unfished spawning biomass below which $F$ is set to 0 (management threshold).}} \\
+  0.10 \Tstrut & Control Rule Cutoff & \multirow{1}{1cm}[-0.2cm]{\parbox{12cm}{Relative biomass level to unfished spawning biomass below which $F$ is set to 0 (management threshold); negative value to also invoke read of protection level.}} \\
     & & \\
+    & & \\
+
+  \hline
+  0.30 \Tstrut & Protection Level & Control rule level below which $F$ goes to 0.0001. Only read if control rule cutoff is negative. See the \hyperlink{ProtectionLevel}{protection level section} for an illustration. \Bstrut\\
 
   \hline
   % \pagebreak
@@ -212,7 +216,6 @@ The term COND appears in the ``Typical Value'' column of this documentation (it 
     & 3 = set catches equal to control rule or input catch and redo forecast implementation error. & \Bstrut\\
 
   \hline
-  \pagebreak
   3 \Tstrut & \hyperlink{appendB}{First forecast loop with stochastic recruitment} & \multirow{1}{1cm}[-0.25cm]{\parbox{12cm}{If this is set to 1 or 2, then \gls{ofl} and \gls{abc} will be calculated as if there was perfect knowledge about future recruitment deviations. If running a long forecast (e.g., 10-100 years) it is recommended to run without recruitment deviations because running long forecasts where recruitment deviations aren't turned on until loop 3 may have poor results (e.g., crashed stock), especially if below mean forecast recruitment is assumed (via \hyperlink{FcastRecruitment}{Base recruitment in forecast} option, next input line).}} \Bstrut\\
     & & \\
     & & \\
@@ -395,6 +398,16 @@ The concept of unfished spawning biomass, (written as SSB\_unfished in SS3 input
 	\item In reporting the time series of depletion level, the denominator can be based on virgin spawning output or $B_{MSY}$. Note that $B_{MSY}$ is based on unfished spawning output for the specified range of Benchmark years, not on virgin spawning biomass.
 \end{itemize}
 
+\hypertarget{ProtectionLevel}{}
+\subsection[Protection Level]{\protect\hyperlink{ProtectionLevel}{Protection Level}}
+The protection level is used in conjunction with the control rule cutoff. If the control rule cutoff is negative, then the protection level is read and used as the biomass level below which $F$ is set to a very low value (0.0001). The usage of a protection level is illustrated in the figure below. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth]{images/ProtectionLevel.png}
+    \caption{ABC buffer versus relative stock size. The green line shows the ABC buffer for a target reference point of 0.4 SSB\textsubscript{0}, a limit reference point of 0.2 SSB\textsubscript{0}, and default ABC buffer of 0.85. The red line matches the green line, except there is a protection level at 0.3 SSB\textsubscript{0}.}
+    \label{fig:ProtectionLevel}
+\end{figure}
 
 \hypertarget{ForeSpawn}{}
 \subsection[Forecast Recruitment Adjustment]{\protect\hyperlink{ForeSpawn}{Forecast Recruitment Adjustment}}
