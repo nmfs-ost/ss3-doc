@@ -396,7 +396,7 @@ M_{a,s} = M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda} +
 
 where $M_{juv,s}$ (juvenile natural mortality), $\lambda$ (power), $L_{mat*,s}$ (first mature length of fish), and $M_{mat,s}$ (the mature instantaneous natural mortality rate by sex, are user inputs in long parameter lines. For sub-option 1, $L_{50}$ and $\beta$ (slope) parameters taken from the maturity relationship within the model, which must use maturity-fecundity option 1. For sub-option 3, the $L_{50,s}$ (the length at which 50\% of fish are mature) and $\beta$ (slope) parameters are specified in long parameter lines by the user.
 
-Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will fix the parameter as same as the female parameter. Alternatively, using offset option 1 and setting males to 0.0 and not estimating the parameter fixes the parameter at the value of the female parameter (the \hyperlink{male-shortcut}{section on fixing male parameters the same as female parameters} has more details). This fulfills an additional assumption: $M$ caused by reproduction may differ by sex, but juvenile $M$ is independent of sex.
+Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will fix the parameter as same as the female parameter. Alternatively, using offset option 1 and setting males to 0.0 and not estimating the parameter fixes the parameter at the value of the female parameter (the section on \hyperlink{male-shortcut}{fixing male parameters the same as female parameters} has more details). This fulfills an additional assumption: $M$ caused by reproduction may differ by sex, but juvenile $M$ is independent of sex.
 
 The length for a given age and sex, $L_{a,s}$ is calculated within the model.
 
@@ -700,7 +700,7 @@ The \hyperlink{SexRatio}{fraction female} parameter should be configured to refl
 \end{longtable}
 \vspace*{-\baselineskip}
 
-The hermaphroditism option requires three full parameter lines in the \hyperlink{HermaphroditeBiology}{mortality and growth section}. These parameters control a cumulative normal distribution function as follows:
+The hermaphroditism option requires three full parameter lines in the \hyperlink{HermaphroditeBiology}{mortality and growth} section. These parameters control a cumulative normal distribution function as follows:
 \begin{enumerate}
 	\item The inflection age where the transition rate is halfway from 0 to its asymptote.
 	\item The standard deviation of the cumulative normal (such that about 95\% of the increase in transition rate occurs within 2 standard deviations of the inflection point).
@@ -972,7 +972,7 @@ The model allows a short-cut for males to use the same parameter values as femal
 
 \hypertarget{TVParams}{}
 \subsubsection[Time-varying Parameters]{\protect\hyperlink{TVParams}{Time-varying Parameters}}
-Please see \hyperlink{tvOrder}{the Time-Varying Parameter Specification and Setup section} for details on how to set up time varying parameters. In short, additional short parameter lines will be needed after the long parameter lines. There are some \hyperlink{tvgrowth}{additional considerations} for time-varying growth.
+Please see the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section for details on how to set up time-varying parameters. In short, additional short parameter lines will be needed after the long parameter lines. There are some \hyperlink{tvgrowth}{additional considerations} for time-varying growth.
 
 \hypertarget{SeasBio}{}
 \subsubsection[Seasonal Biology Parameters]{\protect\hyperlink{SeasBio}{Seasonal Biology Parameters}}
@@ -1318,7 +1318,7 @@ Simulation studies conducted by \citet{methot-adjusting-2011} compared three met
 			& 	   & -3: bias adjustment set to 0 for all model and forecast years. \\
 
 	\Tstrut & 0    & Period For Recruitment Cycles: \\
-			&      & Use this when the model is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level. If value is > 0, then read that number of full parameter lines below define the recruitment cycle. See more information on setting up seasons as years model in the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment section}. \\
+			&      & Use this when the model is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level. If value is > 0, then read that number of full parameter lines below define the recruitment cycle. See more information on setting up seasons as years model in the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment} section. \\
 	
 	\Tstrut & -5   & Minimum Recruitment Deviation: Min value for recruitment deviation. \\
 			&	   & Negative phase = Default value. \\
@@ -1369,7 +1369,7 @@ The correct offset (bias adjustment) to apply to the expected value for recruitm
 	b_y=\frac{E\Big( SD(\hat{r}_y)\Big)^2}{\sigma^2_R}=1-\frac{SE(\hat{r}_y)^2}{\sigma^2_R}
 \end{equation}
 
-\noindent of the offset then depends upon the partitioning of $\sigma_R$ into between and within recruitment variability. The most appropriate degree of bias adjustment can be approximated from the relationship among $\sigma_R$, recruitment variability (the signal), and recruitment residual error. Because the quantity and quality of data varies during a time series, the user can control the rate at which the offset is ramped in during the early, data-poor years, and then ramped back to zero for the forecast years. On output, the mean bias adjustment during the early and main eras is calculated, comparing this value to the \gls{rmse} of estimated recruitment deviations in the \texttt{Report.sso} file. A warning is generated if the \gls{rmse} is small and the bias adjustment is larger than 2.0 times the ratio of $RMSE^2$ to $\sigma^2_R$. Additional information on recruitment bias adjustment can be found in the \hyperlink{BiasCorrect}{Recruitment Variability and Bias Correction section}.
+\noindent of the offset then depends upon the partitioning of $\sigma_R$ into between and within recruitment variability. The most appropriate degree of bias adjustment can be approximated from the relationship among $\sigma_R$, recruitment variability (the signal), and recruitment residual error. Because the quantity and quality of data varies during a time series, the user can control the rate at which the offset is ramped in during the early, data-poor years, and then ramped back to zero for the forecast years. On output, the mean bias adjustment during the early and main eras is calculated, comparing this value to the \gls{rmse} of estimated recruitment deviations in the \texttt{Report.sso} file. A warning is generated if the \gls{rmse} is small and the bias adjustment is larger than 2.0 times the ratio of $RMSE^2$ to $\sigma^2_R$. Additional information on recruitment bias adjustment can be found in the \hyperlink{BiasCorrect}{Recruitment Variability and Bias Correction} section.
 
 In \gls{mcmc} mode, the model still draws recruitment deviations from the log-normal distribution, so the full offset is used such that the expected mean recruitment from this log-normal distribution will stay equal to the mean from the spawner-recruitment curve. When the model reaches the \gls{mcmc} and MCEVAL phases, all bias adjustment values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full log-normal distribution of each recruitment.
 
