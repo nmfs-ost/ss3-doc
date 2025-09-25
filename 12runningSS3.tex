@@ -39,10 +39,10 @@ On all operating systems, a copy of the SS3 executable can either be located in 
 
 Often there is a need to run the model with no estimation. Alternative methods to run SS3 without estimating parameters are documented in the \hyperlink{NoEst}{Running Without Estimation section}. 
 
-As of \gls{admb} 12.3, a new command called \texttt{-hess\_step} is available to use and documented in the \hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}
+As of \gls{admb} 12.3, a new command called \texttt{-hess\_step} is available to use and documented in the \hyperlink{hess-step}{Using \texttt{-hess\_step} to Do Additional Newton Steps Using the Inverse Hessian}
 
 \hypertarget{DOS}{}
-\subsubsection[Example of DOS batch input file]{\protect\hyperlink{DOS}{Example of DOS batch input file}}
+\subsubsection[Example of DOS Batch Input File]{\protect\hyperlink{DOS}{Example of DOS Batch Input File}}
 One file management approach is to put \texttt{ss3.exe} in its own folder (example:  C:\textbackslash SS3\_model) and to put your input files in separate folder (example:  C:\textbackslash My Documents \textbackslash SS3\_runs). Then a DOS batch file in the SS3\_runs folder can be run at the command line to start \texttt{ss3.exe}. All output will appear in SS3\_runs folder.
 
 A DOS batch file (e.g., \texttt{SS3.bat}) might contain some explicit \gls{admb} commands, some implicit commands, and some DOS commands:
@@ -157,7 +157,7 @@ There may be instances that a user would like to generate the \texttt{.ss\_new} 
 where -1 is the maximum phase for the model to run through (e.g., can be other values if a user would like to only run through a specific parameter phase). This approach will create all the new files with the \texttt{starter.ss\_new} reflecting the original maxphase value in the \texttt{starter.ss} file. This approach is available in v.3.30.16 and later.
 
 \hypertarget{hess-step}{}
-\subsubsection[Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian]{\protect\hyperlink{hess-step}{Using \texttt{-hess\_step} to do additional Newton steps using the inverse Hessian}}
+\subsubsection[Using \texttt{-hess\_step} to Do Additional Newton Steps Using the Inverse Hessian]{\protect\hyperlink{hess-step}{Using \texttt{-hess\_step} to Do Additional Newton Steps Using the Inverse Hessian}}
 
 The optimizer in \gls{admb} is designed to run until the maximum absolute gradient (mag) is small enough (e.g., 1e-05), after which it quits and does the uncertainty calculations. But if run for longer it cannot appreciably decrease this mag. In many cases it is interesting or advisable to get closer to the mode to confirm convergence of the model. 
 
@@ -212,7 +212,7 @@ Model runs can be restarted from a previously estimated set of parameter values.
 As of v.3.30.19, users can optionally send \texttt{.sso} and \texttt{.ss\_new} extension files to subfolders. To send files with a \texttt{.sso} extension to a subfolder within the model folder, create a subfolder called sso before running the model. To send files with a \texttt{.ss\_new} extension to a separate subfolder, create a folder called ssnew before running the model.
 
 \hypertarget{SS3inPath}{}
-\subsection[Putting Stock Synthesis in your PATH]{\protect\hyperlink{SS3inPath}{Putting Stock Synthesis in your PATH}}
+\subsection[Putting Stock Synthesis in Your PATH]{\protect\hyperlink{SS3inPath}{Putting Stock Synthesis in Your PATH}}
 Instead of copying the SS3 executable to each model folder, SS3 can be put in your system path, which is a list of folders that your operating system looks in whenever you type the name of a program on the command line. This approach saves on storage space since the SS3 binary (i.e., the SS3 executable or exe) is about 2.2 MB and having it located in each folder can be prohibitive in a large-scale simulation testing study. Even if you are not running a large simulation study, putting SS3 in your path may still be convenient, as you can use the same executable on many models, there is no need to specify a full file path to the executable each time you run a model, and no need to create a batch file that refers to the executable's location.
 
 \hypertarget{Unix}{}
