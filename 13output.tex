@@ -157,9 +157,9 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
        & \textit{Selectivity database} & & \Bstrut\\
     54 & SPR/YPR\_Profile & \$equil\_yield & This table displays per recruit quantities across a range of $F$ levels and using the biology- and selectivity-at-age from the benchmark(a.k.a. reference point) calculations. The SPRloop is various ways of defining a range of iterations to get good coverage. \Bstrut\\
     55 & GLOBAL\_MSY & NA & This table show \gls{msy} calculations using the actual fishery selectivity and by replacing with a range of knife-edge and per-age alternatives. \Bstrut\\
-    56 & \texttt{SS\_summary.sso} & Read by \texttt{SS\_read\_summary()} & See \hyperlink{SS3Summary}{Stock Synthesis Summary section}. \Bstrut\\
+    56 & \texttt{SS\_summary.sso} & Read by \texttt{SS\_read\_summary()} & See \hyperlink{SS3Summary}{Stock Synthesis Summary} section. \Bstrut\\
     57 & \texttt{rebuilder.sso} & NA & Specific to the U.S. West Coast rebuilding plans. See the \href{https://github.com/pfmc-assessments/rebuilder}{Pacific Fishery Management Council rebuilder code on GitHub} related to this output. \Bstrut\\
-    58 & \texttt{SIStable.sso} & NA & See \hyperlink{SIStable}{SIS table section}. \Bstrut\\
+    58 & \texttt{SIStable.sso} & NA & See \hyperlink{SIStable}{SIS table} section. \Bstrut\\
     59 & Dynamic\_Bzero & \$Dynamic\_Bzero & Dynamic $B_{0}$ report \Bstrut\\
     60 & \texttt{wtatage.ss\_new} & \$wtatage & Contains mean weight-at-age for the population and each fleet as well as maturity $\times$ fecundity. For models that use the \texttt{wtatage.ss} file as an input, the values will match. For models with parametric growth, the values will be based on internal calculations of mean weight-at-age. SS3 generates a \texttt{wtatage.ss\_new} file even when these biological quantities are generated internally from parameters. \Bstrut\\
     61 & ANNUAL\_TIME\_SERIES & \$annual\_time\_series & Table shows the annual abundance at the beginning of each year (collapses all areas) and the total catch across all fleets. \\ 
@@ -246,7 +246,7 @@ In addition to the $F\_std$ and $\text{annual\_}F$ outputs, info on total $F\tex
 	\end{verbatim}
 \end{quote}
 
-A more detailed report provides $Z$ for each area, bio group (sex, morph, platoon) and age. It is titled something like ``Report\_Z\_by\_area\_morph\_platoon\_1 No\_fishery''. This table is done with and without the $F$ turned on, so that pair pf reports could be processed to get total $F$ by area, bio, age.
+A more detailed report provides $Z$ for each area, bio group (sex, morph, platoon) and age. It is titled something like ``Report\_Z\_by\_area\_morph\_platoon\_1 No\_fishery''. This table is done with and without the $F$ turned on, so that pair of reports could be processed to get total $F$ by area, bio, age.
 
 \myparagraph{Relative $F$ and $F\text{mult}$}
 The $F'$ is fleet-specific, so it is useful to have a concept of relative $F$, $\text{rel}F_f$, among fleets. In SS3, $\text{rel}F_f= F_{t,f}'/\sum_{f}^{}F_{t,f}'$ for a single time period $t$. In the benchmark and forecast routines, SS3 can calculate $\text{rel}F_f$ using $F_{t,f}'$ over a range of years, or the user can input custom $\text{rel}F$ values for benchmark and forecast in the \texttt{forecast.ss} file. Note that in a multi-season model setup, $\text{rel}F_f$ is implemented as $\text{rel}F_{s,f}$ where $s$ is the season. These get multiplied by season duration as they are used.

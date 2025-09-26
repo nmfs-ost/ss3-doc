@@ -217,7 +217,7 @@ Details regarding settlement of recruits and timing:
 	\begin{itemize}
 		\item The  elapsed time between spawning and recruitment is calculated from spawn\_month, settle\_month, and age at settlement.
 		\item Growth and natural mortality of the platoon begins at time of settlement, which is its real age 0.0 for growth
-		\item If a settlement is not at the beginning of a season, the numbers of settlers placed in the numbers-at-age table are inflated by the amount of natural mortality that occurs from the start of the season to the time of the settlement event. Note that this allows those fis to be caught or surveyed if their selection is > 0.0.
+		\item If a settlement is not at the beginning of a season, the numbers of settlers placed in the numbers-at-age table are inflated by the amount of natural mortality that occurs from the start of the season to the time of the settlement event. Note that this allows those fish to be caught or surveyed if their selection is > 0.0.
 		\item Age at settlement should be 0 if settlement month is between the time of spawning and the end year. It is expected to have age at settlement = 1 if settlement is after the first of the year. A note appears in the warning file if the age at settlement is not as expected.
 		\item All fish advance their integer age on January 1st. Integer age is what matters for age determination.
 		\item Recruitment can occur > 12 months after spawning which is achieved by setting the settlement age to an integer greater than 1. Note that the recruitment at a settlement age of 2 or more is feasible but may not be handled correctly in the transition from the time series to the projection.		
@@ -968,7 +968,7 @@ Parameters marked with COND are conditional on selecting that feature:
 
 \hypertarget{male-shortcut}{}
 \myparagraph{Setting Male Parameters Equal to Females}
-The model allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2), and the growth coefficient (K) when using offset option = 1 (the \hyperlink{offset}{offset section} has information on the options available). If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the corresponding female parameter value for the males.
+The model allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2), and the growth coefficient (K) when using offset option = 1 (the \hyperlink{offset}{offset} section has information on the options available). If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the corresponding female parameter value for the males.
 
 \hypertarget{TVParams}{}
 \subsubsection[Time-varying Parameters]{\protect\hyperlink{TVParams}{Time-varying Parameters}}
@@ -1522,7 +1522,7 @@ Read a short parameter setup line for each fishery and season when there is non-
 
 If there is catch, then give a starting value greater than zero, and it generally is best to estimate the parameter in phase 1. The initial $F$ parameter lines are ordered as shown in the example below - by season, then within a season, by fleet.
 
-If the initial equilibrium catch is near \gls{msy}, than a logical inconsistency may occur as documented in the \hyperlink{EquilRecr}{Equilibrium Recruitment section}. 
+If the initial equilibrium catch is near \gls{msy}, then a logical inconsistency may occur as documented in the \hyperlink{EquilRecr}{Equilibrium Recruitment} section. 
 
 It is possible to use the initial $F$ method to achieve an estimate of the initial equilibrium $Z$ in cases where the initial equilibrium catch is unknown. To do this requires 2 changes to the input files:
 \begin{enumerate}
@@ -1579,7 +1579,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 	\item \hypertarget{link_info}{Extra input for link information (i.e., mirror fleet or dev index number)}
 	\begin{enumerate}[label=(\alph*)]
 		\item > 0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number).
-		\item If an index of a deviation vector , option 35, use this column to enter the index of the deviation vector to which the index is related. For example, if only using one index in your model, this number would be 1.
+		\item If an index of a deviation vector, option 35, use this column to enter the index of the deviation vector to which the index is related. For example, if only using one index in your model, this number would be 1.
 		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
 		\begin{itemize}
 			\item 0 = add 1 to phases of all parameters. Only $R_{0}$ active in new phase 1. Mimics the default option of previous model versions;
@@ -2106,7 +2106,7 @@ where
 \myparagraph{Pattern 21 (size) - Newer non-parametric selectivity}
 Non-parametric size selectivity which uses a set of linear segments like Pattern 6, but you have full control over the break points (as opposed to equidistant points over a specified range) and the parameters represent the absolute selectivity without the logistic transformation used in Pattern 6. This allows direct input of an empirical selectivity vector as fixed parameters if desired. The Special column in the selectivity setup specifies the number of break points where the required number of parameter lines is twice this value, with the first set of N parameters providing the length at each break point (which should be fixed via a negative phase) and the second set of N provides the absolute selectivity at each point. 
 
-All of the selectivity parameters must to be non-negative, having a lower bound at 0 (or higher). There is no rescaling to ensure a maximum of 1.0. Therefore it may make sense to have upper bounds at 1.0. Alternatively, a prior centered at 1.0 could be added to the parameter associated with a length bin which is expected to have peak selectivity. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
+All of the selectivity parameters must be non-negative, having a lower bound at 0 (or higher). There is no rescaling to ensure a maximum of 1.0. Therefore it may make sense to have upper bounds at 1.0. Alternatively, a prior centered at 1.0 could be added to the parameter associated with a length bin which is expected to have peak selectivity. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
 
 Selectivity ramps linearly from the origin up to the first selectivity parameter at the first break point and is constant beyond the last break point.
 
@@ -2506,7 +2506,7 @@ This features combines a baseline parametric selectivity per existing options wi
 
 There are a range of controls for this feature. The deviations can be applied to either the age selectivity or the length selectivity over a specified range of ages (or lengths) and years. The variance of the devs can be the same for all ages, or can be age-specific up to a specified age, then constant variance for all older ages that are within the 2DAR range. Ages outside the 2DAR range revert to the parametric selectivity. The user can select a range of years for which devs will be created and can specify whether selectivity for years outside this range revert to the parametric selectivity or continue with the semi-parametric from the terminal year with devs; thus devs could be defined for just one year, the first year, then mirrored for all subsequent years. Finally, the controls allow for there to be a user-specified level of auto-correlation along the age dimension separate from a user-specified level of auto-correlation in the year dimension.
 
-The 2DAR option has not yet been explored adequately to provide guidance on best practices. However, a preliminary guidance includes the following. When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the 2DAR deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic or exponential logistic would be a reasonable choice. With regard to the variability, never estimate the sigma parameters as estimates will biased toward zero. Setting the sigma near 1.0 is advised as an initial default unless the user explicitly determines superior performance of a different value.
+The 2DAR option has not yet been explored adequately to provide guidance on best practices. However, a preliminary guidance includes the following. When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the 2DAR deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic or exponential logistic would be a reasonable choice. With regard to the variability, never estimate the sigma parameters as estimates will be biased toward zero. Setting the sigma near 1.0 is advised as an initial default unless the user explicitly determines superior performance of a different value.
 
 \begin{tabular}{p{2cm} p{14cm}}
 	\hline
