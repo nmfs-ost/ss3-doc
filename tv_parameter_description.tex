@@ -28,7 +28,7 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
            \item $min(P_{base})$ = the minimum parameter bound of base parameter
            \item $max(P_{base})$ = the maximum parameter bound of base parameter
         \end{itemize}
-		\item The variable options (tens and ones place, or $E_{y}$) for the env\_var\&link input are either 1) a positive integer from 1 to 99 referencing a time series located in the \hyperlink{env-dat}{environmental data section} of the data file, or 2) a negative value of -1 to -4 where $E_y$ is one of the following model-derived quantities:
+		\item The variable options (tens and ones place, or $E_{y}$) for the env\_var\&link input are either 1) a positive integer from 1 to 99 referencing a time series located in the \hyperlink{env-dat}{environmental data} section of the data file, or 2) a negative value of -1 to -4 where $E_y$ is one of the following model-derived quantities:
 		\begin{itemize}
 			\item -1;  for ln(relative spawning biomass)
 			\item -2;  for recruitment deviation
@@ -96,7 +96,7 @@ In all cases, 3 parameters are estimated and hence 3 short parameter lines are r
 The input value options for element 13 are:
 	\begin{itemize}
 % TODO: add more information about how the above equation relates to theoptions -1 and -3.
-		\item > 0: time block index for parameter. See the \hyperlink{timeblocks}{time blocks section} of the control file for more information on specifying time blocks.
+		\item > 0: time block index for parameter. See the \hyperlink{timeblocks}{time blocks} section of the control file for more information on specifying time blocks.
 		\item -1: Trend Offset option. Three parameters are estimated: end trend value as a logistic offset (input as $ln(P_{\text{offset}})$), inflection year logistic offset (input as $ln(P_{\text{infl}})$), and width ($P_{width}$). Offset trend value is in natural log space. Inflection year is also in natural log space and offset from ln(0.5). Width is directly specified.
 		\item -2: Trend Direct input option. In this case, $P_{\text{offset}} = 1$. Three parameters are input via short parameter lines: end trend parameter value ($P_y$ where $y$ is the final year), inflection year ($P_{\text{infl}}$), and width ($P_{width}$). 
 		\item -3: Trend Fractional option. In this case, $P_{\text{offset}} = 1$. Three parameters will be estimated: end trend parameter value as a fraction of base parameter maximum - minimum, inflection year as a fraction of end year - start year, and width ($P_{width}$). Width is directly input.
@@ -124,7 +124,7 @@ Code for the deviation link can be found in \href{https://github.com/nmfs-ost/ss
 \hypertarget{SpecTVShort}{}
 \subsubsection[Specification of Time-Varying Parameters: Short Parameter Lines]{\protect\hyperlink{SpecTVShort}{Specification of Time-Varying Parameters: Short Parameter Lines}}
 
-If a time-varying specification set up in the long parameter lines for a particular section requires additional parameters, short parameter lines need to be created following the long parameter lines for the section (unless \hyperlink{autogen}{autogeneration} is used, which creates short parameter lines in \verb|control.ss\_new| upon running the model). The number of parameter lines required depends on the time-varying parameter specification.
+If a time-varying specification set up in the long parameter lines for a particular section requires additional parameters, short parameter lines need to be created following the long parameter lines for the section (unless \hyperlink{autogen}{autogeneration} is used, which creates short parameter lines in \verb|control.ss_new| upon running the model). The number of parameter lines required depends on the time-varying parameter specification.
 
 For example, if two parameters were specified to have environmental linkages in the \gls{mg} parameter section, below the \gls{mg} parameters would be two parameter lines (when not auto-generating these lines), which is an environmental linkage parameter for each time-varying base parameter:
 
@@ -177,7 +177,7 @@ The number of short parameter lines for each time-varying setup selected depends
 \end{itemize}
 
 \hypertarget{ExTVParam}{}
-\subsubsection[Example Time-varying Parameter Setups]{\protect\hyperlink{ExTVParam}{Example Time-varying Parameter Setups}}
+\subsubsection[Example Time-Varying Parameter Setups]{\protect\hyperlink{ExTVParam}{Example Time-Varying Parameter Setups}}
 
 The time-varying parameter options in Stock Synthesis are flexible. Below are some example setups that illustrate how the time-varying options could be used in a model, although there are many more possible setups.
 
