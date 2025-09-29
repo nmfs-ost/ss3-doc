@@ -157,9 +157,9 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
        & \textit{Selectivity database} & & \Bstrut\\
     54 & SPR/YPR\_Profile & \$equil\_yield & This table displays per recruit quantities across a range of $F$ levels and using the biology- and selectivity-at-age from the benchmark(a.k.a. reference point) calculations. The SPRloop is various ways of defining a range of iterations to get good coverage. \Bstrut\\
     55 & GLOBAL\_MSY & NA & This table show \gls{msy} calculations using the actual fishery selectivity and by replacing with a range of knife-edge and per-age alternatives. \Bstrut\\
-    56 & \texttt{SS\_summary.sso} & Read by \texttt{SS\_read\_summary()} & See \hyperlink{SS3Summary}{Stock Synthesis Summary section}. \Bstrut\\
+    56 & \texttt{SS\_summary.sso} & Read by \texttt{SS\_read\_summary()} & See \hyperlink{SS3Summary}{Stock Synthesis Summary} section. \Bstrut\\
     57 & \texttt{rebuilder.sso} & NA & Specific to the U.S. West Coast rebuilding plans. See the \href{https://github.com/pfmc-assessments/rebuilder}{Pacific Fishery Management Council rebuilder code on GitHub} related to this output. \Bstrut\\
-    58 & \texttt{SIStable.sso} & NA & See \hyperlink{SIStable}{SIS table section}. \Bstrut\\
+    58 & \texttt{SIStable.sso} & NA & See \hyperlink{SIStable}{SIS table} section. \Bstrut\\
     59 & Dynamic\_Bzero & \$Dynamic\_Bzero & Dynamic $B_{0}$ report \Bstrut\\
     60 & \texttt{wtatage.ss\_new} & \$wtatage & Contains mean weight-at-age for the population and each fleet as well as maturity $\times$ fecundity. For models that use the \texttt{wtatage.ss} file as an input, the values will match. For models with parametric growth, the values will be based on internal calculations of mean weight-at-age. SS3 generates a \texttt{wtatage.ss\_new} file even when these biological quantities are generated internally from parameters. \Bstrut\\
     61 & ANNUAL\_TIME\_SERIES & \$annual\_time\_series & Table shows the annual abundance at the beginning of each year (collapses all areas) and the total catch across all fleets. \\ 
@@ -173,7 +173,7 @@ When Stock Synthesis is run, numerous text files are produced in the same folder
 Additional user control for what is included in the \texttt{Report.sso} file was added in v.3.30.16. This approach allows for full customizing of what is printed to the Report file by selecting custom reporting (option = 3) in the starter file where specific items now can be included or excluded depending upon a list passed to SS3 from the starter file. The ``Report Number'' in the table above is used to select which outputs are included when using this option.
 
 \hypertarget{ADMBOutput}{}
-\subsection[Standard ADMB output files]{\protect\hyperlink{ADMBOutput}{Standard ADMB output files}}
+\subsection[Standard ADMB Output Files]{\protect\hyperlink{ADMBOutput}{Standard ADMB Output Files}}
 Standard \gls{admb} files are created by SS3. These are:
 
 \texttt{ss3.par} (previously \texttt{ss.par}) - This file has the final parameter values. They are listed in the order they are declared in SS3. This file can be read back into SS3 to restart a run with these values (see \hyperref[sec:RunningSS3]{Running Stock Synthesis} for more info).
@@ -191,7 +191,7 @@ The \texttt{ss\_summary.sso} file (available for versions 3.30.08.03 and later) 
 Before v.3.30.17, TotBio and SmryBio did not always match values reported in columns of the TIME\_SERIES table of \texttt{Report.sso}. The report file should be used instead of \texttt{ss\_summary.sso} for correct calculation of these quantities before v.3.30.17. Care should be taken when using the TotBio and SmryBio if the model configuration has recruitment after January 1 or in a later season, as TotBio and SmryBio quantities are always calculated on January 1. Consult the detailed age-, area-, and season-specific tables in \texttt{Report.sso} for calculations done at times other than January 1.
 
 \hypertarget{SIStable}{}
-\subsection[SIS table]{\protect\hyperlink{SIStable}{SIS table}}
+\subsection[SIS Table]{\protect\hyperlink{SIStable}{SIS Table}}
 The \texttt{SIS\_table.sso} is deprecated as of v.3.30.17. Please use the \texttt{r4ss} function \texttt{get\_SIS\_info()} to produce output formatted for reading into the \gls{nmfs} \href{https://www.st.nmfs.noaa.gov/sis/}{\gls{sis}} database.
 
 \hypertarget{DerivedQuant}{}
@@ -223,7 +223,7 @@ The simplicity of $F$ disappears quickly as models invoke a variety of realistic
 The $F$ statistics are displayed most explicitly in the \texttt{Report.sso} table ``EXPLOITATION report:14''. There, the table columns are:
 \begin{quote}
 	\begin{verbatim}
-	Yr Seas Seas\_dur F\_std annual\_F annual\_M <each fleet's F\_scalar>
+	Yr Seas Seas_dur F_std annual_F annual_M <each fleet's F_scalar>
 	\end{verbatim}
 \end{quote}
 
@@ -233,7 +233,7 @@ In this table, the displayed value for $\text{annual\_}F$ will be from the $F=Z-
 $F\text{-at-Age}$ for each fleet is presented in \texttt{Report.sso} as table 39. Its header looks like:
 \begin{quote}
 	\begin{verbatim}
-	F\_AT\_AGE report:39
+	F_AT_AGE report:39
 	Area Fleet Sex Morph Yr Seas Era 0 1 2
 	\end{verbatim}
 \end{quote}
@@ -241,12 +241,12 @@ $F\text{-at-Age}$ for each fleet is presented in \texttt{Report.sso} as table 39
 In addition to the $F\_std$ and $\text{annual\_}F$ outputs, info on total $F\text{-at-Age}$ across all fleets is reported at the end of the \texttt{Report.sso} file. This section of the report calculates $Z\text{-at-Age}$ as $ln(N_{a+1,t+1}/N_{a,t})$. This is done for numbers at the beginning of each year and the N values are summed over all areas. It is done once using the fishing intensities as estimated (to get $Z\text{-at-Age}$), and once with the $F$ intensities set to 0.0 to get $M\text{-at-Age}$. This latter sequence also provides a measure of dynamic Virgin Spawning Biomass. The user can then subtract the table of $M\text{-at-Age/year}$ from the table of $Z\text{-at-Age/year}$ to get a table of $F\text{-at-Age/year}$. From this $\text{apical\_}F$, average $F$ over a range of ages, or other user-desired statistics could be calculated. The header for this table looks like:
 \begin{quote}
 	\begin{verbatim}
-	Z\_AT\_AGE\_Annual\_2 With\_fishery
-	Bio\_Pattern Sex Yr  0 1 2
+	Z_AT_AGE_Annual_2 With_fishery
+	Bio_Pattern Sex Yr  0 1 2
 	\end{verbatim}
 \end{quote}
 
-A more detailed report provides $Z$ for each area, bio group (sex, morph, platoon) and age. It is titled something like ``Report\_Z\_by\_area\_morph\_platoon\_1 No\_fishery''. This table is done with and without the $F$ turned on, so that pair pf reports could be processed to get total $F$ by area, bio, age.
+A more detailed report provides $Z$ for each area, bio group (sex, morph, platoon) and age. It is titled something like ``Report\_Z\_by\_area\_morph\_platoon\_1 No\_fishery''. This table is done with and without the $F$ turned on, so that pair of reports could be processed to get total $F$ by area, bio, age.
 
 \myparagraph{Relative $F$ and $F\text{mult}$}
 The $F'$ is fleet-specific, so it is useful to have a concept of relative $F$, $\text{rel}F_f$, among fleets. In SS3, $\text{rel}F_f= F_{t,f}'/\sum_{f}^{}F_{t,f}'$ for a single time period $t$. In the benchmark and forecast routines, SS3 can calculate $\text{rel}F_f$ using $F_{t,f}'$ over a range of years, or the user can input custom $\text{rel}F$ values for benchmark and forecast in the \texttt{forecast.ss} file. Note that in a multi-season model setup, $\text{rel}F_f$ is implemented as $\text{rel}F_{s,f}$ where $s$ is the season. These get multiplied by season duration as they are used.
@@ -305,7 +305,7 @@ The following quantities are included in the sdreport vector mgmt\_quantities, s
 \end{center}
 
 \hypertarget{CumulativeOutput}{}
-\subsection[Brief cumulative output]{\protect\hyperlink{CumulativeOutput}{Brief cumulative output}}
+\subsection[Brief Cumulative Output]{\protect\hyperlink{CumulativeOutput}{Brief Cumulative Output}}
 Cum\_Report.sso: contains a brief version of the run output, which is appended to current content of file so results of several runs can be collected together. This is especially useful when a batch of runs is being processed. Unless this file is deleted, it will contain a cumulative record of all runs done in that subdirectory. The first column contains the run number.  
 
 \hypertarget{bootstrap}{}

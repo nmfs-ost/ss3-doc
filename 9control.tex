@@ -217,7 +217,7 @@ Details regarding settlement of recruits and timing:
 	\begin{itemize}
 		\item The  elapsed time between spawning and recruitment is calculated from spawn\_month, settle\_month, and age at settlement.
 		\item Growth and natural mortality of the platoon begins at time of settlement, which is its real age 0.0 for growth
-		\item If a settlement is not at the beginning of a season, the numbers of settlers placed in the numbers-at-age table are inflated by the amount of natural mortality that occurs from the start of the season to the time of the settlement event. Note that this allows those fis to be caught or surveyed if their selection is > 0.0.
+		\item If a settlement is not at the beginning of a season, the numbers of settlers placed in the numbers-at-age table are inflated by the amount of natural mortality that occurs from the start of the season to the time of the settlement event. Note that this allows those fish to be caught or surveyed if their selection is > 0.0.
 		\item Age at settlement should be 0 if settlement month is between the time of spawning and the end year. It is expected to have age at settlement = 1 if settlement is after the first of the year. A note appears in the warning file if the age at settlement is not as expected.
 		\item All fish advance their integer age on January 1st. Integer age is what matters for age determination.
 		\item Recruitment can occur > 12 months after spawning which is achieved by setting the settlement age to an integer greater than 1. Note that the recruitment at a settlement age of 2 or more is feasible but may not be handled correctly in the transition from the time series to the projection.		
@@ -334,7 +334,7 @@ Two parameters will be entered later for each growth pattern, area pair, and sea
 Blocks and other time-vary parameter controls are operative during forecast years, so care should be taken when setting the end year of the last block in a pattern. If that end year is set to the last year in the time series, then the parameter will revert to the base value for the forecast. If the user wants to continue the last block through the forecast, it is advisable to set the last block's end year value to -2 to cause SS3 to reset it to the last year of the forecast. Using the value -1 will set the block's end year to the last year of the time series and leave the forecast at the base parameter value. Note that additional controls on time-varying parameters in forecast years are in the forecast section.
 
 \hypertarget{autogen}{}
-\subsubsection[Auto-generation]{\protect\hyperlink{autogen}{Auto-generation}}
+\subsubsection[Auto-Generation]{\protect\hyperlink{autogen}{Auto-Generation}}
 Auto-generation is a useful way to automatically create the required short time-varying parameter lines which will be written in the \texttt{control.ss\_new} file. These parameter lines can then be copied into the control file and modified as needed. As example, if you want to add a block to natural mortality, modify the block and block function entry of the mortality parameter line, ensure that auto-generation is set to 0 (for the biology section at least) and run the model without estimation. The \texttt{control.ss\_new} file will now show the required block parameter line specification for natural mortality and this line can be copied into the main control file. Note, that if auto-generation is on (set to 0), the model will not expect to read the time-varying parameters in that section of the control file and will error out if they are present
 
 	
@@ -396,7 +396,7 @@ M_{a,s} = M_{juv,s}\frac{L_{a,s}}{L_{mat*,s}}^{\lambda} +
 
 where $M_{juv,s}$ (juvenile natural mortality), $\lambda$ (power), $L_{mat*,s}$ (first mature length of fish), and $M_{mat,s}$ (the mature instantaneous natural mortality rate by sex, are user inputs in long parameter lines. For sub-option 1, $L_{50}$ and $\beta$ (slope) parameters taken from the maturity relationship within the model, which must use maturity-fecundity option 1. For sub-option 3, the $L_{50,s}$ (the length at which 50\% of fish are mature) and $\beta$ (slope) parameters are specified in long parameter lines by the user.
 
-Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will fix the parameter as same as the female parameter. Alternatively, using offset option 1 and setting males to 0.0 and not estimating the parameter fixes the parameter at the value of the female parameter (the \hyperlink{male-shortcut}{section on fixing male parameters the same as female parameters} has more details). This fulfills an additional assumption: $M$ caused by reproduction may differ by sex, but juvenile $M$ is independent of sex.
+Note that juvenile natural mortality, $M_{juv,s}$, and first mature length of fish, $L_{mat*,s}$, inputs are by sex (and growth pattern), but it is recommended to share them across sex by using the \hyperlink{offset}{offset option}. Using offset option 2 (males offset from females) causes male parameters to be an offset to the female parameters, so a parameter value of 0.0 for a male parameter will fix the parameter as same as the female parameter. Alternatively, using offset option 1 and setting males to 0.0 and not estimating the parameter fixes the parameter at the value of the female parameter (the section on \hyperlink{male-shortcut}{fixing male parameters the same as female parameters} has more details). This fulfills an additional assumption: $M$ caused by reproduction may differ by sex, but juvenile $M$ is independent of sex.
 
 The length for a given age and sex, $L_{a,s}$ is calculated within the model.
 
@@ -700,7 +700,7 @@ The \hyperlink{SexRatio}{fraction female} parameter should be configured to refl
 \end{longtable}
 \vspace*{-\baselineskip}
 
-The hermaphroditism option requires three full parameter lines in the \hyperlink{HermaphroditeBiology}{mortality and growth section}. These parameters control a cumulative normal distribution function as follows:
+The hermaphroditism option requires three full parameter lines in the \hyperlink{HermaphroditeBiology}{mortality and growth} section. These parameters control a cumulative normal distribution function as follows:
 \begin{enumerate}
 	\item The inflection age where the transition rate is halfway from 0 to its asymptote.
 	\item The standard deviation of the cumulative normal (such that about 95\% of the increase in transition rate occurs within 2 standard deviations of the inflection point).
@@ -968,11 +968,11 @@ Parameters marked with COND are conditional on selecting that feature:
 
 \hypertarget{male-shortcut}{}
 \myparagraph{Setting Male Parameters Equal to Females}
-The model allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2), and the growth coefficient (K) when using offset option = 1 (the \hyperlink{offset}{offset section} has information on the options available). If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the corresponding female parameter value for the males.
+The model allows a short-cut for males to use the same parameter values as female fish for natural mortality, length minimum (Length at Amin), maximum length (Length at Amax), coefficient at younger ages (CV1), coefficient at older ages (CV2), and the growth coefficient (K) when using offset option = 1 (the \hyperlink{offset}{offset} section has information on the options available). If the INIT parameter value for males is set equal to 0.0 and the phase set to negative, not estimated, each of these male parameters will use the corresponding female parameter value for the males.
 
 \hypertarget{TVParams}{}
 \subsubsection[Time-varying Parameters]{\protect\hyperlink{TVParams}{Time-varying Parameters}}
-Please see \hyperlink{tvOrder}{the Time-Varying Parameter Specification and Setup section} for details on how to set up time varying parameters. In short, additional short parameter lines will be needed after the long parameter lines. There are some \hyperlink{tvgrowth}{additional considerations} for time-varying growth.
+Please see the \hyperlink{tvOrder}{Time-Varying Parameter Specification and Setup} section for details on how to set up time-varying parameters. In short, additional short parameter lines will be needed after the long parameter lines. There are some \hyperlink{tvgrowth}{additional considerations} for time-varying growth.
 
 \hypertarget{SeasBio}{}
 \subsubsection[Seasonal Biology Parameters]{\protect\hyperlink{SeasBio}{Seasonal Biology Parameters}}
@@ -1318,7 +1318,7 @@ Simulation studies conducted by \citet{methot-adjusting-2011} compared three met
 			& 	   & -3: bias adjustment set to 0 for all model and forecast years. \\
 
 	\Tstrut & 0    & Period For Recruitment Cycles: \\
-			&      & Use this when the model is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level. If value is > 0, then read that number of full parameter lines below define the recruitment cycle. See more information on setting up seasons as years model in the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment section}. \\
+			&      & Use this when the model is configured to model seasons as years and there is a need to impose a periodicity to the expected recruitment level. If value is > 0, then read that number of full parameter lines below define the recruitment cycle. See more information on setting up seasons as years model in the \hyperlink{continuous-seasonal-recruitment-sec}{continuous seasonal recruitment} section. \\
 	
 	\Tstrut & -5   & Minimum Recruitment Deviation: Min value for recruitment deviation. \\
 			&	   & Negative phase = Default value. \\
@@ -1369,7 +1369,7 @@ The correct offset (bias adjustment) to apply to the expected value for recruitm
 	b_y=\frac{E\Big( SD(\hat{r}_y)\Big)^2}{\sigma^2_R}=1-\frac{SE(\hat{r}_y)^2}{\sigma^2_R}
 \end{equation}
 
-\noindent of the offset then depends upon the partitioning of $\sigma_R$ into between and within recruitment variability. The most appropriate degree of bias adjustment can be approximated from the relationship among $\sigma_R$, recruitment variability (the signal), and recruitment residual error. Because the quantity and quality of data varies during a time series, the user can control the rate at which the offset is ramped in during the early, data-poor years, and then ramped back to zero for the forecast years. On output, the mean bias adjustment during the early and main eras is calculated, comparing this value to the \gls{rmse} of estimated recruitment deviations in the \texttt{Report.sso} file. A warning is generated if the \gls{rmse} is small and the bias adjustment is larger than 2.0 times the ratio of $RMSE^2$ to $\sigma^2_R$. Additional information on recruitment bias adjustment can be found in the \hyperlink{BiasCorrect}{Recruitment Variability and Bias Correction section}.
+\noindent of the offset then depends upon the partitioning of $\sigma_R$ into between and within recruitment variability. The most appropriate degree of bias adjustment can be approximated from the relationship among $\sigma_R$, recruitment variability (the signal), and recruitment residual error. Because the quantity and quality of data varies during a time series, the user can control the rate at which the offset is ramped in during the early, data-poor years, and then ramped back to zero for the forecast years. On output, the mean bias adjustment during the early and main eras is calculated, comparing this value to the \gls{rmse} of estimated recruitment deviations in the \texttt{Report.sso} file. A warning is generated if the \gls{rmse} is small and the bias adjustment is larger than 2.0 times the ratio of $RMSE^2$ to $\sigma^2_R$. Additional information on recruitment bias adjustment can be found in the \hyperlink{BiasCorrect}{Recruitment Variability and Bias Correction} section.
 
 In \gls{mcmc} mode, the model still draws recruitment deviations from the log-normal distribution, so the full offset is used such that the expected mean recruitment from this log-normal distribution will stay equal to the mean from the spawner-recruitment curve. When the model reaches the \gls{mcmc} and MCEVAL phases, all bias adjustment values are set to 1.0 for all active recruitment deviations because the model is now re-sampling from the full log-normal distribution of each recruitment.
 
@@ -1385,7 +1385,7 @@ The implementation and reporting of fishing mortality, $F$, in SS3 is more compl
 
 \myparagraph{Nomenclature}
 
-The nomenclature below ignores sex, morphs and areas for simplicity. The quantities associated with $F$ calculations are defined as:The quantities associated with $F$ calculations are defined as:
+The nomenclature below ignores sex, morphs and areas for simplicity. The quantities associated with $F$ calculations are defined as:
 
 \begin{itemize}
 	\item $f$ is fleet.
@@ -1522,7 +1522,7 @@ Read a short parameter setup line for each fishery and season when there is non-
 
 If there is catch, then give a starting value greater than zero, and it generally is best to estimate the parameter in phase 1. The initial $F$ parameter lines are ordered as shown in the example below - by season, then within a season, by fleet.
 
-If the initial equilibrium catch is near \gls{msy}, than a logical inconsistency may occur as documented in the \hyperlink{EquilRecr}{Equilibrium Recruitment section}. 
+If the initial equilibrium catch is near \gls{msy}, then a logical inconsistency may occur as documented in the \hyperlink{EquilRecr}{Equilibrium Recruitment} section. 
 
 It is possible to use the initial $F$ method to achieve an estimate of the initial equilibrium $Z$ in cases where the initial equilibrium catch is unknown. To do this requires 2 changes to the input files:
 \begin{enumerate}
@@ -1579,7 +1579,7 @@ For each fleet that has index observations, enter a row with six entries as desc
 	\item \hypertarget{link_info}{Extra input for link information (i.e., mirror fleet or dev index number)}
 	\begin{enumerate}[label=(\alph*)]
 		\item > 0 = mirror the Q from another (lower numbered survey designated by referencing the fleet number).
-		\item If an index of a deviation vector , option 35, use this column to enter the index of the deviation vector to which the index is related. For example, if only using one index in your model, this number would be 1.
+		\item If an index of a deviation vector, option 35, use this column to enter the index of the deviation vector to which the index is related. For example, if only using one index in your model, this number would be 1.
 		\item If a depletion survey, option 34, approach is being applied the following values in this column determines how phases are adjusted:
 		\begin{itemize}
 			\item 0 = add 1 to phases of all parameters. Only $R_{0}$ active in new phase 1. Mimics the default option of previous model versions;
@@ -2106,7 +2106,7 @@ where
 \myparagraph{Pattern 21 (size) - Newer non-parametric selectivity}
 Non-parametric size selectivity which uses a set of linear segments like Pattern 6, but you have full control over the break points (as opposed to equidistant points over a specified range) and the parameters represent the absolute selectivity without the logistic transformation used in Pattern 6. This allows direct input of an empirical selectivity vector as fixed parameters if desired. The Special column in the selectivity setup specifies the number of break points where the required number of parameter lines is twice this value, with the first set of N parameters providing the length at each break point (which should be fixed via a negative phase) and the second set of N provides the absolute selectivity at each point. 
 
-All of the selectivity parameters must to be non-negative, having a lower bound at 0 (or higher). There is no rescaling to ensure a maximum of 1.0. Therefore it may make sense to have upper bounds at 1.0. Alternatively, a prior centered at 1.0 could be added to the parameter associated with a length bin which is expected to have peak selectivity. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
+All of the selectivity parameters must be non-negative, having a lower bound at 0 (or higher). There is no rescaling to ensure a maximum of 1.0. Therefore it may make sense to have upper bounds at 1.0. Alternatively, a prior centered at 1.0 could be added to the parameter associated with a length bin which is expected to have peak selectivity. If the largest parameter is not fixed at 1.0 or estimated close to 1.0, then care should be taken in interpreting the associated fishing mortality values for the fleet in question.
 
 Selectivity ramps linearly from the origin up to the first selectivity parameter at the first break point and is constant beyond the last break point.
 
@@ -2473,7 +2473,7 @@ Notes:
 \end{itemize}
 
 \hypertarget{Dirichletparameter}{}
-\subsubsection[Dirichlet-multinomial Error for Data Weighting]{\protect\hyperlink{Dirichletparameter}{Dirichlet-multinomial Error for Data Weighting}}
+\subsubsection[Dirichlet-Multinomial Error for Data Weighting]{\protect\hyperlink{Dirichletparameter}{Dirichlet-Multinomial Error for Data Weighting}}
 If the Dirichlet-multinomial error distribution was selected in the data file for length or age data weighting, add additional parameter line(s) immediately following the age selectivity parameter block. There should be 1 parameter line for each parameter in the data file.
 
 For additional information about the Dirichlet-multinomial please see \citet{thorson-model-based-2017} and the detailed \hyperlink{DataWeight}{Data Weighting} section.
@@ -2506,7 +2506,7 @@ This features combines a baseline parametric selectivity per existing options wi
 
 There are a range of controls for this feature. The deviations can be applied to either the age selectivity or the length selectivity over a specified range of ages (or lengths) and years. The variance of the devs can be the same for all ages, or can be age-specific up to a specified age, then constant variance for all older ages that are within the 2DAR range. Ages outside the 2DAR range revert to the parametric selectivity. The user can select a range of years for which devs will be created and can specify whether selectivity for years outside this range revert to the parametric selectivity or continue with the semi-parametric from the terminal year with devs; thus devs could be defined for just one year, the first year, then mirrored for all subsequent years. Finally, the controls allow for there to be a user-specified level of auto-correlation along the age dimension separate from a user-specified level of auto-correlation in the year dimension.
 
-The 2DAR option has not yet been explored adequately to provide guidance on best practices. However, a preliminary guidance includes the following. When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the 2DAR deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic or exponential logistic would be a reasonable choice. With regard to the variability, never estimate the sigma parameters as estimates will biased toward zero. Setting the sigma near 1.0 is advised as an initial default unless the user explicitly determines superior performance of a different value.
+The 2DAR option has not yet been explored adequately to provide guidance on best practices. However, a preliminary guidance includes the following. When using this option for age-based selectivity, if there are not too many ages, a good choice for the baseline selectivity might be random walk selectivity (pattern 17) because it provides the most flexibility, allowing the 2DAR deviations to be used only for the annual deviations around this baseline rather than the account for misspecification of the underlying functional form. Otherwise, a simple parametric selectivity form like logistic or exponential logistic would be a reasonable choice. With regard to the variability, never estimate the sigma parameters as estimates will be biased toward zero. Setting the sigma near 1.0 is advised as an initial default unless the user explicitly determines superior performance of a different value.
 
 \begin{tabular}{p{2cm} p{14cm}}
 	\hline
