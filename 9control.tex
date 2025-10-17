@@ -1245,6 +1245,31 @@ The $\sigma_R$ value is typically not estimable and it is recommended practice t
 
 Simulation studies conducted by \citet{methot-adjusting-2011} compared three methods of tuning $\sigma_R$ with the above approach generally performed best since it accounts for variability among recruitment deviations and the uncertainty in their estimates.
 
+
+\hypertarget{ParmDevs}{}
+\subsubsection[Parameter Deviations]{\protect\hyperlink{ParmDevs}{Parameter Deviations}}.
+
+SS3 includes mechanisms for incorporating penalized parameter deviations to model annual variation in certain model parameters that cannot be fully explained by simple time blocks or external environmental drivers. This capability applies to various parameters within the mortality-growth, catchability, and selectivity sections, offering a unified approach across these types
+
+The core concept is that a time-varying parameter value is realized as the product of its estimated deviations ($d_y$) and a standard deviation parameter ($s$), which is also estimated by the model in version 3.30 and later.
+
+\begin{equation}
+Realized dev_y = d_y \cdot s
+\end{equation}
+
+This formulation uses a non-centered parameterization for parameter deviations, meaning the estimated deviations ($d_y$) are expected to have a mean of 0 and a standard deviation of 1. The non-centered approach is considered more efficient and numerically stable for estimation routines like MCMC and maximum likelihood estimation (MLE).
+
+Parameter deviations are introduced via the parameters' long parameter lines in the control file, primarily using the \hyperlink{DevLink}{Deviation Link} (there are 4 types which are explained in this Deviation Link section), \hyperlink{DevMinYr}{Deviation minimum year}, \hyperlink{DevMaxYr}{Deviation maximum year}, and \hyperlink{DevPhase}{Deviation phase} columns.
+
+\myparagraph{Key Performance and Implementation Notes}
+
+\begin{itemize}
+\end{itemize}
+	\item \textbf{Likelihood Calculation Error:} In SS3 versions v.3.30.00 through v.3.30.12, an error existed in the calculation of the negative log-likelihood for the parameter deviation vector, which incorrectly included a term based on $-log(s)$ ($PLIKE_2$). This often led to the estimate of the standard deviation parameter ($s$) being pulled towards a minimal value. Users of these older versions should re-run estimates of $s$ using version v.3.30.13 or later.
+	\item \textbf{Deviation Variance and Standard Deviation ($s$):} When the parameter deviations feature is active, the final variance of the realized deviations depends on the combined effect of $s^2$ and the variance of $\mathbf{d_y}$. If the data are highly informative and the correct value of $s$ is used, $\text{var}(\mathbf{d_y})$ will be close to 1.
+	\item \textbf{Advisable Estimation Practice:} Because a penalized likelihood approach like that in SS3 may have a negative bias when directly estimating the standard deviation parameter ($s$) 12, it is advisable to profile on fixed values for $s$ to find a range that yields good results. A good starting criteria for selection is a value for $s$ such that the sum of the variance among the deviations ($\text{var}(\mathbf{d_y})$) and the mean variance of each deviation ($\text{mean}(\text{var}(\mathbf{d_y}))$) is close to 1.
+	\item \textbf{Addressing Non-Zero Mean in Deviations:} If the time span for the deviations does not cover all model years, the model might use a non-zero mean in the deviation vector to create a temporal offset to the base parameter (a "block offset")15. To counteract this, it can be useful to include a separately estimated block parameter for the same range of years, allowing the deviations to center naturally on zero16.
+
 \hypertarget{RecDevSetup}{}
 \subsubsection[Recruitment Deviation Setup]{\protect\hyperlink{RecDevSetup}{Recruitment Deviation Setup}}
 \begin{longtable}{p{1cm} p{3cm} p{12cm}}
