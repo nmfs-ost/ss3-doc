@@ -3,10 +3,10 @@
 \RequirePackage{pdfmanagement-testphase}
 \PassOptionsToPackage{enable-debug}{expl3}
 %\DeclareDocumentMetadata {  }
-\DocumentMetadata{testphase={phase-III,math}}
-\ExplSyntaxOn
-\pdfmanagement_add:nnn{Catalog}{Lang}{(enUS)}
-\ExplSyntaxOff
+\DocumentMetadata{testphase={phase-III,math}, lang=en-US}
+% \ExplSyntaxOn
+% \pdfmanagement_add:nnn{Catalog}{Lang}{(enUS)}
+% \ExplSyntaxOff
 % End accessibility options
 \documentclass[12pt]{article}
 \usepackage{sectsty}                % Allows for different fonts for header and body
@@ -68,6 +68,7 @@
 
 % For tagging the pdf: https://github.com/jgm/pandoc/issues/5409#issuecomment-770417614
 \ifluatex
+  \usepackage{tagpdf}
   \tagpdfsetup{
       activate-all=true,
       interwordspace=true
