@@ -2,11 +2,12 @@
 %Options added to improve pdf accessibility:
 \RequirePackage{pdfmanagement-testphase}
 \PassOptionsToPackage{enable-debug}{expl3}
-%\DeclareDocumentMetadata {  }
-\DocumentMetadata{testphase={phase-III,math}}
-\ExplSyntaxOn
-\pdfmanagement_add:nnn{Catalog}{Lang}{(enUS)}
-\ExplSyntaxOff
+\DocumentMetadata{
+  testphase={phase-III,math,firstaid},
+  pdfversion=2.0,
+  pdfstandard=ua-2,
+  lang=en-US
+}
 % End accessibility options
 \documentclass[12pt]{article}
 \usepackage{sectsty}                % Allows for different fonts for header and body
@@ -120,6 +121,19 @@
 
 %%The following sets up how the pdf displays links and functions in Acrobat.
 \hypersetup{
+	pdftitle     = {Stock Synthesis User Manual Version 3.30.24.1},
+	pdfauthor    = {Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson},
+	pdfsubject   = {Stock assessment model documentation for Stock Synthesis},
+	pdfkeywords  = {Stock Synthesis, SS3, fisheries, stock assessment, population dynamics, NOAA},
+	pdfcontactaddress = {NOAA Fisheries},
+	pdfcontactcity = {Seattle},
+	pdfcontactregion = {WA},
+	pdfcontactpostcode = {98112},
+	pdfcontactcountry = {USA},
+	pdfcontactemail = {nmfs.stock.synthesis@noaa.gov},
+	pdfcontacturl = {https://github.com/nmfs-ost/ss3-doc},
+	pdflang      = {en-US},
+	pdfdisplaydoctitle = true,
 	bookmarks    = true,        % show bookmarks bar?
 	unicode      = false,       % non-Latin characters in Acrobat's bookmarks
 	pdftoolbar   = true,        % show Acrobat's toolbar?
@@ -191,6 +205,20 @@
 	% Set base font as serif
 	%\fontfamily{crimson}\selectfont
 
+	% ====== Accessibility Statement ===================================================
+	\section*{Accessibility}
+	
+	This document has been prepared to be accessible to individuals with disabilities. If you encounter any accessibility issues or need assistance accessing any content in this document, please contact us:
+	
+	\begin{itemize}
+		\item Email: \href{mailto:nmfs.stock.synthesis@noaa.gov}{nmfs.stock.synthesis@noaa.gov}
+		\item GitHub: \url{https://github.com/nmfs-ost/ss3-doc}
+		\item Website: \url{https://nmfs-ost.github.io/ss3-website/}
+	\end{itemize}
+	
+	We are committed to making our documentation accessible and will work to address any accessibility barriers you may encounter.
+	
+	\newpage
 		
 	% ====== Table of Contents ===================================================
 	\glsaddall	
