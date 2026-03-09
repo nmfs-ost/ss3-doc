@@ -1,32 +1,31 @@
 % Preamble =========================================================================================
 %Options added to improve pdf accessibility:
-\RequirePackage{pdfmanagement-testphase}
-\PassOptionsToPackage{enable-debug}{expl3}
-%\DeclareDocumentMetadata {  }
-\DocumentMetadata{testphase={phase-III,math}}
-\ExplSyntaxOn
-\pdfmanagement_add:nnn{Catalog}{Lang}{(enUS)}
-\ExplSyntaxOff
+% \RequirePackage{pdfmanagement-testphase}
+% \PassOptionsToPackage{enable-debug}{expl3}
+% \DeclareDocumentMetadata {  
+% \DocumentMetadata{testphase={phase-III,math,table,title}}
+\DocumentMetadata{lang=en-US,pdfversion=2.0}
+
+% \ExplSyntaxOn
+% \pdfmanagement_add:nnn{Catalog}{Lang}{(enUS)}
+% \ExplSyntaxOff
 % End accessibility options
 \documentclass[12pt]{article}
-\usepackage{sectsty}                % Allows for different fonts for header and body
+\usepackage{sectsty} % Allows for different fonts for header and body
 \usepackage{natbib}
 \usepackage{multicol}
 \usepackage[margin=1in, includefoot]{geometry}
-\usepackage{graphicx} %allows for impage import
+\usepackage{graphicx} % Allows for impage import
 \graphicspath{{images/}}
 \usepackage{ragged2e}
 \usepackage{enumitem}
 \usepackage{multirow}
 \usepackage{booktabs}
 \usepackage{fontspec}
-% \usepackage{lmodern}
 \usepackage[none]{hyphenat}
 \usepackage{array}
-% \usepackage{lscape}
 \usepackage{pdflscape}
 \usepackage{longtable}
-% \usepackage[utf8]{inputenc}
 \usepackage[table]{xcolor}
 \usepackage{colortbl}
 \usepackage{hhline}
@@ -47,31 +46,33 @@
 \usepackage[most]{tcolorbox}  % callout box 
 
 % callout box controls
-\tcbuselibrary{skins,breakable}
-\newtcolorbox{mybox}[2][]{
-	breakable,
-	sharp corners, 
-	skin=enhancedmiddle jigsaw,
-	parbox=false, 
-	boxrule=0mm,
-	leftrule=2mm,
-	boxsep=0mm,
-	arc=0mm,
-	outer arc=0mm,
-	attach title to upper,
-	after title={:\ },
-	coltitle=black,
-	colback=gray!10,
-	colframe=black, 
-	title={#2},
-	fonttitle=\bfseries,#1}
+% \tcbuselibrary{skins,breakable}
+% \newtcolorbox{mybox}[2][]{
+% 	breakable,
+% 	sharp corners, 
+% 	skin=enhancedmiddle jigsaw,
+% 	parbox=false, 
+% 	boxrule=0mm,
+% 	leftrule=2mm,
+% 	boxsep=0mm,
+% 	arc=0mm,
+% 	outer arc=0mm,
+% 	attach title to upper,
+% 	after title={:\ },
+% 	coltitle=black,
+% 	colback=gray!10,
+% 	colframe=black, 
+% 	title={#2},
+% 	fonttitle=\bfseries,#1}
+
 
 % For tagging the pdf: https://github.com/jgm/pandoc/issues/5409#issuecomment-770417614
 \ifluatex
+  \usepackage{tagpdf}
   \tagpdfsetup{
-      activate-all=true,
-      interwordspace=true
-   }
+    activate-all=true,
+    interwordspace=true
+  }
 \fi
 % End tagging the pdf
 
@@ -81,22 +82,17 @@
 
 %sectsty commands
 % all section headers use the same sans serif family - roboto
-%\allsectionsfont{\sffamily\selectfont\roboto\mdseries\bfseries}
 \allsectionsfont{\sffamily\selectfont\roboto\mdseries\bfseries}
 % Set size and color of section header AL's H1
-%\sectionfont{\LARGE\nohang\centering\roboto\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 \sectionfont{\LARGE\nohang\centering\roboto\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 % Set size and color of subsection header AL's H2
-%\subsectionfont{\fontsize{18pt}{20pt}\selectfont\roboto\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 \subsectionfont{\fontsize{18pt}{20pt}\selectfont\roboto\nohang\centering\textcolor[cmyk]{0.90, 0.54, 0.28, 0.12}}
 % Set size and color of subsubsection header AL's H3
 \subsubsectionfont{\hspace{0pt}\nohang\fontsize{16pt}{18pt}\selectfont\roboto\raggedright\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 % Set size and color of paragraph header AL's H4
-%\paragraphfont{\fontsize{14pt}{16pt}\selectfont\robotocondensed\fontseries{bl}\selectfont\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 \paragraphfont{\fontsize{14pt}{16pt}\selectfont\robotocondensed\fontseries{bl}\selectfont\textcolor[cmyk]{0.50, 0.05, 0.0, 0.40}}
 \newcolumntype{R}{>{\raggedright\arraybackslash}p{3cm}}
 
-%\definecolor{lightgray}{gray}{0.92}
 \fancyhead{}
 \pagestyle{fancy}
 
@@ -109,14 +105,6 @@
 \emergencystretch=\maxdimen
 \hyphenpenalty=10000
 \hbadness=10000
-
-%\hypersetup{%
-%	colorlinks=false,% hyperlinks will be black
-%	linkbordercolor=red,% hyperlink borders will be red
-%	pdfborderstyle={/S/U/W 1}% border style will be underline of width 1pt
-%}
-
-
 
 %%The following sets up how the pdf displays links and functions in Acrobat.
 \hypersetup{
@@ -143,24 +131,17 @@
 
 \newcommand{\myparagraph}[1]{\paragraph{#1}\mbox{}\\}
 
-% Define a term for SS3 abbreviation to use across document
-% \newcommand{\SS}{SS3}
-
 % Create custom font title of document
 % note the use of:
 %% \textcolor in the title itself
-%%  \maketitle BEFORE resetting the \fontfamily
+%% \maketitle BEFORE resetting the \fontfamily
 \usepackage{xparse}
 \usepackage{xpatch}
-\NewDocumentCommand{\TitlePageFont}{}{%
-  	\sffamily\bfseries%
-  	\fontsize{22pt}{24pt}%
-  	\selectfont%
-}%
-% sets title for pdf reader
-%\usepackage[pdftitle={Stock Synthesis User Manual},
-%           pdfauthor={Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, and Kathryn Doering},
-%          pdfdisplaydoctitle=true]{hyperref}
+\NewDocumentCommand{\TitlePageFont}{}{
+  	\sffamily\bfseries
+  	\fontsize{22pt}{24pt}
+  	\selectfont
+}
 \xpretocmd{\maketitle}{\TitlePageFont}{}{}
 \title{\textcolor[cmyk]{1.00,0.83,0.41,0.36}{Stock Synthesis User Manual\\ Version 3.30.24.1}}
 \author{Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering,\\Elizabeth F. Perl, and Kelli F. Johnson\\\\\\NOAA Fisheries\\Seattle, WA}
@@ -180,17 +161,13 @@
 	    \begin{center}
 	    	\includegraphics[alt={Logo of the National Oceanic and Atmospheric Administration (NOAA)},height=2in]{noaalogo.jpg}
 	    \end{center}
-	    %\caption{Logo of the National Oceanic and Atmospheric Administration (NOAA)}
 		\label{fig:logo}
 	\end{figure}
 
 	\thispagestyle{empty}
 	\newpage
 	\normalfont % this sets the main font to crimson
-	\normalsize %% return the text to 12 point font - otherwise you end up with 22 point font!
-	% Set base font as serif
-	%\fontfamily{crimson}\selectfont
-
+	\normalsize % return the text to 12 point font - otherwise you end up with 22 point font!
 		
 	% ====== Table of Contents ===================================================
 	\glsaddall	
@@ -199,18 +176,15 @@
 	\thispagestyle{empty}
 	\cleardoublepage
 	\setcounter{secnumdepth}{0}
-	%\setcounter{page}{1}
 	\newpage
 	\raggedright
 	% ====  List of figures ========================================================
 	\renewcommand{\headrulewidth}{0pt} % removes the top line across each page
-	%\listoffigures
-	%\addcontentsline{toc}{section}{\numberline{}List of Figures}
 	\cleardoublepage
 	% ====== Section 1 - 4 =============================================================
 	\pagenumbering{arabic}
 	\input{1_4sections}
-	% ======== Section 5: Converting
+	======== Section 5: Converting
 	\input{5converting}
 	% ======== Section 6: Starter File
 	\input{6starter}
@@ -247,7 +221,7 @@
 	\newpage
 	\bibliography{SS3}
 	\bibliographystyle{JournalBiblio/cjfas}
-	\newpage	
+	\newpage
 				
 \end{document}
 
