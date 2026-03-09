@@ -11,8 +11,8 @@
   <meta name="generator" content="pandoc" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
   <meta name="author" content="Richard D. Methot Jr., Chantel R. Wetzel, Ian G. Taylor, Kathryn L. Doering, Elizabeth F. Perl, and Kelli F. Johnson   NOAA Fisheries Seattle, WA" />
-  <meta name="dcterms.date" content="2025-09-18" />
-  <title>Stock Synthesis User Manual Version 3.30.24.1</title>
+  <meta name="dcterms.date" content="2026-03-09" />
+  <title>Stock Synthesis User Manual Version 3.30.24.2</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="html_usermanual.css" />
   <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
@@ -58,7 +58,7 @@ Object.defineProperty(e,"__esModule",{value:!0}),e.mhchemParser=void 0;var r=fun
 <header id="title-block-header">
 <h1 class="title"><span style="color: 1.00,0.83,0.41,0.36">Stock
 Synthesis User Manual<br />
-Version 3.30.24.1</span></h1>
+Version 3.30.24.2</span></h1>
 <p class="author">Richard D. Methot Jr., Chantel R. Wetzel, Ian G.
 Taylor, Kathryn L. Doering,<br />
 Elizabeth F. Perl, and Kelli F. Johnson<br />
@@ -66,14 +66,14 @@ Elizabeth F. Perl, and Kelli F. Johnson<br />
 <br />
 NOAA Fisheries<br />
 Seattle, WA</p>
-<p class="date">September 18, 2025</p>
+<p class="date">March 09, 2026</p>
 </header>
 <nav id="TOC" role="doc-toc">
 <h1>Table of Contents</h1>
 <ul>
 <li><a href="#sec:intro" id="toc-sec:intro"><span class="toc-section-number">1</span> Introduction</a>
 <ul>
-<li><a href="#how-to-cite" id="toc-how-to-cite"><span class="toc-section-number">1.1</span> How To Cite</a></li>
+<li><a href="#how-to-cite" id="toc-how-to-cite"><span class="toc-section-number">1.1</span> How to Cite</a></li>
 </ul></li>
 <li><a href="#FileOrganization" id="toc-FileOrganization"><span class="toc-section-number">2</span> File Organization</a>
 <ul>
@@ -86,7 +86,7 @@ Synthesis v.3.24</a></li>
 <li><a href="#starter-file" id="toc-starter-file"><span class="toc-section-number">5</span> Starter File</a>
 <ul>
 <li><a href="#reading-the-manuals-format" id="toc-reading-the-manuals-format"><span class="toc-section-number">5.1</span> Reading the Manual’s
-format</a></li>
+Format</a></li>
 <li><a href="#terminology-for-fishing-mortality-f" id="toc-terminology-for-fishing-mortality-f"><span class="toc-section-number">5.2</span> Terminology for Fishing Mortality,
 <span class="math inline">\(F\)</span></a></li>
 </ul></li>
@@ -159,7 +159,7 @@ Inputs</a>
 and Distribution</a></li>
 <li><a href="#movement" id="toc-movement"><span class="toc-section-number">8.4.3</span> Movement</a></li>
 <li><a href="#time-blocks" id="toc-time-blocks"><span class="toc-section-number">8.4.4</span> Time Blocks</a></li>
-<li><a href="#auto-generation" id="toc-auto-generation"><span class="toc-section-number">8.4.5</span> Auto-generation</a></li>
+<li><a href="#auto-generation" id="toc-auto-generation"><span class="toc-section-number">8.4.5</span> Auto-Generation</a></li>
 </ul></li>
 <li><a href="#biology" id="toc-biology"><span class="toc-section-number">8.5</span> Biology</a>
 <ul>
@@ -220,7 +220,7 @@ Details</a></li>
 <li><a href="#discard-mortality" id="toc-discard-mortality"><span class="toc-section-number">8.9.5</span> Discard Mortality</a></li>
 <li><a href="#sex-specific-selectivity" id="toc-sex-specific-selectivity"><span class="toc-section-number">8.9.6</span> Sex-Specific
 Selectivity</a></li>
-<li><a href="#dirichlet-multinomial-error-for-data-weighting" id="toc-dirichlet-multinomial-error-for-data-weighting"><span class="toc-section-number">8.9.7</span> Dirichlet-multinomial Error for
+<li><a href="#dirichlet-multinomial-error-for-data-weighting" id="toc-dirichlet-multinomial-error-for-data-weighting"><span class="toc-section-number">8.9.7</span> Dirichlet-Multinomial Error for
 Data Weighting</a></li>
 <li><a href="#selectivity-time-varying-parameters" id="toc-selectivity-time-varying-parameters"><span class="toc-section-number">8.9.8</span> Selectivity Time-Varying
 Parameters</a></li>
@@ -248,21 +248,21 @@ Quantities</a></li>
 <ul>
 <li><a href="#command-line-interface" id="toc-command-line-interface"><span class="toc-section-number">11.1</span> Command Line Interface</a>
 <ul>
-<li><a href="#example-of-dos-batch-input-file" id="toc-example-of-dos-batch-input-file"><span class="toc-section-number">11.1.1</span> Example of DOS batch input
-file</a></li>
+<li><a href="#example-of-dos-batch-input-file" id="toc-example-of-dos-batch-input-file"><span class="toc-section-number">11.1.1</span> Example of DOS Batch Input
+File</a></li>
 <li><a href="#simple-batch" id="toc-simple-batch"><span class="toc-section-number">11.1.2</span> Simple Batch</a></li>
 <li><a href="#complicated-batch" id="toc-complicated-batch"><span class="toc-section-number">11.1.3</span> Complicated Batch</a></li>
 <li><a href="#running-without-estimation" id="toc-running-without-estimation"><span class="toc-section-number">11.1.4</span> Running Without
 Estimation</a></li>
 <li><a href="#using--hess_step-to-do-additional-newton-steps-using-the-inverse-hessian" id="toc-using--hess_step-to-do-additional-newton-steps-using-the-inverse-hessian"><span class="toc-section-number">11.1.5</span> Using <code>-hess_step</code>
-to do additional Newton steps using the inverse Hessian</a></li>
+to Do Additional Newton Steps Using the Inverse Hessian</a></li>
 <li><a href="#running-parameter-profiles" id="toc-running-parameter-profiles"><span class="toc-section-number">11.1.6</span> Running Parameter
 Profiles</a></li>
 <li><a href="#re-starting-a-run" id="toc-re-starting-a-run"><span class="toc-section-number">11.1.7</span> Re-Starting a Run</a></li>
 <li><a href="#optional-output-subfolders" id="toc-optional-output-subfolders"><span class="toc-section-number">11.1.8</span> Optional Output
 Subfolders</a></li>
 </ul></li>
-<li><a href="#putting-stock-synthesis-in-your-path" id="toc-putting-stock-synthesis-in-your-path"><span class="toc-section-number">11.2</span> Putting Stock Synthesis in your
+<li><a href="#putting-stock-synthesis-in-your-path" id="toc-putting-stock-synthesis-in-your-path"><span class="toc-section-number">11.2</span> Putting Stock Synthesis in Your
 PATH</a>
 <ul>
 <li><a href="#for-unix-os-x-and-linux" id="toc-for-unix-os-x-and-linux"><span class="toc-section-number">11.2.1</span> For Unix (OS X and
@@ -282,10 +282,10 @@ Tool</a></li>
 <li><a href="#output-files-1" id="toc-output-files-1"><span class="toc-section-number">12</span> Output Files</a>
 <ul>
 <li><a href="#custom-reporting" id="toc-custom-reporting"><span class="toc-section-number">12.2</span> Custom Reporting</a></li>
-<li><a href="#standard-admb-output-files" id="toc-standard-admb-output-files"><span class="toc-section-number">12.3</span> Standard ADMB output
-files</a></li>
+<li><a href="#standard-admb-output-files" id="toc-standard-admb-output-files"><span class="toc-section-number">12.3</span> Standard ADMB Output
+Files</a></li>
 <li><a href="#stock-synthesis-summary" id="toc-stock-synthesis-summary"><span class="toc-section-number">12.4</span> Stock Synthesis Summary</a></li>
-<li><a href="#sis-table" id="toc-sis-table"><span class="toc-section-number">12.5</span> SIS table</a></li>
+<li><a href="#sis-table" id="toc-sis-table"><span class="toc-section-number">12.5</span> SIS Table</a></li>
 <li><a href="#derived-quantities" id="toc-derived-quantities"><span class="toc-section-number">12.6</span> Derived Quantities</a>
 <ul>
 <li><a href="#virgin-spawning-biomass-vs.-unfished-spawning-biomass" id="toc-virgin-spawning-biomass-vs.-unfished-spawning-biomass"><span class="toc-section-number">12.6.1</span> Virgin Spawning Biomass vs.
@@ -295,12 +295,12 @@ Mortality</a></li>
 <li><a href="#msy-and-other-benchmark-items" id="toc-msy-and-other-benchmark-items"><span class="toc-section-number">12.6.3</span> MSY and other Benchmark
 Items</a></li>
 </ul></li>
-<li><a href="#brief-cumulative-output" id="toc-brief-cumulative-output"><span class="toc-section-number">12.7</span> Brief cumulative output</a></li>
+<li><a href="#brief-cumulative-output" id="toc-brief-cumulative-output"><span class="toc-section-number">12.7</span> Brief Cumulative Output</a></li>
 <li><a href="#bootstrap-data-files" id="toc-bootstrap-data-files"><span class="toc-section-number">12.8</span> Bootstrap Data Files</a></li>
 <li><a href="#forecast-and-reference-points-forecast-report.sso" id="toc-forecast-and-reference-points-forecast-report.sso"><span class="toc-section-number">12.9</span> Forecast and Reference Points
 (<code>Forecast-report.sso</code>)</a></li>
 </ul></li>
-<li><a href="#sec:r4ss" id="toc-sec:r4ss"><span class="toc-section-number">13</span> Using R To View Model Output
+<li><a href="#sec:r4ss" id="toc-sec:r4ss"><span class="toc-section-number">13</span> Using R to View Model Output
 (<code>r4ss</code>)</a></li>
 <li><a href="#advanced-stock-synthesis-configuration-settings-and-advice" id="toc-advanced-stock-synthesis-configuration-settings-and-advice"><span class="toc-section-number">14</span> Advanced Stock Synthesis
 Configuration Settings and Advice</a>
@@ -313,7 +313,7 @@ Parameters</a></li>
 Parameters: Long Parameter Lines</a></li>
 <li><a href="#specification-of-time-varying-parameters-short-parameter-lines" id="toc-specification-of-time-varying-parameters-short-parameter-lines"><span class="toc-section-number">14.1.3</span> Specification of Time-Varying
 Parameters: Short Parameter Lines</a></li>
-<li><a href="#example-time-varying-parameter-setups" id="toc-example-time-varying-parameter-setups"><span class="toc-section-number">14.1.4</span> Example Time-varying Parameter
+<li><a href="#example-time-varying-parameter-setups" id="toc-example-time-varying-parameter-setups"><span class="toc-section-number">14.1.4</span> Example Time-Varying Parameter
 Setups</a></li>
 <li><a href="#time-varying-growth-considerations" id="toc-time-varying-growth-considerations"><span class="toc-section-number">14.1.5</span> Time-Varying Growth
 Considerations</a></li>
@@ -324,8 +324,8 @@ Time-Varying Parameters</a></li>
 </ul></li>
 <li><a href="#parameterizing-the-two-dimensional-autoregressive-selectivity" id="toc-parameterizing-the-two-dimensional-autoregressive-selectivity"><span class="toc-section-number">14.2</span> Parameterizing the
 Two-Dimensional Autoregressive Selectivity</a></li>
-<li><a href="#continuous-seasonal-recruitment-a.k.a.-seasons-as-years" id="toc-continuous-seasonal-recruitment-a.k.a.-seasons-as-years"><span class="toc-section-number">14.3</span> Continuous seasonal recruitment
-(a.k.a. seasons-as-years)</a></li>
+<li><a href="#continuous-seasonal-recruitment-a.k.a.-seasons-as-years" id="toc-continuous-seasonal-recruitment-a.k.a.-seasons-as-years"><span class="toc-section-number">14.3</span> Continuous Seasonal Recruitment
+(a.k.a. Seasons-as-Years)</a></li>
 </ul></li>
 <li><a href="#detailed-information-on-stock-synthesis-processes" id="toc-detailed-information-on-stock-synthesis-processes"><span class="toc-section-number">15</span> Detailed Information on Stock
 Synthesis Processes</a>
@@ -345,7 +345,6 @@ Correction</a></li>
 <li><a href="#sec:references"><span class="toc-section-number">17</span> References</a></li>
 </ul>
 </nav>
-
 <figure id="fig:logo">
 <div class="center">
 <p><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAAD/4QAiRXhpZgAATU0AKgAAAAgAAQESAAMAAAABAAEAAAAAAAD/7AARRHVja3kAAQAEAAAAZAAA/+EDPGh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8APD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4NCjx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4NCgk8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPg0KCQk8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOnhtcE1NPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvbW0vIiB4bWxuczpzdFJlZj0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL3NUeXBlL1Jlc291cmNlUmVmIyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ1M2IChXaW5kb3dzKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo5MUY3M0M0MEM2RkExMUUzQjRBMTlDRjE2RjA3MjE5OSIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo5MUY3M0M0MUM2RkExMUUzQjRBMTlDRjE2RjA3MjE5OSI+DQoJCQk8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5MUY3M0MzRUM2RkExMUUzQjRBMTlDRjE2RjA3MjE5OSIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5MUY3M0MzRkM2RkExMUUzQjRBMTlDRjE2RjA3MjE5OSIvPg0KCQk8L3JkZjpEZXNjcmlwdGlvbj4NCgk8L3JkZjpSREY+DQo8L3g6eG1wbWV0YT4NCjw/eHBhY2tldCBlbmQ9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" style="height:2in" alt="Logo of the National Oceanic and Atmospheric Administration (NOAA)" /></p>
@@ -434,7 +433,7 @@ topic-focused vignettes.</p>
 <div id="HowToCite">
 
 </div>
-<h2 data-number="1.1" id="how-to-cite"><span class="header-section-number">1.1</span> <a href="#HowToCite">How To
+<h2 data-number="1.1" id="how-to-cite"><span class="header-section-number">1.1</span> <a href="#HowToCite">How to
 Cite</a></h2>
 <p>Please cite Stock Synthesis as:</p>
 <p>Methot, R.D. and Wetzel, C.R. (2013). Stock Synthesis: A biological
@@ -570,7 +569,7 @@ program first starts, it reads the file <code>starter.ss</code>, which
 typically must be located in the same directory from which SS3 is being
 run. The file <code>starter.ss</code> contains required input
 information plus references to other required input files, as described
-in the <a href="#FileOrganization">File Organization section</a>. The
+in the <a href="#FileOrganization">File Organization</a> section. The
 names of the control and data files must match the names specified in
 the <code>starter.ss</code> file. File names, including
 <code>starter.ss</code>, are case-sensitive on Linux and Mac systems but
@@ -580,9 +579,7 @@ when trying to set up a model correctly. Output from SS3 consists of
 text files containing specific keywords. Output processing programs,
 such as Excel or R, can search for these keywords and parse the specific
 information located below that keyword in the text file.</p>
-<div id="ConvIssues">
-
-</div>
+<p>======== Section 5: Converting <span id="ConvIssues"></span></p>
 <h1 data-number="4" id="converting-files-from-stock-synthesis-v.3.24"><span class="header-section-number">4</span> <a href="#ConvIssues">Converting
 Files from Stock Synthesis v.3.24</a></h1>
 <p>Converting files from version 3.24 to version 3.30 can be performed
@@ -660,7 +657,7 @@ File</a></h1>
 
 </div>
 <h2 data-number="5.1" id="reading-the-manuals-format"><span class="header-section-number">5.1</span> <a href="#ManualFormat">Reading
-the Manual’s format</a></h2>
+the Manual’s Format</a></h2>
 <p>SS3 begins by reading the file <code>starter.ss</code>. The starter
 file contains need information on the names of the control and data
 files, run conditions, and output specifications. The term COND appears
@@ -677,7 +674,7 @@ label output to the ss_new files.</p>
 <p>Here we introduce some terminology related to fishing mortality,
 <span class="math inline">\(F\)</span>. This will provide context for
 some of the quantities that will be read from the starter file and used
-throughout the document</p>
+throughout the document.</p>
 <p><span class="math inline">\(f\)</span> is fleet.</p>
 <p><span class="math inline">\(t\)</span> is a time step; continuous
 across years <span class="math inline">\(y\)</span> and seasons <span class="math inline">\(s\)</span>; equivalent to year if only 1
@@ -1520,7 +1517,7 @@ associated lambda values;</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">2 = write report for each mceval; and</td>
+<td style="text-align: left;">2 = write report for each MCEVAL; and</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
@@ -1630,9 +1627,31 @@ features that may impede file conversion.</td>
 </div>
 <h1 data-number="6" id="forecast-file"><span class="header-section-number">6</span> <a href="#ForecastFile">Forecast
 File</a></h1>
-<p>The specification of options for forecasts is contained in the
-mandatory input file named <code>forecast.ss</code>. See <a href="#sec:forecast">Forecast Module: Benchmark and Forecasting
-Calculations</a> for additional details.</p>
+<p>The specification of options for benchmark (reference points) and
+forecasts is contained in the mandatory input file named
+<code>forecast.ss</code>. The benchmark code in SS3 is executed after
+the model has converged its search for the maximum log-likelihood, or
+after each call to MCEVAL when doing MCMC. The benchmark code searches
+for the fleet-specific <span class="math inline">\(F\)</span> values
+that will achieve a user-selected condition in equilibrium. For example,
+it can search for the <span class="math inline">\(F\)</span>s that would
+achieve maximum sustainable catch, or search for the <span class="math inline">\(F\)</span>s that would reduce the spawning stock
+biomass to 40% of the unfished spawning stock biomass. After the
+benchmark calculations are complete, SS3 proceeds to conduct the
+forecast. The forecast is basically a continuation of the time series
+using a user-selected fishing strategy rather than the time series
+approach which finds <span class="math inline">\(F\)</span>s that match
+the input catch. The forecast has controls for a control rule that
+adjusts <span class="math inline">\(F\)</span> as a function of SSB, for
+allocation of catch among fleets, for control of recruitment and
+numerous other features. Both the benchmark and forecast sections have
+options to specify a range of years from the time series from which
+quantities like body weight-at-age, selectivity, and other factors are
+averaged for use in benchmark and/or forecast. A particular aspect of
+the forecast is that it is repeated in up to 3 sequential passes with
+different conditions regarding which aspects of the forecast are
+applied. See <a href="#sec:forecast">Forecast Module: Benchmark and
+Forecasting Calculations</a> for additional details.</p>
 <p>The term COND appears in the “Typical Value” column of this
 documentation (it does not actually appear in the model files) and
 indicates that the following section is omitted except under certain
@@ -1696,9 +1715,8 @@ benchmarks if necessary and report a warning.</td>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;"><div id="MSYMethod">
-<p>MSY Method</p>
-</div>
-<p>:</p></td>
+<p>MSY Method:</p>
+</div></td>
 <td style="text-align: left;">Specifies whether to search for <span class="math inline">\(F_{MSY}\)</span> or to use another <span class="math inline">\(F\)</span> basis as a proxy for <span class="math inline">\(F_{MSY}\)</span>.</td>
 </tr>
 <tr class="odd">
@@ -1728,13 +1746,12 @@ year}\)</span> as proxy; and</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
-<td colspan="2" style="text-align: left;">COND: <span data-acronym-label="msy" data-acronym-form="singular+short">msy</span>
-Method = 5</td>
+<td colspan="2" style="text-align: left;">COND: MSY Method = 5</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">1</td>
-<td style="text-align: left;"><span data-acronym-label="mey" data-acronym-form="singular+short">mey</span> units</td>
+<td style="text-align: left;">MEY units</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
@@ -1760,8 +1777,8 @@ fleet;</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;"><span data-acronym-label="mey" data-acronym-form="singular+short">mey</span> options - Fleet, Cost/F,
-Price/F, and Include <span class="math inline">\(F_{MEY}\)</span> in
+<td style="text-align: left;">MEY options - Fleet, Cost/F, Price/F, and
+Include <span class="math inline">\(F_{MEY}\)</span> in
 Optimization</td>
 <td style="text-align: left;">To calculate the <span class="math inline">\(F_{MEY}\)</span> enter fleet number, the cost per
 fishing mortality, price per mt, and whether optimization should adjust
@@ -1769,10 +1786,9 @@ the fleet’s <span class="math inline">\(F\)</span> or keep it at the
 mean from the benchmark years (0 = no, 1= yes). Take care when scaling
 the values used for cost/<span class="math inline">\(F\)</span> and
 price/mt. Units in the example show cost = 0 and price = 1, so it will
-be identical to <span data-acronym-label="msy" data-acronym-form="singular+short">msy</span> in weight. Note, if a
-fleet’s catch is excluded from the <span class="math inline">\(F_{MEY}\)</span> search, its catch or profits are
-still included in the <span data-acronym-label="msy" data-acronym-form="singular+short">msy</span> value using historical
-<span class="math inline">\(F\)</span> levels from benchmark years.</td>
+be identical to MSY in weight. Note, if a fleet’s catch is excluded from
+the <span class="math inline">\(F_{MEY}\)</span> search, its catch or
+profits are still included in the MSY value using historical <span class="math inline">\(F\)</span> levels from benchmark years.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">-9999 0 0 0</td>
@@ -1844,13 +1860,14 @@ applied as a fraction of <span class="math inline">\(B_{0}\)</span></td>
 <td style="text-align: left;">Benchmark Years:</td>
 <td style="text-align: left;">Requires 5 pairs of year values over which
 the mean of derived vectors will be calculated to use in the benchmark
-(e.g., <span data-acronym-label="msy" data-acronym-form="singular+short">msy</span>) calculations. First pair
-of years is for biology (e.g., growth, natural mortality, maturity,
-fecundity); second is selectivity; third is relative <span class="math inline">\(F\)</span>s among fleets; fourth is movement and
-recruitment distribution; fifth is stock-recruitment (as the parameters,
-not as derived quantities). If a factor is not time-varying, select the
-first model year for the beginning year for the factor or else the
-variance will be artificially reduced.</td>
+(e.g., MSY) calculations. First pair of years is for biology (e.g.,
+growth, natural mortality, maturity, fecundity); second is selectivity;
+third is relative <span class="math inline">\(F\)</span>s among fleets;
+fourth is movement and recruitment distribution; fifth is
+stock-recruitment (as the parameters, not as derived quantities). If a
+factor is not time-varying, select the first model year for the
+beginning year for the factor or else the variance will be artificially
+reduced.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -1900,6 +1917,10 @@ range for selectivity and biology.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
+<td colspan="3" style="text-align: left;"><strong>Next are
+specifications for the forecast.</strong></td>
+</tr>
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">2</td>
 <td style="text-align: left;"><div id="Fcast">
 <p>Forecast Method:</p>
@@ -1917,55 +1938,55 @@ SS3 does in the time series) after taking into account the potential
 forecast recruitment deviations. This 3rd pass approach achieves better
 estimates of the probability distribution for forecast quantities.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">-1 = none, no forecast years;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">0 = simple, single forecast year
 calculated;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">1 = use <span class="math inline">\(F_{SPR}\)</span>;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = use <span class="math inline">\(F_{MSY}\)</span>;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">3 = use <span class="math inline">\(F_{B_{TARGET}}\)</span> or <span class="math inline">\(F_{0.10}\)</span>;</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = set to mean <span class="math inline">\(F\)</span> scalar for the forecast relative <span class="math inline">\(F\)</span> years below; and</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">5 = input annual <span class="math inline">\(F\)</span> scalar.</td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">10</td>
 <td style="text-align: left;">N forecast years (must be &gt;= 1)</td>
 <td style="text-align: left;">At least one forecast year now required if
 the Forecast option above is &gt;= 0 (Note: v.3.24 allowed zero forecast
 years).</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td style="text-align: left;white-space: nowrap;">1</td>
 <td style="text-align: left;"><span class="math inline">\(F\)</span>
 scalar/multiplier</td>
@@ -1973,37 +1994,34 @@ scalar/multiplier</td>
 annual <span class="math inline">\(F\)</span> scalar), but is a required
 line in the forecast file.</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td colspan="3" style="text-align: left;">There are 2 options for
-entering <span id="FcastYears">Forecast Years</span>:</td>
-</tr>
-<tr class="even">
-<td style="text-align: left;white-space: nowrap;">Option 1:</td>
-<td colspan="2" style="text-align: left;">This approach for forecast
-year ranges is no longer recommended because blocks, random effects, and
-other time-varying parameter changes can now operate on forecast years
-and the new approach provides better control averaging.</td>
+entering <span id="FcastYears">Forecast Years</span>: Option 1 is a
+legacy option and option 2 became available in v3.30.23. Option 2 is
+recommended because it provides better control of year averaging and
+blocks, random effects, and other time-varying parameter changes can now
+operate on forecast years to provide year-specific changes during
+forecast years.</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;white-space: nowrap;"></td>
+<td style="text-align: left;white-space: nowrap;">Option 1:</td>
 <td style="text-align: left;"></td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0 0 0 0 0</td>
 <td style="text-align: left;">Enter 6 Forecast Year Values</td>
-<td style="text-align: left;">To continue to use this pre-v.3.20.22
-approach, enter 6 values: beginning and ending years for selectivity,
-relative <span class="math inline">\(F\)</span>s, and recruitment
-distribution. These are used to create means over the specified range of
-years. Values can be entered as the actual year, -999 for start year, or
-values of 0 or -integer to be relative endyr. It is important to
-note:</td>
+<td style="text-align: left;">A line with 6 values: beginning and ending
+years for selectivity, relative <span class="math inline">\(F\)</span>s,
+and recruitment distribution. These are used to create means over the
+specified range of years. Values can be entered as the actual year, -999
+for start year, or values of 0 or -integer to be relative endyr. It is
+important to note:</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -2048,7 +2066,9 @@ range of years is selected.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">0</td>
-<td style="text-align: left;"></td>
+<td style="text-align: left;"><div id="FcastSelectivity">
+<p>Forecast Selectivity Option:</p>
+</div></td>
 <td style="text-align: left;">Determines selectivity used in the
 forecast years. Selecting 1 will allow for application of time-varying
 selectivity parameters (e.g., random walk) to continue into the forecast
@@ -2069,8 +2089,8 @@ time-varying parameters.</td>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">Option 2:</td>
 <td colspan="2" style="text-align: left;">To use the new approach, enter
--12345 and omit the entry of the <a href="#FcastSelectivity">Forecast
-Selectivity Option</a> and the Forecast Year Values.</td>
+-12345 in the location of the first forecast year, omit the 2nd thru 6th
+forecast years and omit the entry of the <a href="#FcastSelectivity">Forecast Selectivity Option</a>.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -2260,26 +2280,26 @@ will be ignored);</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">1 = catch as function of <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>,
-buffer on <span class="math inline">\(F\)</span>;</td>
+<td style="text-align: left;">1 = catch as function of SSB, buffer on
+<span class="math inline">\(F\)</span>;</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">2 = <span class="math inline">\(F\)</span>
-as function of <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>, buffer on <span class="math inline">\(F\)</span>;</td>
+as function of SSB, buffer on <span class="math inline">\(F\)</span>;</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">3 = catch as function of <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>,
-buffer on catch (U.S. West Coast groundfish approach); and</td>
+<td style="text-align: left;">3 = catch as function of SSB, buffer on
+catch (U.S. West Coast groundfish approach); and</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
 <td style="text-align: left;">4 = <span class="math inline">\(F\)</span>
-is a function of <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>, buffer on catch.</td>
+is a function of SSB, buffer on catch.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
@@ -2319,7 +2339,7 @@ protection level.</td>
 <td style="text-align: left;">Protection Level</td>
 <td style="text-align: left;">Control rule level below which <span class="math inline">\(F\)</span> goes to 0.0001. Only read if control
 rule cutoff is negative. See the <a href="#ProtectionLevel">protection
-level section</a> for an illustration.</td>
+level</a> section for an illustration.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;">0.75</td>
@@ -2327,13 +2347,12 @@ level section</a> for an illustration.</td>
 0-1.0 or -1)</td>
 <td style="text-align: left;">Control rule catch or <span class="math inline">\(F_{TARGET}\)</span> as a fraction of selected
 catch or <span class="math inline">\(F_{MSY}\)</span> proxy. The buffer
-will be applied to reduce catch from the estimated <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span>.
-The buffer value is a value between 0-1.0 where a value of 1.0 would set
-catch equal to the <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span>. As example if the buffer
-is applied to catch (Control Rule option 3 or 4 above) the catch will
-equal the buffer times the <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span>. Alternatively a value of
--1 will allow the user to input a forecast year specific control rule
-fraction (added in v.3.30.13).</td>
+will be applied to reduce catch from the estimated OFL. The buffer value
+is a value between 0-1.0 where a value of 1.0 would set catch equal to
+the OFL. As example if the buffer is applied to catch (Control Rule
+option 3 or 4 above) the catch will equal the buffer times the OFL.
+Alternatively a value of -1 will allow the user to input a forecast year
+specific control rule fraction (added in v.3.30.13).</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -2391,13 +2410,12 @@ up to three times.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">1 = <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span> only;</td>
+<td style="text-align: left;">1 = OFL only;</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">2 = <span data-acronym-label="abc" data-acronym-form="singular+short">abc</span> control rule and
-buffers;</td>
+<td style="text-align: left;">2 = ABC control rule and buffers;</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
@@ -2410,15 +2428,14 @@ input catch and redo forecast implementation error.</td>
 <td style="text-align: left;white-space: nowrap;">3</td>
 <td style="text-align: left;"><a href="#appendB">First forecast loop
 with stochastic recruitment</a></td>
-<td style="text-align: left;">If this is set to 1 or 2, then <span data-acronym-label="ofl" data-acronym-form="singular+short">ofl</span>
-and <span data-acronym-label="abc" data-acronym-form="singular+short">abc</span> will be calculated as if
-there was perfect knowledge about future recruitment deviations. If
-running a long forecast (e.g., 10-100 years) it is recommended to run
-without recruitment deviations because running long forecasts where
-recruitment deviations aren’t turned on until loop 3 may have poor
-results (e.g., crashed stock), especially if below mean forecast
-recruitment is assumed (via <a href="#FcastRecruitment">Base recruitment
-in forecast</a> option, next input line).</td>
+<td style="text-align: left;">If this is set to 1 or 2, then OFL and ABC
+will be calculated as if there was perfect knowledge about future
+recruitment deviations. If running a long forecast (e.g., 10-100 years)
+it is recommended to run without recruitment deviations because running
+long forecasts where recruitment deviations aren’t turned on until loop
+3 may have poor results (e.g., crashed stock), especially if below mean
+forecast recruitment is assumed (via <a href="#FcastRecruitment">Base
+recruitment in forecast</a> option, next input line).</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -2449,7 +2466,7 @@ forecast:</a> <span id="FcastRecruitment"></span></td>
 a range of historical recruitments after all adjustments and deviations
 were applied. For options 1 and 2, the next value read is a scalar
 applied to the base. Option 4 requires the user set the <a href="#FcastRecDevPhase">forecast recruitment deviation phase</a> to
-negative (specifically -1 to get constant mean in <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span>) and the <a href="#RecDevEndYear">last year of recruitment deviations</a> is the <a href="#EndYear">end year</a>.</td>
+negative (specifically -1 to get constant mean in MCMC) and the <a href="#RecDevEndYear">last year of recruitment deviations</a> is the <a href="#EndYear">end year</a>.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -2580,7 +2597,7 @@ and</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
-<td style="text-align: left;">2 = read season(row) <span class="math inline">\(\times\)</span> fleet (column) set <a href="#FleetRelF">in section below</a>.</td>
+<td style="text-align: left;">2 = read season(row) <span class="math inline">\(\times\)</span> fleet (column) set <a href="#FleetRelF">in the section below</a>.</td>
 <td style="text-align: left;"></td>
 </tr>
 <tr class="even">
@@ -2897,11 +2914,10 @@ occasionally be referred to as “yield”.</p>
 <p><br />
 The principle measure of fish abundance, for the purpose of reference
 point calculation, is female reproductive output. This is referred to as
-<span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span> and sometimes just “B”
-because the typical user settings have one unit of reproductive output
-(fecundity) per kg of mature female biomass. So when the output label
-says <span class="math inline">\(B_{MSY}\)</span>, this is actually the
-female reproductive output at the proxy for <span class="math inline">\(F_{MSY}\)</span>.</p>
+SSB and sometimes just “B” because the typical user settings have one
+unit of reproductive output (fecundity) per kg of mature female biomass.
+So when the output label says <span class="math inline">\(B_{MSY}\)</span>, this is actually the female
+reproductive output at the proxy for <span class="math inline">\(F_{MSY}\)</span>.</p>
 <h4 data-number="6.3.0.5" id="fleet-allocation"><span class="header-section-number">6.3.0.5</span> Fleet Allocation</h4>
 <p><br />
 An important concept for the reference point calculation is the
@@ -2921,8 +2937,8 @@ input as a set of fixed values.</p></li>
 an effect on the standard deviation estimated, even in models with no
 time-varying biology. It is recommended to use the first model year
 except when biology is time-varying. Note that when biology is
-time-varying, the fecundity vector, which is used to calculate <span data-acronym-label="ssb" data-acronym-form="singular+short">ssb</span>,
-will be updated in every iteration for every year that has time-varying
+time-varying, the fecundity vector, which is used to calculate SSB, will
+be updated in every iteration for every year that has time-varying
 biology.</p></li>
 <li><p>Note for Bycatch Fleets: The forecast <span class="math inline">\(F\)</span> for a bycatch fleet is normally set in
 the <a href="#BycatchFleets">bycatch setup in the data file</a> to be
@@ -3008,14 +3024,13 @@ provided for this feature. These are:</p>
 <li><p>0 = Do nothing: this is the default and will invoke no special
 treatment for the forecast recruitments.</p></li>
 <li><p>1 = Multiplier on spawner-recruitment: the expected recruitment
-from the <span data-acronym-label="srr" data-acronym-form="singular+short">srr</span> is multiplied by this
-factor.</p>
+from the SRR is multiplied by this factor.</p>
 <ul>
 <li><p>This is a multiplier, so null effect comes from a value of
 1.0.</p></li>
-<li><p>The order of operations is to apply the <span data-acronym-label="srr" data-acronym-form="singular+short">srr</span>,
-then the regime effect, then this special forecast effect, then bias
-adjustment, then the deviations.</p></li>
+<li><p>The order of operations is to apply the SRR, then the regime
+effect, then this special forecast effect, then bias adjustment, then
+the deviations.</p></li>
 <li><p>In the spawner recruit output of the <code>Report.sso</code>
 there are 4 recruitment values stored.</p></li>
 </ul></li>
@@ -3117,7 +3132,7 @@ used if age data are included.</p></li>
 <li><p>Occurs in specified settlement events that occur at
 user-specified dates (in real months, 1.0 - 12.99) that are on or after
 the spawning event. See the section on <a href="#SettlementTiming">Settlement Timing for Recruits and
-Distribution</a></p></li>
+Distribution</a>.</p></li>
 <li><p>The output labels for each annual recruitment with a year value.
 This is the year in which the recruitment was spawned and the year in
 which those recruits are integer age 0.</p></li>
@@ -3159,8 +3174,8 @@ change if the seasonal configuration is changed.</p></li>
 <li><p>Season duration is input in units of real months and converted
 into fractions of a year by dividing each input season duration value by
 the sum of the input durations to assure that they sum exactly to 1.0
-(except see a special treatment in the <a href="#continuous-seasonal-recruitment-sec">seasons-as-years
-section</a>). For example:</p>
+(except see a special treatment in the <a href="#continuous-seasonal-recruitment-sec">seasons-as-years</a>
+section). For example:</p>
 <ul>
 <li><p>3 #_Nseas</p></li>
 <li><p>1 4.5 6.5 #_months/season (for example, to match a spawning
@@ -3794,7 +3809,7 @@ value, and a year-specific catch standard error. Only positive catches
 need to be entered, so there is no need for records corresponding to all
 years and fleets. To include an equilibrium catch value for a fleet and
 season, the year should be noted as -999. For each non-zero equilibrium
-catch value included, a short parameter line is required in the <a href="#InitF">initial <span class="math inline">\(F\)</span> section</a>
+catch value included, a short parameter line is required in the <a href="#InitF">initial <span class="math inline">\(F\)</span></a> section
 of the control file.</p>
 <div id="ListBased">
 
@@ -6527,7 +6542,7 @@ value rather than having to comment them out. The first output to
 <code>data.ss_new</code> has the unaltered and complete input data.
 Subsequent reports to <code>data.ss_new</code> produce expected values
 or bootstraps only for the data that are being used. Additional
-information on bootstrapping is available in <a href="#bootstrap">Bootstrap Data Files Section</a>.</p>
+information on bootstrapping is available in <a href="#bootstrap">Bootstrap Data Files</a> section.</p>
 <p>Data that are to be included in the calculations of expected values,
 but excluded from the calculation of negative log likelihood, are
 flagged by use of a negative value for fleet number.</p>
@@ -7196,7 +7211,7 @@ settlement, which is its real age 0.0 for growth</p></li>
 <li><p>If a settlement is not at the beginning of a season, the numbers
 of settlers placed in the numbers-at-age table are inflated by the
 amount of natural mortality that occurs from the start of the season to
-the time of the settlement event. Note that this allows those fis to be
+the time of the settlement event. Note that this allows those fish to be
 caught or surveyed if their selection is &gt; 0.0.</p></li>
 <li><p>Age at settlement should be 0 if settlement month is between the
 time of spawning and the end year. It is expected to have age at
@@ -7499,7 +7514,7 @@ the forecast section.</p>
 <div id="autogen">
 
 </div>
-<h3 data-number="8.4.5" id="auto-generation"><span class="header-section-number">8.4.5</span> <a href="#autogen">Auto-generation</a></h3>
+<h3 data-number="8.4.5" id="auto-generation"><span class="header-section-number">8.4.5</span> <a href="#autogen">Auto-Generation</a></h3>
 <p>Auto-generation is a useful way to automatically create the required
 short time-varying parameter lines which will be written in the
 <code>control.ss_new</code> file. These parameter lines can then be
@@ -7659,7 +7674,7 @@ the female parameters, so a parameter value of 0.0 for a male parameter
 will fix the parameter as same as the female parameter. Alternatively,
 using offset option 1 and setting males to 0.0 and not estimating the
 parameter fixes the parameter at the value of the female parameter (the
-<a href="#male-shortcut">section on fixing male parameters the same as
+section on <a href="#male-shortcut">fixing male parameters the same as
 female parameters</a> has more details). This fulfills an additional
 assumption: <span class="math inline">\(M\)</span> caused by
 reproduction may differ by sex, but juvenile <span class="math inline">\(M\)</span> is independent of sex.</p>
@@ -8498,7 +8513,7 @@ females.</td>
 </tbody>
 </table>
 <p>The hermaphroditism option requires three full parameter lines in the
-<a href="#HermaphroditeBiology">mortality and growth section</a>. These
+<a href="#HermaphroditeBiology">mortality and growth</a> section. These
 parameters control a cumulative normal distribution function as
 follows:</p>
 <ol>
@@ -9438,7 +9453,7 @@ The model allows a short-cut for males to use the same parameter values
 as female fish for natural mortality, length minimum (Length at Amin),
 maximum length (Length at Amax), coefficient at younger ages (CV1),
 coefficient at older ages (CV2), and the growth coefficient (K) when
-using offset option = 1 (the <a href="#offset">offset section</a> has
+using offset option = 1 (the <a href="#offset">offset</a> section has
 information on the options available). If the INIT parameter value for
 males is set equal to 0.0 and the phase set to negative, not estimated,
 each of these male parameters will use the corresponding female
@@ -9447,10 +9462,10 @@ parameter value for the males.</p>
 
 </div>
 <h3 data-number="8.5.11" id="time-varying-parameters"><span class="header-section-number">8.5.11</span> <a href="#TVParams">Time-varying Parameters</a></h3>
-<p>Please see <a href="#tvOrder">the Time-Varying Parameter
-Specification and Setup section</a> for details on how to set up time
-varying parameters. In short, additional short parameter lines will be
-needed after the long parameter lines. There are some <a href="#tvgrowth">additional considerations</a> for time-varying
+<p>Please see the <a href="#tvOrder">Time-Varying Parameter
+Specification and Setup</a> section for details on how to set up
+time-varying parameters. In short, additional short parameter lines will
+be needed after the long parameter lines. There are some <a href="#tvgrowth">additional considerations</a> for time-varying
 growth.</p>
 <div id="SeasBio">
 
@@ -10386,7 +10401,7 @@ model seasons as years and there is a need to impose a periodicity to
 the expected recruitment level. If value is &gt; 0, then read that
 number of full parameter lines below define the recruitment cycle. See
 more information on setting up seasons as years model in the <a href="#continuous-seasonal-recruitment-sec">continuous seasonal
-recruitment section</a>.</td>
+recruitment</a> section.</td>
 </tr>
 <tr class="odd">
 <td style="text-align: left;white-space: nowrap;"></td>
@@ -10568,8 +10583,8 @@ this value to the <span data-acronym-label="rmse" data-acronym-form="singular+sh
 deviations in the <code>Report.sso</code> file. A warning is generated
 if the <span data-acronym-label="rmse" data-acronym-form="singular+short">rmse</span> is small and the bias
 adjustment is larger than 2.0 times the ratio of <span class="math inline">\(RMSE^2\)</span> to <span class="math inline">\(\sigma^2_R\)</span>. Additional information on
-recruitment bias adjustment can be found in the <a href="#BiasCorrect">Recruitment Variability and Bias Correction
-section</a>.</p>
+recruitment bias adjustment can be found in the <a href="#BiasCorrect">Recruitment Variability and Bias Correction</a>
+section.</p>
 <p>In <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> mode, the model still
 draws recruitment deviations from the log-normal distribution, so the
 full offset is used such that the expected mean recruitment from this
@@ -10625,7 +10640,7 @@ used, and reported.</p>
 <p><br />
 The nomenclature below ignores sex, morphs and areas for simplicity. The
 quantities associated with <span class="math inline">\(F\)</span>
-calculations are defined as:The quantities associated with <span class="math inline">\(F\)</span> calculations are defined as:</p>
+calculations are defined as:</p>
 <ul>
 <li><p><span class="math inline">\(f\)</span> is fleet.</p></li>
 <li><p><span class="math inline">\(t\)</span> is a time step; continuous
@@ -11040,7 +11055,7 @@ it generally is best to estimate the parameter in phase 1. The initial
 shown in the example below - by season, then within a season, by
 fleet.</p>
 <p>If the initial equilibrium catch is near <span data-acronym-label="msy" data-acronym-form="singular+short">msy</span>,
-than a logical inconsistency may occur as documented in the <a href="#EquilRecr">Equilibrium Recruitment section</a>.</p>
+then a logical inconsistency may occur as documented in the <a href="#EquilRecr">Equilibrium Recruitment</a> section.</p>
 <p>It is possible to use the initial <span class="math inline">\(F\)</span> method to achieve an estimate of the
 initial equilibrium <span class="math inline">\(Z\)</span> in cases
 where the initial equilibrium catch is unknown. To do this requires 2
@@ -11208,7 +11223,7 @@ number)</p>
 <ol>
 <li><p>&gt; 0 = mirror the Q from another (lower numbered survey
 designated by referencing the fleet number).</p></li>
-<li><p>If an index of a deviation vector , option 35, use this column to
+<li><p>If an index of a deviation vector, option 35, use this column to
 enter the index of the deviation vector to which the index is related.
 For example, if only using one index in your model, this number would be
 1.</p></li>
@@ -12655,7 +12670,7 @@ required number of parameter lines is twice this value, with the first
 set of N parameters providing the length at each break point (which
 should be fixed via a negative phase) and the second set of N provides
 the absolute selectivity at each point.</p>
-<p>All of the selectivity parameters must to be non-negative, having a
+<p>All of the selectivity parameters must be non-negative, having a
 lower bound at 0 (or higher). There is no rescaling to ensure a maximum
 of 1.0. Therefore it may make sense to have upper bounds at 1.0.
 Alternatively, a prior centered at 1.0 could be added to the parameter
@@ -13533,7 +13548,7 @@ v.3.30.19, use selectivity pattern 2.</p></li>
 <div id="Dirichletparameter">
 
 </div>
-<h3 data-number="8.9.7" id="dirichlet-multinomial-error-for-data-weighting"><span class="header-section-number">8.9.7</span> <a href="#Dirichletparameter">Dirichlet-multinomial Error for Data
+<h3 data-number="8.9.7" id="dirichlet-multinomial-error-for-data-weighting"><span class="header-section-number">8.9.7</span> <a href="#Dirichletparameter">Dirichlet-Multinomial Error for Data
 Weighting</a></h3>
 <p>If the Dirichlet-multinomial error distribution was selected in the
 data file for length or age data weighting, add additional parameter
@@ -13632,8 +13647,8 @@ deviations around this baseline rather than the account for
 misspecification of the underlying functional form. Otherwise, a simple
 parametric selectivity form like logistic or exponential logistic would
 be a reasonable choice. With regard to the variability, never estimate
-the sigma parameters as estimates will biased toward zero. Setting the
-sigma near 1.0 is advised as an initial default unless the user
+the sigma parameters as estimates will be biased toward zero. Setting
+the sigma near 1.0 is advised as an initial default unless the user
 explicitly determines superior performance of a different value.</p>
 <table>
 <thead>
@@ -14945,15 +14960,13 @@ executable name (without the <code>.exe</code> extension):</p>
 <pre><code>	&gt; ss3
 	</code></pre>
 </blockquote>
-<div class="mybox">
-<p><span>Note</span> If you are on a Windows system and get a warning
-about the Microsoft Defender SmartScreen preventing an unrecognized app
-from starting, follow <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-change-the-mode-of-smart-app-control-from/399a276f-5585-40fe-b72d-c014cac82b32">these
+<p><strong>Note:</strong> If you are on a Windows system and get a
+warning about the Microsoft Defender SmartScreen preventing an
+unrecognized app from starting, follow <a href="https://answers.microsoft.com/en-us/windows/forum/all/how-to-change-the-mode-of-smart-app-control-from/399a276f-5585-40fe-b72d-c014cac82b32">these
 instructions</a> to turn the Smart App Control off. If you don’t have
 permissions to do so, either contact your IT department to have them
 change the setting or use <code>r4ss::get_ss3_exe()</code> which seems
 to work in this case too.</p>
-</div>
 <p>On Mac and Linux computers, the executable name must be preceded by a
 period and slash (unless its location has been added to the user’s
 PATH). Note that the user may need to change permissions for Stock
@@ -14991,17 +15004,17 @@ location and referenced either by adding it to the PATH or by a script
 files. Further discussion on script files for Windows is below.</p>
 <p>Often there is a need to run the model with no estimation.
 Alternative methods to run SS3 without estimating parameters are
-documented in the <a href="#NoEst">Running Without Estimation
-section</a>.</p>
+documented in the <a href="#NoEst">Running Without Estimation</a>
+section.</p>
 <p>As of <span data-acronym-label="admb" data-acronym-form="singular+short">admb</span> 12.3, a new command
 called <code>-hess_step</code> is available to use and documented in the
-<a href="#hess-step">Using <code>-hess_step</code> to do additional
-Newton steps using the inverse Hessian</a></p>
+<a href="#hess-step">Using <code>-hess_step</code> to Do Additional
+Newton Steps Using the Inverse Hessian</a> section.</p>
 <div id="DOS">
 
 </div>
 <h3 data-number="11.1.1" id="example-of-dos-batch-input-file"><span class="header-section-number">11.1.1</span> <a href="#DOS">Example of
-DOS batch input file</a></h3>
+DOS Batch Input File</a></h3>
 <p>One file management approach is to put <code>ss3.exe</code> in its
 own folder (example: C:\SS3_model) and to put your input files in
 separate folder (example: C:\My Documents \SS3_runs). Then a DOS batch
@@ -15173,7 +15186,7 @@ v.3.30.16 and later.</p>
 
 </div>
 <h3 data-number="11.1.5" id="using--hess_step-to-do-additional-newton-steps-using-the-inverse-hessian"><span class="header-section-number">11.1.5</span> <a href="#hess-step">Using
-<code>-hess_step</code> to do additional Newton steps using the inverse
+<code>-hess_step</code> to Do Additional Newton Steps Using the Inverse
 Hessian</a></h3>
 <p>The optimizer in <span data-acronym-label="admb" data-acronym-form="singular+short">admb</span> is designed to run until
 the maximum absolute gradient (mag) is small enough (e.g., 1e-05), after
@@ -15212,7 +15225,7 @@ each run Report file, <code>SSsummarize()</code> will summarize key
 model quantities, and the <code>SSplotProfile()</code> and
 <code>PinerPlot()</code> functions can be used to visualize results.
 Additional information regarding <code>r4ss</code> can be found in the
-<a href="#sec:r4ss">r4ss section</a>.</p>
+<a href="#sec:r4ss">r4ss</a> section.</p>
 <p>The second way is to create and run a batch file to profile over
 parameters. This example will run a profile on natural mortality and
 spawner-recruitment steepness, of course. Edit the control file so that
@@ -15319,7 +15332,7 @@ folder called ssnew before running the model.</p>
 
 </div>
 <h2 data-number="11.2" id="putting-stock-synthesis-in-your-path"><span class="header-section-number">11.2</span> <a href="#SS3inPath">Putting
-Stock Synthesis in your PATH</a></h2>
+Stock Synthesis in Your PATH</a></h2>
 <p>Instead of copying the SS3 executable to each model folder, SS3 can
 be put in your system path, which is a list of folders that your
 operating system looks in whenever you type the name of a program on the
@@ -15430,7 +15443,7 @@ package within the R console:</p>
 <p>Running SS3 from within R may be desirable for setting up simulations
 where many runs of SS3 models are required (e.g., <a href="https://github.com/ss3sim/ss3sim"><code>ss3sim</code></a>) or if
 <code>r4ss</code> is already used to read model output. Additional
-information regarding <code>r4ss</code> can be found in the <a href="#sec:r4ss">r4ss section</a>.</p>
+information regarding <code>r4ss</code> can be found in the <a href="#sec:r4ss">r4ss</a> section.</p>
 <div id="SSI">
 
 </div>
@@ -15543,7 +15556,7 @@ the starter file for the model to begin from the par file, and call the
 <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> function using
 <code>ss3 -mcmc xxxx - mcsave yyyy -nohess -noest</code>.</p></li>
 </ul>
-<p>Run SS3 with argument -mceval to get more summaries</p>
+<p>Run SS3 with argument <code>-mceval</code> to get more summaries</p>
 <ul>
 <li><p>This generates the posterior output files.</p></li>
 <li><p>Optional: Modify starter file entries to add a burn-in and
@@ -16546,7 +16559,7 @@ a range of knife-edge and per-age alternatives.</td>
 <td style="text-align: left;">Read by
 <code>SS_read_summary()</code></td>
 <td style="text-align: left;">See <a href="#SS3Summary">Stock Synthesis
-Summary section</a>.</td>
+Summary</a> section.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">57</td>
@@ -16561,8 +16574,8 @@ output.</td>
 <td style="text-align: left;white-space: nowrap;">58</td>
 <td style="text-align: left;"><code>SIStable.sso</code></td>
 <td style="text-align: left;">NA</td>
-<td style="text-align: left;">See <a href="#SIStable">SIS table
-section</a>.</td>
+<td style="text-align: left;">See <a href="#SIStable">SIS table</a>
+section.</td>
 </tr>
 <tr class="even">
 <td style="text-align: left;white-space: nowrap;">59</td>
@@ -16612,7 +16625,7 @@ option.</p>
 
 </div>
 <h2 data-number="12.3" id="standard-admb-output-files"><span class="header-section-number">12.3</span> <a href="#ADMBOutput">Standard
-ADMB output files</a></h2>
+ADMB Output Files</a></h2>
 <p>Standard <span data-acronym-label="admb" data-acronym-form="singular+short">admb</span> files are created by SS3.
 These are:</p>
 <p><code>ss3.par</code> (previously <code>ss.par</code>) - This file has
@@ -16664,7 +16677,7 @@ January 1.</p>
 
 </div>
 <h2 data-number="12.5" id="sis-table"><span class="header-section-number">12.5</span> <a href="#SIStable">SIS
-table</a></h2>
+Table</a></h2>
 <p>The <code>SIS_table.sso</code> is deprecated as of v.3.30.17. Please
 use the <code>r4ss</code> function <code>get_SIS_info()</code> to
 produce output formatted for reading into the <span data-acronym-label="nmfs" data-acronym-form="singular+short">nmfs</span>
@@ -16745,7 +16758,7 @@ The <span class="math inline">\(F\)</span> statistics are displayed most
 explicitly in the <code>Report.sso</code> table “EXPLOITATION
 report:14”. There, the table columns are:</p>
 <blockquote>
-<pre><code>	Yr Seas Seas\_dur F\_std annual\_F annual\_M &lt;each fleet&#39;s F\_scalar&gt;
+<pre><code>	Yr Seas Seas_dur F_std annual_F annual_M &lt;each fleet&#39;s F_scalar&gt;
 	</code></pre>
 </blockquote>
 <p>In this table, the displayed value for <span class="math inline">\(\text{annual\_}F\)</span> will be from the <span class="math inline">\(F=Z-M\)</span> method regardless of which option
@@ -16760,7 +16773,7 @@ is the mid-age of the age range of the model.</p>
 presented in <code>Report.sso</code> as table 39. Its header looks
 like:</p>
 <blockquote>
-<pre><code>	F\_AT\_AGE report:39
+<pre><code>	F_AT_AGE report:39
 	Area Fleet Sex Morph Yr Seas Era 0 1 2
 	</code></pre>
 </blockquote>
@@ -16782,15 +16795,15 @@ of <span class="math inline">\(F\text{-at-Age/year}\)</span>. From this
 user-desired statistics could be calculated. The header for this table
 looks like:</p>
 <blockquote>
-<pre><code>	Z\_AT\_AGE\_Annual\_2 With\_fishery
-	Bio\_Pattern Sex Yr  0 1 2
+<pre><code>	Z_AT_AGE_Annual_2 With_fishery
+	Bio_Pattern Sex Yr  0 1 2
 	</code></pre>
 </blockquote>
 <p>A more detailed report provides <span class="math inline">\(Z\)</span> for each area, bio group (sex, morph,
 platoon) and age. It is titled something like
 “Report_Z_by_area_morph_platoon_1 No_fishery”. This table is done with
 and without the <span class="math inline">\(F\)</span> turned on, so
-that pair pf reports could be processed to get total <span class="math inline">\(F\)</span> by area, bio, age.</p>
+that pair of reports could be processed to get total <span class="math inline">\(F\)</span> by area, bio, age.</p>
 <h4 data-number="12.6.2.4" id="relative-f-and-ftextmult"><span class="header-section-number">12.6.2.4</span> Relative <span class="math inline">\(F\)</span> and <span class="math inline">\(F\text{mult}\)</span></h4>
 <p><br />
 The <span class="math inline">\(F&#39;\)</span> is fleet-specific, so it
@@ -16954,7 +16967,7 @@ with <span data-acronym-label="msy" data-acronym-form="singular+short">msy</span
 <div id="CumulativeOutput">
 
 </div>
-<h2 data-number="12.7" id="brief-cumulative-output"><span class="header-section-number">12.7</span> <a href="#CumulativeOutput">Brief cumulative output</a></h2>
+<h2 data-number="12.7" id="brief-cumulative-output"><span class="header-section-number">12.7</span> <a href="#CumulativeOutput">Brief Cumulative Output</a></h2>
 <p>Cum_Report.sso: contains a brief version of the run output, which is
 appended to current content of file so results of several runs can be
 collected together. This is especially useful when a batch of runs is
@@ -17120,7 +17133,7 @@ check the <span class="math inline">\(F_{MSY}\)</span> search for
 convergence. The <span class="math inline">\(F_{MSY}\)</span> can be
 calculated, or set equal to one of the other <span class="math inline">\(F\)</span> reference points per the selection made
 in <code>starter.ss</code>.</p>
-<h1 data-number="13" id="sec:r4ss"><span class="header-section-number">13</span> <a href="#sec:r4ss">Using R To
+<h1 data-number="13" id="sec:r4ss"><span class="header-section-number">13</span> <a href="#sec:r4ss">Using R to
 View Model Output (<code>r4ss</code>)</a></h1>
 <p>The R package <code>r4ss</code> includes tools for summarizing and
 plotting results, manipulating files, visualizing model
@@ -17436,7 +17449,7 @@ parameter bound of base parameter</p></li>
 </ul></li>
 <li><p>The variable options (tens and ones place, or <span class="math inline">\(E_{y}\)</span>) for the env_var&amp;link input are
 either 1) a positive integer from 1 to 99 referencing a time series
-located in the <a href="#env-dat">environmental data section</a> of the
+located in the <a href="#env-dat">environmental data</a> section of the
 data file, or 2) a negative value of -1 to -4 where <span class="math inline">\(E_y\)</span> is one of the following model-derived
 quantities:</p>
 <ul>
@@ -17551,7 +17564,7 @@ lines are required. These parameter lines differ amongst the trend
 options.</p>
 <p>The input value options for element 13 are:</p>
 <ul>
-<li><p>&gt; 0: time block index for parameter. See the <a href="#timeblocks">time blocks section</a> of the control file for more
+<li><p>&gt; 0: time block index for parameter. See the <a href="#timeblocks">time blocks</a> section of the control file for more
 information on specifying time blocks.</p></li>
 <li><p>-1: Trend Offset option. Three parameters are estimated: end
 trend value as a logistic offset (input as <span class="math inline">\(ln(P_{\text{offset}})\)</span>), inflection year
@@ -17600,7 +17613,7 @@ Parameter Lines</a></h3>
 for a particular section requires additional parameters, short parameter
 lines need to be created following the long parameter lines for the
 section (unless <a href="#autogen">autogeneration</a> is used, which
-creates short parameter lines in <code>control.ss\_new</code> upon
+creates short parameter lines in <code>control.ss_new</code> upon
 running the model). The number of parameter lines required depends on
 the time-varying parameter specification.</p>
 <p>For example, if two parameters were specified to have environmental
@@ -17750,7 +17763,7 @@ deviation).</p></li>
 
 </div>
 <h3 data-number="14.1.4" id="example-time-varying-parameter-setups"><span class="header-section-number">14.1.4</span> <a href="#ExTVParam">Example
-Time-varying Parameter Setups</a></h3>
+Time-Varying Parameter Setups</a></h3>
 <p>The time-varying parameter options in Stock Synthesis are flexible.
 Below are some example setups that illustrate how the time-varying
 options could be used in a model, although there are many more possible
@@ -18109,8 +18122,8 @@ autocorrelations in <span class="math inline">\(\epsilon_{a,t}\)</span>.</p>
 <div id="continuous-seasonal-recruitment-sec">
 
 </div>
-<h2 data-number="14.3" id="continuous-seasonal-recruitment-a.k.a.-seasons-as-years"><span class="header-section-number">14.3</span> <a href="#continuous-seasonal-recruitment-sec">Continuous seasonal
-recruitment (a.k.a. seasons-as-years)</a></h2>
+<h2 data-number="14.3" id="continuous-seasonal-recruitment-a.k.a.-seasons-as-years"><span class="header-section-number">14.3</span> <a href="#continuous-seasonal-recruitment-sec">Continuous Seasonal
+Recruitment (a.k.a. Seasons-as-Years)</a></h2>
 <p>The seasons-as-years approach was designed to operate in situations
 where recruitment occurs throughout the year. In this case, the concept
 of fish age in integer calendar years is no longer applicable, but we
@@ -18151,10 +18164,9 @@ and their effect is conditional on the season duration.</p>
 <li><p>1 #_Nseas</p></li>
 <li><p>1 #_months/season</p></li>
 <li><p># resultant season duration = 0.08333</p></li>
-</ul>
-<div class="mybox">
-<p><span><strong>With continuous season option 1, the user will see this
-warning</strong></span><br />
+</ul></li>
+<li><p><strong>With continuous season option 1, the user will see this
+warning</strong><br />
 Warning: Season durations sum to &lt; 11.9, so SS3 assumes you are doing
 years as pseudo-seasons. There can be only 1 season in this time-step
 and SS3 will ignore month input and assume all observation occur at
@@ -18164,8 +18176,7 @@ they are used. What gets reported as age is now age in time-steps; and
 input of age-specific <span class="math inline">\(M\)</span> or <span class="math inline">\(K\)</span> requires one entry per time-step.
 Similarly, output of age-specific quantities is in terms of number of
 time-steps, not real years. Spawn_month and settlement_month in control
-file are best set to 1.0 when doing years as pseudo-seasons.</p>
-</div></li>
+file are best set to 1.0 when doing years as pseudo-seasons.</p></li>
 <li><p><strong>Option 3: Manual season duration adjustment</strong>
 <span id="option3"></span><br />
 This creates a continuous stream of seasons and each is treated as if it
@@ -18738,8 +18749,8 @@ a random variable that scales population abundance before passing into
 the forecast stage. Complication is figuring out how to link it to the
 correlated error in the benchmark quantities</p></li>
 <li><p>Because all of these calculations occur only in the standard
-deviation phase (sdphase) or the <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> evaluation (mceval)
-phase, it would be feasible for mceval calls to add a pass that is
+deviation phase (sdphase) or the <span data-acronym-label="mcmc" data-acronym-form="singular+short">mcmc</span> evaluation (MCEVAL)
+phase, it would be feasible for MCEVAL calls to add a pass that is
 implemented many times and in which random forecast recruitment draws
 are made.</p></li>
 <li><p>Factors like selectivity and fleet relative <span class="math inline">\(F\)</span> levels are calculated as an average of
