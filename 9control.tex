@@ -473,6 +473,7 @@ Like the original Lorenzen options, ages will have an $M$ scaled to its body siz
 \hypertarget{Growth}{}
 \subsubsection[Growth]{\protect\hyperlink{Growth}{Growth}}
 
+\hypertarget{vonBert}{}
 \myparagraph{von Bertalanffy growth function}
 
 The von Bertalanffy growth curve is parameterized as:
@@ -489,6 +490,8 @@ with parameters $L_{1}$, $L_\infty$, and $k$. The $L_\infty$ is calculated as:
 
 based on the input values of fixed age for first size-at-age ($A_1$) and fixed age for second size-at-age ($A_2$). 
 
+How to specify the von Bertalanffy growth function can be found in the \hyperlink{GrowthSpecifications}{table below} listed as option 1.
+
 \myparagraph{Growth Timing} 
 Fish recruit (settle) at the real age of 0.0 at the specified settlement month. The A1 time value (also termed Growth Amin, Amin, or $A_1$), is a time offset (in units of years) relative to that settlement date. It is the age at which the fish begin growing according to the specified growth function. The A1 and A2 values are input \hyperlink{Amin}{immediately after the control file's specification of the growth function}. The L\_at\_Amin parameter (here Lmin) is the fish body length at Amin. Three approaches are possible depending upon the value of A1.
 
@@ -504,6 +507,7 @@ Amin ($A_{1}$ in the von Bertalanffy equation) can also be used to represent the
 \myparagraph{Maximum Length ($Linf$)}
 If ``Growth at age for L2'' is set equal to 999, then the size at the $L_2$ parameter is used as $Linf$. 
 
+\hypertarget{Richards}{}
 \myparagraph{Richards growth function}
 The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for a variety of growth curve shapes. The Richards growth is invoked by entering option 2 in the growth type field. The Richards growth function uses the standard growth parameters ($L_1$, $L_2$, $k$) and a fourth shape parameter $b$ that is specified after the growth coefficient $k$.
 
@@ -523,17 +527,24 @@ When $A_1$ is greater than the youngest age in the model, some combinations of R
 
 The SS3 website includes \href{https://nmfs-ost.github.io/ss3-website/qmds/richards_growth_curve.html}{a vignette} providing further technical insights for using the Richards growth model in Stock Synthesis.
 
-	
+How to specify the Richards (and Gompertz) growth function can be found in the \hyperlink{GrowthSpecifications}{table below} listed as option 2.
+
 \myparagraph{Mean size-at-maximum age}
 The mean size of fish in the max age bin depends upon how close the growth curve is to $Linf$ by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to $M$ plus initial $F$. In v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in the future version.
-	
+
+\hypertarget{AgeSpecificK}{}
 \myparagraph{Age-specific K}
 This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern/sex. The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current age's multiplier. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect. Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year. There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
+
+How to implement using age-specific K multipliers can be found in the \hyperlink{GrowthSpecifications}{table below} listed as options 3-5.
 
 \hypertarget{GrowthCessation}{}
 \myparagraph{Growth cessation}
 A growth cessation model was developed for the application to tropical tuna species \citep{maunder-growth-2018}. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.
 
+How to use the growth cessation model can be found in the \hyperlink{GrowthSpecifications}{table below} listed as option 8.
+
+\hypertarget{GrowthSpecifications}{}
 \vspace*{-\baselineskip}	
 \begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
 	\multicolumn{3}{l}{Example growth specifications:} \Tstrut\Bstrut\\
@@ -553,14 +564,14 @@ A growth cessation model was developed for the application to tropical tuna spec
 	\endlastfoot
 
 	1 & & Growth Model: \Tstrut\\
-	  & & 1 = von Bertalanffy (3 parameters); \\
-	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters. Third parameter has null value of 1.0; \\
-	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature; \\
-	  & & 4 = age-specific K. Set base K as K for age = N ages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
-	  & & 5 = age specific K. Set base K as K for N ages and work backwards and the age-specific K = base K * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
+	  & & 1 = \hyperlink{vonBert}{von Bertalanffy}. This requires 3 parameters (Lmin, Lmax, and the VBK growth coefficient) in the \hyperlink{MGorder}{growth parameter section}; \\
+	  & & 2 = \hyperlink{Richards}{Schnute's generalized growth curve (aka Richards curve)} where the \hyperlink{RichardsLine}{Richards coefficient} has null value of 1.0; \\
+	  & & 3 = \hyperlink{AgeSpecificK}{von Bertalanffy with age-specific K multipliers} for specified range of ages, requires additional inputs \hyperlink{KSpecificAges}{below} and \hyperlink{AgeSpecificKLines}{parameter lines} for each age following the VBK parameter line in the growth section; \\
+	  & & 4 = \hyperlink{AgeSpecificK}{age-specific K}. Set base K as K for age = N ages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs \hyperlink{KSpecificAges4}{below} and \hyperlink{AgeSpecificKLines}{parameter lines} for each age following the VBK parameter line in the growth section; \\
+	  & & 5 = \hyperlink{AgeSpecificK}{age specific K}. Set base K as K for N ages and work backwards and the age-specific K = base K * multiplier, requires additional inputs \hyperlink{KSpecificAges5}{below} and \hyperlink{AgeSpecificKLines}{parameter lines} for each age following the VBK parameter line in the growth section; \\
 	  & & 6 = not implemented; \\
 	  & & 7 = not implemented; and \\
-	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut\\
+	  & & 8 = \hyperlink{GrowthCessation}{growth cessation}. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the \hyperlink{GrowthCessationLines}{base K parameter line} which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut\\
 	\hline
 
 	\Tstrut 1 & & \hypertarget{Amin}{Growth Amin (A1):} Reference age for first size-at-age L1 (post-settlement) parameter. First growth parameter is size at this age; linear growth below this. \Bstrut\\
@@ -577,20 +588,20 @@ A growth cessation model was developed for the application to tropical tuna spec
 	0 & & Placeholder for a future growth feature. \Tstrut\Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
+	\multicolumn{2}{l}{COND = 3} & Growth model: \hypertarget{KSpecificAges}{age-specific K} where the age-specific K parameter values are multipliers of the age - 1 K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
 	3 & & Number of K multipliers to read; \\
 	& 5 & Minimum age for age-specific K; and \\
 	& 6 & Second age for age-specific K; and \\
 	& 7 & Maximum age for age-specific K. \Bstrut\\
 	
-	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
+	\multicolumn{2}{l}{COND = 4} & Growth model: \hypertarget{KSpecificAges4}{age-specific K} where the age-specific K parameter values are multipliers of the age + 1 K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
 	3 & & Number of K multipliers to read; \\
 	  & 7 & Maximum age for age-specific K; \\
 	  & 6 & Second age for age-specific K; and \\
 	  & 5 & Minimum age for age-specific K. \Bstrut\\
 	\hline
 	
-	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
+	\multicolumn{2}{l}{COND = 5} & Growth model: \hypertarget{KSpecificAges5}{age-specific K} where the age-specific K parameter values are multipliers of the base K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
 	3 & & Number of K multipliers to read; \\
 	& 7 & Maximum age for age-specific K; \\
 	& 6 & Second age for age-specific K; and \\
@@ -818,10 +829,16 @@ Next, the model reads the \gls{mg} parameters in generally the following order (
 	\hline
 
 	\multicolumn{2}{l}{COND if growth type = 2} & \Tstrut\\
-	& Richards Coefficient & Only include this parameter if Richards growth function is used. If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to von Bertalanffy. \\
+	\hypertarget{RichardsLine}{Richards Coefficient} & \multicolumn{2}{l}{Only include this parameter if Richards growth function is used. If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to von Bertalanffy. To use the Gompertz growth curve, the Richards parameter can be fixed at a small value such as 0.0001.} \\
+	           & \multicolumn{2}{l}{0.01 2 1 1 99 0 -4 0 0 0 0 0 0 0 # Richards_Fem_GP_1} \\
 
-	\multicolumn{2}{l}{COND if growth type >= 3} & Age-Specific K \\
-	& \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the ages specified above.} \Bstrut\\
+	\multicolumn{2}{l}{COND if growth type >= 3} & \\
+	\hypertarget{AgeSpecificKLines}{Age-Specific K} & \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the \hyperlink{KSpecificAges}{ages} specified above.} \Bstrut\\
+                    & \multicolumn{2}{l}{0.5 3 1 1 1 0 -6 0 0 0 0 0 0 0 # Age_K_mult_Fem_GP_1_a_5} \\
+                    & \multicolumn{2}{l}{0.5 3 1 1 1 0 -6 0 0 0 0 0 0 0 # Age_K_mult_Fem_GP_1_a_6} \\
+					& \multicolumn{2}{l}{0.5 3 1 1 1 0 -6 0 0 0 0 0 0 0 # Age_K_mult_Fem_GP_1_a_7} \\
+    \hypertarget{GrowthCessationLines}{Growth Cessation}  & & \Bstrut\\
+	                  & \multicolumn{2}{l}{0.1 5 0.271359 1 0 0 -3 0 0 0 0 0 0 0 # Cessation_Fem_GP_1} \Bstrut\\
 	\hline
 
 	\Tstrut & \gls{cv} young & Variability for size at age $<=$ Amin for females, growth pattern 1. Note that \gls{cv} cannot vary over time, so do not set up env-link or a deviation vector. Also, units are either as \gls{cv} or as standard deviation, depending on assigned value of \gls{cv} pattern. \\
@@ -852,8 +869,8 @@ Next, the model reads the \gls{mg} parameters in generally the following order (
 	\hline
 
 	\multicolumn{2}{l}{COND if growth type = 2} & \Tstrut\\
-	& Richards Coefficient & Only include this parameter if Richards growth function is used. If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy. \\
-	\multicolumn{2}{l}{COND if growth type = 3} & Age-Specific K \\
+	& Richards Coefficient & Only include this parameter if Richards growth function is used in addition to VBK. If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy. \\
+	\multicolumn{2}{l}{COND if growth type = 3} & \hypertarget{AgeSpecificKLine}{Age-Specific K} \\
 	& \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the ages specified above.} \Bstrut\\
 	\hline
 
