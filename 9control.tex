@@ -576,10 +576,10 @@ based on the input values of fixed age for first size-at-age ($A_1$) and fixed a
 \textbf{Example growth parameters for von Bertalanffy growth model for females (Sex: 1):}
 
 \begin{verbatim}
-LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block Block_Fxn 
-10   45   21.6597 36    10    6       -2        0     0          # L_at_Amin_Fem_GP_1
-40   90   71.6551 70    10    6       -4        0     0          # L_at_Amax_Fem_GP_1
-0.05 0.25 0.14723 0.15  0.8   6       -4        0     0          # VonBert_K_Fem_GP_1
+LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block_Fxn 
+10   45   21.6597 36    10    6       -2        0          # L_at_Amin_Fem_GP_1
+40   90   71.6551 70    10    6       -4        0          # L_at_Amax_Fem_GP_1
+0.05 0.25 0.14723 0.15  0.8   6       -4        0          # VonBert_K_Fem_GP_1
 \end{verbatim}
 
 \hypertarget{Richards}{}
@@ -605,11 +605,11 @@ The SS3 website includes \href{https://nmfs-ost.github.io/ss3-website/qmds/richa
 \textbf{Example growth parameters for the Richards growth model for females (Sex: 1):}
 
 \begin{verbatim}
-LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block Block_Fxn 
-10   45   21.6597 36    10    6       -2        0     0          # L_at_Amin_Fem_GP_1
-40   90   71.6551 70    10    6       -4        0     0          # L_at_Amax_Fem_GP_1
-0.05 0.25 0.14723 0.15  0.8   6       -4        0     0          # VonBert_K_Fem_GP_1
-0.01 2    1       1     99    0       -4        0     0          # Richards_Fem_GP_1
+LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block_Fxn 
+10   45   21.6597 36    10    6       -2        0          # L_at_Amin_Fem_GP_1
+40   90   71.6551 70    10    6       -4        0          # L_at_Amax_Fem_GP_1
+0.05 0.25 0.14723 0.15  0.8   6       -4        0          # VonBert_K_Fem_GP_1
+0.01 2    1       1     99    0       -4        0          # Richards_Fem_GP_1
 \end{verbatim}
 
 \hypertarget{AgeSpecificK}{}
@@ -624,36 +624,36 @@ Age-specific K is a beta model feature, so users should examine model output clo
 \textbf{Example growth parameters for the age-specific K growth model for (Sex: 1):}
 
 \begin{verbatim}
-LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block Block_Fxn 
-10   45   21.6597 36    10    6       -2        0     0          # L_at_Amin_Fem_GP_1
-40   90   71.6551 70    10    6       -4        0     0          # L_at_Amax_Fem_GP_1
-0.05 0.25 0.14723 0.15  0.8   6       -4        0     0          # VonBert_K_Fem_GP_1
-0.5  3    1       1     1     0       -6        0     0          # Age_K_mult_Fem_GP_1_a_2
-0.5  3    1       1     1     0       -6        0     0          # Age_K_mult_Fem_GP_1_a_3
-0.5  3    1       1     1     0       -6        0     0          # Age_K_mult_Fem_GP_1_a_4
+LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block_Fxn 
+10   45   21.6597 36    10    6       -2        0          # L_at_Amin_Fem_GP_1
+40   90   71.6551 70    10    6       -4        0          # L_at_Amax_Fem_GP_1
+0.05 0.25 0.14723 0.15  0.8   6       -4        0          # VonBert_K_young_Fem_GP_1
+0.5  3    1       1     1     0       -6        0          # Age_K_mult_Fem_GP_1_a_2
+0.5  3    1       1     1     0       -6        0          # Age_K_mult_Fem_GP_1_a_3
+0.5  3    1       1     1     0       -6        0          # Age_K_mult_Fem_GP_1_a_4
 \end{verbatim}
+
+NOTE: If using growth model option 4 or 5, the parameter name for the von Bertalanffy K parameter would be VonBert\_K\_old\_Fem\_GP\_1, not VonBert\_K\_young\_Fem\_GP\_1 as in the example above.
 
 \hypertarget{GrowthCessation}{}
 \mysubparagraph{Growth cessation}
-A growth cessation model was developed for the application to tropical tuna species (Maunder et al., 2018). Growth cessation allows for a linear growth for the youngest individuals, then a logistic function to model the decreasing growth rate at older ages, typically after the onset of sexual maturity.  
-
-The parameter roles are not named exactly as the generic names shown in SS3 output. The four parameters are:
+A growth cessation model was developed for the application to tropical tuna species (Maunder et al., 2018). Growth cessation allows for a linear growth for the youngest individuals, then a logistic function to model the decreasing growth rate at older ages, typically after the onset of sexual maturity. The four parameters are:
 
 \begin{enumerate}
 	\item $L_0$ is the size at age 0, not at Amin;
 	\item Linf is Linf, not the size at Amax and is used to calculate the intermediate quantity $t_{50}$, which is the age at the midpoint of the logistic transition;
-	\item $r_{max}$ (labelled as VonBert\_K) is the linear growth rate beginning at age 0 and;
+	\item $r_{max}$ is the linear growth rate beginning at age 0 and;
 	\item K (labelled as Cessation) is the steepness of the logistic transition
 \end{enumerate}
 
 \textbf{Example growth parameters for the growth cessation model for (Sex: 1):}
 
 \begin{verbatim}
-LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block Block_Fxn 
-10   45   21.6597 36    10    6       -2        0     0          # L_at_Amin_Fem_GP_1
-40   90   71.6551 70    10    6       -4        0     0          # L_at_Amax_Fem_GP_1
-0.05 0.25 0.14723 0.15  0.8   6       -4        0     0          # VonBert_K_Fem_GP_1
-0.1  5    0.27135 1     0     0       -3        0     0          # Cessation_Fem_GP_1
+LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block_Fxn  
+10   45   21.6597 36    10    6       -2        0          # L_at_Age0_Fem_GP_1
+40   90   71.6551 70    10    6       -4        0          # Linf_Fem_GP_1
+0.05 0.25 0.14723 0.15  0.8   6       -4        0          # rmax_Fem_GP_1
+0.1  5    0.27135 1     0     0       -3        0          # Cessation_Fem_GP_1
 \end{verbatim}
 
 
@@ -946,7 +946,7 @@ Next, the model reads the \gls{mg} parameters in generally the following order (
 		
 	& Lmin & Length at Amin (units in cm) for male, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same Lmin as the female parameter value. \\
 	& Lmax & Length at Amax (units in cm) for male, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same Lmax as the female parameter value. \\
-	& VBK & von Bertalanffy growth coefficient (units are per year) for males, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same k as the female parameter value. \Bstrut\\
+	& VBK & von Bertalanffy growth coefficient (units are per year) for males, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same k as the female parameter value. \textbf{NOTE: If you are using \hyperlink{GrowthCessation}{growth model option 8, growth cessation}, this parameter is rmax rather than VBK.} \Bstrut\\
 	\hline
 
 	\multicolumn{2}{l}{COND if growth model > 1. See the \hyperlink{GrowthModelOptions}{growth model options section} for the specific growth model you have chose about how to specify these parameters.} & \Tstrut\\
