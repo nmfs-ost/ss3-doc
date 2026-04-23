@@ -473,7 +473,91 @@ Like the original Lorenzen options, ages will have an $M$ scaled to its body siz
 \hypertarget{Growth}{}
 \subsubsection[Growth]{\protect\hyperlink{Growth}{Growth}}
 
-\myparagraph{von Bertalanffy growth function}
+The parametric growth module in SS3 is designed to calculate the mean size-at-age for the middle platoon of each sex, morph and settlement timing. The code contains necessary logic to do this calculation in three contexts: at the beginning of the time series for each age, at the beginning and middle of each season following cohorts; and at each sub-season in order to more closely align with the within-season timing of each observation. The calculated mean length at age vectors and the standard deviation of length at age vectors are passed to the age-length key module in order to calculate the distribution of length at age for each platoon, then those distributions are passed to the selectivity module to calculate the mean selectivity-at-age for each platoon at each time step for which it is needed.
+
+SS3 is designed to accommodate complex seasonality configurations and to allow for multiple settlement events (with unique timings) from each annual cohort of recruitments. This has ramifications for how length-at-age is calculated within the year. See the \hyperlink{Amin}{Amin specification} and the \href{https://nmfs-ost.github.io/ss3-website/qmds/growth_seasonality.html}{growth vignette on the website}.  
+
+Several growth models are included and all are typically parameterized in terms of mean length at a specified young age (Amin) and a specified older age (Amax), and one or more growth rate parameters. Fish may not achieve Linf by the maxage (plus group) specified in the data file. So additional control is provided for growth within the plus group, and how it is affected by time-varying growth and total mortality in the plus group. In brief, the order of inputs is shown below.
+
+\hypertarget{GrowthInputs}{}
+\myparagraph{Growth inputs}
+
+\begin{longtable}{p{4.5cm} p{10cm}}
+	\hline	
+    Typical Value & Brief description \Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	Typical Value & Brief description \Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
+	\endfoot
+	\endlastfoot
+
+	1 & Growth model selection (see available options in the \hyperlink{GrowthModelOptions}{Growth model options table} below) \Bstrut\\
+	\hline
+
+	0 & Growth Amin (A1): Age (years post-settlement) for first size-at-age parameter (Lmin) (see the \hyperlink{AminAmax}{Amin section} below). \Bstrut\\
+	\hline
+
+    25 & Growth Amax (A2): Age (years post-settlement) for second size-at-age parameter (Lmax). Use 999 to treat the parameter as L infinity. \Bstrut\\
+	\hline
+	
+	0.20 & Exponential decay for growth within plus group (see the \hyperlink{ExponentialDecay}{Exponential decay section} below for options) \Bstrut\\
+	\hline
+	
+	0 & Placeholder for a future growth feature. \Tstrut\Bstrut\\
+	\hline
+
+	COND Growth model = 3 & Conditional inputs if using \hyperlink{AgeSpecificK}{age-specific K} \\
+	\multicolumn{1}{r}{3} & Number of ages with a K deviation; \\
+	\multicolumn{1}{r}{2 4 6} & Vector of ages with a K deviation \\
+	\hline
+
+	0 & Standard deviation added to length-at-age. Relic option (see the \hyperlink{SDLAA}{standard deviation of length-at-age section} below). \Bstrut\\
+	\hline
+
+	1 & CV Pattern. The four options explained in the \hyperlink{SDLAA}{standard deviation of length-at-age section} below. \Bstrut\\
+	\hline
+    
+	\multicolumn{2}{l}{\hyperlink{GrowthParameters}{Growth parameters} are entered after the natural mortality parameters in the list of biology parameters.} \\
+	\hline
+
+\end{longtable}
+
+\hypertarget{GrowthModelOptions}{}
+\myparagraph{Growth Model Options}
+
+\begin{longtable}{p{1cm} p{2cm} p{11.5cm}}
+	\hline	
+    Option & N Parameters & Description \Tstrut\Bstrut\\
+	\hline
+	\endfirsthead
+
+	\hline
+	Option & N Parameters & Description \Tstrut\Bstrut\\
+	\hline
+	\endhead
+	\hline
+	\endfoot
+	\endlastfoot
+
+	1 & 3 & \hyperlink{vonBert}{von Bertalanffy} \Bstrut\\
+	2 & 4 & \hyperlink{Richards}{Richards or Gompertz} \Bstrut\\
+	3 & 3 + N ages & \hyperlink{AgeSpecificK}{Age-specific K} - increasing from initial base K \Bstrut\\
+	4 & 3 + N ages & \hyperlink{AgeSpecificK}{Age-specific K} - decreasing from final base K \Bstrut\\
+    5 & 3 + N ages & \hyperlink{AgeSpecificK}{Age-specific K} - deviation from base K \Bstrut\\
+	6 & NA & NA \\
+	7 & NA & NA \\
+	8 & 4 & \hyperlink{GrowthCessation}{Growth cessation} \\
+	\hline
+\end{longtable}
+
+
+\hypertarget{vonBert}{}
+\mysubparagraph{von Bertalanffy}
 
 The von Bertalanffy growth curve is parameterized as:
 
@@ -489,22 +573,17 @@ with parameters $L_{1}$, $L_\infty$, and $k$. The $L_\infty$ is calculated as:
 
 based on the input values of fixed age for first size-at-age ($A_1$) and fixed age for second size-at-age ($A_2$). 
 
-\myparagraph{Growth Timing} 
-Fish recruit (settle) at the real age of 0.0 at the specified settlement month. The A1 time value (also termed Growth Amin, Amin, or $A_1$), is a time offset (in units of years) relative to that settlement date. It is the age at which the fish begin growing according to the specified growth function. The A1 and A2 values are input \hyperlink{Amin}{immediately after the control file's specification of the growth function}. The L\_at\_Amin parameter (here Lmin) is the fish body length at Amin. Three approaches are possible depending upon the value of A1.
+\textbf{Example growth parameters for von Bertalanffy growth model for females (Sex: 1):}
 
-\begin{itemize}
-	\item A1 = 0: This approach is logical if the settlement month is set to the time of year where there is data to indicate the size of fish at that time, or if age-0 fish are observed in the composition data. Then the Lmin parameter sets the size at that time. If there are good data external to what is entered into SS3 to indicate the size at that time, then that information can be used to set a prior on Lmin or to fix its value. If such data are included in the model, then SS3 should be able to estimate Lmin well.
-	\item A1 > 0: This approach is logical if size-at-age data for young fish are scarce. The size-at-age at the time of settlement will be set equal to the smallest population length bin and fish will be modeled to have linear growth until they reach age = Amin when they will transition to growth according to the growth curve. \textbf{If Lmin is less than the smallest length bin, then these young fish will be declining in length-at-age until they reach Amin; SS3 issues a warning that this is occurring.}
-	\item A1 < 0: This approach is useful if you already have growth parameters that use the t0 approach, where t0 is the age at which fish are of length 0.0. With this approach, there never will be a linear growth phase because fish age will always be greater than Amin. \textbf{If Lmin is estimated when A1 < 0, the Lmin parameter could become sufficiently negative to cause negative length-at-age, which will cause erroneous calculations in the age-length key and elsewhere.} A fatal warning for negative length-at-age is applied in the preliminary calcs for each sex and morph so it is effective even when male Lmin is an offset of the female Lmin. The same test, now non-fatal, is re-applied in the report section to detect cases where an estimated Lmin causes problems. 
-\end{itemize}
+\begin{verbatim}
+LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block_Fxn 
+10   45   21.6597 36    10    6       -2        0          # L_at_Amin_Fem_GP_1
+40   90   71.6551 70    10    6       -4        0          # L_at_Amax_Fem_GP_1
+0.05 0.25 0.14723 0.15  0.8   6       -4        0          # VonBert_K_Fem_GP_1
+\end{verbatim}
 
-\myparagraph{Specifying the von Bertalanffy parameter t0 via Amin}
-Amin ($A_{1}$ in the von Bertalanffy equation) can also be used to represent the age at size 0 -- t0 in the von Bertalanffy growth function. In this approach Amin should be set to the t0 value, and thus should be less than or equal to 0 (if not, t0 > 0 can generate negative values at ages > 0, which will cause a model warning and potentially odd model behavior). In this case, the initial Lmin ($L_{1}$ in the previous equation) value for females should be set to 0 for any Amin value, which defines Amin as t0 because Lmin is 0 at Amin (\textbf{note that male Lmin values will be relative to the Amin value and could be negative}). If Lmin is not estimated, the model will return a realized t0 value equal to Amin (see the A\_a\_L0 parameter in the Growth\_parameters report 45 section of the \texttt{Report.sso} file to confirm). If the user would like to estimate Lmin for either females or males while starting at the t0 of females (i.e., Amin = t0), it is suggested that the lower bound of Lmin be set to be some negative value (e.g., -50), as the new Lmin may generate negative sizes relative to the Amin value (which is static and never estimated), but will not cause negative sizes in the estimated population as long as the estimated t0 is $<=$ 0. \textbf{It is always recommended one checks the Growth\_parameters report 45 to confirm t0 is not > 0, as this negative size generation may also influence selectivity estimation.}
-	
-\myparagraph{Maximum Length ($Linf$)}
-If ``Growth at age for L2'' is set equal to 999, then the size at the $L_2$ parameter is used as $Linf$. 
-
-\myparagraph{Richards growth function}
+\hypertarget{Richards}{}
+\mysubparagraph{Richards growth function}
 The \citet{richards1959growth} growth model as parameterized by \citet{schnute1981growth} provides a flexible growth parameterization that allows for a variety of growth curve shapes. The Richards growth is invoked by entering option 2 in the growth type field. The Richards growth function uses the standard growth parameters ($L_1$, $L_2$, $k$) and a fourth shape parameter $b$ that is specified after the growth coefficient $k$.
 
 The Richards growth model is parameterized as:
@@ -523,91 +602,118 @@ When $A_1$ is greater than the youngest age in the model, some combinations of R
 
 The SS3 website includes \href{https://nmfs-ost.github.io/ss3-website/qmds/richards_growth_curve.html}{a vignette} providing further technical insights for using the Richards growth model in Stock Synthesis.
 
-	
-\myparagraph{Mean size-at-maximum age}
-The mean size of fish in the max age bin depends upon how close the growth curve is to $Linf$ by the time it reaches max age and the mortality rate of fish after they reach max age. Users specify the mortality rate to use in this calculation during the initial equilibrium year. This must be specified by the user and should be reasonably close to $M$ plus initial $F$. In v.3.30, this uses the von Bertalanffy growth out to 3 times the maximum population age and decays the numbers at age by exp(-value set here). For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age. Unfortunately, this updating is only happening in years with time-varying growth. This will hopefully be fixed in the future version.
-	
-\myparagraph{Age-specific K}
-This option creates age-specific K multipliers for each age of a user-specified age range, with independent multiplicative factors for each age in the range and for each growth pattern/sex. The null value is 1.0 and each age's K is set to the next earlier age's K times the value of the current age's multiplier. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. This is a beta model feature, so examine output closely to assure you are getting the size-at-age pattern you expect. Beware of using this option in a model with seasons within year because the K deviations are indexed solely by integer age according to birth year. There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.
+\textbf{Example growth parameters for the Richards growth model for females (Sex: 1):}
+
+\begin{verbatim}
+LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block_Fxn 
+10   45   21.6597 36    10    6       -2        0          # L_at_Amin_Fem_GP_1
+40   90   71.6551 70    10    6       -4        0          # L_at_Amax_Fem_GP_1
+0.05 0.25 0.14723 0.15  0.8   6       -4        0          # VonBert_K_Fem_GP_1
+0.01 2    1       1     99    0       -4        0          # Richards_Fem_GP_1
+\end{verbatim}
+
+\hypertarget{AgeSpecificK}{}
+\mysubparagraph{Age-specific K}
+These options (3-5) create age-specific K multipliers. The number of ages with multipliers is the first conditional input, followed by a vector of those ages. The ages in the vector need not be consecutive but do need to be in ascending order for ageK option 3, and descending order for ageK options 4 and 5. The lower end of this age range cannot extend younger than the specified age for which the first growth parameter applies. Each of these multipliers is entered as a full parameter line, so inherits all time-varying capabilities of full parameters. The null effect value is 1.0. The difference between the three options is the order in which the K multipliers are applied:
+(3)  base K is for the youngest age and age-specific K multipliers are applied in increasing order to the next younger age’s K. The K for the older ages will be the cumulative result of the multipliers applied to younger ages;
+(4)  base K is for the oldest age and age-specific K multipliers are applied in decreasing age order to the next older age. The K for the younger ages will be the cumulative result of the multipliers applied to older ages. This option seems the least useful;
+(5)  base K is applied to all ages and the age-specific multipliers are applied individually in descending order (no cumulative effect). This means that if the list of ages with multipliers is not consecutive, then the intervening ages retain base K, not the next older age’s K.
+
+Age-specific K is a beta model feature, so users should examine model output closely to assure you are getting the size-at-age pattern you expect. Note that if using a model with seasons within year, the K deviations are indexed solely by integer age according to birth year. There is no offset for birth season timing effects, nor is there any seasonal interpolation of the age-varying K.  Also, if using a model with seasons-as-years, the ages are in terms of season count, not years.
+
+\textbf{Example growth parameters for the age-specific K growth model for (Sex: 1):}
+
+\begin{verbatim}
+LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block_Fxn 
+10   45   21.6597 36    10    6       -2        0          # L_at_Amin_Fem_GP_1
+40   90   71.6551 70    10    6       -4        0          # L_at_Amax_Fem_GP_1
+0.05 0.25 0.14723 0.15  0.8   6       -4        0          # VonBert_K_young_Fem_GP_1
+0.5  3    1       1     1     0       -6        0          # Age_K_mult_Fem_GP_1_a_2
+0.5  3    1       1     1     0       -6        0          # Age_K_mult_Fem_GP_1_a_3
+0.5  3    1       1     1     0       -6        0          # Age_K_mult_Fem_GP_1_a_4
+\end{verbatim}
+
+NOTE: If using growth model option 4 or 5, the parameter name for the von Bertalanffy K parameter would be VonBert\_K\_old\_Fem\_GP\_1, not VonBert\_K\_young\_Fem\_GP\_1 as in the example above.
 
 \hypertarget{GrowthCessation}{}
-\myparagraph{Growth cessation}
-A growth cessation model was developed for the application to tropical tuna species \citep{maunder-growth-2018}. Growth cessation allows for a linear relationship between length and age, followed by a marked reduction of growth after the onset of sexual maturity by assuming linear growth for the youngest individuals and then a logistic function to model the decreasing growth rate at older ages.
+\mysubparagraph{Growth cessation}
+A growth cessation model was developed for the application to tropical tuna species (Maunder et al., 2018). Growth cessation allows for a linear growth for the youngest individuals, then a logistic function to model the decreasing growth rate at older ages, typically after the onset of sexual maturity. The four parameters are:
 
-\vspace*{-\baselineskip}	
-\begin{longtable}{p{0.5cm} p{2cm} p{12.5cm}}
-	\multicolumn{3}{l}{Example growth specifications:} \Tstrut\Bstrut\\
-	\hline	
-	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
-	\hline
-	\endfirsthead
+\begin{enumerate}
+	\item $L_0$ is the size at age 0, not at Amin;
+	\item Linf is Linf, not the size at Amax and is used to calculate the intermediate quantity $t_{50}$, which is the age at the midpoint of the logistic transition;
+	\item $r_{max}$ is the linear growth rate beginning at age 0 and;
+	\item K (labelled as Cessation) is the steepness of the logistic transition
+\end{enumerate}
 
-	\hline
-	\multicolumn{2}{l}{Typical Value} & Description and Options \Tstrut\Bstrut\\
-	\hline
-	\endhead
-	\hline
+\textbf{Example growth parameters for the growth cessation model for (Sex: 1):}
 
-	\endfoot
+\begin{verbatim}
+LO   HI   INIT    PRIOR PR_SD PR_type PHASE ... Block_Fxn  
+10   45   21.6597 36    10    6       -2        0          # L_at_Age0_Fem_GP_1
+40   90   71.6551 70    10    6       -4        0          # Linf_Fem_GP_1
+0.05 0.25 0.14723 0.15  0.8   6       -4        0          # rmax_Fem_GP_1
+0.1  5    0.27135 1     0     0       -3        0          # Cessation_Fem_GP_1
+\end{verbatim}
+
+
+\hypertarget{AminAmax}{}
+\myparagraph{Amin and Amax usage}
+
+\hypertarget{GrowthSettlementTiming}{}
+\mysubparagraph{Growth timing relative to settlement time}
+Fish recruit (settle) at the real age of 0.0 at the specified settlement month. The Amin time value (also termed Growth Amin or A1), is a time offset (in units of years) relative to that settlement date. It is the age at which the fish begin growing according to the specified growth function. The Amin and Amax values are input \hyperlink{Amin}{immediately after the control file's specification of the growth function}. The L\_at\_Amin parameter (here Lmin) is the fish body length at Amin. Three approaches to Amin are possible.
+
+\begin{itemize}
+	\item Amin = 0: This approach is logical if the settlement month is set to the time of year where there is data to indicate the size of fish at that time, or if age-0 fish are observed in the composition data. Then the Lmin parameter sets the size at that time. If there are good data external to what is entered into SS3 to indicate the size at that time, then that information can be used to set a prior on Lmin or to fix its value. If such data are included in the model, then SS3 should be able to estimate Lmin well.
+	\item Amin > 0: This approach is logical if size-at-age data for young fish are scarce. The size-at-age at the time of settlement will be set equal to the smallest population length bin and fish will be modeled to have linear growth until they reach age = Amin when they will transition to growth according to the growth curve. \textbf{If Lmin is less than the smallest length bin, then these young fish will be declining in length-at-age until they reach Amin; SS3 issues a warning that this is occurring.}
+	\item Amin < 0: This approach is useful if you already have growth parameters that use the t0 approach, where t0 is the age at which fish are of length 0.0. With this approach, there never will be a linear growth phase because fish age will always be greater than Amin. \textbf{If Lmin is estimated when Amin < 0, the Lmin parameter could become sufficiently negative to cause negative length-at-age, which will cause erroneous calculations in the age-length key and elsewhere.} A fatal warning for negative length-at-age is applied in the preliminary calcs for each sex and morph so it is effective even when male Lmin is an offset of the female Lmin. The same test, now non-fatal, is re-applied in the report section to detect cases where an estimated Lmin causes problems. 
+\end{itemize}
+
+\hypertarget{AmaxLinf}{}
+\mysubparagraph{Using Amax to specify Linf}
+If “Growth at age for L2” is set equal to 999, then the size at the Lmax parameter is used as Linf.
+
+\hypertarget{ExponentialDecay}{}
+\myparagraph{Growth within the plus group (a.k.a. exponential decay)}
+
+The mean size of fish in the max age bin depends upon how close the growth curve is to Linf by the time the fish first reach max age and the mortality rate of fish after they reach max age. The weighted mean size in the plus group is calculated in the initial equilibium year by extending the growth model out to 3 times max age. This is done to temporarily calculate length at age for those ages, then calculate the weighted average mean length decaying the numbers of fish by a user-supplied total mortality ($Z$) that should be reasonably close to $M$ plus initial $F$. For subsequent years of the time series, the model should update the size-at-maximum age according to the weighted average mean size of fish already at maximum age and the size of fish just graduating into maximum age, so it is affected by the time-varying mortality caused by the fishery. Unfortunately, this updating is only happening in years with time-varying growth. In order to have the survivorship effect on plus group size occur in all years, it is necessary for SS3 to be tricked into treating all years as having time-varying growth, for example by using a block with null effect beginning in the start year for a growth parameter. The options available to the user are:
+
+\begin{verbatim}
+0.1 #_initial Z for plus group calculation in initial year
+-999 replicates 3.24 (with linear growth to Linf over nages ages and Z=0.2; 
+	 with numbers weighted updating in years with time-varying growth)
+-998 ignores growth within plus group in initial year and disables time-varying 
+     changes in plus group mean size
+-997 ignores growth within plus group in initial year and enables updating 
+     time-varying plus group
+\end{verbatim}
+
+\hypertarget{SDLAA}{}
+\myparagraph{Standard deviation of length at age}
+The growth parameters implement equations to calculate the mean length at age.  The “CV\_growth” parameters define a normal or lognormal distribution of the proportions at length for each age.  There are two parameters to define the CV or SD at Amin and Amax, and how SS3 interpolates the CV/SD for other ages.  There are five options available:
+
+\begin{itemize}
+	\item 0: CV=f(LAA): 2 parameters are in terms of CV of the distribution of
+	length-at-age (LAA) and the interpolation between these 2 parameters is a
+	function of mean length-at-age;
+	\item 1: CV=f(A), interpolation is a function of age (A);
+	\item 2: SD=f(LAA), parameters define the SD of length-at-age and 
+	interpolation is a function of mean length-at-age;
+	\item 3: SD=f(A), parameters define the SD of length-at-age and 
+	interpolation is a function of age;
+	\item 4: Log-normal distribution of size-at-age. Input parameters will specify the
+	SD of natural log size-at-age (e.g., entered values will typically be between
+	0.05 and 0.15). A bias adjustment is applied so the log-normal distribution
+	of size-at-age will have the same mean size as when a normal distribution
+	is used.
+\end{itemize}
+
+The CAPAM workshop on growth included substantial discussion on the relative merits of these approaches. While some have argued that the chosen option should not allow for the SD to decline with age, there are two phenomena that could cause the apparent SD to decline with age. One is when there is a broad range of birthdates for the cohort such that the fish will have a wide range of sizes when young, and then converge as they get closer to asymptotic size. The other is the impact of size-selective survivorship such that the fastest growing members of the cohort are trimmed from the population by fishing mortality.
+
+% \myparagraph{Specifying the von Bertalanffy parameter t0 via Amin}
+% Amin ($A_{1}$ in the von Bertalanffy equation) can also be used to represent the age at size 0 -- t0 in the von Bertalanffy growth function. In this approach Amin should be set to the t0 value, and thus should be less than or equal to 0 (if not, t0 > 0 can generate negative values at ages > 0, which will cause a model warning and potentially odd model behavior). In this case, the initial Lmin ($L_{1}$ in the previous equation) value for females should be set to 0 for any Amin value, which defines Amin as t0 because Lmin is 0 at Amin (\textbf{note that male Lmin values will be relative to the Amin value and could be negative}). If Lmin is not estimated, the model will return a realized t0 value equal to Amin (see the A\_a\_L0 parameter in the Growth\_parameters report 45 section of the \texttt{Report.sso} file to confirm). If the user would like to estimate Lmin for either females or males while starting at the t0 of females (i.e., Amin = t0), it is suggested that the lower bound of Lmin be set to be some negative value (e.g., -50), as the new Lmin may generate negative sizes relative to the Amin value (which is static and never estimated), but will not cause negative sizes in the estimated population as long as the estimated t0 is $<=$ 0. \textbf{It is always recommended one checks the Growth\_parameters report 45 to confirm t0 is not > 0, as this negative size generation may also influence selectivity estimation.}
 	
-	\endlastfoot
-
-	1 & & Growth Model: \Tstrut\\
-	  & & 1 = von Bertalanffy (3 parameters); \\
-	  & & 2 = Schnute's generalized growth curve (aka Richards curve) with 3 parameters. Third parameter has null value of 1.0; \\
-	  & & 3 = von Bertalanffy with age-specific K multipliers for specified range of ages, requires additional inputs below following the placeholder for future growth feature; \\
-	  & & 4 = age-specific K. Set base K as K for age = N ages and working backwards and the age-specific K = K for the next older age * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
-	  & & 5 = age specific K. Set base K as K for N ages and work backwards and the age-specific K = base K * multiplier, requires additional inputs below following the placeholder for future growth feature; \\
-	  & & 6 = not implemented; \\
-	  & & 7 = not implemented; and \\
-	  & & 8 = growth cessation. Decreases the K for older fish. If implemented, the Amin and Amax parameters, the next two lines, need to be set at 0 and 999 respectively. The mortality-growth parameter section requires the base K parameter line which is interpreted as the steepness of the logistic function that models the reduction in the growth increment by age followed by a second parameter line which is the parameter related to the maximum growth rate. \Bstrut\\
-	\hline
-
-	\Tstrut 1 & & \hypertarget{Amin}{Growth Amin (A1):} Reference age for first size-at-age L1 (post-settlement) parameter. First growth parameter is size at this age; linear growth below this. \Bstrut\\
-	%\hline
-
-	\Tstrut 25 & & Growth Amax (A2): Reference age for second size-at-age L2 (post-settlement) parameter. Use 999 to treat as L infinity. \Bstrut\\
-	\hline
-	
-	\Tstrut 0.20 & & Exponential decay for growth above maximum age (plus group: fixed at 0.20 in v.3.24; should approximate initial Z). Alternative Options: \\
-				 & & -998 = Disable growth above maximum age (plus group) similar to earlier versions of SS3 (prior to v.3.24); and \\
-				 & & -999 = Replicate the simpler calculation done in v.3.24. \Bstrut\\
-	\hline
-	
-	0 & & Placeholder for a future growth feature. \Tstrut\Bstrut\\
-	\hline
-
-	\multicolumn{2}{l}{COND = 3} & Growth model: age-specific K age-specific K where the age-specific K parameter values are multipliers of the age - 1 K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 5 is equal to 0.20 * age-5 multiplier. Subsequently, age 6 K value is equal to age 5 K (0.20 * age-5 multiplier) multiplied by the age-6 multiplier. All ages above the maximum age with age-specific K are equal to the maximum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
-	3 & & Number of K multipliers to read; \\
-	& 5 & Minimum age for age-specific K; and \\
-	& 6 & Second age for age-specific K; and \\
-	& 7 & Maximum age for age-specific K. \Bstrut\\
-	
-	\multicolumn{2}{l}{COND = 4} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the age + 1 K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal to age 7 K (0.20 * age-7 multiplier) multiplied by the age-6 multiplier. All ages below the minimum age with age-specific K are equal to the minimum age-specific K. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
-	3 & & Number of K multipliers to read; \\
-	  & 7 & Maximum age for age-specific K; \\
-	  & 6 & Second age for age-specific K; and \\
-	  & 5 & Minimum age for age-specific K. \Bstrut\\
-	\hline
-	
-	\multicolumn{2}{l}{COND = 5} & Growth model: age-specific K where the age-specific K parameter values are multipliers of the base K parameter value. For example, if the base parameter is 0.20 based on the example setup the K parameter for age 7 is equal to 0.20 * age-7 multiplier. Subsequently, age 6 K value is equal 0.20 * age-6 multiplier. The age specific K values are available in the Report file in the AGE\_SPECIFIC\_K section. \\
-	3 & & Number of K multipliers to read; \\
-	& 7 & Maximum age for age-specific K; \\
-	& 6 & Second age for age-specific K; and \\
-	& 5 & Minimum age for age-specific K. \Bstrut\\
-	\hline
-
-	\Tstrut 0 & & Standard deviation added to length-at-age: Enter 0.10 to mimic SS2 V1.xx. Recommend using a value of 0.0. \Bstrut\\
-	\hline
-
-	1 & & \gls{cv} Pattern (cannot be time-varying) \Tstrut\\
-	  & & 0: CV=f(LAA), so the 2 parameters are in terms of \gls{cv} of the distribution of length-at-age (LAA) and the interpolation between these 2 parameters is a function of mean length-at-age; \\
-	  & & 1: CV=f(A), so interpolation is a function of age (A); \\
-	  & & 2: SD=f(LAA), so parameters define the \gls{sd} of length-at-age and interpolation is a function of mean length-at-age; \\
-	  & & 3: SD=f(A); and \\
-	  & & 4: Log-normal distribution of size-at-age. Input parameters will specify the \gls{sd} of natural log size-at-age (e.g., entered values will typically be between 0.05 and 0.15). A bias adjustment is applied so the log-normal distribution of size-at-age will have the same mean size as when a normal distribution is used. \Bstrut\\
-	\hline
-\end{longtable}
 
 \hypertarget{Mat-Fec}{}
 \subsubsection[Maturity-Fecundity]{\protect\hyperlink{Mat-Fec}{Maturity-Fecundity}}
@@ -816,12 +922,7 @@ Next, the model reads the \gls{mg} parameters in generally the following order (
 	& Lmax & Length at Amax (units in cm) for female, growth pattern 1. \\
 	& VBK & von Bertalanffy growth coefficient (units are per year) for females, growth pattern 1. \Bstrut\\
 	\hline
-
-	\multicolumn{2}{l}{COND if growth type = 2} & \Tstrut\\
-	& Richards Coefficient & Only include this parameter if Richards growth function is used. If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to von Bertalanffy. \\
-
-	\multicolumn{2}{l}{COND if growth type >= 3} & Age-Specific K \\
-	& \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the ages specified above.} \Bstrut\\
+	\multicolumn{2}{l}{COND if growth model > 1. See the \hyperlink{GrowthModelOptions}{growth model options section} for the specific growth model you have chose about how to specify these parameters.} & \Tstrut\\
 	\hline
 
 	\Tstrut & \gls{cv} young & Variability for size at age $<=$ Amin for females, growth pattern 1. Note that \gls{cv} cannot vary over time, so do not set up env-link or a deviation vector. Also, units are either as \gls{cv} or as standard deviation, depending on assigned value of \gls{cv} pattern. \\
@@ -848,13 +949,10 @@ Next, the model reads the \gls{mg} parameters in generally the following order (
 		
 	& Lmin & Length at Amin (units in cm) for male, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same Lmin as the female parameter value. \\
 	& Lmax & Length at Amax (units in cm) for male, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same Lmax as the female parameter value. \\
-	& VBK & von Bertalanffy growth coefficient (units are per year) for males, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same k as the female parameter value. \Bstrut\\
+	& VBK & von Bertalanffy growth coefficient (units are per year) for males, growth pattern 1. In a two sex model, fixing the INIT value a 0 will assume the same k as the female parameter value. \textbf{NOTE: If you are using \hyperlink{GrowthCessation}{growth model option 8, growth cessation}, this parameter is rmax rather than VBK.} \Bstrut\\
 	\hline
 
-	\multicolumn{2}{l}{COND if growth type = 2} & \Tstrut\\
-	& Richards Coefficient & Only include this parameter if Richards growth function is used. If included, a parameter value of 1.0 will have a null effect and produce a growth curve identical to Bertalanffy. \\
-	\multicolumn{2}{l}{COND if growth type = 3} & Age-Specific K \\
-	& \multicolumn{2}{l}{N parameter lines equal to the number K deviations for the ages specified above.} \Bstrut\\
+	\multicolumn{2}{l}{COND if growth model > 1. See the \hyperlink{GrowthModelOptions}{growth model options section} for the specific growth model you have chose about how to specify these parameters.} & \Tstrut\\
 	\hline
 
 	\Tstrut & \gls{cv} young & Variability for size at age $<=$ Amin for males, GP1. Note that \gls{cv} cannot vary over time, so do not set up env-link or a deviation vector. Also, units are either as \gls{cv} or as standard deviation, depending on assigned value of \gls{cv} pattern. \\
