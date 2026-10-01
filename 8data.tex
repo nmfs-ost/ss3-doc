@@ -919,40 +919,37 @@ If age data are included in the model, the following set-up is required, similar
 	\hline
 \end{tabular}
 
-Syntax for Sex, Partition, and data vector are same as for length. The data vector has female values then male values, just as for the length composition data.
+Syntax for Sex, Partition, and data vector are same as for length. In two-sex models, the data vector has female values then male values, just as for the length composition data.
 
-% \pagebreak
+Three new columns are required for the age composition data that were not present in the length composition data: Age Err (which identifies which ageing error matrix to use to generate expected value for this observation), and two columns specifying the length bin range optionally used for conditional age-at-length observations as described below.
 
-\myparagraph{Age Error}
-Age error (Age Err) identifies which ageing error matrix to use to generate expected value for this observation.
-
-\myparagraph{Lbin Low and Lbin High}	
-Lbin lo and Lbin hi are the range of length bins that this age composition observation refers to. Normally these are entered with a value of -1 and -1 to select the full size range. Whether these are entered as population bin number, length data bin number, or actual length is controlled by the value of the length bin range method above.
-
-\begin{itemize}
-	\item Entering value of 0 or -1 for Lbin lo converts Lbin lo to 1;
-	\item Entering value of 0 or -1 for Lbin hi converts Lbin hi to Maxbin;
-	\item It is strongly advised to use the -1 codes to select the full size range. If you use explicit values, then the model could unintentionally exclude information from some size range if the population bin structure is changed.
-	\item In reporting to the \texttt{comp\_report.sso}, the reported Lbin\_lo and Lbin\_hi values are always converted to actual length.
-\end{itemize}
-
-\myparagraph{Excluding Data}
-As with the length composition data, a negative year value causes the observation to not be read into the working matrix, a negative value for fleet causes the observation to be included in expected values calculation, but not in contribution to total log likelihood, a negative value for month causes start-stop of super-period.
 
 \hypertarget{CondAatL}{}
-\subsection[Conditional Age-at-Length]{\protect\hyperlink{CondAatL}{Conditional Age-at-Length}}
-Use of conditional age-at-length will greatly increase the total number of age composition observations and associated model run time, but there can be several advantages to inputting ages in this fashion. First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information. Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age. Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
+\subsubsection[Lbin\_lo and Lbin\_hi for Conditional Age-at-Length (CAAL)]{\protect\hyperlink{CondAatL}{Lbin\_lo and Lbin\_hi for Conditional Age-at-Length (CAAL)}}
+Lbin\_lo and Lbin\_hi are used to specify whether an age composition observation is a marginal composition covering the entire length range, or an observation that is conditional on the length range specified by Lbin\_lo and Lbin\_hi. For marginal age distributions (not conditional on length), both Lbin\_lo and Lbin\_hi should be set to -1 to select the full size range.
 
-However, simulation research has shown that the use of conditional age-at-length data can result in biased growth estimates in the presence of unaccounted for age-based movement when length-based selectivity is assumed \citep{lee-effects-2017}, when other age-based processes (e.g., mortality) are not accounted for \citep{lee-use-2019}, or based on the age sampling protocol \citep{piner-evaluation-2016}. Understanding how data are collected (e.g., random, length-conditioned samples) and the biology of the stock is important when using conditional age-at-length data for a fleet.     
+Conditional-age-at-length (CAAL) data, where the observed and expected values for the age compositions are conditional on length bins, will greatly increase the total number of age composition observations and associated model run time, but there can be several advantages to inputting ages in this fashion. First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information. Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age. Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
 
-In a two sex model, it is best to enter these conditional age-at-length data as single sex observations (sex = 1 for females and = 2 for males), rather than as joint sex observations (sex = 3). Inputting joint sex observations comes with a more rigid assumption about sex ratios within each length bin. Using separate vectors for each sex allows 100\% of the expected composition to be fit to 100\% observations within each sex, whereas with the sex = 3 option, you would have a bad fit if the sex ratio were out of balance with the model expectation, even if the observed proportion at age within each sex exactly matched the model expectation for that age. Additionally, inputting the conditional age-at-length data as single sex observations isolates the age composition data from any sex selectivity as well.
+However, simulation research has shown that the use of conditional age-at-length data can result in biased growth estimates in the presence of unaccounted for age-based movement when length-based selectivity is assumed \citep{lee-effects-2017}, when other age-based processes (e.g., mortality) are not accounted for \citep{lee-use-2019}, or when the age-sampling protocol is not accounted for \citep{piner-evaluation-2016}. Understanding how data are collected (e.g., random, length-conditioned samples) and the biology of the stock is important when using conditional age-at-length data for a fleet.     
 
-Conditional age-at-length data are entered within the age composition data section and can be mixed with marginal age observations for other fleets of other years within a fleet. To treat age data as conditional on length, Lbin\_lo and Lbin\_hi are used to select a subset of the total size range. This is different from setting Lbin\_lo and Lbin\_hi both to -1 to select the entire size range, which treats the data entered on this line within the age composition data section as marginal age composition data.  
+In a two-sex model, it is best to enter these conditional age-at-length data as single-sex observations (sex = 1 for females and = 2 for males), rather than as joint sex observations (sex = 3). Inputting joint sex observations comes with a more rigid assumption about sex ratios within each length bin. Using separate vectors for each sex allows 100\% of the expected composition to be fit to 100\% observations within each sex, whereas with the sex = 3 option, you would have a bad fit if the sex ratio were out of balance with the model expectation, even if the observed proportion at age within each sex exactly matched the model expectation for that age. Additionally, inputting the conditional age-at-length data as single-sex observations isolates the age composition data from any sex selectivity as well.
+
+Conditional age-at-length data are entered within the age composition data section and can be mixed with marginal age observations for other fleets (or other years within a fleet). When using CAAL, it is usually useful to include a nil emphasized marginal observation (e.g. via negative fleet value) to see the implied fit to these data. CAAL is specified by restricting the range of population length bins to use when creating the expected value for the age composition data in that observation. This is done by entering values for Lbin\_lo and Lbin\_hi. For marginal age composition data, the user instructs SS3 to use the entire length range by entering values of -1 for Lbin\_lo and -1 for Lbin\_hi which converts to the minimum and maximum length bin.
+
+Three options for specifying Lbin\_lo and Lbin\_hi are provided. All three methods select values from the array: poplen\_bins, so all values reference the lower edge of a poplen\_bin. When Lbin\_hi = Lbin\_lo, a single poplen\_bin is selected. The 3 options are:
+
+\begin{enumerate}
+	\item Enter values of poplen\_bin index, so allows integer values from 1 to Nlength;
+	\item Enter values of length\_data index, so allows integer values from 1 to the number of length data bins. SS3 then searches for matching poplen\_bin value.
+	\item Enter values of length, which must exactly match a poplen\_bin value. There is no interpolation capability.
+\end{enumerate}
+
+Methods 1 and 2 require integer values. Entering a value such as 34.5 will be truncated to bin 34 and the observation may be compared to the wrong length bins. Use method 3 if you want to enter actual lengths. In general method 3 is the most straightforward and the least prone to error.
 
 \vspace*{-\baselineskip}
 \begin{tabular}{p{1cm} p{1cm} p{1cm} p{1cm} p{1.5cm} p{1cm} p{1cm} p{1cm} p{1cm} p{2.5cm}}
 	\multicolumn{10}{l}{} \\
-	\multicolumn{10}{l}{An example conditional age-at-length composition observations:} \\
+	\multicolumn{10}{l}{An example conditional age-at-length composition observations using method 3:} \\
 	\hline
 	Year & Month & Fleet & Sex & Partition & Age Err & Lbin lo & Lbin hi & Nsamp & Data Vector \Tstrut\\
 	\hline
@@ -964,7 +961,18 @@ Conditional age-at-length data are entered within the age composition data secti
 	\hline
 \end{tabular}
 
-In this example observation, the age data is treated as on being conditional on the 2 cm length bins of 10--11.99, 12--13.99, 14--15.99, and 16--17.99 cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.
+In this example observation, the age data are conditioned on the 2 cm length bins of 10--11.99, 12--13.99, 14--15.99, and 16--17.99 cm. If there are no observations of ages for a specific sex within a length bin for a specific year, that entry may be omitted.
+
+A full accounting of the conversion rules for Lbin\_lo and Lbin\_hi is provided below.
+\begin{itemize}
+	\item Entering a value of 0 or -1 for Lbin\_lo converts Lbin\_lo to 1.
+	\item Entering a value of 0 or -1 for Lbin\_hi converts Lbin\_hi to Maxbin.
+	\item It is strongly advised to use the -1 values to select the full size range. If you use explicit values, the model could unintentionally exclude data from part of the size range if the population bin structure changes.
+	\item In the \texttt{CompReport.sso} output, the reported Lbin\_lo and Lbin\_hi values are always converted to actual lengths.
+\end{itemize}
+
+\myparagraph{Excluding Data}
+As with the length composition data, a negative year value causes the age composition observation to not be read into the working matrix, a negative value for fleet causes the observation to be included in expected values calculation, but not in contribution to total log likelihood, a negative value for month causes start-stop of super-period.
 
 \hypertarget{MeanLorBWatA}{}
 \subsection[Mean Length or Body Weight-at-Age]{\protect\hyperlink{MeanLorBWatA}{Mean Length or Body Weight-at-Age}}
@@ -1043,7 +1051,7 @@ The generalized approach to size composition information was designed initially 
 	\item Each method has a specified number of bins.
 	\item Each method has ``units'' so the frequencies can be in units of biomass or numbers.
 	\item Each method has ``scale'' so the bins can be in terms of weight or length (including ability to convert bin definitions in pounds or inches to kg or cm). 
-	\item The composition data is input as females then males, just like all other composition data in SS3. In a two-sex model, the new composition data can be combined sex, single sex, or both sex.
+	\item The composition data is input as females then males, just like all other composition data in SS3. In a two-sex model, the new composition data can be combined sex, single sex, or both sexes.
 	\item The generalized size composition data can be from the combined discard and retained (i.e., whole), discard only, or retained only.
 	\item There are two options for treating fish that in population size bins are smaller than the smallest size frequency bin.
 	\begin{itemize}
