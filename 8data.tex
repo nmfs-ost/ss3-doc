@@ -919,21 +919,15 @@ If age data are included in the model, the following set-up is required, similar
 	\hline
 \end{tabular}
 
-Syntax for Sex, Partition, and data vector are same as for length. The data vector has female values then male values, just as for the length composition data.
+Syntax for Sex, Partition, and data vector are same as for length. In two-sex models, the data vector has female values then male values, just as for the length composition data.
 
-% \pagebreak
+Three new columns are required for the age composition data that were not present in the length composition data: Age Err (which identifies which ageing error matrix to use to generate expected value for this observation), and two columns specifying the length bin range optionally used for conditional age-at-length observations as described below.
 
-\myparagraph{Age Error}
-Age error (Age Err) identifies which ageing error matrix to use to generate expected value for this observation.
-
-\myparagraph{Lbin Low and Lbin High}	
-Lbin\_lo and Lbin\_hi are the range of length bins that this age composition observation refers to. For marginal age distributions (not conditioned on length), both values should be set to -1 to select the full size range. To specify conditional age-at-length (CAAL) data, see Section \ref{CondAatL}.
-
-\myparagraph{Excluding Data}
-As with the length composition data, a negative year value causes the observation to not be read into the working matrix, a negative value for fleet causes the observation to be included in expected values calculation, but not in contribution to total log likelihood, a negative value for month causes start-stop of super-period.
 
 \hypertarget{CondAatL}{}
-\subsection[Conditional Age-at-Length]{\protect\hyperlink{CondAatL}{Conditional Age-at-Length}}
+\subsubsection[Lbin\_lo and Lbin\_hi for Conditional Age-at-Length]{\protect\hyperlink{CondAatL}{Lbin\_lo and Lbin\_hi for Conditional Age-at-Length}}
+Lbin\_lo and Lbin\_hi are used to specify whether an age composition observation is a marginal composition covering the entire length range, or an observation that is conditional on the length range specified by Lbin\_lo and Lbin\_hi. For marginal age distributions (not conditional on length), both Lbin\_lo and Lbin\_hi should be set to -1 to select the full size range.
+
 Conditioning the age compositions on length will greatly increase the total number of age composition observations and associated model run time, but there can be several advantages to inputting ages in this fashion. First, it avoids double use of fish for both age and size information because the age information is considered conditional on the length information. Second, it contains more detailed information about the relationship between size and age so provides stronger ability to estimate growth parameters, especially the variance of size-at-age. Lastly, where age data are collected in a length-stratified program, the conditional age-at-length approach can directly match the protocols of the sampling program.
 
 However, simulation research has shown that the use of conditional age-at-length data can result in biased growth estimates in the presence of unaccounted for age-based movement when length-based selectivity is assumed \citep{lee-effects-2017}, when other age-based processes (e.g., mortality) are not accounted for \citep{lee-use-2019}, or when the age-sampling protocol is not accounted for \citep{piner-evaluation-2016}. Understanding how data are collected (e.g., random, length-conditioned samples) and the biology of the stock is important when using conditional age-at-length data for a fleet.     
@@ -976,6 +970,9 @@ A full accounting of the conversion rules for Lbin\_lo and Lbin\_hi is provided 
 	\item It is strongly advised to use the -1 values to select the full size range. If you use explicit values, the model could unintentionally exclude data from part of the size range if the population bin structure changes.
 	\item In the \texttt{CompReport.sso} output, the reported Lbin\_lo and Lbin\_hi values are always converted to actual lengths.
 \end{itemize}
+
+\myparagraph{Excluding Data}
+As with the length composition data, a negative year value causes the age composition observation to not be read into the working matrix, a negative value for fleet causes the observation to be included in expected values calculation, but not in contribution to total log likelihood, a negative value for month causes start-stop of super-period.
 
 \hypertarget{MeanLorBWatA}{}
 \subsection[Mean Length or Body Weight-at-Age]{\protect\hyperlink{MeanLorBWatA}{Mean Length or Body Weight-at-Age}}
