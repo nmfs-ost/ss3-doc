@@ -37,8 +37,8 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 		\end{itemize}
 		\item The four derived quantities are all calculated at the beginning of each year within the model, so they are available to use as the basis for time-varying parameter links without violating any order of operations rules.
 	\end{itemize}
-	
-\item Deviation Link (element 9). A positive integer invokes parameter deviations, but otherwise should be left as 0. SS3 expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used. This differs from recruitment deviations and from the approach in SS3 v.3.24. Link options for parameter deviations are:
+
+\item \hypertarget{DevLink}{Deviation Link} (element 9). A positive integer invokes parameter deviations, but otherwise should be left as 0. SS3 expects the estimated deviations to be normal in distribution and the deviation values are multiplied by the standard error parameter as they are used. This differs from recruitment deviations and from the approach in SS3 v.3.24. Link options for parameter deviations (where $dev_{se}$ is the standard deviation parameter $s$) are listed below. Note that options 1-4 give the revised and now correct non-centered approach (as of v.3.30.13). Options 11-14 utilize the incorrect approach from v.3.30.12 and earlier, which should be avoided.
 	\begin{itemize}
 		\item 1 = multiplicative: $P_y = P_{base,y}e^{\text{dev}_y*\text{dev}_{se}}$,
 		\item 2 = additive: $P_y = P_{base,y} + \text{dev}_y*\text{dev}_{se}$,
@@ -71,11 +71,11 @@ Time-varying specifications for a parameter are invoked using elements 8 - 14 in
 		 \item $\text{dev}_{se}$ = standard error of the deviation
 		 \item nil is a small value (e.g., 0.0000001)
 	\end{itemize}
-\item Deviation Minimum Year (element 10). Year deviations start for the parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
+\item \hypertarget{DevMinYr}{Deviation Minimum Year} (element 10). Year deviations start for the parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
 	
-\item Deviation  Maximum Year (element 11). Year deviations end for parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
-	
-\item Deviation Phase (element 12). The phase in which the deviations for the parameter should be estimated. This must be specified if using parameter deviations, but otherwise should be left as 0.
+\item \hypertarget{DevMaxYr}{Deviation  Maximum Year} (element 11). Year deviations end for parameter. This must be specified if using parameter deviations, but otherwise should be left as 0.
+
+\item \hypertarget{DevPhase}{Deviation Phase} (element 12). The phase in which the deviations for the parameter should be estimated. This must be specified if using parameter deviations, but otherwise should be left as 0.
 %is there a recommended phase to use if wanting to estimate devs?
 	
 \item Use Time Blocks or Trends (element 13). Time blocks and trends are both specified using this input. If neither are used, this should be left as 0. For trend options, the cumulative normal distribution function is used as the shape of the trend in all cases, but the parameterization differs. In general, the trend used is: 
@@ -171,7 +171,7 @@ In Stock Synthesis v.3.30, the time-varying input short parameter lines are orga
 The number of short parameter lines for each time-varying setup selected depends on the selection options. The \hyperlink{autogen}{autogeneration} feature can be used to figure out which parameter lines are needed. The short parameter lines needed for different time-varying options are:
 \begin{itemize}
 	\item Environmental Linkages: Requires 1 short parameter line ($P_{t}$), except for link option 4, which requires 2 short parameter lines ($P_{t1}$ and $P_{t2}$).
-	\item Parameter deviations: Requires 2 short parameter lines, one for the standard error ($\text{dev}_{se}$), followed by one for $\rho$. Note that an input for $\rho$ is required but only used with random walk options. For the random walk options, $\rho$ can be set at 1 for a random walk with no drift or > 1 for a random walk with drift.
+	\item Parameter deviations: Requires 2 short parameter lines, one for the standard deviation parameter ($s$ or $\text{dev}_{se}$) for the deviations, followed by one for the autocorrelation parameter $\rho$. Note that an input for $\rho$ is required but only used with random walk options. For the random walk options, $\rho$ can be set at 1 for a random walk with no drift or > 1 for a random walk with drift.
 	\item Time Blocks: One parameter for each time block ($P_{t}$) set up in the pattern.
 	\item Trends: Requires 3 parameter lines. The interpretation of the parameters differs by the trend option selected, but in general they are a parameter for the final parameter value, a parameter for the inflection point year, and a parameter for the width (i.e., the standard deviation).
 \end{itemize}
